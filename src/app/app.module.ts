@@ -4,6 +4,7 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -11,13 +12,22 @@ import { FormlyModule } from '@ngx-formly/core';
 import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { AtomsModule } from './atoms/atoms.module';
+import { MoleculesModule } from './molecules/molecules.module';
+import { OrganismsModule } from './organisms/organisms.module';
+import { TemplatesModule } from './templates/templates.module';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    AtomsModule,
+    MoleculesModule,
+    OrganismsModule,
+    TemplatesModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
     EditorModule,
@@ -28,6 +38,7 @@ import { AppComponent } from './app.component';
     FormlyModule.forRoot({}),
     FormlyBootstrapModule,
     HammerModule,
+    TemplatesModule,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },

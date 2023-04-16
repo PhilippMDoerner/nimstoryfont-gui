@@ -1,0 +1,10 @@
+<button 
+  class="btn" 
+  [ngClass]="{
+    'btn-primary': type === 'PRIMARY',
+    'btn-secondary': type === 'SECONDARY',
+    'btn-dark': type === 'TERTIARY',
+  }"
+>
+  <ng-content></ng-content>
+</button>

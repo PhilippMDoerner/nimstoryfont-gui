@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../atoms.module';
 import { ALL_REGULAR_ICONS, ALL_SOLID_ICONS, IconComponent } from './icon.component';
 
 export default {
@@ -8,10 +6,7 @@ export default {
   component: IconComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        CommonModule,
-        AtomsModule
-      ]
+      imports: []
     }),
   ],
 } as Meta<IconComponent>;
@@ -32,22 +27,7 @@ const Template: StoryFn<IconComponent> = (args: IconComponent) => ({
       {{ solIcon }}
     </h3>
   `,
-  moduleMetadata: {
-    imports: [
-      CommonModule,
-    ]
-  }
 });
 
 export const Default = Template.bind({});
-Default.args = {
-  icon : 'book'
-}
-Default.decorators = [
-  moduleMetadata({
-    imports: [
-      CommonModule,
-      AtomsModule
-    ]
-  }),
-];
+Default.args = {}

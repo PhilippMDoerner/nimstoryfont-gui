@@ -6,7 +6,9 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "storybook": "ng run nimstoryfont-gui:storybook",
+    "build-storybook": "ng run nimstoryfont-gui:build-storybook"
   },
   "private": true,
   "dependencies": {
@@ -18,6 +20,19 @@
     "@angular/platform-browser": "^15.1.0",
     "@angular/platform-browser-dynamic": "^15.1.0",
     "@angular/router": "^15.1.0",
+    "@fortawesome/angular-fontawesome": "^0.12.1",
+    "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
+    "@fortawesome/free-regular-svg-icons": "^6.2.1",
+    "@fortawesome/free-solid-svg-icons": "^6.2.1",
+    "@ng-bootstrap/ng-bootstrap": "^14.1.0",
+    "@ngx-formly/bootstrap": "^6.0.0",
+    "@ngx-formly/core": "^6.0.0",
+    "@popperjs/core": "^2.11.6",
+    "@tinymce/tinymce-angular": "^7.0.0",
+    "bootstrap": "^5.2.3",
+    "hammerjs": "^2.0.8",
+    "leaflet": "^1.9.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
@@ -26,6 +41,14 @@
     "@angular-devkit/build-angular": "^15.1.6",
     "@angular/cli": "~15.1.6",
     "@angular/compiler-cli": "^15.1.0",
+    "@angular/localize": "^15.1.0",
+    "@ngx-formly/schematics": "^6.1.3",
+    "@storybook/addon-essentials": "^7.0.5",
+    "@storybook/addon-interactions": "^7.0.5",
+    "@storybook/addon-links": "^7.0.5",
+    "@storybook/angular": "^7.0.5",
+    "@storybook/blocks": "^7.0.5",
+    "@storybook/testing-library": "^0.0.14-next.2",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
@@ -33,6 +56,9 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "storybook": "^7.0.5",
     "typescript": "~4.9.4"
   }
 }

@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="col-md-3">
+      <ng-container *ngIf="link; then linkButton; else nonLinkButton"></ng-container>
+  </div>
+
+  <ng-container *ngIf="showDelete">
+    <app-confirmation-toggle-button 
+      class="d-block" 
+      [toggleType]="'DANGER'"
+      [confirmationQuestion]="deleteMessage"
+      (confirm)="delete.emit()"
+    >
+      <app-icon [icon]="'trash'"></app-icon>
+    </app-confirmation-toggle-button>
+  </ng-container>
+</div>
+
+<ng-template #linkButton>
+  <a [routerLink]="link" (click)="buttonClick.emit()">
+    <app-button [type]="'SECONDARY'"></app-button>
+      {{label}}
+  </a>
+</ng-template>
+
+<ng-template #nonLinkButton>
+  <a (click)="buttonClick.emit()">
+      {{label}}
+  </a>
+</ng-template> 

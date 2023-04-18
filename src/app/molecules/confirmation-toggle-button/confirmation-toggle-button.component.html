@@ -1,0 +1,21 @@
+<div #toggleElement>
+  <ng-container *ngIf="isActive; then activeToggle; else inactiveToggle"></ng-container>
+</div>
+
+<ng-template #inactiveToggle>
+  <app-button (click)="toggle()" [type]="toggleType">
+    <ng-content></ng-content>
+  </app-button>
+</ng-template>
+
+<ng-template #activeToggle>
+  <div class="confirmation confirmation--{{toggleType}}">
+    <span class="me-3"> 
+      <strong>{{confirmationQuestion}}</strong> 
+    </span>  
+    <span>
+      <app-button [type]="toggleType" (click)="emitConfirmation()"> Yes </app-button>
+      <app-button [type]="cancelButtonType" (click)="toggle()"> No </app-button>
+    </span>
+  </div>
+</ng-template>

@@ -1,5 +1,6 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ALL_REGULAR_ICONS, ALL_SOLID_ICONS, IconComponent } from './icon.component';
+import { ALL_REGULAR_ICONS, ALL_SOLID_ICONS } from '../_models/icon';
+import { IconComponent } from './icon.component';
 
 export default {
   title: 'IconComponent',

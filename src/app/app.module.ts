@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
@@ -33,7 +32,6 @@ import { TemplatesModule } from './templates/templates.module';
     EditorModule,
     CommonModule,
     HttpClientModule,
-    FontAwesomeModule,
     FormsModule,
     FormlyModule.forRoot({}),
     FormlyBootstrapModule,

@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-type ButtonType = "PRIMARY" | "SECONDARY" | "TERTIARY";
+import { ButtonType } from '../_models/button';
 
 @Component({
   selector: 'app-button',

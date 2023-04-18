@@ -8,7 +8,7 @@ import { IconComponent } from './icon/icon.component';
 @NgModule({
   declarations: [
     ButtonComponent,
-    IconComponent
+    IconComponent,
   ],
   imports: [
     CommonModule

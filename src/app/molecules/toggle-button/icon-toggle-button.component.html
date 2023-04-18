@@ -1,0 +1,13 @@
+<app-button [type]="buttonType" (click)="toggle()">
+  <ng-container [ngSwitch]="state">
+    
+    <ng-container *ngSwitchCase="'TOGGLED'">
+      <app-icon [icon]="toggledStateIcon"></app-icon>
+    </ng-container>
+    
+    <ng-container *ngSwitchCase="'UNTOGGLED'">
+      <app-icon [icon]="untoggledStateIcon"></app-icon>
+    </ng-container>
+  
+  </ng-container>
+</app-button>

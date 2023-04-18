@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
-import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AtomsModule } from './atoms/atoms.module';
@@ -29,7 +28,6 @@ import { TemplatesModule } from './templates/templates.module';
     BrowserAnimationsModule,
     AppRoutingModule,
     NgbModule,
-    EditorModule,
     CommonModule,
     HttpClientModule,
     FormsModule,
@@ -39,7 +37,6 @@ import { TemplatesModule } from './templates/templates.module';
     TemplatesModule,
   ],
   providers: [
-    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerGestureConfig,

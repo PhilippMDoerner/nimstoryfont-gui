@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 
 
@@ -9,6 +10,7 @@ import { IconComponent } from './icon/icon.component';
   declarations: [
     ButtonComponent,
     IconComponent,
+    SpinnerComponent,
   ],
   imports: [
     CommonModule

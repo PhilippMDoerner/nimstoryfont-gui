@@ -13,4 +13,9 @@ module.exports = {
     "builder": "@storybook/builder-webpack5",
     "disableTelemetry": true,
   },
+  staticDirs: [
+    '../src/assets', 
+    '../node_modules/tinymce',
+    '../node_modules'
+  ],
 };

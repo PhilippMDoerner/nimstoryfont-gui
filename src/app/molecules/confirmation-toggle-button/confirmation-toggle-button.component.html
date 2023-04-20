@@ -10,12 +10,12 @@
 
 <ng-template #activeToggle>
   <div class="confirmation confirmation--{{toggleType}}">
-    <span class="me-3"> 
+    <div class="confirmation__question"> 
       <strong>{{confirmationQuestion}}</strong> 
-    </span>  
-    <span>
+    </div>  
+    <div class="confirmation__buttons">
       <app-button [type]="toggleType" (click)="emitConfirmation()"> Yes </app-button>
       <app-button [type]="cancelButtonType" (click)="toggle()"> No </app-button>
-    </span>
+    </div>
   </div>
 </ng-template>

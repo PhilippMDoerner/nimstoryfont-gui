@@ -6,11 +6,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrls: ['./article-footer.component.scss']
 })
 export class ArticleFooterComponent {
-  @Input() link!: string;
-  @Input() label!: string;
+  @Input() buttonLabel!: string;
+  @Input() buttonLink?: string;
   @Input() deleteMessage: string = 'Delete this entry?';
   @Input() showDelete: boolean = true;
+  
   @Output() buttonClick: EventEmitter<null> = new EventEmitter();
   @Output() delete: EventEmitter<null> = new EventEmitter();
-
 }

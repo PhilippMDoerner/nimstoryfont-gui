@@ -1,11 +1,26 @@
+@import '../../../screens.scss';
+@import '../../../variables.scss';
+
+:host{
+  --align: start;
+  
+  display: flex;
+  justify-content: var(--align);
+}
+
 .confirmation{
   border: 1px solid;
   display: flex;
   align-items: center;
   align-content: center;
   border-radius: 4px;
-  padding: 0.5rem 1rem;
+  padding: $spacer-2 $spacer-3;
   justify-content: space-between;
+  
+  @media(max-width: $large-screen){
+    flex-direction: column;
+    align-items: start;
+  }
   
   &--DANGER{
     border-color: var(--bs-danger);
@@ -25,5 +40,30 @@
   
   &--TERTIARY{
     border-color: var(--bs-dark);
+  }
+  
+  &__question{
+    flex: 1;
+    margin-right: $spacer-2;
+    
+    @media(max-width: $large-screen){
+      margin-right: unset;
+    }
+  }
+
+  &__buttons{
+    display: flex;
+    justify-content: space-between;
+    :nth-child(1){
+      margin-right: $spacer-2;
+    }
+    
+    @media(max-width: $large-screen){
+      width: 100%;
+      
+      :nth-child(1){
+        margin-right: unset;
+      }
+    }
   }
 }

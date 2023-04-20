@@ -6,6 +6,7 @@ import { ArticleFooterComponent } from './article-footer/article-footer.componen
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/confirmation-toggle-button.component';
 import { EditToggleComponent } from './edit-toggle/edit-toggle.component';
 import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.component';
+import { PageBackgroundComponent } from './page-background/page-background.component';
 
 
 
@@ -15,6 +16,7 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     IconToggleButtonComponent,
     ConfirmationToggleButtonComponent,
     ArticleFooterComponent,
+    PageBackgroundComponent,
   ],
   imports: [
     CommonModule,

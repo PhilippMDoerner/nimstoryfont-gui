@@ -1,0 +1,8 @@
+<label [for]="to['name']">{{to.label}}</label>
+<editor 
+  name="fieldName"
+  #textEditorElement
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [init]="settings"
+></editor>

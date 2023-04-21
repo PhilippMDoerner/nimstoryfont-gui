@@ -1,14 +1,12 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
-  selector: 'app-editor',
-  templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss']
+  selector: 'app-formly-editor-field',
+  templateUrl: './formly-editor-field.component.html',
+  styleUrls: ['./formly-editor-field.component.scss'],
 })
-export class EditorComponent {
-  @Input() text!: string;
-  @Output() textChange = new EventEmitter<string>();
-  
+export class FormlyEditorFieldComponent extends FieldType<FieldTypeConfig>{
   settings = {
     plugins: [
         'advlist autolink lists link image charmap anchor',
@@ -29,11 +27,5 @@ export class EditorComponent {
     branding: false,
     base_url: '/tinymce',
     suffix: '.min'
-  }
-  
-  constructor(){console.log(this)}
-  
-  onEditorKeyUp() {
-    this.textChange.emit(this.text);
-  }
+  };
 }

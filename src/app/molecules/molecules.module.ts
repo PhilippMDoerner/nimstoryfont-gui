@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
+import { EditorModule } from '@tinymce/tinymce-angular';
 import { AtomsModule } from '../atoms/atoms.module';
 import { ArticleFooterComponent } from './article-footer/article-footer.component';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/confirmation-toggle-button.component';
@@ -30,6 +31,7 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     AtomsModule,
     ReactiveFormsModule,
     RouterModule,
+    EditorModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot({
       types: [{ name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] }],

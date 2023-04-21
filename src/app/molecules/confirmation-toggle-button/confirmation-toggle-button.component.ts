@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { animateElement } from 'src/app/_functions/animate';
 import { ElementType } from 'src/app/atoms/_models/button';
-import { animateElement } from '../_functions/animate';
 
 
 @Component({

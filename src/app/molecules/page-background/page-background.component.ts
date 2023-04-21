@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { animateElement } from '../_functions/animate';
+import { animateElement } from 'src/app/_functions/animate';
 
 @Component({
   selector: 'app-page-background',

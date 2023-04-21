@@ -29,6 +29,5 @@ Default.args = {};
 
 export const NoImage = Template.bind({});
 NoImage.args = {
-  serverUrl: 'https://www.aldrune.com',
   imageUrl: undefined,
 };

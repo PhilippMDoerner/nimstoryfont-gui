@@ -1,4 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+@import './custom_bootstrap.scss';
+@import 'bootstrap/scss/bootstrap'; //Must be imported after custom_bootstrap so that values from custom_bootstrap are available for overriding
+@import './variables.scss';
 
-/* Importing Bootstrap SCSS file. */
-@import 'bootstrap/scss/bootstrap';
+.highlight{
+	background-color: var(--highlight-gray);
+}
+
+.hover-highlight{
+	transition: 0.2s background-color;
+}
+
+.pointer{
+  cursor: pointer;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.hover-highlight:hover{
+		background-color: var(--highlight-gray);
+	}
+}

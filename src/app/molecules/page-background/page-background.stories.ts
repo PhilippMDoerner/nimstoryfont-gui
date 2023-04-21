@@ -12,6 +12,10 @@ export default {
       ],
     }),
   ],
+  args: {
+    serverUrl: 'https://www.aldrune.com',
+    imageUrl: '/assets/default_images/audio_pic_default.webp',
+  }
 } as Meta<PageBackgroundComponent>;
 
 const Template: StoryFn<PageBackgroundComponent> = (args: PageBackgroundComponent) => ({ 
@@ -21,12 +25,10 @@ const Template: StoryFn<PageBackgroundComponent> = (args: PageBackgroundComponen
 });
 
 export const Default = Template.bind({});
-Default.args = {
-  serverUrl: 'https://www.aldrune.com',
-  imageUrl: '/assets/default_images/audio_pic_default.webp',
-}
+Default.args = {};
 
 export const NoImage = Template.bind({});
 NoImage.args = {
   serverUrl: 'https://www.aldrune.com',
-}
+  imageUrl: undefined,
+};

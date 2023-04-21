@@ -7,7 +7,7 @@ import { animateElement } from '../_functions/animate';
   styleUrls: ['./page-background.component.scss']
 })
 export class PageBackgroundComponent {
-  @Input() imageUrl!: string;
+  @Input() imageUrl?: string;
   @Input() serverUrl!: string;
   defaultImageUrl: string = '/assets/default_images/background_default.webp';
   currentImageUrl!: string;

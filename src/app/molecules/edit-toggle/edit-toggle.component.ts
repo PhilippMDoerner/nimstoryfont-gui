@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-edit-toggle',
@@ -6,5 +6,4 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./edit-toggle.component.scss']
 })
 export class EditToggleComponent {
-  @Input() canUpdate: boolean = false;
 }

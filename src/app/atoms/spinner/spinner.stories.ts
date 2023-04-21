@@ -2,7 +2,7 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { SpinnerComponent } from './spinner.component';
 
 const templateFunc = (thickness: number): string => `
-  <app-spinner style="--thickness:${thickness}px;"></app-spinner>
+  
 `;
 
 export default {
@@ -13,13 +13,19 @@ export default {
       imports: []
     }),
   ],
+  args: {
+    'thickness': 24,
+  }
 } as Meta<SpinnerComponent>;
 
 const Template: StoryFn<SpinnerComponent> = (args: SpinnerComponent) => ({ 
   props: {
     ...args,
   },
-  template: templateFunc(16),
+  template: `
+    <h4> <strong> Note </strong>: Thickness is controlled via CSS variable 'thickness' </h4>
+    <app-spinner style="--thickness:{{thickness}}px;"></app-spinner>
+  `,
 });
 
 export const Default = Template.bind({});

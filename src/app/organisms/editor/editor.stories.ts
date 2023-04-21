@@ -21,6 +21,9 @@ export default {
       ]
     }),
   ],
+  args: {
+    text: 'Potato'
+  }
 } as Meta<EditorComponent>;
 
 const Template: StoryFn<EditorComponent> = (args: EditorComponent) => ({ 
@@ -32,6 +35,4 @@ const Template: StoryFn<EditorComponent> = (args: EditorComponent) => ({
 });
 
 export const Default = Template.bind({});
-Default.args = {
-  text : 'Potato'
-}
+Default.args = {}

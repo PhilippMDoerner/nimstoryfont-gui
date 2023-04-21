@@ -12,6 +12,11 @@ export default {
       ],
     }),
   ],
+  args: {
+    buttonType: 'PRIMARY',
+    toggledStateIcon: 'times',
+    untoggledStateIcon: 'book'
+  }
 } as Meta<IconToggleButtonComponent>;
 
 const Template: StoryFn<IconToggleButtonComponent> = (args: IconToggleButtonComponent) => ({ 
@@ -21,8 +26,4 @@ const Template: StoryFn<IconToggleButtonComponent> = (args: IconToggleButtonComp
 });
 
 export const Default = Template.bind({});
-Default.args = {
-  buttonType: 'SECONDARY',
-  toggledStateIcon: 'times',
-  untoggledStateIcon: 'book'
-}
+Default.args = {}

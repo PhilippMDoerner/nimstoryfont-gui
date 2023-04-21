@@ -7,6 +7,7 @@ import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/
 import { EditToggleComponent } from './edit-toggle/edit-toggle.component';
 import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.component';
 import { PageBackgroundComponent } from './page-background/page-background.component';
+import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 
 
 
@@ -17,6 +18,7 @@ import { PageBackgroundComponent } from './page-background/page-background.compo
     ConfirmationToggleButtonComponent,
     ArticleFooterComponent,
     PageBackgroundComponent,
+    SidebarLegendComponent,
   ],
   imports: [
     CommonModule,

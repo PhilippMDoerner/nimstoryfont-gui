@@ -1,0 +1,34 @@
+<div class="badge-container">
+  <a 
+    [routerLink]="textLink"
+    (click)="labelClick.emit()"
+    class="badge"
+    [ngClass]="{
+      'badge--part1': icon,
+      'bg-primary': type === 'PRIMARY',
+      'bg-secondary': type === 'SECONDARY',
+      'bg-dark': type === 'DARK',
+      'bg-danger': type === 'DANGER',
+      'bg-warning': type === 'WARNING',
+    }"
+  >
+    {{text}}
+  </a>
+  
+  <ng-container *ngIf="icon">
+    <a 
+      (click)="iconClick.emit()"
+      class="badge badge--part2"
+      [ngClass]="{
+        'bg-primary': type === 'PRIMARY',
+        'bg-secondary': type === 'SECONDARY',
+        'bg-dark': type === 'DARK',
+        'bg-danger': type === 'DANGER',
+        'bg-warning': type === 'WARNING',
+      }"
+    >
+      <app-icon [icon]="icon"></app-icon>
+    </a>
+  </ng-container>
+</div>
+

@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { BadgeComponent } from './badge/badge.component';
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
+import { InteractiveBadgeComponent } from './interactive-badge/interactive-badge.component';
 import { SpinnerComponent } from './spinner/spinner.component';
-import { BadgeComponent } from './badge/badge.component';
 
 
 
@@ -13,9 +15,11 @@ import { BadgeComponent } from './badge/badge.component';
     IconComponent,
     SpinnerComponent,
     BadgeComponent,
+    InteractiveBadgeComponent,
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
   ],
   exports: [
     ButtonComponent,

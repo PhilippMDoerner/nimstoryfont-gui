@@ -19,6 +19,8 @@
   --spell-color: var(--bs-purple);
   
   --highlight-gray: rgba(61, 70, 77, 0.85);
+	--wiki-bg-transparent: rgba(27, 31, 34, 0.85);
+	--wiki-bg-solid: rgb(27, 31, 34);
   
   @each $index, $value in $spacers {
     --spacer-#{$index}: #{$value};

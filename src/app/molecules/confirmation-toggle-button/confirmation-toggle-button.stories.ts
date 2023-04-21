@@ -1,9 +1,9 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ButtonType } from 'src/app/atoms/_models/button';
+import { ElementType } from 'src/app/atoms/_models/button';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button.component';
 
-const templateBuilder = (buttonType: ButtonType) => `
+const templateBuilder = (buttonType: ElementType) => `
   <app-confirmation-toggle-button 
     class="d-block" 
     style="max-width: 400px;"
@@ -60,7 +60,7 @@ const TertiaryTemplate: StoryFn<ConfirmationToggleButtonComponent> = (args: Conf
   props: {
     ...args,
   },
-  template: templateBuilder('TERTIARY'),
+  template: templateBuilder('DARK'),
 });
 
 export const Tertiary = TertiaryTemplate.bind({});

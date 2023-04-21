@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ButtonType } from 'src/app/atoms/_models/button';
+import { ElementType } from 'src/app/atoms/_models/button';
 import { animateElement } from '../_functions/animate';
 
 
@@ -10,8 +10,8 @@ import { animateElement } from '../_functions/animate';
 })
 export class ConfirmationToggleButtonComponent {
   @Input() confirmationQuestion!: string;
-  @Input() toggleType: ButtonType = 'DANGER';
-  @Input() cancelButtonType: ButtonType = 'SECONDARY';
+  @Input() toggleType: ElementType = 'DANGER';
+  @Input() cancelButtonType: ElementType = 'SECONDARY';
   
   @Output() confirm: EventEmitter<null> = new EventEmitter();
   

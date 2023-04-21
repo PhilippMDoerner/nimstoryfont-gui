@@ -1,1 +1,1 @@
-export type ButtonType = "PRIMARY" | "SECONDARY" | "TERTIARY" | "DANGER" | "WARNING";
+export type ElementType = "PRIMARY" | "SECONDARY" | "DARK" | "DANGER" | "WARNING";

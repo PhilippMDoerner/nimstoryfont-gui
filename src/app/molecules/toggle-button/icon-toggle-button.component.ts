@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ButtonType } from 'src/app/atoms/_models/button';
+import { ElementType } from 'src/app/atoms/_models/button';
 import { Icon } from 'src/app/atoms/_models/icon';
 
 type ButtonState = 'TOGGLED' | 'UNTOGGLED';
@@ -12,7 +12,7 @@ type ButtonState = 'TOGGLED' | 'UNTOGGLED';
 export class IconToggleButtonComponent {
   @Input() toggledStateIcon!: Icon;
   @Input() untoggledStateIcon!: Icon;
-  @Input() buttonType: ButtonType = 'SECONDARY';
+  @Input() buttonType: ElementType = 'SECONDARY';
   
   state: ButtonState = 'UNTOGGLED';
   

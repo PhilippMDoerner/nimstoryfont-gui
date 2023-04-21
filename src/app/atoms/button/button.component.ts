@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ButtonType } from '../_models/button';
+import { ElementType } from '../_models/button';
 
 @Component({
   selector: 'app-button',
@@ -7,5 +7,5 @@ import { ButtonType } from '../_models/button';
   styleUrls: ['./button.component.scss']
 })
 export class ButtonComponent {
-  @Input() type: ButtonType = "PRIMARY";
+  @Input() type: ElementType = "PRIMARY";
 }

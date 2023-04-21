@@ -33,7 +33,17 @@ Secondary.args = {
   type : 'SECONDARY'
 }
 
-export const Tertiary = Template.bind({});
-Tertiary.args = {
-  type : 'TERTIARY'
+export const Dark = Template.bind({});
+Dark.args = {
+  type : 'DARK'
+}
+
+export const Warning = Template.bind({});
+Warning.args = {
+  type : 'WARNING'
+}
+
+export const Danger = Template.bind({});
+Danger.args = {
+  type : 'DANGER'
 }

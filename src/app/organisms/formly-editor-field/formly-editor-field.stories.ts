@@ -4,8 +4,10 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { Meta, StoryFn, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import * as all from 'tinymce/tinymce';
 import { FormlyEditorFieldComponent } from './formly-editor-field.component';
 
+const sth = all; //Needed so that the import of "tinymce/tinymce" does not get removed
 
 export default {
   title: 'DesignSystem/Organisms/FormlyEditorFieldComponent',

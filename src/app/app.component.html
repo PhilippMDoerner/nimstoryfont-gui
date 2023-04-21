@@ -1,8 +1,9 @@
-<app-button [type]="'PRIMARY'">
-  <app-icon [icon]="'dragon'"></app-icon>
-  Potato
-</app-button>
-<app-button [type]="'PRIMARY'">
-  <app-icon [icon]="'book'"></app-icon>
-  Potato
-</app-button>
+<h1>Potato</h1>
+<form [formGroup]="form">
+  <formly-form 
+    [model]="model" 
+    [fields]="fields" 
+    [options]="options" 
+    [form]="form"
+  ></formly-form>
+</form>

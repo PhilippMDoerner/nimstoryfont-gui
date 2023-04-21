@@ -1,1 +1,1 @@
-export type ElementType = "PRIMARY" | "SECONDARY" | "DARK" | "DANGER" | "WARNING";
+export type ElementType = "PRIMARY" | "SECONDARY" | "DARK" | "DANGER" | "WARNING" | "LIGHT";

@@ -24,6 +24,14 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     CommonModule,
     AtomsModule,
     RouterModule,
+  ],
+  exports: [
+    EditToggleComponent,
+    IconToggleButtonComponent,
+    ConfirmationToggleButtonComponent,
+    ArticleFooterComponent,
+    PageBackgroundComponent,
+    SidebarLegendComponent,
   ]
 })
 export class MoleculesModule { }

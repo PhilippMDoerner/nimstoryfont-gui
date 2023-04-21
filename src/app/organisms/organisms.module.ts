@@ -20,6 +20,9 @@ import { EditorComponent } from './editor/editor.component';
     FormsModule,
     ReactiveFormsModule,
   ],
+  exports: [
+    EditorComponent,
+  ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },
   ]

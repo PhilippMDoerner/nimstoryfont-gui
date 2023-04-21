@@ -24,6 +24,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
   exports: [
     ButtonComponent,
     IconComponent,
+    SpinnerComponent,
+    BadgeComponent,
+    InteractiveBadgeComponent,
   ]
 })
 export class AtomsModule { }

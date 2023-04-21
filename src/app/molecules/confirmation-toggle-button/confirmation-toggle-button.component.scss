@@ -1,5 +1,4 @@
 @import '../../../screens.scss';
-@import '../../../variables.scss';
 
 :host{
   --align: start;
@@ -14,7 +13,7 @@
   align-items: center;
   align-content: center;
   border-radius: 4px;
-  padding: $spacer-2 $spacer-3;
+  padding: var(--spacer-2) var(--spacer-3);
   justify-content: space-between;
   
   @media(max-width: $large-screen){
@@ -44,7 +43,7 @@
   
   &__question{
     flex: 1;
-    margin-right: $spacer-2;
+    margin-right: var(--spacer-2);
     
     @media(max-width: $large-screen){
       margin-right: unset;
@@ -55,7 +54,7 @@
     display: flex;
     justify-content: space-between;
     :nth-child(1){
-      margin-right: $spacer-2;
+      margin-right: var(--spacer-2);
     }
     
     @media(max-width: $large-screen){

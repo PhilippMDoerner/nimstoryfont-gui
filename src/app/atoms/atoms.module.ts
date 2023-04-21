@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { BadgeComponent } from './badge/badge.component';
 
 
 
@@ -11,6 +12,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     ButtonComponent,
     IconComponent,
     SpinnerComponent,
+    BadgeComponent,
   ],
   imports: [
     CommonModule

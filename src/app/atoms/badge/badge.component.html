@@ -1,0 +1,16 @@
+<div 
+  class="badge"
+  [ngClass]="{
+    'bg-primary': type === 'PRIMARY',
+    'bg-secondary': type === 'SECONDARY',
+    'bg-dark': type === 'DARK',
+    'bg-danger': type === 'DANGER',
+    'bg-warning': type === 'WARNING',
+  }"
+>
+  <app-icon 
+    *ngIf="icon"
+    [icon]="icon"
+  ></app-icon>
+  {{text}}
+</div>

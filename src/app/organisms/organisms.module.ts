@@ -5,12 +5,14 @@ import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { AtomsModule } from '../atoms/atoms.module';
 import { MoleculesModule } from '../molecules/molecules.module';
 import { EditorComponent } from './editor/editor.component';
+import { PageContainerComponent } from './page-container/page-container.component';
 
 
 
 @NgModule({
   declarations: [
-    EditorComponent
+    EditorComponent,
+    PageContainerComponent,
   ],
   imports: [
     CommonModule,
@@ -22,6 +24,7 @@ import { EditorComponent } from './editor/editor.component';
   ],
   exports: [
     EditorComponent,
+    PageContainerComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },

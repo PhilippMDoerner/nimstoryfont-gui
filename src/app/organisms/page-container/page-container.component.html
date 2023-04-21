@@ -1,0 +1,11 @@
+<div class="page">
+  <app-page-background
+    class="page__background"
+    [imageUrl]="backgroundImageUrl"
+    [serverUrl]="imageServerUrl"
+  ></app-page-background>
+  
+  <article class="page__foreground" #pageElement>
+    <ng-content></ng-content>
+  </article>
+</div>

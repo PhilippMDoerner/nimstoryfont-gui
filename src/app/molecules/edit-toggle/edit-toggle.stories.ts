@@ -4,7 +4,7 @@ import { IconToggleButtonComponent } from '../toggle-button/icon-toggle-button.c
 import { EditToggleComponent } from './edit-toggle.component';
 
 export default {
-  title: 'EditToggleComponent',
+  title: 'DesignSystem/Molecules/EditToggleComponent',
   component: EditToggleComponent,
   decorators: [
     moduleMetadata({

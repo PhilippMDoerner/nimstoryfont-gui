@@ -6,7 +6,7 @@ const templateFunc = (thickness: number): string => `
 `;
 
 export default {
-  title: 'SpinnerComponent',
+  title: 'DesignSystem/Atoms/SpinnerComponent',
   component: SpinnerComponent,
   decorators: [
     moduleMetadata({

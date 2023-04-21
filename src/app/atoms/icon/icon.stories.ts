@@ -3,7 +3,7 @@ import { ALL_REGULAR_ICONS, ALL_SOLID_ICONS } from '../_models/icon';
 import { IconComponent } from './icon.component';
 
 export default {
-  title: 'IconComponent',
+  title: 'DesignSystem/Atoms/IconComponent',
   component: IconComponent,
   decorators: [
     moduleMetadata({

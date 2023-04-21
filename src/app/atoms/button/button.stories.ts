@@ -2,7 +2,7 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { ButtonComponent } from './button.component';
 
 export default {
-  title: 'ButtonComponent',
+  title: 'DesignSystem/Atoms/ButtonComponent',
   component: ButtonComponent,
   decorators: [
     moduleMetadata({

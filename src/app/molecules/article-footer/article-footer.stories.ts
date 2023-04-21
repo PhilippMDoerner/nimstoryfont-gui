@@ -4,7 +4,7 @@ import { ConfirmationToggleButtonComponent } from '../confirmation-toggle-button
 import { ArticleFooterComponent } from './article-footer.component';
 
 export default {
-  title: 'ArticleFooterComponent',
+  title: 'DesignSystem/Molecules/ArticleFooterComponent',
   component: ArticleFooterComponent,
   decorators: [
     moduleMetadata({

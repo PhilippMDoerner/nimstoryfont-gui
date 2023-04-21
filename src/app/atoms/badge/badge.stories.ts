@@ -3,7 +3,7 @@ import { IconComponent } from '../icon/icon.component';
 import { BadgeComponent } from './badge.component';
 
 export default {
-  title: 'BadgeComponent',
+  title: 'DesignSystem/Atoms/BadgeComponent',
   component: BadgeComponent,
   decorators: [
     moduleMetadata({

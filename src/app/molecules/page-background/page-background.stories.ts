@@ -3,7 +3,7 @@ import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { PageBackgroundComponent } from './page-background.component';
 
 export default {
-  title: 'PageBackgroundComponent',
+  title: 'DesignSystem/Molecules/PageBackgroundComponent',
   component: PageBackgroundComponent,
   decorators: [
     moduleMetadata({

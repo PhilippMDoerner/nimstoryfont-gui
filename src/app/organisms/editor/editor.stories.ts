@@ -4,7 +4,7 @@ import { EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { EditorComponent } from './editor.component';
 
 export default {
-  title: 'EditorComponent',
+  title: 'DesignSystem/Organisms/EditorComponent',
   component: EditorComponent,
   decorators: [
     moduleMetadata({

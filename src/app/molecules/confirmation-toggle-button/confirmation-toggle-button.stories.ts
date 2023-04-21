@@ -15,7 +15,7 @@ const templateBuilder = (buttonType: ElementType) => `
 `
 
 export default {
-  title: 'ConfirmationToggleButtonComponent',
+  title: 'DesignSystem/Molecules/ConfirmationToggleButtonComponent',
   component: ConfirmationToggleButtonComponent,
   decorators: [
     moduleMetadata({

@@ -3,7 +3,7 @@ import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { IconToggleButtonComponent } from './icon-toggle-button.component';
 
 export default {
-  title: 'IconToggleButtonComponent',
+  title: 'DesignSystem/Molecules/IconToggleButtonComponent',
   component: IconToggleButtonComponent,
   decorators: [
     moduleMetadata({

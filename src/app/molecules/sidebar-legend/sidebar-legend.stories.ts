@@ -4,7 +4,7 @@ import { DEFAULT_SEARCH_PREFERENCES } from '../_models/search-preferences';
 import { SidebarLegendComponent } from './sidebar-legend.component';
 
 export default {
-  title: 'SidebarLegendComponent',
+  title: 'DesignSystem/Molecules/SidebarLegendComponent',
   component: SidebarLegendComponent,
   decorators: [
     moduleMetadata({

@@ -1,0 +1,13 @@
+<app-button [type]="'PRIMARY'" (click)="onButtonClick($event)">
+  <app-icon [icon]="'file'" class="me-2"></app-icon>
+  <label for="file-upload" class="pointer">Choose a file</label>
+  <input 
+    #fileInputElement
+    type="file" 
+    [formControl]="formControl" 
+    [formlyAttributes]="field" 
+    id="file-upload" 
+    name="file-upload" 
+    class="d-none"
+  >
+</app-button>

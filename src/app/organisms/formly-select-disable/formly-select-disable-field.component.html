@@ -1,0 +1,39 @@
+<div class="field">
+
+  <label [for]="'formly_disable_select_' + props.label" class="form-label">
+    <app-info-circle-tooltip
+      [text]="props.label + (props.required ? '*' : '')"
+      [tooltip]="props['tooltipMessage']"
+    ></app-info-circle-tooltip>
+  </label>
+  
+  <ng-container *ngIf="!(isLoading$ | async); else loading">
+    <ng-container *ngIf="selectOptions$ as selectOptions">
+      <select 
+        class="form-select"
+        [name]="'formly_disable_select_' + props.label" 
+        [id]="'formly_disable_select_' + props.label" 
+        [required]="!!props.required"
+        [formControl]="formControl" 
+        [formlyAttributes]="field"
+      >
+        <ng-container *ngFor="let option of selectOptions$ | async">
+          <option 
+          [ngValue]="option.value[props['valueProp']]"
+          [disabled]="!option.enabled"
+          >
+            {{option.value[props['labelProp']]}}
+          </option>
+        </ng-container>
+      </select>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="hasInvalidOptionSelected$ | async">
+      <div class="warning">
+          {{ props['warningMessage'] }}
+      </div>
+  </ng-container>
+</div>
+
+<ng-template #loading><app-spinner></app-spinner></ng-template>

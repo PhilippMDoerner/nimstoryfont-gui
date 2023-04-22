@@ -10,6 +10,7 @@ import { AtomsModule } from '../atoms/atoms.module';
 import { MoleculesModule } from '../molecules/molecules.module';
 import { FormlyDatepickerFieldComponent } from './formly-datepicker-field/formly-datepicker-field.component';
 import { FormlyEditorFieldComponent } from './formly-editor-field/formly-editor-field.component';
+import { FormlySelectDisableFieldComponent } from './formly-select-disable/formly-select-disable-field.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 
 
@@ -19,6 +20,7 @@ import { PageContainerComponent } from './page-container/page-container.componen
     PageContainerComponent,
     FormlyEditorFieldComponent,
     FormlyDatepickerFieldComponent,
+    FormlySelectDisableFieldComponent,
   ],
   imports: [
     CommonModule,
@@ -28,17 +30,14 @@ import { PageContainerComponent } from './page-container/page-container.componen
     ReactiveFormsModule,
     RouterModule,
     FormlyBootstrapModule,
-    FormlyModule.forRoot({
-      types: [
-        { name: 'text-editor', component: FormlyEditorFieldComponent }
-      ]
-    }),
+    FormlyModule,
     NgbModule,
   ],
   exports: [
     PageContainerComponent,
     FormlyEditorFieldComponent,
     FormlyDatepickerFieldComponent,
+    FormlySelectDisableFieldComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },

@@ -14,11 +14,11 @@
       #fileInputElement
       type="file" 
       class="d-none"
-      (change)="onFileSelect()"
+      (change)="onFileSelect($event)"
       [formControl]="formControl" 
       [formlyAttributes]="field" 
-      [id]="to['name']" 
-      [name]="to['name']"
+      [id]="props['name']" 
+      [name]="props['name']"
     >
   </app-button>
   <div class="mt-2">

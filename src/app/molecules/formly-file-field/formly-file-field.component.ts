@@ -1,14 +1,16 @@
-import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { FileFieldKind } from 'src/app/_models/formly';
 import { ElementType } from 'src/app/atoms/_models/button';
 
+// WARNING: DO NOT USE IN FORMS THAT UPDATE
+// THIS FIELD DOES NOT TOLERATE RECEIVING EXISTING VALUES
 @Component({
   selector: 'app-formly-file-field',
   templateUrl: './formly-file-field.component.html',
   styleUrls: ['./formly-file-field.component.scss']
 })
-export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> implements OnInit, OnChanges{
+export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> implements OnInit{
   //Extends needs to be this elaborate as otherwise the Angular compiler does not know
   //that FieldType.formControl contains all fields required to satisfy the interface FormControl
   //https://github.com/ngx-formly/ngx-formly/issues/2842#issuecomment-1016476706
@@ -19,22 +21,16 @@ export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> impleme
   fieldKind!: FileFieldKind;
   
   ngOnInit(): void {
-    this.setModelValue();
-    
     this.buttonType = this.props['buttonType'];
     this.fieldKind = this.props['fileFieldKind'];
   }
-  
-  ngOnChanges(): void {
-    this.setModelValue();
+
+  onFileSelect(event: any){
+    const filePath: string = event.target.value;
+    this.setModelValue(filePath);
   }
   
-  onFileSelect(){
-    this.setModelValue();
-  }
-  
-  setModelValue(): void {
-    const filePath: string = this.model[this.key as string];
+  setModelValue(filePath: string): void {
     const isWindowsPath = filePath.includes("\\");
     const splitter = isWindowsPath ? "\\" : "/";
     this.selectedFileName = filePath?.split(splitter).pop();

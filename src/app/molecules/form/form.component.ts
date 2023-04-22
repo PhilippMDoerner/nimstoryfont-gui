@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldProps } from '@ngx-formly/bootstrap/form-field';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Observable } from 'rxjs';
+import { ElementType } from 'src/app/atoms/_models/button';
 
 @Component({
   selector: 'app-form',
@@ -17,9 +18,11 @@ export class FormComponent implements OnInit, OnChanges{
   @Input() enctype: string = "application/x-www-form-urlencoded"; //Default form enctype in HTML5
   @Input() enableSubmitButtons: boolean = true;
   @Input() disabled: boolean = false;
+  @Input() submitButtonType: ElementType = 'PRIMARY';
+  @Input() cancelButtonType: ElementType = 'SECONDARY';
   
-  @Output() formSubmit: EventEmitter<any> = new EventEmitter();
-  @Output() formCancel: EventEmitter<null> = new EventEmitter();
+  @Output() formlySubmit: EventEmitter<any> = new EventEmitter();
+  @Output() formlyCancel: EventEmitter<null> = new EventEmitter();
 
   usedFields!: FormlyFieldConfig[];
   
@@ -75,10 +78,10 @@ export class FormComponent implements OnInit, OnChanges{
       return;
     }
     
-    this.formSubmit.emit(this.model);
+    this.formlySubmit.emit(this.model);
   }
 
   onCancel(): void{
-    this.formCancel.emit();
+    this.formlyCancel.emit();
   }
 }

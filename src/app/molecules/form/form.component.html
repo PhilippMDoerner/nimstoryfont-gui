@@ -14,7 +14,7 @@
       <!-- Cancel Button -->
       <app-button 
         class="me-3" 
-        [type]="'SECONDARY'" 
+        [type]="cancelButtonType"
         (click)="onCancel()"
       >
         Cancel
@@ -32,7 +32,7 @@
 </form>
 
 <ng-template #activeSubmitButton>
-  <app-button [type]="'PRIMARY'" (click)="onSubmit()">
+  <app-button [type]="submitButtonType" (click)="onSubmit()">
     Submit
   </app-button>
 </ng-template>

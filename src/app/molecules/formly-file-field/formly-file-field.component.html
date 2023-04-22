@@ -3,10 +3,10 @@
   <app-button  
     [class.disabled]="props.disabled" 
     [disabled]="!!props.disabled"
-    [type]="'SECONDARY'" 
+    [type]="buttonType" 
     (click)="onButtonClick($event)"
   >
-    <app-icon [icon]="'file'" class="me-2"></app-icon>
+    <app-icon [icon]="'upload'" class="me-2"></app-icon>
     <span>
       Choose a file
     </span>
@@ -14,7 +14,7 @@
       #fileInputElement
       type="file" 
       class="d-none"
-      (change)="setModelValue()"
+      (change)="onFileSelect($event)"
       [formControl]="formControl" 
       [formlyAttributes]="field" 
       [id]="to['name']" 
@@ -22,9 +22,9 @@
     >
   </app-button>
   <div class="mt-2">
-    <div *ngIf="selectedFilePath; else noFileSelected"> 
+    <div *ngIf="selectedFileName; else noFileSelected"> 
       <span class="me-3"> Currently Selected: </span>
-      {{selectedFilePath}}
+      {{selectedFileName}}
     </div>
   </div>
 </div>

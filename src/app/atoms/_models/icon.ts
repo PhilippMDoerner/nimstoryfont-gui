@@ -36,7 +36,8 @@ export const ALL_REGULAR_ICONS = [
   'chevron-up',
   'chevron-left',
   'chevron-right',
-  'hammer'
+  'hammer',
+  'upload',
 ]
 
 type typedRegularIcons = typeof ALL_REGULAR_ICONS;

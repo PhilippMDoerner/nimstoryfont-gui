@@ -1,5 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { FileFieldKind } from 'src/app/_models/formly';
+import { ElementType } from 'src/app/atoms/_models/button';
 
 @Component({
   selector: 'app-formly-file-field',
@@ -12,14 +14,24 @@ export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> impleme
   //https://github.com/ngx-formly/ngx-formly/issues/2842#issuecomment-1016476706
   @ViewChild('fileInputElement') fileInputElement!: ElementRef;
   
-  selectedFilePath?: string;
+  selectedFileName?: string;
+  buttonType!: ElementType;
+  fieldKind!: FileFieldKind;
   
   ngOnInit(): void {
+    this.setModelValue();
+    
+    this.buttonType = this.props['buttonType'];
+    this.fieldKind = this.props['fileFieldKind'];
+  }
+  
+  onFileSelect(event: any){
     this.setModelValue();
   }
   
   setModelValue(): void {
-    this.selectedFilePath = this.model[this.key as string];
+    const filePath = this.model[this.key as string];
+    this.selectedFileName = filePath?.split("\\").pop();
   }
   
   // Required as only clicking on the label counts as clicking on the file-field button

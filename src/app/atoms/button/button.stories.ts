@@ -15,15 +15,36 @@ export default {
   args: {
     type: 'PRIMARY',
     text: 'ButtonText',
+    size: 'MEDIUM',
   }
 } as Meta<ButtonComponent>;
 
 const Template: StoryFn<ButtonComponent> = (args: ButtonComponent) => ({ 
   props: args,
   template: `
-    <app-button [type]="type">
-      {{text}}
-    </app-button>
+    <div class="d-flex flex-column">
+      <div>
+        Button Size: {{size}}
+        <app-button [type]="type" [size]="size">
+          {{text}}
+        </app-button>
+      </div>
+      
+      <div class="my-4">
+        Button Size: SMALL
+        <app-button [type]="type" [size]="'SMALL'">
+          {{text}}
+        </app-button>
+      </div>
+      
+      <div>
+        Button Size: LARGE
+        <app-button [type]="type" [size]="'LARGE'">
+          {{text}}
+        </app-button>
+      </div>
+      
+    </div>
   `
 });
 

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ElementType } from '../_models/button';
+import { ElementSize, ElementType } from '../_models/button';
 
 @Component({
   selector: 'app-button',
@@ -8,4 +8,5 @@ import { ElementType } from '../_models/button';
 })
 export class ButtonComponent {
   @Input() type: ElementType = "PRIMARY";
+  @Input() size: ElementSize = "MEDIUM";
 }

@@ -16,6 +16,7 @@ import { PageBackgroundComponent } from './page-background/page-background.compo
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.component';
 import { FormComponent } from './form/form.component';
+import { CompareFormComponent } from './compare-form/compare-form.component';
 
 
 
@@ -29,7 +30,8 @@ import { FormComponent } from './form/form.component';
     SidebarLegendComponent,
     FormlyFileFieldComponent,
     ImageCarouselComponent,
-    FormComponent
+    FormComponent,
+    CompareFormComponent
   ],
   imports: [
     CommonModule,

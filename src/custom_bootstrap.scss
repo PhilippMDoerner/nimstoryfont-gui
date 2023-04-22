@@ -1,9 +1,5 @@
 // The core place for overriding bootstrap scss variables
 
-$card-bg: rgb(57, 62, 65) !important;
-$card-cap-bg: rgb(57, 62, 65) !important;
-$card-color: #fff !important;
-
 // Darkly 4.5.3
 // Bootswatch
 
@@ -198,8 +194,9 @@ $jumbotron-bg: $gray-800;
 
 // Cards
 
-$card-cap-bg: $gray-700;
-$card-bg: $gray-800;
+$card-bg: #393e41 !important;
+$card-cap-bg: $card-bg;
+$card-color: #fff !important;
 
 // Popovers
 

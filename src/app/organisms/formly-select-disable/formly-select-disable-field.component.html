@@ -1,6 +1,9 @@
-<div class="field">
+<div class="field mb-3" [class.d-none]="to.hidden">
 
-  <label [for]="'formly_disable_select_' + props.label" class="form-label">
+  <label 
+    class="form-label"
+    [for]="'formly_disable_select_' + props.label" 
+  >
     <app-info-circle-tooltip
       [text]="props.label + (props.required ? '*' : '')"
       [tooltip]="props['tooltipMessage']"

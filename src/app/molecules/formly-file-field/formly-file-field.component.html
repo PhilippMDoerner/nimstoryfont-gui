@@ -1,13 +1,27 @@
-<app-button [type]="'PRIMARY'" (click)="onButtonClick($event)">
-  <app-icon [icon]="'file'" class="me-2"></app-icon>
-  <label for="file-upload" class="pointer">Choose a file</label>
-  <input 
-    #fileInputElement
-    type="file" 
-    [formControl]="formControl" 
-    [formlyAttributes]="field" 
-    id="file-upload" 
-    name="file-upload" 
-    class="d-none"
-  >
-</app-button>
+<div class="mb-3" [class.d-none]="to.hidden">
+
+  <app-button [type]="'SECONDARY'" (click)="onButtonClick($event)">
+    <app-icon [icon]="'file'" class="me-2"></app-icon>
+    Choose a file
+    <input 
+      #fileInputElement
+      type="file" 
+      class="d-none"
+      (change)="onFileSelect()"
+      [formControl]="formControl" 
+      [formlyAttributes]="field" 
+      [id]="to['name']" 
+      [name]="to['name']"
+    >
+  </app-button>
+  <div class="mt-2">
+    <div *ngIf="selectedFilePath; else noFileSelected"> 
+      <span class="me-3"> Currently Selected: </span>
+      {{selectedFilePath}}
+    </div>
+  </div>
+</div>
+
+<ng-template #noFileSelected>
+  No File Selected
+</ng-template>

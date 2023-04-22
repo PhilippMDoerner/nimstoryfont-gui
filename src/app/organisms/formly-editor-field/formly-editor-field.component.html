@@ -1,8 +1,16 @@
-<label [for]="to['name']">{{to.label}}</label>
-<editor 
-  name="fieldName"
-  #textEditorElement
-  [formControl]="formControl"
-  [formlyAttributes]="field"
-  [init]="settings"
-></editor>
+<div class="mb-3" [class.d-none]="to.hidden">
+  <label 
+    class="form-label" 
+    [for]="to['name']"
+  >
+    {{to.label}}
+  </label>
+  
+  <editor 
+    [attr.name]="to['name']"
+    #textEditorElement
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    [init]="settings"
+  ></editor>
+</div>

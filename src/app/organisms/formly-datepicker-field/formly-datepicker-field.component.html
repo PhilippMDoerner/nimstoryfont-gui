@@ -1,5 +1,5 @@
-<div class="mb-3" [ngClass]="{'d-none': to.hidden}">
-  <label for="datepicker">
+<div class="mb-3" [class.d-none]="to.hidden">
+  <label [for]="to['name']" class="form-label">
       <strong>
           {{to.label}}
           <ng-container *ngIf="to.required">*</ng-container>
@@ -8,21 +8,20 @@
 
   <div class="input-group">
       <input
-      class="form-control" 
-      placeholder="yyyy-mm-dd" 
-      name="datepicker" 
-      [formControl]="formControl" 
-      [formlyAttributes]="field" 
-      ngbDatepicker 
-      #datepickerInput="ngbDatepicker"
-      type="text"
+        class="form-control" 
+        placeholder="yyyy-mm-dd" 
+        type="text"
+        [name]="to['name']" 
+        [formControl]="formControl" 
+        [formlyAttributes]="field" 
+        ngbDatepicker 
+        #datepickerInput="ngbDatepicker"
       >
       <div class="btn btn-outline-light highlight" (click)="datepickerInput.toggle()">
         <app-icon [icon]="'calendar'"></app-icon>
       </div>
   </div>
 </div>
-
 
 <ng-template #customDay let-date>
   <app-button class="datepicker-day" [type]="'LIGHT'">

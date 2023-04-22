@@ -19,6 +19,11 @@
 		background-color: var(--highlight-gray);
 	}
 }
+
+.form-label{
+  font-weight: bold;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 

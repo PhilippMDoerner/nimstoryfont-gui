@@ -98,7 +98,8 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges{
     this.currentImage = this.images[this.currentImageIndex];
   }
   
-  changeState(newState: State){
+  changeState(event: any, newState: State){
+    this.userModel = event ?? {};
     this.state = newState;
   }
   
@@ -128,7 +129,7 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges{
     };
     
     this.userModel = {} as Image;
-    this.changeState('DISPLAY');
+    this.changeState(null, 'DISPLAY');
   }
   
 }

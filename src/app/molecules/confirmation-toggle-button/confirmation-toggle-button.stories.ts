@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button.component';
@@ -10,7 +10,7 @@ export default {
     moduleMetadata({
       imports: [
         AtomsModule,
-        CommonModule
+        BrowserModule
       ],
     }),
   ],

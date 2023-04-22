@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, HAMMER_GESTURE_CONFIG, HammerGestureConfig, HammerModule } from '@angular/platform-browser';
 
-import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
@@ -15,13 +15,15 @@ import { AppComponent } from './app.component';
 import { AtomsModule } from './atoms/atoms.module';
 import { FormlyFileFieldComponent } from './molecules/formly-file-field/formly-file-field.component';
 import { MoleculesModule } from './molecules/molecules.module';
+import { FormlyDatepickerFieldComponent } from './organisms/formly-datepicker-field/formly-datepicker-field.component';
 import { FormlyEditorFieldComponent } from './organisms/formly-editor-field/formly-editor-field.component';
+import { FormlySelectDisableFieldComponent } from './organisms/formly-select-disable/formly-select-disable-field.component';
 import { OrganismsModule } from './organisms/organisms.module';
 import { TemplatesModule } from './templates/templates.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     AtomsModule,
@@ -30,15 +32,19 @@ import { TemplatesModule } from './templates/templates.module';
     TemplatesModule,
     BrowserModule,
     BrowserAnimationsModule,
+    RouterModule,
     AppRoutingModule,
     NgbModule,
-    CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
     FormlyModule.forRoot({
       types: [
         { name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] },
+        { name: 'text-editor', component: FormlyEditorFieldComponent },
+        { name: 'select-disable', component: FormlySelectDisableFieldComponent },
+        { name: 'datepicker', component: FormlyDatepickerFieldComponent },
+      ],
       validationMessages: [
         invalidTimeMessage,
         requiredMessage,

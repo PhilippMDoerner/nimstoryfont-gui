@@ -1,6 +1,7 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BadgeComponent } from './badge/badge.component';
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
@@ -20,8 +21,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
     InfoCircleTooltipComponent,
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     RouterModule,
+    NgbModule,
   ],
   exports: [
     ButtonComponent,

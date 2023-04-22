@@ -25,7 +25,7 @@ export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> impleme
     this.fieldKind = this.props['fileFieldKind'];
   }
   
-  onFileSelect(event: any){
+  onFileSelect(){
     this.setModelValue();
   }
   

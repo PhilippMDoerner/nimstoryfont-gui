@@ -36,6 +36,7 @@ export default {
     options: dummyOptions,
     labelProp: 'myLabel',
     valueProp: 'myValue',
+    badgeText: 'Add Entry',
   }
 } as Meta<SmallCreateFormComponent>;
 
@@ -48,3 +49,18 @@ const Template: StoryFn<SmallCreateFormComponent> = (args: SmallCreateFormCompon
 
 export const Default = Template.bind({});
 Default.args = {}
+
+export const NoOptions = Template.bind({});
+NoOptions.args = {
+  options: [],
+}
+
+export const UndefinedOptions = Template.bind({});
+UndefinedOptions.args = {
+  options: undefined,
+}
+
+export const DisabledOptions = Template.bind({});
+DisabledOptions.args = {
+  isDisabledFunction: (opt: any) => opt.myValue > 5,
+}

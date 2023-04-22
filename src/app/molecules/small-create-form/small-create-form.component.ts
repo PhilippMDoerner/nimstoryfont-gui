@@ -11,6 +11,7 @@ type State = 'DISPLAY' | 'CREATE';
 export class SmallCreateFormComponent {
   @Input() options!: any[];
   @Input() labelProp!: string;
+  @Input() badgeText: string = 'Add Entry';
   @Input() valueProp!: string;
   @Input() isDisabledFunction: Function = (_: any) => false;
   
@@ -38,5 +39,6 @@ export class SmallCreateFormComponent {
   onSubmit(){
     this.create.emit(this.userModel);
     this.changeState('DISPLAY');
+    this.userModel = {};
   }
 }

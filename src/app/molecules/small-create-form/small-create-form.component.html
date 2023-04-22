@@ -1,14 +1,27 @@
-<ng-container *ngIf="state === 'DISPLAY'">
+<ng-container *ngIf="options && options.length > 0">
+  <ng-container [ngSwitch]="state">
+    <ng-container
+      *ngSwitchCase="'DISPLAY'"
+      [ngTemplateOutlet]="displayState"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'CREATE'"
+      [ngTemplateOutlet]="createState"
+    ></ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #displayState>
   <app-badge 
     class="pointer hover-highlight"
     [type]="'PRIMARY'"
     [icon]="'plus'"
-    [text]="'Add Character'"
+    [text]="badgeText"
     (click)="changeState('CREATE')"
   ></app-badge>
-</ng-container>
+</ng-template>
 
-<ng-container *ngIf="state === 'CREATE'">
+<ng-template #createState>
   <form class="form">
     <select class="form-select"
       style="width: unset;"
@@ -16,7 +29,6 @@
       [id]="'select'"
       (change)="onChange($event)"
     >
-      <option>---</option>
       <ng-container *ngFor="let option of options; let i = index">
         <option 
           [value]="i"
@@ -49,4 +61,4 @@
     </app-button>
 
   </form>
-</ng-container>
+</ng-template>

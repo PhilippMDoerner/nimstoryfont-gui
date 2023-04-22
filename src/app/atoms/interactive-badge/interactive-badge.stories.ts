@@ -1,4 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
+import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { IconComponent } from '../icon/icon.component';
 import { InteractiveBadgeComponent } from './interactive-badge.component';
@@ -20,13 +21,15 @@ export default {
     text: 'BadgeText',
     type: 'PRIMARY',
     icon: 'times',
-    textLink: '/to/other/page',
-  }
+    textLink: undefined,
+  },
 } as Meta<InteractiveBadgeComponent>;
 
 const Template: StoryFn<InteractiveBadgeComponent> = (args: InteractiveBadgeComponent) => ({ 
   props: {
-    ...args
+    ...args,
+    iconClick: action('iconClick'),
+    labelClick: action('labelClick'),
   },
 });
 
@@ -57,4 +60,9 @@ Danger.args = {
 export const WithoutIcon = Template.bind({});
 WithoutIcon.args = {
   icon: undefined,
+}
+
+export const WithLink = Template.bind({});
+WithLink.args = {
+  textLink: '/to/other/page',
 }

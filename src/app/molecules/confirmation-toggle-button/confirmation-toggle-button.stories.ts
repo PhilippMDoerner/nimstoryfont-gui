@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button.component';
@@ -24,9 +25,11 @@ export default {
 const Template: StoryFn<ConfirmationToggleButtonComponent> = (args: ConfirmationToggleButtonComponent) => ({ 
   props: {
     ...args,
+    confirm: action('confirm'),
   },
   template: `
     <app-confirmation-toggle-button
+      (confirm)="confirm($event)"
       [toggleType]="toggleType"
       [confirmationQuestion]="confirmationQuestion"
     >

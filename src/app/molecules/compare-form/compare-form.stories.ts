@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { Observable, of } from 'rxjs';
@@ -188,6 +189,8 @@ export default {
 const Template: StoryFn<CompareFormComponent> = (args: CompareFormComponent) => ({ 
   props: {
     ...args,
+    formlySubmit: action('formlySubmit'),
+    formlyCancel: action('formlyCancel'),
   },
 });
 

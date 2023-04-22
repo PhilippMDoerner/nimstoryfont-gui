@@ -1,7 +1,8 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { Image } from '../_models/image';
+import { Image } from '../../_models/image';
 import { ImageCarouselComponent } from './image-carousel.component';
 
 const dummyImages: Image[] = [
@@ -81,6 +82,11 @@ export default {
 const Template: StoryFn<ImageCarouselComponent> = (args: ImageCarouselComponent) => ({ 
   props: {
     ...args,
+    deleteImage: action('deleteImage'),
+    createImage: action('createImage'),
+    updateImage: action('updateImage'),
+    slide: action('slide'),
+    slideEnd: action('slideEnd'),
   },
 });
 

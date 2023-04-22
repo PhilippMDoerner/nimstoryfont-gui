@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { DEFAULT_SEARCH_PREFERENCES } from '../_models/search-preferences';
@@ -25,6 +26,7 @@ export default {
 const Template: StoryFn<SidebarLegendComponent> = (args: SidebarLegendComponent) => ({ 
   props: {
     ...args,
+    sidebarChange: action('sidebarChange'),
   },
 });
 

@@ -1,0 +1,113 @@
+<ng-container [ngSwitch]="state">
+  <ng-container
+    *ngSwitchCase="'DISPLAY'"
+    [ngTemplateOutlet]="displayState"
+  ></ng-container>
+  <ng-container
+    *ngSwitchCase="'UPDATE'"
+    [ngTemplateOutlet]="updateState"
+  ></ng-container>
+  <ng-container
+    *ngSwitchCase="'CREATE'"
+    [ngTemplateOutlet]="createState"
+  ></ng-container>
+  <ng-container
+    *ngSwitchCase="'DELETE'"
+    [ngTemplateOutlet]="deleteState"
+  ></ng-container>
+</ng-container>
+
+<ng-template #displayState>
+    <app-image-carousel
+      [images]="images"
+      [serverUrl]="serverUrl"
+      [canDelete]="canDelete"
+      [canUpdate]="canUpdate"
+      [canCreate]="canCreate"
+      (deleteImage)="changeState('DELETE')"      
+      (updateImage)="changeState('UPDATE')"      
+      (createImage)="changeState('CREATE')"      
+    ></app-image-carousel>
+</ng-template>
+
+<ng-template #updateState>
+  <div class="card form-card">
+    <h5 class="form-card__heading">
+      <app-icon [icon]="'pencil'"></app-icon>
+      Updating:
+      <app-spinner *ngIf="isLoading"></app-spinner>
+    </h5>
+
+    <div class="form-card__image-container">
+      <img
+        title="None"
+        class="form-card__image"
+        [src]="serverUrl + currentImage.image"
+        alt=""
+      />
+    </div>
+    
+    <app-form
+      class="form-card__form"
+      [model]="userModel"
+      [fields]="fields"
+      [enctype]="'multipart/form-data'"
+      [cancelButtonType]="'DARK'"
+      (formlySubmit)="onSubmit($event)"
+      (formlyCancel)="onCancel()"
+    ></app-form>
+  </div>
+</ng-template>
+
+<ng-template #createState>
+  <div class="card form-card">
+    <h5 class="form-card__heading">
+      <app-icon [icon]="'plus-square'"></app-icon>
+      Upload new image
+      <app-spinner *ngIf="isLoading"></app-spinner>
+    </h5>
+
+    <app-form
+      class="form-card__form"
+      [model]="userModel"
+      [fields]="fields"
+      [enctype]="'multipart/form-data'"
+      [cancelButtonType]="'DARK'"
+      (formlySubmit)="onSubmit($event)"
+      (formlyCancel)="onCancel()"
+    ></app-form>
+  </div>
+</ng-template>
+
+<ng-template #deleteState>
+  <div class="card form-card">
+    <h5 class="form-card__heading">
+      <app-icon [icon]="'trash'"></app-icon>
+      Deleting:
+      <app-spinner *ngIf="isLoading"></app-spinner>
+    </h5>
+
+    <div class="form-card__image-container">
+      <img
+        title="None"
+        class="form-card__image"
+        [src]="serverUrl + currentImage.image"
+        alt="image to delete"
+      />
+    </div>
+
+    <div class="form-card__confirmation confirmation">
+      <span class="confirmation__question">
+        Do you really want to delete this image?
+      </span>
+      <div class="confirmation__button-container">
+        <app-button class="confirmation__button" [type]="'DARK'" (click)="onCancel()">
+          No
+        </app-button>
+        <app-button class="confirmation__button" [type]="'DANGER'" (click)="onSubmit(undefined)">
+          Yes
+        </app-button>
+      </div>
+    </div>
+  </div>
+</ng-template>

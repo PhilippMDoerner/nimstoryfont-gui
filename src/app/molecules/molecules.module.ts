@@ -17,6 +17,7 @@ import { ImageCarouselComponent } from './image-carousel/image-carousel.componen
 import { PageBackgroundComponent } from './page-background/page-background.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.component';
+import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
 
 
 
@@ -31,7 +32,8 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     FormlyFileFieldComponent,
     ImageCarouselComponent,
     FormComponent,
-    CompareFormComponent
+    CompareFormComponent,
+    SmallCreateFormComponent
   ],
   imports: [
     CommonModule,

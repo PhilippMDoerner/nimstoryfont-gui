@@ -1,0 +1,52 @@
+<ng-container *ngIf="state === 'DISPLAY'">
+  <app-badge 
+    class="pointer hover-highlight"
+    [type]="'PRIMARY'"
+    [icon]="'plus'"
+    [text]="'Add Character'"
+    (click)="changeState('CREATE')"
+  ></app-badge>
+</ng-container>
+
+<ng-container *ngIf="state === 'CREATE'">
+  <form class="form">
+    <select class="form-select"
+      style="width: unset;"
+      [name]="'select-' + labelProp"
+      [id]="'select'"
+      (change)="onChange($event)"
+    >
+      <option>---</option>
+      <ng-container *ngFor="let option of options; let i = index">
+        <option 
+          [value]="i"
+          [attr.selected]="option[valueProp] === userModel[valueProp] ? true : null"
+          [attr.disabled]="isDisabledFunction(option) ? true : null"
+        >
+          {{ option[labelProp] }}
+        </option>
+      </ng-container>
+    
+    </select>
+
+    <!-- Cancel Button -->
+    <app-button 
+      class="mx-2" 
+      [type]="'SECONDARY'"
+      [size]="'SMALL'"
+      (click)="onCancel()"
+    >
+      <app-icon [icon]="'times'"></app-icon>
+    </app-button>
+      
+    <!-- Submit Button -->
+    <app-button 
+      [type]="'PRIMARY'"
+      [size]="'SMALL'"
+      (click)="onSubmit()"
+    >
+      <app-icon [icon]="'check'"></app-icon>
+    </app-button>
+
+  </form>
+</ng-container>

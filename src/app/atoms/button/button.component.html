@@ -1,5 +1,6 @@
 <button 
   class="btn" 
+  [disabled]="disabled"
   [ngClass]="{
     'btn-primary': type === 'PRIMARY',
     'btn-secondary': type === 'SECONDARY',
@@ -11,6 +12,7 @@
     
     'btn-sm': size === 'SMALL',
     'btn-lg': size === 'LARGE',
+    'btn-disabled': disabled,
   }"
 >
   <ng-content></ng-content>

@@ -1,8 +1,15 @@
 <div class="mb-3" [class.d-none]="to.hidden">
 
-  <app-button [type]="'SECONDARY'" (click)="onButtonClick($event)">
+  <app-button  
+    [class.disabled]="props.disabled" 
+    [disabled]="!!props.disabled"
+    [type]="'SECONDARY'" 
+    (click)="onButtonClick($event)"
+  >
     <app-icon [icon]="'file'" class="me-2"></app-icon>
-    Choose a file
+    <span>
+      Choose a file
+    </span>
     <input 
       #fileInputElement
       type="file" 

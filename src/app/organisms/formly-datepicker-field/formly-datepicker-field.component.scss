@@ -6,6 +6,10 @@
   width: 100%;
 }
 
+.disabled{
+  cursor: not-allowed;
+}
+
 .btn-outline-light{
   border-color: var(--bs-white);
   color: var(--bs-white);

@@ -9,4 +9,5 @@ import { ElementSize, ElementType } from '../_models/button';
 export class ButtonComponent {
   @Input() type: ElementType = "PRIMARY";
   @Input() size: ElementSize = "MEDIUM";
+  @Input() disabled: boolean = false;
 }

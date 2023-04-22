@@ -1,12 +1,12 @@
 <div class="mb-3" [class.d-none]="to.hidden">
-  <label [for]="to['name']" class="form-label">
+  <label [for]="to['name']" class="form-label ">
       <strong>
           {{to.label}}
           <ng-container *ngIf="to.required">*</ng-container>
       </strong>
   </label>
 
-  <div class="input-group">
+  <div class="input-group" [class.disabled]="!!props.disabled">
       <input
         class="form-control" 
         placeholder="yyyy-mm-dd" 
@@ -17,14 +17,18 @@
         ngbDatepicker 
         #datepickerInput="ngbDatepicker"
       >
-      <div class="btn btn-outline-light highlight" (click)="datepickerInput.toggle()">
+      <div 
+        class="btn btn-outline-light highlight"
+        [class.disabled]="!!props.disabled"
+        (click)="datepickerInput.toggle()"
+      >
         <app-icon [icon]="'calendar'"></app-icon>
       </div>
   </div>
 </div>
 
 <ng-template #customDay let-date>
-  <app-button class="datepicker-day" [type]="'LIGHT'">
+  <app-button class="datepicker-day" [type]="'LIGHT'" [disabled]="!!props.disabled">
     {{ date.day }}
   </app-button>
 </ng-template>

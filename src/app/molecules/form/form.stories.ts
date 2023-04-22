@@ -162,7 +162,8 @@ export default {
     enableSubmitButtons: true,
     enctype: "application/x-www-form-urlencoded",
     fields: dummyForm,
-    model: {}
+    model: {},
+    disabled: false,
   }
 } as Meta<FormComponent>;
 
@@ -174,3 +175,8 @@ const Template: StoryFn<FormComponent> = (args: FormComponent) => ({
 
 export const Default = Template.bind({});
 Default.args = {}
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+  disabled: true,
+}

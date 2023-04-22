@@ -9,7 +9,7 @@
     [model]="model"
   ></formly-form>
   
-  <ng-container *ngIf="enableSubmitButtons">
+  <ng-container *ngIf="!disabled && enableSubmitButtons">
     <div class="mt-5">
       <!-- Cancel Button -->
       <app-button 
@@ -39,13 +39,12 @@
 
 <ng-template #inactiveSubmitButton>
   <app-button 
-    class="strikethrough"
     placement="top" 
     [type]="'DARK'" 
     [ngbTooltip]="'The form is not yet correctly filled out!'"
     [tooltipClass]="'my-tooltip'"
   >
     <app-icon [icon]="'lock'" class="me-2"></app-icon>
-    Submit *
+    <span class="strikethrough">Submit *</span>
   </app-button>
 </ng-template>

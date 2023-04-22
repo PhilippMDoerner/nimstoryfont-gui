@@ -26,6 +26,7 @@
     "@ngx-formly/core": "^6.0.0",
     "@popperjs/core": "^2.11.6",
     "@tinymce/tinymce-angular": "^7.0.0",
+    "@types/leaflet": "^1.9.3",
     "bootstrap": "^5.2.3",
     "animate.css": "^4.1.1",
     "font-awesome": "^4.7.0",

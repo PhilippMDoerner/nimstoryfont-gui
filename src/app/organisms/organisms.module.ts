@@ -12,6 +12,7 @@ import { FormlyDatepickerFieldComponent } from './formly-datepicker-field/formly
 import { FormlyEditorFieldComponent } from './formly-editor-field/formly-editor-field.component';
 import { FormlySelectDisableFieldComponent } from './formly-select-disable/formly-select-disable-field.component';
 import { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';
+import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 
 
@@ -23,6 +24,7 @@ import { PageContainerComponent } from './page-container/page-container.componen
     FormlyDatepickerFieldComponent,
     FormlySelectDisableFieldComponent,
     ImageCarouselCardComponent,
+    LeafletMapComponent,
   ],
   imports: [
     CommonModule,

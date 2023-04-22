@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Image } from '../_models/image';
+import { Image } from '../../_models/image';
 
 @Component({
   selector: 'app-image-carousel',
@@ -14,9 +14,9 @@ export class ImageCarouselComponent {
   @Input() canCreate: boolean = false;
   @Input() canUpdate: boolean = false;
   
-  @Output() deleteImage: EventEmitter<any> = new EventEmitter();
-  @Output() createImage: EventEmitter<any> = new EventEmitter();
-  @Output() updateImage: EventEmitter<any> = new EventEmitter();
+  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
+  @Output() createImage: EventEmitter<null> = new EventEmitter();
+  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
   @Output() slide: EventEmitter<{event: NgbSlideEvent, index: number}> = new EventEmitter();
   @Output() slideEnd: EventEmitter<{event: NgbSlideEvent, index: number}> = new EventEmitter();
   
@@ -43,7 +43,7 @@ export class ImageCarouselComponent {
       return;
     };
     
-    
+    this.createImage.emit();
   }
   
   onImageUpdate(){
@@ -51,6 +51,8 @@ export class ImageCarouselComponent {
       return;
     };
     
+    const image = this.images[this.currentSlideIndex];
+    this.updateImage.emit(image);
   }
   
   onImageDelete(){
@@ -58,5 +60,7 @@ export class ImageCarouselComponent {
       return;
     };
     
+    const image = this.images[this.currentSlideIndex];
+    this.deleteImage.emit(image);
   }
 }

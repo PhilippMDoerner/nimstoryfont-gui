@@ -27,7 +27,6 @@ export class FormComponent implements OnInit, OnChanges{
   usedFields!: FormlyFieldConfig[];
   
   ngOnInit(): void {
-    console.log(this);
     this.usedFields = this.copyFields(this.fields);
     
     if(this.disabled){

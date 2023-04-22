@@ -6,7 +6,7 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { dateMessage, dateValidator, faPrefixMessage, fieldMatchValidator, fieldsDontMatchMessage, hasSpecialCharactersMessage, iconValidator, integerValidator, invalidTimeMessage, notIntegerMessage, requiredIconMessage, requiredIconValidator, requiredMessage, requiredValidator, sessionAlreadyHasAuthor, sessionAuthorUniqueValidator, specialCharacterValidator, timeValidator } from 'src/app/_services/formly/validators';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { FormlyDatepickerFieldComponent } from 'src/app/organisms/formly-datepicker-field/formly-datepicker-field.component';
@@ -18,7 +18,7 @@ import { FormComponent } from './form.component';
 
 const x = all;
 
-const dummyData = [
+const dummyData: any[] = [
   {"username": "john_doe", "password": "password123", "email": "john_doe@example.com", "is_active": true},
   {"username": "jane_doe", "password": "jane_password", "email": "jane_doe@example.com", "is_active": true, "groups": [1, 2]},
   {"username": "admin", "password": "admin_password", "email": "admin@example.com", "is_active": true, "is_staff": true, "is_superuser": true},
@@ -57,6 +57,20 @@ const dummyData = [
   {"username": "hank_pym", "password": "antman_password", "email": "hank_pym@example.com", "is_active": true, "group_details": [{"name": "Ant-Man and the Wasp", "pk": 13}]}
 ];
 
+const dummySelectDisableConfig: FormlyFieldConfig = {
+  key: 'username',
+  type: 'select-disable',
+  props:{
+    label: 'User',
+    labelProp:  'username',
+    valueProp:  'username',
+    options: of(dummyData) as unknown as Observable<any[]>,
+    disabledExpression: (selectOption: any) => isInGroup(selectOption, "group a"),
+    tooltipMessage: "Members typically represent the individual player characters + the GM(s)",
+    warningMessage: "The user you selected is already member of this campaign"
+  },
+};
+
 const dummyForm: FormlyFieldConfig[] = [
   {
     key: 'text',
@@ -72,18 +86,7 @@ const dummyForm: FormlyFieldConfig[] = [
       label: "SomeFile",
     }
   },
-  {
-    key: 'pk',
-    type: "select-disable",
-    props:{
-      label: 'User',
-      labelProp:  'username',
-      options: of(dummyData),
-      disabledExpression: (selectOption: any) => isInGroup(selectOption, "group a"),
-      tooltipMessage: "Members typically represent the individual player characters + the GM(s)",
-      warningMessage: "The user you selected is already member of this campaign"
-    },
-  },
+  dummySelectDisableConfig,
   {
     key: 'date',
     type: 'datepicker',
@@ -179,4 +182,14 @@ Default.args = {}
 export const Disabled = Template.bind({});
 Disabled.args = {
   disabled: true,
+}
+
+export const Prefilled = Template.bind({});
+Prefilled.args = {
+  model: {
+    text: 'Some prefill text',
+    date: '2023-04-14',
+    username: 'admin',
+    file: 'C:\\fakepath\\some\\file.jpg',
+  },
 }

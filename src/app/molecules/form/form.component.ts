@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { FormlyFieldProps } from '@ngx-formly/bootstrap/form-field';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-form',
@@ -22,30 +24,49 @@ export class FormComponent implements OnInit, OnChanges{
   usedFields!: FormlyFieldConfig[];
   
   ngOnInit(): void {
-    this.usedFields = this.disabled 
-      ? this.toDisabledFieldList(this.fields)
-      : this.fields;
+    console.log(this);
+    this.usedFields = this.copyFields(this.fields);
+    
+    if(this.disabled){
+      this.disableFields(this.usedFields);
+    }
   }
   
   ngOnChanges(): void {
-    this.usedFields = this.disabled 
-      ? this.toDisabledFieldList(this.fields)
-      : this.fields;
+    this.usedFields = this.copyFields(this.fields);
+
+    if(this.disabled){
+      this.disableFields(this.usedFields);
+    }
   }
   
-  toDisabledFieldList(fields: FormlyFieldConfig[]): FormlyFieldConfig[]{
-    return fields.map(field => {
-      const newField: FormlyFieldConfig = JSON.parse(JSON.stringify(field));
-      const properties = newField.props;
+  copyFields(fields: FormlyFieldConfig[]): FormlyFieldConfig[]{
+    return fields.map(field => this.copyField(field));
+  }
+  
+  copyField(field: FormlyFieldConfig): FormlyFieldConfig {
+    const newField: FormlyFieldConfig = JSON.parse(JSON.stringify(field));
+    
+    const isSelectFieldWithObservable = field.props?.options instanceof Observable;
+    if(isSelectFieldWithObservable){
+      const properties = newField.props as FormlyFieldProps;
+      properties.options = field.props?.options;
+    }
+    
+    return newField;
+  }
+  
+  disableFields(fields: FormlyFieldConfig[]){
+    for(let field of fields){
+      const properties = field.props;
       
       const canBeDisabled = properties != null;
       if(!canBeDisabled){
-        return newField;
+        continue;
       }
-  
+
       properties.disabled = true;
-      return newField;
-    });
+    }
   }
   
   onSubmit(): void{

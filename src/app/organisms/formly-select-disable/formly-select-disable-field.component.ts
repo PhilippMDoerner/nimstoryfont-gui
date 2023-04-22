@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/bootstrap/form-field';
 import { FieldTypeConfig, FormlyTemplateOptions } from '@ngx-formly/core';
@@ -14,7 +14,7 @@ interface CanDisableOption{
   templateUrl: './formly-select-disable-field.component.html',
   styleUrls: ['./formly-select-disable-field.component.scss']
 })
-export class FormlySelectDisableFieldComponent extends FieldType<FieldTypeConfig> implements OnInit{
+export class FormlySelectDisableFieldComponent extends FieldType<FieldTypeConfig> implements OnInit, OnChanges{
 
   private static EMPTY_OPTION_LABEL = "------";
   private static EMPTY_OPTION_VALUE = null;
@@ -22,14 +22,19 @@ export class FormlySelectDisableFieldComponent extends FieldType<FieldTypeConfig
   selectOptions$: Observable<any[]> = of([]);
   hasInvalidOptionSelected$: Observable<boolean> = of(false);
   isLoading$!: Observable<boolean>;
+  
+  modelValue: any;
 
   ngOnInit(): void {
-
-    const selectOptionValues = this.props.options as Observable<any[]>;
-    this.isLoading$ = selectOptionValues.pipe(
+    const selectOptionValues$ = this.props.options as Observable<any[]>;
+    const areObservableOptions: boolean = (selectOptionValues$ instanceof Observable);
+    if(!areObservableOptions){
+      throw "InvalidSelectOptionsException. You tried to create a FormlySelectDisableComponent - field, but provided an option that wasn't an Observable!"
+    }
+    this.isLoading$ = selectOptionValues$?.pipe(
       map(options => options == null)
     );
-    this.selectOptions$ = selectOptionValues.pipe(
+    this.selectOptions$ = selectOptionValues$?.pipe(
       map(options => {
         const hasOptions = options != null;
         if (!hasOptions){
@@ -41,9 +46,6 @@ export class FormlySelectDisableFieldComponent extends FieldType<FieldTypeConfig
         );
       }),
     );
-    
-    const areObservableOptions: boolean = (selectOptionValues instanceof Observable);
-    if(!areObservableOptions) throw "InvalidSelectOptionsException. You tried to create a FormlySelectDisableComponent - field, but provided an option that wasn't an Observable!"
     
     this.hasInvalidOptionSelected$ = this.selectOptions$.pipe(
       map((canDisableOptions: CanDisableOption[]) => {
@@ -58,6 +60,18 @@ export class FormlySelectDisableFieldComponent extends FieldType<FieldTypeConfig
         return hasSelectedDisabledOption;
       })
     );
+    
+    this.setModelValue();
+  }
+  
+  ngOnChanges(){
+    this.setModelValue();
+  }
+  
+  setModelValue(){
+    const key: string = this.key as string;
+    const model = this.field.model;
+    this.modelValue = model[key];
   }
 
   isDisabledOption(option: any, thisComponentRef: this): boolean{

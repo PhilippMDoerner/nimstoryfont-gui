@@ -20,10 +20,11 @@
         [formControl]="formControl" 
         [formlyAttributes]="field"
       >
-        <ng-container *ngFor="let option of selectOptions$ | async">
+        <ng-container *ngFor="let option of selectOptions$ | async; let i = index">
           <option 
-          [ngValue]="option.value[props['valueProp']]"
-          [disabled]="!option.enabled"
+            [ngValue]="option.value[props['valueProp']]"
+            [disabled]="!option.enabled"
+            [selected]="option.value[props['valueProp']] === modelValue"
           >
             {{option.value[props['labelProp']]}}
           </option>

@@ -2,12 +2,11 @@ import { forwardRef } from '@angular/core';
 import { FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { FormlyModule } from '@ngx-formly/core';
 import { Meta, StoryFn, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 import { of } from 'rxjs';
 import { requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { FormlyOverviewDisabledSelectConfig } from '../_model/formly-fields';
 import { FormlySelectDisableFieldComponent } from './formly-select-disable-field.component';
 
 const dummyData = [
@@ -49,42 +48,19 @@ const dummyData = [
   {"username": "hank_pym", "password": "antman_password", "email": "hank_pym@example.com", "is_active": true, "group_details": [{"name": "Ant-Man and the Wasp", "pk": 13}]}
 ];
 
-const generateFieldConfig = (config: FormlyOverviewDisabledSelectConfig, options: any): FormlyFieldConfig =>{
-  config = {
-    required: true,
-    disabled: false,
-    valueProp: "pk",
-    ...config
-  };
-
-  const validatorList = config.validators ?? [];
-  if (config.required === true ) validatorList.push('required');
-
-  
-  return {
-    key: config.key,
-    type: "select-disable",
-    className: config.className,
-    wrappers: config.wrappers,
-    hideExpression: !!config.hide,
-    props:{
-      label: config.label ?? config.key,
-      labelProp:  config.labelProp  ?? "name_full",
-      valueProp:  config.valueProp,
-      options: of(options),
-      required: config.required ?? true,
-      disabledExpression: config.disabledExpression,
-      tooltipMessage: config.tooltipMessage,
-      warningMessage: config.warningMessage,
-      additionalProperties: {
-        showWrapperLabel: config.showWrapperLabel ?? true,
-      }
-    },
-    validators: {
-      validation: validatorList
-    },
-  };
-}
+const dummyConfig = {
+  key: 'username',
+  type: 'select-disable',
+  props:{
+    label: 'User',
+    labelProp:  'username',
+    valueProp:  'username',
+    options: of(null),
+    disabledExpression: (selectOption: any) => isInGroup(selectOption, "group a"),
+    tooltipMessage: "Members typically represent the individual player characters + the GM(s)",
+    warningMessage: "The user you selected is already member of this campaign"
+  },
+};
 
 const isInGroup = (selectOption: any, groupName: string): boolean => {    
   const groupsOfUser: any[] = selectOption.group_details;
@@ -153,16 +129,7 @@ const Template: StoryFn<FormlySelectDisableFieldComponent> = (args: FormlySelect
   props: {
     ...args,
     fields: [
-      generateFieldConfig({
-        key: "pk", 
-        labelProp: "username", 
-        sortProp: "username", 
-        label: "User",
-        overviewType: null                                                                              ,
-        disabledExpression: (selectOption: any) => isInGroup(selectOption, "group a"),
-        tooltipMessage: "Members typically represent the individual player characters + the GM(s)",
-        warningMessage: "The user you selected is already member of this campaign"
-      }, dummyData),
+      dummyConfig,
     ],
   },
 });
@@ -176,16 +143,13 @@ const TemplateNoOptions: StoryFn<FormlySelectDisableFieldComponent> = (args: For
   props: {
     ...args,
     fields: [
-      generateFieldConfig({
-        key: "pk", 
-        labelProp: "username", 
-        sortProp: "username", 
-        label: "User",
-        overviewType: null                                                                              ,
-        disabledExpression: (selectOption: any) => isInGroup(selectOption, "group a"),
-        tooltipMessage: "Members typically represent the individual player characters + the GM(s)",
-        warningMessage: "The user you selected is already member of this campaign"
-      }, null),
+      {
+        ...dummyConfig,
+        props: {
+          ...dummyConfig.props,
+          options: of(null),
+        },
+      },
     ],
   },
 });

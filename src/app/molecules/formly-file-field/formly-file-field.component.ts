@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 
 @Component({
@@ -6,7 +6,7 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   templateUrl: './formly-file-field.component.html',
   styleUrls: ['./formly-file-field.component.scss']
 })
-export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> {
+export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> implements OnInit{
   //Extends needs to be this elaborate as otherwise the Angular compiler does not know
   //that FieldType.formControl contains all fields required to satisfy the interface FormControl
   //https://github.com/ngx-formly/ngx-formly/issues/2842#issuecomment-1016476706
@@ -14,7 +14,11 @@ export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> {
   
   selectedFilePath?: string;
   
-  onFileSelect(): void {
+  ngOnInit(): void {
+    this.setModelValue();
+  }
+  
+  setModelValue(): void {
     this.selectedFilePath = this.model[this.key as string];
   }
   

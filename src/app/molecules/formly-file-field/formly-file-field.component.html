@@ -1,4 +1,4 @@
-<div class="mb-3" [class.d-none]="to.hidden">
+<div class="mb-3 {{field.className}}" [class.d-none]="to.hidden">
 
   <app-button  
     [class.disabled]="props.disabled" 
@@ -14,7 +14,7 @@
       #fileInputElement
       type="file" 
       class="d-none"
-      (change)="onFileSelect()"
+      (change)="setModelValue()"
       [formControl]="formControl" 
       [formlyAttributes]="field" 
       [id]="to['name']" 

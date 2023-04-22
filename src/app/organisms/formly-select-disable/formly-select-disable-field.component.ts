@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 import { FieldType } from '@ngx-formly/bootstrap/form-field';
 import { FieldTypeConfig, FormlyTemplateOptions } from '@ngx-formly/core';
@@ -14,7 +14,7 @@ interface CanDisableOption{
   templateUrl: './formly-select-disable-field.component.html',
   styleUrls: ['./formly-select-disable-field.component.scss']
 })
-export class FormlySelectDisableFieldComponent extends FieldType<FieldTypeConfig> implements OnInit, OnChanges{
+export class FormlySelectDisableFieldComponent extends FieldType<FieldTypeConfig> implements OnInit{
 
   private static EMPTY_OPTION_LABEL = "------";
   private static EMPTY_OPTION_VALUE = null;
@@ -58,10 +58,6 @@ export class FormlySelectDisableFieldComponent extends FieldType<FieldTypeConfig
         return hasSelectedDisabledOption;
       })
     );
-  }
-  
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("Called");
   }
 
   isDisabledOption(option: any, thisComponentRef: this): boolean{

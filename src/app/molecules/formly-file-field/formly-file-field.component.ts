@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
 import { FileFieldKind } from 'src/app/_models/formly';
 import { ElementType } from 'src/app/atoms/_models/button';
@@ -8,7 +8,7 @@ import { ElementType } from 'src/app/atoms/_models/button';
   templateUrl: './formly-file-field.component.html',
   styleUrls: ['./formly-file-field.component.scss']
 })
-export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> implements OnInit{
+export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> implements OnInit, OnChanges{
   //Extends needs to be this elaborate as otherwise the Angular compiler does not know
   //that FieldType.formControl contains all fields required to satisfy the interface FormControl
   //https://github.com/ngx-formly/ngx-formly/issues/2842#issuecomment-1016476706
@@ -25,13 +25,19 @@ export class FormlyFileFieldComponent extends FieldType<FieldTypeConfig> impleme
     this.fieldKind = this.props['fileFieldKind'];
   }
   
+  ngOnChanges(): void {
+    this.setModelValue();
+  }
+  
   onFileSelect(){
     this.setModelValue();
   }
   
   setModelValue(): void {
-    const filePath = this.model[this.key as string];
-    this.selectedFileName = filePath?.split("\\").pop();
+    const filePath: string = this.model[this.key as string];
+    const isWindowsPath = filePath.includes("\\");
+    const splitter = isWindowsPath ? "\\" : "/";
+    this.selectedFileName = filePath?.split(splitter).pop();
   }
   
   // Required as only clicking on the label counts as clicking on the file-field button

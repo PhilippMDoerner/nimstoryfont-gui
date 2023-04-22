@@ -109,7 +109,7 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges{
   }
   
   onCancel(): void {
-    this.state = 'DISPLAY';
+    this.changeState(null, 'DISPLAY');
   }
 
   onSubmit(event: any): void {

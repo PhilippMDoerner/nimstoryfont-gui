@@ -29,7 +29,7 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges{
   serverModel?: Image = {} as Image;
   isLoading: boolean = false;
   
-  fields: FormlyFieldConfig[] = [
+  createFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({ 
       key: 'name', 
       label: 'Image Title',
@@ -86,6 +86,11 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges{
     }),
   ];
   
+  updateFields: FormlyFieldConfig[] = this.createFields.slice(
+    0, 
+    this.createFields.length - 1
+  ); //Don't include the image file field
+  
   constructor(
     private formlyService: FormlyService,
   ) {}
@@ -99,7 +104,7 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges{
   }
   
   changeState(event: any, newState: State){
-    this.userModel = event ?? {};
+    this.userModel = event ?? null;    
     this.state = newState;
   }
   

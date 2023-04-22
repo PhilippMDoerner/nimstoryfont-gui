@@ -19,29 +19,33 @@ export class FormComponent implements OnInit, OnChanges{
   @Output() formSubmit: EventEmitter<any> = new EventEmitter();
   @Output() formCancel: EventEmitter<null> = new EventEmitter();
 
+  usedFields!: FormlyFieldConfig[];
+  
   ngOnInit(): void {
-    if(this.disabled){
-      this.disableFields();
-    }
+    this.usedFields = this.disabled 
+      ? this.toDisabledFieldList(this.fields)
+      : this.fields;
   }
   
   ngOnChanges(): void {
-    if(this.disabled){
-      this.disableFields();
-    }
+    this.usedFields = this.disabled 
+      ? this.toDisabledFieldList(this.fields)
+      : this.fields;
   }
   
-  disableFields(){
-    for(let field of this.fields){
-      const properties = field.props;
+  toDisabledFieldList(fields: FormlyFieldConfig[]): FormlyFieldConfig[]{
+    return fields.map(field => {
+      const newField: FormlyFieldConfig = JSON.parse(JSON.stringify(field));
+      const properties = newField.props;
       
       const canBeDisabled = properties != null;
       if(!canBeDisabled){
-        continue;
+        return newField;
       }
-
+  
       properties.disabled = true;
-    }
+      return newField;
+    });
   }
   
   onSubmit(): void{

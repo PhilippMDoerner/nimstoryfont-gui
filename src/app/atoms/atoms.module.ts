@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { BadgeComponent } from './badge/badge.component';
 import { ButtonComponent } from './button/button.component';
@@ -20,7 +20,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     InfoCircleTooltipComponent,
   ],
   imports: [
-    CommonModule,
+    BrowserModule,
     RouterModule,
   ],
   exports: [

@@ -86,10 +86,7 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges{
     }),
   ];
   
-  updateFields: FormlyFieldConfig[] = this.createFields.slice(
-    0, 
-    this.createFields.length - 1
-  ); //Don't include the image file field
+  updateFields: FormlyFieldConfig[] = this.formlyService.toUpdateForm(this.createFields);
   
   constructor(
     private formlyService: FormlyService,

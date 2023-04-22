@@ -268,7 +268,7 @@ export class FormlyServiceService {
     }
   }
   
-  genericTextField(config: FormlyInterface): FormlyFieldConfig{
+  buildEditorConfig(config: FormlyInterface): FormlyFieldConfig{
     const validators = this.getValidators(config);
     
     return {
@@ -288,6 +288,20 @@ export class FormlyServiceService {
     }
   }
 
+  /**
+   * Convenience method to quickly turn a form of fields used to
+   * create entries into one for updating entries.
+   * Some fields are forbidden to be part of update forms and so they
+   * will be filtered out of the form. These are:
+   * - File Fields: The Browser does not allow to assign values to a file field
+   *    Trying to do so will cause errors and crashes
+   */
+  toUpdateForm(fields: FormlyFieldConfig[]): FormlyFieldConfig[]{
+    return fields.filter(field => {
+      const isFileField = field.type === 'file';
+      return !isFileField;
+    });
+  }
   
   private getValidators(config: FormlyInterface){
     const validators = config.validators ?? [];

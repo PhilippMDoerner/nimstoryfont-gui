@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { dateMessage, dateValidator, faPrefixMessage, fieldMatchValidator, fieldsDontMatchMessage, hasSpecialCharactersMessage, iconValidator, integerValidator, invalidTimeMessage, notIntegerMessage, requiredIconMessage, requiredIconValidator, requiredMessage, requiredValidator, sessionAlreadyHasAuthor, sessionAuthorUniqueValidator, specialCharacterValidator, timeValidator } from './_services/formly/validators';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AtomsModule } from './atoms/atoms.module';
@@ -38,8 +39,28 @@ import { TemplatesModule } from './templates/templates.module';
     FormlyModule.forRoot({
       types: [
         { name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] },
-        { name: 'text-editor', component: FormlyEditorFieldComponent }
-      ]
+      validationMessages: [
+        invalidTimeMessage,
+        requiredMessage,
+        dateMessage,
+        requiredIconMessage,
+        faPrefixMessage,
+        notIntegerMessage,
+        hasSpecialCharactersMessage,
+        fieldsDontMatchMessage,
+        sessionAlreadyHasAuthor,
+      ],
+      validators: [
+        timeValidator,
+        requiredValidator,
+        dateValidator,
+        requiredIconValidator,
+        iconValidator,
+        integerValidator,
+        specialCharacterValidator,
+        fieldMatchValidator,
+        sessionAuthorUniqueValidator,
+      ],
     }),
     FormlyBootstrapModule,
     HammerModule,

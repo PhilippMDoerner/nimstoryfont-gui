@@ -49,6 +49,16 @@ Danger.args = {
   type: 'DANGER'
 }
 
+export const Light = Template.bind({});
+Light.args = {
+  type: 'LIGHT'
+}
+
+export const Info = Template.bind({});
+Info.args = {
+  type: 'INFO'
+}
+
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {

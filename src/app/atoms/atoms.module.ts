@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AlertComponent } from './alert/alert.component';
 import { BadgeComponent } from './badge/badge.component';
 import { ButtonComponent } from './button/button.component';
 import { IconComponent } from './icon/icon.component';
@@ -19,6 +20,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     BadgeComponent,
     InteractiveBadgeComponent,
     InfoCircleTooltipComponent,
+    AlertComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     BadgeComponent,
     InteractiveBadgeComponent,
     InfoCircleTooltipComponent,
+    AlertComponent,
   ]
 })
 export class AtomsModule { }

@@ -44,9 +44,7 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     FormsModule,
     EditorModule,
     FormlyBootstrapModule,
-    FormlyModule.forRoot({
-      types: [{ name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] }],
-    })
+    FormlyModule,
   ],
   exports: [
     EditToggleComponent,

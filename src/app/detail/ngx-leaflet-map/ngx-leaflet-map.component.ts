@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { LeafletControlLayersConfig } from '@asymmetrik/ngx-leaflet';
 import { CRS, DivIcon, ImageOverlay, LatLngBoundsExpression, Layer, LayerGroup, LeafletMouseEvent, Map, MapOptions, Marker, divIcon, imageOverlay, layerGroup, marker, popup } from 'leaflet';
-import { ExtendedMap } from 'src/app/_models/map';
-import { MapMarker } from 'src/app/_models/mapMarker';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ExtendedMap } from '../_models/map';
+import { MapMarker } from '../_models/mapMarker';
 
 type TextColor = "black" | "white";
 

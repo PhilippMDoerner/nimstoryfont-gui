@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Image } from 'src/app/_models/image';
 import { FormlyServiceService as FormlyService } from 'src/app/_services/formly/formly-service.service';
+import { Image } from '../_models/image';
 
 type State = "DISPLAY" | "DELETE" | "UPDATE" | "UPDATE_OUTDATED" | "CREATE";
 

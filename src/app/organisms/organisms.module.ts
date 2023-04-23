@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormlyModule } from '@ngx-formly/core';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { MoleculesModule } from '../molecules/molecules.module';
 import { FormlyDatepickerFieldComponent } from './formly-datepicker-field/formly-datepicker-field.component';
@@ -19,6 +20,7 @@ import { PageContainerComponent } from './page-container/page-container.componen
   imports: [
     CommonModule,
     MoleculesModule,
+    FormlyModule,
   ],
   exports: [
     PageContainerComponent,

@@ -2,7 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { BadgeListEntry } from '../../_models/badge-list';
+import { BadgeListEntry } from '../_models/badge-list';
 import { SmallCreateFormComponent } from '../small-create-form/small-create-form.component';
 import { BadgeListComponent } from './badge-list.component';
 

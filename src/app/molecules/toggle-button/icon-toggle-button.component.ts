@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ToggleState } from 'src/app/_models/toggle';
 import { ElementType } from 'src/app/atoms/_models/button';
 import { Icon } from 'src/app/atoms/_models/icon';
+import { ToggleState } from '../_models/toggle';
 @Component({
   selector: 'app-icon-toggle-button',
   templateUrl: './icon-toggle-button.component.html',

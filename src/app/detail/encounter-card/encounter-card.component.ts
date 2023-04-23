@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { BadgeListEntry } from 'src/app/_models/badge-list';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyServiceService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { BadgeListEntry } from 'src/app/molecules';
 
 type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE";
 

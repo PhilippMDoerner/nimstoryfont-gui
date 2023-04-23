@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { BadgeListEntry } from 'src/app/_models/badge-list';
 import { ElementType } from 'src/app/atoms/_models/button';
+import { BadgeListEntry } from '../_models/badge-list';
 
 @Component({
   selector: 'app-badge-list',

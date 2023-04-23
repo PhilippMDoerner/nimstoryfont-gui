@@ -1,13 +1,9 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { dateMessage, dateValidator, fieldMatchValidator, fieldsDontMatchMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { FormlyFileFieldComponent } from 'src/app/molecules/formly-file-field/formly-file-field.component';
-import { MoleculesModule } from 'src/app/molecules/molecules.module';
 import { Image } from '../../_models/image';
-import { ImageCarouselCardComponent } from './image-carousel-card.component';
+import { ImageCarouselComponent } from './image-carousel.component';
 
 const dummyImages: Image[] = [
   {
@@ -62,32 +58,14 @@ const dummyImages: Image[] = [
 
 
 export default {
-  title: 'DesignSystem/Organisms/ImageCarouselCardComponent',
-  component: ImageCarouselCardComponent,
+  title: 'Application/Detail/ImageCarouselComponent',
+  component: ImageCarouselComponent,
   decorators: [
     moduleMetadata({
       imports: [
         AtomsModule,
-        MoleculesModule,
         NgbModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] },
-          ],
-          validationMessages: [
-            requiredMessage,
-            dateMessage,
-            notIntegerMessage,
-            fieldsDontMatchMessage,
-          ],
-          validators: [
-            requiredValidator,
-            dateValidator,
-            integerValidator,
-            fieldMatchValidator,
-          ],
-        }),
-      ],       
+      ],
       declarations: [
       ]
     }),
@@ -98,15 +76,17 @@ export default {
     canCreate: true,
     canUpdate: true,
     canDelete: true,
-  },
-} as Meta<ImageCarouselCardComponent>;
+  }
+} as Meta<ImageCarouselComponent>;
 
-const Template: StoryFn<ImageCarouselCardComponent> = (args: ImageCarouselCardComponent) => ({ 
+const Template: StoryFn<ImageCarouselComponent> = (args: ImageCarouselComponent) => ({ 
   props: {
     ...args,
     deleteImage: action('deleteImage'),
     createImage: action('createImage'),
     updateImage: action('updateImage'),
+    slide: action('slide'),
+    slideEnd: action('slideEnd'),
   },
 });
 

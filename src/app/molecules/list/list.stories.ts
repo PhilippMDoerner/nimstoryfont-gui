@@ -1,8 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ListEntry } from 'src/app/_models/list';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
+import { ListEntry } from '../_models/list';
 import { ListComponent } from './list.component';
 
 const dummyEntries: ListEntry[] = [

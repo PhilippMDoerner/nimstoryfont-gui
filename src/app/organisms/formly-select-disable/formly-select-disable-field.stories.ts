@@ -55,7 +55,7 @@ const dummyConfig = {
     label: 'User',
     labelProp:  'username',
     valueProp:  'username',
-    options: of(null),
+    options: of(dummyData),
     disabledExpression: (selectOption: any) => isInGroup(selectOption, "group a"),
     tooltipMessage: "Members typically represent the individual player characters + the GM(s)",
     warningMessage: "The user you selected is already member of this campaign"

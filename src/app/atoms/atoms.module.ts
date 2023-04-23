@@ -47,6 +47,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     HtmlTextComponent,
     SafeHtmlPipe,
     CardComponent,
+    NgbModule,
+    RouterModule,
   ]
 })
 export class AtomsModule { }

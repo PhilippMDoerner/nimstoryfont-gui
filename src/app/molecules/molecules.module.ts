@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { EditorModule } from '@tinymce/tinymce-angular';
@@ -15,7 +13,6 @@ import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/
 import { EditToggleComponent } from './edit-toggle/edit-toggle.component';
 import { FormComponent } from './form/form.component';
 import { FormlyFileFieldComponent } from './formly-file-field/formly-file-field.component';
-import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
 import { ListComponent } from './list/list.component';
 import { PageBackgroundComponent } from './page-background/page-background.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
@@ -33,7 +30,6 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     PageBackgroundComponent,
     SidebarLegendComponent,
     FormlyFileFieldComponent,
-    ImageCarouselComponent,
     FormComponent,
     CompareFormComponent,
     SmallCreateFormComponent,
@@ -44,9 +40,8 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
   imports: [
     CommonModule,
     AtomsModule,
-    NgbModule,
     ReactiveFormsModule,
-    RouterModule,
+    FormsModule,
     EditorModule,
     FormlyBootstrapModule,
     FormlyModule.forRoot({
@@ -61,13 +56,17 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     PageBackgroundComponent,
     SidebarLegendComponent,
     FormlyFileFieldComponent,
-    ImageCarouselComponent,
     FormComponent,
     CompareFormComponent,
     SmallCreateFormComponent,
     ListComponent,
     ConfirmationModalComponent,
     BadgeListComponent,
+    EditorModule,
+    AtomsModule,
+    FormlyBootstrapModule,
+    ReactiveFormsModule,
+    FormsModule,
   ]
 })
 export class MoleculesModule { }

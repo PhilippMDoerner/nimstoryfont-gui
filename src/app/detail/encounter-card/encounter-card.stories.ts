@@ -10,8 +10,8 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { MoleculesModule } from 'src/app/molecules/molecules.module';
+import { FormlyEditorFieldComponent } from 'src/app/organisms';
 import * as all from 'tinymce/tinymce';
-import { FormlyEditorFieldComponent } from '../formly-editor-field/formly-editor-field.component';
 import { EncounterCardComponent } from './encounter-card.component';
 
 const x = all;
@@ -318,7 +318,7 @@ const dummyCharacters: OverviewItem[] = [
 ];
 
 export default {
-  title: 'DesignSystem/Organisms/EncounterCardComponent',
+  title: 'Application/Detail/EncounterCardComponent',
   component: EncounterCardComponent,
   decorators: [
     moduleMetadata({

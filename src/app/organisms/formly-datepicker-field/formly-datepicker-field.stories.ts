@@ -1,10 +1,9 @@
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { Meta, StoryFn, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
-import { FormlyDatepickerFieldComponent } from './formly-datepicker-field.component';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
+import { FormlyDatepickerFieldComponent } from './formly-datepicker-field.component';
 
 
 export default {
@@ -30,7 +29,6 @@ export default {
         AtomsModule,
         ReactiveFormsModule,
         FormlyBootstrapModule,
-        NgbModule,
         FormlyModule.forRoot({
           types: [
             { name: 'datepicker', component: FormlyDatepickerFieldComponent },

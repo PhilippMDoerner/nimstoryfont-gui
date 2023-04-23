@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
@@ -38,6 +39,7 @@ import { TemplatesModule } from './templates/templates.module';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
+    LeafletModule,
     FormlyModule.forRoot({
       types: [
         { name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] },

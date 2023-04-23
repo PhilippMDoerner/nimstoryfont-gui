@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
@@ -12,7 +13,7 @@ import { FormlyDatepickerFieldComponent } from './formly-datepicker-field/formly
 import { FormlyEditorFieldComponent } from './formly-editor-field/formly-editor-field.component';
 import { FormlySelectDisableFieldComponent } from './formly-select-disable/formly-select-disable-field.component';
 import { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';
-import { LeafletMapComponent } from './leaflet-map/leaflet-map.component';
+import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 
 
@@ -24,7 +25,7 @@ import { PageContainerComponent } from './page-container/page-container.componen
     FormlyDatepickerFieldComponent,
     FormlySelectDisableFieldComponent,
     ImageCarouselCardComponent,
-    LeafletMapComponent,
+    NgxLeafletMapComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +38,7 @@ import { PageContainerComponent } from './page-container/page-container.componen
     FormlyBootstrapModule,
     FormlyModule,
     NgbModule,
+    LeafletModule,
   ],
   exports: [
     PageContainerComponent,

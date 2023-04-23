@@ -13,7 +13,7 @@
 
 <ng-template #displayState>
   <app-badge 
-    class="pointer hover-highlight"
+    class="display-form"
     [type]="'PRIMARY'"
     [icon]="'plus'"
     [text]="badgeText"
@@ -44,7 +44,7 @@
     <!-- Cancel Button -->
     <app-button 
       class="mx-2" 
-      [type]="'SECONDARY'"
+      [type]="cancelButtonType"
       [size]="'SMALL'"
       (click)="onCancel()"
     >
@@ -53,7 +53,7 @@
       
     <!-- Submit Button -->
     <app-button 
-      [type]="'PRIMARY'"
+      [type]="submitButtonType"
       [size]="'SMALL'"
       (click)="onSubmit()"
     >

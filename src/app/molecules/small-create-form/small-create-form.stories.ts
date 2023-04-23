@@ -37,6 +37,8 @@ export default {
     labelProp: 'myLabel',
     valueProp: 'myValue',
     badgeText: 'Add Entry',
+    submitButtonType: 'PRIMARY',
+    cancelButtonType: 'SECONDARY',
   }
 } as Meta<SmallCreateFormComponent>;
 

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { ElementType } from 'src/app/atoms/_models/button';
 
 type State = 'DISPLAY' | 'CREATE';
 
@@ -13,6 +14,8 @@ export class SmallCreateFormComponent {
   @Input() labelProp!: string;
   @Input() badgeText: string = 'Add Entry';
   @Input() valueProp!: string;
+  @Input() submitButtonType: ElementType = 'PRIMARY';
+  @Input() cancelButtonType: ElementType = 'SECONDARY';
   @Input() isDisabledFunction: Function = (_: any) => false;
   
   @Output() create: EventEmitter<any> = new EventEmitter();

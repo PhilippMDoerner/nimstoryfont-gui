@@ -18,6 +18,7 @@ import { PageBackgroundComponent } from './page-background/page-background.compo
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
+import { ListComponent } from './list/list.component';
 
 
 
@@ -33,7 +34,8 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     ImageCarouselComponent,
     FormComponent,
     CompareFormComponent,
-    SmallCreateFormComponent
+    SmallCreateFormComponent,
+    ListComponent
   ],
   imports: [
     CommonModule,

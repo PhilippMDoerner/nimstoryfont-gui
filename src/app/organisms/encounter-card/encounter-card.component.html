@@ -1,4 +1,4 @@
-<div class="card">
+<app-card class="card__root">
   <h4 class="card__heading">
     {{ encounter.title }}
     <app-edit-toggle
@@ -23,7 +23,7 @@
       [ngTemplateOutlet]="encounterUpdateState"
     ></ng-container>
   </ng-container>
-</div>
+</app-card>
 
 <ng-template #encounterDisplayState>
   <!-- Encounter -->

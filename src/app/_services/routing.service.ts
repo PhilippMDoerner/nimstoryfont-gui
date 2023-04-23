@@ -11,7 +11,7 @@ export class RoutingService {
     private router: Router,
   ) {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-   }
+  }
 
   public routeToPath(routeName: string, params: any = {}): void{
     const routePath: string = this.getRoutePath(routeName, params)
@@ -21,6 +21,7 @@ export class RoutingService {
 
 
   public getRoutePath(routeName: string, params: any = {}): string{
+    return "Dummy/url";
     let variableRoutePath = this.getVariableRoutePathByName(routeName);
 
     if (this.hasPathVariables(variableRoutePath)){

@@ -3,6 +3,7 @@ import { LeafletControlLayersConfig } from '@asymmetrik/ngx-leaflet';
 import { CRS, DivIcon, ImageOverlay, LatLngBoundsExpression, Layer, LayerGroup, LeafletMouseEvent, Map, MapOptions, Marker, divIcon, imageOverlay, layerGroup, marker, popup } from 'leaflet';
 import { ExtendedMap } from 'src/app/_models/map';
 import { MapMarker } from 'src/app/_models/mapMarker';
+import { RoutingService } from 'src/app/_services/routing.service';
 
 type TextColor = "black" | "white";
 
@@ -32,7 +33,7 @@ export class NgxLeafletMapComponent implements OnInit{
   hideCoordinatesState: boolean = true;
   
   constructor(
-    // private routingService: RoutingService,
+    private routingService: RoutingService,
   ){}
   
   ngOnInit(): void {
@@ -175,11 +176,11 @@ export class NgxLeafletMapComponent implements OnInit{
   }
   
   private makeLocationHeading(marker: MapMarker): string {
-    const location_url = "dummy/url" //this.routingService.getRoutePath('location', {
-    //   campaign: this.campaignName,
-    //   parent_name: marker.location_details?.parent_location_name,
-    //   name: marker.location_details?.name,
-    // });
+    const location_url = this.routingService.getRoutePath('location', {
+      campaign: this.campaignName,
+      parent_name: marker.location_details?.parent_location_name,
+      name: marker.location_details?.name,
+    });
     const heading: string = `<a href="${location_url}"> <b>${marker.location_details?.name}</b> </a>`;
     return heading;
   }
@@ -215,11 +216,11 @@ export class NgxLeafletMapComponent implements OnInit{
 
     let sublocationList: string = ' <ul>';
     for (let sublocationName of location.sublocations) {
-      const sublocationUrl = "dummy/url" //this.routingService.getRoutePath('location', {
-      //   parent_name: location.name,
-      //   name: sublocationName,
-      //   campaign: this.campaignName,
-      // });
+      const sublocationUrl = this.routingService.getRoutePath('location', {
+        parent_name: location.name,
+        name: sublocationName,
+        campaign: this.campaignName,
+      });
       sublocationList += `<li><a href="${sublocationUrl}"> ${sublocationName}</a></li>`;
     }
     sublocationList += '</ul>';
@@ -255,25 +256,25 @@ export class NgxLeafletMapComponent implements OnInit{
   
   
   makeFreePopupContentHTML(longitude: number, latitude: number): string {
-    const markerMapCreateUrl: string = '/dummy/marker/create/url'; //this.routingService.getRoutePath(
-    //   'marker-map-create',
-    //   {
-    //     latitude: latitude,
-    //     longitude: longitude,
-    //     map_name: this.map.name,
-    //     campaign: this.campaignName,
-    //   }
-    // );
+    const markerMapCreateUrl: string =this.routingService.getRoutePath(
+      'marker-map-create',
+      {
+        latitude: latitude,
+        longitude: longitude,
+        map_name: this.mapData.name,
+        campaign: this.campaignName,
+      }
+    );
 
-    const locationMapCreateUrl: string = '/dummy/location/create/url'; //this.routingService.getRoutePath(
-    //   'location-map-create',
-    //   {
-    //     latitude: latitude,
-    //     longitude: longitude,
-    //     map_name: this.map.name,
-    //     campaign: this.campaignName,
-    //   }
-    // );
+    const locationMapCreateUrl: string = this.routingService.getRoutePath(
+      'location-map-create',
+      {
+        latitude: latitude,
+        longitude: longitude,
+        map_name: this.mapData.name,
+        campaign: this.campaignName,
+      }
+    );
 
     const popupContentHTML: string = `
       <div class="mb-2 pointer"> 

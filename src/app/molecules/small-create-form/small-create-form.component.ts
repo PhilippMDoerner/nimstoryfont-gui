@@ -28,7 +28,6 @@ export class SmallCreateFormComponent {
   onChange(event: any){
     const selectedIndex = event.srcElement.value;
     this.userModel = this.options[selectedIndex];
-    console.log(this.userModel, event);
   }
   
   onCancel(){

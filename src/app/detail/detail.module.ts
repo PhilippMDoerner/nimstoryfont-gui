@@ -9,6 +9,8 @@ import { EncounterComponent } from './encounter/encounter.component';
 import { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';
 import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
 import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
+import { LocationComponent } from './location/location.component';
+import { LocationAccordionComponent } from './location-accordion/location-accordion.component';
 
 
 
@@ -18,7 +20,9 @@ import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.compon
     ImageCarouselCardComponent,
     NgxLeafletMapComponent,
     EncounterAccordionComponent,
-    EncounterComponent
+    EncounterComponent,
+    LocationComponent,
+    LocationAccordionComponent
   ],
   imports: [
     CommonModule,

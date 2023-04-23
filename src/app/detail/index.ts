@@ -3,6 +3,7 @@ export { ApiObject, ArticleObject } from './_models/article';
 export { Character, CharacterLocation, CharacterOrganization } from './_models/character';
 export { Encounter, EncounterConnection } from './_models/encounter';
 export { Image } from './_models/image';
+export { Location, LocationCharacter, SubLocation } from './_models/location';
 export { ExtendedMap, Map } from './_models/map';
 export { MapMarker } from './_models/mapMarker';
 export { MapMarkerType } from './_models/mapMarkerType';
@@ -11,4 +12,6 @@ export { EncounterAccordionComponent } from './encounter-accordion/encounter-acc
 export { EncounterComponent } from './encounter/encounter.component';
 export { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';
 export { ImageCarouselComponent } from './image-carousel/image-carousel.component';
+export { LocationAccordionComponent } from './location-accordion/location-accordion.component';
+export { LocationComponent } from './location/location.component';
 export { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';

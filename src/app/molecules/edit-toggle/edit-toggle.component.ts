@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { ToggleState } from 'src/app/_models/toggle';
 
 @Component({
   selector: 'app-edit-toggle',
@@ -6,4 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./edit-toggle.component.scss']
 })
 export class EditToggleComponent {
+  @Output() toggle: EventEmitter<ToggleState> = new EventEmitter();
 }

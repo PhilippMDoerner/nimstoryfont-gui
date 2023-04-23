@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { IconToggleButtonComponent } from './icon-toggle-button.component';
@@ -22,6 +23,7 @@ export default {
 const Template: StoryFn<IconToggleButtonComponent> = (args: IconToggleButtonComponent) => ({ 
   props: {
     ...args,
+    toggle: action('toggle'),
   },
 });
 

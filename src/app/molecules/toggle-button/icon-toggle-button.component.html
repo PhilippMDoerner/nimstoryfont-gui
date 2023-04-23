@@ -1,4 +1,4 @@
-<app-button [type]="buttonType" (click)="toggle()">
+<app-button [type]="buttonType" (click)="onClick()">
   <ng-container [ngSwitch]="state">
     
     <ng-container *ngSwitchCase="'TOGGLED'">

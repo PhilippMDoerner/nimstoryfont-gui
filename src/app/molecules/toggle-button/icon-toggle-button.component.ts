@@ -1,9 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ToggleState } from 'src/app/_models/toggle';
 import { ElementType } from 'src/app/atoms/_models/button';
 import { Icon } from 'src/app/atoms/_models/icon';
-
-type ButtonState = 'TOGGLED' | 'UNTOGGLED';
-
 @Component({
   selector: 'app-icon-toggle-button',
   templateUrl: './icon-toggle-button.component.html',
@@ -14,10 +12,13 @@ export class IconToggleButtonComponent {
   @Input() untoggledStateIcon!: Icon;
   @Input() buttonType: ElementType = 'SECONDARY';
   
-  state: ButtonState = 'UNTOGGLED';
+  @Output() toggle: EventEmitter<ToggleState> = new EventEmitter();
   
-  toggle(){
+  state: ToggleState = 'UNTOGGLED';
+  
+  onClick(){
     const isToggled = this.state === 'TOGGLED';
     this.state = isToggled ? 'UNTOGGLED' : 'TOGGLED';
+    this.toggle.emit(this.state);
   }
 }

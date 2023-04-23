@@ -10,6 +10,7 @@ import { InfoCircleTooltipComponent } from './info-circle-tooltip/info-circle-to
 import { InteractiveBadgeComponent } from './interactive-badge/interactive-badge.component';
 import { SeparatorComponent } from './separator/separator.component';
 import { SpinnerComponent } from './spinner/spinner.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 
@@ -23,6 +24,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     InfoCircleTooltipComponent,
     AlertComponent,
     SeparatorComponent,
+    ModalComponent,
   ],
   imports: [
     CommonModule,

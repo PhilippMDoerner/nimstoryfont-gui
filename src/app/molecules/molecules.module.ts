@@ -61,7 +61,10 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     FormlyFileFieldComponent,
     ImageCarouselComponent,
     FormComponent,
-    CompareFormComponent
+    CompareFormComponent,
+    SmallCreateFormComponent,
+    ListComponent,
+    ConfirmationModalComponent
   ]
 })
 export class MoleculesModule { }

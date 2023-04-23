@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ToggleState } from 'src/app/_models/toggle';
+import { ElementType } from 'src/app/atoms/_models/button';
 
 @Component({
   selector: 'app-edit-toggle',
@@ -7,5 +8,6 @@ import { ToggleState } from 'src/app/_models/toggle';
   styleUrls: ['./edit-toggle.component.scss']
 })
 export class EditToggleComponent {
+  @Input() buttonType: ElementType = 'SECONDARY';
   @Output() toggle: EventEmitter<ToggleState> = new EventEmitter();
 }

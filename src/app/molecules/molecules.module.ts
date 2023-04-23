@@ -8,6 +8,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { AtomsModule } from '../atoms/atoms.module';
 import { ArticleFooterComponent } from './article-footer/article-footer.component';
+import { BadgeListComponent } from './badge-list/badge-list.component';
 import { CompareFormComponent } from './compare-form/compare-form.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/confirmation-toggle-button.component';
@@ -37,7 +38,8 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     CompareFormComponent,
     SmallCreateFormComponent,
     ListComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    BadgeListComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +66,8 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
     CompareFormComponent,
     SmallCreateFormComponent,
     ListComponent,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    BadgeListComponent,
   ]
 })
 export class MoleculesModule { }

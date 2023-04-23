@@ -1,0 +1,20 @@
+
+.badge-list{
+  display: inline-flex;
+  
+  &__label{
+    margin-right: var(--spacer-4);
+  }
+  
+  &__list{
+    display: inline-flex;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  &__entry,
+  &__create-form{
+    margin: var(--spacer-0) var(--spacer-2) var(--spacer-2) var(--spacer-1);
+  }
+
+}

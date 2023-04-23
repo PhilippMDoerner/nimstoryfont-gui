@@ -1,0 +1,30 @@
+<div class="badge-list">
+  <span class="badge-list__label"> {{ label }}: </span>
+  <div class="badge-list__list">
+    <ng-container *ngFor="let entry of entries">
+      <app-interactive-badge
+        class="badge-list__entry"
+        [type]="'DARK'"
+        [iconType]="'DANGER'"
+        [text]="entry.text"
+        [textLink]="entry.link"
+        [icon]="canDelete ? 'trash' : undefined"
+        (iconClick)="onEntryDelete(entry)"
+      ></app-interactive-badge>
+    </ng-container>
+  
+    <!-- Connection Create Form -->
+    <ng-container *ngIf="canCreate">
+      <app-small-create-form
+        class="badge-list__create-form"
+        [options]="options"
+        [labelProp]="optionLabelProp"
+        [valueProp]="optionValueProp"
+        [badgeText]="'Add ' + label"
+        [cancelButtonType]="'DARK'"
+        (create)="onEntryCreate($event)"
+      ></app-small-create-form>
+    </ng-container>
+  
+  </div>
+</div>

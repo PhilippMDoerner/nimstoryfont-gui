@@ -22,11 +22,13 @@
       (click)="iconClick.emit()"
       class="badge badge--part2"
       [ngClass]="{
-        'bg-primary': type === 'PRIMARY',
-        'bg-secondary': type === 'SECONDARY',
-        'bg-dark': type === 'DARK',
-        'bg-danger': type === 'DANGER',
-        'bg-warning': type === 'WARNING',
+        'bg-primary': iconType === 'PRIMARY',
+        'bg-secondary': iconType === 'SECONDARY',
+        'bg-dark': iconType === 'DARK',
+        'bg-danger': iconType === 'DANGER',
+        'bg-warning': iconType === 'WARNING',
+        'bg-info': iconType === 'INFO',
+        'bg-light': iconType === 'LIGHT',
       }"
     >
       <app-icon [icon]="icon"></app-icon>

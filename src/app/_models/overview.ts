@@ -15,3 +15,5 @@ export type ArticleKind = "CHARACTER"
   | "USER"
   | "SESSION"
   | "SESSIONAUDIO"
+  
+  export type OverviewItem = any;

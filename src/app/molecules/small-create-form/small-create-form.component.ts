@@ -39,8 +39,12 @@ export class SmallCreateFormComponent {
   }
   
   onSubmit(){
-    this.create.emit(this.userModel);
     this.changeState('DISPLAY');
+    
+    const hasValue = this.userModel[this.valueProp] != null;
+    if(hasValue){
+      this.create.emit(this.userModel);
+    }
     this.userModel = {};
   }
 }

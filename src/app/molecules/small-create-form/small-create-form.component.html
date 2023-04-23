@@ -29,6 +29,7 @@
       [id]="'select'"
       (change)="onChange($event)"
     >
+      <option [value]="undefined">-----</option>
       <ng-container *ngFor="let option of options; let i = index">
         <option 
           [value]="i"

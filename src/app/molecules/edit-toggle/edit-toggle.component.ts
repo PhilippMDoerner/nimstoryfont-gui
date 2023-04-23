@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ToggleState } from 'src/app/_models/toggle';
 import { ElementType } from 'src/app/atoms/_models/button';
 
 @Component({
@@ -9,5 +8,11 @@ import { ElementType } from 'src/app/atoms/_models/button';
 })
 export class EditToggleComponent {
   @Input() buttonType: ElementType = 'SECONDARY';
-  @Output() toggle: EventEmitter<ToggleState> = new EventEmitter();
+  @Input() toggled: boolean = false;
+  @Output() toggle: EventEmitter<boolean> = new EventEmitter();
+  
+  onClick(){
+    this.toggled = !this.toggled;
+    this.toggle.emit(this.toggled);
+  }
 }

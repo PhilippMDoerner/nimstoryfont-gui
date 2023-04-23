@@ -1,6 +1,3 @@
-<app-icon-toggle-button
-  [buttonType]="buttonType"
-  [toggledStateIcon]="'times'"
-  [untoggledStateIcon]="'pencil'"
-  (toggle)="toggle.emit($event)"
-></app-icon-toggle-button>
+<app-button [type]="buttonType" (click)="onClick()">
+  <app-icon [icon]="toggled ? 'times' : 'pencil'"></app-icon>
+</app-button>

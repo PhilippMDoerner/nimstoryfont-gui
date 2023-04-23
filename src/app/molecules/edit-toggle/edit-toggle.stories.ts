@@ -17,6 +17,10 @@ export default {
       ],
     }),
   ],
+  args: {
+    toggled: false,
+    buttonType: 'SECONDARY',
+  }
 } as Meta<EditToggleComponent>;
 
 const Template: StoryFn<EditToggleComponent> = (args: EditToggleComponent) => ({ 

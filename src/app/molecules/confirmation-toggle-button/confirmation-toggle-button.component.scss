@@ -2,6 +2,7 @@
 
 :host{
   --align: start;
+  --confirmation-bg-color: var(--bs-card-bg)
   
   display: flex;
   justify-content: var(--align);
@@ -15,6 +16,7 @@
   border-radius: 4px;
   padding: var(--spacer-2) var(--spacer-3);
   justify-content: space-between;
+  background-color: var(--confirmation-bg-color);
   
   @media(max-width: $large-screen){
     flex-direction: column;

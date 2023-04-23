@@ -1,0 +1,111 @@
+<div class="card">
+  <h4 class="card__heading">
+    {{ encounter.title }}
+    <app-edit-toggle
+      *ngIf="canUpdate" 
+      [buttonType]="'DARK'"
+      [toggled]="state !== 'DISPLAY'"
+      (toggle)="onToggle($event)"
+    ></app-edit-toggle>
+  </h4>
+  
+  <ng-container [ngSwitch]="state">
+    <ng-container
+      *ngSwitchCase="'DISPLAY'"
+      [ngTemplateOutlet]="encounterDisplayState"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'UPDATE'"
+      [ngTemplateOutlet]="encounterUpdateState"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'OUTDATEDUPDATE'"
+      [ngTemplateOutlet]="encounterUpdateState"
+    ></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #encounterDisplayState>
+  <!-- Encounter -->
+  <div class="card__text">
+    <app-html-text [text]="encounter.description"></app-html-text>
+  </div>
+
+  <app-separator></app-separator>
+  
+  <!-- Encounter Connections -->
+  <div class="card__connections connections">
+      <span class="connections__label"> Characters: </span>
+      <div class="connections__list">
+
+          <!-- Connection List -->
+          <ng-container *ngFor="let connection of connections; let connectionIndex=index">
+            <app-interactive-badge
+              class="connections__connection"
+              [type]="'DARK'"
+              [iconType]="'DANGER'"
+              [text]="connection.text"
+              [textLink]="connection.link"
+              [icon]="canDelete ? 'trash' : undefined"
+              (iconClick)="onConnectionDelete(connectionIndex)"
+            ></app-interactive-badge>
+          </ng-container>
+
+          <!-- Connection Create Form -->
+          
+          <ng-container *ngIf="canCreate">
+            <app-small-create-form
+              class="connections__create-form"
+              [options]="characters"
+              [labelProp]="'name'"
+              [valueProp]="'pk'"
+              [badgeText]="'Add Character'"
+              [cancelButtonType]="'DARK'"
+              (create)="onConnectionCreate($event)"
+            ></app-small-create-form>
+          </ng-container>
+
+      </div>
+  </div>
+  
+  <!-- Encounter Footer/Delete Toggle -->
+  <ng-container *ngIf="canDelete">
+    <app-confirmation-toggle-button
+      class="card__delete-confirmer"
+      [toggleType]="'DANGER'"
+      [confirmationQuestion]="'Delete this encounter?'"
+      (confirm)="onEncounterDelete()"
+    >
+      <app-icon [icon]="'trash'"></app-icon>
+    </app-confirmation-toggle-button>
+  </ng-container>
+
+</ng-template>
+
+<!-- Form to Update Encounters -->
+<ng-template #encounterUpdateState>
+  <div>
+      <h4> {{userModel?.title}} </h4>
+
+      <ng-container *ngIf="canUpdate && state === 'UPDATE'">
+          <app-form
+            [model]="userModel" 
+            [fields]="formlyFields"
+            [cancelButtonType]="'DARK'"
+            (formlySubmit)="onEncounterUpdate(userModel)" 
+            (formlyCancel)="changeState('DISPLAY')"
+          ></app-form>
+      </ng-container>
+
+      <ng-container *ngIf="canUpdate && state === 'OUTDATEDUPDATE'">
+          <app-compare-form
+            [fields]="formlyFields"
+            [modelFromUser]="userModel"
+            [modelFromServer]="serverModel"
+            [displayVertically]="true"
+            (updateSubmit)="onEncounterUpdate(userModel)"
+            (cancel)="changeState('DISPLAY')"
+          ></app-compare-form>  
+      </ng-container>
+  </div>
+</ng-template>

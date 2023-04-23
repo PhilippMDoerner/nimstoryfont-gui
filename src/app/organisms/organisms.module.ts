@@ -15,6 +15,7 @@ import { FormlySelectDisableFieldComponent } from './formly-select-disable/forml
 import { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';
 import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
 import { PageContainerComponent } from './page-container/page-container.component';
+import { EncounterCardComponent } from './encounter-card/encounter-card.component';
 
 
 
@@ -26,6 +27,7 @@ import { PageContainerComponent } from './page-container/page-container.componen
     FormlySelectDisableFieldComponent,
     ImageCarouselCardComponent,
     NgxLeafletMapComponent,
+    EncounterCardComponent,
   ],
   imports: [
     CommonModule,

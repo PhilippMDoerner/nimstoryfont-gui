@@ -1,15 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { BadgeListEntry } from 'src/app/_models/badge-list';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyServiceService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 
 type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE";
-interface Connection{
-  text: string;
-  link: string;
-}
 
 
 @Component({
@@ -33,7 +30,7 @@ export class EncounterCardComponent implements OnInit{
 
   userModel!: Encounter;
   state: EncounterState = 'DISPLAY';
-  connections!: Connection[];
+  badgeEntries!: BadgeListEntry[];
   
   formlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
@@ -61,7 +58,7 @@ export class EncounterCardComponent implements OnInit{
   
   ngOnInit(): void {
     const encounterConnections = this.encounter.encounterConnections ?? [];
-    this.connections = this.parseConnection(encounterConnections);
+    this.badgeEntries = this.parseConnection(encounterConnections);
   }
   
   changeState(newState: EncounterState){
@@ -78,18 +75,11 @@ export class EncounterCardComponent implements OnInit{
     this.changeState('DISPLAY');
   }
   
-  onConnectionDelete(connectionIndex: number){
+  onConnectionDelete(connection: EncounterConnection){
     if(!this.canDelete){
       return;
     }
-    
-    const connections = this.encounter.encounterConnections;
-    const hasConnection = connections && connections.length > connectionIndex;
-    if(!hasConnection){
-      throw `EncounterCard - Trying to delete encounter connection at index '${connectionIndex}', but this encounter only has '${connections?.length}' connections!`;  
-    }
-    
-    const connection = connections[connectionIndex];
+  
     this.connectionDelete.emit(connection);
   }
   
@@ -105,19 +95,20 @@ export class EncounterCardComponent implements OnInit{
     this.state = toggled ? 'UPDATE' : 'DISPLAY';
   }
       
-  private parseConnection(connections: EncounterConnection[]): Connection[]{
+  private parseConnection(connections: EncounterConnection[]): BadgeListEntry[]{
     return connections.map(con => {
       const characterName = con.character_details?.name as string;
       const link = this.routingService.getRoutePath(
         'character', 
         {
-          name: characterName, 
+          name: characterName,
           campaign: this.campaignName,
         }
       );
       
       return { 
         text: characterName,
+        badgeValue: con,
         link
       };
     });

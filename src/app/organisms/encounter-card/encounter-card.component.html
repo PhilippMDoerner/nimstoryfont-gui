@@ -34,38 +34,18 @@
   <app-separator></app-separator>
   
   <!-- Encounter Connections -->
-  <div class="card__connections connections">
-      <span class="connections__label"> Characters: </span>
-      <div class="connections__list">
-
-          <!-- Connection List -->
-          <ng-container *ngFor="let connection of connections; let connectionIndex=index">
-            <app-interactive-badge
-              class="connections__connection"
-              [type]="'DARK'"
-              [iconType]="'DANGER'"
-              [text]="connection.text"
-              [textLink]="connection.link"
-              [icon]="canDelete ? 'trash' : undefined"
-              (iconClick)="onConnectionDelete(connectionIndex)"
-            ></app-interactive-badge>
-          </ng-container>
-
-          <!-- Connection Create Form -->
-          
-          <ng-container *ngIf="canCreate">
-            <app-small-create-form
-              class="connections__create-form"
-              [options]="characters"
-              [labelProp]="'name'"
-              [valueProp]="'pk'"
-              [badgeText]="'Add Character'"
-              [cancelButtonType]="'DARK'"
-              (create)="onConnectionCreate($event)"
-            ></app-small-create-form>
-          </ng-container>
-
-      </div>
+  <div class="card__connections">
+      <app-badge-list
+        [entries]="badgeEntries"
+        [options]="characters"
+        [optionLabelProp]="'name'"
+        [optionValueProp]="'pk'"
+        [canCreate]="canCreate"
+        [canDelete]="canDelete"
+        [cancelButtonType]="'DARK'"
+        (entryCreate)="onConnectionCreate($event)"
+        (entryDelete)="onConnectionDelete($event)"
+      ></app-badge-list>
   </div>
   
   <!-- Encounter Footer/Delete Toggle -->

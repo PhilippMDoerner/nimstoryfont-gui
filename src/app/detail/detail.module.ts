@@ -4,7 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FormlyModule } from '@ngx-formly/core';
 import { OrganismsModule } from '../organisms/organisms.module';
-import { EncounterCardComponent } from './encounter-card/encounter-card.component';
+import { EncounterAccordionComponent } from './encounter-accordion/encounter-accordion.component';
+import { EncounterComponent } from './encounter/encounter.component';
 import { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';
 import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
 import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
@@ -13,10 +14,11 @@ import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.compon
 
 @NgModule({
   declarations: [
-    EncounterCardComponent,
     ImageCarouselComponent,
     ImageCarouselCardComponent,
-    NgxLeafletMapComponent
+    NgxLeafletMapComponent,
+    EncounterAccordionComponent,
+    EncounterComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,6 @@ import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.compon
     FormlyModule
   ],
   exports: [
-    EncounterCardComponent,
     ImageCarouselComponent,
     ImageCarouselCardComponent,
     NgxLeafletMapComponent,

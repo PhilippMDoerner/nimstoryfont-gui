@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyServiceService } from 'src/app/_services/formly/formly-service.service';
@@ -8,13 +8,12 @@ import { BadgeListEntry } from 'src/app/molecules';
 
 type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE";
 
-
 @Component({
-  selector: 'app-encounter-card',
-  templateUrl: './encounter-card.component.html',
-  styleUrls: ['./encounter-card.component.scss']
+  selector: 'app-encounter',
+  templateUrl: './encounter.component.html',
+  styleUrls: ['./encounter.component.scss']
 })
-export class EncounterCardComponent implements OnInit{
+export class EncounterComponent {
   @Input() encounter!: Encounter;
   @Input() characters!: OverviewItem[];
   @Input() campaignName!: string;

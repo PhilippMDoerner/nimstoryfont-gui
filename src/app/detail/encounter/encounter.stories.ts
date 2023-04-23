@@ -12,7 +12,7 @@ import { Encounter, EncounterConnection } from 'src/app/detail/_models/encounter
 import { MoleculesModule } from 'src/app/molecules/molecules.module';
 import { FormlyEditorFieldComponent } from 'src/app/organisms';
 import * as all from 'tinymce/tinymce';
-import { EncounterCardComponent } from './encounter-card.component';
+import { EncounterComponent } from './encounter.component';
 
 const x = all;
 
@@ -318,8 +318,8 @@ const dummyCharacters: OverviewItem[] = [
 ];
 
 export default {
-  title: 'Application/Detail/EncounterCardComponent',
-  component: EncounterCardComponent,
+  title: 'Application/Detail/EncounterComponent',
+  component: EncounterComponent,
   decorators: [
     moduleMetadata({
       imports: [
@@ -358,9 +358,9 @@ export default {
     canUpdate: true,
     canDelete: true,
   },
-} as Meta<EncounterCardComponent>;
+} as Meta<EncounterComponent>;
 
-const Template: StoryFn<EncounterCardComponent> = (args: EncounterCardComponent) => ({ 
+const Template: StoryFn<EncounterComponent> = (args: EncounterComponent) => ({ 
   props: {
     ...args,
     connectionDelete: action('connectionDelete'),

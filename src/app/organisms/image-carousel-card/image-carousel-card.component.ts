@@ -14,6 +14,7 @@ type State = "DISPLAY" | "DELETE" | "UPDATE" | "UPDATE_OUTDATED" | "CREATE";
 export class ImageCarouselCardComponent implements OnInit, OnChanges{
   @Input() images!: Image[];
   @Input() serverUrl!: string;
+  @Input() serverModel?: Image;
   @Input() canUpdate: boolean = false;
   @Input() canCreate: boolean = false;
   @Input() canDelete: boolean = false;
@@ -26,7 +27,6 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges{
   currentImage!: Image;
   state: State = 'DISPLAY';
   userModel?: Image = {} as Image;
-  serverModel?: Image = {} as Image;
   isLoading: boolean = false;
   
   createFields: FormlyFieldConfig[] = [

@@ -9,16 +9,17 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { AtomsModule } from '../atoms/atoms.module';
 import { ArticleFooterComponent } from './article-footer/article-footer.component';
 import { CompareFormComponent } from './compare-form/compare-form.component';
+import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/confirmation-toggle-button.component';
 import { EditToggleComponent } from './edit-toggle/edit-toggle.component';
 import { FormComponent } from './form/form.component';
 import { FormlyFileFieldComponent } from './formly-file-field/formly-file-field.component';
 import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
+import { ListComponent } from './list/list.component';
 import { PageBackgroundComponent } from './page-background/page-background.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
-import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
-import { ListComponent } from './list/list.component';
+import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.component';
 
 
 
@@ -35,7 +36,8 @@ import { ListComponent } from './list/list.component';
     FormComponent,
     CompareFormComponent,
     SmallCreateFormComponent,
-    ListComponent
+    ListComponent,
+    ConfirmationModalComponent
   ],
   imports: [
     CommonModule,

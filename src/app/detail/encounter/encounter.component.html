@@ -62,28 +62,24 @@
 
 <!-- Form to Update Encounters -->
 <ng-template #encounterUpdateState>
-  <div>
-      <h4> {{userModel.title}} </h4>
+    <ng-container *ngIf="canUpdate && state === 'UPDATE'">
+        <app-form
+          [model]="userModel" 
+          [fields]="formlyFields"
+          [cancelButtonType]="'DARK'"
+          (formlySubmit)="onEncounterUpdate(userModel)" 
+          (formlyCancel)="changeState('DISPLAY', undefined)"
+        ></app-form>
+    </ng-container>
 
-      <ng-container *ngIf="canUpdate && state === 'UPDATE'">
-          <app-form
-            [model]="userModel" 
-            [fields]="formlyFields"
-            [cancelButtonType]="'DARK'"
-            (formlySubmit)="onEncounterUpdate(userModel)" 
-            (formlyCancel)="changeState('DISPLAY')"
-          ></app-form>
-      </ng-container>
-
-      <ng-container *ngIf="canUpdate && state === 'OUTDATEDUPDATE'">
-          <app-compare-form
-            [fields]="formlyFields"
-            [modelFromUser]="userModel"
-            [modelFromServer]="serverModel"
-            [displayVertically]="true"
-            (updateSubmit)="onEncounterUpdate(userModel)"
-            (cancel)="changeState('DISPLAY')"
-          ></app-compare-form>  
-      </ng-container>
-  </div>
+    <ng-container *ngIf="canUpdate && state === 'OUTDATEDUPDATE'">
+        <app-compare-form
+          [fields]="formlyFields"
+          [modelFromUser]="userModel"
+          [modelFromServer]="serverModel"
+          [displayVertically]="true"
+          (updateSubmit)="onEncounterUpdate(userModel)"
+          (cancel)="changeState('DISPLAY', undefined)"
+        ></app-compare-form>  
+    </ng-container>
 </ng-template>

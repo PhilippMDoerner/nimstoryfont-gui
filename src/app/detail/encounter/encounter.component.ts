@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyServiceService } from 'src/app/_services/formly/formly-service.service';
@@ -13,7 +13,7 @@ type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE";
   templateUrl: './encounter.component.html',
   styleUrls: ['./encounter.component.scss']
 })
-export class EncounterComponent {
+export class EncounterComponent implements OnInit, OnChanges{
   @Input() encounter!: Encounter;
   @Input() characters!: OverviewItem[];
   @Input() campaignName!: string;
@@ -56,22 +56,31 @@ export class EncounterComponent {
   ){}
   
   ngOnInit(): void {
+    this.setBadgeEntries();
+  }
+  
+  ngOnChanges(): void {
+    this.setBadgeEntries();
+  }
+  
+  setBadgeEntries(){
     const encounterConnections = this.encounter.encounterConnections ?? [];
     this.badgeEntries = this.parseConnection(encounterConnections);
   }
   
-  changeState(newState: EncounterState){
+  changeState(newState: EncounterState, newModel: Encounter | undefined){
     this.state = newState;
+    this.userModel = newModel ?? {} as Encounter;
   }
   
   onEncounterDelete(){
     this.encounterDelete.emit(this.encounter);
-    this.changeState('DISPLAY');
+    this.changeState('DISPLAY', undefined);
   }
   
   onEncounterUpdate(encounter: Encounter){
     this.encounterUpdate.emit(encounter);
-    this.changeState('DISPLAY');
+    this.changeState('DISPLAY', undefined);
   }
   
   onConnectionDelete(connection: EncounterConnection){
@@ -92,6 +101,7 @@ export class EncounterComponent {
   
   onToggle(toggled: boolean){
     this.state = toggled ? 'UPDATE' : 'DISPLAY';
+    this.userModel = this.encounter;
   }
       
   private parseConnection(connections: EncounterConnection[]): BadgeListEntry[]{

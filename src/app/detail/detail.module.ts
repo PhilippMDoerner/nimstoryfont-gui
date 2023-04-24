@@ -11,6 +11,8 @@ import { ImageCarouselComponent } from './image-carousel/image-carousel.componen
 import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
 import { LocationComponent } from './location/location.component';
 import { LocationAccordionComponent } from './location-accordion/location-accordion.component';
+import { QuoteComponent } from './quote/quote.component';
+import { QuoteFieldComponent } from './quote-field/quote-field.component';
 
 
 
@@ -22,7 +24,9 @@ import { LocationAccordionComponent } from './location-accordion/location-accord
     EncounterAccordionComponent,
     EncounterComponent,
     LocationComponent,
-    LocationAccordionComponent
+    LocationAccordionComponent,
+    QuoteComponent,
+    QuoteFieldComponent
   ],
   imports: [
     CommonModule,

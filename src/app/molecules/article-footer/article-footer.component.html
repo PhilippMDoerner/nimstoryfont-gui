@@ -1,30 +1,27 @@
-<div class="container">
-  <div class="row">
-    <ng-container *ngIf="buttonLink; then linkButton; else nonLinkButton"></ng-container>
-  
-    <ng-container *ngIf="showDelete">
-      <app-confirmation-toggle-button 
-        class="col-md-9" 
-        [toggleType]="'DANGER'"
-        [confirmationQuestion]="deleteMessage"
-        (confirm)="delete.emit()"
-      >
-        <app-icon [icon]="'trash'"></app-icon>
-      </app-confirmation-toggle-button>
-    </ng-container>
-  </div>
+<div class="footer">
+  <ng-container *ngIf="buttonLink; then linkButton; else nonLinkButton"></ng-container>
+
+  <ng-container *ngIf="showDelete">
+    <app-confirmation-toggle-button 
+      [toggleType]="'DANGER'"
+      [confirmationQuestion]="deleteMessage"
+      (confirm)="delete.emit()"
+    >
+      <app-icon [icon]="'trash'"></app-icon>
+    </app-confirmation-toggle-button>
+  </ng-container>
 </div>
 
 <ng-template #linkButton>
   <a [routerLink]="buttonLink" (click)="buttonClick.emit()">
-    <app-button [type]="'SECONDARY'" class="col-md-3">
+    <app-button [type]="'SECONDARY'">
       {{buttonLabel}}
     </app-button>
   </a>
 </ng-template>
 
 <ng-template #nonLinkButton>
-  <app-button (click)="buttonClick.emit()" [type]="'SECONDARY'" class="col-md-3">
+  <app-button [type]="'SECONDARY'" (click)="buttonClick.emit()">
     {{buttonLabel}}
   </app-button>
 </ng-template> 

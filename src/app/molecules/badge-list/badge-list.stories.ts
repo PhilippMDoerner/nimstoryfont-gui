@@ -84,9 +84,11 @@ export default {
   ],
   args: {
     entries: dummyBadgeList,
-    options: dummyOptions,
-    optionLabelProp: 'myLabel',
-    optionValueProp: 'myValue',
+    createOptions: {
+      options: dummyOptions,
+      labelProp: 'myLabel',
+      valueProp: 'myValue'
+    },
     label: 'Character',
     canCreate: true,
     canDelete: true,
@@ -105,3 +107,13 @@ const Template: StoryFn<BadgeListComponent> = (args: BadgeListComponent) => ({
 
 export const Default = Template.bind({});
 Default.args = {}
+
+export const LinkCreate = Template.bind({});
+LinkCreate.args = {
+  createOptions: '/link/to/create/page',
+}
+
+export const NoCreate = Template.bind({});
+NoCreate.args = {
+  createOptions: undefined,
+}

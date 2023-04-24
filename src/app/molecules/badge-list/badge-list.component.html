@@ -15,16 +15,38 @@
   
     <!-- Connection Create Form -->
     <ng-container *ngIf="canCreate">
-      <app-small-create-form
-        class="badge-list__create-form"
-        [options]="options"
-        [labelProp]="optionLabelProp"
-        [valueProp]="optionValueProp"
-        [badgeText]="'Add ' + label"
-        [cancelButtonType]="'DARK'"
-        (create)="onEntryCreate($event)"
-      ></app-small-create-form>
+      <ng-container [ngSwitch]="createKind">
+        <ng-container 
+          *ngSwitchCase="'LINK'"
+          [ngTemplateOutlet]="linkCreate"
+        ></ng-container>
+        <ng-container 
+          *ngSwitchCase="'SELECT'"
+          [ngTemplateOutlet]="selectCreate"
+        ></ng-container>
+      </ng-container>
     </ng-container>
   
   </div>
 </div>
+
+<ng-template #selectCreate>
+  <ng-container *ngIf="options && optionLabelProp && optionValueProp">
+    <app-small-create-form
+      class="badge-list__create-form"
+      [options]="options"
+      [labelProp]="optionLabelProp"
+      [valueProp]="optionValueProp"
+      [badgeText]="'Add ' + label"
+      [cancelButtonType]="'DARK'"
+      (create)="onEntryCreate($event)"
+    ></app-small-create-form>
+  </ng-container>
+</ng-template>
+
+<ng-template #linkCreate>
+  <a [routerLink]="createLink" class="badge-list__create-form">
+    <app-badge [type]="'PRIMARY'" [icon]="'plus'" [text]="'Add ' + label">
+    </app-badge>
+  </a>
+</ng-template>

@@ -3,3 +3,9 @@ export interface BadgeListEntry{
   link: string;
   badgeValue: any;
 }
+
+export interface BadgeListSelectOptions{
+  options: any[];
+  labelProp: string;
+  valueProp: string;
+}

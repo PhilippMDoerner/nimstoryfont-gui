@@ -35,9 +35,11 @@
   <div class="card__connections">
       <app-badge-list
         [entries]="badgeEntries"
-        [options]="characters"
-        [optionLabelProp]="'name'"
-        [optionValueProp]="'pk'"
+        [createOptions]="{
+          options: characters,
+          valueProp: 'name',
+          labelProp: 'pk',
+        }"
         [canCreate]="canCreate"
         [canDelete]="canDelete"
         [cancelButtonType]="'DARK'"

@@ -12,9 +12,11 @@
   <div class="card__connections">
     <app-badge-list
       [entries]="localCharacters"
-      [options]="[]"
-      [optionLabelProp]="''"
-      [optionValueProp]="''"
+      [createOptions]="{
+        options: campaignCharacters,
+        labelProp: 'name',
+        valueProp: 'pk',
+      }"
       [canCreate]="false"
       [canDelete]="false"
     ></app-badge-list>

@@ -15,6 +15,7 @@ export default {
     }),
   ],
   parameters: {
+    layout: 'fullscreen',
     backgrounds: { default: 'grey' }, // https://storybook.js.org/docs/angular/essentials/backgrounds
   },
   args: {}
@@ -25,10 +26,7 @@ const Template: StoryFn<PageContainerComponent> = (args: PageContainerComponent)
     ...args
   },
   template: `
-    <app-page-container
-      [imageServerUrl]="imageServerUrl"
-      [backgroundImageUrl]="backgroundImageUrl"
-    >
+    <app-page-container>
       <h1 class="text-center"> A headline </h1>
       <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt aliquam sapiente facilis laudantium eveniet laborum explicabo perspiciatis tempore culpa quia vitae, modi ullam animi, molestias itaque alias fugit in neque. </p>
     </app-page-container>

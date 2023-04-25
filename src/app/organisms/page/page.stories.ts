@@ -65,7 +65,7 @@ export default {
     }),
   ],
   parameters: {
-    backgrounds: { default: 'grey' }, // https://storybook.js.org/docs/angular/essentials/backgrounds
+    layout: 'fullscreen',
   },
   args: {
     serverUrl: 'https://www.aldrune.com',

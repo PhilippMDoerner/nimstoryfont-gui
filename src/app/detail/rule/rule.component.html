@@ -1,0 +1,112 @@
+<ng-container *ngIf="rule || state === 'CREATE'">
+  <h4 class="card__heading heading">
+    <span>
+      <ng-container [ngSwitch]="state">
+        <ng-container
+          *ngSwitchCase="'DISPLAY'"
+          [ngTemplateOutlet]="displayHeading"
+        ></ng-container>
+        <ng-container
+          *ngSwitchCase="'UPDATE'"
+          [ngTemplateOutlet]="updateHeading"
+        ></ng-container>
+        <ng-container
+          *ngSwitchCase="'CREATE'"
+          [ngTemplateOutlet]="createHeading"
+        ></ng-container>
+        <ng-container
+          *ngSwitchCase="'OUTDATEDUPDATE'"
+          [ngTemplateOutlet]="updateHeading"
+        ></ng-container>
+      </ng-container>
+    </span>
+    
+    <ng-container *ngIf="canUpdate">
+      <app-edit-toggle 
+        *ngIf="canUpdate"
+        [buttonType]="'DARK'"
+        [toggled]="state !== 'DISPLAY'"
+        (toggle)="onToggle($event)"
+      ></app-edit-toggle>
+    </ng-container>
+  </h4>
+  
+  <ng-container [ngSwitch]="state">
+    <ng-container
+      *ngSwitchCase="'DISPLAY'"
+      [ngTemplateOutlet]="displayBody"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'UPDATE'"
+      [ngTemplateOutlet]="updateBody"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'CREATE'"
+      [ngTemplateOutlet]="createBody"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'OUTDATEDUPDATE'"
+      [ngTemplateOutlet]="outdatedUpdateBody"
+    ></ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #displayHeading>
+  {{ rule?.name }}
+</ng-template>
+
+<ng-template #displayBody>
+  <ng-container *ngIf="rule">
+    <app-html-text [text]="rule.description"></app-html-text>
+  </ng-container>
+  
+  <!-- Delete Toggler -->
+  <ng-container *ngIf="canDelete">
+    <app-confirmation-toggle-button
+      class="card__delete-confirmer"
+      [toggleType]="'DANGER'"
+      [confirmationQuestion]="'Delete this rule?'"
+      [icon]="'trash'"
+      (confirm)="onRuleDelete()"
+    ></app-confirmation-toggle-button>
+  </ng-container>
+</ng-template>
+
+<ng-template #updateHeading>
+  Update '{{rule?.name}}'
+</ng-template>
+
+<ng-template #updateBody>
+  <app-form 
+    [model]="userModel" 
+    [fields]="formlyFields" 
+    (formlySubmit)="onRuleUpdate($event)" 
+    (formlyCancel)="changeState('DISPLAY', undefined)"
+  ></app-form>
+</ng-template>
+
+<ng-template #createHeading>
+  Create new Rule
+</ng-template>
+
+<ng-template #createBody>
+  <ng-container *ngIf="canCreate">
+    <app-form 
+      [model]="userModel" 
+      [fields]="formlyFields" 
+      (formlySubmit)="onRuleCreate($event)" 
+      (formlyCancel)="changeState('DISPLAY', undefined)"
+    ></app-form>
+  </ng-container>
+</ng-template>
+
+<ng-template #outdatedUpdateBody>
+  <app-compare-form
+    [fields]="formlyFields"
+    [modelFromUser]="userModel"
+    [modelFromServer]="serverModel"
+    [displayVertically]="true"
+    (formlySubmit)="onRuleUpdate($event)"
+    (formlyCancel)="changeState('DISPLAY', undefined)"
+  ></app-compare-form>    
+</ng-template>

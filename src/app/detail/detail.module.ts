@@ -14,6 +14,7 @@ import { LocationAccordionComponent } from './location-accordion/location-accord
 import { QuoteComponent } from './quote/quote.component';
 import { QuoteFieldComponent } from './quote-field/quote-field.component';
 import { SessionComponent } from './session/session.component';
+import { RuleComponent } from './rule/rule.component';
 
 
 
@@ -28,7 +29,8 @@ import { SessionComponent } from './session/session.component';
     LocationAccordionComponent,
     QuoteComponent,
     QuoteFieldComponent,
-    SessionComponent
+    SessionComponent,
+    RuleComponent
   ],
   imports: [
     CommonModule,

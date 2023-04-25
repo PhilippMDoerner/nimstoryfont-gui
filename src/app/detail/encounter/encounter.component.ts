@@ -70,7 +70,7 @@ export class EncounterComponent implements OnInit, OnChanges{
   
   changeState(newState: EncounterState, newModel: Encounter | undefined){
     this.state = newState;
-    this.userModel = newModel ?? {} as Encounter;
+    this.userModel = { ...newModel } as Encounter;
   }
   
   onEncounterDelete(){

@@ -2,13 +2,20 @@
   class="btn" 
   [disabled]="disabled"
   [ngClass]="{
-    'btn-primary': type === 'PRIMARY',
-    'btn-secondary': type === 'SECONDARY',
-    'btn-dark': type === 'DARK',
-    'btn-danger': type === 'DANGER',
-    'btn-warning': type === 'WARNING',
-    'btn-light': type === 'LIGHT',
-    'btn-info': type === 'INFO',
+    'btn-primary': type === 'PRIMARY' && !outline,
+    'btn-secondary': type === 'SECONDARY'  && !outline,
+    'btn-dark': type === 'DARK'  && !outline,
+    'btn-danger': type === 'DANGER' && !outline,
+    'btn-warning': type === 'WARNING' && !outline,
+    'btn-light': type === 'LIGHT' && !outline,
+    'btn-info': type === 'INFO' && !outline,
+    'btn-outline-primary': type === 'PRIMARY' && outline,
+    'btn-outline-secondary': type === 'SECONDARY' && outline,
+    'btn-outline-dark': type === 'DARK' && outline,
+    'btn-outline-danger': type === 'DANGER' && outline,
+    'btn-outline-warning': type === 'WARNING' && outline,
+    'btn-outline-light': type === 'LIGHT' && outline,
+    'btn-outline-info': type === 'INFO' && outline,
     
     'btn-sm': size === 'SMALL',
     'btn-lg': size === 'LARGE',

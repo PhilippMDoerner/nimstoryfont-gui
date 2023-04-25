@@ -13,4 +13,5 @@ export class ButtonComponent {
   @Input() type: ElementType = "PRIMARY";
   @Input() size: ElementSize = "MEDIUM";
   @Input() disabled: boolean = false;
+  @Input() outline: boolean = false;
 }

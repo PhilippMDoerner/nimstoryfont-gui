@@ -29,17 +29,23 @@ const Template: StoryFn<ButtonComponent> = (args: ButtonComponent) => ({
         Button Size: {{size}}
         <app-button [text]="text" [icon]="icon" [type]="type" [size]="size">
         </app-button>
+        <app-button [text]="text" [icon]="icon" [type]="type" [size]="size" [outline]="true">
+        </app-button>
       </div>
       
       <div class="my-4">
         Button Size: SMALL
         <app-button [text]="text" [icon]="icon" [type]="type" [size]="'SMALL'">
         </app-button>
+        <app-button [text]="text" [icon]="icon" [type]="type" [size]="'SMALL'" [outline]="true">
+        </app-button>
       </div>
       
       <div>
         Button Size: LARGE
         <app-button [text]="text" [icon]="icon" [type]="type" [size]="'LARGE'">
+        </app-button>
+        <app-button [text]="text" [icon]="icon" [type]="type" [size]="'LARGE'" [outline]="true">
         </app-button>
       </div>
       

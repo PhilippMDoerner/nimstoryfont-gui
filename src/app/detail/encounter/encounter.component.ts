@@ -6,7 +6,7 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { Encounter, EncounterConnection } from 'src/app/detail/_models/encounter';
 import { BadgeListEntry } from 'src/app/molecules';
 
-type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE";
+type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE" | "CREATE";
 
 @Component({
   selector: 'app-encounter',
@@ -14,7 +14,7 @@ type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE";
   styleUrls: ['./encounter.component.scss']
 })
 export class EncounterComponent implements OnInit, OnChanges{
-  @Input() encounter!: Encounter;
+  @Input() encounter?: Encounter;
   @Input() characters!: OverviewItem[];
   @Input() campaignName!: string;
   @Input() serverModel?: Encounter;
@@ -26,6 +26,7 @@ export class EncounterComponent implements OnInit, OnChanges{
   @Output() connectionCreate: EventEmitter<EncounterConnection> = new EventEmitter();
   @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
   @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
+  @Output() encounterCreate: EventEmitter<Encounter> = new EventEmitter();
 
   userModel!: Encounter;
   state: EncounterState = 'DISPLAY';
@@ -56,7 +57,14 @@ export class EncounterComponent implements OnInit, OnChanges{
   ){}
   
   ngOnInit(): void {
-    this.setBadgeEntries();
+    const isInCreateScenario = this.encounter == null && this.canCreate;
+    if(isInCreateScenario){
+      this.changeState('CREATE', {} as Encounter);
+    }
+    
+    if(this.encounter){
+      this.setBadgeEntries();
+    }
   }
   
   ngOnChanges(): void {
@@ -64,13 +72,18 @@ export class EncounterComponent implements OnInit, OnChanges{
   }
   
   setBadgeEntries(){
-    const encounterConnections = this.encounter.encounterConnections ?? [];
+    const encounterConnections = this.encounter?.encounterConnections ?? [];
     this.badgeEntries = this.parseConnection(encounterConnections);
   }
   
   changeState(newState: EncounterState, newModel: Encounter | undefined){
     this.state = newState;
     this.userModel = { ...newModel } as Encounter;
+  }
+  
+  onEncounterCreate(encounter: Encounter){
+    this.encounterCreate.emit(encounter);
+    this.changeState('DISPLAY', encounter);
   }
   
   onEncounterDelete(){
@@ -93,15 +106,17 @@ export class EncounterComponent implements OnInit, OnChanges{
   
   onConnectionCreate(character: OverviewItem){
     const newConnection: EncounterConnection = {
-      encounter: this.encounter.pk as number,
+      encounter: this.encounter?.pk as number,
       character: character.pk,
     };
     this.connectionCreate.emit(newConnection);
   }
   
   onToggle(toggled: boolean){
-    this.state = toggled ? 'UPDATE' : 'DISPLAY';
-    this.userModel = this.encounter;
+    const isInDisplayState = this.state === 'DISPLAY';
+    const nextState = isInDisplayState ? 'UPDATE' : 'DISPLAY';
+    const nextModel: Encounter | undefined = toggled ? {...this.encounter} as Encounter : undefined;
+    this.changeState(nextState, nextModel)
   }
       
   private parseConnection(connections: EncounterConnection[]): BadgeListEntry[]{

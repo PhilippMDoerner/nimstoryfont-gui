@@ -1,33 +1,64 @@
-<h4 class="card__heading">
-  {{ encounter.title }}
-  <app-edit-toggle
-    *ngIf="canUpdate" 
-    [buttonType]="'DARK'"
-    [toggled]="state !== 'DISPLAY'"
-    (toggle)="onToggle($event)"
-  ></app-edit-toggle>
-</h4>
-
-<ng-container [ngSwitch]="state">
-  <ng-container
-    *ngSwitchCase="'DISPLAY'"
-    [ngTemplateOutlet]="encounterDisplayState"
+<ng-container *ngIf="encounter || state === 'CREATE'">
+  <h4 class="card__heading">
+    <ng-container [ngSwitch]="state">
+      <ng-container
+        *ngSwitchCase="'DISPLAY'"
+        [ngTemplateOutlet]="displayHeading"
+      ></ng-container>
+      <ng-container
+        *ngSwitchCase="'UPDATE'"
+        [ngTemplateOutlet]="updateHeading"
+      ></ng-container>
+      <ng-container
+        *ngSwitchCase="'OUTDATEDUPDATE'"
+        [ngTemplateOutlet]="updateHeading"
+      ></ng-container>
+      <ng-container
+      *ngSwitchCase="'CREATE'"
+      [ngTemplateOutlet]="createHeading"
+    ></ng-container>
+    </ng-container>
+  
+    <app-edit-toggle
+      *ngIf="canUpdate" 
+      [buttonType]="'DARK'"
+      [toggled]="state !== 'DISPLAY'"
+      (toggle)="onToggle($event)"
+    ></app-edit-toggle>
+  </h4>
+  
+  <ng-container [ngSwitch]="state">
+    <ng-container
+      *ngSwitchCase="'DISPLAY'"
+      [ngTemplateOutlet]="displayBody"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'UPDATE'"
+      [ngTemplateOutlet]="updateBody"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'OUTDATEDUPDATE'"
+      [ngTemplateOutlet]="updateBody"
+    ></ng-container>
+    <ng-container
+    *ngSwitchCase="'CREATE'"
+    [ngTemplateOutlet]="createBody"
   ></ng-container>
-  <ng-container
-    *ngSwitchCase="'UPDATE'"
-    [ngTemplateOutlet]="encounterUpdateState"
-  ></ng-container>
-  <ng-container
-    *ngSwitchCase="'OUTDATEDUPDATE'"
-    [ngTemplateOutlet]="encounterUpdateState"
-  ></ng-container>
+  </ng-container>
+  
 </ng-container>
 
-<ng-template #encounterDisplayState>
+<ng-template #displayHeading>
+  {{ encounter?.title }}
+</ng-template>
+
+<ng-template #displayBody>
   <!-- Encounter -->
-  <div class="card__text">
-    <app-html-text [text]="encounter.description"></app-html-text>
-  </div>
+  <ng-container *ngIf="encounter">
+    <div class="card__text">
+      <app-html-text [text]="encounter.description"></app-html-text>
+    </div>
+  </ng-container>
 
   <app-separator></app-separator>
   
@@ -58,11 +89,14 @@
       (confirm)="onEncounterDelete()"
     ></app-confirmation-toggle-button>
   </ng-container>
+</ng-template>
 
+<ng-template #updateHeading>
+  Update "{{encounter?.title}}"
 </ng-template>
 
 <!-- Form to Update Encounters -->
-<ng-template #encounterUpdateState>
+<ng-template #updateBody>
     <ng-container *ngIf="canUpdate && state === 'UPDATE'">
         <app-form
           [model]="userModel" 
@@ -82,5 +116,23 @@
           (updateSubmit)="onEncounterUpdate(userModel)"
           (cancel)="changeState('DISPLAY', undefined)"
         ></app-compare-form>  
+    </ng-container>
+</ng-template>
+
+
+<ng-template #createHeading>
+  Create new Encounter
+</ng-template>
+
+<!-- Form to Update Encounters -->
+<ng-template #createBody>
+    <ng-container *ngIf="canCreate && state === 'CREATE'">
+        <app-form
+          [model]="userModel" 
+          [fields]="formlyFields"
+          [cancelButtonType]="'DARK'"
+          (formlySubmit)="onEncounterCreate(userModel)" 
+          (formlyCancel)="changeState('DISPLAY', undefined)"
+        ></app-form>
     </ng-container>
 </ng-template>

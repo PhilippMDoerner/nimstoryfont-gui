@@ -367,6 +367,7 @@ const Template: StoryFn<EncounterComponent> = (args: EncounterComponent) => ({
     connectionCreate: action('connectionCreate'),
     encounterDelete: action('encounterDelete'),
     encounterUpdate: action('encounterUpdate'),
+    encounterCreate: action('encounterCreate'),
   },
 });
 
@@ -389,4 +390,15 @@ NoPermissions.args = {
   canUpdate: false,
   canCreate: false,
   canDelete: false,
+}
+
+export const NoEncounter = Template.bind({});
+NoEncounter.args = {
+  encounter: undefined,
+}
+
+export const NoEncounterNoCreatePermission = Template.bind({});
+NoEncounterNoCreatePermission.args = {
+  encounter: undefined,
+  canCreate: false,
 }

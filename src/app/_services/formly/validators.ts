@@ -64,9 +64,10 @@ function timeValidation(control: AbstractControl): ValidationErrors {
 }
 export const timeValidator: ValidatorOption = { name: 'time', validation: timeValidation };
 
-function requiredValidation(control: AbstractControl): ValidationErrors {
-  const isRequiredField: boolean = !!control.value || control.value === 0;
-  return { required: !isRequiredField };
+function requiredValidation(control: AbstractControl): ValidationErrors | null {
+  const hasValue: boolean = !!control.value || control.value === 0;
+  const isValidField = hasValue;
+  return isValidField ? null : { required: true };
 }
 export const requiredValidator: ValidatorOption = {
   name: 'required',
@@ -77,31 +78,31 @@ export const requiredIconValidator = {
   validation: requiredValidation,
 };
 
-function dateValidation(control: AbstractControl): ValidationErrors {
+function dateValidation(control: AbstractControl): ValidationErrors | null{
   const dateHasYYYYMMDDFormat: boolean = /[1-2]\d{3}-(0\d|1[0-2])-[0-3]\d/.test(
     control.value
   );
-  return { date: !dateHasYYYYMMDDFormat };
+  return dateHasYYYYMMDDFormat ? null : { date: true};
 }
 export const dateValidator: ValidatorOption = { name: 'date', validation: dateValidation };
 
-function iconValidation(control: AbstractControl): ValidationErrors {
+function iconValidation(control: AbstractControl): ValidationErrors | null{
   const hasFaPrefix = /fa-/.test(control.value);
   const isValidIcon = hasFaPrefix;
-  return { faPrefix: isValidIcon };
+  return isValidIcon ? null : { faPrefix: isValidIcon };
 }
 export const iconValidator: ValidatorOption = { name: 'faPrefix', validation: iconValidation };
 
-function isIntegerValidation(control: AbstractControl): ValidationErrors {
+function isIntegerValidation(control: AbstractControl): ValidationErrors | null {
   const isInteger =  typeof control.value === 'number' && Number.isInteger(control.value);
-  return { notInteger: !isInteger };
+  return isInteger ? null : { notInteger: !isInteger };
 }
 export const integerValidator: ValidatorOption = {
   name: 'notInteger',
   validation: isIntegerValidation,
 };
 
-function hasNoSpecialCharactersValidation(control: AbstractControl): ValidationErrors {
+function hasNoSpecialCharactersValidation(control: AbstractControl): ValidationErrors | null {
   const isString = typeof control.value === 'string';
   if (isString) {
     const specialCharacters: string[] = [
@@ -128,7 +129,7 @@ function hasNoSpecialCharactersValidation(control: AbstractControl): ValidationE
     }
   }
 
-  return { hasSpecialCharacters: false};
+  return null;
 }
 export const specialCharacterValidator: ValidatorOption = {
   name: 'hasSpecialCharacters',
@@ -141,21 +142,21 @@ export const specialCharacterValidator: ValidatorOption = {
  *  the field's value. Must contain
  * @returns
  */
-function passwordMatchValidation(control: AbstractControl): ValidationErrors {
+function passwordMatchValidation(control: AbstractControl): ValidationErrors | null {
   const { password, passwordConfirm } = control.value;
 
   // avoid displaying the message error when values are empty
   const isAnyPasswordFieldEmpty = !passwordConfirm || !password;
   if (isAnyPasswordFieldEmpty) {
-    return { passwordMatch: null};
+    return { passwordMatch: true};
   }
   
   const arePasswordsMatching = passwordConfirm === password;
   if (arePasswordsMatching) {
-    return { passwordMatch: null };
+    return { passwordMatch: true };
   }
 
-  return { passwordMatch: { message: "The passwords aren't matching" } };
+  return null;
 }
 export const fieldMatchValidator: ValidatorOption = {
   name: 'fieldMatch',

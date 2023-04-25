@@ -7,6 +7,7 @@ import { FormlyDatepickerFieldComponent } from './formly-datepicker-field/formly
 import { FormlyEditorFieldComponent } from './formly-editor-field/formly-editor-field.component';
 import { FormlySelectDisableFieldComponent } from './formly-select-disable/formly-select-disable-field.component';
 import { PageContainerComponent } from './page-container/page-container.component';
+import { PageComponent } from './page/page.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 
@@ -18,6 +19,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     FormlyDatepickerFieldComponent,
     FormlySelectDisableFieldComponent,
     SidebarComponent,
+    PageComponent,
   ],
   imports: [
     CommonModule,
@@ -30,6 +32,8 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     FormlyDatepickerFieldComponent,
     FormlySelectDisableFieldComponent,
     MoleculesModule,
+    SidebarComponent,
+    PageComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },

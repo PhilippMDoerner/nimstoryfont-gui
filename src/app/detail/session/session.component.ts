@@ -70,32 +70,13 @@ export class SessionComponent implements OnInit{
   ){}
   
   ngOnInit(): void {
-    console.log(this);
-    if(this.session == null && this.canCreate){
+    const isInCreateScenario = this.session == null && this.canCreate;
+    if(isInCreateScenario){
       this.changeState('CREATE', {} as Session);
     }
     
-    const diaryEntries: SessionDiaryEntry[] = this.session?.diaryentries ?? [];
-    this.diaryEntries = diaryEntries.map( entry => {
-      const link = this.routingService.getRoutePath('diaryentry', {
-        sessionNumber: this.session?.session_number,
-        isMainSession: this.session?.is_main_session,
-        authorName: entry.author_name,
-        campaign: this.session?.campaign_details?.name as string
-      });
-      
-      return {
-        name: entry.name,
-        author_name: entry.author_name,
-        link,
-      };
-    });
-    
-    this.sessionAudioUrl = this.routingService.getRoutePath('sessionaudio', {
-      campaign: this.session?.campaign_details?.name as string, 
-      isMainSession: this.session?.is_main_session, 
-      sessionNumber: this.session?.session_number
-    });
+    this.setDiaryEntries();
+    this.setSessionAudioUrl();
   }
   
   changeState(newState: SessionState, newModel: Session | undefined){
@@ -126,5 +107,32 @@ export class SessionComponent implements OnInit{
     const nextState = isInDisplayState ? 'UPDATE' : 'DISPLAY';
     const nextModel: Session | undefined = toggled ? {...this.session} as Session : undefined;
     this.changeState(nextState, nextModel)
+  }
+  
+    
+  private setSessionAudioUrl(){
+    this.sessionAudioUrl = this.routingService.getRoutePath('sessionaudio', {
+      campaign: this.session?.campaign_details?.name as string, 
+      isMainSession: this.session?.is_main_session, 
+      sessionNumber: this.session?.session_number
+    });
+  }
+  
+  private setDiaryEntries() {
+    const diaryEntries: SessionDiaryEntry[] = this.session?.diaryentries ?? [];
+    this.diaryEntries = diaryEntries.map(entry => {
+      const link = this.routingService.getRoutePath('diaryentry', {
+        sessionNumber: this.session?.session_number,
+        isMainSession: this.session?.is_main_session,
+        authorName: entry.author_name,
+        campaign: this.session?.campaign_details?.name as string
+      });
+
+      return {
+        name: entry.name,
+        author_name: entry.author_name,
+        link,
+      };
+    });
   }
 }

@@ -1,4 +1,4 @@
-<app-card *ngIf="session || state === 'CREATE'">  
+<ng-container *ngIf="session || state === 'CREATE'">  
   <!-- Heading -->
   <h4 class="card__heading heading">
     <span>
@@ -49,7 +49,7 @@
       [ngTemplateOutlet]="outdatedUpdateBody"
     ></ng-container>
   </ng-container>
-</app-card>
+</ng-container>
 
 <ng-template #displayHeading>
   {{ session?.name }}
@@ -125,7 +125,7 @@
 </ng-template>
 
 <ng-template #createHeading>
-  Creating new Session
+  Create new Session
 </ng-template>
 
 <ng-template #createBody>    

@@ -1,6 +1,7 @@
 <form 
   [formGroup]="form" 
-  [enctype]="enctype" 
+  [enctype]="enctype"
+  (submit)="onSubmit()"
 >
   <formly-form 
     [form]="form" 
@@ -32,6 +33,7 @@
 
 <ng-template #activeSubmitButton>
   <app-button 
+    [tabIndex]="1"
     [type]="submitButtonType" 
     [text]="'Submit'"
     [icon]="submitIcon"

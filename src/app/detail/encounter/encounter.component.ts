@@ -83,6 +83,7 @@ export class EncounterComponent implements OnInit, OnChanges{
   
   onEncounterCreate(encounter: Encounter){
     this.encounterCreate.emit(encounter);
+    this.encounter = encounter;
     this.changeState('DISPLAY', encounter);
   }
   
@@ -93,6 +94,7 @@ export class EncounterComponent implements OnInit, OnChanges{
   
   onEncounterUpdate(encounter: Encounter){
     this.encounterUpdate.emit(encounter);
+    this.encounter = encounter;
     this.changeState('DISPLAY', undefined);
   }
   

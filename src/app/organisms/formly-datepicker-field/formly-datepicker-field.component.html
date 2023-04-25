@@ -28,7 +28,10 @@
 </div>
 
 <ng-template #customDay let-date>
-  <app-button class="datepicker-day" [type]="'LIGHT'" [disabled]="!!props.disabled">
-    {{ date.day }}
-  </app-button>
+  <app-button 
+    class="datepicker-day" 
+    [type]="'LIGHT'" 
+    [disabled]="!!props.disabled"
+    [text]="date.day"
+  ></app-button>
 </ng-template>

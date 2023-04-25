@@ -3,9 +3,12 @@
   
   <ng-container *ngIf="canCreate">
     <a [routerLink]="createUrl">
-      <app-button class="ms-2" [type]="'PRIMARY'" [size]="'SMALL'">
-        <app-icon [icon]="'plus'"></app-icon>
-      </app-button>
+      <app-button 
+        class="ms-2" 
+        [type]="'PRIMARY'" 
+        [size]="'SMALL'"
+        [icon]="'plus'"
+      ></app-button>
     </a>
   </ng-container>
 </h4>

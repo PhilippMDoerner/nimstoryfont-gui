@@ -30,10 +30,9 @@
       class="mx-2" 
       [type]="'PRIMARY'" 
       [size]="'SMALL'"
+      [icon]="'plus-square'"
       (click)="onImageCreate()"
-    >
-      <app-icon aria-hidden="true" [icon]="'plus-square'"></app-icon>
-    </app-button>
+    ></app-button>
   </ng-container>
 
   <!-- Update Image button -->
@@ -42,10 +41,9 @@
       class="mx-2" 
       [type]="'SECONDARY'" 
       [size]="'SMALL'"
+      [icon]="'pencil'"
       (click)="onImageUpdate()"
-    >
-      <app-icon aria-hidden="true" [icon]="'pencil'"></app-icon>
-    </app-button>
+    ></app-button>
   </ng-container>
 
   <!-- Delete Image Button -->
@@ -54,10 +52,9 @@
       class="mx-2" 
       [type]="'DANGER'" 
       [size]="'SMALL'"
+      [icon]="'trash'"
       (click)="onImageDelete()"
-    >
-      <app-icon aria-hidden="true" [icon]="'trash'"></app-icon>
-    </app-button>
+    ></app-button>
   </ng-container>
 
 </div>

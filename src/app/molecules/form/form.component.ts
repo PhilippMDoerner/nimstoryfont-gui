@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldProps } from '@ngx-formly/bootstrap/form-field';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Observable } from 'rxjs';
+import { Icon } from 'src/app/atoms';
 import { ElementType } from 'src/app/atoms/_models/button';
 
 @Component({
@@ -20,6 +21,7 @@ export class FormComponent implements OnInit, OnChanges{
   @Input() disabled: boolean = false;
   @Input() submitButtonType: ElementType = 'PRIMARY';
   @Input() cancelButtonType: ElementType = 'SECONDARY';
+  @Input() submitIcon?: Icon;
   
   @Output() formlySubmit: EventEmitter<any> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();

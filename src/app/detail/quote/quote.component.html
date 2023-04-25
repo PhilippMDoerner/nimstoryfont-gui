@@ -44,11 +44,10 @@
       <app-button 
         class="field__control"
         title="Load new quote"
-        [type]="'INFO'" 
+        [type]="'INFO'"
+        [icon]="'refresh'"
         (click)="getNextRandomQuote()"
-      >
-        <app-icon [icon]="'refresh'"></app-icon>
-      </app-button>
+      ></app-button>
       
       <!-- Edit Quote -->
       <ng-container *ngIf="canUpdate">
@@ -56,10 +55,9 @@
           class="field__control"
           title="Edit Quote"
           [type]="'SECONDARY'"
+          [icon]="'pencil'"
           (click)="quoteUpdate.emit(quote)"
-        >
-          <app-icon [icon]="'pencil'"></app-icon>
-        </app-button>
+        ></app-button>
       </ng-container>
 
       <!-- Create Quote -->
@@ -68,10 +66,9 @@
           class="field__control"
           title="Create Quote"
           [type]="'PRIMARY'"
+          [icon]="'plus'"
           (click)="quoteCreate.emit()"
-        >
-          <app-icon [icon]="'plus'"></app-icon>
-        </app-button>
+        ></app-button>
       </ng-container>
 
       <!-- Delete Quote -->
@@ -80,10 +77,9 @@
           class="field__control"
           title="Delete Quote"
           [type]="'DANGER'"
+          [icon]="'trash'"
           (click)="quoteDelete.emit(quote)"
-        >
-          <app-icon [icon]="'trash'"></app-icon>
-        </app-button>
+        ></app-button>
       </ng-container>
 
       <!-- Copy to Clipboard -->
@@ -91,10 +87,9 @@
         class="field__control"
         title="Copy Quote to Clipboard"
         [type]="'DARK'"
+        [icon]="'copy'"
         (click)="copyQuoteToClipboard()"
-      >
-        <app-icon [icon]="'copy'"></app-icon>
-      </app-button>
+      ></app-button>
       
       <!-- Hyperlink to Quote Overview -->
       <a [routerLink]="quoteOverviewUrl">
@@ -102,9 +97,8 @@
           class="field__control"
           title="See all quotes"
           [type]="'SECONDARY'"
-        >
-          <app-icon [icon]="'th-list'"></app-icon>
-        </app-button>
+          [icon]="'th-list'"
+        ></app-button>
       </a>
 
     </div>

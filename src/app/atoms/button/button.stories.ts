@@ -1,4 +1,5 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { IconComponent } from '../icon/icon.component';
 import { ButtonComponent } from './button.component';
 
 export default {
@@ -8,13 +9,14 @@ export default {
     moduleMetadata({
       imports: [],
       declarations: [
-        ButtonComponent,
+        IconComponent
       ]
     }),
   ],
   args: {
     type: 'PRIMARY',
     text: 'ButtonText',
+    icon: 'plus',
     size: 'MEDIUM',
   }
 } as Meta<ButtonComponent>;
@@ -25,22 +27,19 @@ const Template: StoryFn<ButtonComponent> = (args: ButtonComponent) => ({
     <div class="d-flex flex-column">
       <div>
         Button Size: {{size}}
-        <app-button [type]="type" [size]="size">
-          {{text}}
+        <app-button [text]="text" [icon]="icon" [type]="type" [size]="size">
         </app-button>
       </div>
       
       <div class="my-4">
         Button Size: SMALL
-        <app-button [type]="type" [size]="'SMALL'">
-          {{text}}
+        <app-button [text]="text" [icon]="icon" [type]="type" [size]="'SMALL'">
         </app-button>
       </div>
       
       <div>
         Button Size: LARGE
-        <app-button [type]="type" [size]="'LARGE'">
-          {{text}}
+        <app-button [text]="text" [icon]="icon" [type]="type" [size]="'LARGE'">
         </app-button>
       </div>
       
@@ -79,4 +78,14 @@ Light.args = {
 export const Info = Template.bind({});
 Info.args = {
   type : 'INFO'
+}
+
+export const NoText = Template.bind({});
+NoText.args = {
+  text: undefined,
+}
+
+export const NoIcon = Template.bind({});
+NoIcon.args = {
+  icon: undefined,
 }

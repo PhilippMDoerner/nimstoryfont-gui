@@ -13,17 +13,17 @@
       <div class="mb-1">
         <app-button 
           class="me-3" 
-          [type]="cancelButtonType" 
+          [type]="cancelButtonType"
+          [icon]="'times'" 
+          [text]="cancelButtonLabel"
           (click)="onCancel(modal)"
-        >
-          {{cancelButtonLabel}}
-        </app-button>
+        ></app-button>
         <app-button 
           [type]="modalType"
+          [icon]="submitIcon"
+          [text]="submitButtonLabel"
           (click)="onSubmit(modal)"
-        >
-          {{submitButtonLabel}}
-        </app-button>
+        ></app-button>
       </div>
     </div>
   </div>

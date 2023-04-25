@@ -14,10 +14,10 @@
       <app-button 
         class="me-3" 
         [type]="cancelButtonType"
+        [icon]="'times'"
+        [text]="'Cancel'"
         (click)="onCancel()"
-      >
-        Cancel
-      </app-button>
+      ></app-button>
         
         <!-- Submit Button -->
         <ng-container 
@@ -31,9 +31,12 @@
 </form>
 
 <ng-template #activeSubmitButton>
-  <app-button [type]="submitButtonType" (click)="onSubmit()">
-    Submit
-  </app-button>
+  <app-button 
+    [type]="submitButtonType" 
+    [text]="'Submit'"
+    [icon]="submitIcon"
+    (click)="onSubmit()"
+  ></app-button>
 </ng-template>
 
 <ng-template #inactiveSubmitButton>
@@ -42,8 +45,7 @@
     [type]="'DARK'" 
     [ngbTooltip]="'The form is not yet correctly filled out!'"
     [tooltipClass]="'my-tooltip'"
-  >
-    <app-icon [icon]="'lock'" class="me-2"></app-icon>
-    <span class="strikethrough">Submit *</span>
-  </app-button>
+    [icon]="'lock'"
+    [text]="'Submit'"
+  ></app-button>
 </ng-template>

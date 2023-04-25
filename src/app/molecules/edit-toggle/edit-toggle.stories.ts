@@ -1,7 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { IconToggleButtonComponent } from '../toggle-button/icon-toggle-button.component';
 import { EditToggleComponent } from './edit-toggle.component';
 
 export default {
@@ -10,7 +9,6 @@ export default {
   decorators: [
     moduleMetadata({
       declarations: [
-        IconToggleButtonComponent,
       ],
       imports: [
         AtomsModule,

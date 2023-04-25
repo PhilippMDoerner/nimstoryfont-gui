@@ -3,9 +3,12 @@
 </div>
 
 <ng-template #inactiveToggle>
-  <app-button (click)="toggle()" [type]="toggleType">
-    <ng-content></ng-content>
-  </app-button>
+  <app-button 
+    (click)="toggle()" 
+    [type]="toggleType"
+    [icon]="icon"
+    [text]="text"
+  ></app-button>
 </ng-template>
 
 <ng-template #activeToggle>
@@ -14,8 +17,16 @@
       <strong>{{confirmationQuestion}}</strong> 
     </div>  
     <div class="confirmation__buttons">
-      <app-button [type]="toggleType" (click)="emitConfirmation()"> Yes </app-button>
-      <app-button [type]="cancelButtonType" (click)="toggle()"> No </app-button>
+      <app-button 
+        [type]="toggleType" 
+        [text]="'Yes'"
+        (click)="emitConfirmation()"
+      ></app-button>
+      <app-button 
+        [type]="cancelButtonType" 
+        [text]="'No'"
+        (click)="toggle()"
+      ></app-button>
     </div>
   </div>
 </ng-template>

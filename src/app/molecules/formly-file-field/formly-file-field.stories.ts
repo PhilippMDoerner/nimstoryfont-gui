@@ -1,6 +1,6 @@
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { Meta, StoryFn, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { FormlyFileFieldComponent } from './formly-file-field.component';
@@ -17,7 +17,10 @@ export default {
       {
         key: 'file',
         type: 'file',
-      },
+        props: {
+          buttonType: 'SECONDARY',
+        }
+      } as FormlyFieldConfig,
     ],
   },
   decorators: [
@@ -55,3 +58,18 @@ const Template: StoryFn<FormlyFileFieldComponent> = (args: FormlyFileFieldCompon
 
 export const Default = Template.bind({});
 Default.args = {}
+
+const PrimaryTemplate: StoryFn<FormlyFileFieldComponent> = (args: FormlyFileFieldComponent) => ({ 
+  props: {
+    ...args,
+    fields: [
+      {
+        key: 'file',
+        type: 'file',
+        buttonType: 'PRIMARY'
+      },
+    ],
+  },
+});
+export const Primary = PrimaryTemplate.bind({});
+Primary.args = {};

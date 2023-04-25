@@ -68,7 +68,7 @@ const dummySelectDisableConfig: FormlyFieldConfig = {
     options: of(dummyData) as unknown as Observable<any[]>,
     disabledExpression: (selectOption: any) => isInGroup(selectOption, "group a"),
     tooltipMessage: "Members typically represent the individual player characters + the GM(s)",
-    warningMessage: "The user you selected is already member of this campaign"
+    warningMessage: "The user you selected is already member of this campaign",
   },
 };
 
@@ -168,6 +168,7 @@ export default {
     fields: dummyForm,
     model: {},
     disabled: false,
+    submitIcon: 'plus',
   }
 } as Meta<FormComponent>;
 

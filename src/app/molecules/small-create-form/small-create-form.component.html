@@ -47,19 +47,17 @@
       class="mx-2" 
       [type]="cancelButtonType"
       [size]="'SMALL'"
+      [icon]="'times'"
       (click)="onCancel()"
-    >
-      <app-icon [icon]="'times'"></app-icon>
-    </app-button>
+    ></app-button>
       
     <!-- Submit Button -->
     <app-button 
       [type]="submitButtonType"
       [size]="'SMALL'"
+      [icon]="'check'"
       (click)="onSubmit()"
-    >
-      <app-icon [icon]="'check'"></app-icon>
-    </app-button>
+    ></app-button>
 
   </form>
 </ng-template>

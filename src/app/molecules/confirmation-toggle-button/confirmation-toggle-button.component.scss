@@ -17,6 +17,7 @@
   padding: var(--spacer-2) var(--spacer-3);
   justify-content: space-between;
   background-color: var(--confirmation-bg-color);
+  width: fit-content;
   
   @media(max-width: $large-screen){
     flex-direction: column;

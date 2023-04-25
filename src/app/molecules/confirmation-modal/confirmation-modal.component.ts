@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Icon } from 'src/app/atoms';
 import { ElementType } from 'src/app/atoms/_models/button';
 
 @Component({
@@ -10,6 +11,7 @@ import { ElementType } from 'src/app/atoms/_models/button';
 export class ConfirmationModalComponent {
   @Input() heading!: string;
   @Input() confirmValue: any;
+  @Input() submitIcon?: Icon;
   @Input() modalType: ElementType = 'PRIMARY';
   @Input() cancelButtonType: ElementType = 'SECONDARY';
   @Input() submitButtonLabel: string = 'Yes';

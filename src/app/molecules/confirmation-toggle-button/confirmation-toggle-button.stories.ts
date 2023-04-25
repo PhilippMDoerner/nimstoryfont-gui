@@ -31,10 +31,10 @@ const Template: StoryFn<ConfirmationToggleButtonComponent> = (args: Confirmation
     <app-confirmation-toggle-button
       (confirm)="confirm($event)"
       [toggleType]="toggleType"
+      [icon]="'trash'"
+      [text]="'Delete'"
       [confirmationQuestion]="confirmationQuestion"
-    >
-      <app-icon icon="trash"></app-icon>
-    </app-confirmation-toggle-button>
+    ></app-confirmation-toggle-button>
   `
 });
 

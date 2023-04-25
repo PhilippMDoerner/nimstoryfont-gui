@@ -117,20 +117,18 @@
     <div class="form-card__confirmation confirmation">
       <app-button 
         class="confirmation__button" 
-        [type]="'DARK'" 
+        [type]="'DARK'"
+        [icon]="'times'"
+        [text]="'No'"
         (click)="onCancel()"
-      >
-        <app-icon [icon]="'times'" class="me-1"></app-icon>
-        No
-      </app-button>
+      ></app-button>
       <app-button 
         class="confirmation__button" 
         [type]="'DANGER'"
+        [icon]="'trash'"
+        [text]="'Yes'"
         (click)="onSubmit()"
-      >
-        <app-icon [icon]="'trash'" class="me-1"></app-icon>
-        Yes
-      </app-button>
+      ></app-button>
     </div>
   </app-card>
 </ng-template>

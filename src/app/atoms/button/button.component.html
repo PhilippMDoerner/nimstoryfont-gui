@@ -15,5 +15,8 @@
     'btn-disabled': disabled,
   }"
 >
-  <ng-content></ng-content>
+  <ng-container *ngIf="icon">
+    <app-icon [class.btn__icon]="text" [icon]="icon"></app-icon>
+  </ng-container>
+  {{text}}
 </button>

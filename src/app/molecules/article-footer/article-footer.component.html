@@ -5,23 +5,25 @@
     <app-confirmation-toggle-button 
       [toggleType]="'DANGER'"
       [confirmationQuestion]="deleteMessage"
+      [icon]="'trash'"
       (confirm)="delete.emit()"
-    >
-      <app-icon [icon]="'trash'"></app-icon>
-    </app-confirmation-toggle-button>
+    ></app-confirmation-toggle-button>
   </ng-container>
 </div>
 
 <ng-template #linkButton>
   <a [routerLink]="buttonLink" (click)="buttonClick.emit()">
-    <app-button [type]="'SECONDARY'">
-      {{buttonLabel}}
-    </app-button>
+    <app-button 
+      [type]="'SECONDARY'"
+      [text]="buttonLabel"
+    ></app-button>
   </a>
 </ng-template>
 
 <ng-template #nonLinkButton>
-  <app-button [type]="'SECONDARY'" (click)="buttonClick.emit()">
-    {{buttonLabel}}
-  </app-button>
+  <app-button 
+    [type]="'SECONDARY'"
+    [text]="buttonLabel"
+    (click)="buttonClick.emit()"
+  ></app-button>
 </ng-template> 

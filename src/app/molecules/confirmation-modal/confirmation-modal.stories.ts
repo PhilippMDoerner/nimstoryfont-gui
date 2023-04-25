@@ -27,6 +27,7 @@ export default {
         [cancelButtonType]="cancelButtonType"
         [submitButtonLabel]="submitButtonLabel"
         [cancelButtonLabel]="cancelButtonLabel"
+        [submitIcon]="submitIcon"
         (modalClose)="modalClose($event)" 
         (confirm)="confirm($event)"
         (cancel)="cancel($event)"
@@ -38,9 +39,10 @@ export default {
         </ng-container>
         
         <ng-container>
-          <app-button [type]="'SECONDARY'">
-            Open Modal
-          </app-button>
+          <app-button 
+            [type]="'SECONDARY'" 
+            [text]="'Open Modal'"
+          ></app-button>
         </ng-container>
         
       </app-confirmation-modal>
@@ -52,7 +54,8 @@ export default {
     submitButtonLabel: "Yes",
     modalType: "PRIMARY",
     cancelButtonType: "SECONDARY",
-    confirmValue: "Confirm value to emit"
+    confirmValue: "Confirm value to emit",
+    submitIcon: 'plus',
   }
 } as Meta<ConfirmationModalComponent>;
 

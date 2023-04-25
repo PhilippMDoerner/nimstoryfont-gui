@@ -17,14 +17,12 @@ import { ListComponent } from './list/list.component';
 import { PageBackgroundComponent } from './page-background/page-background.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
-import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.component';
 
 
 
 @NgModule({
   declarations: [
     EditToggleComponent,
-    IconToggleButtonComponent,
     ConfirmationToggleButtonComponent,
     ArticleFooterComponent,
     PageBackgroundComponent,
@@ -48,7 +46,6 @@ import { IconToggleButtonComponent } from './toggle-button/icon-toggle-button.co
   ],
   exports: [
     EditToggleComponent,
-    IconToggleButtonComponent,
     ConfirmationToggleButtonComponent,
     ArticleFooterComponent,
     PageBackgroundComponent,

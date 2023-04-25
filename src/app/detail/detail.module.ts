@@ -13,6 +13,7 @@ import { LocationComponent } from './location/location.component';
 import { LocationAccordionComponent } from './location-accordion/location-accordion.component';
 import { QuoteComponent } from './quote/quote.component';
 import { QuoteFieldComponent } from './quote-field/quote-field.component';
+import { SessionComponent } from './session/session.component';
 
 
 
@@ -26,7 +27,8 @@ import { QuoteFieldComponent } from './quote-field/quote-field.component';
     LocationComponent,
     LocationAccordionComponent,
     QuoteComponent,
-    QuoteFieldComponent
+    QuoteFieldComponent,
+    SessionComponent
   ],
   imports: [
     CommonModule,

@@ -17,10 +17,7 @@ export default {
   parameters: {
     backgrounds: { default: 'grey' }, // https://storybook.js.org/docs/angular/essentials/backgrounds
   },
-  args: {
-    imageServerUrl: 'https://www.aldrune.com',
-    backgroundImageUrl: '/assets/default_images/audio_pic_default.webp',
-  }
+  args: {}
 } as Meta<PageContainerComponent>;
 
 const Template: StoryFn<PageContainerComponent> = (args: PageContainerComponent) => ({ 
@@ -40,8 +37,3 @@ const Template: StoryFn<PageContainerComponent> = (args: PageContainerComponent)
 
 export const Default = Template.bind({});
 Default.args = {};
-
-export const NoImage = Template.bind({});
-NoImage.args = {
-  backgroundImageUrl: undefined,
-};

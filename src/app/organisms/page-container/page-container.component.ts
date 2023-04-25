@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
 
 @Component({
@@ -7,9 +7,6 @@ import { animateElement } from 'src/app/_functions/animate';
   styleUrls: ['./page-container.component.scss']
 })
 export class PageContainerComponent implements AfterViewInit{
-  @Input() backgroundImageUrl?: string;
-  @Input() imageServerUrl!: string;
-  
   @ViewChild('pageElement') pageElement!: ElementRef;
   
   ngAfterViewInit(): void{

@@ -54,10 +54,9 @@
       class="card__delete-confirmer"
       [toggleType]="'DANGER'"
       [confirmationQuestion]="'Delete this encounter?'"
+      [icon]="'trash'"
       (confirm)="onEncounterDelete()"
-    >
-      <app-icon [icon]="'trash'"></app-icon>
-    </app-confirmation-toggle-button>
+    ></app-confirmation-toggle-button>
   </ng-container>
 
 </ng-template>

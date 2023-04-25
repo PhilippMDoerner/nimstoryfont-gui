@@ -12,15 +12,12 @@ a {
 
 .sidebar{
     height: 100vh;
-    position: fixed;
-    min-width: 20rem;
+    width: 20rem;
     max-width: 40rem;
     background-color: var(--bs-gray-dark);
-    z-index: 1005; //Necessary because map uses z-indexes going up to 1000
     overflow-y: auto;
     overflow-x: hidden; //Necessary because when sidebar folds out, x scrollbar appears
     display: flex;
-    flex-shrink: 0;
     flex-direction: column;
     border-right-color: var(--bs-white);
     border-right-width: 1px;
@@ -61,7 +58,7 @@ a {
     padding-left: var(--spacer-3);
     list-style-type: none;
     height: 3rem;
-    font-weight:  600;
+    font-weight: bold;
     font-size: large;
     cursor: pointer;
   }
@@ -84,6 +81,7 @@ a {
     :hover{
       color: var(--entry-hover-color);
       background-color: var(--entry-hover-bg-color);
+      height: 100%;
     }
   }
   

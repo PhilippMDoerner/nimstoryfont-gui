@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Campaign } from 'src/app/_models/campaign';
 import { CampaignRole, UserData } from 'src/app/_models/token';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ArticleMetaData } from '../_model/sidebar';
+import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,10 +12,10 @@ import { ArticleMetaData } from '../_model/sidebar';
 export class SidebarComponent implements OnInit{
   @Input() campaign!: Campaign;
   @Input() user!: UserData;
-  @Input() sidebarEntries!: ArticleMetaData[]; 
   
   @Output() logout: EventEmitter<null> = new EventEmitter();
   
+  sidebarEntries: ArticleMetaData[] = SIDEBAR_ENTRIES; 
   isAdmin: boolean = false;
   campaignOverviewUrl: string = this.routingService.getRoutePath('campaign-overview');
   campaignAdminUrl!: string;

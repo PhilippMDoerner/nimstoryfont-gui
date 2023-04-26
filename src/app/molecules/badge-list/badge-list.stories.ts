@@ -117,3 +117,11 @@ export const NoCreate = Template.bind({});
 NoCreate.args = {
   createOptions: undefined,
 }
+
+export const NoLinks = Template.bind({});
+NoLinks.args = {
+  entries: dummyBadgeList.map(badge => ({
+    ...badge,
+    link: undefined,
+  })),
+}

@@ -73,7 +73,8 @@ export class FormComponent implements OnInit, OnChanges{
     }
   }
   
-  onSubmit(): void{
+  onSubmit(event: Event | undefined): void{
+    event?.preventDefault(); //Prevent event from bubbling up
     const isValidForm = this.form.valid;
     if(!isValidForm){
       return;
@@ -84,5 +85,9 @@ export class FormComponent implements OnInit, OnChanges{
 
   onCancel(): void{
     this.formlyCancel.emit();
+  }
+  
+  checkKey(event: any){
+    console.log(event);
   }
 }

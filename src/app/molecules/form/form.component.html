@@ -1,7 +1,7 @@
 <form 
   [formGroup]="form" 
   [enctype]="enctype"
-  (submit)="onSubmit()"
+  (keydown.enter)="onSubmit($event)"
 >
   <formly-form 
     [form]="form" 
@@ -13,7 +13,7 @@
     <div class="mt-5">
       <!-- Cancel Button -->
       <app-button 
-        class="me-3" 
+        class="me-3"
         [type]="cancelButtonType"
         [icon]="'times'"
         [text]="'Cancel'"
@@ -33,11 +33,10 @@
 
 <ng-template #activeSubmitButton>
   <app-button 
-    [tabIndex]="1"
     [type]="submitButtonType" 
     [text]="'Submit'"
     [icon]="submitIcon"
-    (click)="onSubmit()"
+    (click)="onSubmit(undefined)"
   ></app-button>
 </ng-template>
 

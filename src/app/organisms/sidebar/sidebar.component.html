@@ -1,14 +1,14 @@
 <ng-container *ngIf="campaign">
   <nav class="sidebar">
     <!-- Brand -->
-    <ul class="sidebar__brand brand">
-        <li class="brand__back" title="campaign-overview">
+    <div class="sidebar__brand brand">
+        <div class="brand__back" title="campaign-overview">
             <a [routerLink]="campaignOverviewUrl" class="brand__back-link">
               <app-icon class="brand__back-icon" [icon]="'chevron-left'"></app-icon>  
             </a> 
-        </li>
+        </div>
 
-        <li 
+        <div 
           class="brand__home" 
           [title]="campaign.name + '-Home'" 
           [class.disabled-entry]="campaign == null"
@@ -16,11 +16,11 @@
           <a class="brand__home-link" [routerLink]="homeUrl">
             <h3 class="brand__home-link-text"> 
               <img class="brand__icon" [src]="campaign.icon" alt="..." />
-              <span class="brand__home-link-text-text">{{campaign.name }}</span>
+              <div class="brand__home-link-text-text">{{campaign.name }}</div>
             </h3>
           </a>
-        </li>
-    </ul>
+        </div>
+    </div>
   
     <!-- Admin Section -->
     <ul class="sidebar__entries">

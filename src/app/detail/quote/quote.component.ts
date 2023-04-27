@@ -16,7 +16,7 @@ type QuoteState = "CREATE" | "UPDATE" | "DELETE" | "DISPLAY" | "UPDATE_OUTDATED"
 export class QuoteComponent implements OnInit, OnChanges{
   @Input() quote!: Quote;
   @Input() character!: Character;
-  @Input() campaignCharacters!: Character[];
+  @Input() campaignCharacters!: OverviewItem[];
   @Input() canCreate: boolean = false;
   @Input() canUpdate: boolean = false;
   @Input() canDelete: boolean = false;

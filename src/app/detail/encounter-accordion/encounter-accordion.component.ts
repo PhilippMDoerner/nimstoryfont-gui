@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
-import { Character } from '../_models/character';
 import { Encounter, EncounterConnection } from '../_models/encounter';
 
 @Component({
@@ -10,7 +9,6 @@ import { Encounter, EncounterConnection } from '../_models/encounter';
 })
 export class EncounterAccordionComponent {
   @Input() encounters!: Encounter[];
-  @Input() character!: Character;
   @Input() campaignCharacters!: OverviewItem[];
   @Input() campaignName!: string;
   @Input() serverModel?: Encounter;

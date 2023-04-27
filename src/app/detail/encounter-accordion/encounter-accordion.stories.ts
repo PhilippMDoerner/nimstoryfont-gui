@@ -493,7 +493,6 @@ export default {
   ],
   args: {
     encounters:  dummyEncounters,
-    character: dummyCharacters[0],
     campaignCharacters: dummyCharacters,
     campaignName: 'Aldrune',
     serverModel: undefined,

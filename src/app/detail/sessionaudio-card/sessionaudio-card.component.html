@@ -1,0 +1,29 @@
+<div class="card">
+  <!-- Card Title -->
+  <div class="card-header">
+      <h4 class="card-title">{{ sessionAudio.name }}</h4>
+  </div>
+
+  <!-- Card Body -->
+  <div class="card-body">
+      <a [routerLink]="sessionAudioUrl" class="card-link"> 
+        <app-button 
+          [icon]="'desktop'" 
+          [text]="'Stream'"
+          [type]="'PRIMARY'"
+        ></app-button>
+      </a>
+
+      <a 
+        [href]="serverUrl + '/' + sessionAudio.download_url"
+        target="_blank"
+        class="card-link"
+      > 
+        <app-button
+          [icon]="'download'"
+          [text]="'Download'"
+          [type]="'DARK'"
+        ></app-button>
+      </a>
+  </div>
+</div>

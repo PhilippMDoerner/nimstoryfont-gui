@@ -16,6 +16,7 @@ import { QuoteFieldComponent } from './quote-field/quote-field.component';
 import { SessionComponent } from './session/session.component';
 import { RuleComponent } from './rule/rule.component';
 import { SpellComponent } from './spell/spell.component';
+import { SessionaudioCardComponent } from './sessionaudio-card/sessionaudio-card.component';
 
 
 
@@ -32,7 +33,8 @@ import { SpellComponent } from './spell/spell.component';
     QuoteFieldComponent,
     SessionComponent,
     RuleComponent,
-    SpellComponent
+    SpellComponent,
+    SessionaudioCardComponent
   ],
   imports: [
     CommonModule,

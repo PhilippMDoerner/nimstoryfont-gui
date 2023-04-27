@@ -19,7 +19,7 @@ export class BadgeListComponent implements OnInit{
   @Input() cancelButtonType: ElementType = 'SECONDARY';
   
   @Output() entryDelete: EventEmitter<any> = new EventEmitter();
-  @Output() entryCreate: EventEmitter<{entry: any}> = new EventEmitter();
+  @Output() entryCreate: EventEmitter<any> = new EventEmitter();
   
   options?: any[];
   optionLabelProp?: string;

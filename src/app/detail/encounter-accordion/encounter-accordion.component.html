@@ -1,11 +1,3 @@
-<!-- Heading -->
-<h4> 
-  <app-info-circle-tooltip
-    [text]="encounters.length + ' Encounters'"
-    [tooltip]="'List of all encounters with ' + character.name + '. Starts with the most recent encounter and ends with the latest.'" 
-  ></app-info-circle-tooltip>
-</h4>
-
 <div class="encounter-list mb-5 mt-3">
   <ngb-accordion [closeOthers]="true" (panelChange)="onPanelChange($event)" [animation]="true">
     <ng-container *ngFor="let encounter of encounters; let i = index">

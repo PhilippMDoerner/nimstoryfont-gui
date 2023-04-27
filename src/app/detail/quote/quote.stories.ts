@@ -157,13 +157,13 @@ const dummyCharacters: OverviewItem[] = [
         "image": "http://example.com/gandalf.jpg",
         "name": "Gandalf portrait",
         "character_article": 1,
-        "creature_article": null,
-        "encounter_article": null,
-        "item_article": null,
-        "location_article": null,
-        "organization_article": null,
+        "creature_article": undefined,
+        "encounter_article": undefined,
+        "item_article": undefined,
+        "location_article": undefined,
+        "organization_article": undefined,
         "article_type": "Character",
-        "imageFile": null
+        "imageFile": undefined
       }
     ]
   },
@@ -195,13 +195,13 @@ const dummyCharacters: OverviewItem[] = [
         "image": "http://example.com/legolas.jpg",
         "name": "Legolas portrait",
         "character_article": 4,
-        "creature_article": null,
-        "encounter_article": null,
-        "item_article": null,
-        "location_article": null,
-        "organization_article": null,
+        "creature_article": undefined,
+        "encounter_article": undefined,
+        "item_article": undefined,
+        "location_article": undefined,
+        "organization_article": undefined,
         "article_type": "Character",
-        "imageFile": null
+        "imageFile": undefined
       }
     ]
   },
@@ -225,13 +225,13 @@ const dummyCharacters: OverviewItem[] = [
         "image": "http://example.com/aragorn.jpg",
         "name": "Aragorn portrait",
         "character_article": 6,
-        "creature_article": null,
-        "encounter_article": null,
-        "item_article": null,
-        "location_article": null,
-        "organization_article": null,
+        "creature_article": undefined,
+        "encounter_article": undefined,
+        "item_article": undefined,
+        "location_article": undefined,
+        "organization_article": undefined,
         "article_type": "Character",
-        "imageFile": null
+        "imageFile": undefined
       }
     ]
   },
@@ -267,26 +267,26 @@ const dummyCharacters: OverviewItem[] = [
             "image": "https://example.com/images/gorin1.jpg",
             "name": "Gorin 1",
             "character_article": 19,
-            "creature_article": null,
-            "encounter_article": null,
-            "item_article": null,
-            "location_article": null,
-            "organization_article": null,
+            "creature_article": undefined,
+            "encounter_article": undefined,
+            "item_article": undefined,
+            "location_article": undefined,
+            "organization_article": undefined,
             "article_type": "Character",
-            "imageFile": null
+            "imageFile": undefined
         },
         {
             "pk": 43,
             "image": "https://example.com/images/gorin2.jpg",
             "name": "Gorin 2",
             "character_article": 19,
-            "creature_article": null,
-            "encounter_article": null,
-            "item_article": null,
-            "location_article": null,
-            "organization_article": null,
+            "creature_article": undefined,
+            "encounter_article": undefined,
+            "item_article": undefined,
+            "location_article": undefined,
+            "organization_article": undefined,
             "article_type": "Character",
-            "imageFile": null
+            "imageFile": undefined
         }
     ]
   },
@@ -304,13 +304,13 @@ const dummyCharacters: OverviewItem[] = [
             "image": "https://example.com/images/lirien1.jpg",
             "name": "Lirien 1",
             "character_article": 20,
-            "creature_article": null,
-            "encounter_article": null,
-            "item_article": null,
-            "location_article": null,
-            "organization_article": null,
+            "creature_article": undefined,
+            "encounter_article": undefined,
+            "item_article": undefined,
+            "location_article": undefined,
+            "organization_article": undefined,
             "article_type": "Character",
-            "imageFile": null
+            "imageFile": undefined
         }
     ]
   }

@@ -1,3 +1,5 @@
+import { Image } from "../detail";
+
 export type ArticleKind = "CHARACTER" 
   | "CREATURE" 
   | "DIARYENTRY" 
@@ -16,4 +18,40 @@ export type ArticleKind = "CHARACTER"
   | "SESSION"
   | "SESSIONAUDIO"
   
-  export type OverviewItem = any;
+  // export type OverviewItem = any;
+  
+  export interface OverviewItem{
+    article_type: string;
+    name: string;
+    pk: number;
+    name_full: string;
+    description?: string;
+    update_date?: string;
+
+    //For Character-Type OverviewItems
+    player_character?: boolean;
+    images?: Image[];
+
+    //For Location-Type OverviewItems
+    parent_location_details?: {name: string, pk: number};
+
+    //For Diaryentry-Type OverviewItems
+    session_details?: OverviewSession; //Also for Session Audio Type overview-items
+    author_details?: {pk: number, name: string};
+
+    //For Session Audio-Type OverviewItems
+    audio_url?: string;
+    download_url?: string;
+
+    //For Map-Type OverviewItems
+    icon?: string;
+    
+    campaign_details?: {pk: number, name: string};
+}
+
+export interface OverviewSession{
+  pk: number;
+  session_number: number;
+  is_main_session: boolean;
+  is_main_session_int: 0 | 1;
+}

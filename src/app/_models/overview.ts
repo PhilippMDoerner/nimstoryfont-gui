@@ -1,5 +1,10 @@
 import { ApiObject, Image } from "../detail";
 
+export type QuestStatus = 'Completed' 
+  | "Failed"
+  | "In progress"
+  | "On Hold"
+
 export type ArticleKind = "CHARACTER" 
   | "CREATURE" 
   | "DIARYENTRY" 
@@ -44,6 +49,10 @@ export type ArticleKind = "CHARACTER"
 
     //For Map-Type OverviewItems
     icon?: string;
+    
+    // For quests
+    status?: QuestStatus;
+    abstract?: string;
     
     campaign_details?: {pk: number, name: string};
 }

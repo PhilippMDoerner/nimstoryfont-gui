@@ -1,10 +1,6 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { SpinnerComponent } from './spinner.component';
 
-const templateFunc = (thickness: number): string => `
-  
-`;
-
 export default {
   title: 'DesignSystem/Atoms/SpinnerComponent',
   component: SpinnerComponent,

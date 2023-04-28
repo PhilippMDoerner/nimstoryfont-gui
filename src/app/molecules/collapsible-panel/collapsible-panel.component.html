@@ -1,0 +1,16 @@
+<div class="card" #panel>
+  <h5 class="card__heading" (click)="togglePanel()">
+    <span>
+      <ng-content select="[heading]"></ng-content>
+    </span>
+    
+    <app-icon 
+      [icon]="isOpen ? 'chevron-up' : 'chevron-down'"
+    ></app-icon>
+  </h5>
+
+  <div class="card__body" [ngbCollapse]="!isOpen">
+    <app-separator></app-separator>
+    <ng-content select="[body]"></ng-content>
+  </div>
+</div>

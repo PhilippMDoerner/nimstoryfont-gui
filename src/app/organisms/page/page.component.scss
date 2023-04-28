@@ -3,6 +3,7 @@
 :host{
   --sb-width: 20rem;
   --sb-width-neg: -20rem;
+  --sb-margin: calc(calc(var(--sb-width) * 0.9));
   
   display: flex;
   @media(max-width: $small-screen){
@@ -11,8 +12,10 @@
 }
 
 .sidebar{
-  height: 100%;
   width: var(--sb-width);
+  height: 100vh;
+  width: 20rem;
+  max-width: 90vw;
   
   @media(max-width: $small-screen){
     position: absolute;
@@ -37,7 +40,7 @@
   }
   
   &--shift-right{
-    margin-left: var(--sb-width);
+    margin-left: var(--sb-margin);
   }
   
   &__content{
@@ -56,7 +59,7 @@
     height: 100%;
     
     &--shift-right{
-      margin-left: var(--sb-width);
+      margin-left: var(--sb-margin);
     }
   }
 }

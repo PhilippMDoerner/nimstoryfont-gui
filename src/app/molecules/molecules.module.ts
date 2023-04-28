@@ -7,6 +7,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { AtomsModule } from '../atoms/atoms.module';
 import { ArticleFooterComponent } from './article-footer/article-footer.component';
 import { BadgeListComponent } from './badge-list/badge-list.component';
+import { CollapsiblePanelComponent } from './collapsible-panel/collapsible-panel.component';
 import { CompareFormComponent } from './compare-form/compare-form.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/confirmation-toggle-button.component';
@@ -33,7 +34,8 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     SmallCreateFormComponent,
     ListComponent,
     ConfirmationModalComponent,
-    BadgeListComponent
+    BadgeListComponent,
+    CollapsiblePanelComponent
   ],
   imports: [
     CommonModule,
@@ -57,6 +59,7 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     ListComponent,
     ConfirmationModalComponent,
     BadgeListComponent,
+    CollapsiblePanelComponent,
     EditorModule,
     AtomsModule,
     FormlyBootstrapModule,

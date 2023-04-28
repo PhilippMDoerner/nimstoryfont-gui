@@ -27,8 +27,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     AlertComponent,
     SeparatorComponent,
     HtmlTextComponent,
-    SafeHtmlPipe,
     CardComponent,
+    SafeHtmlPipe,
   ],
   imports: [
     CommonModule,
@@ -45,8 +45,8 @@ import { SpinnerComponent } from './spinner/spinner.component';
     AlertComponent,
     SeparatorComponent,
     HtmlTextComponent,
-    SafeHtmlPipe,
     CardComponent,
+    SafeHtmlPipe,
     NgbModule,
     RouterModule,
   ]

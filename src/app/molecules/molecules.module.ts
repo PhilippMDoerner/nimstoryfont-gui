@@ -18,6 +18,7 @@ import { ListComponent } from './list/list.component';
 import { PageBackgroundComponent } from './page-background/page-background.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
+import { SearchFieldComponent } from './search-field/search-field.component';
 
 
 
@@ -35,7 +36,8 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     ListComponent,
     ConfirmationModalComponent,
     BadgeListComponent,
-    CollapsiblePanelComponent
+    CollapsiblePanelComponent,
+    SearchFieldComponent
   ],
   imports: [
     CommonModule,

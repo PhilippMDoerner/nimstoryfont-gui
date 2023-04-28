@@ -8,6 +8,7 @@ import { dateMessage, dateValidator, integerValidator, notIntegerMessage, requir
 import { SessionaudioCardComponent } from './sessionaudio-card.component';
 
 const dummySessionAudio: OverviewItem =   {
+  getAbsoluteRouterUrl: () => '/sessionaudio/456',
   article_type: "audio",
   name: "Audio of Main Session 83",
   pk: 1001,

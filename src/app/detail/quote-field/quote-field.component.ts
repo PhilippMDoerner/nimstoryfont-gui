@@ -119,7 +119,7 @@ export class QuoteFieldComponent implements OnInit, OnChanges{
     
     const newConnection: QuoteConnection = {
       quote: this.quote.pk as number,
-      character: character.pk,
+      character: character.pk as number,
     };
     this.connectionCreate.emit(newConnection);
   }

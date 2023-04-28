@@ -147,6 +147,7 @@ const dummyEncounter: Encounter = {
 
 const dummyCharacters: OverviewItem[] = [
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Gandalf",
     "pk": 1,
@@ -169,6 +170,7 @@ const dummyCharacters: OverviewItem[] = [
     ]
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Frodo",
     "pk": 2,
@@ -177,6 +179,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Gimli",
     "pk": 3,
@@ -185,6 +188,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Legolas",
     "pk": 4,
@@ -207,6 +211,7 @@ const dummyCharacters: OverviewItem[] = [
     ]
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Bilbo",
     "pk": 5,
@@ -215,6 +220,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Aragorn",
     "pk": 6,
@@ -237,6 +243,7 @@ const dummyCharacters: OverviewItem[] = [
     ]
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Saruman",
     "pk": 7,
@@ -245,6 +252,8 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
+
     "article_type": "Character",
     "name": "Sif",
     "pk": 18,
@@ -255,6 +264,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Gorin",
     "pk": 19,
@@ -292,6 +302,7 @@ const dummyCharacters: OverviewItem[] = [
     ]
   },
   {
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Lirien",
     "pk": 20,

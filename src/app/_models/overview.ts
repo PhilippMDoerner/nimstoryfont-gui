@@ -1,4 +1,4 @@
-import { Image } from "../detail";
+import { ApiObject, Image } from "../detail";
 
 export type ArticleKind = "CHARACTER" 
   | "CREATURE" 
@@ -20,10 +20,9 @@ export type ArticleKind = "CHARACTER"
   
   // export type OverviewItem = any;
   
-  export interface OverviewItem{
+  export interface OverviewItem extends ApiObject{
     article_type: string;
     name: string;
-    pk: number;
     name_full: string;
     description?: string;
     update_date?: string;

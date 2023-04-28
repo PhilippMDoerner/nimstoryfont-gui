@@ -109,7 +109,7 @@ export class EncounterComponent implements OnInit, OnChanges{
   onConnectionCreate(character: OverviewItem){
     const newConnection: EncounterConnection = {
       encounter: this.encounter?.pk as number,
-      character: character.pk,
+      character: character.pk as number,
     };
     this.connectionCreate.emit(newConnection);
   }

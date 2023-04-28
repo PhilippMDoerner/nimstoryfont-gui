@@ -16,7 +16,6 @@ import { FormlyEditorFieldComponent } from './organisms/formly-editor-field/form
 import { FormlySelectDisableFieldComponent } from './organisms/formly-select-disable/formly-select-disable-field.component';
 import { OrganismsModule } from './organisms/organisms.module';
 import { RootModule } from './root/root.module';
-import { TemplatesModule } from './templates/templates.module';
 
 @NgModule({
   declarations: [
@@ -24,7 +23,6 @@ import { TemplatesModule } from './templates/templates.module';
   ],
   imports: [
     OrganismsModule,
-    TemplatesModule,
     RootModule,
     DetailModule,
     AdministrationModule,
@@ -63,7 +61,6 @@ import { TemplatesModule } from './templates/templates.module';
       ],
     }),
     HammerModule,
-    TemplatesModule,
   ],
   providers: [
     {

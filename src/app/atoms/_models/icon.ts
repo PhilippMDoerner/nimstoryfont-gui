@@ -62,7 +62,7 @@ export const ALL_SOLID_ICONS = [
   'cut',
   'file',
   'copy',
-  'clipboard'
+  'clipboard',
 ]
 
 type typedSolidIcons = typeof ALL_SOLID_ICONS;

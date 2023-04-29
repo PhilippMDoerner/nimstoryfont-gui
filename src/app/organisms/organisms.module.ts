@@ -10,6 +10,7 @@ import { PageContainerComponent } from './page-container/page-container.componen
 import { PageComponent } from './page/page.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { FilterListComponent } from './filter-list/filter-list.component';
+import { IconCardListComponent } from './icon-card-list/icon-card-list.component';
 
 
 
@@ -22,6 +23,7 @@ import { FilterListComponent } from './filter-list/filter-list.component';
     SidebarComponent,
     PageComponent,
     FilterListComponent,
+    IconCardListComponent,
   ],
   imports: [
     CommonModule,

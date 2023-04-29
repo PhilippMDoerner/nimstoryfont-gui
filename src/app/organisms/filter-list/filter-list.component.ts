@@ -1,6 +1,8 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
+type GroupMode = "PROPERTY" | "LETTER"
+
 @Component({
   selector: 'app-filter-list',
   templateUrl: './filter-list.component.html',
@@ -10,16 +12,19 @@ export class FilterListComponent implements OnInit, OnChanges{
   @Input() entries!: any[];
   @Input() labelProp!: string;
   @Input() heading!: string;
+  @Input() groupProp?: string;
   
   @ViewChild('filterInputElement') filterInputElement!: ElementRef;
   
   displayEntries!: any[];
+  mode: GroupMode = 'LETTER';
   
   constructor(
     private routing: Router,
   ){}
   
   ngOnInit(): void {
+    this.mode = this.groupProp ? 'PROPERTY' : 'LETTER';
     this.displayEntries = this.entries;
   }
   
@@ -28,7 +33,6 @@ export class FilterListComponent implements OnInit, OnChanges{
   }
   
   updateDisplayEntries(){
-    console.log("Fired");
     const filterValue = this.filterInputElement.nativeElement.value;
     if(filterValue == null || filterValue === ""){
       this.displayEntries = this.entries;

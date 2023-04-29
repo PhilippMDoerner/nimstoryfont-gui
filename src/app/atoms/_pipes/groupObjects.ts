@@ -21,7 +21,7 @@ export class GroupByFirstLetterPipe implements PipeTransform{
 
 @Pipe({name: "groupBy"}) 
 export class GroupByPipe implements PipeTransform{
-    transform(itemArray: Array<any>, groupProp: string): any{
+    transform(itemArray: Array<any>, groupProp: string, subSortProp: string, reverse: boolean = false): any{
         const callback = (accumulator: any, item: any) => {
             //grouped Field Value = The content of the field by which you're grouping.
             //item = The value being grouped
@@ -45,10 +45,17 @@ export class GroupByPipe implements PipeTransform{
                 value: groupedObj[key] 
             }));
         const sortedGroupArray: {key: string, value: any[]}[] = groupArray.sort(
-            (group1, group2) => group1.key.toLowerCase() < group2.key.toLowerCase() ? 1 : -1
+            (group1, group2) => group1.key.toLowerCase() < group2.key.toLowerCase() ? -1 : 1
         );
+        
+        sortedGroupArray.forEach(group => {
+            const values: any[] = group.value;
+            group.value = values.sort(
+                (val1: any, val2: any) => val1[subSortProp].toLowerCase() < val2[subSortProp].toLowerCase() ? 1 : -1
+            );
+        })
 
-        return sortedGroupArray.reverse();
+        return reverse ? sortedGroupArray.reverse() : sortedGroupArray;
     }
     
     /**

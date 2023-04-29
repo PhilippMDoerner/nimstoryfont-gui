@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { GroupByFirstLetterPipe } from './_pipes/groupObjects';
+import { GroupByFirstLetterPipe, GroupByPipe } from './_pipes/groupObjects';
 import { SafeHtmlPipe } from './_pipes/safeHtml';
 import { AlertComponent } from './alert/alert.component';
 import { BadgeComponent } from './badge/badge.component';
@@ -30,6 +30,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     CardComponent,
     SafeHtmlPipe,
     GroupByFirstLetterPipe,
+    GroupByPipe,
   ],
   imports: [
     CommonModule,
@@ -51,6 +52,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     RouterModule,
     SafeHtmlPipe,
     GroupByFirstLetterPipe,
+    GroupByPipe,
   ]
 })
 export class AtomsModule { }

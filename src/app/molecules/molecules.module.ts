@@ -21,6 +21,7 @@ import { PageBackgroundComponent } from './page-background/page-background.compo
 import { SearchFieldComponent } from './search-field/search-field.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
+import { ChoiceSelectComponent } from './choice-select/choice-select.component';
 
 
 
@@ -41,7 +42,8 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     CollapsiblePanelComponent,
     SearchFieldComponent,
     ImageCardComponent,
-    IconCardComponent
+    IconCardComponent,
+    ChoiceSelectComponent
   ],
   imports: [
     CommonModule,

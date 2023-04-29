@@ -9,6 +9,7 @@ import { FormlySelectDisableFieldComponent } from './formly-select-disable/forml
 import { PageContainerComponent } from './page-container/page-container.component';
 import { PageComponent } from './page/page.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { FilterListComponent } from './filter-list/filter-list.component';
 
 
 
@@ -20,6 +21,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     FormlySelectDisableFieldComponent,
     SidebarComponent,
     PageComponent,
+    FilterListComponent,
   ],
   imports: [
     CommonModule,

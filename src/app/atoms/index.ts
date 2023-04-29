@@ -1,6 +1,7 @@
-export { SafeHtmlPipe } from '../_pipes/safeHtml';
 export { ElementSize, ElementType } from './_models/button';
 export { ALL_REGULAR_ICONS, ALL_SOLID_ICONS, Icon, RegularIcon, SolidIcon } from './_models/icon';
+export { GroupByFirstLetterPipe } from './_pipes/groupObjects';
+export { SafeHtmlPipe } from './_pipes/safeHtml';
 export { AlertComponent } from './alert/alert.component';
 export { BadgeComponent } from './badge/badge.component';
 export { ButtonComponent } from './button/button.component';

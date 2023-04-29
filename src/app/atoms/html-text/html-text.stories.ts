@@ -1,5 +1,5 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { SafeHtmlPipe } from 'src/app/_pipes/safeHtml';
+import { SafeHtmlPipe } from 'src/app/atoms/_pipes/safeHtml';
 import { HtmlTextComponent } from './html-text.component';
 
 const htmlDummyText = `

@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { SafeHtmlPipe } from '../_pipes/safeHtml';
+import { GroupByFirstLetterPipe } from './_pipes/groupObjects';
+import { SafeHtmlPipe } from './_pipes/safeHtml';
 import { AlertComponent } from './alert/alert.component';
 import { BadgeComponent } from './badge/badge.component';
 import { ButtonComponent } from './button/button.component';
@@ -13,7 +14,6 @@ import { InfoCircleTooltipComponent } from './info-circle-tooltip/info-circle-to
 import { InteractiveBadgeComponent } from './interactive-badge/interactive-badge.component';
 import { SeparatorComponent } from './separator/separator.component';
 import { SpinnerComponent } from './spinner/spinner.component';
-
 
 
 @NgModule({
@@ -29,6 +29,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     HtmlTextComponent,
     CardComponent,
     SafeHtmlPipe,
+    GroupByFirstLetterPipe,
   ],
   imports: [
     CommonModule,
@@ -46,9 +47,10 @@ import { SpinnerComponent } from './spinner/spinner.component';
     SeparatorComponent,
     HtmlTextComponent,
     CardComponent,
-    SafeHtmlPipe,
     NgbModule,
     RouterModule,
+    SafeHtmlPipe,
+    GroupByFirstLetterPipe,
   ]
 })
 export class AtomsModule { }

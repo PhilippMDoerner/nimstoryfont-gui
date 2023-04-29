@@ -1,0 +1,22 @@
+:host{
+  --icon-height: 6rem;
+  --icon-size: 4rem;
+}
+
+.card{
+  &-icon-top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--icon-height);
+    font-size: var(--icon-size);
+  }
+  
+  &-title{
+    height: 4rem;
+  }
+  
+  &-subtitle{
+    margin-bottom: var(--spacer-2);
+  }
+}

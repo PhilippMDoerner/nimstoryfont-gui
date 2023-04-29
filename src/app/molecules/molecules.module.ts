@@ -20,6 +20,7 @@ import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.componen
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
 import { SearchFieldComponent } from './search-field/search-field.component';
 import { ImageCardComponent } from './image-card/image-card.component';
+import { IconCardComponent } from './icon-card/icon-card.component';
 
 
 
@@ -39,7 +40,8 @@ import { ImageCardComponent } from './image-card/image-card.component';
     BadgeListComponent,
     CollapsiblePanelComponent,
     SearchFieldComponent,
-    ImageCardComponent
+    ImageCardComponent,
+    IconCardComponent
   ],
   imports: [
     CommonModule,

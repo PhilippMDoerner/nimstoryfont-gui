@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 
 type GroupMode = "PROPERTY" | "LETTER"
@@ -8,7 +8,7 @@ type GroupMode = "PROPERTY" | "LETTER"
   templateUrl: './filter-list.component.html',
   styleUrls: ['./filter-list.component.scss']
 })
-export class FilterListComponent implements OnInit, OnChanges{
+export class FilterListComponent implements OnInit{
   @Input() entries!: any[];
   @Input() labelProp!: string;
   @Input() heading!: string;
@@ -26,10 +26,6 @@ export class FilterListComponent implements OnInit, OnChanges{
   ngOnInit(): void {
     this.mode = this.groupProp ? 'PROPERTY' : 'LETTER';
     this.displayEntries = this.entries;
-  }
-  
-  ngOnChanges(): void {
-    // this.updateDisplayEntries();
   }
   
   updateDisplayEntries(){

@@ -13,13 +13,15 @@
       (change)="filterQuests()"
     >
       <ng-container *ngFor="let state of DISPLAY_STATES" >
-          <option [value]="state"> {{state}} </option>
+          <option [value]="state"> 
+            {{state}} 
+          </option>
       </ng-container>
     </select>
   </div>
   
   <div class="row">
-    <table class="table table-dark table-striped">
+    <table class="table table-dark table-striped" style="--bs-table-bg: var(--table-bg); --bs-table-striped-bg: var(--table-striped-bg)">
       <!-- Inner Table Heading -->
       <thead>
         <tr>
@@ -36,10 +38,8 @@
         <ng-container *ngFor="let quest of displayQuests; let questIndex = index">
           <tr>
             <!-- Quest Name Column -->
-            <td class="table__element">
-              <a [id]="'quest' + quest.pk" [routerLink]="quest.getAbsoluteRouterUrl()">
+            <td class="table__element table__element--link" [routerLink]="quest.getAbsoluteRouterUrl()">
                 <strong>{{ quest.name }}</strong>
-              </a>
             </td>
             
             <!-- Quest Abstract -->

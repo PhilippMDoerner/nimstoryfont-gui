@@ -14,13 +14,13 @@ import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/
 import { EditToggleComponent } from './edit-toggle/edit-toggle.component';
 import { FormComponent } from './form/form.component';
 import { FormlyFileFieldComponent } from './formly-file-field/formly-file-field.component';
+import { IconCardComponent } from './icon-card/icon-card.component';
+import { ImageCardComponent } from './image-card/image-card.component';
 import { ListComponent } from './list/list.component';
 import { PageBackgroundComponent } from './page-background/page-background.component';
+import { SearchFieldComponent } from './search-field/search-field.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
-import { SearchFieldComponent } from './search-field/search-field.component';
-import { ImageCardComponent } from './image-card/image-card.component';
-import { IconCardComponent } from './icon-card/icon-card.component';
 
 
 
@@ -71,6 +71,10 @@ import { IconCardComponent } from './icon-card/icon-card.component';
     FormlyBootstrapModule,
     ReactiveFormsModule,
     FormsModule,
+    CollapsiblePanelComponent,
+    SearchFieldComponent,
+    ImageCardComponent,
+    IconCardComponent
   ]
 })
 export class MoleculesModule { }

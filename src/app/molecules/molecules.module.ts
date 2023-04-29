@@ -19,6 +19,7 @@ import { PageBackgroundComponent } from './page-background/page-background.compo
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
 import { SearchFieldComponent } from './search-field/search-field.component';
+import { ImageCardComponent } from './image-card/image-card.component';
 
 
 
@@ -37,7 +38,8 @@ import { SearchFieldComponent } from './search-field/search-field.component';
     ConfirmationModalComponent,
     BadgeListComponent,
     CollapsiblePanelComponent,
-    SearchFieldComponent
+    SearchFieldComponent,
+    ImageCardComponent
   ],
   imports: [
     CommonModule,

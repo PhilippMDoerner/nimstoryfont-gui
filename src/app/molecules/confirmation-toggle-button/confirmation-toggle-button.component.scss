@@ -1,4 +1,4 @@
-@import '../../../screens.scss';
+@import 'bootstrap/scss/bootstrap';
 
 :host{
   --align: start;
@@ -11,17 +11,18 @@
 .confirmation{
   border: 1px solid;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   align-content: center;
   border-radius: 4px;
   padding: var(--spacer-2) var(--spacer-3);
   justify-content: space-between;
   background-color: var(--confirmation-bg-color);
   width: fit-content;
+  flex-direction: column;
   
-  @media(max-width: $large-screen){
-    flex-direction: column;
-    align-items: start;
+  @include media-breakpoint-up(lg){
+    flex-direction: row;
+    align-items: center;
   }
   
   &--DANGER{
@@ -46,25 +47,21 @@
   
   &__question{
     flex: 1;
-    margin-right: var(--spacer-2);
     
-    @media(max-width: $large-screen){
-      margin-right: unset;
+    @include media-breakpoint-up(lg){
+      margin-right: var(--spacer-2);
     }
   }
 
   &__buttons{
     display: flex;
     justify-content: space-between;
-    :nth-child(1){
-      margin-right: var(--spacer-2);
-    }
+    width: 100%;
     
-    @media(max-width: $large-screen){
-      width: 100%;
-      
+    @include media-breakpoint-up(lg){
+      width: unset;
       :nth-child(1){
-        margin-right: unset;
+        margin-right: var(--spacer-2);
       }
     }
   }

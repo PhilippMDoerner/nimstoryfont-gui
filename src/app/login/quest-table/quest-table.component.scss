@@ -1,4 +1,4 @@
-@import '../../../screens.scss';
+@import 'bootstrap/scss/bootstrap';
 
 :host{
   --table-bg: var(--bs-gray-dark); 
@@ -40,8 +40,9 @@
     }
     
     &--desktop-only{
-      @media(max-width: $medium-screen){
-        display: none;
+      display: none;
+      @include media-breakpoint-up(md){
+        display: table-cell;
       }
     }
   }

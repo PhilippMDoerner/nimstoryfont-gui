@@ -1,7 +1,7 @@
 // The core place for setting css variables
 
 @import './custom_bootstrap.scss';
-@import 'bootstrap/scss/bootstrap';
+@import '/node_modules/bootstrap/scss/bootstrap.scss';
 
 :root{
   // Assign those based on the bootstrap variables

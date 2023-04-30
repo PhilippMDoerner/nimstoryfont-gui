@@ -1,5 +1,5 @@
 @import './custom_bootstrap.scss';
-@import 'bootstrap/scss/bootstrap'; //Must be imported after custom_bootstrap so that values from custom_bootstrap are available for overriding
+@import '/node_modules/bootstrap/scss/bootstrap.scss'; //Must be imported after custom_bootstrap so that values from custom_bootstrap are available for overriding
 @import './variables.scss';
 
 html{

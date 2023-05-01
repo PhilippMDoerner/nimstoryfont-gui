@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { Observable, map } from "rxjs";
-import { Encounter } from "src/app/_models/encounter";
+import { Encounter, EncounterObject } from "src/app/_models/encounter";
 import { OverviewItem } from "src/app/_models/overview";
 import { BaseService } from "../base.service";
 import { RoutingService } from "../routing.service";
@@ -57,10 +57,10 @@ export class EncounterService extends BaseService<Encounter> {
   }
 
   override parseEntity(data: any): Encounter {
-    return {
+    return new EncounterObject({
       ...data,
       getAbsoluteRouterUrl: this.generateUrlCallback(data),
-    };
+    });
   }
   
   override parseOverviewEntity(data: any): OverviewItem {

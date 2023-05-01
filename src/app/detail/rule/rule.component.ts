@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
+import { ElementType } from 'src/app/atoms';
 import { Rule } from '../../_models/rule';
 
 type RuleState = "DISPLAY" | "CREATE" | "UPDATE" | "OUTDATED_UPDATE"
@@ -10,19 +11,22 @@ type RuleState = "DISPLAY" | "CREATE" | "UPDATE" | "OUTDATED_UPDATE"
   templateUrl: './rule.component.html',
   styleUrls: ['./rule.component.scss']
 })
-export class RuleComponent   implements OnInit, OnChanges{
+export class RuleComponent implements OnInit{
   @Input() rule?: Rule;
   @Input() canUpdate: boolean = false;
   @Input() canDelete: boolean = false;
   @Input() canCreate: boolean = false;
   @Input() serverModel?: Rule;
+  @Input() cancelButtonType: ElementType = 'SECONDARY';
+  @Input() submitButtonType: ElementType = 'PRIMARY';
   
   @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
   @Output() ruleCreate: EventEmitter<Rule> = new EventEmitter();
   @Output() ruleUpdate: EventEmitter<Rule> = new EventEmitter();
+  @Output() ruleCreateCancel: EventEmitter<null> = new EventEmitter();
   
   userModel?: Rule;
-  state: RuleState = 'DISPLAY';
+  state!: RuleState;
 
   formlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
@@ -39,19 +43,22 @@ export class RuleComponent   implements OnInit, OnChanges{
   ) {}
   
   ngOnInit(): void {
-    const isInCreateScenario = this.rule == null && this.canCreate;
+    const isInCreateScenario = this.rule?.pk == null && this.canCreate;
     if(isInCreateScenario){
       this.changeState('CREATE', {} as Rule);
+      return;
     }
     
+    this.changeState('DISPLAY', undefined);
   }
-  
-  ngOnChanges(): void {
-    
-  }
-  
   
   onToggle(toggled: boolean){
+    const isInCreateScenario = this.state === 'CREATE';
+    if(isInCreateScenario){
+      this.onRuleCreateCancel();
+      return;
+    }
+    
     const isInDisplayState = this.state === 'DISPLAY';
     const nextState = isInDisplayState ? 'UPDATE' : 'DISPLAY';
     const nextModel: Rule | undefined = toggled ? {...this.rule} as Rule : undefined;
@@ -77,5 +84,10 @@ export class RuleComponent   implements OnInit, OnChanges{
     this.ruleUpdate.emit(rule);
     this.rule = rule;
     this.changeState('DISPLAY', undefined);
+  }
+  
+  onRuleCreateCancel(){
+    this.changeState('DISPLAY', undefined);
+    this.ruleCreateCancel.emit();
   }
 }

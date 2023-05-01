@@ -80,6 +80,8 @@
   <app-form 
     [model]="userModel" 
     [fields]="formlyFields" 
+    [cancelButtonType]="cancelButtonType"
+    [submitButtonType]="submitButtonType"
     (formlySubmit)="onRuleUpdate($event)" 
     (formlyCancel)="changeState('DISPLAY', undefined)"
   ></app-form>
@@ -94,8 +96,10 @@
     <app-form 
       [model]="userModel" 
       [fields]="formlyFields" 
+      [cancelButtonType]="cancelButtonType"
+      [submitButtonType]="submitButtonType"
       (formlySubmit)="onRuleCreate($event)" 
-      (formlyCancel)="changeState('DISPLAY', undefined)"
+      (formlyCancel)="onRuleCreateCancel()"
     ></app-form>
   </ng-container>
 </ng-template>

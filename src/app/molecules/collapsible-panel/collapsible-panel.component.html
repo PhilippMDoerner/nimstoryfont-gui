@@ -1,7 +1,7 @@
 <div class="card" #panel>
   <h5 class="card__heading" (click)="togglePanel()">
     <span>
-      <ng-content select="[heading]"></ng-content>
+      {{heading}}
     </span>
     
     <app-icon 

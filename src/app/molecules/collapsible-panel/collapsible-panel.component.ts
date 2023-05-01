@@ -7,8 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class CollapsiblePanelComponent {
   @Input() heading!: string;
-  
-  isOpen: boolean = false;
+  @Input() isOpen: boolean = false;
   
   togglePanel(){
     this.isOpen = !this.isOpen;

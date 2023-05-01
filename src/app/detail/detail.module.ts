@@ -18,6 +18,7 @@ import { RuleComponent } from './rule/rule.component';
 import { SpellComponent } from './spell/spell.component';
 import { SessionaudioCardComponent } from './sessionaudio-card/sessionaudio-card.component';
 import { DiaryentryEncountersComponent } from './diaryentry-encounters/diaryentry-encounters.component';
+import { RulesComponent } from './rules/rules.component';
 
 
 
@@ -36,7 +37,8 @@ import { DiaryentryEncountersComponent } from './diaryentry-encounters/diaryentr
     RuleComponent,
     SpellComponent,
     SessionaudioCardComponent,
-    DiaryentryEncountersComponent
+    DiaryentryEncountersComponent,
+    RulesComponent
   ],
   imports: [
     CommonModule,

@@ -22,6 +22,14 @@ const Template: StoryFn<PageBackgroundComponent> = (args: PageBackgroundComponen
   props: {
     ...args,
   },
+  template: `
+    <div style="height: 100vh;">
+      <app-page-background
+        [serverUrl]="serverUrl"
+        [imageUrl]="imageUrl"
+      ></app-page-background>
+    </div>
+  `
 });
 
 export const Default = Template.bind({});

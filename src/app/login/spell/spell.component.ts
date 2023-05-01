@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
+import { ElementType } from 'src/app/atoms';
 import { BadgeListEntry } from 'src/app/molecules';
 import { BadgeListSelectOptions } from 'src/app/molecules/_models/badge-list';
 import { SPELL_CASTING_TIME, SPELL_COMPONENTS, SPELL_DURATION, SPELL_LEVELS, SPELL_RANGES, SPELL_SAVES, SPELL_SCHOOLS, Spell, SpellPlayerClassConnection } from '../../_models/spell';
@@ -20,13 +21,16 @@ export class SpellComponent implements OnInit, OnChanges{
   @Input() canDelete: boolean = false;
   @Input() canCreate: boolean = false;
   @Input() serverModel?: Spell;
+  @Input() cancelButtonType: ElementType = 'SECONDARY';
+  @Input() submitButtonType: ElementType = 'PRIMARY';
   
   @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
   @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();
   @Output() spellUpdate: EventEmitter<Spell> = new EventEmitter();
+  @Output() spellCreateCancel: EventEmitter<null> = new EventEmitter();
   @Output() connectionDelete: EventEmitter<SpellPlayerClassConnection> = new EventEmitter();
   @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> = new EventEmitter();
-  
+
   userModel?: Spell;
   state: SpellState = 'DISPLAY';
   playerClassConnections!: BadgeListEntry[];
@@ -95,7 +99,7 @@ export class SpellComponent implements OnInit, OnChanges{
   ) {}
   
   ngOnInit(): void {
-    const isInCreateScenario = this.spell == null && this.canCreate;
+    const isInCreateScenario = this.spell?.pk == null && this.canCreate;
     if(isInCreateScenario){
       this.changeState('CREATE', {} as Spell);
     }
@@ -119,6 +123,12 @@ export class SpellComponent implements OnInit, OnChanges{
   }
   
   onToggle(toggled: boolean){
+    const isInCreateScenario = this.state === 'CREATE';
+    if(isInCreateScenario){
+      this.onSpellCreateCancel();
+      return;
+    }
+    
     const isInDisplayState = this.state === 'DISPLAY';
     const nextState = isInDisplayState ? 'UPDATE' : 'DISPLAY';
     const nextModel: Spell | undefined = toggled ? {...this.spell} as Spell : undefined;
@@ -152,5 +162,10 @@ export class SpellComponent implements OnInit, OnChanges{
       player_class: selectedClass.pk as number,
     };
     this.connectionCreate.emit(connection);
+  }
+  
+  onSpellCreateCancel(){
+    this.changeState('DISPLAY', undefined);
+    this.spellCreateCancel.emit();
   }
 }

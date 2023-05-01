@@ -2,8 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { FormlyEditorFieldComponent } from 'src/app/organisms';
-import { OrganismsModule } from '..';
+import { FormlyEditorFieldComponent, OrganismsModule } from 'src/app/organisms';
 import { PlayerClass } from '../../_models/playerclass';
 import { Spell } from '../../_models/spell';
 import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from '../../_services/formly/validators';
@@ -66,7 +65,7 @@ const dummyClasses: PlayerClass[] = [
 
 
 export default {
-  title: 'Application/Detail/SpellComponent',
+  title: 'Application/Login/SpellComponent',
   component: SpellComponent,
   decorators: [
     moduleMetadata({

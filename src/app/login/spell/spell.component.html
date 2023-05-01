@@ -195,7 +195,9 @@
 <ng-template #updateBody>
   <app-form 
     [model]="userModel" 
-    [fields]="formlyFields" 
+    [fields]="formlyFields"
+    [cancelButtonType]="cancelButtonType"
+    [submitButtonType]="submitButtonType"
     (formlySubmit)="onSpellUpdate($event)" 
     (formlyCancel)="changeState('DISPLAY', undefined)"
   ></app-form>
@@ -210,8 +212,10 @@
     <app-form 
       [model]="userModel" 
       [fields]="formlyFields" 
+      [cancelButtonType]="cancelButtonType"
+      [submitButtonType]="submitButtonType"
       (formlySubmit)="onSpellCreate($event)" 
-      (formlyCancel)="changeState('DISPLAY', undefined)"
+      (formlyCancel)="onSpellCreateCancel()"
     ></app-form>
   </ng-container>
 </ng-template>

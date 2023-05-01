@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Observable, map, of } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { FormlyCheckboxConfig, FormlyDatepickerConfig, FormlyFileConfig, FormlyInputConfig, FormlyInterface, FormlyOverviewDisabledSelectConfig, FormlyOverviewSelectConfig, FormlyPasswordInterface, FormlyCustomSelectConfig as FormlyStaticSelectConfig, FormlyCustomStringSelectConfig as FormlyStaticStringSelectConfig, StaticOption } from 'src/app/_models/formly';
+import { OverviewItem } from 'src/app/_models/overview';
+import { OverviewService } from '../article/overview.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,7 @@ import { FormlyCheckboxConfig, FormlyDatepickerConfig, FormlyFileConfig, FormlyI
 export class FormlyServiceService {
 
   constructor(
-    // private overviewService: any,
+    private overviewService: OverviewService,
   ) { }
   
   buildOverviewSelectConfig(config: FormlyOverviewSelectConfig): FormlyFieldConfig{
@@ -313,13 +315,12 @@ export class FormlyServiceService {
   }
   
   private getOverviewItems(config: FormlyOverviewSelectConfig): Observable<any[]> {
-    // const isCampaignSpecific = config.campaign !== null;
-    // isCampaignSpecific 
-    //   ? this.selectOptionService.getCampaignOverviewItems(config.campaign, config.overviewType, config.sortProp)
-    //   : this.selectOptionService.getAllOverviewItems(config.overviewType, config.sortProp);
-    
-    let options: Observable<any[]> = of([]);
-    
+    const isCampaignSpecific = config.campaign != null;
+    const sortProp = config.sortProp as keyof OverviewItem;
+    let options = isCampaignSpecific 
+      ? this.overviewService.getCampaignOverviewItems(config.campaign as string, config.overviewType, sortProp)
+      : this.overviewService.getAllOverviewItems(config.overviewType, sortProp);
+        
     if(!config.required){
       options = this.addEmptyOption(options, config);
     }

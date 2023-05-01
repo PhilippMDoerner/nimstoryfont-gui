@@ -66,7 +66,9 @@ const PrimaryTemplate: StoryFn<FormlyFileFieldComponent> = (args: FormlyFileFiel
       {
         key: 'file',
         type: 'file',
-        buttonType: 'PRIMARY'
+        props: {
+          buttonType: 'PRIMARY',
+        },
       },
     ],
   },

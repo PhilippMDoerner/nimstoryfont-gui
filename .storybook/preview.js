@@ -1,3 +1,7 @@
+import { HttpClientModule } from '@angular/common/http';
+import { importProvidersFrom } from '@angular/core';
+import { applicationConfig } from '@storybook/angular';
+
 export const parameters = {
   viewMode: 'docs',
   actions: {argTypesRegex: "^on[A-Z].*"},
@@ -31,3 +35,16 @@ export const parameters = {
     ],
   },
 }
+
+const decorators = [
+  applicationConfig({
+    providers: [importProvidersFrom(HttpClientModule)] // Imports httpclient module globally, needed for overview things in formly
+  })
+];
+
+const preview = {
+  parameters: parameters,
+  decorators: decorators,
+};
+
+export default preview;

@@ -21,7 +21,7 @@ export class CampaignService extends BaseService<Campaign>{
     super(http, 'campaign');
   }
 
-  override campaignList(): Observable<CampaignOverview[]>{
+  campaignOverview(): Observable<CampaignOverview[]>{
     const campaignObs: Observable<CampaignOverview[]> =  this.http.get<CampaignOverview[]>(`${this.baseUrl}/overview/`);
     return campaignObs.pipe(
       map((campaigns: CampaignOverview[]) => {

@@ -1,8 +1,9 @@
 import { Observable } from "rxjs";
+import { OverviewItem } from "../_models/overview";
 
 export interface CampaignService<T> extends CUDService<T>{
   list(): Observable<T[]>;
-  campaignList(campaignName: string): Observable<T[]>;
+  campaignList(campaignName: string): Observable<OverviewItem[]>;
   campaignDetailList(campaignName: string): Observable<T[]>;
   readByParam(campaignName: string, params: any): Observable<T>;
   read(pk: number): Observable<T>;

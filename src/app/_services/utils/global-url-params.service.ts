@@ -44,7 +44,7 @@ export class GlobalUrlParamsService {
     
     this.isLoadingCampaignSet = true;
 
-    this.campaignService.campaignList()
+    this.campaignService.campaignOverview()
       .pipe(first())
       .subscribe(
         (campaigns: CampaignOverview[]) => {

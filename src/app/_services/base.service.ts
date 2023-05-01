@@ -36,10 +36,10 @@ export abstract class BaseService<T> implements CampaignService<T>{
   /**
    * Sends a GET request for an overview list of all entries of the campaign with the given name.
    */
-  campaignList(campaign: string): Observable<T[]>{
-    return this.http.get<T[]>(`${this.baseUrl}/${campaign}/overview`)
+  campaignList(campaign: string): Observable<OverviewItem[]>{
+    return this.http.get<T[]>(`${this.baseUrl}/${campaign}/overview/`)
       .pipe(
-        map(entries => entries.map(entry => this.parseEntity(entry))),
+        map(entries => entries.map(entry => this.parseOverviewEntity(entry))),
       );
   }
 

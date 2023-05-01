@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { OverviewItem } from 'src/app/_models/overview';
-import { FormlyServiceService } from 'src/app/_services/formly/formly-service.service';
+import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/app/molecules';
 import { Encounter, EncounterConnection } from '../../_models/encounter';
@@ -16,7 +16,6 @@ type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE" | "CREATE";
 export class EncounterComponent implements OnInit, OnChanges{
   @Input() encounter?: Encounter;
   @Input() characters!: OverviewItem[];
-  @Input() campaignName!: string;
   @Input() serverModel?: Encounter;
   @Input() canUpdate: boolean = false;
   @Input() canCreate: boolean = false;
@@ -31,29 +30,13 @@ export class EncounterComponent implements OnInit, OnChanges{
   userModel!: Encounter;
   state: EncounterState = 'DISPLAY';
   badgeEntries!: BadgeListEntry[];
+  campaignName!: string;
   
-  formlyFields: FormlyFieldConfig[] = [
-    this.formlyService.buildInputConfig({
-      key: "title", 
-      inputKind: 'STRING'
-    }),
-    this.formlyService.buildOverviewSelectConfig({
-      key: "location", 
-      label: "Encounter Location", 
-      sortProp: "name_full", 
-      overviewType: 'LOCATION', 
-      campaign: this.campaignName,
-      labelProp: 'name',
-    }),
-    this.formlyService.buildEditorConfig({
-      key: "description", 
-      required: true
-    }),
-  ];
+  formlyFields!: FormlyFieldConfig[];
   
   constructor(
     private routingService: RoutingService,
-    private formlyService: FormlyServiceService,
+    private formlyService: FormlyService,
   ){}
   
   ngOnInit(): void {
@@ -63,7 +46,9 @@ export class EncounterComponent implements OnInit, OnChanges{
     }
     
     if(this.encounter){
+      this.campaignName = this.encounter.campaign_details?.name as string;
       this.setBadgeEntries();
+      this.setFormlyFields();
     }
   }
   
@@ -74,6 +59,27 @@ export class EncounterComponent implements OnInit, OnChanges{
   setBadgeEntries(){
     const encounterConnections = this.encounter?.encounterConnections ?? [];
     this.badgeEntries = this.parseConnection(encounterConnections);
+  }
+  
+  setFormlyFields(){
+    this.formlyFields = [
+      this.formlyService.buildInputConfig({
+        key: "title", 
+        inputKind: 'STRING'
+      }),
+      this.formlyService.buildOverviewSelectConfig({
+        key: "location", 
+        label: "Encounter Location", 
+        sortProp: "name_full", 
+        overviewType: 'LOCATION', 
+        campaign: this.campaignName,
+        labelProp: 'name',
+      }),
+      this.formlyService.buildEditorConfig({
+        key: "description", 
+        required: true
+      }),
+    ];
   }
   
   changeState(newState: EncounterState, newModel: Encounter | undefined){

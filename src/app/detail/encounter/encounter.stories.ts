@@ -140,7 +140,7 @@ const dummyEncounter: Encounter = {
   campaign: 1,
   campaign_details: {
       pk: 1,
-      name: "Campaign 1"
+      name: "Aldrune"
   },
   getAbsoluteRouterUrl: () => "/encounters/1/"
 }; 
@@ -363,7 +363,6 @@ export default {
   args: {
     encounter: dummyEncounter,
     characters: dummyCharacters,
-    campaignName: 'Aldrune',
     serverModel: undefined,
     canCreate: true,
     canUpdate: true,

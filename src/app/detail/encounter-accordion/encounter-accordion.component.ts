@@ -10,7 +10,6 @@ import { Encounter, EncounterConnection } from '../../_models/encounter';
 export class EncounterAccordionComponent {
   @Input() encounters!: Encounter[];
   @Input() campaignCharacters!: OverviewItem[];
-  @Input() campaignName!: string;
   @Input() serverModel?: Encounter;
   @Input() canUpdate: boolean = false;
   @Input() canCreate: boolean = false;

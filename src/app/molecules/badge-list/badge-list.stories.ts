@@ -125,3 +125,9 @@ NoLinks.args = {
     link: undefined,
   })),
 }
+
+export const NoPermissions = Template.bind({});
+NoPermissions.args = {
+  canCreate: false,
+  canDelete: false,
+}

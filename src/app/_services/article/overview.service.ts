@@ -1,21 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OverviewItem, OverviewItemObject } from "src/app/models/overviewItem";
-import { Constants, OverviewType } from '../app.constants';
-import { transformObservableArrayContent } from '../utils/functions/transform';
-import { BaseService } from './base.service';
-import { CharacterService } from './character/character.service';
-import { CreatureService } from './creature/creature.service';
-import { DiaryentryService } from './diaryentry/diaryentry.service';
-import { EncounterServiceService } from './encounter/encounter-service.service';
-import { GenericObjectService } from './generic-object.service';
-import { ItemService } from './item/item.service';
-import { LocationService } from './location/location.service';
+import { ArticleKind, OverviewItem } from 'src/app/_models/overview';
+import { environment } from 'src/environments/environment';
+import { BaseService } from '../base.service';
+import { CharacterService } from './character.service';
+import { CreatureService } from './creature.service';
+import { DiaryentryService } from './diaryentry.service';
+import { EncounterService } from './encounter.service';
+import { ItemService } from './item.service';
+import { LocationService } from './location.service';
 import { MapService } from './map.service';
 import { MarkerTypeService } from './marker-type.service';
 import { MarkerService } from './marker.service';
-import { OrganizationService } from './organization/organization.service';
+import { OrganizationService } from './organization.service';
 import { QuestService } from './quest.service';
 import { QuoteService } from './quote.service';
 import { RuleService } from './rule.service';
@@ -29,35 +27,33 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class OverviewService {
-
-  overviewUrl: string = `${Constants.wikiApiUrl}`;
-
+  apiUrl: string = environment.apiUrl;
   
-  overviewServiceMapping: {[type in OverviewType]: GenericObjectService | BaseService} = {
-    [OverviewType.Character] : this.characterService,
-    [OverviewType.Creature] : this.creatureService,
-    [OverviewType.Diaryentry] : this.diaryentryService,
-    [OverviewType.Encounter] : this.encounterService,
-    [OverviewType.Item] : this.itemService,
-    [OverviewType.Location] : this.locationService,
-    [OverviewType.Map] : this.mapService,
-    [OverviewType.MarkerType] : this.markerService,
-    [OverviewType.MarkerTypeType] : this.markerTypeService,    
-    [OverviewType.Organization]: this.organizationService,
-    [OverviewType.Quest] : this.questService,
-    [OverviewType.Quote] : this.quoteService,
-    [OverviewType.Rule] : this.ruleService,
-    [OverviewType.Session] : this.sessionService,
-    [OverviewType.Sessionaudio] : this.sessionaudioService,
-    [OverviewType.Spell] : this.spellService,
-    [OverviewType.User] : this.userService,
+  overviewServiceMapping: {[type in ArticleKind]: BaseService<any>} = {
+    "CHARACTER": this.characterService,
+    "CREATURE": this.creatureService,
+    "DIARYENTRY": this.diaryentryService,
+    "ENCOUNTER": this.encounterService,
+    "ITEM": this.itemService,
+    "LOCATION": this.locationService,
+    "MAP": this.mapService,
+    "MARKER_TYPE_TYPE": this.markerTypeService,    
+    "MARKER_TYPE": this.markerService,
+    "ORGANIZATION": this.organizationService,
+    "QUEST": this.questService,
+    "QUOTE": this.quoteService,
+    "RULE": this.ruleService,
+    "SESSION": this.sessionService,
+    "SESSIONAUDIO": this.sessionaudioService,
+    "SPELL": this.spellService,
+    "USER": this.userService,
   }
 
   constructor(
     private characterService: CharacterService,
     private creatureService: CreatureService,
     private diaryentryService: DiaryentryService,
-    private encounterService: EncounterServiceService,
+    private encounterService: EncounterService,
     private itemService: ItemService,
     private locationService: LocationService,
     private mapService: MapService,
@@ -73,50 +69,55 @@ export class OverviewService {
     private userService: UserService
   ) { }
 
-  getCampaignOverviewItems(campaign: string, overviewType: OverviewType, sortProperty?: string): Observable<OverviewItemObject[]>{
-    const targetService: GenericObjectService | BaseService = this.overviewServiceMapping[overviewType];
+  getCampaignOverviewItems(
+    campaign: string, 
+    overviewType: ArticleKind, 
+    sortProperty?: keyof OverviewItem
+  ): Observable<OverviewItem[]>{
+    const targetService: BaseService<any> = this.overviewServiceMapping[overviewType];
     let overviewItemObservable: Observable<OverviewItem[]> = targetService.campaignList(campaign);
-
-    if(sortProperty != null){      
+    
+    const sortingEnabled = sortProperty != null;
+    if(sortingEnabled){      
       overviewItemObservable = overviewItemObservable.pipe(
         map((items: OverviewItem[]) => this.sortByProperty(items, sortProperty))
       );
     }
 
-    return transformObservableArrayContent(overviewItemObservable, OverviewItemObject);
+    return overviewItemObservable;
   }
 
-  getAllOverviewItems(overviewType: OverviewType, sortProperty?: string): Observable<OverviewItemObject[]>{
-    const targetService: GenericObjectService | BaseService = this.overviewServiceMapping[overviewType];
+  getAllOverviewItems(overviewType: ArticleKind, sortProperty?: keyof OverviewItem): Observable<OverviewItem[]>{
+    const targetService: BaseService<any> = this.overviewServiceMapping[overviewType];
     let overviewItemObservable: Observable<OverviewItem[]> = targetService.list();
 
-    if(sortProperty == null){
-      return transformObservableArrayContent(overviewItemObservable, OverviewItemObject);
+    const sortingEnabled = sortProperty != null;
+    if(sortingEnabled){      
+      overviewItemObservable = overviewItemObservable.pipe(
+        map((items: OverviewItem[]) => this.sortByProperty(items, sortProperty))
+      );
     }
     
-    overviewItemObservable = overviewItemObservable.pipe(
-      map((items: OverviewItem[]) => this.sortByProperty(items, sortProperty))
-    );
-    
-    return transformObservableArrayContent(overviewItemObservable, OverviewItemObject);
+    return overviewItemObservable;
   }
   
-  private sortByProperty(list: any[], propertyName: string): any[] {
+  private sortByProperty(list: any[], propertyName: keyof OverviewItem): any[] {
     const isInverseSort = propertyName.startsWith("-");
     if(isInverseSort){
-      propertyName = this.removeInversionPrefix(propertyName);
+      propertyName = this.removeInversionPrefix(propertyName) as keyof OverviewItem;
     }
     
-    const sortFunction = (item1:OverviewItem, item2: OverviewItem) => {
+    const sortFunction = (item1: OverviewItem, item2: OverviewItem) => {
       const isStringSortVal = typeof item1[propertyName] === "string"; 
+      
       const item1SortVal = isStringSortVal ?
-        item1[propertyName].toLowerCase() :
+        (item1[propertyName] as string).toLowerCase() :
         item1[propertyName];
       const item2SortVal = isStringSortVal ?
-        item2[propertyName].toLowerCase() :
+        (item2[propertyName] as string).toLowerCase() :
         item2[propertyName];
       
-      let inCorrectOrder = item1SortVal < item2SortVal;
+      let inCorrectOrder = (item1SortVal as any) < (item2SortVal as any);
       if(isInverseSort){
         inCorrectOrder = !inCorrectOrder;
       }

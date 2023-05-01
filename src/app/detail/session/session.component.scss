@@ -13,7 +13,7 @@
     padding-left: var(--spacer-0);
     padding-right: var(--spacer-0);
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     width: 100%;
     --confirmation-bg-color: var(--bs-dark);
   }

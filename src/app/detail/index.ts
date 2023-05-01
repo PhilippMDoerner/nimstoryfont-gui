@@ -1,5 +1,4 @@
 export { ApiObject, ArticleObject } from '../_models/article';
-export { OrganismsModule } from '../organisms/organisms.module';
 export { EncounterAccordionComponent } from './encounter-accordion/encounter-accordion.component';
 export { EncounterComponent } from './encounter/encounter.component';
 export { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';

@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { OrganismsModule } from '../detail';
+import { OrganismsModule } from '../organisms';
 import { QuestTableComponent } from './quest-table/quest-table.component';
 import { SearchHitComponent } from './search-hit/search-hit.component';
 import { SpellComponent } from './spell/spell.component';
-import { SpellsComponentComponent } from './spells.component/spells.component.component';
+import { SpellsComponent } from './spells.component/spells.component';
 
 
 
@@ -13,7 +13,7 @@ import { SpellsComponentComponent } from './spells.component/spells.component.co
     SearchHitComponent,
     QuestTableComponent,
     SpellComponent,
-    SpellsComponentComponent
+    SpellsComponent
   ],
   imports: [
     OrganismsModule,

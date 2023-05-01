@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Session, SessionDiaryEntry } from 'src/app/_models/session';
 import { FormlyServiceService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { Session, SessionDiaryEntry } from '../_models/session';
 
 type SessionState = "CREATE" | "DISPLAY" | "UPDATE" | "OUTDATED_UPDATE"
 

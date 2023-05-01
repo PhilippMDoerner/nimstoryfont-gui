@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyServiceService } from 'src/app/_services/formly/formly-service.service';
 import { BadgeListEntry } from 'src/app/molecules';
 import { BadgeListSelectOptions } from 'src/app/molecules/_models/badge-list';
-import { PlayerClass } from '../_models/playerclass';
-import { SPELL_CASTING_TIME, SPELL_COMPONENTS, SPELL_DURATION, SPELL_LEVELS, SPELL_RANGES, SPELL_SAVES, SPELL_SCHOOLS, Spell, SpellPlayerClassConnection } from '../_models/spell';
+import { SPELL_CASTING_TIME, SPELL_COMPONENTS, SPELL_DURATION, SPELL_LEVELS, SPELL_RANGES, SPELL_SAVES, SPELL_SCHOOLS, Spell, SpellPlayerClassConnection } from '../../_models/spell';
 
 type SpellState = "DISPLAY" | "CREATE" | "UPDATE" | "OUTDATED_UPDATE"
 

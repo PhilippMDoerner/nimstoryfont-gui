@@ -1,13 +1,5 @@
+export { ApiObject, ArticleObject } from '../_models/article';
 export { OrganismsModule } from '../organisms/organisms.module';
-export { ApiObject, ArticleObject } from './_models/article';
-export { Character, CharacterLocation, CharacterOrganization } from './_models/character';
-export { Encounter, EncounterConnection } from './_models/encounter';
-export { Image } from './_models/image';
-export { Location, LocationCharacter, SubLocation } from './_models/location';
-export { ExtendedMap, Map } from './_models/map';
-export { MapMarker } from './_models/mapMarker';
-export { MapMarkerType } from './_models/mapMarkerType';
-export { CharacterPlayerClassConnection, PlayerClass, SpellClassConnection } from './_models/playerclass';
 export { EncounterAccordionComponent } from './encounter-accordion/encounter-accordion.component';
 export { EncounterComponent } from './encounter/encounter.component';
 export { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';

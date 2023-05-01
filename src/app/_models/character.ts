@@ -49,7 +49,14 @@ export interface CharacterOrganization{
     role: string,
 }
 
-interface CharacterItem{
+export interface CharacterItem{
     pk: number,
     name: string
 }
+
+export interface OrganizationMembership{
+    pk?: number,
+    role: string,
+    organization_id: number,
+    member_id: number
+  }

@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/app/molecules';
+import { Character } from '../../_models/character';
+import { Quote, QuoteConnection } from '../../_models/quote';
 import { copyToClipboard } from '../_functions/clipboard';
-import { Character } from '../_models/character';
-import { Quote, QuoteConnection } from '../_models/quote';
 
 type QuoteState = "CREATE" | "UPDATE" | "DELETE" | "DISPLAY" | "UPDATE_OUTDATED"
 

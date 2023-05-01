@@ -12,3 +12,11 @@ export interface SessionAudio extends ArticleObject{
     }
     has_recording?: boolean;
 }
+
+export interface Timestamp{
+    pk?: number,
+    name: string,
+    time: number | string,
+    encounter?: string
+    session_audio: number,
+}

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { Location } from '../_models/location';
+import { Location } from '../../_models/location';
 
 interface AccordiongEntry {
   value: Location,

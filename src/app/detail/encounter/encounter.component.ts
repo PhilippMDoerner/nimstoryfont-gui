@@ -3,8 +3,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyServiceService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { Encounter, EncounterConnection } from 'src/app/detail/_models/encounter';
 import { BadgeListEntry } from 'src/app/molecules';
+import { Encounter, EncounterConnection } from '../../_models/encounter';
 
 type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE" | "CREATE";
 

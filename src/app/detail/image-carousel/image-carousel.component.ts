@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { Image } from '../_models/image';
+import { Image } from '../../_models/image';
 
 @Component({
   selector: 'app-image-carousel',

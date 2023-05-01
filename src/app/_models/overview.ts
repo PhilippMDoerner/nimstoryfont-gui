@@ -1,4 +1,5 @@
-import { ApiObject, Image } from "../detail";
+import { ApiObject } from "./article";
+import { Image } from "./image";
 
 export type QuestStatus = 'Completed' 
   | "Failed"

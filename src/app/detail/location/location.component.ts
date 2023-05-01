@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/app/molecules';
-import { Location, LocationCharacter } from '../_models/location';
+import { Location, LocationCharacter } from '../../_models/location';
 
 @Component({
   selector: 'app-location',

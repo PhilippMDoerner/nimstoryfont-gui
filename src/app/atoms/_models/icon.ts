@@ -25,8 +25,6 @@ export const ALL_REGULAR_ICONS = [
   'volume-up',
   'clock-o',
   'info-circle',
-  'long-arrow-up',
-  'long-arrow-down',
   'calendar',
   'lock',
   'plus-square',
@@ -63,6 +61,8 @@ export const ALL_SOLID_ICONS = [
   'file',
   'copy',
   'clipboard',
+  'up-long',
+  'down-long',
 ]
 
 type typedSolidIcons = typeof ALL_SOLID_ICONS;

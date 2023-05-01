@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { GroupByFirstLetterPipe, GroupByPipe } from './_pipes/groupObjects';
 import { SafeHtmlPipe } from './_pipes/safeHtml';
 import { AlertComponent } from './alert/alert.component';
+import { ArrowButtonComponent } from './arrow-button/arrow-button.component';
 import { BadgeComponent } from './badge/badge.component';
 import { ButtonComponent } from './button/button.component';
 import { CardComponent } from './card/card.component';
@@ -31,6 +32,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     SafeHtmlPipe,
     GroupByFirstLetterPipe,
     GroupByPipe,
+    ArrowButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +55,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     SafeHtmlPipe,
     GroupByFirstLetterPipe,
     GroupByPipe,
+    ArrowButtonComponent,
   ]
 })
 export class AtomsModule { }

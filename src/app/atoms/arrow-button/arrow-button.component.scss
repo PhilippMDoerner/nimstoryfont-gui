@@ -1,0 +1,17 @@
+.btn{  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  padding: var(--spacer-3) var(--spacer-2);
+  
+  &-disabled{
+    cursor: not-allowed;
+  }
+  
+  &-icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

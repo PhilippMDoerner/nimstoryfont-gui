@@ -3,6 +3,7 @@ export { ALL_REGULAR_ICONS, ALL_SOLID_ICONS, Icon, RegularIcon, SolidIcon } from
 export { GroupByFirstLetterPipe } from './_pipes/groupObjects';
 export { SafeHtmlPipe } from './_pipes/safeHtml';
 export { AlertComponent } from './alert/alert.component';
+export { ArrowButtonComponent } from './arrow-button/arrow-button.component';
 export { BadgeComponent } from './badge/badge.component';
 export { ButtonComponent } from './button/button.component';
 export { CardComponent } from './card/card.component';

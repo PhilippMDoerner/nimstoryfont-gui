@@ -20,7 +20,8 @@
     </ng-container>
   
     <app-edit-toggle
-      *ngIf="canUpdate" 
+      *ngIf="canUpdate"
+      class="card__edit-button" 
       [buttonType]="'DARK'"
       [toggled]="state !== 'DISPLAY'"
       (toggle)="onToggle($event)"
@@ -132,7 +133,7 @@
           [fields]="formlyFields"
           [cancelButtonType]="'DARK'"
           (formlySubmit)="onEncounterCreate(userModel)" 
-          (formlyCancel)="changeState('DISPLAY', undefined)"
+          (formlyCancel)="onEncounterCreateCancel()"
         ></app-form>
     </ng-container>
 </ng-template>

@@ -20,15 +20,17 @@ export class EncounterComponent implements OnInit, OnChanges{
   @Input() canUpdate: boolean = false;
   @Input() canCreate: boolean = false;
   @Input() canDelete: boolean = false;
+  @Input() initialState: EncounterState = 'DISPLAY';
   
   @Output() connectionDelete: EventEmitter<EncounterConnection> = new EventEmitter();
   @Output() connectionCreate: EventEmitter<EncounterConnection> = new EventEmitter();
   @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
   @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
   @Output() encounterCreate: EventEmitter<Encounter> = new EventEmitter();
-
+  @Output() encounterCreateCancel: EventEmitter<null> = new EventEmitter();
+  
   userModel!: Encounter;
-  state: EncounterState = 'DISPLAY';
+  state!: EncounterState;
   badgeEntries!: BadgeListEntry[];
   campaignName!: string;
   
@@ -40,10 +42,9 @@ export class EncounterComponent implements OnInit, OnChanges{
   ){}
   
   ngOnInit(): void {
-    const isInCreateScenario = this.encounter == null && this.canCreate;
-    if(isInCreateScenario){
-      this.changeState('CREATE', {} as Encounter);
-    }
+    const isInCreateScenario = this.initialState === 'CREATE' && this.canCreate;
+    const model = isInCreateScenario ? {} as Encounter : undefined;
+    this.changeState(this.initialState, model);
     
     if(this.encounter){
       this.campaignName = this.encounter.campaign_details?.name as string;
@@ -104,6 +105,11 @@ export class EncounterComponent implements OnInit, OnChanges{
     this.changeState('DISPLAY', undefined);
   }
   
+  onEncounterCreateCancel(){
+    this.encounterCreateCancel.emit();
+    this.changeState('DISPLAY', undefined)
+  }
+  
   onConnectionDelete(connection: EncounterConnection){
     if(!this.canDelete){
       return;
@@ -121,6 +127,12 @@ export class EncounterComponent implements OnInit, OnChanges{
   }
   
   onToggle(toggled: boolean){
+    const isCancellingCreation = this.state === 'CREATE';
+    if(isCancellingCreation){
+      this.encounterCreateCancel.emit();
+      return;
+    }
+    
     const isInDisplayState = this.state === 'DISPLAY';
     const nextState = isInDisplayState ? 'UPDATE' : 'DISPLAY';
     const nextModel: Encounter | undefined = toggled ? {...this.encounter} as Encounter : undefined;

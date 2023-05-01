@@ -11,7 +11,7 @@ import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { MoleculesModule } from 'src/app/molecules/molecules.module';
 import { FormlyEditorFieldComponent } from 'src/app/organisms';
 import * as all from 'tinymce/tinymce';
-import { Encounter } from '../../_models/encounter';
+import { Encounter, EncounterObject } from '../../_models/encounter';
 import { EncounterComponent } from '../encounter/encounter.component';
 import { EncounterAccordionComponent } from './encounter-accordion.component';
 
@@ -285,7 +285,7 @@ const dummyEncounters: Encounter[] = [
     },
     getAbsoluteRouterUrl: () => "/encounters/2/"
   },
-];
+].map(encounter => new EncounterObject(encounter as Partial<Encounter>));
 const dummyCharacters: OverviewItem[] = [
   {
     getAbsoluteRouterUrl: () => "/search/character/123",

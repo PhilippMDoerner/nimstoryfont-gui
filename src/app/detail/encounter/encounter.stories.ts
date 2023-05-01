@@ -11,12 +11,12 @@ import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { MoleculesModule } from 'src/app/molecules/molecules.module';
 import { FormlyEditorFieldComponent } from 'src/app/organisms';
 import * as all from 'tinymce/tinymce';
-import { Encounter, EncounterConnection } from '../../_models/encounter';
+import { Encounter, EncounterConnection, EncounterObject } from '../../_models/encounter';
 import { EncounterComponent } from './encounter.component';
 
 const x = all;
 
-const dummyEncounter: Encounter = {
+const dummyEncounter: Encounter = new EncounterObject({
   pk: 1,
   description: `
     <p>In this <strong>epic encounter</strong>, the adventurers find themselves facing a fearsome <em>red dragon</em> deep within the twisting caverns of the mountains. The air is thick with the stench of sulfur as the dragon's massive form looms before them, its scales glinting in the flickering light of the torches.</p>
@@ -143,7 +143,7 @@ const dummyEncounter: Encounter = {
       name: "Aldrune"
   },
   getAbsoluteRouterUrl: () => "/encounters/1/"
-}; 
+}); 
 
 const dummyCharacters: OverviewItem[] = [
   {

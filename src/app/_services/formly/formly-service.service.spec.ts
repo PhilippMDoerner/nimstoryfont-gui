@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FormlyServiceService } from './formly-service.service';
+import { FormlyService } from './formly-service.service';
 
 describe('FormlyServiceService', () => {
-  let service: FormlyServiceService;
+  let service: FormlyService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(FormlyServiceService);
+    service = TestBed.inject(FormlyService);
   });
 
   it('should be created', () => {

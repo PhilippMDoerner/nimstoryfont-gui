@@ -8,7 +8,7 @@ import { OverviewService } from '../article/overview.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FormlyServiceService {
+export class FormlyService {
 
   constructor(
     private overviewService: OverviewService,

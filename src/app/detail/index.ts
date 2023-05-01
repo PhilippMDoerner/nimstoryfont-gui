@@ -12,5 +12,4 @@ export { QuoteComponent } from './quote/quote.component';
 export { RuleComponent } from './rule/rule.component';
 export { SessionComponent } from './session/session.component';
 export { SessionaudioCardComponent } from './sessionaudio-card/sessionaudio-card.component';
-export { SpellComponent } from './spell/spell.component';
 

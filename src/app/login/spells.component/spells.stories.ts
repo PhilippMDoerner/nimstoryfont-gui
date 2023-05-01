@@ -110,6 +110,8 @@ const Template: StoryFn<SpellsComponent> = (args: SpellsComponent) => ({
     spellDelete: action('spellDelete'),
     spellUpdate: action('spellUpdate'),
     spellCreate: action('spellCreate'),
+    connectionDelete: action('connectionDelete'),
+    connectionCreate: action('connectionCreate'),
   },
 });
 

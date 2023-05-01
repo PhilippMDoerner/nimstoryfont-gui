@@ -1,6 +1,6 @@
-import { Component, ElementRef, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
-import { Spell } from 'src/app/_models/spell';
+import { Spell, SpellPlayerClassConnection } from 'src/app/_models/spell';
 
 interface SpellCard{
   spell: Spell,
@@ -12,7 +12,7 @@ interface SpellCard{
   templateUrl: './spells.component.html',
   styleUrls: ['./spells.component.scss']
 })
-export class SpellsComponent {  
+export class SpellsComponent implements OnInit, OnChanges{  
   DEFAULT_TITLE = "New Article Item";
 
   @Input() spells!: Spell[];
@@ -24,7 +24,9 @@ export class SpellsComponent {
   @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
   @Output() spellUpdate: EventEmitter<Spell> = new EventEmitter();
   @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();
-  
+  @Output() connectionDelete: EventEmitter<SpellPlayerClassConnection> = new EventEmitter();
+  @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> = new EventEmitter();
+
   spellCards!: SpellCard[];
   
   constructor(

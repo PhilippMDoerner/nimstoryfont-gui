@@ -33,6 +33,8 @@
             (spellCreate)="spellCreate.emit($event)"
             (spellUpdate)="spellUpdate.emit($event)"
             (spellCreateCancel)="removeSpell(i)"
+            (connectionDelete)="connectionDelete.emit($event)"
+            (connectionCreate)="connectionCreate.emit($event)"
           ></app-spell>
         </app-collapsible-panel>
       </div>

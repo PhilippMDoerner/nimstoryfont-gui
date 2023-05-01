@@ -2,7 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
 import { OrganismsModule } from "..";
-import { Location, LocationCharacter } from "../_models/location";
+import { Location, LocationCharacter } from "../../_models/location";
 import { LocationComponent } from "./location.component";
 
 const dummyLocation: Location = {  

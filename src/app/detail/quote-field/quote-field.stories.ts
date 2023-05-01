@@ -6,9 +6,9 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyFileFieldComponent } from 'src/app/molecules';
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from 'src/app/organisms';
 import { OrganismsModule } from '..';
+import { Character } from '../../_models/character';
+import { Quote } from '../../_models/quote';
 import { dateMessage, dateValidator, faPrefixMessage, fieldMatchValidator, fieldsDontMatchMessage, hasSpecialCharactersMessage, iconValidator, integerValidator, invalidTimeMessage, notIntegerMessage, requiredIconMessage, requiredIconValidator, requiredMessage, requiredValidator, sessionAlreadyHasAuthor, sessionAuthorUniqueValidator, specialCharacterValidator, timeValidator } from '../../_services/formly/validators';
-import { Character } from '../_models/character';
-import { Quote } from '../_models/quote';
 import { QuoteComponent } from '../quote/quote.component';
 import { QuoteFieldComponent } from './quote-field.component';
 

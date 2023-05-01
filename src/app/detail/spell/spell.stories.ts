@@ -3,9 +3,10 @@ import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { FormlyEditorFieldComponent } from 'src/app/organisms';
-import { OrganismsModule, PlayerClass } from '..';
+import { OrganismsModule } from '..';
+import { PlayerClass } from '../../_models/playerclass';
+import { Spell } from '../../_models/spell';
 import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from '../../_services/formly/validators';
-import { Spell } from '../_models/spell';
 import { SpellComponent } from './spell.component';
 
 const dummySpell: Spell = {

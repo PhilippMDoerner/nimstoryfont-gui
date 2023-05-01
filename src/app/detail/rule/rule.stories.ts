@@ -4,8 +4,8 @@ import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { FormlyEditorFieldComponent } from 'src/app/organisms';
 import { OrganismsModule } from '..';
+import { Rule } from '../../_models/rule';
 import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from '../../_services/formly/validators';
-import { Rule } from '../_models/rule';
 import { RuleComponent } from './rule.component';
 
 const dummyRule: Rule = {

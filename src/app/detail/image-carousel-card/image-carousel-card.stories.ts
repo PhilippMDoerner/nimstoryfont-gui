@@ -4,7 +4,7 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { dateMessage, dateValidator, fieldMatchValidator, fieldsDontMatchMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
 import { FormlyFileFieldComponent } from 'src/app/molecules/formly-file-field/formly-file-field.component';
 import { MoleculesModule } from 'src/app/molecules/molecules.module';
-import { Image } from '../_models/image';
+import { Image } from '../../_models/image';
 import { ImageCarouselComponent } from '../image-carousel/image-carousel.component';
 import { ImageCarouselCardComponent } from './image-carousel-card.component';
 

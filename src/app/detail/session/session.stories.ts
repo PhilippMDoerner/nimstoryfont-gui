@@ -4,8 +4,8 @@ import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { FormlyDatepickerFieldComponent } from 'src/app/organisms';
 import { OrganismsModule } from '..';
+import { Session } from '../../_models/session';
 import { dateMessage, dateValidator, integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from '../../_services/formly/validators';
-import { Session } from '../_models/session';
 import { SessionComponent } from './session.component';
 
 const dummySession: Session = {

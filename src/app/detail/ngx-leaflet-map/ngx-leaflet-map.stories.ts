@@ -2,8 +2,8 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { MoleculesModule } from 'src/app/molecules/molecules.module';
-import { ExtendedMap } from '../_models/map';
-import { MapMarker } from '../_models/mapMarker';
+import { ExtendedMap } from '../../_models/map';
+import { MapMarker } from '../../_models/mapMarker';
 import { NgxLeafletMapComponent } from './ngx-leaflet-map.component';
 
 const dummyMarkers: MapMarker[] = [

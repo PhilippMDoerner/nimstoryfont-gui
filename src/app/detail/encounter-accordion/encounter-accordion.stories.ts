@@ -8,10 +8,10 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { OverviewItem } from 'src/app/_models/overview';
 import { integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
 import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { Encounter } from 'src/app/detail/_models/encounter';
 import { MoleculesModule } from 'src/app/molecules/molecules.module';
 import { FormlyEditorFieldComponent } from 'src/app/organisms';
 import * as all from 'tinymce/tinymce';
+import { Encounter } from '../../_models/encounter';
 import { EncounterComponent } from '../encounter/encounter.component';
 import { EncounterAccordionComponent } from './encounter-accordion.component';
 

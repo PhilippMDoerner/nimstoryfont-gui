@@ -9,7 +9,7 @@ import { integerValidator, notIntegerMessage, requiredMessage, requiredValidator
 import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { MoleculesModule } from 'src/app/molecules/molecules.module';
 import { FormlyEditorFieldComponent } from 'src/app/organisms';
-import { Location } from '../_models/location';
+import { Location } from '../../_models/location';
 import { LocationComponent } from '../location/location.component';
 import { LocationAccordionComponent } from './location-accordion.component';
 

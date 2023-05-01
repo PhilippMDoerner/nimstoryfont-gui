@@ -85,11 +85,27 @@ export class DiaryentryEncountersComponent implements OnInit, OnChanges{
     if(this.cutEncounterIndex == null){
       return;
     }
+    
+    const cutPositions = [
+      this.cutEncounterIndex,
+      this.cutEncounterIndex - 1
+    ];
+    const isInsertingIntoCutPosition = cutPositions.includes(insertionIndex) 
+    if(isInsertingIntoCutPosition){
+      return;
+    }
 
+    const isInsertingAtLastPosition = insertionIndex > this.encounters.length;
+    let newOrderIndex: number;
+    if(isInsertingAtLastPosition){
+      const lastEncounter = this.encounters[this.encounters.length - 1];
+      newOrderIndex = lastEncounter.nextOrderIndex();
+    } else {
+      const encounterBeforeInsertion: Encounter = this.encounters[insertionIndex];  
+      newOrderIndex = encounterBeforeInsertion.order_index;
+    }
+    
     const encounterToInsert: Encounter = this.encounters[this.cutEncounterIndex];
-    const encounterBeforeInsertion: Encounter = this.encounters[insertionIndex];  
-    const newOrderIndex: number = encounterBeforeInsertion.order_index;
-
     this.isUpdatingAnything = true;
     this.isUpdatingGlobally = true;
     this.encounterCutInsert.emit({

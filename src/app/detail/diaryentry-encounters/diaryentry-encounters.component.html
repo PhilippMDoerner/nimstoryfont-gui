@@ -20,7 +20,7 @@
             [icon]="'file-import'"
             [text]="'Insert Cut Encounter'"
             [type]="'SECONDARY'"
-            [disabled]="isUpdatingAnything || cutEncounterIndex == null"
+            [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex === 0"
             (click)="onInsertExcisedEncounter(-1 + 1)"
           ></app-button>
         </div>
@@ -51,7 +51,7 @@
               [icon]="'plus'"
               [text]="'Add Encounter'"
               [disabled]="isUpdatingAnything"
-              (click)="addEmptyEncounterAtIndex(encounterIndex)"
+              (click)="addEmptyEncounterAtIndex(encounterIndex + 1)"
             ></app-button>
             <app-button
               class="col-6 col-md-4 buttons__button buttons__button--right"
@@ -60,8 +60,8 @@
               [icon]="'file-import'"
               [text]="'Insert Cut Encounter'"
               [type]="'SECONDARY'"
-              [disabled]="isUpdatingAnything || cutEncounterIndex == null"
-              (click)="onInsertExcisedEncounter(encounterIndex)"
+              [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex - 1 === encounterIndex || cutEncounterIndex === encounterIndex"
+              (click)="onInsertExcisedEncounter(encounterIndex + 1)"
             ></app-button>
           </div>
         </ng-container>

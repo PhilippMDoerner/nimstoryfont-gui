@@ -15,7 +15,7 @@ const dummyOptions: any[] = [
   {"myLabel": "The value of time", "myValue": 24},
   {"myLabel": "The value of money", "myValue": 100},
   {"myLabel": "The value of love", "myValue": 99},
-  {"myLabel": "The value of friendship", "myValue": 7},
+  {"myLabel": "The value of friendship", "myValue": 10},
   {"myLabel": "The value of knowledge", "myValue": 314},
   {"myLabel": "The value of wisdom", "myValue": 999},
   {"myLabel": "The value of power", "myValue": 666},

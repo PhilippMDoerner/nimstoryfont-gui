@@ -30,7 +30,7 @@ const dummySessionAudio: OverviewItem =   {
 
 
 export default {
-  title: 'Application/Detail/SessionaudioCardComponent',
+  title: 'Application/Login/SessionaudioCardComponent',
   component: SessionaudioCardComponent,
   decorators: [
     moduleMetadata({

@@ -1,21 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { EditorModule } from '@tinymce/tinymce-angular';
-import { Rule } from 'src/app/_models/rule';
-import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from 'src/app/_services/formly/validators';
-import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { MoleculesModule } from 'src/app/molecules/molecules.module';
-import { FormlyEditorFieldComponent } from 'src/app/organisms';
-import * as all from 'tinymce/tinymce';
-import { RuleComponent } from '../rule/rule.component';
-import { RulesComponent } from './rules.component';
-
-const x = all;
+import { FormlyEditorFieldComponent, OrganismsModule } from 'src/app/organisms';
+import { Rule } from '../../_models/rule';
+import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from '../../_services/formly/validators';
+import { RuleComponent } from './rule.component';
 
 const dummyRule: Rule = {
   getAbsoluteRouterUrl: () => "/dnd/rules/1",
@@ -35,19 +25,13 @@ const dummyRule: Rule = {
 };
 
 export default {
-  title: 'Application/Detail/RulesComponent',
-  component: RulesComponent,
+  title: 'Application/Login/RuleComponent',
+  component: RuleComponent,
   decorators: [
     moduleMetadata({
       imports: [
-        CommonModule,
-        AtomsModule,
-        MoleculesModule,
-        NgbModule,
-        EditorModule,
+        OrganismsModule,
         RouterTestingModule,
-        FormsModule,
-        ReactiveFormsModule,
         FormlyModule.forRoot({
           types: [
             { name: 'text-editor', component: FormlyEditorFieldComponent },
@@ -63,43 +47,46 @@ export default {
             specialCharacterValidator,
           ],
         }),
-      ],       
+      ],
       declarations: [
-        FormlyEditorFieldComponent,
-        RuleComponent,
       ]
     }),
   ],
   args: {
-    rules: Array(10).fill(dummyRule),
+    rule: dummyRule,
     canCreate: true,
     canUpdate: true,
     canDelete: true,
     serverModel: undefined,
-  },
-} as Meta<RulesComponent>;
+  }
+} as Meta<RuleComponent>;
 
-const Template: StoryFn<RulesComponent> = (args: RulesComponent) => ({ 
+const Template: StoryFn<RuleComponent> = (args: RuleComponent) => ({ 
   props: {
     ...args,
     ruleDelete: action('ruleDelete'),
-    ruleUpdate: action('ruleUpdate'),
     ruleCreate: action('ruleCreate'),
+    ruleUpdate: action('ruleUpdate'),
   },
 });
 
 export const Default = Template.bind({});
 Default.args = {}
 
-
-export const NoPermissions = Template.bind({});
-NoPermissions.args = {
-  canUpdate: false,
+export const NoPermission = Template.bind({});
+NoPermission.args = {
   canCreate: false,
+  canUpdate: false,
   canDelete: false,
 }
 
-export const NoRules = Template.bind({});
-NoRules.args = {
-  rules: [],
+export const NoRule = Template.bind({});
+NoRule.args = {
+  rule: undefined
+}
+
+export const NoRuleNoCreate = Template.bind({});
+NoRuleNoCreate.args = {
+  rule: undefined,
+  canCreate: false,
 }

@@ -29,7 +29,7 @@ const dummySession: Session = {
 
 
 export default {
-  title: 'Application/Detail/SessionComponent',
+  title: 'Application/Login/SessionComponent',
   component: SessionComponent,
   decorators: [
     moduleMetadata({

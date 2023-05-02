@@ -7,6 +7,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { AtomsModule } from '../atoms/atoms.module';
 import { ArticleFooterComponent } from './article-footer/article-footer.component';
 import { BadgeListComponent } from './badge-list/badge-list.component';
+import { ChoiceSelectComponent } from './choice-select/choice-select.component';
 import { CollapsiblePanelComponent } from './collapsible-panel/collapsible-panel.component';
 import { CompareFormComponent } from './compare-form/compare-form.component';
 import { ConfirmationModalComponent } from './confirmation-modal/confirmation-modal.component';
@@ -21,62 +22,61 @@ import { PageBackgroundComponent } from './page-background/page-background.compo
 import { SearchFieldComponent } from './search-field/search-field.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
-import { ChoiceSelectComponent } from './choice-select/choice-select.component';
 
 
 
 @NgModule({
   declarations: [
-    EditToggleComponent,
-    ConfirmationToggleButtonComponent,
     ArticleFooterComponent,
-    PageBackgroundComponent,
-    SidebarLegendComponent,
-    FormlyFileFieldComponent,
-    FormComponent,
-    CompareFormComponent,
-    SmallCreateFormComponent,
-    ListComponent,
-    ConfirmationModalComponent,
     BadgeListComponent,
+    ChoiceSelectComponent,
     CollapsiblePanelComponent,
-    SearchFieldComponent,
-    ImageCardComponent,
+    CompareFormComponent,
+    ConfirmationModalComponent,
+    ConfirmationToggleButtonComponent,
+    EditToggleComponent,
+    FormComponent,
+    FormlyFileFieldComponent,
     IconCardComponent,
-    ChoiceSelectComponent
+    ImageCardComponent,
+    ListComponent,
+    PageBackgroundComponent,
+    SearchFieldComponent,
+    SidebarLegendComponent,
+    SmallCreateFormComponent,
   ],
   imports: [
-    CommonModule,
     AtomsModule,
-    ReactiveFormsModule,
-    FormsModule,
+    CommonModule,
     EditorModule,
     FormlyBootstrapModule,
     FormlyModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   exports: [
-    EditToggleComponent,
-    ConfirmationToggleButtonComponent,
     ArticleFooterComponent,
-    PageBackgroundComponent,
-    SidebarLegendComponent,
-    FormlyFileFieldComponent,
-    FormComponent,
-    CompareFormComponent,
-    SmallCreateFormComponent,
-    ListComponent,
-    ConfirmationModalComponent,
+    AtomsModule,
     BadgeListComponent,
     CollapsiblePanelComponent,
-    EditorModule,
-    AtomsModule,
-    FormlyBootstrapModule,
-    ReactiveFormsModule,
-    FormsModule,
     CollapsiblePanelComponent,
-    SearchFieldComponent,
+    CompareFormComponent,
+    ConfirmationModalComponent,
+    ConfirmationToggleButtonComponent,
+    EditorModule,
+    EditToggleComponent,
+    FormComponent,
+    FormlyBootstrapModule,
+    FormlyFileFieldComponent,
+    FormsModule,
+    IconCardComponent,
     ImageCardComponent,
-    IconCardComponent
+    ListComponent,
+    PageBackgroundComponent,
+    ReactiveFormsModule,
+    SearchFieldComponent,
+    SidebarLegendComponent,
+    SmallCreateFormComponent,
   ]
 })
 export class MoleculesModule { }

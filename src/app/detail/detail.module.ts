@@ -14,41 +14,33 @@ import { LocationComponent } from './location/location.component';
 import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
 import { QuoteFieldComponent } from './quote-field/quote-field.component';
 import { QuoteComponent } from './quote/quote.component';
-import { RuleComponent } from './rule/rule.component';
-import { RulesComponent } from './rules/rules.component';
-import { SessionComponent } from './session/session.component';
-import { SessionaudioCardComponent } from './sessionaudio-card/sessionaudio-card.component';
 
 
 
 @NgModule({
   declarations: [
-    ImageCarouselComponent,
-    ImageCarouselCardComponent,
-    NgxLeafletMapComponent,
+    DiaryentryEncountersComponent,
     EncounterAccordionComponent,
     EncounterComponent,
-    LocationComponent,
+    ImageCarouselCardComponent,
+    ImageCarouselComponent,
     LocationAccordionComponent,
+    LocationComponent,
+    NgxLeafletMapComponent,
     QuoteComponent,
     QuoteFieldComponent,
-    SessionComponent,
-    RuleComponent,
-    SessionaudioCardComponent,
-    DiaryentryEncountersComponent,
-    RulesComponent
   ],
   imports: [
     CommonModule,
-    LeafletModule,
+    FormlyModule,
     FormsModule,
+    LeafletModule,
     OrganismsModule,
     ReactiveFormsModule,
-    FormlyModule
   ],
   exports: [
-    ImageCarouselComponent,
     ImageCarouselCardComponent,
+    ImageCarouselComponent,
     NgxLeafletMapComponent,
   ]
 })

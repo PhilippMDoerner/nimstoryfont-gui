@@ -28,8 +28,8 @@ const Template: StoryFn<CollapsiblePanelComponent> = (args: CollapsiblePanelComp
   template: `
   NOTE: This is currently broken, <a href="https://github.com/storybookjs/storybook/issues/10272"> but only in storybook </a>. <br>
   The ng-content will work as normal in normal components
-+    <span heading>{{heading}}</span>
-    <app-button [icon]="'plus'" [text]="'Add things'"></app-button>
+  <app-collapsible-panel [heading]="heading">
+    <app-button body [icon]="'plus'" [text]="'Add things'"></app-button>
     
   </app-collapsible-panel>
 `,

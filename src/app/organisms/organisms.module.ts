@@ -11,6 +11,7 @@ import { IconCardListComponent } from './icon-card-list/icon-card-list.component
 import { ImageGridComponent } from './image-grid/image-grid.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 import { PageComponent } from './page/page.component';
+import { PlayerComponent } from './player/player.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 
 
@@ -26,6 +27,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     PageComponent,
     PageContainerComponent,
     SidebarComponent,
+    PlayerComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +45,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     PageComponent,
     PageContainerComponent,
     SidebarComponent,
+    PlayerComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },

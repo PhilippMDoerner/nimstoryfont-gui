@@ -5,7 +5,7 @@ import { PlayerComponent } from './player.component';
 const x = Howler;
 
 export default {
-  title: 'DesignSystem/Audioplayer/PlayerComponent',
+  title: 'DesignSystem/Organisms/PlayerComponent',
   component: PlayerComponent,
   decorators: [
     moduleMetadata({

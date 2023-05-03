@@ -8,5 +8,5 @@ export { ImageGridComponent } from './image-grid/image-grid.component';
 export { OrganismsModule } from './organisms.module';
 export { PageContainerComponent } from './page-container/page-container.component';
 export { PageComponent } from './page/page.component';
+export { PlayerComponent } from './player/player.component';
 export { SidebarComponent } from './sidebar/sidebar.component';
-

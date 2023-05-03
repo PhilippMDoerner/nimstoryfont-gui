@@ -14,6 +14,7 @@ export default {
   ],
   args: {
     audioSource: "https://www.kozco.com/tech/piano2-CoolEdit.mp3",
+    downloadSource: "https://www.potato.testurl.com",
   }
 } as Meta<PlayerComponent>;
 
@@ -23,7 +24,10 @@ const Template: StoryFn<PlayerComponent> = (args: PlayerComponent) => ({
   },
   template: `
     <div style="margin-top: 25rem;">
-      <app-player [audioSource]="audioSource"></app-player>
+      <app-player 
+        [audioSource]="audioSource" 
+        [downloadSource]="downloadSource"
+      ></app-player>
     </div>
   `
 });

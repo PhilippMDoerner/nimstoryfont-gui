@@ -39,6 +39,8 @@ export class PlayerComponent {
         volume: 0,
       }
     );
+    
+    (this.plyr as any).download = this.downloadSource;
   }
   
   triggerHotkeyAction(keyPressEvent: KeyboardEvent){

@@ -11,7 +11,6 @@ import { ImageCarouselCardComponent } from './image-carousel-card/image-carousel
 import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
 import { LocationAccordionComponent } from './location-accordion/location-accordion.component';
 import { LocationComponent } from './location/location.component';
-import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
 import { QuoteFieldComponent } from './quote-field/quote-field.component';
 import { QuoteComponent } from './quote/quote.component';
 
@@ -26,7 +25,6 @@ import { QuoteComponent } from './quote/quote.component';
     ImageCarouselComponent,
     LocationAccordionComponent,
     LocationComponent,
-    NgxLeafletMapComponent,
     QuoteComponent,
     QuoteFieldComponent,
   ],
@@ -38,10 +36,6 @@ import { QuoteComponent } from './quote/quote.component';
     OrganismsModule,
     ReactiveFormsModule,
   ],
-  exports: [
-    ImageCarouselCardComponent,
-    ImageCarouselComponent,
-    NgxLeafletMapComponent,
-  ]
+  exports: []
 })
 export class DetailModule { }

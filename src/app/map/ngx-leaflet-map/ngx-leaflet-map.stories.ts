@@ -85,7 +85,7 @@ const dummyMap: ExtendedMap = {
 
 
 export default {
-  title: 'Application/Detail/NgxLeafletMapComponent',
+  title: 'Application/Map/NgxLeafletMapComponent',
   component: NgxLeafletMapComponent,
   decorators: [
     moduleMetadata({

@@ -77,6 +77,7 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     SearchFieldComponent,
     SidebarLegendComponent,
     SmallCreateFormComponent,
-  ]
+    ChoiceSelectComponent,
+  ],
 })
-export class MoleculesModule { }
+export class MoleculesModule {}

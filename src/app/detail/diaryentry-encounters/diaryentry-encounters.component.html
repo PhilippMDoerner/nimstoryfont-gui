@@ -1,28 +1,32 @@
 <div class="container list">
   <ng-container *ngIf="!isUpdatingGlobally; else loading">
     <!-- Insert new first Encounter -->
-    <ng-container *ngIf="state === 'EDIT' && canDelete && canUpdate && canCreate">
+    <ng-container *ngIf="state === 'EDIT'">
       <div class="row">
         <div class="list__buttons buttons">
-          <app-button
-            class="col-6 col-md-4 buttons__button buttons__button--left"
-            title="Add Encounter to Diaryentry"
-            [size]="'LARGE'"
-            [icon]="'plus'"
-            [text]="'Add First Encounter'"
-            [disabled]="isUpdatingAnything"
-            (click)="addEmptyEncounterAtIndex(-1)"
-          ></app-button>
-          <app-button
-            class="col-6 col-md-4 buttons__button buttons__button--right"
-            title="Insert Cut Encounter"          
-            [size]="'LARGE'"
-            [icon]="'file-import'"
-            [text]="'Insert Cut Encounter'"
-            [type]="'SECONDARY'"
-            [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex === 0"
-            (click)="onInsertExcisedEncounter(-1 + 1)"
-          ></app-button>
+          <ng-container *ngIf="canCreate">
+            <app-button
+              class="col-6 col-md-4 buttons__button buttons__button--left"
+              title="Add Encounter to Diaryentry"
+              [size]="'LARGE'"
+              [icon]="'plus'"
+              [text]="'Add First Encounter'"
+              [disabled]="isUpdatingAnything"
+              (click)="addEmptyEncounterAtIndex(-1)"
+            ></app-button>
+          </ng-container>
+          <ng-container *ngIf="canUpdate">
+            <app-button
+              class="col-6 col-md-4 buttons__button buttons__button--right"
+              title="Insert Cut Encounter"          
+              [size]="'LARGE'"
+              [icon]="'file-import'"
+              [text]="'Insert Cut Encounter'"
+              [type]="'SECONDARY'"
+              [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex === 0"
+              (click)="onInsertExcisedEncounter(-1 + 1)"
+            ></app-button>
+          </ng-container>
         </div>
       </div>
     </ng-container>
@@ -44,25 +48,29 @@
         <!-- Insert new Encounter -->
         <ng-container *ngIf="state === 'EDIT'">
           <div class="list__buttons buttons">
-            <app-button
-              class="col-6 col-md-4 buttons__button buttons__button--left"
-              title="Add Encounter to DiaryEntry"
-              [size]="'LARGE'"
-              [icon]="'plus'"
-              [text]="'Add Encounter'"
-              [disabled]="isUpdatingAnything"
-              (click)="addEmptyEncounterAtIndex(encounterIndex + 1)"
-            ></app-button>
-            <app-button
-              class="col-6 col-md-4 buttons__button buttons__button--right"
-              title="Insert Cut Encounter"          
-              [size]="'LARGE'"
-              [icon]="'file-import'"
-              [text]="'Insert Cut Encounter'"
-              [type]="'SECONDARY'"
-              [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex - 1 === encounterIndex || cutEncounterIndex === encounterIndex"
-              (click)="onInsertExcisedEncounter(encounterIndex + 1)"
-            ></app-button>
+            <ng-container *ngIf="canCreate">
+              <app-button
+                class="col-6 col-md-4 buttons__button buttons__button--left"
+                title="Add Encounter to DiaryEntry"
+                [size]="'LARGE'"
+                [icon]="'plus'"
+                [text]="'Add Encounter'"
+                [disabled]="isUpdatingAnything"
+                (click)="addEmptyEncounterAtIndex(encounterIndex + 1)"
+              ></app-button>
+            </ng-container>
+            <ng-container *ngIf="canUpdate">
+              <app-button
+                class="col-6 col-md-4 buttons__button buttons__button--right"
+                title="Insert Cut Encounter"          
+                [size]="'LARGE'"
+                [icon]="'file-import'"
+                [text]="'Insert Cut Encounter'"
+                [type]="'SECONDARY'"
+                [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex - 1 === encounterIndex || cutEncounterIndex === encounterIndex"
+                (click)="onInsertExcisedEncounter(encounterIndex + 1)"
+              ></app-button>
+            </ng-container>
           </div>
         </ng-container>
       </div>
@@ -99,7 +107,7 @@
         (encounterCreate)="encounterCreate.emit($event)"
         (encounterCreateCancel)="onEncounterCreateCancel(context.index)"
       ></app-encounter>
-      <ng-container *ngIf="context.entry.encounter.pk != null">
+      <ng-container *ngIf="context.entry.encounter.pk != null && canUpdate">
         <div class="encounter-card__side-buttons side-buttons">
           <app-button
             class="side-buttons__button side-buttons__button--edit"

@@ -103,7 +103,6 @@ export default {
     }),
   ],
   args: {
-    campaignName: 'TestCampaign',
     mapData: dummyMap,
     serverUrl: 'https://www.aldrune.com'
   },

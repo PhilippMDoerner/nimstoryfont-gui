@@ -19,7 +19,6 @@ export class NgxLeafletMapComponent implements OnInit{
     [800, 1160],
   ];
   @Input() mapData!: ExtendedMap;
-  @Input() campaignName!: string;
   @Input() serverUrl!: string;
   
   leafletMap!: Map;
@@ -177,7 +176,7 @@ export class NgxLeafletMapComponent implements OnInit{
   
   private makeLocationHeading(marker: MapMarker): string {
     const location_url = this.routingService.getRoutePath('location', {
-      campaign: this.campaignName,
+      campaign: this.mapData.campaign_details?.name,
       parent_name: marker.location_details?.parent_location_name,
       name: marker.location_details?.name,
     });
@@ -219,7 +218,7 @@ export class NgxLeafletMapComponent implements OnInit{
       const sublocationUrl = this.routingService.getRoutePath('location', {
         parent_name: location.name,
         name: sublocationName,
-        campaign: this.campaignName,
+        campaign: this.mapData.campaign_details?.name,
       });
       sublocationList += `<li><a href="${sublocationUrl}"> ${sublocationName}</a></li>`;
     }
@@ -262,7 +261,7 @@ export class NgxLeafletMapComponent implements OnInit{
         latitude: latitude,
         longitude: longitude,
         map_name: this.mapData.name,
-        campaign: this.campaignName,
+        campaign: this.mapData.campaign_details?.name,
       }
     );
 
@@ -272,7 +271,7 @@ export class NgxLeafletMapComponent implements OnInit{
         latitude: latitude,
         longitude: longitude,
         map_name: this.mapData.name,
-        campaign: this.campaignName,
+        campaign: this.mapData.campaign_details?.name,
       }
     );
 

@@ -14,6 +14,7 @@ import { FormlyFileFieldComponent } from './design/molecules/formly-file-field/f
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent, OrganismsModule } from './design/organisms';
 import { DetailModule } from './detail/detail.module';
 import { RootModule } from './root/root.module';
+import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { RootModule } from './root/root.module';
         sessionAuthorUniqueValidator,
       ],
     }),
+    StoreModule.forRoot({}, {}),
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },

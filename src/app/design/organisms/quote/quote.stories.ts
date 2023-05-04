@@ -4,7 +4,7 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Character } from '../../../_models/character';
 import { Quote } from '../../../_models/quote';
-import { OrganismsModule } from '../../../design/organisms';
+import { MoleculesModule } from '../../molecules';
 import { QuoteComponent } from './quote.component';
 
 const dummyQuote: Quote = {
@@ -12,6 +12,8 @@ const dummyQuote: Quote = {
   description: "Said by a wise old wizard to a young hero about to embark on a perilous quest.",
   pk: 1,
   session: 3,
+  creation_datetime: "2023-04-22T12:00:00.000Z",
+  update_datetime: "2023-04-23T12:00:00.000Z",
   session_details: {
     pk: 3,
     is_main_session: true,
@@ -52,6 +54,7 @@ const dummyCharacter: Character = {
   getAbsoluteRouterUrl: () => "/dummy/url",
   player_character: false,
   alive: true,
+  name: "Gandalf",
   title: "Gandalf the Grey",
   gender: "Male",
   race: "Maia",
@@ -92,38 +95,70 @@ const dummyCharacter: Character = {
       name: "The Council of Elrond",
       creation_datetime: "2023-04-22T12:00:00.000Z",
       update_datetime: "2023-04-23T12:00:00.000Z",
+      title: "Council of Elrond",
+      diaryentry: 50,
+      order_index: 20,
       encounterConnections: [
         {
-          connection_pk: 1,
-          character_name: "Gandalf the Grey",
+          pk: 1,
+          encounter: 2,
+          character: 3,
         },
         {
-          connection_pk: 2,
-          character_name: "Frodo Baggins",
+          pk: 2,
+          encounter: 3,
+          character: 4,
         },
       ],
       description:
         "At the Council of Elrond, Gandalf reveals the true nature of the One Ring and urges the Fellowship to destroy it in the fires of Mount Doom.",
       pk: 1,
+      campaign_details: { name: "Aldrune", pk: 1}
     },
     {
       name: "The Battle of Helm's Deep",
+      title: "The Battle of Helm's Deep",
+      diaryentry: 20,
+      order_index: 30,
       creation_datetime: "2023-04-23T12:00:00.000Z",
       update_datetime: "2023-04-24T12:00:00.000Z",
       encounterConnections: [
         {
-          connection_pk: 3,
-          character_name: "Gandalf the Grey",
+          "pk": 324,
+          "encounter": 223,
+          "encounter_details": {
+            "name": "Main Session 6 - A new job",
+            "name_full": "Main Session 6 - A new job",
+            "pk": 223
+          },
+          "character": 43,
+          "character_details": {
+            "name": "Aliana Sterent",
+            "name_full": "Aliana Sterent",
+            "pk": 43
+          }
         },
         {
-          connection_pk: 4,
-          character_name: "Aragorn",
-        },
+          "pk": 325,
+          "encounter": 223,
+          "encounter_details": {
+            "name": "Main Session 6 - A new job",
+            "name_full": "Main Session 6 - A new job",
+            "pk": 223
+          },
+          "character": 29,
+          "character_details": {
+            "name": "Ateula",
+            "name_full": "Ateula",
+            "pk": 29
+          }
+        }
       ],
       description:
         "Gandalf arrives at Helm's Deep with reinforcements and turns the tide of the battle against Saruman's forces.",
       pk: 2,
-    },
+      campaign_details: { name: "Aldrune", pk: 1}
+    },    
   ],
   images: [],
   player_class_connections: [
@@ -132,6 +167,7 @@ const dummyCharacter: Character = {
       player_class: 8,
       character: 5,
       player_class_details: {
+        update_datetime: "2023-04-24T12:00:00.000Z",
         name: "Paladin",
         pk: 8,
       }
@@ -332,7 +368,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        OrganismsModule,
+        MoleculesModule,
         RouterTestingModule,
       ],
       declarations: [

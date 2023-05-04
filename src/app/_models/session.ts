@@ -8,11 +8,13 @@ export interface Session{
   start_day?: number;
   end_day?: number;
   name?: string;
-  title: string;
+  title?: string;
   has_recording?: boolean;
   diaryentries?: SessionDiaryEntry[];
   campaign?: number;
   campaign_details?: {pk: number, name: string};
+  creation_datetime?: string;
+  update_datetime?: string;
 }
 
 export interface SessionDiaryEntry{

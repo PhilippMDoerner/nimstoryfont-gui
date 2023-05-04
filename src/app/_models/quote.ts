@@ -6,8 +6,10 @@ export interface Quote{
     pk?: number,
     session: number,
     session_details: Session,
-    encounter: number,
+    encounter?: number,
     connections?: QuoteConnection[],
+    creation_datetime: string;
+    update_datetime: string;
 }
 
 export interface QuoteConnection{

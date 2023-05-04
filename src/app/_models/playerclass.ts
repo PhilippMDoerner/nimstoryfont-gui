@@ -1,6 +1,7 @@
 export interface PlayerClass{
-  pk?: number,
-  name: string,
+  pk?: number;
+  name: string;
+  update_datetime?: string;
 }
 
 export interface CharacterPlayerClassConnection{

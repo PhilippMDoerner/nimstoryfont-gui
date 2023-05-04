@@ -10,13 +10,13 @@ export interface Character extends ArticleObject{
     race: string,
     description: string,
     organizations?: CharacterOrganization[],
-    current_location: number,
+    current_location?: number,
     current_location_details?: CharacterLocation,
     items?: CharacterItem[],
     encounters?: CharacterEncounter[],
     images?: Image[],
     player_class_connections?: CharacterPlayerClassConnection[];
-    campaign?: number;
+    campaign_id?: number;
 }
 
 
@@ -28,18 +28,26 @@ export interface CharacterLocation{
     parent_location: string
 }
 
-interface CharacterEncounter{
-    name?: string,
-    creation_datetime: string,
-    update_datetime:string,
-    encounterConnections: CharacterEncounterConnections[]
-    description: string
-    pk: number
+export interface CharacterEncounter{
+    name?: string;
+    creation_datetime: string;
+    update_datetime:string;
+    encounterConnections: CharacterEncounterConnections[];
+    description: string;
+    pk: number;
+    campaign_details: {name: string, pk: number};
+    location?: number;
+    location_details?: {name: string, pk: number, name_full: string, parent_location_name: string};
+    title: string;
+    diaryentry: number;
+    order_index: number;
 }
-
-interface CharacterEncounterConnections{
-    connection_pk: number
-    character_name: string,
+export interface CharacterEncounterConnections{
+    pk?: number,
+    encounter: number,
+    encounter_details?: {name: string, name_full: string, pk: number},
+    character: number,
+    character_details?: {name: string, name_full: string, pk: number},
 }
 
 export interface CharacterOrganization{

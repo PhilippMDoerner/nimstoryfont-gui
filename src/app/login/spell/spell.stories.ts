@@ -26,6 +26,7 @@ const dummySpell: Spell = {
       player_class: 1,
       spell: 1,
       player_class_details: {
+        update_datetime: "2022-04-25T14:30:00.000Z",
         pk: 1,
         name: "Wizard",
       },
@@ -34,6 +35,7 @@ const dummySpell: Spell = {
       player_class: 2,
       spell: 1,
       player_class_details: {
+        update_datetime: "2022-04-25T14:30:00.000Z",
         pk: 2,
         name: "Sorcerer",
       },

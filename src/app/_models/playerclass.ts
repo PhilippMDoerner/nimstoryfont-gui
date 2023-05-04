@@ -1,6 +1,6 @@
 export interface PlayerClass{
   pk?: number,
-  name: String,
+  name: string,
 }
 
 export interface CharacterPlayerClassConnection{

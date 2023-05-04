@@ -11,8 +11,7 @@ import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { FormlyFileFieldComponent } from './design/molecules/formly-file-field/formly-file-field.component';
-import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from './design/organisms';
-import { OrganismsModule } from './design/organisms/organisms.module';
+import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent, OrganismsModule } from './design/organisms';
 import { DetailModule } from './detail/detail.module';
 import { RootModule } from './root/root.module';
 

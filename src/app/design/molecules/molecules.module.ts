@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { EditorModule } from '@tinymce/tinymce-angular';
-import { AtomsModule } from '../atoms/atoms.module';
+import { AtomsModule } from '../atoms';
 import { ArticleFooterComponent } from './article-footer/article-footer.component';
 import { BadgeListComponent } from './badge-list/badge-list.component';
 import { ChoiceSelectComponent } from './choice-select/choice-select.component';

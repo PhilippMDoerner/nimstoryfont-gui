@@ -1,6 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { MoleculesModule } from 'src/app/design/molecules/molecules.module';
+import { MoleculesModule } from 'src/app/design/molecules';
 import { FilterListComponent } from './filter-list.component';
 
 const dummyEntries = [

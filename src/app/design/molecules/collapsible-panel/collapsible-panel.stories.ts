@@ -1,5 +1,5 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms/atoms.module';
+import { AtomsModule } from '../../atoms';
 import { CollapsiblePanelComponent } from './collapsible-panel.component';
 
 

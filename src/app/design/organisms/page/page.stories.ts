@@ -1,7 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { Campaign } from 'src/app/_models/campaign';
-import { MoleculesModule } from 'src/app/design/molecules/molecules.module';
+import { MoleculesModule } from 'src/app/design/molecules';
 import { PageContainerComponent } from '../page-container/page-container.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PageComponent } from './page.component';

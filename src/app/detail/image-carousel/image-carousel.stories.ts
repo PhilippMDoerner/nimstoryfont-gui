@@ -2,7 +2,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { Image } from '../../_models/image';
-import { AtomsModule } from '../../design/atoms/atoms.module';
+import { AtomsModule } from '../../design/atoms';
 import { ImageCarouselComponent } from './image-carousel.component';
 
 const dummyImages: Image[] = [

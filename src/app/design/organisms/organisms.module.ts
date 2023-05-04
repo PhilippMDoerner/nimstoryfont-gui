@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormlyModule } from '@ngx-formly/core';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { MoleculesModule } from '../../design/molecules/molecules.module';
+import { MoleculesModule } from '../../design/molecules';
 import { FilterListComponent } from './filter-list/filter-list.component';
 import { FormlyDatepickerFieldComponent } from './formly-datepicker-field/formly-datepicker-field.component';
 import { FormlyEditorFieldComponent } from './formly-editor-field/formly-editor-field.component';

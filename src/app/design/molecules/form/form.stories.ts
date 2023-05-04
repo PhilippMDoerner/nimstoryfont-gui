@@ -10,7 +10,7 @@ import { EditorModule } from '@tinymce/tinymce-angular';
 import { Observable, of } from 'rxjs';
 import { dateMessage, dateValidator, faPrefixMessage, fieldMatchValidator, fieldsDontMatchMessage, hasSpecialCharactersMessage, iconValidator, integerValidator, invalidTimeMessage, notIntegerMessage, requiredIconMessage, requiredIconValidator, requiredMessage, requiredValidator, sessionAlreadyHasAuthor, sessionAuthorUniqueValidator, specialCharacterValidator, timeValidator } from 'src/app/_services/formly/validators';
 import * as all from 'tinymce/tinymce';
-import { AtomsModule } from '../../atoms/atoms.module';
+import { AtomsModule } from '../../atoms';
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from '../../organisms';
 import { FormlyFileFieldComponent } from '../formly-file-field/formly-file-field.component';
 import { FormComponent } from './form.component';

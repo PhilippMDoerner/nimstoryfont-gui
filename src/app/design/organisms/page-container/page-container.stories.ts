@@ -1,5 +1,5 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { MoleculesModule } from 'src/app/design/molecules/molecules.module';
+import { MoleculesModule } from 'src/app/design/molecules';
 import { PageContainerComponent } from './page-container.component';
 
 export default {

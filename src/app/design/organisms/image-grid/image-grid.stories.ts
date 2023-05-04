@@ -1,7 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { MoleculesModule } from 'src/app/design/molecules/molecules.module';
+import { MoleculesModule } from 'src/app/design/molecules';
 import { ImageGridComponent } from './image-grid.component';
 
 const dummyEntries: any[] = [

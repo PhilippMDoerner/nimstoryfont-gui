@@ -50,6 +50,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     PageContainerComponent,
     SidebarComponent,
     PlayerComponent,
+    NgxLeafletMapComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },

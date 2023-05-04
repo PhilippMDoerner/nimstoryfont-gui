@@ -8,6 +8,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class ChoiceSelectComponent {
   @Input() choices!: any[];
   @Input() labelProp!: string;
+  @Input() selectedLabelValue?: string;
   
   @Output() choiceSelect: EventEmitter<any> = new EventEmitter();
   

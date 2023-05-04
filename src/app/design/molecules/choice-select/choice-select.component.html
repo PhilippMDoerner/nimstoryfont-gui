@@ -1,6 +1,9 @@
 <select class="form-select" (change)="onChange($event)">
   <ng-container *ngFor="let choice of choices; let i = index">
-      <option [value]="i">
+      <option 
+        [value]="i"
+        [selected]="choice[labelProp] === selectedLabelValue"
+      >
         {{choice[labelProp]}}
       </option>
   </ng-container>

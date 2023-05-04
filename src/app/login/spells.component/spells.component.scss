@@ -6,4 +6,15 @@
 
 .spell-card{
   margin-bottom: var(--spacer-3);
+  
+  &__heading{
+    display: flex;
+    justify-content: space-between;
+    
+  }
+  
+  &__class{
+    margin-left: var(--spacer-1);
+    margin-right: var(--spacer-1);
+  }
 }

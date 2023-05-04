@@ -14,12 +14,15 @@
     <ng-container *ngFor="let card of ruleCards; let i = index">
       <div class="list__rule-card rule-card">
         <app-collapsible-panel 
-          [heading]="card.rule.name" 
           [isOpen]="card.isOpen"
           [ngClass]="{
             'animate__animated animate__zoomIn': card.rule.pk == null
           }"
         > 
+          <span heading>
+            {{ card.rule.name }}
+          </span>
+        
           <app-rule
             body
             class="rule-card__rule"

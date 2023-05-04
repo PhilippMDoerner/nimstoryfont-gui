@@ -1,10 +1,12 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
 import { Spell, SpellPlayerClassConnection } from 'src/app/_models/spell';
+import { BadgeListEntry } from 'src/app/design/molecules';
 
 interface SpellCard{
   spell: Spell,
   isOpen: boolean,
+  classes: BadgeListEntry[],
 }
 
 @Component({
@@ -60,15 +62,25 @@ export class SpellsComponent implements OnInit, OnChanges{
   
   addSpell(){
     const newSpell: Spell = {name: this.DEFAULT_TITLE} as Spell;
-    const newSpellCard: SpellCard = {spell: newSpell, isOpen: true};
+    const newSpellCard: SpellCard = {spell: newSpell, isOpen: true, classes: []};
     this.spellCards.unshift(newSpellCard);
   }
   
   private setSpellCards(){
     this.spellCards = this.spells.map(
-      spell => ({spell: spell, isOpen: false})
+      spell => ({
+        spell: spell, 
+        isOpen: false,
+        classes: this.parsePlayerClasses(spell.player_class_connections)
+      }),
     );
   }
   
+  private parsePlayerClasses(classes: SpellPlayerClassConnection[]): BadgeListEntry[]{
+    return classes.map(entry => ({
+      text: entry.player_class_details?.name as string,
+      badgeValue: undefined,
+    }));
+  }
   
 }

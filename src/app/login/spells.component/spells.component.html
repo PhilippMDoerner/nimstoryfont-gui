@@ -14,12 +14,28 @@
     <ng-container *ngFor="let card of spellCards; let i = index">
       <div class="list__spell-card spell-card">
         <app-collapsible-panel 
-          [heading]="card.spell.name ?? ''" 
           [isOpen]="card.isOpen"
           [ngClass]="{
             'animate__animated animate__zoomIn': card.spell.pk == null
           }"
         > 
+          <div heading class="spell-card__heading">
+            <span>
+              {{ card.spell.name ?? ''}}
+            </span> 
+            
+            <span>
+              <ng-container *ngFor="let connection of card.spell.player_class_connections">
+                <a class="spell-card__class">
+                  <app-badge
+                    [text]="connection.player_class_details?.name ?? ''"
+                    [type]="'DARK'"
+                  ></app-badge>
+                </a>
+              </ng-container>
+            </span>
+          </div>
+        
           <app-spell
             body
             class="spell-card__spell"

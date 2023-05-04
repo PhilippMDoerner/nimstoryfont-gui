@@ -24,9 +24,9 @@
       [canDelete]="canDelete"
       [canUpdate]="canUpdate"
       [canCreate]="canCreate"
-      (deleteImage)="changeState($event, 'DELETE')"      
-      (updateImage)="changeState($event, 'UPDATE')"      
-      (createImage)="changeState($event, 'CREATE')"      
+      (deleteImage)="changeState(currentImage, 'DELETE')"      
+      (updateImage)="changeState(currentImage, 'UPDATE')"      
+      (createImage)="changeState({}, 'CREATE')"      
     ></app-image-carousel>
 </ng-template>
 

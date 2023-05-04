@@ -1,8 +1,5 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import * as Howler from 'howler';
 import { PlayerComponent } from './player.component';
-
-const x = Howler;
 
 export default {
   title: 'DesignSystem/Organisms/PlayerComponent',

@@ -5,6 +5,7 @@ export { FormlyEditorFieldComponent } from './formly-editor-field/formly-editor-
 export { FormlySelectDisableFieldComponent } from './formly-select-disable/formly-select-disable-field.component';
 export { IconCardListComponent } from './icon-card-list/icon-card-list.component';
 export { ImageGridComponent } from './image-grid/image-grid.component';
+export { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
 export { OrganismsModule } from './organisms.module';
 export { PageContainerComponent } from './page-container/page-container.component';
 export { PageComponent } from './page/page.component';

@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { StoreModule } from '@ngrx/store';
 import { FormlyModule } from '@ngx-formly/core';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { httpInterceptorProviders } from './_interceptors';
@@ -14,7 +16,6 @@ import { FormlyFileFieldComponent } from './design/molecules/formly-file-field/f
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent, OrganismsModule } from './design/organisms';
 import { DetailModule } from './detail/detail.module';
 import { RootModule } from './root/root.module';
-import { StoreModule } from '@ngrx/store';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { StoreModule } from '@ngrx/store';
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    LeafletModule,
     HttpClientModule,
     FormlyModule.forRoot({
       types: [

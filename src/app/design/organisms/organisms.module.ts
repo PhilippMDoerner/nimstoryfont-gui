@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FormlyModule } from '@ngx-formly/core';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { MoleculesModule } from '../../design/molecules';
@@ -9,6 +10,7 @@ import { FormlyEditorFieldComponent } from './formly-editor-field/formly-editor-
 import { FormlySelectDisableFieldComponent } from './formly-select-disable/formly-select-disable-field.component';
 import { IconCardListComponent } from './icon-card-list/icon-card-list.component';
 import { ImageGridComponent } from './image-grid/image-grid.component';
+import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
 import { PageContainerComponent } from './page-container/page-container.component';
 import { PageComponent } from './page/page.component';
 import { PlayerComponent } from './player/player.component';
@@ -28,11 +30,13 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     PageContainerComponent,
     SidebarComponent,
     PlayerComponent,
+    NgxLeafletMapComponent,
   ],
   imports: [
     CommonModule,
     FormlyModule,
     MoleculesModule,
+    LeafletModule,
   ],
   exports: [
     FilterListComponent,

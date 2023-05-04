@@ -1,10 +1,14 @@
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import * as x from 'leaflet';
 import { MoleculesModule } from 'src/app/design/molecules';
-import { ExtendedMap } from '../../_models/map';
-import { MapMarker } from '../../_models/mapMarker';
-import { AtomsModule } from '../../design/atoms';
+import { ExtendedMap } from '../../../_models/map';
+import { MapMarker } from '../../../_models/mapMarker';
+import { AtomsModule } from '../../../design/atoms';
 import { NgxLeafletMapComponent } from './ngx-leaflet-map.component';
+
+const y = x;
+
 
 const dummyMarkers: MapMarker[] = [
   {
@@ -85,7 +89,7 @@ const dummyMap: ExtendedMap = {
 
 
 export default {
-  title: 'Application/Map/NgxLeafletMapComponent',
+  title: 'DesignSystem/Organisms/NgxLeafletMapComponent',
   component: NgxLeafletMapComponent,
   decorators: [
     moduleMetadata({

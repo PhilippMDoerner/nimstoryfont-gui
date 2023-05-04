@@ -3,11 +3,11 @@ import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { FormlyFileFieldComponent } from 'src/app/molecules';
-import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent, OrganismsModule } from 'src/app/organisms';
+import { FormlyFileFieldComponent } from 'src/app/design/molecules';
 import { Character } from '../../_models/character';
 import { Quote } from '../../_models/quote';
 import { dateMessage, dateValidator, faPrefixMessage, fieldMatchValidator, fieldsDontMatchMessage, hasSpecialCharactersMessage, iconValidator, integerValidator, invalidTimeMessage, notIntegerMessage, requiredIconMessage, requiredIconValidator, requiredMessage, requiredValidator, sessionAlreadyHasAuthor, sessionAuthorUniqueValidator, specialCharacterValidator, timeValidator } from '../../_services/formly/validators';
+import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent, OrganismsModule } from '../../design/organisms';
 import { QuoteComponent } from '../quote/quote.component';
 import { QuoteFieldComponent } from './quote-field.component';
 

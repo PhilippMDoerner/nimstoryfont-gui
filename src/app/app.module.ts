@@ -10,12 +10,10 @@ import { dateMessage, dateValidator, faPrefixMessage, fieldMatchValidator, field
 import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormlyFileFieldComponent } from './design/molecules/formly-file-field/formly-file-field.component';
+import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from './design/organisms';
+import { OrganismsModule } from './design/organisms/organisms.module';
 import { DetailModule } from './detail/detail.module';
-import { FormlyFileFieldComponent } from './molecules/formly-file-field/formly-file-field.component';
-import { FormlyDatepickerFieldComponent } from './organisms/formly-datepicker-field/formly-datepicker-field.component';
-import { FormlyEditorFieldComponent } from './organisms/formly-editor-field/formly-editor-field.component';
-import { FormlySelectDisableFieldComponent } from './organisms/formly-select-disable/formly-select-disable-field.component';
-import { OrganismsModule } from './organisms/organisms.module';
 import { RootModule } from './root/root.module';
 
 @NgModule({

@@ -1,8 +1,8 @@
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from 'src/app/atoms/atoms.module';
 import { Image } from '../../_models/image';
+import { AtomsModule } from '../../design/atoms/atoms.module';
 import { ImageCarouselComponent } from './image-carousel.component';
 
 const dummyImages: Image[] = [

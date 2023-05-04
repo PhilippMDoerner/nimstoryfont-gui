@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { BadgeListEntry } from 'src/app/molecules';
+import { BadgeListEntry } from 'src/app/design/molecules';
 import { Character } from '../../_models/character';
 import { Quote, QuoteConnection } from '../../_models/quote';
 import { copyToClipboard } from '../_functions/clipboard';

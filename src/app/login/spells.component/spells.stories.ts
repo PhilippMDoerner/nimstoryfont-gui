@@ -8,10 +8,10 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { Spell } from 'src/app/_models/spell';
 import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from 'src/app/_services/formly/validators';
-import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { MoleculesModule } from 'src/app/molecules/molecules.module';
-import { FormlyEditorFieldComponent } from 'src/app/organisms';
+import { MoleculesModule } from 'src/app/design/molecules/molecules.module';
 import * as all from 'tinymce/tinymce';
+import { AtomsModule } from '../../design/atoms/atoms.module';
+import { FormlyEditorFieldComponent } from '../../design/organisms';
 import { SpellComponent } from '../spell/spell.component';
 import { SpellsComponent } from './spells.component';
 

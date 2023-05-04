@@ -2,8 +2,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormlyModule } from '@ngx-formly/core';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { FormlyDatepickerFieldComponent, OrganismsModule } from 'src/app/organisms';
 import { dateMessage, dateValidator, integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from '../../_services/formly/validators';
+import { FormlyDatepickerFieldComponent, OrganismsModule } from '../../design/organisms';
 import { SessionaudioCardComponent } from './sessionaudio-card.component';
 
 const dummySessionAudio: OverviewItem =   {

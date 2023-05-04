@@ -1,4 +1,4 @@
-import { ElementType } from "../atoms/_models/button";
+import { ElementType } from "../design/atoms/";
 import { ArticleKind } from "./overview";
 
 export interface FormlyPasswordInterface{

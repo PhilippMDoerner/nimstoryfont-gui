@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angu
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { ElementType } from 'src/app/atoms';
-import { BadgeListEntry } from 'src/app/molecules';
-import { BadgeListSelectOptions } from 'src/app/molecules/_models/badge-list';
+import { BadgeListEntry } from 'src/app/design/molecules';
+import { BadgeListSelectOptions } from 'src/app/design/molecules/_models/badge-list';
 import { SPELL_CASTING_TIME, SPELL_COMPONENTS, SPELL_DURATION, SPELL_LEVELS, SPELL_RANGES, SPELL_SAVES, SPELL_SCHOOLS, Spell, SpellPlayerClassConnection } from '../../_models/spell';
+import { ElementType } from '../../design/atoms';
 
 type SpellState = "DISPLAY" | "CREATE" | "UPDATE" | "OUTDATED_UPDATE"
 

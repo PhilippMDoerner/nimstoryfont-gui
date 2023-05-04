@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FormlyModule } from '@ngx-formly/core';
-import { OrganismsModule } from '../organisms/organisms.module';
+import { OrganismsModule } from '../design/organisms/organisms.module';
 import { DiaryentryEncountersComponent } from './diaryentry-encounters/diaryentry-encounters.component';
 import { EncounterAccordionComponent } from './encounter-accordion/encounter-accordion.component';
 import { EncounterComponent } from './encounter/encounter.component';

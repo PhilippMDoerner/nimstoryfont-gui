@@ -7,11 +7,11 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { OverviewItem } from 'src/app/_models/overview';
 import { integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
-import { AtomsModule } from 'src/app/atoms/atoms.module';
-import { MoleculesModule } from 'src/app/molecules/molecules.module';
-import { FormlyEditorFieldComponent } from 'src/app/organisms';
+import { MoleculesModule } from 'src/app/design/molecules/molecules.module';
 import * as all from 'tinymce/tinymce';
 import { Encounter, EncounterConnection, EncounterObject } from '../../_models/encounter';
+import { AtomsModule } from '../../design/atoms/atoms.module';
+import { FormlyEditorFieldComponent } from '../../design/organisms';
 import { EncounterComponent } from './encounter.component';
 
 const x = all;

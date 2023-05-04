@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MapRoutingModule } from './map-routing.module';
 import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.component';
 
 
@@ -9,7 +10,8 @@ import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.compon
     NgxLeafletMapComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MapRoutingModule,
   ]
 })
 export class MapModule { }

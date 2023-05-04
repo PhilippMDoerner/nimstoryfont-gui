@@ -2,9 +2,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { OrganismsModule } from 'src/app/organisms';
 import { Character } from '../../_models/character';
 import { Quote } from '../../_models/quote';
+import { OrganismsModule } from '../../design/organisms';
 import { QuoteComponent } from './quote.component';
 
 const dummyQuote: Quote = {

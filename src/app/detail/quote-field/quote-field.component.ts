@@ -3,7 +3,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { BadgeListEntry } from 'src/app/molecules';
+import { BadgeListEntry } from 'src/app/design/molecules';
 import { Character } from '../../_models/character';
 import { Quote, QuoteConnection } from '../../_models/quote';
 import { copyToClipboard } from '../_functions/clipboard';

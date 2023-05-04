@@ -45,6 +45,7 @@
 
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer
+      [showDelete]="canDelete"
       [buttonLink]="homeUrl"
       [buttonLabel]="'Back to Frontpage'"
       [deleteMessage]="'Delete Map of ' + map.name + '?'"

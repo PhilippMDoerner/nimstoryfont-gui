@@ -14,7 +14,7 @@ type QuoteState = "CREATE" | "UPDATE" | "DELETE" | "DISPLAY" | "UPDATE_OUTDATED"
   styleUrls: ['./quote.component.scss']
 })
 export class QuoteComponent implements OnInit, OnChanges{
-  @Input() quote!: Quote;
+  @Input() quote?: Quote;
   @Input() character!: Character;
   @Input() campaignCharacters!: OverviewItem[];
   @Input() canCreate: boolean = false;
@@ -39,7 +39,7 @@ export class QuoteComponent implements OnInit, OnChanges{
   ){}
   
   ngOnInit(): void {
-    this.badgeEntries = this.parseConnection(this.quote.connections ?? []);
+    this.badgeEntries = this.parseConnection(this.quote?.connections ?? []);
     this.campaignName = this.character.campaign_details?.name as string;
     this.quoteOverviewUrl = this.routingService.getRoutePath(
       'quote-overview', 
@@ -63,7 +63,7 @@ export class QuoteComponent implements OnInit, OnChanges{
   }
   
   onConnectionCreate(character: OverviewItem){
-    if(!this.canCreate){
+    if(!this.canCreate || !this.quote){
       return;
     }
     
@@ -99,6 +99,9 @@ export class QuoteComponent implements OnInit, OnChanges{
   }
   
   copyQuoteToClipboard(){
+    if(!this.quote){
+      return;
+    }
     const quoteLines = this.quote.quote.split("<br />");
     const modifiedQuoteLines = quoteLines.map( (line: string) => `\>${line.trim().trimStart()}`);
     const modifiedQuote = modifiedQuoteLines.join("<br />");

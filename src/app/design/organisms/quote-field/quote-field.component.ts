@@ -4,7 +4,6 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/app/design/molecules';
-import { copyToClipboard } from 'src/app/detail/_functions/clipboard';
 import { Character } from '../../../_models/character';
 import { Quote, QuoteConnection } from '../../../_models/quote';
 
@@ -16,7 +15,7 @@ type QuoteState = "CREATE" | "UPDATE" | "DELETE" | "DISPLAY" | "UPDATE_OUTDATED"
   styleUrls: ['./quote-field.component.scss']
 })
 export class QuoteFieldComponent implements OnInit, OnChanges{
-  @Input() quote!: Quote;
+  @Input() quote?: Quote;
   @Input() character!: Character;
   @Input() campaignCharacters!: OverviewItem[];
   @Input() serverModel?: Quote;
@@ -45,7 +44,7 @@ export class QuoteFieldComponent implements OnInit, OnChanges{
   ){}
   
   ngOnInit(): void {
-    this.badgeEntries = this.parseConnection(this.quote.connections ?? []);
+    this.badgeEntries = this.parseConnection(this.quote?.connections ?? []);
     this.campaignName = this.character.campaign_details?.name as string;
     this.quoteOverviewUrl = this.routingService.getRoutePath('quote-overview', {name: this.character.name, campaign: this.campaignName})
     this.setFormlyFields();
@@ -113,7 +112,7 @@ export class QuoteFieldComponent implements OnInit, OnChanges{
   }
   
   onConnectionCreate(character: OverviewItem){
-    if(!this.canCreate){
+    if(!this.canCreate || !this.quote){
       return;
     }
     
@@ -151,15 +150,5 @@ export class QuoteFieldComponent implements OnInit, OnChanges{
         link
       };
     });
-  }
-  
-  copyQuoteToClipboard(){
-    const quoteLines = this.quote.quote.split("<br />");
-    const modifiedQuoteLines = quoteLines.map( (line: string) => `\>${line.trim().trimStart()}`);
-    const modifiedQuote = modifiedQuoteLines.join("<br />");
-
-    const descriptionSuffix = `- ${this.quote.description} `;
-    const text = `${modifiedQuote}\n>${descriptionSuffix}`;
-    copyToClipboard(text);
   }
 }

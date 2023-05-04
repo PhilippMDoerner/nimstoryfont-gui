@@ -11,7 +11,7 @@ const dummyQuest: OverviewItem = {
   abstract: 'A black knight that does things',
   name_full: 'The Black Knight - A quest to defeat a powerful undead warrior',
   description: 'The players are hired to find and defeat the Black Knight, a powerful undead warrior who is terrorizing the countryside',
-  update_date: '2022-05-10',
+  update_datetime: '2022-05-10',
   campaign_details: {pk: 456, name: 'Medieval Fantasy RPG'},
   getAbsoluteRouterUrl: () => '/quests/345',
   pk: 345

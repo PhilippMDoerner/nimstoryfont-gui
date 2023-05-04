@@ -31,7 +31,7 @@ export type ArticleKind = "CHARACTER"
     name: string;
     name_full: string;
     description?: string;
-    update_date?: string;
+    update_datetime?: string;
 
     //For Character-Type OverviewItems
     player_character?: boolean;

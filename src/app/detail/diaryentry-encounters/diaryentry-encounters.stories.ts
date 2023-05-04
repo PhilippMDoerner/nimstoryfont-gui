@@ -401,7 +401,7 @@ const dummyCharacters: OverviewItem[] = [
     "pk": 18,
     "name_full": "Sif the Swift",
     "description": "Sif is a skilled warrior known for her lightning-fast strikes and agility. She is fiercely loyal to her friends and will stop at nothing to protect them.",
-    "update_date": "2022-03-15T10:30:00.000Z",
+    "update_datetime": "2022-03-15T10:30:00.000Z",
     "player_character": true,
     "images": []
   },
@@ -412,7 +412,7 @@ const dummyCharacters: OverviewItem[] = [
     "pk": 19,
     "name_full": "Gorin Ironfist",
     "description": "Gorin is a dwarf from the Iron Hills, known for his strength and unwavering determination. He has a fondness for ale and a good brawl.",
-    "update_date": "2022-02-23T14:15:00.000Z",
+    "update_datetime": "2022-02-23T14:15:00.000Z",
     "player_character": true,
     "images": [
         {
@@ -450,7 +450,7 @@ const dummyCharacters: OverviewItem[] = [
     "pk": 20,
     "name_full": "Lirien Windrider",
     "description": "Lirien is an elven archer, renowned for her skill with the bow. She is fiercely independent and often clashes with authority figures.",
-    "update_date": "2022-03-20T08:45:00.000Z",
+    "update_datetime": "2022-03-20T08:45:00.000Z",
     "player_character": true,
     "images": [
         {

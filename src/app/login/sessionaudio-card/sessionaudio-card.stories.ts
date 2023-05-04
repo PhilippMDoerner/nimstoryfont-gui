@@ -13,7 +13,7 @@ const dummySessionAudio: OverviewItem =   {
   pk: 1001,
   name_full: "The Adventure Begins - Session 1",
   description: "The first session of our epic D&D campaign",
-  update_date: "2022-01-01T10:00:00Z",
+  update_datetime: "2022-01-01T10:00:00Z",
   session_details: {
     pk: 1,
     session_number: 1,

@@ -30,12 +30,12 @@ export interface CharacterLocation{
 
 export interface CharacterEncounter{
     name?: string;
-    creation_datetime: string;
-    update_datetime:string;
-    encounterConnections: CharacterEncounterConnections[];
+    creation_datetime?: string;
+    update_datetime?: string;
+    encounterConnections?: CharacterEncounterConnections[];
     description: string;
-    pk: number;
-    campaign_details: {name: string, pk: number};
+    pk?: number;
+    campaign_details?: {name: string, pk: number};
     location?: number;
     location_details?: {name: string, pk: number, name_full: string, parent_location_name: string};
     title: string;

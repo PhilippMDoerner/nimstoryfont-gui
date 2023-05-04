@@ -18,8 +18,6 @@ export default {
       ],
     }),
     componentWrapperDecorator(() => `
-      NOTE: This is currently broken, <a href="https://github.com/storybookjs/storybook/issues/10272"> but only in storybook </a>. <br>
-      The ng-content will work as normal in normal components
       <app-confirmation-modal 
         [heading]="heading"
         [confirmValue]="confirmValue"
@@ -33,12 +31,12 @@ export default {
         (cancel)="cancel($event)"
       >
       
-        <ng-container selector="body">
+        <ng-container body>
           <h3> Body </h3>
           This is the modal body content.
         </ng-container>
         
-        <ng-container>
+        <ng-container opener>
           <app-button 
             [type]="'SECONDARY'" 
             [text]="'Open Modal'"

@@ -19,7 +19,7 @@ export class EncounterAccordionComponent {
   @Output() connectionDelete: EventEmitter<EncounterConnection> = new EventEmitter();
   @Output() connectionCreate: EventEmitter<EncounterConnection> = new EventEmitter();
   @Output() encounterDelete: EventEmitter<Encounter | CharacterEncounter> = new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
+  @Output() encounterUpdate: EventEmitter<Encounter | CharacterEncounter> = new EventEmitter();
 
   onPanelChange(event: any){
     console.log(event);

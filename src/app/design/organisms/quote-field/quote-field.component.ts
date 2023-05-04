@@ -19,7 +19,7 @@ export class QuoteFieldComponent implements OnInit, OnChanges{
   @Input() quote!: Quote;
   @Input() character!: Character;
   @Input() campaignCharacters!: OverviewItem[];
-  @Input() serverModel!: Quote;
+  @Input() serverModel?: Quote;
   @Input() canCreate: boolean = false;
   @Input() canUpdate: boolean = false;
   @Input() canDelete: boolean = false;

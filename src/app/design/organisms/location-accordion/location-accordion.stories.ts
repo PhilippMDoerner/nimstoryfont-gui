@@ -7,9 +7,9 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
 import { MoleculesModule } from 'src/app/design/molecules';
-import { Location } from '../../_models/location';
-import { AtomsModule } from '../../design/atoms';
-import { FormlyEditorFieldComponent } from '../../design/organisms';
+import { Location } from '../../../_models/location';
+import { AtomsModule } from '../../../design/atoms';
+import { FormlyEditorFieldComponent } from '../../../design/organisms';
 import { LocationComponent } from '../location/location.component';
 import { LocationAccordionComponent } from './location-accordion.component';
 
@@ -132,7 +132,7 @@ const dummyLocations: Location[] = [
 ];
 
 export default {
-  title: 'Application/Detail/LocationAccordionComponent',
+  title: 'DesignSystem/Organisms/LocationAccordionComponent',
   component: LocationAccordionComponent,
   decorators: [
     moduleMetadata({

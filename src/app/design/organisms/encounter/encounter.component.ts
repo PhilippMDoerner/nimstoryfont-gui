@@ -4,7 +4,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/app/design/molecules';
-import { Encounter, EncounterConnection } from '../../_models/encounter';
+import { Encounter, EncounterConnection } from '../../../_models/encounter';
 
 type EncounterState = "DISPLAY" | "UPDATE" | "OUTDATEDUPDATE" | "CREATE";
 

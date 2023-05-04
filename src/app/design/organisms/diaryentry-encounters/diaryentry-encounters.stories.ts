@@ -10,9 +10,9 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
 import { MoleculesModule } from 'src/app/design/molecules';
 import * as all from 'tinymce/tinymce';
-import { Encounter, EncounterObject } from '../../_models/encounter';
-import { AtomsModule } from '../../design/atoms';
-import { FormlyEditorFieldComponent } from '../../design/organisms';
+import { Encounter, EncounterObject } from '../../../_models/encounter';
+import { AtomsModule } from '../../../design/atoms';
+import { FormlyEditorFieldComponent } from '../../../design/organisms';
 import { EncounterComponent } from '../encounter/encounter.component';
 import { DiaryentryEncountersComponent } from './diaryentry-encounters.component';
 
@@ -471,7 +471,7 @@ const dummyCharacters: OverviewItem[] = [
 ];
 
 export default {
-  title: 'Application/Detail/DiaryentryEncountersComponent',
+  title: 'DesignSystem/Organisms/DiaryentryEncountersComponent',
   component: DiaryentryEncountersComponent,
   decorators: [
     moduleMetadata({

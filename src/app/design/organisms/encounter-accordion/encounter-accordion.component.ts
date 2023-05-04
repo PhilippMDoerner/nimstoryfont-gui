@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
-import { Encounter, EncounterConnection } from '../../_models/encounter';
+import { Encounter, EncounterConnection } from '../../../_models/encounter';
 
 @Component({
   selector: 'app-encounter-accordion',

@@ -1,152 +1,60 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { Character } from '../../_models/character';
-import { Quote } from '../../_models/quote';
-import { OrganismsModule } from '../../design/organisms';
-import { QuoteComponent } from './quote.component';
+import { Location, LocationCharacter } from "../../../_models/location";
+import { OrganismsModule } from '../../../design/organisms';
+import { LocationComponent } from "./location.component";
 
-const dummyQuote: Quote = {
-  quote: "In the darkest of times, the light within us shines the brightest.",
-  description: "Said by a wise old wizard to a young hero about to embark on a perilous quest.",
-  pk: 1,
-  session: 3,
-  session_details: {
-    pk: 3,
-    is_main_session: true,
-    is_main_session_int: 1,
-    session_number: 3,
-    session_date: "2023-04-20",
-    start_day: 1,
-    end_day: 5,
-    name: "The Quest for the Sacred Amulet",
-    title: "The Quest",
-  },
-  encounter: 2,
-  connections: [
-    {
-      character: 1,
-      character_details: {
-        pk: 1,
-        name: "Gandalf",
-        name_full: "Gandalf the Grey",
-      },
-      quote: 2,
-      pk: 2,
-    },
-    {
-      character: 2,
-      character_details: {
-        pk: 2,
-        name: "Frodo",
-        name_full: "Frodo Baggins",
-      },
-      quote: 3,
-      pk: 3,
-    },
-  ],
-};
-
-const dummyCharacter: Character = {
-  getAbsoluteRouterUrl: () => "/dummy/url",
-  player_character: false,
-  alive: true,
-  title: "Gandalf the Grey",
-  gender: "Male",
-  race: "Maia",
-  description:
-    "A wise and powerful wizard, Gandalf the Grey is a member of the Fellowship of the Ring and a key figure in the fight against the Dark Lord Sauron.",
-  organizations: [
-    {
-      pk: 1,
-      name: "The White Council",
-      organization_id: 1,
-      role: "Member",
-    },
-    {
-      pk: 2,
-      name: "The Fellowship of the Ring",
-      organization_id: 2,
-      role: "Member",
-    },
-  ],
-  current_location: 3,
-  current_location_details: {
-    pk: 3,
-    name_full: "Moria",
-    parent_location: "Middle-earth",
-  },
-  items: [
-    {
-      pk: 1,
-      name: "Glamdring",
-    },
-    {
-      pk: 2,
-      name: "Staff",
-    },
-  ],
-  encounters: [
-    {
-      name: "The Council of Elrond",
-      creation_datetime: "2023-04-22T12:00:00.000Z",
-      update_datetime: "2023-04-23T12:00:00.000Z",
-      encounterConnections: [
-        {
-          connection_pk: 1,
-          character_name: "Gandalf the Grey",
-        },
-        {
-          connection_pk: 2,
-          character_name: "Frodo Baggins",
-        },
-      ],
-      description:
-        "At the Council of Elrond, Gandalf reveals the true nature of the One Ring and urges the Fellowship to destroy it in the fires of Mount Doom.",
-      pk: 1,
-    },
-    {
-      name: "The Battle of Helm's Deep",
-      creation_datetime: "2023-04-23T12:00:00.000Z",
-      update_datetime: "2023-04-24T12:00:00.000Z",
-      encounterConnections: [
-        {
-          connection_pk: 3,
-          character_name: "Gandalf the Grey",
-        },
-        {
-          connection_pk: 4,
-          character_name: "Aragorn",
-        },
-      ],
-      description:
-        "Gandalf arrives at Helm's Deep with reinforcements and turns the tide of the battle against Saruman's forces.",
-      pk: 2,
-    },
-  ],
+const dummyLocation: Location = {  
+  name: "The Dark Forest",
+  name_full: "The Dark Forest",
+  description: "<p>The Dark Forest is a dense, sprawling forest shrouded in perpetual mist and darkness. It is said that those who enter the forest are never seen again, their screams echoing through the trees for eternity.</p><p>Legends speak of ancient curses and malevolent spirits haunting the forest, and travelers are warned to stay away. However, some brave or foolish souls venture into the forest in search of rare herbs and magical artifacts, risking life and limb to uncover its secrets.</p><p>Rumors also abound of a hidden village deep within the forest, where a secretive society of druids and witches practice forbidden magic and worship dark deities.</p>",
+  parent_location: 1,
   images: [],
-  player_class_connections: [
-    {
-      pk: 1,
-      player_class: 8,
-      character: 5,
-      player_class_details: {
-        name: "Paladin",
-        pk: 8,
-      }
-    },
-  ],
-  campaign: 1,
-  campaign_details: {
+  parent_location_details: {
     pk: 1,
-    name: "The War of the Ring",
+    name: "The Kingdom of Eldrid",
+    parent_location: "",
+    name_full: "The Kingdom of Eldrid"
   },
+  parent_location_list: ["The Kingdom of Eldrid", "The Northern Territories"],
+  characters: [
+    {name: "Elena", pk: 123, name_full: "Elena, the Witch of the Dark Forest"},
+    {name: "Thorne", pk: 456, name_full: "Thorne, the Shadow Assassin"}
+  ],
+  sublocations: [
+    {
+      creation_datetime: "2022-03-15T10:22:34.567Z",
+      update_datetime: "2022-05-01T14:12:45.678Z",
+      name: "The Witch's Hut",
+      pk: 789,
+      characters: [{name: "Morgana", pk: 234, name_full: "Morgana, the Dark Witch"}],
+      name_full: "The Witch's Hut in the Dark Forest",
+      description: `
+        <p>
+          The Witch's Hut is a small, dilapidated cabin hidden deep in the heart of the Dark Forest. 
+          It is said to be the dwelling place of Elena, the Witch of the Dark Forest, who brews powerful potions and performs arcane rituals within its walls.
+        </p>
+        
+        <p>
+          The hut is surrounded by twisted trees and eerie toadstools, and the air is thick with the scent of herbs and incense. 
+          Visitors are warned to approach with caution, as Elena is known to be both unpredictable and dangerous.
+        </p>
+      `,
+      parent_location: 2,
+      getAbsoluteRouterUrl: () => "/locations/the-kingdom-of-eldrid",
+    }
+  ],
+  marker_details: [
+    {map: "The Kingdom of Eldrid", map_icon: "https://example.com/dark-forest-icon.png"}
+  ],
+  getAbsoluteRouterUrl: () => "/locations/the-kingdom-of-eldrid",
+  getAbsoluteRouterUrlForParentLocation: () => "/locations/the-kingdom-of-eldrid"
 };
 
 const dummyCharacters: OverviewItem[] = [
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Gandalf",
     "pk": 1,
@@ -169,7 +77,7 @@ const dummyCharacters: OverviewItem[] = [
     ]
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Frodo",
     "pk": 2,
@@ -178,7 +86,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Gimli",
     "pk": 3,
@@ -187,7 +95,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Legolas",
     "pk": 4,
@@ -210,7 +118,7 @@ const dummyCharacters: OverviewItem[] = [
     ]
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Bilbo",
     "pk": 5,
@@ -219,7 +127,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Aragorn",
     "pk": 6,
@@ -242,7 +150,7 @@ const dummyCharacters: OverviewItem[] = [
     ]
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Saruman",
     "pk": 7,
@@ -251,7 +159,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Sif",
     "pk": 18,
@@ -262,7 +170,7 @@ const dummyCharacters: OverviewItem[] = [
     "images": []
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Gorin",
     "pk": 19,
@@ -300,7 +208,7 @@ const dummyCharacters: OverviewItem[] = [
     ]
   },
   {
-    getAbsoluteRouterUrl: () => '/character/456',
+    getAbsoluteRouterUrl: () => "/search/character/123",
     "article_type": "Character",
     "name": "Lirien",
     "pk": 20,
@@ -327,46 +235,40 @@ const dummyCharacters: OverviewItem[] = [
 ];
 
 export default {
-  title: 'Application/Detail/QuoteComponent',
-  component: QuoteComponent,
+  title: 'DesignSystem/Organisms/LocationComponent',
+  component: LocationComponent,
   decorators: [
     moduleMetadata({
       imports: [
-        OrganismsModule,
-        RouterTestingModule,
-      ],
+          OrganismsModule,
+          RouterTestingModule,
+      ],       
       declarations: [
       ]
     }),
   ],
   args: {
-    quote: dummyQuote,
-    character: dummyCharacter,
-    canCreate: true,
-    canUpdate: true,
-    canDelete: true,
     campaignCharacters: dummyCharacters,
-  }
-} as Meta<QuoteComponent>;
+    location: dummyLocation,
+  },
+} as Meta<LocationComponent>;
 
-const Template: StoryFn<QuoteComponent> = (args: QuoteComponent) => ({ 
+const Template: StoryFn<LocationComponent> = (args: LocationComponent) => ({ 
   props: {
     ...args,
-    quoteDelete: action('quoteDelete'),
-    quoteCreate: action('quoteCreate'),
-    quoteUpdate: action('quoteUpdate'),
-    refreshQuote: action('refreshQuote'),
-    connectionDelete: action('connectionDelete'),
-    connectionCreate: action('connectionCreate'),
   },
 });
 
 export const Default = Template.bind({});
 Default.args = {}
 
-export const NoPermission = Template.bind({});
-NoPermission.args = {
-  canCreate: false,
-  canUpdate: false,
-  canDelete: false,
+const shortCharacterList = dummyLocation.characters?.slice(0, 3) as LocationCharacter[];
+export const FewerConnections = Template.bind({});
+FewerConnections.args = {
+  location: {
+    ...dummyLocation,
+    characters: [
+      ...shortCharacterList,
+    ]
+  }
 }

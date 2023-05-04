@@ -4,29 +4,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FormlyModule } from '@ngx-formly/core';
 import { OrganismsModule } from '../design/organisms';
-import { DiaryentryEncountersComponent } from './diaryentry-encounters/diaryentry-encounters.component';
-import { EncounterAccordionComponent } from './encounter-accordion/encounter-accordion.component';
-import { EncounterComponent } from './encounter/encounter.component';
-import { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';
-import { ImageCarouselComponent } from './image-carousel/image-carousel.component';
-import { LocationAccordionComponent } from './location-accordion/location-accordion.component';
-import { LocationComponent } from './location/location.component';
-import { QuoteFieldComponent } from './quote-field/quote-field.component';
-import { QuoteComponent } from './quote/quote.component';
 
 
 
 @NgModule({
   declarations: [
-    DiaryentryEncountersComponent,
-    EncounterAccordionComponent,
-    EncounterComponent,
-    ImageCarouselCardComponent,
-    ImageCarouselComponent,
-    LocationAccordionComponent,
-    LocationComponent,
-    QuoteComponent,
-    QuoteFieldComponent,
+
   ],
   imports: [
     CommonModule,

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Encounter, EncounterConnection } from '../../../_models/encounter';
 
@@ -8,7 +9,7 @@ import { Encounter, EncounterConnection } from '../../../_models/encounter';
   styleUrls: ['./encounter-accordion.component.scss']
 })
 export class EncounterAccordionComponent {
-  @Input() encounters!: Encounter[];
+  @Input() encounters!: (Encounter | CharacterEncounter)[];
   @Input() campaignCharacters!: OverviewItem[];
   @Input() serverModel?: Encounter;
   @Input() canUpdate: boolean = false;
@@ -17,7 +18,7 @@ export class EncounterAccordionComponent {
   
   @Output() connectionDelete: EventEmitter<EncounterConnection> = new EventEmitter();
   @Output() connectionCreate: EventEmitter<EncounterConnection> = new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
+  @Output() encounterDelete: EventEmitter<Encounter | CharacterEncounter> = new EventEmitter();
   @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
 
   onPanelChange(event: any){

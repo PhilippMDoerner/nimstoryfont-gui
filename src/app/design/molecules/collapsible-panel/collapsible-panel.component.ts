@@ -6,7 +6,6 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./collapsible-panel.component.scss']
 })
 export class CollapsiblePanelComponent {
-  @Input() heading!: string;
   @Input() isOpen: boolean = false;
   
   togglePanel(){

@@ -1,10 +1,11 @@
 <div class="card" #panel>
   <h5 class="card__heading" (click)="togglePanel()">
-    <span>
-      {{heading}}
+    <span class="card__heading-text">
+      <ng-content select="[heading]"></ng-content>
     </span>
     
     <app-icon 
+      class="card__heading-icon"
       [icon]="isOpen ? 'chevron-up' : 'chevron-down'"
     ></app-icon>
   </h5>

@@ -22,9 +22,9 @@
       </ng-container>
     </h1>
       
-    <div class="row character__subheading">
+    <div class="col-12 character__subheading">
       <!-- Organization -->
-      <h5 class="col-12">
+      <h5>
         <ng-container *ngIf="character.gender !=='Other'">
           {{ character.gender }}
         </ng-container>
@@ -100,7 +100,6 @@
 
   <div class="character__items">
     <app-list
-      class="mb-5"
       [heading]="'Items of Note'"
       [entries]="characterItems"
       [enableCreate]="canCreate"

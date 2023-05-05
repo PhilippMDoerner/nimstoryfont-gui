@@ -6,6 +6,7 @@ import { CharacterComponent } from './character/character.component';
 import { CreatureComponent } from './creature/creature.component';
 import { DiaryentryComponent } from './diaryentry/diaryentry.component';
 import { ItemComponent } from './item/item.component';
+import { LocationTemplateComponent } from './location-template/location-template.component';
 
 
 
@@ -15,7 +16,8 @@ import { ItemComponent } from './item/item.component';
     CharacterComponent,
     CreatureComponent,
     DiaryentryComponent,
-    ItemComponent
+    ItemComponent,
+    LocationTemplateComponent
   ],
   imports: [
     CommonModule,

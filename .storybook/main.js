@@ -16,6 +16,7 @@ module.exports = {
   staticDirs: [
     '../src/assets', 
     '../node_modules/tinymce',
-    '../node_modules'
+    '../node_modules',
+    '../src'
   ],
 };

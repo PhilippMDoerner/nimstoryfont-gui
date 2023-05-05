@@ -1,6 +1,7 @@
 <div class="mb-3 {{field.className}}" [class.d-none]="to.hidden">
 
   <app-button  
+    class="file-field"
     [class.disabled]="props.disabled" 
     [disabled]="!!props.disabled"
     [type]="buttonType" 
@@ -17,7 +18,7 @@
 </div>
 
 <input 
-#fileInputElement
+  #fileInputElement
   type="file" 
   class="d-none"
   (change)="onFileSelect($event)"

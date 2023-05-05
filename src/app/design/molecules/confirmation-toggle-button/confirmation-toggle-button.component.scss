@@ -8,6 +8,11 @@
   justify-content: var(--align);
 }
 
+.confirmation-toggle{
+  display: inline-block;
+  width: fit-content;
+}
+
 .confirmation{
   border: 1px solid;
   display: flex;

@@ -1,4 +1,5 @@
 <form 
+  class="form"
   [formGroup]="form" 
   [enctype]="enctype"
   (keydown.enter)="onSubmit($event)"
@@ -10,10 +11,10 @@
   ></formly-form>
   
   <ng-container *ngIf="!disabled && enableSubmitButtons">
-    <div class="mt-5">
+    <div class="form__button-container">
       <!-- Cancel Button -->
       <app-button 
-        class="me-3"
+        class="form__button"
         [type]="cancelButtonType"
         [icon]="'times'"
         [text]="'Cancel'"
@@ -33,6 +34,7 @@
 
 <ng-template #activeSubmitButton>
   <app-button 
+    class="form__button"
     [type]="submitButtonType" 
     [text]="'Submit'"
     [icon]="submitIcon"
@@ -42,6 +44,7 @@
 
 <ng-template #inactiveSubmitButton>
   <app-button 
+    class="form__button"
     placement="top" 
     [type]="'DARK'" 
     [ngbTooltip]="'The form is not yet correctly filled out!'"

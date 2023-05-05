@@ -8,17 +8,18 @@
       </div>
     </div>
     
-    <div class="modal-body">
+    <div class="modal-body body">
       <ng-content select="[body]"></ng-content>
-      <div class="mb-1">
+      <div class="body__buttons">
         <app-button 
-          class="me-3" 
+          class="body__button" 
           [type]="cancelButtonType"
           [icon]="'times'" 
           [text]="cancelButtonLabel"
           (click)="onCancel(modal)"
         ></app-button>
         <app-button 
+          class="body__button" 
           [type]="modalType"
           [icon]="submitIcon"
           [text]="submitButtonLabel"

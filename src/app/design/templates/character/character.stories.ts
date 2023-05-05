@@ -230,7 +230,15 @@ const dummyCharacter: Character = {
   "update_datetime": "2022-02-13T13:37:28.357483Z",
   "campaign_id": 1,
   "campaign_details": { "name": "Aldrune", "pk": 1 },
-  "organizations": [],
+  "organizations": [
+    { "pk": 138, "organization_id": 54, "role": "Member", "name": "The Party" },
+    {
+        "pk": 146,
+        "organization_id": 3,
+        "role": "Paladin 3rd class",
+        "name": "Church of Morrigan"
+    }
+  ],
   "items": [],
   "encounters": [
       {

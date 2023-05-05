@@ -22,9 +22,9 @@
       </ng-container>
     </h1>
       
-    <div class="row">
+    <div class="row character__subheading">
       <!-- Organization -->
-      <h5 class="col-12 character__subheading">
+      <h5 class="col-12">
         <ng-container *ngIf="character.gender !=='Other'">
           {{ character.gender }}
         </ng-container>
@@ -34,12 +34,12 @@
 
       <ng-container *ngIf="organizations.length > 0">  
         <ng-container *ngFor="let entry of organizations; let i = index">
-          <div class="col-12">
+          <h5 class="col-12">
             {{ entry.organization.role }} of 
             <a [routerLink]="entry.link">
                 <strong>{{ entry.organization.name }}</strong>
             </a>
-          </div>
+          </h5>
         </ng-container>
       </ng-container> 
 

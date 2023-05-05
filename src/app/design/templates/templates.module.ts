@@ -5,6 +5,7 @@ import { MapComponent } from './map/map.component';
 import { CharacterComponent } from './character/character.component';
 import { CreatureComponent } from './creature/creature.component';
 import { DiaryentryComponent } from './diaryentry/diaryentry.component';
+import { ItemComponent } from './item/item.component';
 
 
 
@@ -13,7 +14,8 @@ import { DiaryentryComponent } from './diaryentry/diaryentry.component';
     MapComponent,
     CharacterComponent,
     CreatureComponent,
-    DiaryentryComponent
+    DiaryentryComponent,
+    ItemComponent
   ],
   imports: [
     CommonModule,

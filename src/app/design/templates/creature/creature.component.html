@@ -18,7 +18,6 @@
   </div>
 
   <!-- Image Gallery -->
-  
   <div class="creature__images">
     <!-- Image Gallery -->
     <app-image-carousel-card
@@ -50,6 +49,6 @@
     [showDelete]="canDelete"
     [deleteMessage]="'Delete ' + creature.name + '?'"
     (delete)="creatureDelete.emit(creature)"
-></app-article-footer>
+  ></app-article-footer>
     
 </article>

@@ -51,6 +51,6 @@ export class CreatureComponent implements OnInit, OnChanges{
         campaign: campaignName,
         name: this.creature.name
       }
-    )
+    );
   }
 }

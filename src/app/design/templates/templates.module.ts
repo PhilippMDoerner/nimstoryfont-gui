@@ -4,6 +4,7 @@ import { OrganismsModule } from '../organisms';
 import { MapComponent } from './map/map.component';
 import { CharacterComponent } from './character/character.component';
 import { CreatureComponent } from './creature/creature.component';
+import { DiaryentryComponent } from './diaryentry/diaryentry.component';
 
 
 
@@ -11,7 +12,8 @@ import { CreatureComponent } from './creature/creature.component';
   declarations: [
     MapComponent,
     CharacterComponent,
-    CreatureComponent
+    CreatureComponent,
+    DiaryentryComponent
   ],
   imports: [
     CommonModule,

@@ -4,7 +4,7 @@ import { Image } from "./image";
 export interface Location extends ArticleObject{
     name_full?: string,
     description: string,
-    parent_location: number,
+    parent_location?: number,
     images?: Image[],
     parent_location_details?: {
         pk: number,
@@ -15,7 +15,7 @@ export interface Location extends ArticleObject{
     parent_location_list?: string[],
     characters?: LocationCharacter[],
     sublocations?: Location[],
-    marker_details?: [{map: string, map_icon: string}],
+    marker_details?: {map: string, map_icon: string}[],
 
     getAbsoluteRouterUrlForParentLocation?(): string
 }

@@ -74,7 +74,7 @@ export class CharacterComponent implements OnInit, OnChanges{
     this.setUrls();
   }
   
-  setUrls(){
+  setUrls(): void{
     const campaignName = this.character.campaign_details?.name;
     
     this.locationUrl = this.routingService.getRoutePath(

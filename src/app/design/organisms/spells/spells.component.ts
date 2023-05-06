@@ -30,7 +30,8 @@ export class SpellsComponent implements OnInit, OnChanges{
   @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();
   @Output() connectionDelete: EventEmitter<SpellPlayerClassConnection> = new EventEmitter();
   @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> = new EventEmitter();
-
+  @Output() spellClassClick: EventEmitter<PlayerClass> = new EventEmitter();
+  
   spellCards!: SpellCard[];
   
   constructor(

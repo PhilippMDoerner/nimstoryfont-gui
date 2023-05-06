@@ -27,7 +27,7 @@
             
             <span>
               <ng-container *ngFor="let connection of card.spell.player_class_connections">
-                <a class="spell-card__class">
+                <a class="spell-card__class" (click)="spellClassClick.emit(connection.player_class_details)">
                   <app-badge
                     [text]="connection.player_class_details?.name ?? ''"
                     [type]="'DARK'"

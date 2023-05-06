@@ -127,6 +127,7 @@ const Template: StoryFn<SpellsComponent> = (args: SpellsComponent) => ({
     spellCreate: action('spellCreate'),
     connectionDelete: action('connectionDelete'),
     connectionCreate: action('connectionCreate'),
+    spellClassClick: action('spellClassClick'),
   },
 });
 

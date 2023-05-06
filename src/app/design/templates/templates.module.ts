@@ -12,6 +12,7 @@ import { QuestComponent } from './quest/quest.component';
 import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 import { SpellsTemplateComponent } from './spells-template/spells-template.component';
 import { RulesTemplateComponent } from './rules-template/rules-template.component';
+import { MarkerComponent } from './marker/marker.component';
 
 
 
@@ -27,7 +28,8 @@ import { RulesTemplateComponent } from './rules-template/rules-template.componen
     QuestComponent,
     SessionaudioComponent,
     SpellsTemplateComponent,
-    RulesTemplateComponent
+    RulesTemplateComponent,
+    MarkerComponent
   ],
   imports: [
     CommonModule,

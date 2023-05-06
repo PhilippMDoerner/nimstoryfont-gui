@@ -27,8 +27,6 @@ export class PlayerComponent implements OnInit, OnChanges {
       {
         controls: [
           'play', 
-          'rewind',
-          'fast-forward',
           'progress', 
           'current-time', 
           'mute', 

@@ -11,6 +11,7 @@ import { OrganizationComponent } from './organization/organization.component';
 import { QuestComponent } from './quest/quest.component';
 import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 import { SpellsTemplateComponent } from './spells-template/spells-template.component';
+import { RulesTemplateComponent } from './rules-template/rules-template.component';
 
 
 
@@ -25,7 +26,8 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     OrganizationComponent,
     QuestComponent,
     SessionaudioComponent,
-    SpellsTemplateComponent
+    SpellsTemplateComponent,
+    RulesTemplateComponent
   ],
   imports: [
     CommonModule,

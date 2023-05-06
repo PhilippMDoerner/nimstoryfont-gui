@@ -11,7 +11,7 @@ const dummyTimestamps: Timestamp[] = [
   { pk: 1, name: "Timestamp 1", time: 1.5, encounter: "Encounter 1", session_audio: 123 },
   { pk: 2, name: "Timestamp 2", time: 2.3, encounter: "Encounter 1", session_audio: 123 },
   { pk: 3, name: "Timestamp 3", time: 3.2, encounter: "Encounter 2", session_audio: 456 },
-  { pk: 4, name: "Timestamp 4", time: 4.1, encounter: "Encounter 2", session_audio: 456 },
+  { pk: 4, name: "Timestdsfa fasdfdas fsdafsdamp 4", time: 4.1, encounter: "Encounter 2", session_audio: 456 },
   { pk: 5, name: "Timestamp 5", time: 4.8, session_audio: 789 },
 ];
 

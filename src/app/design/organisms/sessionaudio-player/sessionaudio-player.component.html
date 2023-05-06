@@ -1,4 +1,7 @@
 <div class="container timestamp">
+  <div class="timestamp__image">
+    <img class="mw-100" [src]="'/assets/default_images/audio_pic_default.webp'"/>
+  </div>
   <app-player
     [serverUrl]="serverUrl"
     [audioSource]="audioSource"
@@ -25,6 +28,7 @@
         class="list__timestamp"
         [canDelete]="canDelete"
         [entry]="entry"
+        [columnSizes]="[3, 7, 2]"
         [deleteMessage]="'Delete timestamp \'' + entry.linkText + '\'?'"
         (delete)="deleteTimestamp.emit($event)"
         (linkClick)="onLinkClick($event)"

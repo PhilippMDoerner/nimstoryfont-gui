@@ -17,6 +17,7 @@ import { FormComponent } from './form/form.component';
 import { FormlyFileFieldComponent } from './formly-file-field/formly-file-field.component';
 import { IconCardComponent } from './icon-card/icon-card.component';
 import { ImageCardComponent } from './image-card/image-card.component';
+import { LinkEntryComponent } from './link-entry/link-entry.component';
 import { ListComponent } from './list/list.component';
 import { PageBackgroundComponent } from './page-background/page-background.component';
 import { SearchFieldComponent } from './search-field/search-field.component';
@@ -44,6 +45,7 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     SearchFieldComponent,
     SidebarLegendComponent,
     SmallCreateFormComponent,
+    LinkEntryComponent,
   ],
   imports: [
     AtomsModule,

@@ -8,6 +8,7 @@ import { DiaryentryComponent } from './diaryentry/diaryentry.component';
 import { ItemComponent } from './item/item.component';
 import { LocationTemplateComponent } from './location-template/location-template.component';
 import { OrganizationComponent } from './organization/organization.component';
+import { QuestComponent } from './quest/quest.component';
 
 
 
@@ -19,7 +20,8 @@ import { OrganizationComponent } from './organization/organization.component';
     DiaryentryComponent,
     ItemComponent,
     LocationTemplateComponent,
-    OrganizationComponent
+    OrganizationComponent,
+    QuestComponent
   ],
   imports: [
     CommonModule,

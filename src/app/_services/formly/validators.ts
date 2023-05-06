@@ -58,9 +58,9 @@ export const sessionAlreadyHasAuthor = {
 };
 
 // Validation Functions
-function timeValidation(control: AbstractControl): ValidationErrors {
+function timeValidation(control: AbstractControl): ValidationErrors | null {
   const isValidTime: boolean = /\d\d.[0-5]\d.[0-5]\d/.test(control.value);
-  return { time: !isValidTime };
+  return isValidTime ? null : { time: !isValidTime };
 }
 export const timeValidator: ValidatorOption = { name: 'time', validation: timeValidation };
 

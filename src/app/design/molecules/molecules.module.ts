@@ -80,6 +80,7 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     SidebarLegendComponent,
     SmallCreateFormComponent,
     ChoiceSelectComponent,
+    LinkEntryComponent,
   ],
 })
 export class MoleculesModule {}

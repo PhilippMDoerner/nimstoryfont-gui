@@ -38,7 +38,8 @@ const dummyMarkers: MapMarker[] = [
       fontawesome_type: "fa",
       color: "lightgreen",
       pk: 11
-    }
+    },
+    campaign_details: { name: 'Aldrune', id: 1},
   },
   {
     getAbsoluteRouterUrl: () => "/marker2/url",
@@ -68,7 +69,8 @@ const dummyMarkers: MapMarker[] = [
       fontawesome_type: "fa",
       color: "gray",
       pk: 23
-    }
+    },
+    campaign_details: { name: 'Aldrune', id: 1},
   }
 ];
 

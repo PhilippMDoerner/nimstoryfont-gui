@@ -18,4 +18,5 @@ export interface MapMarker extends ApiObject{
     type: number,
     type_details?: MapMarkerType,
     pk?: number
+    campaign_details: {name: string, id: number};
 }

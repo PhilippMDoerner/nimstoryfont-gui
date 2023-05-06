@@ -1,4 +1,8 @@
 .linkentry{
+  &--delete{
+    justify-content: center;
+  }
+  
   &__link{
     text-align: end;
     cursor: pointer;
@@ -15,6 +19,7 @@
   
   &__delete{
     width: fit-content;
+    display: inline-block;
   }
 }
 

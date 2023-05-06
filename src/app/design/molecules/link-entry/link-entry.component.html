@@ -1,4 +1,7 @@
-<div class="row linkentry">
+<div 
+  class="row linkentry"
+  [class.linkentry--delete]="state === 'DELETE'"
+>
   <ng-container *ngIf="state === 'DISPLAY'; then displayRow; else deleteRow"></ng-container>
 </div>
 
@@ -18,9 +21,10 @@
   </div>
 
   <!-- Delete Entry -->
-  <div class="col-{{columnSizes[2]}} linkentry__delete">
+  <div class="col-{{columnSizes[2]}}">
     <ng-container *ngIf="canDelete">
       <app-button 
+        class="linkentry__delete"
         (click)="changeState('DELETE')"
         [size]="'SMALL'"
         [icon]="'trash'"

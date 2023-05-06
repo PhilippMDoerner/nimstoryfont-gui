@@ -10,6 +10,7 @@ import { LocationTemplateComponent } from './location-template/location-template
 import { OrganizationComponent } from './organization/organization.component';
 import { QuestComponent } from './quest/quest.component';
 import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
+import { SpellsTemplateComponent } from './spells-template/spells-template.component';
 
 
 
@@ -23,7 +24,8 @@ import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
     LocationTemplateComponent,
     OrganizationComponent,
     QuestComponent,
-    SessionaudioComponent
+    SessionaudioComponent,
+    SpellsTemplateComponent
   ],
   imports: [
     CommonModule,

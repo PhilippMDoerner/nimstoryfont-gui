@@ -21,14 +21,15 @@
   </div>
 
   <!-- Delete Entry -->
-  <div class="col-{{columnSizes[2]}}">
+  <div class="col-{{columnSizes[2]}} linkentry__delete">
     <ng-container *ngIf="canDelete">
       <app-button 
-        class="linkentry__delete"
+        class="linkentry__delete-button"
         (click)="changeState('DELETE')"
         [size]="'SMALL'"
         [icon]="'trash'"
         [type]="'DANGER'"
+        [outline]="true"
       ></app-button>
     </ng-container>
   </div>

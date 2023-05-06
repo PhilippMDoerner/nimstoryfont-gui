@@ -19,6 +19,11 @@
   }
   
   &__delete{
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  &__delete-button{
     width: fit-content;
     display: inline-block;
   }

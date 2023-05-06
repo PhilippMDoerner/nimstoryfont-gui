@@ -9,6 +9,7 @@ import { ItemComponent } from './item/item.component';
 import { LocationTemplateComponent } from './location-template/location-template.component';
 import { OrganizationComponent } from './organization/organization.component';
 import { QuestComponent } from './quest/quest.component';
+import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 
 
 
@@ -21,7 +22,8 @@ import { QuestComponent } from './quest/quest.component';
     ItemComponent,
     LocationTemplateComponent,
     OrganizationComponent,
-    QuestComponent
+    QuestComponent,
+    SessionaudioComponent
   ],
   imports: [
     CommonModule,

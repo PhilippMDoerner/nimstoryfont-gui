@@ -30,22 +30,17 @@ body{
 	}
 }
 
-h3, h4, h5, h6, p {
+h1, h2, h3, h4, h5, h6, p {
 	letter-spacing: 0.05rem;
 }
 
 
 h1{
-	letter-spacing: 0.5rem!important;
-	font-size: 2.25rem!important;
-	line-height: 1.3!important;
 	text-transform: uppercase;
 	font-weight: bold!important;
 }
 
 h2{
-	letter-spacing: 0.2rem!important;
-	font-size: 1.5rem!important;
 	text-transform: uppercase;
 	font-weight: bold!important;
 }

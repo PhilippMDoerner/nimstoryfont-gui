@@ -17,6 +17,11 @@
     margin-top: var(--spacer-3);
     margin-bottom: var(--spacer-3);
   }
+  
+  &__create{
+    width: fit-content;
+    display: inline-block;
+  }
 }
 
 .heading{

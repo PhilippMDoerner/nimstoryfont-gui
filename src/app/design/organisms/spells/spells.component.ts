@@ -10,7 +10,7 @@ interface SpellCard{
 }
 
 @Component({
-  selector: 'app-spells.component',
+  selector: 'app-spells',
   templateUrl: './spells.component.html',
   styleUrls: ['./spells.component.scss']
 })

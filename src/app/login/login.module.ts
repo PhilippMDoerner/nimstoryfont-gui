@@ -9,7 +9,7 @@ import { SearchHitComponent } from './search-hit/search-hit.component';
 import { SessionComponent } from './session/session.component';
 import { SessionaudioCardComponent } from './sessionaudio-card/sessionaudio-card.component';
 import { SpellComponent } from './spell/spell.component';
-import { SpellsComponent } from './spells.component/spells.component';
+import { SpellsComponent } from './spells/spells.component';
 
 
 

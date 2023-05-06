@@ -23,8 +23,8 @@ import { PageComponent } from './page/page.component';
 import { PlayerComponent } from './player/player.component';
 import { QuoteFieldComponent } from './quote-field/quote-field.component';
 import { QuoteComponent } from './quote/quote.component';
-import { SidebarComponent } from './sidebar/sidebar.component';
 import { SessionaudioPlayerComponent } from './sessionaudio-player/sessionaudio-player.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 
 
@@ -80,6 +80,7 @@ import { SessionaudioPlayerComponent } from './sessionaudio-player/sessionaudio-
     LocationComponent,
     QuoteComponent,
     QuoteFieldComponent,
+    SessionaudioPlayerComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },

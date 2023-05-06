@@ -24,6 +24,7 @@ import { PlayerComponent } from './player/player.component';
 import { QuoteFieldComponent } from './quote-field/quote-field.component';
 import { QuoteComponent } from './quote/quote.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { SessionaudioPlayerComponent } from './sessionaudio-player/sessionaudio-player.component';
 
 
 
@@ -49,6 +50,7 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     LocationComponent,
     QuoteComponent,
     QuoteFieldComponent,
+    SessionaudioPlayerComponent,
   ],
   imports: [
     CommonModule,

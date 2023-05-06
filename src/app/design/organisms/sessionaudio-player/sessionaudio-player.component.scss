@@ -1,0 +1,23 @@
+.timestamp{
+  &__list{
+    margin-top: var(--spacer-3);
+  }
+  
+  &__create-button{
+    justify-content: center;
+    margin-top: var(--spacer-3);
+  }
+  
+  &__create-form{
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.list{
+  &__timestamp{
+    padding-bottom: var(--spacer-1);
+    display: block;
+  }
+}

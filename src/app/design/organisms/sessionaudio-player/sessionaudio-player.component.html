@@ -1,0 +1,59 @@
+<div class="container timestamp">
+  <app-player
+    [serverUrl]="serverUrl"
+    [audioSource]="audioSource"
+    [downloadSource]="downloadSource"
+    [playTime]="currentTime"
+  ></app-player>
+
+  <ng-container *ngIf="canCreate">
+    <ng-container [ngSwitch]="timestampState">
+      <ng-container 
+        *ngSwitchCase="'DISPLAY'"
+        [ngTemplateOutlet]="timestampDisplay"
+      ></ng-container>
+      <ng-container 
+        *ngSwitchCase="'CREATE'"
+        [ngTemplateOutlet]="timestampCreate"
+      ></ng-container>
+    </ng-container>
+  </ng-container>
+
+  <div class="timestamp__list list">
+    <ng-container *ngFor="let entry of timestampEntries">
+      <app-link-entry
+        class="list__timestamp"
+        [canDelete]="canDelete"
+        [entry]="entry"
+        [deleteMessage]="'Delete timestamp \'' + entry.linkText + '\'?'"
+        (delete)="deleteTimestamp.emit($event)"
+        (linkClick)="onLinkClick($event)"
+      ></app-link-entry>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #timestampDisplay>
+  <div class="row timestamp__create-button">
+    <app-button
+      class="col-12 col-md-6"
+      [type]="'PRIMARY'"
+      [text]="'Add Timestamp'"
+      [icon]="'plus'"
+      (click)="changeTimestampState('CREATE')"
+    ></app-button>
+  </div>
+</ng-template>
+
+<ng-template #timestampCreate>
+  <app-card>
+    <h5 class="timestamp__create-form"> Create Timestamp </h5>
+    <app-form
+      [model]="timestampModel"
+      [fields]="timestampFields"
+      [cancelButtonType]="'DARK'"
+      (formlySubmit)="onSubmit($event)"
+      (formlyCancel)="changeTimestampState('DISPLAY')"
+    ></app-form>
+  </app-card>
+</ng-template>

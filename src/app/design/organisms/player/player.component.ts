@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import * as Plyr from 'plyr';
 
 type HotKey = "Space" | "Enter" | "KeyM" | "ArrowRight" | "ArrowLeft"
@@ -8,12 +8,14 @@ type HotKey = "Space" | "Enter" | "KeyM" | "ArrowRight" | "ArrowLeft"
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss']
 })
-export class PlayerComponent {
+export class PlayerComponent implements OnInit, OnChanges {
   private SEEK_TIME = 5;
   private VOLUME_STEP = 0.05;
   
+  @Input() serverUrl!: string;
   @Input() audioSource!: string;
   @Input() downloadSource!: string;
+  @Input() playTime?: number;
   
   @ViewChild('audioPlayer', { static: true }) audioPlayer!: ElementRef<HTMLAudioElement>;
   
@@ -41,6 +43,18 @@ export class PlayerComponent {
     );
     
     (this.plyr as any).download = this.downloadSource;
+    this.setPlayTime();
+  }
+  
+  ngOnChanges(){
+    this.setPlayTime();
+  }
+  
+  setPlayTime(): void{
+    if(this.playTime == null){
+      return;
+    }
+    this.plyr.currentTime = this.playTime;
   }
   
   triggerHotkeyAction(keyPressEvent: KeyboardEvent){

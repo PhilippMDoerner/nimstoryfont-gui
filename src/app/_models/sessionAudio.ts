@@ -16,7 +16,7 @@ export interface SessionAudio extends ArticleObject{
 export interface Timestamp{
     pk?: number,
     name: string,
-    time: number | string,
+    time: number,
     encounter?: string
     session_audio: number,
 }

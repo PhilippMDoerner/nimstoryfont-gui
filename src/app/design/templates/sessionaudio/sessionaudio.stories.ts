@@ -82,6 +82,7 @@ const Template: StoryFn<SessionaudioComponent> = (args: SessionaudioComponent) =
     ...args,
     deleteTimestamp: action('deleteTimestamp'),
     createTimestamp: action('createTimestamp'),
+    sessionaudioDelete: action('sessionaudioDelete'),
   },
 });
 

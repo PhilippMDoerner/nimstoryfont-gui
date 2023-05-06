@@ -143,6 +143,7 @@ export default {
     canUpdate: true,
     canDelete: true,
     serverModel: undefined,
+    campaignName: 'Aldrune',
   },
 } as Meta<SpellsTemplateComponent>;
 

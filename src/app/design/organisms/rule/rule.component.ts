@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { Rule } from '../../_models/rule';
-import { ElementType } from '../../design/atoms';
+import { Rule } from '../../../_models/rule';
+import { ElementType } from '../../../design/atoms';
 
 type RuleState = "DISPLAY" | "CREATE" | "UPDATE" | "OUTDATED_UPDATE"
 

@@ -2,9 +2,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { Session } from '../../_models/session';
-import { dateMessage, dateValidator, integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from '../../_services/formly/validators';
-import { FormlyDatepickerFieldComponent, OrganismsModule } from '../../design/organisms';
+import { Session } from '../../../_models/session';
+import { dateMessage, dateValidator, integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from '../../../_services/formly/validators';
+import { FormlyDatepickerFieldComponent, OrganismsModule } from '../../../design/organisms';
 import { SessionComponent } from './session.component';
 
 const dummySession: Session = {
@@ -29,7 +29,7 @@ const dummySession: Session = {
 
 
 export default {
-  title: 'Application/Login/SessionComponent',
+  title: 'DesignSystem/Organisms/SessionComponent',
   component: SessionComponent,
   decorators: [
     moduleMetadata({

@@ -10,8 +10,8 @@ import { Spell } from 'src/app/_models/spell';
 import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from 'src/app/_services/formly/validators';
 import { MoleculesModule } from 'src/app/design/molecules';
 import * as all from 'tinymce/tinymce';
-import { AtomsModule } from '../../design/atoms';
-import { FormlyEditorFieldComponent } from '../../design/organisms';
+import { FormlyEditorFieldComponent } from '..';
+import { AtomsModule } from '../../atoms';
 import { SpellComponent } from '../spell/spell.component';
 import { SpellsComponent } from './spells.component';
 
@@ -60,7 +60,7 @@ const dummySpell: Spell = {
 };
 
 export default {
-  title: 'Application/Login/SpellsComponent',
+  title: 'DesignSystem/Organisms/SpellsComponent',
   component: SpellsComponent,
   decorators: [
     moduleMetadata({

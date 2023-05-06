@@ -1,7 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { OrganismsModule } from '../../design/organisms';
+import { OrganismsModule } from '../../../design/organisms';
 import { SearchHitComponent } from './search-hit.component';
 
 const dummyLocation: OverviewItem = {
@@ -133,7 +133,7 @@ const dummyCreature = {
 
 
 export default {
-  title: 'Application/Login/SearchHitComponent',
+  title: 'DesignSystem/Organisms/SearchHitComponent',
   component: SearchHitComponent,
   decorators: [
     moduleMetadata({

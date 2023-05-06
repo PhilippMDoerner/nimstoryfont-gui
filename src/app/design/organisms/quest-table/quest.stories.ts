@@ -1,7 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { OrganismsModule } from '../../design/organisms';
+import { OrganismsModule } from '../../../design/organisms';
 import { QuestTableComponent } from './quest-table.component';
 
 const dummyQuest: OverviewItem = {
@@ -17,12 +17,8 @@ const dummyQuest: OverviewItem = {
   pk: 345
 };
 
-
-
-
-
 export default {
-  title: 'Application/Login/QuestTableComponent',
+  title: 'DesignSystem/Organisms/QuestTableComponent',
   component: QuestTableComponent,
   decorators: [
     moduleMetadata({

@@ -21,10 +21,18 @@ import { NgxLeafletMapComponent } from './ngx-leaflet-map/ngx-leaflet-map.compon
 import { PageContainerComponent } from './page-container/page-container.component';
 import { PageComponent } from './page/page.component';
 import { PlayerComponent } from './player/player.component';
+import { QuestTableComponent } from './quest-table/quest-table.component';
 import { QuoteFieldComponent } from './quote-field/quote-field.component';
 import { QuoteComponent } from './quote/quote.component';
+import { RuleComponent } from './rule/rule.component';
+import { RulesComponent } from './rules/rules.component';
+import { SearchHitComponent } from './search-hit/search-hit.component';
+import { SessionComponent } from './session/session.component';
+import { SessionaudioCardComponent } from './sessionaudio-card/sessionaudio-card.component';
 import { SessionaudioPlayerComponent } from './sessionaudio-player/sessionaudio-player.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
+import { SpellComponent } from './spell/spell.component';
+import { SpellsComponent } from './spells/spells.component';
 
 
 
@@ -51,6 +59,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     QuoteComponent,
     QuoteFieldComponent,
     SessionaudioPlayerComponent,
+    QuestTableComponent,
+    RuleComponent,
+    RulesComponent,
+    SpellComponent,
+    SpellsComponent,
+    SearchHitComponent,
+    SessionComponent,
+    SessionaudioCardComponent,
   ],
   imports: [
     CommonModule,
@@ -81,6 +97,14 @@ import { SidebarComponent } from './sidebar/sidebar.component';
     QuoteComponent,
     QuoteFieldComponent,
     SessionaudioPlayerComponent,
+    QuestTableComponent,
+    RuleComponent,
+    RulesComponent,
+    SpellComponent,
+    SpellsComponent,
+    SearchHitComponent,
+    SessionComponent,
+    SessionaudioCardComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },

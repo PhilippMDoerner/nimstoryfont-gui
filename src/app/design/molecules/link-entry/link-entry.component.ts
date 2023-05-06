@@ -20,7 +20,10 @@ export class LinkEntryComponent<T> implements OnInit{
   state: State = 'DISPLAY';
   
   ngOnInit(): void {
-    this.columnSizes = this.canDelete ? [3, 8, 1] : [3, 9, 0]
+    const hasValues = this.columnSizes != null && this.columnSizes.length === 3;
+    if(!hasValues){
+      this.columnSizes = this.canDelete ? [3, 8, 1] : [3, 9, 0]
+    }
   }
   
   changeState(newState: State){

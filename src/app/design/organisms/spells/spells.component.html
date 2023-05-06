@@ -36,12 +36,12 @@
               </ng-container>
             </span>
           </div>
-        
           <app-spell
             body
             class="spell-card__spell"
             [spell]="card.spell"
             [serverModel]="serverModel"
+            [playerClasses]="playerClasses"
             [canUpdate]="canUpdate"
             [canDelete]="canDelete"
             [canCreate]="canCreate"

@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
+import { PlayerClass } from 'src/app/_models/playerclass';
 import { Spell, SpellPlayerClassConnection } from 'src/app/_models/spell';
 import { BadgeListEntry } from 'src/app/design/molecules';
 
@@ -18,6 +19,7 @@ export class SpellsComponent implements OnInit, OnChanges{
   DEFAULT_TITLE = "New Article Item";
 
   @Input() spells!: Spell[];
+  @Input() playerClasses!: PlayerClass[];
   @Input() canUpdate: boolean = false;
   @Input() canDelete: boolean = false;
   @Input() canCreate: boolean = false;

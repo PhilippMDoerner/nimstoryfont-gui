@@ -6,6 +6,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { PlayerClass } from 'src/app/_models/playerclass';
 import { Spell } from 'src/app/_models/spell';
 import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from 'src/app/_services/formly/validators';
 import { MoleculesModule } from 'src/app/design/molecules';
@@ -59,6 +60,19 @@ const dummySpell: Spell = {
   },
 };
 
+const dummyClasses: PlayerClass[] = [
+  { pk: 1, name: "Barbarian" },
+  { pk: 2, name: "Bard" },
+  { pk: 3, name: "Cleric" },
+  { pk: 4, name: "Druid" },
+  { pk: 5, name: "Fighter" },
+  { pk: 6, name: "Monk" },
+  { pk: 7, name: "Paladin" },
+  { pk: 8, name: "Ranger" },
+  { pk: 9, name: "Rogue" },
+  { pk: 10, name: "Wizard" }
+];
+
 export default {
   title: 'DesignSystem/Organisms/SpellsComponent',
   component: SpellsComponent,
@@ -97,6 +111,7 @@ export default {
   ],
   args: {
     spells: Array(10).fill(dummySpell),
+    playerClasses: dummyClasses,
     canCreate: true,
     canUpdate: true,
     canDelete: true,

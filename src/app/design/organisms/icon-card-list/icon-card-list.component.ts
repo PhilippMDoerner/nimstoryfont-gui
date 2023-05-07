@@ -18,14 +18,11 @@ export class IconCardListComponent implements OnInit, OnChanges{
   canLoadMore: boolean = true;
   pageNumber: number = 0;
   
-  ngOnInit(): void {
-    console.log(this);
-    
+  ngOnInit(): void {    
     this.displayedArticles = this.articles;
   }
   
   ngOnChanges(): void {
-    console.log("change");
     this.isLoading = false;
     const hasNewArticles = this.articles.length > 0;
     if(!hasNewArticles){

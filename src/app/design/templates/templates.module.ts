@@ -14,6 +14,7 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
 import { RulesTemplateComponent } from './rules-template/rules-template.component';
 import { MarkerComponent } from './marker/marker.component';
 import { HomeComponent } from './home/home.component';
+import { SearchComponent } from './search/search.component';
 
 
 
@@ -31,7 +32,8 @@ import { HomeComponent } from './home/home.component';
     SpellsTemplateComponent,
     RulesTemplateComponent,
     MarkerComponent,
-    HomeComponent
+    HomeComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,

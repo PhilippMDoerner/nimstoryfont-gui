@@ -13,6 +13,7 @@ import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 import { SpellsTemplateComponent } from './spells-template/spells-template.component';
 import { RulesTemplateComponent } from './rules-template/rules-template.component';
 import { MarkerComponent } from './marker/marker.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -29,7 +30,8 @@ import { MarkerComponent } from './marker/marker.component';
     SessionaudioComponent,
     SpellsTemplateComponent,
     RulesTemplateComponent,
-    MarkerComponent
+    MarkerComponent,
+    HomeComponent
   ],
   imports: [
     CommonModule,

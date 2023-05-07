@@ -14,7 +14,7 @@ export const DEFAULT_SEARCH_PREFERENCES: SidebarOption[] = [
   {label: 'Map'           , active: false, color: '--map-color' },
   {label: 'Organization'  , active: false, color: '--organization-color' },
   {label: 'Quest'         , active: false, color: '--quest-color' },
-  {label: 'Recording'     , active: false, color: '--sessionaudio-color' },
-  {label: 'Rules'         , active: false, color: '--rule-color' },
+  {label: 'SessionAudio'  , active: false, color: '--sessionaudio-color' },
+  {label: 'Rules'         , active: false, color: '--rules-color' },
   {label: 'Spell'         , active: false, color: '--spell-color' },
 ]

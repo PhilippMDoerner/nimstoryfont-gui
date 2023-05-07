@@ -11,7 +11,7 @@ export class IconCardListComponent implements OnInit, OnChanges{
   
   @Input() articles!: IconCardEntry[];
   
-  @Output() loadNextPage: EventEmitter<number> = new EventEmitter();
+  @Output() reachEndOfList: EventEmitter<number> = new EventEmitter();
   
   displayedArticles: IconCardEntry[] = [];
   isLoading: boolean = false;
@@ -52,7 +52,7 @@ export class IconCardListComponent implements OnInit, OnChanges{
     this.pageNumber += 1;
     this.isLoading = true;
     console.log("Loading", this.isLoading)
-    this.loadNextPage.emit(this.pageNumber);
+    this.reachEndOfList.emit(this.pageNumber);
   }
   
   isNearPageEnd(): boolean {

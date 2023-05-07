@@ -109,7 +109,7 @@ export default {
 const Template: StoryFn<IconCardListComponent> = (args: IconCardListComponent) => ({ 
   props: {
     ...args,
-    loadNextPage: action('loadNextPage'),
+    reachEndOfList: action('reachEndOfList'),
   },
 });
 

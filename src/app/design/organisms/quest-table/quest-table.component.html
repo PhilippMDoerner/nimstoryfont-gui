@@ -1,14 +1,13 @@
-<div class="container">
+<div class="container">  
   <div class="row heading">
     <!-- Outer Table Heading -->
-    <h4 class="col-md-9 heading__text">
+    <h5 class="col-sm-9 heading__text">
         {{questTaker}}'s Quests
-    </h4>
+    </h5>
   
     <!-- Filterselect -->
     <select 
-      name="quest-status" 
-      class="col-md-3 heading__select" 
+      class="col-sm-3 heading__select" 
       [(ngModel)]="state"
       (change)="filterQuests()"
     >
@@ -49,7 +48,7 @@
             
             <!-- Quest Status -->
             <ng-container *ngIf="quest.status; else emptyColumn">
-              <td class="table__element table-{{STATE_TABLE_TYPE_MAPPING[quest.status]}}">
+              <td class="table__element--status table-{{STATE_TABLE_TYPE_MAPPING[quest.status]}}">
                 <app-icon [icon]="STATE_ICON_MAPPING[quest.status]"></app-icon>
               </td>
             </ng-container>

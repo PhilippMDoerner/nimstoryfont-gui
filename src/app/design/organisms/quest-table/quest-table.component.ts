@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 
 type DisplayState = "Default" | "All" | "Completed" | "Failed" | "On hold" | "In progress"
@@ -9,7 +9,7 @@ type TableType = "success" | "warning" | "danger"
   templateUrl: './quest-table.component.html',
   styleUrls: ['./quest-table.component.scss']
 })
-export class QuestTableComponent implements OnInit{
+export class QuestTableComponent implements OnInit, OnChanges{
   DISPLAY_STATES: DisplayState[] = ["Default", "All", "Completed", "Failed", "On hold", "In progress"];
   STATE_ICON_MAPPING = {
     'Completed': 'check-square-o',
@@ -32,6 +32,10 @@ export class QuestTableComponent implements OnInit{
   displayQuests!: OverviewItem[];
   
   ngOnInit(): void {
+    this.filterQuests();
+  }
+  
+  ngOnChanges(): void {
     this.filterQuests();
   }
   

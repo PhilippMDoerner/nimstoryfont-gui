@@ -15,6 +15,7 @@ import { RulesTemplateComponent } from './rules-template/rules-template.componen
 import { MarkerComponent } from './marker/marker.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
+import { QuestOverviewComponent } from './quest-overview/quest-overview.component';
 
 
 
@@ -33,7 +34,8 @@ import { SearchComponent } from './search/search.component';
     RulesTemplateComponent,
     MarkerComponent,
     HomeComponent,
-    SearchComponent
+    SearchComponent,
+    QuestOverviewComponent
   ],
   imports: [
     CommonModule,

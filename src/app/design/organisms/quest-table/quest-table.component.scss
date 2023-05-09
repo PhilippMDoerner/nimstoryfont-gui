@@ -1,4 +1,4 @@
-@import 'bootstrap/scss/bootstrap';
+@import '/src/screens.scss';
 
 :host{
   --table-bg: var(--bs-gray-dark); 
@@ -20,7 +20,7 @@
   
   &__select{
     background-color: var(--table-striped-bg);
-    height: var(--spacer-5);
+    height: 2rem;
     border: 1px solid var(--table-bg);
     border-radius: var(--bs-border-radius);
     color: var(--bs-white);
@@ -31,7 +31,7 @@
   padding-bottom: var(--spacer-2);
   
   &__element{
-    padding: var(--spacer-3) var(--spacer-4) !important;
+    padding: var(--spacer-3) var(--spacer-2) !important;
     
     :hover{
       color: var(--bs-link-hover-color);
@@ -44,10 +44,19 @@
     
     &--desktop-only{
       display: none;
+      
       @include media-breakpoint-up(md){
         display: table-cell;
       }
     }
+    
+    &--status{
+      text-align: center;
+      width: var(--spacer-0);
+      padding-left: var(--spacer-1);
+      padding-right: var(--spacer-1);
+    }
+  }
   
   &-warning{
     --bs-table-bg: var(--warning-bg-color) !important;

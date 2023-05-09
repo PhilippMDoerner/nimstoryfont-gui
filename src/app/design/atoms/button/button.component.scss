@@ -1,5 +1,11 @@
+@import '/src/screens.scss';
+
 .btn{
   width: 100%;
+  
+  @include media-breakpoint-up(md){
+    width: fit-content;
+  }
   
   &__icon{
     margin-right: var(--spacer-1);

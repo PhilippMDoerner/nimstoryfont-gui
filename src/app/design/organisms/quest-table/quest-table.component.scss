@@ -3,6 +3,9 @@
 :host{
   --table-bg: var(--bs-gray-dark); 
   --table-striped-bg: #3a3a3a; 
+  --warning-bg-color: rgba(255, 200, 36, 0.30);
+  --success-bg-color: rgba(147, 196, 125, 0.30);
+  --danger-bg-color: rgba(206, 10, 10, 0.30);
 }
 
 .heading{
@@ -45,5 +48,25 @@
         display: table-cell;
       }
     }
+  
+  &-warning{
+    --bs-table-bg: var(--warning-bg-color) !important;
+    --bs-table-accent-bg: var(--warning-bg-color) !important;
+    --bs-table-striped-bg: var(--warning-bg-color) !important;
+    color: var(--bs-white) !important;
+  }
+  
+  &-success{
+    --bs-table-bg: var(--success-bg-color) !important;
+    --bs-table-accent-bg: var(--success-bg-color) !important;
+    --bs-table-striped-bg:var(--success-bg-color) !important;
+    color: var(--bs-white) !important;
+  }
+  
+  &-danger{
+    --bs-table-bg:var(--danger-bg-color) !important;
+    --bs-table-accent-bg: var(--danger-bg-color) !important;
+    --bs-table-striped-bg:var(--danger-bg-color) !important;
+    color: var(--bs-white) !important;
   }
 }

@@ -54,6 +54,11 @@ export type ArticleKind = "CHARACTER"
     // For quests
     status?: QuestStatus;
     abstract?: string;
+    taker_details?: {
+      name: string,
+      name_full: string,
+      pk: number,
+    };
     
     campaign_details?: {pk: number, name: string};
 }

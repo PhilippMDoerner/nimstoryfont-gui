@@ -98,7 +98,12 @@ const dummyOverview: OverviewItem[] = [
     update_datetime: '2022-05-10',
     campaign_details: {pk: 456, name: 'Medieval Fantasy RPG'},
     getAbsoluteRouterUrl: () => '/quests/345',
-    pk: 345
+    pk: 345,
+    taker_details: {
+      name: 'Franz',
+      name_full: 'Franz the warrior',
+      pk: 1,
+    },
   },
   {
     article_type: 'organization',

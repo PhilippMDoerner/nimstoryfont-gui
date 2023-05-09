@@ -1,8 +1,3 @@
-@import '/node_modules/bootstrap/scss/bootstrap.scss';
-
-$xxlarge-screen: map-get($grid-breakpoints, xxl);
-$xlarge-screen: map-get($grid-breakpoints, xl);
-$large-screen: map-get($grid-breakpoints, lg);
-$medium-screen: map-get($grid-breakpoints, md);
-$small-screen: map-get($grid-breakpoints, sm);
-$xsmall-screen: 326px;
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/mixins/breakpoints';
+@import 'bootstrap/scss/variables';

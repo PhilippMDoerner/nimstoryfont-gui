@@ -16,6 +16,7 @@ import { MarkerComponent } from './marker/marker.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { QuestOverviewComponent } from './quest-overview/quest-overview.component';
+import { GeneralOverviewComponent } from './general-overview/general-overview.component';
 
 
 
@@ -35,7 +36,8 @@ import { QuestOverviewComponent } from './quest-overview/quest-overview.componen
     MarkerComponent,
     HomeComponent,
     SearchComponent,
-    QuestOverviewComponent
+    QuestOverviewComponent,
+    GeneralOverviewComponent
   ],
   imports: [
     CommonModule,

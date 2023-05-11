@@ -1,0 +1,63 @@
+<ng-container *ngIf="options && options.length > 0">
+  <ng-container [ngSwitch]="state">
+    <ng-container
+      *ngSwitchCase="'DISPLAY'"
+      [ngTemplateOutlet]="displayState"
+    ></ng-container>
+    <ng-container
+      *ngSwitchCase="'CREATE'"
+      [ngTemplateOutlet]="createState"
+    ></ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #displayState>
+  <app-badge 
+    class="display-form"
+    [type]="'PRIMARY'"
+    [icon]="'plus'"
+    [text]="badgeText"
+    (click)="changeState('CREATE')"
+  ></app-badge>
+</ng-template>
+
+<ng-template #createState>
+  <form class="form" (keydown.enter)="onSubmit()">
+    <select class="form-select"
+      style="width: unset;"
+      [name]="'select-' + labelProp"
+      [id]="'select'"
+      (change)="onChange($event)"
+    >
+      <option [value]="undefined">-----</option>
+      <ng-container *ngFor="let option of options; let i = index">
+        <option 
+          [value]="i"
+          [attr.selected]="option[valueProp] === userModel[valueProp] ? true : null"
+          [attr.disabled]="isDisabledFunction(option) ? true : null"
+        >
+          {{ option[labelProp] }}
+        </option>
+      </ng-container>
+    
+    </select>
+
+    <!-- Cancel Button -->
+    <app-button 
+      class="mx-2" 
+      [type]="cancelButtonType"
+      [size]="'SMALL'"
+      [icon]="'times'"
+      (click)="onCancel()"
+    ></app-button>
+      
+    <!-- Submit Button -->
+    <app-button 
+      [type]="submitButtonType"
+      [size]="'SMALL'"
+      [icon]="'check'"
+      (click)="onSubmit()"
+    ></app-button>
+
+  </form>
+</ng-template>

@@ -1,0 +1,141 @@
+<div class="container list">
+  <ng-container *ngIf="!isUpdatingGlobally; else loading">
+    <!-- Insert new first Encounter -->
+    <ng-container *ngIf="state === 'EDIT'">
+      <div class="row">
+        <div class="list__buttons buttons">
+          <ng-container *ngIf="canCreate">
+            <app-button
+              class="col-6 col-md-4 buttons__button buttons__button--left"
+              title="Add Encounter to Diaryentry"
+              [size]="'LARGE'"
+              [icon]="'plus'"
+              [text]="'Add First Encounter'"
+              [disabled]="isUpdatingAnything"
+              (click)="addEmptyEncounterAtIndex(-1)"
+            ></app-button>
+          </ng-container>
+          <ng-container *ngIf="canUpdate">
+            <app-button
+              class="col-6 col-md-4 buttons__button buttons__button--right"
+              title="Insert Cut Encounter"          
+              [size]="'LARGE'"
+              [icon]="'file-import'"
+              [text]="'Insert Cut Encounter'"
+              [type]="'SECONDARY'"
+              [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex === 0"
+              (click)="onInsertExcisedEncounter(-1 + 1)"
+            ></app-button>
+          </ng-container>
+        </div>
+      </div>
+    </ng-container>
+  
+  
+    <!-- Diaryentry - Encounters -->
+    <div class="row">
+      <div *ngFor="let entryEncounter of diaryEntryEncounters; let encounterIndex = index" class="w-100">
+        <!-- Encounters -->
+        <ng-container [ngSwitch]="state">
+          <ng-container *ngSwitchCase="'READ'">
+            <ng-container *ngTemplateOutlet="displayEncounter; context: {$implicit: entryEncounter}"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchCase="'EDIT'">
+            <ng-container *ngTemplateOutlet="editEncounter; context: {$implicit: { entry: entryEncounter, index: encounterIndex }}"></ng-container>
+          </ng-container>
+        </ng-container>
+  
+        <!-- Insert new Encounter -->
+        <ng-container *ngIf="state === 'EDIT'">
+          <div class="list__buttons buttons">
+            <ng-container *ngIf="canCreate">
+              <app-button
+                class="col-6 col-md-4 buttons__button buttons__button--left"
+                title="Add Encounter to DiaryEntry"
+                [size]="'LARGE'"
+                [icon]="'plus'"
+                [text]="'Add Encounter'"
+                [disabled]="isUpdatingAnything"
+                (click)="addEmptyEncounterAtIndex(encounterIndex)"
+              ></app-button>
+            </ng-container>
+            <ng-container *ngIf="canUpdate">
+              <app-button
+                class="col-6 col-md-4 buttons__button buttons__button--right"
+                title="Insert Cut Encounter"          
+                [size]="'LARGE'"
+                [icon]="'file-import'"
+                [text]="'Insert Cut Encounter'"
+                [type]="'SECONDARY'"
+                [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex - 1 === encounterIndex || cutEncounterIndex === encounterIndex"
+                (click)="onInsertExcisedEncounter(encounterIndex + 1)"
+              ></app-button>
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #displayEncounter let-entryEncounter>
+  <h4>  {{ entryEncounter.encounter?.title }} </h4>
+  <app-html-text [text]="entryEncounter.encounter.description"></app-html-text>
+</ng-template>
+
+<ng-template #editEncounter let-context>
+  <app-card 
+    class="encounter-card"
+    [ngClass]="{
+      'animate__animated animate__zoomIn': context.entry.encounter.pk == null
+    }"
+  >
+    <ng-container *ngIf="!context.entry.isUpdating else loading;">
+      <app-encounter
+        class="encounter-card__encounter"
+        [encounter]="context.entry.encounter"
+        [characters]="campaignCharacters"
+        [serverModel]="encounterServerModel"
+        [canUpdate]="canUpdate"
+        [canDelete]="canDelete"
+        [canCreate]="canCreate"
+        [initialState]="context.entry.encounter.pk == null ? 'CREATE' : 'DISPLAY'"
+        (connectionDelete)="connectionDelete.emit($event)"
+        (connectionCreate)="connectionCreate.emit($event)"
+        (encounterDelete)="onEncounterDelete(context.index)"
+        (encounterUpdate)="encounterUpdate.emit($event)"
+        (encounterCreate)="encounterCreate.emit($event)"
+        (encounterCreateCancel)="onEncounterCreateCancel(context.index)"
+      ></app-encounter>
+      <ng-container *ngIf="context.entry.encounter.pk != null && canUpdate">
+        <div class="encounter-card__side-buttons side-buttons">
+          <app-button
+            class="side-buttons__button side-buttons__button--edit"
+            [disabled]="cutEncounterIndex != null && context.index !== cutEncounterIndex"
+            [type]="cutEncounterIndex != null &&  context.index === cutEncounterIndex ? 'PRIMARY' : 'DARK'"
+            [icon]="cutEncounterIndex != null &&  context.index === cutEncounterIndex ? 'times' : 'cut'"
+            [disabled]="isUpdatingAnything"
+            (click)="onExcisionClick(context.index)"
+          ></app-button>
+          <app-arrow-button
+            class="side-buttons__button side-buttons__button--arrow"
+            [type]="'DARK'"
+            [icon]="'up'"
+            [disabled]="isUpdatingAnything"
+            (click)="onEncounterOrderDecrease(context.index)"
+          ></app-arrow-button>
+          <app-arrow-button
+            class="side-buttons__button side-buttons__button--arrow"
+            [type]="'DARK'"
+            [icon]="'down'"
+            [disabled]="isUpdatingAnything"
+            (click)="onEncounterOrderIncrease(context.index)"
+          ></app-arrow-button>
+        </div>
+      </ng-container>
+    </ng-container>
+  </app-card>
+</ng-template>
+
+<!-- Loading Spinner -->
+<ng-template #loading><app-spinner></app-spinner></ng-template>

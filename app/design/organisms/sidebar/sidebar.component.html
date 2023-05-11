@@ -1,0 +1,78 @@
+<ng-container *ngIf="campaign">
+  <nav class="sidebar">
+    <!-- Brand -->
+    <div class="sidebar__brand brand">
+        <div class="brand__back" title="campaign-overview">
+            <a [routerLink]="campaignOverviewUrl" class="brand__back-link">
+              <app-icon class="brand__back-icon" [icon]="'chevron-left'"></app-icon>  
+            </a> 
+        </div>
+
+        <div 
+          class="brand__home" 
+          [title]="campaign.name + '-Home'" 
+          [class.disabled-entry]="campaign == null"
+        >
+          <a class="brand__home-link" [routerLink]="homeUrl">
+            <h3 class="brand__home-link-text"> 
+              <img class="brand__icon" [src]="campaign.icon" alt="..." />
+              <div class="brand__home-link-text-text">{{campaign.name }}</div>
+            </h3>
+          </a>
+        </div>
+    </div>
+  
+    <!-- Admin Section -->
+    <ul class="sidebar__entries">
+      <ng-container *ngIf="isAdmin">
+          <li class="sidebar__entry entry" [class.disabled-entry]="campaign == null">
+              <a class="entry__link" [routerLink]="campaignAdminUrl" >
+                  <app-icon class="entry__icon" [icon]="'hammer'"></app-icon>
+                  <span class="entry__text"> Campaign Admin </span>
+              </a>
+          </li>
+      </ng-container>
+  
+      <!-- Campaign Overview Entries -->
+      <ng-container *ngFor="let entry of sidebarEntries">
+        <li class="sidebar__entry entry" [class.disabled-entry]="campaign == null">
+          <a [routerLink]="entry.route" class="entry__link">
+            <app-icon class="entry__icon" [icon]="entry.iconClass"></app-icon>  
+            <span class="entry__text">{{entry.title}}</span>
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+
+    <!-- Logout -->
+    <ul class="sidebar__footer footer">
+      <li class="sidebar__entry entry">
+        <a class="entry__link" [routerLink]="profileUrl"> 
+          <app-icon class="entry__icon" [icon]="'user-circle'"></app-icon>
+          <span class="entry__text">Profile</span> 
+        </a>
+      </li>
+      <li class="sidebar__entry entry">
+        <a class="entry__link" (click)="this.logout.emit()"> 
+          <app-icon class="entry__icon" [icon]="'sign-out'"></app-icon>  
+          <span class="entry__text">Logout</span> 
+        </a>
+      </li>
+    </ul>
+  </nav>
+</ng-container>
+
+
+
+<ng-template #nonCampaignBrand>
+  <ul class="brand-line d-flex">
+      <li class="flex-1">
+          <a class="ps-0" [routerLink]="campaignOverviewUrl">
+              <h3 class="d-flex align-items-center justify-content-center" id="brand"> 
+                  <span class="fas fa-chevron-left"></span>
+                  <span class="ms-2 on-hover-show"> To campaigns</span>
+              </h3>
+          </a>
+      </li>
+  </ul>
+</ng-template>

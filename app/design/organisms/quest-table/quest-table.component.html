@@ -1,0 +1,64 @@
+<div class="container">  
+  <div class="row heading">
+    <!-- Outer Table Heading -->
+    <h5 class="col-sm-9 heading__text">
+        {{questTaker}}'s Quests
+    </h5>
+  
+    <!-- Filterselect -->
+    <select 
+      class="col-sm-3 heading__select" 
+      [(ngModel)]="state"
+      (change)="filterQuests()"
+    >
+      <ng-container *ngFor="let state of DISPLAY_STATES" >
+          <option [value]="state"> 
+            {{state}} 
+          </option>
+      </ng-container>
+    </select>
+  </div>
+  
+  <div class="row">
+    <table class="table table-dark table-striped" style="--bs-table-bg: var(--table-bg); --bs-table-striped-bg: var(--table-striped-bg)">
+      <!-- Inner Table Heading -->
+      <thead>
+        <tr>
+          <th class="table__element" scope="col">Name</th>
+          <th class="table__element table__element--desktop-only" scope="col">
+              Description
+          </th>
+          <th class="table__element" scope="col">Status</th>
+        </tr>
+      </thead>
+    
+      <!-- Table Body -->
+      <tbody [id]="questTaker + '-quests'">
+        <ng-container *ngFor="let quest of displayQuests; let questIndex = index">
+          <tr>
+            <!-- Quest Name Column -->
+            <td class="table__element table__element--link" [routerLink]="quest.getAbsoluteRouterUrl()">
+                <strong>{{ quest.name }}</strong>
+            </td>
+            
+            <!-- Quest Abstract -->
+            <td class="table__element table__element--desktop-only"> 
+              {{ quest.abstract }}
+            </td>
+            
+            <!-- Quest Status -->
+            <ng-container *ngIf="quest.status; else emptyColumn">
+              <td class="table__element--status table-{{STATE_TABLE_TYPE_MAPPING[quest.status]}}">
+                <app-icon [icon]="STATE_ICON_MAPPING[quest.status]"></app-icon>
+              </td>
+            </ng-container>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #emptyColumn>
+  <td></td>
+</ng-template>

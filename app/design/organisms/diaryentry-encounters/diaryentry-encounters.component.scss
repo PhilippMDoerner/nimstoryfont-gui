@@ -1,0 +1,62 @@
+.list{
+  padding-left: var(--spacer-0);
+  padding-right: var(--spacer-0);
+  
+  &__buttons{
+    margin-bottom: var(--spacer-2);
+  }
+}
+
+.buttons{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &__button{
+    display: flex;
+    &--left{
+      justify-content: flex-end;
+    }
+    
+    &--right{
+      justify-content: flex-start;
+    }
+  }
+}
+
+.encounter-card{
+  display: flex;
+  justify-content: center;
+  --card-flex-direction: row;
+  --card-padding: var(--spacer-3);
+  
+  &__encounter{
+    flex: 1;
+  }
+  
+  &__side-buttons{
+    height: 100%;
+  }
+}
+
+.side-buttons{
+  display: flex;
+  flex-direction: column;
+  margin-left: var(--spacer-1);
+  
+  &__button{    
+    &--edit{
+      margin-bottom: var(--spacer-4);
+    }
+    
+    &--arrow{
+      padding: var(--spacer-1) var(--spacer-0);
+    }
+  }
+}
+
+app-spinner{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

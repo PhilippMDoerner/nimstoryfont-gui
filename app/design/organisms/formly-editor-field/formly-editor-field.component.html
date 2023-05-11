@@ -1,0 +1,16 @@
+<div class="mb-3 {{field.className}}" [class.d-none]="to.hidden">
+  <label 
+    class="form-label" 
+    [for]="to['name']"
+  >
+    {{to.label}}
+  </label>
+  
+  <editor 
+    [attr.name]="to['name']"
+    #textEditorElement
+    [formControl]="formControl"
+    [formlyAttributes]="field"
+    [init]="settings"
+  ></editor>
+</div>

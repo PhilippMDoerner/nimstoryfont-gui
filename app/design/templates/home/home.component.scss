@@ -1,0 +1,23 @@
+.home{
+  &__heading-ontainer{
+    margin-bottom: var(--spacer-1);
+  }
+}
+
+.heading-container{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  
+  &__heading{
+    margin-bottom: var(--spacer-1);
+  }
+  
+  &__subheading{
+    font-weight: bold;
+  }
+  
+  &__icon{
+    align-self: center;
+  }
+}

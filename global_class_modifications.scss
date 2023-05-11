@@ -1,0 +1,23 @@
+// Modifies all Formly/Angular forms
+.form-label{
+  font-weight: bold;
+}
+
+
+// Adds new custom "updated" class to formly
+.updated{
+  background: repeating-linear-gradient(
+      45deg, 
+      hsl(210, 23%, 20%), 
+      hsl(210, 23%, 20%) 10px, 
+      hsl(210, 23%, 25%) 10px, 
+      hsl(210, 23%, 25%) 20px,
+  );
+  
+  border-radius: var(--bs-border-radius);
+}
+
+a {
+  font-weight: bold;
+  text-decoration-style: dashed;
+}

@@ -1,0 +1,29 @@
+<div class="footer">
+  <ng-container *ngIf="buttonLink; then linkButton; else nonLinkButton"></ng-container>
+
+  <ng-container *ngIf="showDelete">
+    <app-confirmation-toggle-button 
+      [toggleType]="'DANGER'"
+      [confirmationQuestion]="deleteMessage"
+      [icon]="'trash'"
+      (confirm)="delete.emit()"
+    ></app-confirmation-toggle-button>
+  </ng-container>
+</div>
+
+<ng-template #linkButton>
+  <a [routerLink]="buttonLink" (click)="buttonClick.emit()">
+    <app-button 
+      [type]="'SECONDARY'"
+      [text]="buttonLabel"
+    ></app-button>
+  </a>
+</ng-template>
+
+<ng-template #nonLinkButton>
+  <app-button 
+    [type]="'SECONDARY'"
+    [text]="buttonLabel"
+    (click)="buttonClick.emit()"
+  ></app-button>
+</ng-template> 

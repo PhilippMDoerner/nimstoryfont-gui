@@ -1,0 +1,49 @@
+.linkentry{
+  &--delete{
+    justify-content: center;
+  }
+  
+  &__link{
+    text-align: end;
+    cursor: pointer;
+  }
+  
+  &__label{
+    text-align: start;
+    overflow-x: scroll;
+  }
+  
+  &__box{
+    background-color: var(--bs-secondary);
+    padding: var(--spacer-2);  
+  }
+  
+  &__delete{
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  &__delete-button{
+    width: fit-content;
+    display: inline-block;
+  }
+}
+
+.box{
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  border-radius: var(--bs-border-radius);
+  border-color: var(--bs-danger);
+  border-style: solid;
+  border-width: 1px;
+  
+  &__message{
+    font-weight: bold;
+  }
+  
+  &__button{
+    width: fit-content;
+    margin-left: var(--spacer-3);
+  }
+}

@@ -1,0 +1,31 @@
+<div class="encounter-list mb-5 mt-3">
+  <ngb-accordion [closeOthers]="true" (panelChange)="onPanelChange($event)" [animation]="true">
+    <ng-container *ngFor="let encounter of encounters; let i = index">
+      <ngb-panel [id]="'static-'+i">
+
+        <ng-template ngbPanelTitle>
+          <div class="panel-title">
+            <strong class="encounter-title" [innerHTML]="encounter.name"></strong>
+          </div>
+        </ng-template>
+
+        <ng-template ngbPanelContent>
+            <app-encounter
+              class="panel-content"
+              [encounter]="encounter"
+              [characters]="campaignCharacters"
+              [serverModel]="serverModel"
+              [canUpdate]="canUpdate"
+              [canDelete]="canDelete"
+              [canCreate]="canCreate"
+              (connectionDelete)="connectionDelete.emit($event)"
+              (connectionCreate)="connectionCreate.emit($event)"
+              (encounterDelete)="encounterDelete.emit($event)"
+              (encounterUpdate)="encounterUpdate.emit($event)"
+            ></app-encounter>
+        </ng-template>
+
+      </ngb-panel>
+    </ng-container>
+  </ngb-accordion>
+</div>

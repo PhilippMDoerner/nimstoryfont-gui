@@ -1,0 +1,34 @@
+<div class="list">
+  <!-- Heading -->
+  <div class="list__heading">
+    <h4> {{heading}} </h4>
+    <ng-container *ngIf="enableCreate">
+      <app-button 
+        class="ms-3"
+        [type]="'PRIMARY'" 
+        [size]="'SMALL'" 
+        [icon]="'plus'"
+        (click)="onCreateButtonClick()"
+      ></app-button>
+    </ng-container>
+  </div>
+  
+  <!-- List -->
+  <ng-container *ngIf="entries && entries.length > 0; else emptyPlaceholder">
+    <ul class="list__list">
+      <ng-container *ngFor="let entry of entries; let index = index">
+        <li class="list__entry">
+          <a [routerLink]="entry.link">
+            {{entry.label}}
+          </a>
+        </li>
+      </ng-container>
+    </ul>
+  </ng-container>
+</div>
+
+<ng-template #emptyPlaceholder>
+  <div>
+    {{emptyListText}}
+  </div>
+</ng-template>

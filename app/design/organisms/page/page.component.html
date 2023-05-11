@@ -1,0 +1,26 @@
+<app-sidebar
+#sidebar
+class="sidebar"
+[campaign]="campaign"
+[user]="user"
+></app-sidebar>
+
+<div 
+  class="page" 
+  [class.page--shift-right]="showSidebar" 
+  #content
+>
+  
+  <div class="page__content">  
+    <app-page-container>
+      <router-outlet #routerOutlet></router-outlet>
+    </app-page-container>
+  </div>
+  
+  <app-page-background
+    #background
+    class="page__background"
+    [imageUrl]="campaign.background_image"
+    [serverUrl]="serverUrl"
+  ></app-page-background>
+</div>

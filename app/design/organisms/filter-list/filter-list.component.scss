@@ -1,0 +1,34 @@
+.filter{
+  &__input{
+    background-color: transparent;
+    border: 1px var(--bs-white) solid;
+    border-radius: var(--bs-border-radius);
+    padding: var(--spacer-0) var(--spacer-3);
+    margin-top: var(--spacer-2);
+    margin-bottom: var(--spacer-4);
+    width: 100%;
+    height: var(--spacer-5);
+    color: var(--bs-white);
+    
+    &:focus{
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--bs-white);
+      box-shadow: 0 0 0 2px var(--bs-white);
+    }
+  }
+}
+
+.letter-list{
+  padding-top: var(--spacer-4);
+  padding-bottom: var(--spacer-4);
+  border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+  
+  &__heading{
+    margin-bottom: var(--spacer-0);
+  }
+  
+  &__list{
+    list-style-type: disclosure-closed;
+    margin-bottom: var(--spacer-0);
+  }
+}

@@ -1,0 +1,25 @@
+@import '/src/screens.scss';
+
+.card{
+  margin: var(--spacer-3);
+  
+  &-title{
+    text-align: center;
+    margin-bottom: var(--spacer-0);
+  }
+  
+  &-body{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  
+  &-link{
+    text-align: center;
+    margin-bottom: var(--spacer-2);
+    margin-left: var(--spacer-0) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

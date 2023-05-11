@@ -1,0 +1,16 @@
+.card{
+  padding: var(--spacer-3);
+  
+  &__heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 0px;
+  }
+  
+  &__heading-text{
+    flex: 1;
+    margin-right: var(--spacer-4);
+  }
+}

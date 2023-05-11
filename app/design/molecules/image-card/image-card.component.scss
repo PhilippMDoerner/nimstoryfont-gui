@@ -1,0 +1,14 @@
+.card{
+  &-body{
+    padding: var(--spacer-3);
+  }
+  
+  &-title{
+    margin-bottom: var(--spacer-0);
+    text-align: center;
+  }
+  
+  &-img-top{
+    object-fit: cover;
+  }
+}

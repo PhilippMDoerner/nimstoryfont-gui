@@ -1,0 +1,11 @@
+.strikethrough{
+  text-decoration: line-through;
+}
+
+.form{
+  &__button{
+    width: fit-content;
+    display: inline-block;
+    margin-right: var(--spacer-2);
+  }
+}

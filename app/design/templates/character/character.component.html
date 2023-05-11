@@ -1,0 +1,141 @@
+<article class="container character">
+  <ng-container *ngIf="canUpdate">
+    <div class="character__edit-container">
+      <a [routerLink]="updateUrl">
+        <app-button
+          [icon]="'pencil'"
+          [type]="'SECONDARY'"
+        ></app-button>
+      </a>
+    </div>
+  </ng-container>
+    
+  <!-- Heading -->
+  <div class="row">
+    <h1 class="col-12 character__heading">
+      <ng-container *ngIf="character.title">
+        {{ character.title }} - 
+      </ng-container>
+      {{ character.name }}
+      <ng-container *ngIf="!character.alive"> 
+        (†) 
+      </ng-container>
+    </h1>
+      
+    <div class="col-12 character__subheading">
+      <!-- Organization -->
+      <h5>
+        <ng-container *ngIf="character.gender !=='Other'">
+          {{ character.gender }}
+        </ng-container>
+        {{ character.race }}
+        {{ playerClasses }}
+      </h5>    
+
+      <ng-container *ngIf="organizations.length > 0">  
+        <ng-container *ngFor="let entry of organizations; let i = index">
+          <h5 class="col-12">
+            {{ entry.organization.role }} of 
+            <a [routerLink]="entry.link">
+                <strong>{{ entry.organization.name }}</strong>
+            </a>
+          </h5>
+        </ng-container>
+      </ng-container> 
+
+      <!-- Current Location -->
+      <ng-container *ngIf="character.current_location_details">
+        <div class="col-12">
+          Last known location:
+          <a [routerLink]="locationUrl">
+              <strong> {{ character.current_location_details.name }} </strong>
+          </a>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+
+
+  <div class="character__images">
+    <!-- Image Gallery -->
+    <app-image-carousel-card
+      [images]="character.images ?? []"
+      [serverUrl]="serverUrl"
+      [serverModel]="imageServerModel"
+      [canUpdate]="canUpdate"
+      [canCreate]="canCreate"
+      [canDelete]="canDelete"
+      (createImage)="createImage.emit($event)"
+      (deleteImage)="deleteImage.emit($event)"
+      (updateImage)="updateImage.emit($event)"
+    ></app-image-carousel-card>
+  </div>
+
+  <!-- Quote -->
+  <div class="character__quote">
+    <app-quote-field 
+      [quote]="characterQuote"
+      [character]="character" 
+      [campaignCharacters]="campaignCharacters"
+      [serverModel]="quoteServerModel"
+      [canUpdate]="canUpdate"
+      [canCreate]="canCreate"
+      [canDelete]="canDelete"
+      (refreshQuote)="refreshQuote.emit($event)"
+      (quoteUpdate)="quoteUpdate.emit($event)"
+      (quoteCreate)="quoteCreate.emit($event)"
+      (quoteDelete)="quoteDelete.emit($event)"
+      (connectionCreate)="quoteConnectionCreate.emit($event)"
+      (connectionDelete)="quoteConnectionDelete.emit($event)"
+    ></app-quote-field>
+  </div>
+
+  <div class="character__description">
+    <h4> Description </h4>
+    <app-html-text
+      [text]="character.description"
+    ></app-html-text>
+  </div>
+
+  <div class="character__items">
+    <app-list
+      [heading]="'Items of Note'"
+      [entries]="characterItems"
+      [enableCreate]="canCreate"
+      [emptyListText]="character.name + ' has no significant items.'"
+      (create)="routeToItem()"
+    ></app-list>
+  </div>
+
+  <div class="row">
+    <h4 class="col mb-0"> 
+      <app-info-circle-tooltip
+        [text]="(character.encounters?.length ?? 0) + ' Encounters'"
+        [tooltip]="'List of all encounters with ' + character.name + '. Starts with the most recent encounter and ends with the latest.'"
+      ></app-info-circle-tooltip>
+    </h4>
+    <app-encounter-accordion 
+      [encounters]="character.encounters ?? []" 
+      [campaignCharacters]="campaignCharacters"
+      [serverModel]="encounterServerModel"
+      [canUpdate]="canUpdate"
+      [canCreate]="canCreate"
+      [canDelete]="canDelete"
+      (connectionCreate)="encounterConnectionCreate.emit($event)"
+      (connectionDelete)="encounterConnectionDelete.emit($event)"
+      (encounterDelete)="encounterDelete.emit($event)"
+      (encounterUpdate)="encounterUpdate.emit($event)"
+    ></app-encounter-accordion>
+  </div>
+  
+
+  <app-article-footer
+    [buttonLink]="overviewUrl"
+    [buttonLabel]="'Back to Characters'"
+    [showDelete]="canDelete"
+    [deleteMessage]="'Delete ' + character.name + '?'"
+    (delete)="characterDelete.emit(character)"
+  ></app-article-footer>
+
+</article>

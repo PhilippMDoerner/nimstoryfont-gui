@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { FilterListEntry } from '../_model/filterListEntry';
 
 type GroupMode = "PROPERTY" | "LETTER"
 
@@ -9,14 +10,14 @@ type GroupMode = "PROPERTY" | "LETTER"
   styleUrls: ['./filter-list.component.scss']
 })
 export class FilterListComponent implements OnInit{
-  @Input() entries!: any[];
+  @Input() entries!: FilterListEntry[];
   @Input() labelProp!: string;
   @Input() heading!: string;
   @Input() groupProp?: string;
   
   @ViewChild('filterInputElement') filterInputElement!: ElementRef;
   
-  displayEntries!: any[];
+  displayEntries!: FilterListEntry[];
   mode: GroupMode = 'LETTER';
   
   constructor(

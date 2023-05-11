@@ -1,21 +1,24 @@
-<form 
-  class="row filter" 
-  autocomplete="off" 
-  (submit)="openFirstArticle()"
->
-  <input
-    class="filter__input"
-    type="text"
-    placeholder="Search for {{ heading }}..."
-    #filterInputElement
-    (keyDown)="updateDisplayEntries()"
-    (input)="updateDisplayEntries()"
-  >    
-</form>
-
-<div class="row">
-  <ng-container *ngIf="mode === 'LETTER'; then letterList; else propertyList"></ng-container>
+<div class="container">
+  <form 
+    class="row filter" 
+    autocomplete="off" 
+    (submit)="openFirstArticle()"
+  >
+    <input
+      class="filter__input"
+      type="text"
+      placeholder="Search for {{ heading }}..."
+      #filterInputElement
+      (keyDown)="updateDisplayEntries()"
+      (input)="updateDisplayEntries()"
+    >    
+  </form>
+  
+  <div class="row">
+    <ng-container *ngIf="mode === 'LETTER'; then letterList; else propertyList"></ng-container>
+  </div>
 </div>
+
 
 <ng-template #letterList>
   <ng-container *ngFor="let itemLetterEntries of displayEntries | groupByFirstLetter: labelProp">

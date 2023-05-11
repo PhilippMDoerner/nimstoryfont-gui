@@ -1,0 +1,136 @@
+<article class="container overview">
+    <!-- Heading -->
+    <div *ngIf="overviewTypeName">
+      <h1 class="overview__page-heading">
+        <ng-container [ngSwitch]="overviewType">
+          <ng-container *ngSwitchCase="'CHARACTER'">
+            Characters
+          </ng-container>
+          <ng-container *ngSwitchCase="'LOCATION'">
+            Locations
+          </ng-container>
+          <ng-container *ngSwitchCase="'ITEM'">
+            Items
+          </ng-container>
+          <ng-container *ngSwitchCase="'ORGANIZATION'">
+            Organizations
+          </ng-container>
+          <ng-container *ngSwitchCase="'CREATURE'">
+            Creatures
+          </ng-container>
+          <ng-container *ngSwitchCase="'DIARYENTRY'">
+            Diaryentries
+          </ng-container>
+          <ng-container *ngSwitchDefault>
+            Entries
+          </ng-container>        
+        </ng-container>
+      </h1>
+    </div>
+    
+    <div class="overview__subheading">
+      <ng-container [ngSwitch]="overviewType">
+          <ng-container *ngSwitchCase="'CHARACTER'">
+            <ng-container [ngTemplateOutlet]="(playerCharacters?.length ?? 0 > 0) ? characterHeading : defaultHeading"></ng-container>
+          </ng-container>
+          <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultHeading"></ng-container>        
+      </ng-container>
+    </div>
+
+    <!-- Adding Item button -->
+    <ng-container *ngIf="canCreate">
+      <div class="overview__create">
+        <a [routerLink]="'create'">
+          <app-button
+            [icon]="'plus'"
+            [type]="'PRIMARY'"
+            [text]="'Add ' + (overviewTypeName | titlecase)"
+          ></app-button>
+        </a>
+      </div>
+    </ng-container>
+    
+    <div class="row">
+      <ng-container [ngSwitch]="overviewType"> 
+          <ng-container *ngSwitchCase="'CHARACTER'" [ngTemplateOutlet]="characterBody"></ng-container>
+          <ng-container *ngSwitchCase="'DIARYENTRY'" [ngTemplateOutlet]="diaryentryBody"></ng-container>
+          <ng-container *ngSwitchDefault [ngTemplateOutlet]="defaultBody"></ng-container>        
+      </ng-container>
+    </div>
+
+<!-- Footer -->
+<div class="row">
+  <a [routerLink]="homeUrl" class="overview__home">
+    <app-button
+      [type]="'SECONDARY'"
+      [text]="'Back To Frontpage'"
+    ></app-button>
+  </a>
+</div>
+</article>
+
+
+<ng-template #defaultHeading>
+  <!-- Image -->
+  <img 
+    class="overview__image" 
+    [src]="OVERVIEW_IMAGE_MAP[overviewType]" 
+    alt="Image describing the overview type {{overviewType}}"
+  />
+</ng-template>
+
+
+<ng-template #characterHeading>
+  <h3> Player Characters </h3>
+  
+  <div class="row">
+    <ng-container *ngFor="let playerCharacter of playerCharacters">
+        <div class="col-lg-3 col-md-4 col-sm-6 col-12 overview__player-card player-card">
+            <a [routerLink]="playerCharacter.getAbsoluteRouterUrl()" class="player-card__link">
+              <ng-container *ngIf="playerCharacter.images">
+                <app-image-card
+                  class="player-card__card"
+                  [serverUrl]="serverUrl"
+                  [imageUrl]="playerCharacter.images[0].image"
+                  [alt]="'An image displaying the player character ' + playerCharacter.name"
+                  [text]="playerCharacter.name_full"
+                ></app-image-card>
+              </ng-container>
+            </a> 
+        </div>
+    </ng-container>
+  </div>
+</ng-template>
+
+
+<ng-template #characterBody>
+  <h3> Non-Player Characters </h3>
+  
+  <app-filter-list
+    [entries]="displayEntries"
+    [labelProp]="'name'"
+    [heading]="overviewTypeName"
+  ></app-filter-list>
+</ng-template>
+
+
+<ng-template #diaryentryBody>
+  <app-filter-list
+    [entries]="displayEntries"
+    [labelProp]="'name_full'"
+    [groupProp]="'author_details.name'"
+    [heading]="overviewTypeName"
+    [forceSingleLine]="true"
+  ></app-filter-list>
+</ng-template>
+
+
+<ng-template #defaultBody>
+
+  <app-filter-list
+    [entries]="displayEntries"
+    [labelProp]="'name_full'"
+    [heading]="overviewTypeName"
+  ></app-filter-list>
+
+</ng-template>

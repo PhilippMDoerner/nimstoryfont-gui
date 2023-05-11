@@ -67,7 +67,7 @@ export interface OverviewSession{
   pk: number;
   session_number: number;
   is_main_session: boolean;
-  is_main_session_int: 0 | 1;
+  is_main_session_int: number;
   start_day?: number;
   end_day?: number;
 }

@@ -1,0 +1,36 @@
+.overview{
+  &__page-heading{
+    margin-bottom: var(--spacer-4);
+    padding-bottom: var(--spacer-1);
+    border-bottom: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+  }
+
+  &__create{
+    margin-bottom: var(--spacer-3);
+  }
+  
+  &__home{
+    margin-top: var(--spacer-4);
+  }
+  
+  &__image{
+    max-height: 23rem;
+    max-width: 100%;
+    object-fit: cover;
+    object-position: bottom;
+    padding-left: var(--spacer-0);
+    padding-right: var(--spacer-0);
+    margin-bottom: var(--spacer-4);
+  }
+  
+  &__player-card{
+    margin-bottom: var(--spacer-4);
+  }
+}
+
+.player-card{
+  &__link{
+    text-decoration: none;
+    
+  }
+}

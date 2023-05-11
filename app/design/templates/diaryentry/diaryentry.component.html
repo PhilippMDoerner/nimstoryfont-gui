@@ -71,9 +71,9 @@
   <!-- Next/Prior Diaryentry Buttons -->
   <div class="row diaryentry__nav-buttons nav-buttons">
     <!-- Next Diaryentry -->
-    <div class="col-lg-2 col-md-4 col-5">
+    <div class="col-lg-2 col-md-4 col-5 nav-buttons__button-container">
       <ng-container *ngIf="diaryentry.adjacent_diaryentries.next_diaryentry">
-        <a class="nav-buttons__button" [routerLink]="nextDiaryentryUrl"> 
+        <a class="nav-buttons__button nav-buttons__button--left" [routerLink]="nextDiaryentryUrl"> 
           <app-button
             [text]="'Next'"
             [icon]="'arrow-left'"
@@ -85,9 +85,9 @@
 
 
     <!-- Prior Diaryentry -->
-    <div class="col-lg-2 col-md-4 col-5">
+    <div class="col-lg-2 col-md-4 col-5 nav-buttons__button-container">
       <ng-container *ngIf="diaryentry.adjacent_diaryentries.prior_diaryentry">
-        <a class="nav-buttons__button " [routerLink]="priorDiaryentryUrl">
+        <a class="nav-buttons__button nav-buttons__button--right" [routerLink]="priorDiaryentryUrl">
           <app-button
             [text]="'Back'"
             [icon]="'arrow-right'"

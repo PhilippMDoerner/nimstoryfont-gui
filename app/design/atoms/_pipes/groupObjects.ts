@@ -49,13 +49,27 @@ export class GroupByPipe implements PipeTransform{
         );
         
         sortedGroupArray.forEach(group => {
-            const values: any[] = group.value;
-            group.value = values.sort(
-                (val1: any, val2: any) => val1[subSortProp].toLowerCase() < val2[subSortProp].toLowerCase() ? 1 : -1
-            );
-        })
+            const groupEntries: any[] = group.value;
+            group.value = this.sortGroup(groupEntries, subSortProp);
+        });
 
         return reverse ? sortedGroupArray.reverse() : sortedGroupArray;
+    }
+    
+    private sortGroup(group: any[], sortProperty: string): any[]{
+        return group.sort((val1: any, val2: any) => {
+            let sortValue1 = this.getFieldValue(sortProperty, val1);
+            const isStringProperty = typeof sortValue1 === 'string';
+            if(isStringProperty){
+                sortValue1 = sortValue1.toLowerCase();
+            }
+
+            let sortValue2 = this.getFieldValue(sortProperty, val2);
+            if(isStringProperty){
+                sortValue2 = sortValue2.toLowerCase();
+            }
+            return sortValue1 < sortValue2 ? 1 : -1
+        });
     }
     
     /**

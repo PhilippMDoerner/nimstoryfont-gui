@@ -14,6 +14,7 @@ export class FilterListComponent implements OnInit{
   @Input() labelProp!: string;
   @Input() heading!: string;
   @Input() groupProp?: string;
+  @Input() forceSingleLine: boolean = false;
   
   @ViewChild('filterInputElement') filterInputElement!: ElementRef;
   

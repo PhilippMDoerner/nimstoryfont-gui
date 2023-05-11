@@ -25,8 +25,8 @@
     <div 
       class="letter-list" 
       [ngClass]="{
-        'col-sm-6 col-lg-4': !filterInputElement.value, 
-        'col-12': filterInputElement.value
+        'col-sm-6 col-lg-4': (!filterInputElement.value && !forceSingleLine), 
+        'col-12': (filterInputElement.value || forceSingleLine)
       }"
     >
       <!-- Letter Heading -->
@@ -53,12 +53,12 @@
 <ng-template #propertyList>
   <ng-container *ngIf="groupProp">
     
-    <ng-container *ngFor="let itemLetterEntries of displayEntries | groupBy: groupProp : labelProp">
+    <ng-container *ngFor="let itemLetterEntries of displayEntries | groupBy: groupProp : 'session_details.session_number'">
       <div 
         class="letter-list" 
         [ngClass]="{
-          'col-sm-6 col-lg-4': !filterInputElement.value, 
-          'col-12': filterInputElement.value
+          'col-sm-6 col-lg-4': (!filterInputElement.value && !forceSingleLine), 
+          'col-12': (filterInputElement.value || forceSingleLine)
         }"
       >
         <!-- Letter Heading -->

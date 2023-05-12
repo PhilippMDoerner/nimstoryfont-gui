@@ -6,14 +6,14 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
   templateUrl: './compare-form.component.html',
   styleUrls: ['./compare-form.component.scss']
 })
-export class CompareFormComponent implements OnInit{
+export class CompareFormComponent<T> implements OnInit{
   @Input() fields!: FormlyFieldConfig[];
-  @Input() modelFromUser!: any;
-  @Input() modelFromServer!: any;
+  @Input() modelFromUser!: T;
+  @Input() modelFromServer!: T;
   @Input() displayVertically: boolean = false;
   @Input() enctype: string = "application/x-www-form-urlencoded"; //Default form enctype in HTML5
 
-  @Output() formlySubmit: EventEmitter<any> = new EventEmitter();
+  @Output() formlySubmit: EventEmitter<T> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<void> = new EventEmitter();
 
   ngOnInit(): void {
@@ -33,8 +33,8 @@ export class CompareFormComponent implements OnInit{
         throw "CompareFormContainer - Trying to have form with fields that don't have keys" 
       }
       
-      const userModelValue: any = this.modelFromUser[fieldName];
-      const serverModelValue: any = this.modelFromServer[fieldName];
+      const userModelValue: any = (this.modelFromUser as any)[fieldName];
+      const serverModelValue: any = (this.modelFromServer as any)[fieldName];
       
       const hasDifference = userModelValue != serverModelValue;
       if(!hasDifference){
@@ -51,7 +51,7 @@ export class CompareFormComponent implements OnInit{
 
   onSubmit(){
     //Update the "update_datetime" field of the user-model
-    this.modelFromUser.update_datetime = this.modelFromServer.update_datetime;
+    (this.modelFromUser as any).update_datetime = (this.modelFromServer as any).update_datetime;
     this.formlySubmit.emit(this.modelFromUser);
   }
 

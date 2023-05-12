@@ -182,9 +182,9 @@ export default {
     modelFromUser: userModel,
     displayVertically: false,
   }
-} as Meta<CompareFormComponent>;
+} as Meta<CompareFormComponent<any>>;
 
-const Template: StoryFn<CompareFormComponent> = (args: CompareFormComponent) => ({ 
+const Template: StoryFn<CompareFormComponent<any>> = (args: CompareFormComponent<any>) => ({ 
   props: {
     ...args,
     formlySubmit: action('formlySubmit'),

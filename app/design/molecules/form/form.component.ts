@@ -10,10 +10,10 @@ import { ElementType, Icon } from '../../atoms';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss']
 })
-export class FormComponent implements OnInit, OnChanges{
+export class FormComponent<T> implements OnInit, OnChanges{
   form = new FormGroup({});
 
-  @Input() model!: any;
+  @Input() model!: T;
   @Input() fields!: FormlyFieldConfig[];
   @Input() enctype: string = "application/x-www-form-urlencoded"; //Default form enctype in HTML5
   @Input() enableSubmitButtons: boolean = true;
@@ -22,7 +22,7 @@ export class FormComponent implements OnInit, OnChanges{
   @Input() cancelButtonType: ElementType = 'SECONDARY';
   @Input() submitIcon?: Icon;
   
-  @Output() formlySubmit: EventEmitter<any> = new EventEmitter();
+  @Output() formlySubmit: EventEmitter<T> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();
 
   usedFields!: FormlyFieldConfig[];

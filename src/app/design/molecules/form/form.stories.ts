@@ -168,9 +168,9 @@ export default {
     disabled: false,
     submitIcon: 'plus',
   }
-} as Meta<FormComponent>;
+} as Meta<FormComponent<any>>;
 
-const Template: StoryFn<FormComponent> = (args: FormComponent) => ({ 
+const Template: StoryFn<FormComponent<any>> = (args: FormComponent<any>) => ({ 
   props: {
     ...args,
     formlySubmit: action('formlySubmit'),

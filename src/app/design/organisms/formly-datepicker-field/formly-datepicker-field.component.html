@@ -2,7 +2,9 @@
   <label [for]="to['name']" class="form-label ">
       <strong>
           {{to.label}}
-          <ng-container *ngIf="to.required">*</ng-container>
+          <ng-container *ngIf="to.required">
+            *
+          </ng-container>
       </strong>
   </label>
 

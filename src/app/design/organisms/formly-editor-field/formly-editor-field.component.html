@@ -4,6 +4,10 @@
     [for]="to['name']"
   >
     {{to.label}}
+    
+    <ng-container *ngIf="to.required">
+      *
+    </ng-container>
   </label>
   
   <editor 

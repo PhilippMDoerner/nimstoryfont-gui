@@ -83,6 +83,7 @@ const dummyForm: FormlyFieldConfig[] = [
     type: 'file',
     props: {
       label: "SomeFile",
+      buttonType: 'SECONDARY',
     }
   },
   dummySelectDisableConfig,

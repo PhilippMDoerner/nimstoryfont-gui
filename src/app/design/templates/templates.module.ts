@@ -17,6 +17,7 @@ import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { QuestOverviewComponent } from './quest-overview/quest-overview.component';
 import { GeneralOverviewComponent } from './general-overview/general-overview.component';
+import { CreateUpdateComponent } from './create-update/create-update.component';
 
 
 
@@ -37,7 +38,8 @@ import { GeneralOverviewComponent } from './general-overview/general-overview.co
     HomeComponent,
     SearchComponent,
     QuestOverviewComponent,
-    GeneralOverviewComponent
+    GeneralOverviewComponent,
+    CreateUpdateComponent
   ],
   imports: [
     CommonModule,

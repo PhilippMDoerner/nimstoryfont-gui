@@ -140,8 +140,8 @@ export class SpellComponent implements OnInit, OnChanges{
     this.userModel = { ...newModel } as Spell;
   }
   
-  onSpellCreate(spell: Spell){
-    this.spellCreate.emit(spell);
+  onSpellCreate(spell?: Spell){
+    this.spellCreate.emit(spell as Spell);
     this.spell = spell;
     this.changeState('DISPLAY', undefined);
   }
@@ -150,8 +150,8 @@ export class SpellComponent implements OnInit, OnChanges{
     this.spellDelete.emit(this.spell);
   }
   
-  onSpellUpdate(spell: Spell){
-    this.spellUpdate.emit(spell);
+  onSpellUpdate(spell?: Spell){
+    this.spellUpdate.emit(spell as Spell);
     this.spell = spell;
     this.changeState('DISPLAY', undefined);
   }

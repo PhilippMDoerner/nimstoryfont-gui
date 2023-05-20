@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import * as _ from 'lodash';
 import { Observable, map } from 'rxjs';
 import { FormlyCheckboxConfig, FormlyDatepickerConfig, FormlyFileConfig, FormlyInputConfig, FormlyInterface, FormlyOverviewDisabledSelectConfig, FormlyOverviewSelectConfig, FormlyPasswordInterface, FormlyCustomSelectConfig as FormlyStaticSelectConfig, FormlyCustomStringSelectConfig as FormlyStaticStringSelectConfig, StaticOption } from 'src/app/_models/formly';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -315,7 +316,7 @@ export class FormlyService {
   }
   
   private getOverviewItems(config: FormlyOverviewSelectConfig): Observable<any[]> {
-    const isCampaignSpecific = config.campaign != null;
+    const isCampaignSpecific = !_.isNil(config.campaign);
     const sortProp = config.sortProp as keyof OverviewItem;
     let options = isCampaignSpecific 
       ? this.overviewService.getCampaignOverviewItems(config.campaign as string, config.overviewType, sortProp)

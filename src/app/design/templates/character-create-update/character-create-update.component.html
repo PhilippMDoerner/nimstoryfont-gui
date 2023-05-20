@@ -47,47 +47,51 @@
   <div class="create-update__form form">
         
     <div class="form__player-classes">
-      <h3> {{userModel.name}}'s Classes </h3>
+      <h4> {{userModel.name}}'s Classes </h4>
       <!-- Add-Class-Badge -->
-      <app-badge-list
-        [label]="'Class'"
-        [entries]="characterClasses"
-        [createOptions]="{
-          options: classOptions,
-          valueProp: 'pk',
-          labelProp: 'name',
-        }"
-        [canCreate]="true"
-        [canDelete]="true"
-        (entryCreate)="addClass.emit($event)"
-        (entryDelete)="removeClass.emit($event)"
-      ></app-badge-list>
+      <h6>
+        <app-badge-list
+          [label]="'Class'"
+          [entries]="characterClasses"
+          [createOptions]="{
+            options: classOptions,
+            valueProp: 'pk',
+            labelProp: 'name',
+          }"
+          [canCreate]="true"
+          [canDelete]="true"
+          (entryCreate)="addClass.emit($event)"
+          (entryDelete)="removeClass.emit($event)"
+        ></app-badge-list>
+      </h6>
     </div>    
   
     <!-- Memberships -->
     <div class="form__memberships">    
-      <h3> {{userModel.name}}'s Organization Memberships </h3>
+      <h4> {{userModel.name}}'s Organization Memberships </h4>
       
       <!-- Add-Class-Badge -->
-      <app-badge-list
-        [label]="'Membership'"
-        [entries]="characterOrganizations"
-        [createOptions]="{
-          options: organizations,
-          valueProp: 'pk',
-          labelProp: 'name',
-        }"
-        [canCreate]="true"
-        [canDelete]="true"
-        (entryCreate)="addOrganizationMembership.emit($event)"
-        (entryDelete)="removeOrganizationMembership.emit($event)"
-      ></app-badge-list>
+      <h6>
+        <app-badge-list
+          [label]="'Membership'"
+          [entries]="characterOrganizations"
+          [createOptions]="{
+            options: organizations,
+            valueProp: 'pk',
+            labelProp: 'name',
+          }"
+          [canCreate]="true"
+          [canDelete]="true"
+          (entryCreate)="addOrganizationMembership.emit($event)"
+          (entryDelete)="removeOrganizationMembership.emit($event)"
+        ></app-badge-list>
+      </h6>
     </div>
     
     <app-separator></app-separator>
 
     <div class="form__character-data">
-      <h3> Character Data </h3>
+      <h4> Character Data </h4>
       <app-form
         [model]="userModel" 
         [fields]="formlyFields" 

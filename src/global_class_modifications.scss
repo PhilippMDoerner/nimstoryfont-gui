@@ -1,6 +1,11 @@
 // Modifies all Formly/Angular forms
-.form-label{
+.form-label,
+.form-check-label{
   font-weight: bold;
+}
+
+.form-check-input{
+  border-color: var(--bs-border-color);
 }
 
 

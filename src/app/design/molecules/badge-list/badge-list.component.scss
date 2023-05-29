@@ -1,6 +1,12 @@
+@import '/src/screens.scss';
 
 .badge-list{
   display: inline-flex;
+  flex-direction: column;
+  
+  @include media-breakpoint-up(md){
+    flex-direction: row;
+  }
   
   &__label{
     margin-right: var(--spacer-4);
@@ -14,7 +20,7 @@
   
   &__entry,
   &__create-form{
-    margin: var(--spacer-0) var(--spacer-2) var(--spacer-2) var(--spacer-1);
+    margin: var(--spacer-0) var(--spacer-2) var(--spacer-2) var(--spacer-0);
   }
 
 }

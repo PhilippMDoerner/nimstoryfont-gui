@@ -1,32 +1,10 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { Campaign } from 'src/app/_models/campaign';
+import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
 import { MoleculesModule } from 'src/app/design/molecules';
 import { PageContainerComponent } from '../page-container/page-container.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PageComponent } from './page.component';
-
-const dummyCampaign: Campaign = {
-  name: 'Aldrune',
-  subtitle: 'A campaign for testing',
-  pk: 1,
-  background_image: '/assets/default_images/audio_pic_default.webp',
-  icon: 'https://www.aldrune.com/media/campaign_icons/favicon-128x128.png',
-  default_map: 123,
-  default_map_details: { pk: 123, name: 'Default Map' },
-  is_deactivated: false,
-  has_audio_recording_permission: true,
-  members: [],
-  admins: [],
-  guests: [],
-  member_group_name: 'Members',
-  admin_group_name: 'Admins',
-  guest_group_name: 'Guests',
-  emptySearchResponses: [
-    { id: 1, text: 'Empty response 1', campaign: 1 },
-    { id: 2, text: 'Empty response 2', campaign: 1 }
-  ]
-};
 
 const dummyUserData = {
   accessToken: {

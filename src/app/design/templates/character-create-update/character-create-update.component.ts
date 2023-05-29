@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Character, CharacterOrganization } from 'src/app/_models/character';
+import { Character, CharacterOrganization, OrganizationMembership } from 'src/app/_models/character';
 import { Organization } from 'src/app/_models/organization';
 import { OverviewItem } from 'src/app/_models/overview';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { BadgeListEntry } from '../../molecules';
 import { CreateUpdateState } from '../_models/create-update-states';
+
+type MembershipFormState = 'CREATE' | 'DISPLAY';
 
 @Component({
   selector: 'app-character-create-update',
@@ -26,8 +28,8 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges{
   @Output() cancel: EventEmitter<void> = new EventEmitter();
   @Output() addClass: EventEmitter<PlayerClass> = new EventEmitter();
   @Output() removeClass: EventEmitter<PlayerClass> = new EventEmitter();
-  @Output() addOrganizationMembership: EventEmitter<OverviewItem> = new EventEmitter();
-  @Output() removeOrganizationMembership: EventEmitter<OverviewItem> = new EventEmitter();
+  @Output() addOrganizationMembership: EventEmitter<OrganizationMembership> = new EventEmitter();
+  @Output() removeOrganizationMembership: EventEmitter<OrganizationMembership> = new EventEmitter();
   
   formlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildCheckboxConfig({
@@ -93,6 +95,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges{
   heading!: string;
   characterClasses!: BadgeListEntry[];
   characterOrganizations!: BadgeListEntry[];
+  membershipFormState: MembershipFormState = 'DISPLAY';
   
   constructor(
     private formlyService: FormlyService,
@@ -124,6 +127,14 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges{
         this.update.emit(submittedData as Character);
         break;
     }
+  }
+  
+  createMembership(event: any): void{
+    const membership: OrganizationMembership = {
+      ...event,
+      organization_id: parseInt(event.organization_id)
+    };
+    this.addOrganizationMembership.emit(membership);
   }
   
   private setCharacterClasses(): void{

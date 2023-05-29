@@ -8,7 +8,7 @@ export interface BaseCampaignData{
     background_image?: string;
     icon?: string;
     default_map?: number;
-    default_map_details?: {pk: number, name: string};
+    default_map_details?: {icon: string, image: string, name: string, id: number};
     is_deactivated?: boolean;
     has_audio_recording_permission?: boolean;
 }
@@ -29,6 +29,10 @@ export interface CampaignOverview extends BaseCampaignData{
     isMember: boolean;
     isAdmin: boolean;
     isGuest: boolean;
+    duration: {
+        start_date: string;
+        last_date: string;
+    }
 }
 
 export interface WikiStatistics{

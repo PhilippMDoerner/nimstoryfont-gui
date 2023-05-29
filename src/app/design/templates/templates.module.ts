@@ -19,6 +19,7 @@ import { RulesTemplateComponent } from './rules-template/rules-template.componen
 import { SearchComponent } from './search/search.component';
 import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 import { SpellsTemplateComponent } from './spells-template/spells-template.component';
+import { ProfileComponent } from './profile/profile.component';
 
 
 
@@ -42,6 +43,7 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     GeneralOverviewComponent,
     CreateUpdateComponent,
     CharacterCreateUpdateComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,

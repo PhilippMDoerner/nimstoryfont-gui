@@ -1,8 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { CampaignRole } from 'src/app/_models/campaign';
-import { CampaignMemberships, TokenData, UserData } from 'src/app/_models/token';
+import { CampaignMemberships, CampaignRole, CampaignRoles, TokenData, UserData } from 'src/app/_models/token';
 import { User } from 'src/app/_models/user';
 import { environment } from 'src/environments/environment';
 
@@ -98,15 +97,15 @@ export class TokenService {
       return false;
     }
     
-    return this.isSuperUser() || this.isAdmin() || role === CampaignRole.MEMBER || role === CampaignRole.ADMIN;
+    return this.isSuperUser() || this.isAdmin() || role === 'member' || role === 'admin';
   }
 
   public isCampaignAdmin(campaignName: string): boolean{
-    return this.isSuperUser() || this.isAdmin() || this.getCampaignRole(campaignName) === CampaignRole.ADMIN;
+    return this.isSuperUser() || this.isAdmin() || this.getCampaignRole(campaignName) === 'admin';
   }
 
   public isCampaignGuest(campaignName: string): boolean{
-    return this.isSuperUser() || this.isAdmin() || this.getCampaignRole(campaignName) === CampaignRole.GUEST;
+    return this.isSuperUser() || this.isAdmin() || this.getCampaignRole(campaignName) === 'guest';
   }
 
   public getCampaignRole(campaignName: string): CampaignRole | undefined{
@@ -115,8 +114,10 @@ export class TokenService {
     const memberships: CampaignMemberships = this.getCampaignMemberships();
     if (memberships == null) return undefined;
 
+    
     const role: string = memberships[campaignName.toLowerCase()];
-    return CampaignRole[role?.toUpperCase() as keyof typeof CampaignRole] as any;
+    const isValidRole = CampaignRoles.some(roleName => roleName === role);
+    return isValidRole ? (role as CampaignRole) : undefined;
   }
 
   /**Retrieves campaign memberships of a user from their token */

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
-import { CampaignRole } from 'src/app/_models/campaign';
+import { CampaignRole } from 'src/app/_models/token';
 import { RoutingService } from '../routing.service';
 import { TokenService } from './token.service';
 
@@ -99,9 +99,9 @@ export class CampaignGuardService extends AdminGuardService{
     const isCampaignMember: boolean = this.tokenService.isCampaignMember(campaignName);
     const isCampaignGuest: boolean = this.tokenService.isCampaignGuest(campaignName);
 
-    if (role === CampaignRole.ADMIN) return isCampaignAdmin;
-    if (role === CampaignRole.MEMBER) return isCampaignAdmin || isCampaignMember;
-    if (role === CampaignRole.GUEST) return isCampaignAdmin || isCampaignMember || isCampaignGuest;
+    if (role === 'admin') return isCampaignAdmin;
+    if (role === 'member') return isCampaignAdmin || isCampaignMember;
+    if (role === 'guest') return isCampaignAdmin || isCampaignMember || isCampaignGuest;
     
     return false;
   }

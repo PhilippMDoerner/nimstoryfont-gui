@@ -49,11 +49,3 @@ export interface WikiStatistics{
     spell_count: number;
     timestamp_count: number;
 }
-
-export enum CampaignRole{
-    MEMBER = "member",
-    ADMIN = "admin",
-    GUEST = "guest",
-    GLOBALGUEST = "globalguest",
-    GLOBALMEMBER = "globalmember",
-}

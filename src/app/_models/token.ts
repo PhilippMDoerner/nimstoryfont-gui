@@ -1,6 +1,14 @@
 
 export type CampaignRole = 'member' | 'admin' | 'guest' | 'globalguest' | 'globalmember';
 
+export const CampaignRoles: CampaignRole[] = [
+    'member',
+    'admin',
+    'guest',
+    "globalguest",
+    "globalmember",
+]
+
 export interface EncodedJWTToken{
     access: string,
     refresh: string,

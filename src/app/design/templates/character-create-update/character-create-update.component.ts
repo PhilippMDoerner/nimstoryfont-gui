@@ -73,6 +73,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges{
     })
   ];
 
+  organizationModel: Partial<OrganizationMembership> = {};
   organizationFormlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
       key: "role", 
@@ -132,11 +133,16 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges{
   createMembership(event: any): void{
     const membership: OrganizationMembership = {
       ...event,
-      organization_id: parseInt(event.organization_id)
+      organization_id: parseInt(event.organization_id),
+      member_id: this.userModel.pk,
     };
     this.addOrganizationMembership.emit(membership);
   }
   
+  setMembershipFormState(newState: MembershipFormState): void{
+    this.membershipFormState = newState;
+  }
+
   private setCharacterClasses(): void{
     this.characterClasses = this.userModel.player_class_connections?.map(connection => ({
         text: connection.player_class_details?.name ?? '',

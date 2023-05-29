@@ -47,7 +47,10 @@
   <div class="create-update__form form">
         
     <div class="form__player-classes">
-      <h4> {{userModel.name}}'s Classes </h4>
+      <h4 class="form__heading"> {{userModel.name}}'s Classes </h4>
+      
+      <app-separator class="form__heading-separator"></app-separator>
+
       <!-- Add-Class-Badge -->
       <h6>
         <app-badge-list
@@ -67,31 +70,27 @@
     </div>    
   
     <!-- Memberships -->
-    <div class="form__memberships">    
-      <h4> {{userModel.name}}'s Organization Memberships </h4>
-      
-      <!-- Add-Class-Badge -->
-      <h6>
-        <app-badge-list
-          [label]="'Membership'"
-          [entries]="characterOrganizations"
-          [createOptions]="{
-            options: organizations,
-            valueProp: 'pk',
-            labelProp: 'name',
-          }"
-          [canCreate]="true"
-          [canDelete]="true"
-          (entryCreate)="addOrganizationMembership.emit($event)"
-          (entryDelete)="removeOrganizationMembership.emit($event)"
-        ></app-badge-list>
-      </h6>
+    <div class="form__memberships">          
+      <!-- Form -->
+      <ng-container [ngSwitch]="membershipFormState">
+        <ng-container 
+          *ngSwitchCase="'CREATE'"
+          [ngTemplateOutlet]="createMembershipForm"
+        ></ng-container>
+        <ng-container 
+          *ngSwitchCase="'DISPLAY'"
+          [ngTemplateOutlet]="displayMembershipForm"
+        ></ng-container>
+      </ng-container>
+
     </div>
     
-    <app-separator></app-separator>
 
     <div class="form__character-data">
-      <h4> Character Data </h4>
+      <h4 class="form__heading"> Character Data </h4>
+      
+      <app-separator class="form__heading-separator"></app-separator>
+      
       <app-form
         [model]="userModel" 
         [fields]="formlyFields" 
@@ -101,7 +100,42 @@
     </div>
     
   </div>
+</ng-template>
+
+<ng-template #createMembershipForm>
+  <h4 class="form__heading"> Create Organization Membership </h4>
   
+  <app-separator class="form__heading-separator"></app-separator>
+  
+  <app-form
+    [model]="organizationModel"
+    [fields]="organizationFormlyFields"
+    (formlySubmit)="createMembership($event)"
+    (formlyCancel)="setMembershipFormState('DISPLAY')"
+  ></app-form>
+</ng-template>
+
+<ng-template #displayMembershipForm>
+  <h4 class="form__heading"> {{userModel.name}}'s Organization Memberships </h4>
+
+  <app-separator class="form__heading-separator"></app-separator>
+  
+  <h6>
+    <app-badge-list
+      [label]="'Membership'"
+      [entries]="characterOrganizations"
+      [canCreate]="false"
+      [canDelete]="true"
+      (entryCreate)="addOrganizationMembership.emit($event)"
+      (entryDelete)="removeOrganizationMembership.emit($event)"
+    ></app-badge-list>
+    <app-badge
+      [text]="'Add Membership'"
+      [type]="'PRIMARY'"
+      [icon]="'plus'"
+      (click)="setMembershipFormState('CREATE')"
+    ></app-badge>
+  </h6>
 </ng-template>
 
 <ng-template #outdatedUpdateForm>

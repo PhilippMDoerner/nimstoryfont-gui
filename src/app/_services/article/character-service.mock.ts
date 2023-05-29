@@ -186,6 +186,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
 ];
 
 export const dummyCharacter: Character = {
+  pk: 100,
   getAbsoluteRouterUrl: () => "/dummy/url",
   player_character: false,
   alive: true,

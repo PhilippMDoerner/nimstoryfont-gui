@@ -1,0 +1,81 @@
+<div class="container" [@slideInOut]>
+  <div class="row campaign__heading heading">
+    <div class="heading__buttons">
+      <a [routerLink]="profileUrl" class="heading__button">
+        <app-button
+          [type]="'SECONDARY'"
+          [icon]="'user-circle'"
+          [text]="'Profile'"
+        ></app-button>
+      </a>
+
+      <a (click)="logout.emit()" class="heading__button">
+        <app-button
+          [type]="'SECONDARY'"
+          [icon]="'sign-out-alt'"
+          [text]="'Logout'"
+        ></app-button>
+      </a>
+
+      <ng-container *ngIf="isGlobalAdmin">
+        <a [routerLink]="generalAdminUrl" class="heading__button">
+          <app-button
+            [type]="'INFO'"
+            [icon]="'user-cog'"
+            [text]="'General Administration'"
+          ></app-button>
+        </a>
+
+        <a [routerLink]="configTableUrl" class="heading__button">
+          <app-button
+            [type]="'INFO'"
+            [icon]="'table'"
+            [text]="'Config Tables'"
+          ></app-button>
+        </a>
+      </ng-container>
+    </div>
+
+    <h3 class="heading__text">
+      <ng-container *ngIf="campaigns && campaigns.length > 0; else noCampaignHeading">
+        Choose Your Campaign
+      </ng-container>
+      <app-spinner *ngIf="campaigns == null"></app-spinner>
+    </h3>
+  </div>
+
+  <div class="body">
+    <ng-container *ngIf="campaigns != null">
+      <ng-container *ngIf="campaigns.length > 0; else noCampaign">
+        <app-image-grid
+          class="body__images"
+          [entries]="campaigns"
+          [imageProp]="'background_image'"
+          [serverUrl]="serverUrl"
+          [labelProp]="'name'"
+          (entryClick)="onCampaignClick($event)"
+        ></app-image-grid>
+      </ng-container>
+    </ng-container>
+
+  </div>
+</div>
+
+<ng-template #noCampaign>
+  <div class="w-100 h-100 position-relative d-flex justify-content-center">
+    <img class="w-100 h-100" [src]="dragonFrameUrl" alt="Placeholder image for when no campaigns are available">
+    <div class="position-absolute frame-text">
+      <h4 class="mb-1">
+        You have not yet been invited into any campaign.
+      </h4>
+      <div>
+        Please inform your DM or the person within your group administrating the webserver 
+        to add you to the required permission group.
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #noCampaignHeading>
+    No Campaign available!
+</ng-template>

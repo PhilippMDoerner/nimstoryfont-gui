@@ -20,6 +20,7 @@ import { SearchComponent } from './search/search.component';
 import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 import { SpellsTemplateComponent } from './spells-template/spells-template.component';
 import { ProfileComponent } from './profile/profile.component';
+import { CampaignOverviewComponent } from './campaign-overview/campaign-overview.component';
 
 
 
@@ -44,6 +45,7 @@ import { ProfileComponent } from './profile/profile.component';
     CreateUpdateComponent,
     CharacterCreateUpdateComponent,
     ProfileComponent,
+    CampaignOverviewComponent,
   ],
   imports: [
     CommonModule,

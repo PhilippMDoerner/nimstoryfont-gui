@@ -1,4 +1,14 @@
-.image-grid{  
+:host{
+  --image-height: 90vh;
+}
+
+.container-fluid{
+  height: var(--image-height);
+}
+
+.image-grid{
+  height: 100%;
+    
   &__entry{
     cursor: pointer;
   }

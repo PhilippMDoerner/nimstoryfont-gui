@@ -85,8 +85,4 @@ export class FormComponent<T> implements OnInit, OnChanges{
   onCancel(): void{
     this.formlyCancel.emit();
   }
-  
-  checkKey(event: any){
-    console.log(event);
-  }
 }

@@ -18,6 +18,7 @@ export default {
     text: 'ButtonText',
     icon: 'plus',
     size: 'MEDIUM',
+    isSubmitButton: false,
   }
 } as Meta<ButtonComponent>;
 

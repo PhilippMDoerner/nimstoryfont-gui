@@ -1,6 +1,7 @@
 <button 
   class="btn" 
   [disabled]="disabled"
+  [type]="isSubmitButton ? 'submit' : 'button'"
   [ngClass]="{
     'btn-primary': type === 'PRIMARY' && !outline,
     'btn-secondary': type === 'SECONDARY'  && !outline,

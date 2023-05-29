@@ -12,6 +12,7 @@ export class ButtonComponent {
   @Input() icon?: Icon;
   @Input() type: ElementType = "PRIMARY";
   @Input() size: ElementSize = "MEDIUM";
+  @Input() isSubmitButton: boolean = false;
   @Input() disabled: boolean = false;
   @Input() outline: boolean = false;
 }

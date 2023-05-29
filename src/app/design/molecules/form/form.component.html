@@ -2,7 +2,6 @@
   class="form"
   [formGroup]="form" 
   [enctype]="enctype"
-  (keydown.enter)="onSubmit($event)"
 >
   <formly-form 
     [form]="form" 
@@ -21,12 +20,12 @@
         (click)="onCancel()"
       ></app-button>
         
-        <!-- Submit Button -->
-        <ng-container 
-          *ngIf="form.valid; 
-            then activeSubmitButton; 
-            else inactiveSubmitButton"
-        ></ng-container>
+      <!-- Submit Button -->
+      <ng-container 
+        *ngIf="form.valid; 
+          then activeSubmitButton; 
+          else inactiveSubmitButton"
+      ></ng-container>
     </div>
   </ng-container>
 
@@ -38,6 +37,7 @@
     [type]="submitButtonType" 
     [text]="'Submit'"
     [icon]="submitIcon"
+    [isSubmitButton]="true"
     (click)="onSubmit(undefined)"
   ></app-button>
 </ng-template>

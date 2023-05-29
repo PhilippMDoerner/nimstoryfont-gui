@@ -22,7 +22,7 @@
 </ng-template>
 
 <ng-template #createState>
-  <form class="form" (keydown.enter)="onSubmit()">
+  <form class="form">
     <select class="form-select"
       style="width: unset;"
       [name]="'select-' + labelProp"
@@ -56,6 +56,7 @@
       [type]="submitButtonType"
       [size]="'SMALL'"
       [icon]="'check'"
+      [isSubmitButton]="true"
       (click)="onSubmit()"
     ></app-button>
 

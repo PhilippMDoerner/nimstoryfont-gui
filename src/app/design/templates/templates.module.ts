@@ -21,6 +21,7 @@ import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 import { SpellsTemplateComponent } from './spells-template/spells-template.component';
 import { ProfileComponent } from './profile/profile.component';
 import { CampaignOverviewComponent } from './campaign-overview/campaign-overview.component';
+import { CampaignAdminComponent } from './campaign-admin/campaign-admin.component';
 
 
 
@@ -46,6 +47,7 @@ import { CampaignOverviewComponent } from './campaign-overview/campaign-overview
     CharacterCreateUpdateComponent,
     ProfileComponent,
     CampaignOverviewComponent,
+    CampaignAdminComponent,
   ],
   imports: [
     CommonModule,

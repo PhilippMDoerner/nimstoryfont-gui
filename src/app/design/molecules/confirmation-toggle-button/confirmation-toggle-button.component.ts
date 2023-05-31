@@ -1,6 +1,6 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
-import { ElementType, Icon } from '../../atoms';
+import { ElementSize, ElementType, Icon } from '../../atoms';
 
 
 @Component({
@@ -13,6 +13,7 @@ export class ConfirmationToggleButtonComponent {
   @Input() icon?: Icon;
   @Input() text?: string;
   @Input() toggleType: ElementType = 'DANGER';
+  @Input() toggleSize: ElementSize = 'MEDIUM';
   @Input() cancelButtonType: ElementType = 'SECONDARY';
   
   @Output() confirm: EventEmitter<null> = new EventEmitter();

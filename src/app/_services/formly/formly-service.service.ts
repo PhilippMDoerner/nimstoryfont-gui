@@ -322,7 +322,8 @@ export class FormlyService {
       ? this.overviewService.getCampaignOverviewItems(config.campaign as string, config.overviewType, sortProp)
       : this.overviewService.getAllOverviewItems(config.overviewType, sortProp);
         
-    if(!config.required){
+    const isRequiredField = config.required == null || config.required == true;
+    if(!isRequiredField){
       options = this.addEmptyOption(options, config);
     }
     

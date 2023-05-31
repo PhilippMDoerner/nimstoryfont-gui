@@ -1,4 +1,4 @@
-import { Campaign, CampaignOverview } from "src/app/_models/campaign";
+import { Campaign, CampaignOverview, WikiStatistics } from "src/app/_models/campaign";
 
 export const dummyCampaigns: CampaignOverview[] = [
   {
@@ -44,6 +44,25 @@ export const dummyCampaigns: CampaignOverview[] = [
   }
 ]
 
+export const dummyStatistics: WikiStatistics = {
+  character_count: 265,
+  item_count: 142,
+  location_count: 229,
+  creature_count: 42,
+  diaryentry_count: 101,
+  encounter_count: 954,
+  organization_count: 46,
+  quest_count: 69,
+  quote_count: 203,
+  session_audio_count: 69,
+  timestamp_count: 1121,
+  map_count: 7,
+  marker_count: 136,
+  spell_count: 22,
+  session_count: 90,
+  rule_count: 17
+};
+
 export const dummyCampaign: Campaign = {
   name: 'Aldrune',
   subtitle: 'A campaign for testing',
@@ -54,9 +73,101 @@ export const dummyCampaign: Campaign = {
   default_map_details: { id: 123, name: 'Default Map', icon: 'plus', image: 'blub.jpg' },
   is_deactivated: false,
   has_audio_recording_permission: true,
-  members: [],
-  admins: [],
-  guests: [],
+  members: [
+    {
+      username: "isofruit",
+      password: "password1",
+      pk: 1,
+      api_permissions: ["permission1", "permission2"],
+      groups: [1, 2],
+      group_details: [
+        { name: "group1", pk: 1 },
+        { name: "group2", pk: 2 }
+      ],
+      is_staff: true,
+      is_superuser: false,
+      email: "user1@example.com",
+      is_active: true
+    },
+    {
+      username: "user2",
+      password: "password2",
+      pk: 2,
+      api_permissions: ["permission3", "permission4"],
+      groups: [1, 3],
+      group_details: [
+        { name: "group1", pk: 1 },
+        { name: "group3", pk: 3 }
+      ],
+      is_staff: false,
+      is_superuser: false,
+      email: "user2@example.com",
+      is_active: true
+    }
+  ],
+  admins: [
+    {
+      username: "admin",
+      password: "adminpassword",
+      pk: 3,
+      api_permissions: ["permission1", "permission2", "permission3", "permission4"],
+      groups: [1, 2, 3],
+      group_details: [
+        { name: "group1", pk: 1 },
+        { name: "group2", pk: 2 },
+        { name: "group3", pk: 3 }
+      ],
+      is_staff: true,
+      is_superuser: true,
+      email: "admin@example.com",
+      is_active: true
+    },
+    {
+      username: "user3",
+      password: "password3",
+      pk: 4,
+      api_permissions: ["permission1"],
+      groups: [1],
+      group_details: [
+        { name: "group1", pk: 1 }
+      ],
+      is_staff: false,
+      is_superuser: false,
+      email: "user3@example.com",
+      is_active: true
+    }
+  ],
+  guests: [
+    {
+      username: "user4",
+      password: "password4",
+      pk: 5,
+      api_permissions: ["permission2", "permission3"],
+      groups: [2, 3],
+      group_details: [
+        { name: "group2", pk: 2 },
+        { name: "group3", pk: 3 }
+      ],
+      is_staff: false,
+      is_superuser: false,
+      email: "user4@example.com",
+      is_active: true
+    },
+    {
+      username: "user5",
+      password: "password5",
+      pk: 6,
+      api_permissions: ["permission4"],
+      groups: [3],
+      group_details: [
+        { name: "group3", pk: 3 }
+      ],
+      is_staff: false,
+      is_superuser: false,
+      email: "user5@example.com",
+      is_active: true
+    }
+  ],
   member_group_name: 'Members',
   admin_group_name: 'Admins',
   guest_group_name: 'Guests',

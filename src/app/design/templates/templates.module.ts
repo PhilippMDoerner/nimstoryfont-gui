@@ -22,6 +22,7 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
 import { ProfileComponent } from './profile/profile.component';
 import { CampaignOverviewComponent } from './campaign-overview/campaign-overview.component';
 import { CampaignAdminComponent } from './campaign-admin/campaign-admin.component';
+import { ConfigTablesComponent } from './config-tables/config-tables.component';
 
 
 
@@ -48,6 +49,7 @@ import { CampaignAdminComponent } from './campaign-admin/campaign-admin.componen
     ProfileComponent,
     CampaignOverviewComponent,
     CampaignAdminComponent,
+    ConfigTablesComponent,
   ],
   imports: [
     CommonModule,

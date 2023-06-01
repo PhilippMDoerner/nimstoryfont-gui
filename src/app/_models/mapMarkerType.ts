@@ -3,6 +3,8 @@ export interface MapMarkerType{
   is_text_marker: boolean,
   icon: string,
   color: string,
-  pk?: number,
+  id?: number,
   fontawesome_type: string
+  creation_datetime: string;
+  update_datetime: string;
 }

@@ -23,6 +23,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { CampaignOverviewComponent } from './campaign-overview/campaign-overview.component';
 import { CampaignAdminComponent } from './campaign-admin/campaign-admin.component';
 import { ConfigTablesComponent } from './config-tables/config-tables.component';
+import { SiteAdminComponent } from './site-admin/site-admin.component';
 
 
 
@@ -50,6 +51,7 @@ import { ConfigTablesComponent } from './config-tables/config-tables.component';
     CampaignOverviewComponent,
     CampaignAdminComponent,
     ConfigTablesComponent,
+    SiteAdminComponent,
   ],
   imports: [
     CommonModule,

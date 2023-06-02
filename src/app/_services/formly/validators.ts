@@ -148,15 +148,11 @@ function passwordMatchValidation(control: AbstractControl): ValidationErrors | n
   // avoid displaying the message error when values are empty
   const isAnyPasswordFieldEmpty = !passwordConfirm || !password;
   if (isAnyPasswordFieldEmpty) {
-    return { passwordMatch: true};
+    return { fieldMatch: true};
   }
   
   const arePasswordsMatching = passwordConfirm === password;
-  if (arePasswordsMatching) {
-    return { passwordMatch: true };
-  }
-
-  return null;
+  return arePasswordsMatching ? null : { fieldMatch: true}
 }
 export const fieldMatchValidator: ValidatorOption = {
   name: 'fieldMatch',

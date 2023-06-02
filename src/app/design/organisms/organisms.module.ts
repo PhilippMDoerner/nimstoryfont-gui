@@ -33,6 +33,7 @@ import { SessionaudioPlayerComponent } from './sessionaudio-player/sessionaudio-
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SpellComponent } from './spell/spell.component';
 import { SpellsComponent } from './spells/spells.component';
+import { UserRowComponent } from './user-row/user-row.component';
 
 
 
@@ -67,6 +68,7 @@ import { SpellsComponent } from './spells/spells.component';
     SearchHitComponent,
     SessionComponent,
     SessionaudioCardComponent,
+    UserRowComponent,
   ],
   imports: [
     CommonModule,
@@ -105,6 +107,7 @@ import { SpellsComponent } from './spells/spells.component';
     SearchHitComponent,
     SessionComponent,
     SessionaudioCardComponent,
+    UserRowComponent,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' },

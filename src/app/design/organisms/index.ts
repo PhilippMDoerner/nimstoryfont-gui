@@ -30,4 +30,4 @@ export { SessionaudioPlayerComponent } from './sessionaudio-player/sessionaudio-
 export { SidebarComponent } from './sidebar/sidebar.component';
 export { SpellComponent } from './spell/spell.component';
 export { SpellsComponent } from './spells/spells.component';
-
+export { UserRowComponent } from './user-row/user-row.component';

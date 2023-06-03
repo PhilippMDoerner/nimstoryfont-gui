@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { FormlyModule } from '@ngx-formly/core';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
@@ -12,6 +13,7 @@ import { dateMessage, dateValidator, faPrefixMessage, fieldMatchValidator, field
 import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { metaReducers, rootReducers } from './app.reducer';
 import { FormlyFileFieldComponent } from './design/molecules/formly-file-field/formly-file-field.component';
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent, OrganismsModule } from './design/organisms';
 import { DetailModule } from './detail/detail.module';
@@ -61,7 +63,8 @@ import { RootModule } from './root/root.module';
         sessionAuthorUniqueValidator,
       ],
     }),
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot(rootReducers , { metaReducers }),
+    EffectsModule.forRoot([]),
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { Campaign } from 'src/app/_models/campaign';
+import { CampaignOverview } from 'src/app/_models/campaign';
 import { ArticleKind, OverviewItem } from 'src/app/_models/overview';
 import { Icon } from '../../atoms';
 import { IconCardEntry } from '../../organisms';
@@ -27,9 +27,8 @@ export class HomeComponent implements OnInit, OnChanges{
     session: 'calendar-alt',
   }
   
-  
   @Input() serverUrl!: string;
-  @Input() campaignData?: Campaign;
+  @Input() campaignData?: CampaignOverview;
   @Input() articles!: OverviewItem[];
   
   @Output() search: EventEmitter<string> = new EventEmitter();

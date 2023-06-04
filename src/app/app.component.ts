@@ -3,9 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CampaignOverview } from './_models/campaign';
-import { loadCampaignSet } from './base.actions';
-import { selectCurrentCampaign } from './base.reducer';
-
+import { loadCampaignSet, selectCurrentCampaign } from './app';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

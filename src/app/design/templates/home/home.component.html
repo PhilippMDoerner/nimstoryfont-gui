@@ -1,21 +1,23 @@
 <app-page-container>
   <article class="container home">
     <!-- Heading -->
-    <header class="home__heading-container heading-container">
-      <img class="heading-container__icon"
-        [src]="serverUrl + campaignData?.icon" 
-        [alt]="DEFAULT_ICON"
-      />
-      
-      <h1 class="heading-container__heading"> 
-        {{campaignData?.name}} 
-      </h1>
-      
-      <app-html-text
-        class="heading-container__subheading" 
-        [text]="campaignData?.subtitle ?? ''"
-      ></app-html-text>
-    </header>
+    <ng-container *ngIf="campaignData">
+      <header class="home__heading-container heading-container">
+        <img class="heading-container__icon"
+          [src]="serverUrl + campaignData.icon" 
+          [alt]="DEFAULT_ICON"
+        />
+        
+        <h1 class="heading-container__heading"> 
+          {{campaignData.name}} 
+        </h1>
+        
+        <app-html-text
+          class="heading-container__subheading" 
+          [text]="campaignData.subtitle"
+        ></app-html-text>
+      </header>
+    </ng-container>
     
     <!-- Search Bar -->
     <app-search-field

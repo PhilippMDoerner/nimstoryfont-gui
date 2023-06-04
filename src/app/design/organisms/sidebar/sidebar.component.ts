@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Campaign } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
+import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 
 @Component({
@@ -14,6 +15,7 @@ export class SidebarComponent implements OnInit{
   
   @Output() logout: EventEmitter<null> = new EventEmitter();
   
+  serverUrl = environment.backendDomain;
   sidebarEntries: ArticleMetaData[] = SIDEBAR_ENTRIES; 
   isAdmin: boolean = false;
   campaignOverviewUrl: string = this.routingService.getRoutePath('campaign-overview');

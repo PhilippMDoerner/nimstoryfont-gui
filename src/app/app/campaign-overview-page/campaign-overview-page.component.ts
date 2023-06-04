@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { TokenService } from 'src/app/_services/utils/token.service';
 import { environment } from 'src/environments/environment';
-import { selectCampaigns } from '../campaign.reducer';
+import { selectCampaigns } from '../app.reducer';
 
 @Component({
   selector: 'app-campaign-overview-page',

@@ -22,7 +22,7 @@ export class RecentlyUpdatedService {
 
   getRecentlyUpdatedArticle(campaign: string, pageNumber: number): Observable<OverviewItem[]>{
     if(pageNumber == null) pageNumber = 0;
-
+    console.log("Recently updated")
     return this.http.get<any[]>(`${this.recentlyUpdatedUrl}/${campaign}/${pageNumber}`)
       .pipe(
         map(entries => entries.map(entry => this.parseOverviewEntity(entry))),

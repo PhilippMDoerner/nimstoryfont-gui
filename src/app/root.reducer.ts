@@ -1,23 +1,22 @@
 import { RouterReducerState, routerReducer } from '@ngrx/router-store';
 import { Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
-import { BASE_STORE, BaseState, baseReducer } from './base.reducer';
+import { AppState, appReducer } from './app';
 
-export interface AppState {
+export interface RootState {
   router: RouterReducerState,
-  [ BASE_STORE ]: BaseState,
+  app: AppState,
 }
 
 // REDUCER
-export const rootReducers: ActionReducerMap<AppState> = {
+export const rootReducers: ActionReducerMap<RootState> = {
   router: routerReducer,
-  base: baseReducer,
+  app: appReducer
 };
 
 // META_REDUCERS
-const debugLogStyles = 'font-weight: bold';
-function logger(reducer: ActionReducer<AppState>): ActionReducer<any, any> {
-  return (state: AppState, action: Action): AppState => {
+function logger(reducer: ActionReducer<RootState>): ActionReducer<any, any> {
+  return (state: RootState, action: Action): RootState => {
     const stateBefore = state;
     const stateAfter = reducer(state, action);
     

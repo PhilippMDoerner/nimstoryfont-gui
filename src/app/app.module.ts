@@ -1,7 +1,6 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { EffectsModule } from '@ngrx/effects';
@@ -13,19 +12,23 @@ import { dateMessage, dateValidator, faPrefixMessage, fieldMatchValidator, field
 import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { metaReducers, rootReducers } from './app.reducer';
-import { CampaignEffects } from './base.effect';
-import { CampaignModule } from './campaign/campaign.module';
+import { CampaignEffects } from './app/_effects/campaign.effect';
+import { CampaignOverviewPageComponent } from './app/campaign-overview-page/campaign-overview-page.component';
+import { HomePageComponent } from './app/home-page/home-page.component';
+import { MapPageComponent } from './app/map-page/map-page.component';
 import { FormlyFileFieldComponent } from './design/molecules';
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from './design/organisms';
 import { TemplatesModule } from './design/templates/templates.module';
+import { metaReducers, rootReducers } from './root.reducer';
 
 @NgModule({
   declarations: [
     AppComponent,
+    MapPageComponent,
+    HomePageComponent,
+    CampaignOverviewPageComponent,
   ],
   imports: [
-    CampaignModule,
     AdministrationModule,
     BrowserModule,
     BrowserAnimationsModule,

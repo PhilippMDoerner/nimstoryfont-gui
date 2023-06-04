@@ -1,8 +1,8 @@
 @import '/src/screens.scss';
 
 :host{
-  --sb-width: 20rem;
-  --sb-width-neg: -20rem;
+  --sb-width: 18rem;
+  --sb-width-neg: -18rem;
   --sb-margin: calc(calc(var(--sb-width) * 0.9));
   
   display: unset;
@@ -20,7 +20,7 @@
   max-width: 90vw;
   width: var(--sb-width);
   
-  @include media-breakpoint-up(md){
+  @include media-breakpoint-up(lg){
     position: unset;
     z-index: unset;
   }

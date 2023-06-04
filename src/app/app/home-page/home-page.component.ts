@@ -4,8 +4,8 @@ import { Observable, first } from 'rxjs';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { OverviewItem } from 'src/app/_models/overview';
 import { environment } from 'src/environments/environment';
-import { loadRecentlyUpdatedArticles, searchArticles } from '../campaign.actions';
-import { selectCurrentCampaign, selectRecentlyUpdatedArticles } from '../campaign.reducer';
+import { loadRecentlyUpdatedArticles, searchArticles } from '../app.actions';
+import { selectCurrentCampaign, selectRecentlyUpdatedArticles } from '../app.reducer';
 
 @Component({
   selector: 'app-home-page',
@@ -13,7 +13,7 @@ import { selectCurrentCampaign, selectRecentlyUpdatedArticles } from '../campaig
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit{
-  serverUrl = environment.apiUrl;
+  serverUrl = environment.backendDomain;
   campaignData$!: Observable<CampaignOverview | undefined>;
   recentlyUpdatedArticles$!: Observable<OverviewItem[]>;
   
@@ -22,6 +22,7 @@ export class HomePageComponent implements OnInit{
   ){}
   
   ngOnInit(): void {
+    console.log(this.store);
     this.campaignData$ = this.store.select(selectCurrentCampaign);
     this.recentlyUpdatedArticles$ = this.store.select(selectRecentlyUpdatedArticles);
   }

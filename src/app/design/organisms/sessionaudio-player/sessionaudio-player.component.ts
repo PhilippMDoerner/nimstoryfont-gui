@@ -74,12 +74,12 @@ export class SessionaudioPlayerComponent implements OnInit, OnChanges{
     setTimeout(() => this.currentTime = undefined, 1);
   }
   
-  onSubmit(timestamp: {name: string, time: string}): void{
-    const time: number = this.stringToTime(timestamp.time);
+  onSubmit(timestamp: {name?: string, time?: number}): void{
+    // const time: number = this.stringToTime(timestamp.time as string);
     
     const newTimestamp = {
-      name: timestamp.name,
-      time,
+      name: timestamp.name as string,
+      time: timestamp.time as number,
       session_audio: this.sessionAudioPk,
     };
     

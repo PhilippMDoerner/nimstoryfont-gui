@@ -15,7 +15,7 @@
         >
           <a class="brand__home-link" [routerLink]="homeUrl">
             <h3 class="brand__home-link-text"> 
-              <img class="brand__icon" [src]="campaign.icon" alt="..." />
+              <img class="brand__icon" [src]="serverUrl + campaign.icon" alt="..." />
               <div class="brand__home-link-text-text">{{campaign.name }}</div>
             </h3>
           </a>

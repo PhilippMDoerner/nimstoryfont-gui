@@ -20,7 +20,6 @@ export class RefreshTokenService {
    */
   public refreshUserData(): Observable<UserData>{
     this.startWaitForRefreshState();
-
     return this.tokenService.refreshUserData().pipe(
       tap((userData: UserData) => {
         this.tokenService.setUserData(userData);

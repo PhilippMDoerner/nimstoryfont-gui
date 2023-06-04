@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { Campaign } from "../_models/campaign";
+import { Campaign, CampaignOverview } from "../_models/campaign";
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
 
@@ -24,3 +24,10 @@ export const loadRecentlyUpdatedArticlesSuccess = createAction('[Campaign] Load 
 export const loadRecentlyUpdatedArticlesFailure = createAction('[Campaign] Load Recently Updated Articles Failure', props<{ error: any }>());
 
 export const searchArticles = createAction('[Campaign] Search Campaign', props<{ campaignName: string, search: string}>());
+
+export const loadCampaignSet = createAction('[Base] Load Campaignset');
+export const loadCampaignSetSuccess = createAction('[Base] Load Campaignset Success', props<{ campaigns: CampaignOverview[] }>());
+export const loadCampaignSetFailure = createAction('[Base] Load Campaignset Failure', props<{ error: any }>());
+
+export const setCurrentCampaign = createAction('[Base] Set Current Campaign', props<{ campaignName: string }>());
+export const clearCurrentCampaign = createAction('[Base] Clear Current Campaign');

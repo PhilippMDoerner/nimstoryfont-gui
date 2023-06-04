@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { Action } from "@ngrx/store";
 import { Observable, catchError, of, switchMap } from "rxjs";
-import { CampaignOverview } from "./_models/campaign";
-import { CampaignService } from "./_services/utils/campaign.service";
-import { loadCampaignSet, loadCampaignSetFailure, loadCampaignSetSuccess } from "./base.actions";
+import { CampaignOverview } from "../../_models/campaign";
+import { CampaignService } from "../../_services/utils/campaign.service";
+import { loadCampaignSet, loadCampaignSetFailure, loadCampaignSetSuccess } from "../app.actions";
 
 @Injectable()
 export class CampaignEffects {
@@ -23,4 +23,5 @@ export class CampaignEffects {
     private actions$: Actions,
     private campaignService: CampaignService,
   ) {}
+
 }

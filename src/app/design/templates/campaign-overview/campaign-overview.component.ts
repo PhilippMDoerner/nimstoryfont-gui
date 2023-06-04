@@ -45,7 +45,7 @@ export class CampaignOverviewComponent implements OnInit{
   onCampaignClick(event: CampaignOverview): void{
     this.routingService.routeToPath(
       'home',
-      { campaignName: event.name}
+      { campaign: event.name}
     );
   }
 }

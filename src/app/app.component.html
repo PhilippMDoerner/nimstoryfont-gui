@@ -1,1 +1,4 @@
-<h1>Potato</h1>
+<app-page
+  [serverUrl]="serverUrl"
+  [campaign]="(campaign$ | async) ?? undefined"
+></app-page>

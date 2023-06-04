@@ -14,19 +14,18 @@ import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { metaReducers, rootReducers } from './app.reducer';
-import { FormlyFileFieldComponent } from './design/molecules/formly-file-field/formly-file-field.component';
-import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent, OrganismsModule } from './design/organisms';
-import { DetailModule } from './detail/detail.module';
-import { RootModule } from './root/root.module';
+import { CampaignEffects } from './base.effect';
+import { CampaignModule } from './campaign/campaign.module';
+import { FormlyFileFieldComponent } from './design/molecules';
+import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from './design/organisms';
+import { TemplatesModule } from './design/templates/templates.module';
 
 @NgModule({
   declarations: [
     AppComponent,
   ],
   imports: [
-    OrganismsModule,
-    RootModule,
-    DetailModule,
+    CampaignModule,
     AdministrationModule,
     BrowserModule,
     BrowserAnimationsModule,
@@ -64,7 +63,10 @@ import { RootModule } from './root/root.module';
       ],
     }),
     StoreModule.forRoot(rootReducers , { metaReducers }),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([
+      CampaignEffects,
+    ]),
+    TemplatesModule,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },

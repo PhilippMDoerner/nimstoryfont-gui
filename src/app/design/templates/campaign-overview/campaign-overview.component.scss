@@ -8,9 +8,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--bs-black);
-  position: absolute;
-  top: 0px;
-  left: 0px;
+  position: relative;
 }
 
 .campaign{
@@ -52,6 +50,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
   
   &__images{
     height: 100%;

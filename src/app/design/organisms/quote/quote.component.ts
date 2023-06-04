@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { copyToClipboard } from 'src/app/campaign/_functions/clipboard';
 import { BadgeListEntry } from 'src/app/design/molecules';
-import { copyToClipboard } from 'src/app/detail/_functions/clipboard';
 import { Character } from '../../../_models/character';
 import { Quote, QuoteConnection } from '../../../_models/quote';
 

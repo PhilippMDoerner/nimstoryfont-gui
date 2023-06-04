@@ -25,7 +25,7 @@ export class RuleComponent implements OnInit{
   @Output() ruleUpdate: EventEmitter<Rule> = new EventEmitter();
   @Output() ruleCreateCancel: EventEmitter<null> = new EventEmitter();
   
-  userModel?: Rule;
+  userModel?: Partial<Rule>;
   state!: RuleState;
 
   formlyFields: FormlyFieldConfig[] = [
@@ -70,9 +70,9 @@ export class RuleComponent implements OnInit{
     this.userModel = { ...newModel } as Rule;
   }
   
-  onRuleCreate(rule: Rule){
-    this.ruleCreate.emit(rule);
-    this.rule = rule;
+  onRuleCreate(rule?: Partial<Rule>){
+    this.ruleCreate.emit(rule as Rule);
+    this.rule = rule as Rule;
     this.changeState('DISPLAY', undefined);
   }
   
@@ -80,9 +80,9 @@ export class RuleComponent implements OnInit{
     this.ruleDelete.emit(this.rule);
   }
   
-  onRuleUpdate(rule: Rule){
-    this.ruleUpdate.emit(rule);
-    this.rule = rule;
+  onRuleUpdate(rule?: Partial<Rule>){
+    this.ruleUpdate.emit(rule as Rule);
+    this.rule = rule as Rule;
     this.changeState('DISPLAY', undefined);
   }
   

@@ -22,7 +22,6 @@ export class ImageGridComponent implements OnInit{
   columnCount: ColumnCount = 1;
   
   ngOnInit(): void {
-    console.log(this);
     this.setColumnCount();
     this.entryGrid = _.chunk(this.entries, this.columnCount);
   }

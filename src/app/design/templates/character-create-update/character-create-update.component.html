@@ -1,37 +1,39 @@
-<article class="container create-update">
-  <h1 class="create-update__heading heading">
-    
-    <span class="heading__text">
-      {{ state === 'CREATE' ? 'Create new Character' : 'Update Character' }}
-    </span>  
-    
-    <!-- Heading -->
-    <div class="heading__edit-cancel">
-      <app-button
-        (click)="onCancel()"
-        [icon]="'times'"
-        [type]="'SECONDARY'"
-      ></app-button>
-    </div>
-  </h1>
-
-  <!-- Form -->
-  <ng-container [ngSwitch]="state">
-    <ng-container 
-      *ngSwitchCase="'CREATE'"
-      [ngTemplateOutlet]="createForm"
-    ></ng-container>
-    <ng-container 
-      *ngSwitchCase="'UPDATE'"
-      [ngTemplateOutlet]="updateForm"
-    ></ng-container>
-    <ng-container 
-      *ngSwitchCase="'OUTDATED_UPDATE'"
-      [ngTemplateOutlet]="outdatedUpdateForm"
-    ></ng-container>
-  </ng-container>
+<app-page-container>
+  <article class="container create-update">
+    <h1 class="create-update__heading heading">
+      
+      <span class="heading__text">
+        {{ state === 'CREATE' ? 'Create new Character' : 'Update Character' }}
+      </span>  
+      
+      <!-- Heading -->
+      <div class="heading__edit-cancel">
+        <app-button
+          (click)="onCancel()"
+          [icon]="'times'"
+          [type]="'SECONDARY'"
+        ></app-button>
+      </div>
+    </h1>
   
-</article>
+    <!-- Form -->
+    <ng-container [ngSwitch]="state">
+      <ng-container 
+        *ngSwitchCase="'CREATE'"
+        [ngTemplateOutlet]="createForm"
+      ></ng-container>
+      <ng-container 
+        *ngSwitchCase="'UPDATE'"
+        [ngTemplateOutlet]="updateForm"
+      ></ng-container>
+      <ng-container 
+        *ngSwitchCase="'OUTDATED_UPDATE'"
+        [ngTemplateOutlet]="outdatedUpdateForm"
+      ></ng-container>
+    </ng-container>
+    
+  </article>
+</app-page-container>
 
 <ng-template #createForm>
   <app-form

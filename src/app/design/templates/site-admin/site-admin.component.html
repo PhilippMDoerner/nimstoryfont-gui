@@ -1,189 +1,190 @@
-
-<article class="container site-admin">
-  <a class="site-admin__return-button" [routerLink]="campaignOverviewUrl">
-    <app-button
-      [type]="'SECONDARY'"
-      [icon]="'globe-americas'"
-      [text]="'Back to campaign overview'"
-    ></app-button>
-  </a>
-  
-  <!-- Users Section -->
-  <div class="site-admin__user-section user-section">
-    <!-- Section Heading -->
-    <div class="d-flex justify-content-between">
-      <h3 class="mb-0"> 
-        <app-icon [icon]="'user'"></app-icon>
-        Users
-      </h3>
-      
-      <!-- Heading Buttons -->
-      <div class="align-self-end position-relative top1">
-        <!-- Add Users -->
-        <app-button
-          [type]="'DARK'"
-          [icon]="userState === 'CREATE' ? 'times' : 'user-plus'"
-          [text]="userState === 'CREATE' ? 'Cancel User Creation' : 'Add User'"
-          (click)="userState === 'CREATE' ? setUserState('DISPLAY') : setUserState('CREATE')"
-        ></app-button>
-      </div>
-    </div>
-
-    <app-separator class="site-admin__separator"></app-separator>
-
-    <!-- New Table Entry -->
-    <ng-container *ngIf="userState === 'CREATE'">
-      <app-card class="my-2">
-        <h4>Adding new User</h4>
-        <!-- Form -->
-        <app-form 
-          [model]="userModel" 
-          [fields]="userFields" 
-          [cancelButtonType]="'DARK'"
-          (formlySubmit)="createNewUser($event)" 
-          (formlyCancel)="setUserState('DISPLAY')"
-        ></app-form>
-      </app-card>
-    </ng-container>
-
-    <!-- Table -->
-    <ng-container *ngIf="userState === 'DISPLAY'">
-      <ng-container *ngFor="let card of userCards; let i=index">
-        <app-collapsible-panel [isOpen]="card.isOpen" class="user-section__user">
-          <ng-container heading>
-            {{ card.user.username | titlecase }}
-          </ng-container>
-          
-          <app-user-row
-            body
-            [user]="card.user"
-            [groups]="allGroups"
-            [canCreate]="true"
-            [canDelete]="true"
-            (addGroup)="addUserGroup.emit({group: $event, user: card.user})"
-            (removeGroup)="removeUserGroup.emit({group: $event, user: card.user})"
-            (deleteUser)="deleteUser.emit($event)"
-          ></app-user-row>
-        </app-collapsible-panel>
-      </ng-container>
+<app-page-container>
+  <article class="container site-admin">
+    <a class="site-admin__return-button" [routerLink]="campaignOverviewUrl">
+      <app-button
+        [type]="'SECONDARY'"
+        [icon]="'globe-americas'"
+        [text]="'Back to campaign overview'"
+      ></app-button>
+    </a>
+    
+    <!-- Users Section -->
+    <div class="site-admin__user-section user-section">
+      <!-- Section Heading -->
+      <div class="d-flex justify-content-between">
+        <h3 class="mb-0"> 
+          <app-icon [icon]="'user'"></app-icon>
+          Users
+        </h3>
         
-      <div class="mt-3">(†): Deactivated/Deleted Account </div>
-    </ng-container>
-
-  </div>
-
-  <!-- Database Section -->
-  <div class="mb-3">
-    <!-- Section Heading -->
-    <div class="d-flex justify-content-between">
-      <h3 class="mb-0"> 
-        <app-icon [icon]="'database'"></app-icon>
-        Database
-      </h3>
-
-      <!-- Heading Buttons -->
-      <div class="align-self-end position-relative top1">
-        <!-- Download Database -->
-        <app-button 
-          [type]="'PRIMARY'"
-          [icon]="'database'"
-          [text]="'Download Database'"
-          (click)="downloadDatabase.emit()"
-        ></app-button>
-
-        <!-- Clear Tokens -->
-        <!-- <div class="btn btn-danger border-white"> 
-            <span class="fa fa-trash"></span>
-            Clear > 7 day old Tokens 
-        </div> -->
-      </div>
-
-    </div>
-
-    <app-separator class="site-admin__separator"></app-separator>
-      
-    <!-- Section Body -->
-    <!-- Statistics -->
-    <div class="mb-5">
-      <ng-container *ngFor="let statistic of statistics | keyvalue">
-        <div class="row">
-          <div class="col-6 col-md-3"> {{ statistic.key }}</div>
-          <div class="col-6 col-md-3"> {{ statistic.value }}</div>
+        <!-- Heading Buttons -->
+        <div class="align-self-end position-relative top1">
+          <!-- Add Users -->
+          <app-button
+            [type]="'DARK'"
+            [icon]="userState === 'CREATE' ? 'times' : 'user-plus'"
+            [text]="userState === 'CREATE' ? 'Cancel User Creation' : 'Add User'"
+            (click)="userState === 'CREATE' ? setUserState('DISPLAY') : setUserState('CREATE')"
+          ></app-button>
         </div>
+      </div>
+  
+      <app-separator class="site-admin__separator"></app-separator>
+  
+      <!-- New Table Entry -->
+      <ng-container *ngIf="userState === 'CREATE'">
+        <app-card class="my-2">
+          <h4>Adding new User</h4>
+          <!-- Form -->
+          <app-form 
+            [model]="userModel" 
+            [fields]="userFields" 
+            [cancelButtonType]="'DARK'"
+            (formlySubmit)="createNewUser($event)" 
+            (formlyCancel)="setUserState('DISPLAY')"
+          ></app-form>
+        </app-card>
       </ng-container>
-    </div>
-  </div>
-
-
-  <!-- Campaign Section -->
-  <div class="site-admin__campaign-section campaign-section">
-    <!-- Section Heading -->
-    <div class="campaign-section__heading heading">
-      <h3 class="heading__text"> 
-        <app-icon [icon]="'dragon'"></app-icon> 
-        Campaigns
-        <ng-container *ngIf="campaignState === 'WAIT_WHILE_CREATING'">
-          <app-spinner class="heading__text heading__text--loading"></app-spinner>
+  
+      <!-- Table -->
+      <ng-container *ngIf="userState === 'DISPLAY'">
+        <ng-container *ngFor="let card of userCards; let i=index">
+          <app-collapsible-panel [isOpen]="card.isOpen" class="user-section__user">
+            <ng-container heading>
+              {{ card.user.username | titlecase }}
+            </ng-container>
+            
+            <app-user-row
+              body
+              [user]="card.user"
+              [groups]="allGroups"
+              [canCreate]="true"
+              [canDelete]="true"
+              (addGroup)="addUserGroup.emit({group: $event, user: card.user})"
+              (removeGroup)="removeUserGroup.emit({group: $event, user: card.user})"
+              (deleteUser)="deleteUser.emit($event)"
+            ></app-user-row>
+          </app-collapsible-panel>
         </ng-container>
-      </h3>
-
-      <!-- Heading Buttons -->
-      <div class="heading__button">
-        <!-- Add Campaign -->
-        <app-button
-          [type]="'PRIMARY'"
-          [icon]="campaignState === 'CREATE' ? 'times' : 'plus'"
-          [text]="campaignState === 'CREATE' ? 'Cancel Campaign Creation' : 'Add Campaign'"
-          (click)="campaignState === 'CREATE' ? setCampaignState('DISPLAY') : setCampaignState('CREATE')"
-        ></app-button>
-      </div> 
+          
+        <div class="mt-3">(†): Deactivated/Deleted Account </div>
+      </ng-container>
+  
     </div>
-
-    <app-separator class="site-admin__separator"></app-separator>
-
-    <!-- Section Body -->
-    <ng-container *ngIf="campaignState === 'DISPLAY'">
-      <div class="campaign-section__body body">
-        <ng-container *ngFor="let campaign of campaigns">
-          <div class="row mb-4">
-            <div class="col-sm-3">
-              <img 
-                [src]="serverUrl + campaign.icon" 
-                [alt]="'Icon of campaign ' + campaign.name" 
-                class="body__icon"
-              >
-              <strong> {{ campaign.name }} </strong>
-            </div>
-            <div class="col-sm-3"> {{campaign.admins?.length ?? 0}} Admins</div>
-            <div class="col-sm-3"> {{campaign.members?.length ?? 0}} Members</div>
-            <div class="col-sm-3"> {{campaign.guests?.length ?? 0}} Guest</div>
+  
+    <!-- Database Section -->
+    <div class="mb-3">
+      <!-- Section Heading -->
+      <div class="d-flex justify-content-between">
+        <h3 class="mb-0"> 
+          <app-icon [icon]="'database'"></app-icon>
+          Database
+        </h3>
+  
+        <!-- Heading Buttons -->
+        <div class="align-self-end position-relative top1">
+          <!-- Download Database -->
+          <app-button 
+            [type]="'PRIMARY'"
+            [icon]="'database'"
+            [text]="'Download Database'"
+            (click)="downloadDatabase.emit()"
+          ></app-button>
+  
+          <!-- Clear Tokens -->
+          <!-- <div class="btn btn-danger border-white"> 
+              <span class="fa fa-trash"></span>
+              Clear > 7 day old Tokens 
+          </div> -->
+        </div>
+  
+      </div>
+  
+      <app-separator class="site-admin__separator"></app-separator>
+        
+      <!-- Section Body -->
+      <!-- Statistics -->
+      <div class="mb-5">
+        <ng-container *ngFor="let statistic of statistics | keyvalue">
+          <div class="row">
+            <div class="col-6 col-md-3"> {{ statistic.key }}</div>
+            <div class="col-6 col-md-3"> {{ statistic.value }}</div>
           </div>
         </ng-container>
       </div>
-    </ng-container>
-
-    <!-- New Campaign Entry -->
-    <ng-container *ngIf="campaignState === 'CREATE'">
-      <app-card class="my-2">
-        <h4>Adding new Campaign</h4>
-        <!-- Form -->
-        <app-form 
-          [model]="campaignModel" 
-          [fields]="campaignFields"
-          [cancelButtonType]="'DARK'"
-          (formlySubmit)="createNewCampaign($event)"
-          (formlyCancel)="setCampaignState('DISPLAY')"
-        ></app-form>    
-      </app-card>
-    </ng-container>
-  </div>
-
-  <a class="site-admin__return-button" [routerLink]="campaignOverviewUrl">
-    <app-button
-      [type]="'SECONDARY'"
-      [icon]="'globe-americas'"
-      [text]="'Back to campaign overview'"
-    ></app-button>
-  </a>
-
-</article>
+    </div>
+  
+  
+    <!-- Campaign Section -->
+    <div class="site-admin__campaign-section campaign-section">
+      <!-- Section Heading -->
+      <div class="campaign-section__heading heading">
+        <h3 class="heading__text"> 
+          <app-icon [icon]="'dragon'"></app-icon> 
+          Campaigns
+          <ng-container *ngIf="campaignState === 'WAIT_WHILE_CREATING'">
+            <app-spinner class="heading__text heading__text--loading"></app-spinner>
+          </ng-container>
+        </h3>
+  
+        <!-- Heading Buttons -->
+        <div class="heading__button">
+          <!-- Add Campaign -->
+          <app-button
+            [type]="'PRIMARY'"
+            [icon]="campaignState === 'CREATE' ? 'times' : 'plus'"
+            [text]="campaignState === 'CREATE' ? 'Cancel Campaign Creation' : 'Add Campaign'"
+            (click)="campaignState === 'CREATE' ? setCampaignState('DISPLAY') : setCampaignState('CREATE')"
+          ></app-button>
+        </div> 
+      </div>
+  
+      <app-separator class="site-admin__separator"></app-separator>
+  
+      <!-- Section Body -->
+      <ng-container *ngIf="campaignState === 'DISPLAY'">
+        <div class="campaign-section__body body">
+          <ng-container *ngFor="let campaign of campaigns">
+            <div class="row mb-4">
+              <div class="col-sm-3">
+                <img 
+                  [src]="serverUrl + campaign.icon" 
+                  [alt]="'Icon of campaign ' + campaign.name" 
+                  class="body__icon"
+                >
+                <strong> {{ campaign.name }} </strong>
+              </div>
+              <div class="col-sm-3"> {{campaign.admins?.length ?? 0}} Admins</div>
+              <div class="col-sm-3"> {{campaign.members?.length ?? 0}} Members</div>
+              <div class="col-sm-3"> {{campaign.guests?.length ?? 0}} Guest</div>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+  
+      <!-- New Campaign Entry -->
+      <ng-container *ngIf="campaignState === 'CREATE'">
+        <app-card class="my-2">
+          <h4>Adding new Campaign</h4>
+          <!-- Form -->
+          <app-form 
+            [model]="campaignModel" 
+            [fields]="campaignFields"
+            [cancelButtonType]="'DARK'"
+            (formlySubmit)="createNewCampaign($event)"
+            (formlyCancel)="setCampaignState('DISPLAY')"
+          ></app-form>    
+        </app-card>
+      </ng-container>
+    </div>
+  
+    <a class="site-admin__return-button" [routerLink]="campaignOverviewUrl">
+      <app-button
+        [type]="'SECONDARY'"
+        [icon]="'globe-americas'"
+        [text]="'Back to campaign overview'"
+      ></app-button>
+    </a>
+  
+  </article>
+</app-page-container>  

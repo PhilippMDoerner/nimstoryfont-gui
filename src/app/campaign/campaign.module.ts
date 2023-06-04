@@ -11,12 +11,14 @@ import { CampaignRoutingModule } from './campaign-routing.module';
 import { CAMPAIGN_STORE, campaignReducer } from './campaign.reducer';
 import { HomePageComponent } from './home-page/home-page.component';
 import { MapPageComponent } from './map-page/map-page.component';
+import { CampaignOverviewPageComponent } from './campaign-overview-page/campaign-overview-page.component';
 
 
 @NgModule({
   declarations: [
     MapPageComponent,
     HomePageComponent,
+    CampaignOverviewPageComponent,
   ],
   imports: [
     CommonModule,

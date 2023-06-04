@@ -1,0 +1,6 @@
+<app-campaign-overview
+  [serverUrl]="serverUrl"
+  [userName]="userName"
+  [campaigns]="(campaigns$ | async)!"
+  [isGlobalAdmin]="isGlobalAdmin"
+></app-campaign-overview>

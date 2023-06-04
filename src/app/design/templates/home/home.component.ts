@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit, OnChanges{
   
   
   @Input() serverUrl!: string;
-  @Input() campaignData!: Campaign;
+  @Input() campaignData?: Campaign;
   @Input() articles!: OverviewItem[];
   
   @Output() search: EventEmitter<string> = new EventEmitter();

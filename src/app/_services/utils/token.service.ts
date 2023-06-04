@@ -148,7 +148,14 @@ export class TokenService {
 
     const isExpired = currentTimestamp >= expiryTimestamp;
     if (isExpired){
-      console.log(`${token.type} Token is expired. Request timestamp: ${new Date(currentTimestamp*1000).toString()}. Token expiry timestamp: ${new Date(expiryTimestamp*1000).toString()}`)
+      const currentDate = new Date(currentTimestamp*1000).toString();
+      const expiryDate = new Date(expiryTimestamp*1000).toString();
+      const tokenName = token.type.toLocaleUpperCase();
+      console.log(`
+        ${tokenName} Token is expired. 
+        Request timestamp: ${currentDate}. 
+        Token expiry timestamp: ${expiryDate}
+      `);
     }
     return isExpired;
   }

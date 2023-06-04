@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Campaign } from 'src/app/_models/campaign';
-import { CampaignRole, UserData } from 'src/app/_models/token';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { TokenService } from 'src/app/_services/utils/token.service';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 
 @Component({
@@ -11,7 +11,6 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 })
 export class SidebarComponent implements OnInit{
   @Input() campaign!: Campaign;
-  @Input() user!: UserData;
   
   @Output() logout: EventEmitter<null> = new EventEmitter();
   
@@ -24,16 +23,25 @@ export class SidebarComponent implements OnInit{
   
   constructor(
     private routingService: RoutingService,
+    private tokenService: TokenService,
   ){}
   
   ngOnInit(): void {
+    this.setUrls();
+    this.setIsAdmin(); 
+  }
+  
+  private setUrls(): void{
+    const userName = this.tokenService.getCurrentUserName();
+
     this.homeUrl = this.routingService.getRoutePath('home', {campaign: this.campaign.name});
     this.campaignAdminUrl = this.routingService.getRoutePath('campaign-admin', {campaign: this.campaign.name});
-    this.profileUrl = this.routingService.getRoutePath('direct-campaign-profile', {username: this.user.userName, campaign: this.campaign.name });
-    
-    const role: CampaignRole = this.user.campaignMemberships[this.campaign.name];
-    const isCampaignAdmin = role === 'admin';
-    const isSiteAdmin = this.user.isAdmin || this.user.isSuperUser;
+    this.profileUrl = this.routingService.getRoutePath('direct-campaign-profile', {username: userName, campaign: this.campaign.name });
+  }
+  
+  private setIsAdmin(): void{
+    const isCampaignAdmin = this.tokenService.isCampaignAdmin(this.campaign.name);
+    const isSiteAdmin = this.tokenService.isAdmin() || this.tokenService.isSuperUser();
     this.isAdmin = isCampaignAdmin || isSiteAdmin;
   }
 }

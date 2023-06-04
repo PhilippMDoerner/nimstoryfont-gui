@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { Campaign } from 'src/app/_models/campaign';
-import { UserData } from 'src/app/_models/token';
 
 @Component({
   selector: 'app-page',
@@ -8,9 +7,8 @@ import { UserData } from 'src/app/_models/token';
   styleUrls: ['./page.component.scss']
 })
 export class PageComponent {
-  @Input() user!: UserData;
-  @Input() campaign!: Campaign;
   @Input() serverUrl!: string;
+  @Input() campaign?: Campaign;
   
   @ViewChild('sidebar') sidebarElement!: ElementRef;
   @ViewChild('content') contentElement!: ElementRef;

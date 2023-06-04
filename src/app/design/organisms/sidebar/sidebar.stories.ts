@@ -4,28 +4,7 @@ import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
 import { MoleculesModule } from 'src/app/design/molecules';
 import { SidebarComponent } from './sidebar.component';
 
-const dummyUserData = {
-  accessToken: {
-    token: "abc123",
-    exp: 1651345060,
-    type: 'access',
-  },
-  refreshToken: {
-    token: "def456",
-    exp: 1651345090,
-    type: 'refresh',
-  },
-  userId: 123,
-  userName: "John Doe",
-  isAdmin: true,
-  isSuperUser: false,
-  campaignMemberships: {
-    "Campaign A": 'member',
-    "Campaign B": 'admin',
-  }
-};
-
-
+// Add MockTokenService
 
 export default {
   title: 'DesignSystem/Organisms/SidebarComponent',
@@ -41,7 +20,6 @@ export default {
   ],
   args: {
     campaign: dummyCampaign,
-    user: dummyUserData,
   }
 } as Meta<SidebarComponent>;
 

@@ -1,9 +1,10 @@
-<app-sidebar
-#sidebar
-class="sidebar"
-[campaign]="campaign"
-[user]="user"
-></app-sidebar>
+<ng-container *ngIf="campaign">
+  <app-sidebar
+    #sidebar
+    class="sidebar"
+    [campaign]="campaign"
+  ></app-sidebar>
+</ng-container>
 
 <div 
   class="page" 
@@ -20,7 +21,7 @@ class="sidebar"
   <app-page-background
     #background
     class="page__background"
-    [imageUrl]="campaign.background_image"
+    [imageUrl]="campaign?.background_image"
     [serverUrl]="serverUrl"
   ></app-page-background>
 </div>

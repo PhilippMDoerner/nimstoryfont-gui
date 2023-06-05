@@ -139,37 +139,3 @@ a {
   flex-direction: column;
   margin-bottom: var(--spacer-3);
 }
-
-
-// /* General styling for list entries*/
-// ul{
-//     list-style-type: none;
-//     margin: 0;
-//     padding: 0;
-
-//     &.footer{
-//         border-top: 4px inset;
-//     }
-// }
-
-
-// li{
-
-
-//     a{
-//         height: 100%;
-//         display: flex;
-//         align-items: center;
-//         border-bottom: none;
-//     }
-
-//     i{ //entry icon
-//         text-align: center;
-//         width: 3rem;
-//     }
-
-//     &.entry.footer{
-//         align-self: flex-end;
-//     }
-// }
-

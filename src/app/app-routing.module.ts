@@ -5,6 +5,7 @@ import { campaignGuard } from './_guards/campaign.guard';
 import { loginGuard } from './_guards/login.guard';
 import { CampaignRoute, GeneralRoute } from './_models/route';
 import { CampaignOverviewPageComponent, HomePageComponent, MapPageComponent, mapDefaultResolver, mapResolver, updateCurrentCampaignResolver } from './app';
+import { clearCurrentCampaignResolver } from './app/_resolvers/campaign.resolver';
 
 const generalRoutes: GeneralRoute[] = [
   //Redirect Routes
@@ -31,6 +32,9 @@ const generalRoutes: GeneralRoute[] = [
 		component: CampaignOverviewPageComponent, 
 		data:{ name: "campaign-overview"}, 
 		canActivate: [ loginGuard ],
+		resolve: {
+			clearCurrentCampaignResolver
+		}
 	},
 ];
 

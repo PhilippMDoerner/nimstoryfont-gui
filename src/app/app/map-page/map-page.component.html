@@ -1,0 +1,12 @@
+<ng-container *ngIf="map$ | async as map">
+  <app-map
+    [mapChoices]="(mapChoices$ | async) ?? []"
+    [map]="map"
+    [serverUrl]="serverUrl"
+    [canUpdate]="!!(canUpdate$ | async)"
+    [canCreate]="!!(canCreate$ | async)"
+    [canDelete]="!!(canDelete$ | async)"
+    (mapDelete)="mapDelete($event)"
+    (mapChange)="mapChange($event)"
+  ></app-map>
+</ng-container>

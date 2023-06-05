@@ -28,8 +28,6 @@ export class PageBackgroundComponent {
   }
 
   async updateCurrentImage(newUrl: string): Promise<void>{
-    await this.animateBackgroundImage('fadeOut');
-
     this.currentImageUrl = newUrl;
 
     await this.animateBackgroundImage('fadeIn');

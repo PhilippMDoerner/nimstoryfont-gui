@@ -53,7 +53,7 @@ a {
     align-items: center;
     padding-left: var(--spacer-3);
     list-style-type: none;
-    height: 3rem;
+    height: 2.75rem;
     font-weight: bold;
     font-size: large;
     cursor: pointer;
@@ -64,7 +64,6 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: var(--spacer-2);
   }
 }
 
@@ -99,6 +98,7 @@ a {
   &__home {
     height: var(--brand-height);
     flex: 1;
+    max-width: 80%;
     
     :hover{
       color: var(--entry-hover-color)!important;
@@ -117,14 +117,18 @@ a {
   
   &__home-link-text{
     display: flex;
+    width: 100%;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     color: inherit;
-    margin: var(--spacer-0) var(--spacer-4) var(--spacer-0) var(--spacer-0);
+    margin: var(--spacer-0);
   }
   
   &__home-link-text-text{
     margin-left: var(--spacer-2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   
   &__icon{

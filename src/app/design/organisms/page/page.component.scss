@@ -1,12 +1,24 @@
 @import '/src/screens.scss';
 
 :host{
-  --sb-width: 18rem;
-  --sb-width-neg: -18rem;
-  --sb-margin: calc(calc(var(--sb-width) * 0.9));
+  --sb-width: 16rem;
+  --sb-width-neg: -16rem;
+  --sb-margin: var(--sb-width);
   
+  // Absolutely position the general window on mobile and take up the entire screen and cut out any overflow
+  // Sidebar is placed underneath .page and only revealed by moving .page to the side.
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  height: 100vh;
+  width: 100vw;
   display: unset;
+  overflow: clip;
+  
+  // On desktop, show both sidebar and page side by side, now absolute positioning
   @include media-breakpoint-up(md){
+    position: unset;
+    overflow: hidden;
     display: flex;
   }
 }
@@ -20,23 +32,20 @@
   max-width: 90vw;
   width: var(--sb-width);
   
-  @include media-breakpoint-up(lg){
+  // Desktop view show side-by-side with page
+  @include media-breakpoint-up(md){
     position: unset;
     z-index: unset;
   }
 }
 
 .page{
-  display: flex;
-  flex-direction: row;
-  overflow: hidden;
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
   transition: margin-left 0.1s ease-out;
+  position: relative;
   
+  // Desktop view show side-by-side with page
   @include media-breakpoint-up(md){
     position: unset;
   }

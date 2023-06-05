@@ -19,7 +19,7 @@ export class PageComponent {
   sidebarWidth: number = 20*16;
   showSidebar: boolean = false;
   
-  mobileWidth: number = 576;
+  mobileWidth: number = 767; //medium screen size
   
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {

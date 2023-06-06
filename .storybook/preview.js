@@ -29,9 +29,11 @@ export const parameters = {
     locales: 'en-US',
   },
   backgrounds: {
-    default: 'light',
+    default: 'white',
     values: [
       { name: 'grey', value: '#666666'},
+      { name: 'white', value: '#fff'},
+      { name: 'black', value: '#000'},
     ],
   },
 }

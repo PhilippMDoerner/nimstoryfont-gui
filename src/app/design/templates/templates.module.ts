@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { FormlyModule } from '@ngx-formly/core';
 import { OrganismsModule } from '../organisms';
 import { CampaignAdminComponent } from './campaign-admin/campaign-admin.component';
 import { CampaignOverviewComponent } from './campaign-overview/campaign-overview.component';
@@ -13,6 +14,7 @@ import { GeneralOverviewComponent } from './general-overview/general-overview.co
 import { HomeComponent } from './home/home.component';
 import { ItemComponent } from './item/item.component';
 import { LocationTemplateComponent } from './location-template/location-template.component';
+import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
 import { MarkerComponent } from './marker/marker.component';
 import { OrganizationComponent } from './organization/organization.component';
@@ -52,10 +54,12 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     CampaignAdminComponent,
     ConfigTablesComponent,
     SiteAdminComponent,
+    LoginComponent,
   ],
   imports: [
     CommonModule,
     OrganismsModule,
+    FormlyModule,
   ],
   exports: [
     MapComponent,

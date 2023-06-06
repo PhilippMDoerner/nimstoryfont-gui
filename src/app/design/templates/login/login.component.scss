@@ -1,0 +1,28 @@
+.login{
+  max-width: 20rem;
+  --animate-duration: 1000ms;
+  
+  &__subtitle-warning{
+    margin-bottom: var(--spacer-3);
+    color: var(--bs-warning);
+  }
+  
+  &__form{
+    display: flex;
+    flex-direction: column;
+  }
+  
+  &__button{
+    margin-top: var(--spacer-4);
+  }
+  
+  &__button-left{
+    margin-right: var(--spacer-2);
+  }
+  
+  &__reset-link{
+    cursor: pointer;
+    width: fit-content;
+  }
+}
+

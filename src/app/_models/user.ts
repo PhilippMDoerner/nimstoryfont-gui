@@ -10,8 +10,3 @@ export interface User{
   email?: string,
   is_active?: boolean,
 }
-
-export interface Login{
-  username: string;
-  password: string;
-}

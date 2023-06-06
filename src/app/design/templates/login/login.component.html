@@ -3,7 +3,9 @@
     <ng-container *ngIf="state === 'LOGIN'; else passwordResetView">
       <article>
         <h1>Log In</h1>
-        <div class="login__subtitle-warning">{{extraMessage}}</div>
+        <ng-container *ngIf="loginState">
+          <div class="login__subtitle-warning">{{loginMessages[loginState]}}</div>
+        </ng-container>
         <form
           class="login__form"
           (submit)="onLogin()" 

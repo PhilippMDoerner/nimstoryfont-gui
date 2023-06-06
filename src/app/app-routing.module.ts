@@ -6,6 +6,7 @@ import { loginGuard } from './_guards/login.guard';
 import { CampaignRoute, GeneralRoute } from './_models/route';
 import { CampaignOverviewPageComponent, HomePageComponent, MapPageComponent, mapDefaultResolver, mapResolver, updateCurrentCampaignResolver } from './app';
 import { clearCurrentCampaignResolver } from './app/_resolvers/campaign.resolver';
+import { LoginPageComponent } from './app/login-page/login-page.component';
 
 const generalRoutes: GeneralRoute[] = [
   //Redirect Routes
@@ -27,6 +28,17 @@ const generalRoutes: GeneralRoute[] = [
     pathMatch: "full",
     data: {name: "no-campaigns"}
   },
+	//Login Routes
+	{
+		path: `${environment.frontendPrefix}/login`, 
+		component: LoginPageComponent, 
+		data:{ name: "login"}
+	},
+	{
+		path: `${environment.frontendPrefix}/login/:state`, 
+		component: LoginPageComponent, 
+		data:{ name: "login-state"}
+	},
 	{
 		path: `${environment.frontendPrefix}/campaigns`, 
 		component: CampaignOverviewPageComponent, 

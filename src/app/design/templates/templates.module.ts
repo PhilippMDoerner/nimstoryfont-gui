@@ -86,6 +86,7 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     ConfigTablesComponent,
     SiteAdminComponent,
     OrganismsModule,
+    LoginComponent,
   ]
 })
 export class TemplatesModule { }

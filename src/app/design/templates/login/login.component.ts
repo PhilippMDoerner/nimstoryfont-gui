@@ -2,10 +2,11 @@ import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { animateElement } from 'src/app/_functions/animate';
-import { Login } from 'src/app/_models/user';
+import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 
-type LoginState = 'LOGIN' | 'PASSWORD_RESET';
+type LoginViewState = 'LOGIN' | 'PASSWORD_RESET';
+type LoginMessageMap = {[key in SpecialLoginState]: string};
 
 @Component({
   selector: 'app-login',
@@ -13,11 +14,19 @@ type LoginState = 'LOGIN' | 'PASSWORD_RESET';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  @Input() extraMessage?: string;
+  @Input() loginState?: SpecialLoginState;
   @Input() resetErrorMessage?: string;
   
   @Output() login: EventEmitter<Login> = new EventEmitter();
   @Output() resetPassword: EventEmitter<string> = new EventEmitter();
+  
+  loginMessages: LoginMessageMap = {
+    'token-expired': 'Your Session expired, please log in again',
+    'token-null': 'You do not have a valid token, please log in',
+    'invalid-login': 'No active account found with the given credentials',
+    'logged-out': 'Log out successful. Log in again?',
+    'no-token': 'You are not logged in. Please enter your credentials',
+  }
   
   model: Partial<Login> = {};
   form = new FormGroup({});
@@ -45,7 +54,7 @@ export class LoginComponent {
   ];
 
   
-  state: LoginState = 'LOGIN';
+  state: LoginViewState = 'LOGIN';
   isWaitingForPasswordReset: boolean = false;
   
   @ViewChild('loginMainCard') loginMainCard!: any;
@@ -58,7 +67,7 @@ export class LoginComponent {
     this.animateCard('backInUp');
   }
   
-  setState(newState: LoginState): void{
+  setState(newState: LoginViewState): void{
     this.state = newState;
     this.recoveryModel = {};
     this.model = {};

@@ -1,5 +1,6 @@
 import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
 import { CampaignOverview } from '../_models/campaign';
+import { SpecialLoginState } from '../_models/login';
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
 import { clearCurrentCampaign, loadCampaignSetSuccess, loadMapFailure, loadMapOverviewItemsSuccess, loadMapSuccess, setCurrentCampaign as setCurrentCampaignName } from './app.actions';
@@ -12,6 +13,8 @@ export interface AppState{
   mapOverviewItems: OverviewItem[];
   map?: ExtendedMap;
   recentlyUpdatedArticles: OverviewItem[];
+  resetErrorMessage?: string;
+  specialLoginState?: SpecialLoginState;
 }
 
 const initialState: AppState = {
@@ -81,3 +84,11 @@ export const selectRecentlyUpdatedArticles = createSelector(
   selectCampaignState,
   (state: AppState): OverviewItem[] => state?.recentlyUpdatedArticles as OverviewItem[],
 );
+export const selectSpecialLoginState = createSelector(
+  selectCampaignState,
+  (state: AppState): SpecialLoginState | undefined => state?.specialLoginState
+)
+export const selectResetPasswordErrorMessage = createSelector(
+  selectCampaignState,
+  (state: AppState): string | undefined => state?.resetErrorMessage,
+)

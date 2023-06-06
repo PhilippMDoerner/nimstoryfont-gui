@@ -20,6 +20,7 @@ import { FormlyFileFieldComponent } from './design/molecules';
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from './design/organisms';
 import { TemplatesModule } from './design/templates/templates.module';
 import { metaReducers, rootReducers } from './root.reducer';
+import { LoginPageComponent } from './app/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { metaReducers, rootReducers } from './root.reducer';
     MapPageComponent,
     HomePageComponent,
     CampaignOverviewPageComponent,
+    LoginPageComponent,
   ],
   imports: [
     AdministrationModule,

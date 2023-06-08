@@ -85,9 +85,9 @@ export class RecentlyUpdatedService {
         routeName = "diaryentry";
         break;
       case "encounter":
-        params.session_number = data.session_details.session_number;
-        params.isMainSession = data.session_details.is_main_session_int;
-        params.authorName = data.author_details.name;
+        params.session_number = data.diaryentry_details.session_number;
+        params.isMainSession = data.diaryentry_details.is_main_session_int;
+        params.authorName = data.diaryentry_details.author_name;
         params.encounterTitle = data.title;
         routeName = "diaryentry-encounter";
         break;

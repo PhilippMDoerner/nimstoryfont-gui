@@ -3,7 +3,7 @@ import { CampaignOverview } from '../_models/campaign';
 import { SpecialLoginState } from '../_models/login';
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
-import { clearCurrentCampaign, loadCampaignSetSuccess, loadMapFailure, loadMapOverviewItemsSuccess, loadMapSuccess, setCurrentCampaign as setCurrentCampaignName } from './app.actions';
+import { clearCurrentCampaign, deleteMapSuccess, loadCampaignSetFailure, loadCampaignSetSuccess, loadMapFailure, loadMapOverviewItemsFailure, loadMapOverviewItemsSuccess, loadMapSuccess, loadRecentlyUpdatedArticlesFailure, loadRecentlyUpdatedArticlesSuccess, resetPassword, resetPasswordFailure, resetPasswordSuccess, setCurrentCampaign as setCurrentCampaignName } from './app.actions';
 
 export const APP_STORE = 'app';
 
@@ -23,6 +23,8 @@ const initialState: AppState = {
   mapOverviewItems: [],
   map: undefined,
   recentlyUpdatedArticles: [],
+  resetErrorMessage: undefined,
+  specialLoginState: undefined,
 }
 
 const reducer = createReducer(
@@ -31,9 +33,21 @@ const reducer = createReducer(
     ...state,
     campaignSet: [...campaigns],
   })),
+  on(loadCampaignSetFailure, (state, { error }): AppState => ({
+    ...state,
+    campaignSet: [],
+  })),
   on(setCurrentCampaignName, (state, { campaignName }): AppState => ({
     ...state,
     currentCampaignName: campaignName,
+  })),
+  on(resetPassword, resetPasswordSuccess, (state): AppState => ({
+    ...state,
+    resetErrorMessage: undefined,
+  })),
+  on(resetPasswordFailure, (state, { error }): AppState => ({
+    ...state,
+    resetErrorMessage: error.message,
   })),
   on(clearCurrentCampaign, (state): AppState => ({
     ...state,
@@ -43,14 +57,27 @@ const reducer = createReducer(
     ...state,
     mapOverviewItems: [...mapOverviewItems],
   })),
+  on(loadMapOverviewItemsFailure, (state): AppState => ({
+    ...state,
+    mapOverviewItems: [],
+  })),
   on(loadMapSuccess, (state, { map }): AppState => ({
     ...state,
     map: { ...map },
   })),
-  on(loadMapFailure, (state, { error }): AppState => ({
+  on(loadMapFailure, deleteMapSuccess, (state): AppState => ({
     ...state,
     map: undefined,
-  }))
+  })),
+  on(loadRecentlyUpdatedArticlesSuccess, (state, { recentlyUpdatedArticles }): AppState => ({
+    ...state,
+    recentlyUpdatedArticles: recentlyUpdatedArticles,
+  })),
+  on(loadRecentlyUpdatedArticlesFailure, (state): AppState => ({
+    ...state,
+    recentlyUpdatedArticles: [],
+  })),
+  
 )
 
 export const appReducer = (state: AppState | undefined, action: Action): AppState => reducer(state, action);

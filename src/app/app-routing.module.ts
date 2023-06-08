@@ -6,6 +6,7 @@ import { loginGuard } from './_guards/login.guard';
 import { CampaignRoute, GeneralRoute } from './_models/route';
 import { CampaignOverviewPageComponent, HomePageComponent, MapPageComponent, mapDefaultResolver, mapResolver, updateCurrentCampaignResolver } from './app';
 import { clearCurrentCampaignResolver } from './app/_resolvers/campaign.resolver';
+import { recentlyUpdatedArticleResolver } from './app/_resolvers/recently-updated-article.resolver';
 import { LoginPageComponent } from './app/login-page/login-page.component';
 
 const generalRoutes: GeneralRoute[] = [
@@ -58,7 +59,8 @@ const campaignRoutes: CampaignRoute[] = [
     data:{ name: "home", requiredMinimumRole: 'guest'}, 
 		canActivate: [campaignGuard],
     resolve: {
-      updateCurrentCampaignResolver
+      updateCurrentCampaignResolver,
+			recentlyUpdatedArticleResolver
     }
 	},
   // Map Routes

@@ -13,14 +13,18 @@ import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CampaignEffects } from './app/_effects/campaign.effect';
+import { LoadRecentlyUpdatedArticlesEffects } from './app/_effects/load-recently-updated-article.effect';
+import { LoginEffects } from './app/_effects/login.effect';
+import { MapEffects } from './app/_effects/map.effect';
+import { ResetPasswordEffects } from './app/_effects/resetPassword.effect';
 import { CampaignOverviewPageComponent } from './app/campaign-overview-page/campaign-overview-page.component';
 import { HomePageComponent } from './app/home-page/home-page.component';
+import { LoginPageComponent } from './app/login-page/login-page.component';
 import { MapPageComponent } from './app/map-page/map-page.component';
 import { FormlyFileFieldComponent } from './design/molecules';
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from './design/organisms';
 import { TemplatesModule } from './design/templates/templates.module';
 import { metaReducers, rootReducers } from './root.reducer';
-import { LoginPageComponent } from './app/login-page/login-page.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +74,10 @@ import { LoginPageComponent } from './app/login-page/login-page.component';
     StoreModule.forRoot(rootReducers , { metaReducers }),
     EffectsModule.forRoot([
       CampaignEffects,
+      LoadRecentlyUpdatedArticlesEffects,
+      LoginEffects,
+      MapEffects,
+      ResetPasswordEffects,
     ]),
     TemplatesModule,
   ],

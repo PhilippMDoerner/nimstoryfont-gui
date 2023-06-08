@@ -72,7 +72,6 @@ export class LoginComponent {
     this.recoveryModel = {};
     this.model = {};
 
-    console.log(this.loginMainCard);
     this.animateCard('flip');
   }  
   

@@ -22,7 +22,6 @@ export class HomePageComponent implements OnInit{
   ){}
   
   ngOnInit(): void {
-    console.log(this.store);
     this.campaignData$ = this.store.select(selectCurrentCampaign);
     this.recentlyUpdatedArticles$ = this.store.select(selectRecentlyUpdatedArticles);
   }

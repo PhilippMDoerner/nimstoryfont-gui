@@ -127,7 +127,6 @@ export class WarningsService {
 
     if (isClickOnCloseIcon){
       const notificationElement = event.target.parentElement.parentElement;
-      console.log(notificationElement);
       animateElement(notificationElement, 'fadeOutUp')
         .then(() => notificationElement.parentElement.remove());
     }

@@ -1,5 +1,5 @@
 <div class="encounter-list mb-5 mt-3">
-  <ngb-accordion [closeOthers]="true" (panelChange)="onPanelChange($event)" [animation]="true">
+  <ngb-accordion [closeOthers]="true" [animation]="true">
     <ng-container *ngFor="let encounter of encounters; let i = index">
       <ngb-panel [id]="'static-'+i">
 

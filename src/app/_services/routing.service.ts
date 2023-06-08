@@ -19,6 +19,7 @@ export class RoutingService {
 
 
   public getRoutePath(routeName: string, params: any = {}): string{
+    return "Potato";
     let variableRoutePath = this.getVariableRoutePathByName(routeName);
 
     if (this.hasPathVariables(variableRoutePath)){

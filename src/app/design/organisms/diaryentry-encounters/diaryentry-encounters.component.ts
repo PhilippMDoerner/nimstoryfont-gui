@@ -64,7 +64,6 @@ export class DiaryentryEncountersComponent implements OnInit, OnChanges{
   }
 
   addEmptyEncounterAtIndex(listIndex: number){
-    console.log("Add click");
     const newOrderIndex: number = this.getOrderIndexForNewEncounter(listIndex);
 
     //Create and add Encounter

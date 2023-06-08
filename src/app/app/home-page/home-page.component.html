@@ -1,7 +1,7 @@
 <app-home
   [serverUrl]="serverUrl"
   [campaignData]="(campaignData$ | async) ?? undefined"
-  [articles]="(recentlyUpdatedArticles$ | async) ?? []"
+  [newArticles]="(recentlyUpdatedArticles$ | async) ?? []"
   (search)="search($event)"
   (loadArticlePage)="loadArticlePage($event)"
 ></app-home>

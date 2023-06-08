@@ -3,7 +3,7 @@ import { CampaignOverview } from '../_models/campaign';
 import { SpecialLoginState } from '../_models/login';
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
-import { clearCurrentCampaign, deleteMapSuccess, loadCampaignSetFailure, loadCampaignSetSuccess, loadMapFailure, loadMapOverviewItemsFailure, loadMapOverviewItemsSuccess, loadMapSuccess, loadRecentlyUpdatedArticlesFailure, loadRecentlyUpdatedArticlesSuccess, resetPassword, resetPasswordFailure, resetPasswordSuccess, setCurrentCampaign as setCurrentCampaignName } from './app.actions';
+import { clearCurrentCampaign, deleteMapSuccess, loadCampaignSetFailure, loadCampaignSetSuccess, loadMapFailure, loadMapOverviewItemsFailure, loadMapOverviewItemsSuccess, loadMapSuccess, loadRecentlyUpdatedArticlesFailure, loadRecentlyUpdatedArticlesSuccess, resetPassword, resetPasswordFailure, resetPasswordSuccess, resetRecentlyUpdatedArticleLoadState, setCurrentCampaign as setCurrentCampaignName } from './app.actions';
 
 export const APP_STORE = 'app';
 
@@ -13,6 +13,7 @@ export interface AppState{
   mapOverviewItems: OverviewItem[];
   map?: ExtendedMap;
   recentlyUpdatedArticles: OverviewItem[];
+  canLoadMoreRecentlyUpdatedArticles: boolean;
   resetErrorMessage?: string;
   specialLoginState?: SpecialLoginState;
 }
@@ -25,6 +26,7 @@ const initialState: AppState = {
   recentlyUpdatedArticles: [],
   resetErrorMessage: undefined,
   specialLoginState: undefined,
+  canLoadMoreRecentlyUpdatedArticles: true,
 }
 
 const reducer = createReducer(
@@ -72,12 +74,16 @@ const reducer = createReducer(
   on(loadRecentlyUpdatedArticlesSuccess, (state, { recentlyUpdatedArticles }): AppState => ({
     ...state,
     recentlyUpdatedArticles: recentlyUpdatedArticles,
+    canLoadMoreRecentlyUpdatedArticles: !!recentlyUpdatedArticles,
   })),
   on(loadRecentlyUpdatedArticlesFailure, (state): AppState => ({
     ...state,
     recentlyUpdatedArticles: [],
   })),
-  
+  on(resetRecentlyUpdatedArticleLoadState, (state): AppState => ({
+    ...state,
+    canLoadMoreRecentlyUpdatedArticles: true,
+  }))
 )
 
 export const appReducer = (state: AppState | undefined, action: Action): AppState => reducer(state, action);
@@ -118,4 +124,8 @@ export const selectSpecialLoginState = createSelector(
 export const selectResetPasswordErrorMessage = createSelector(
   selectCampaignState,
   (state: AppState): string | undefined => state?.resetErrorMessage,
+)
+export const selectCanLoadMoreArticles = createSelector(
+  selectCampaignState,
+  (state: AppState): boolean => state?.canLoadMoreRecentlyUpdatedArticles,
 )

@@ -9,7 +9,7 @@
         />
         
         <h1 class="heading-container__heading"> 
-          {{campaignData.name}} 
+          {{campaignData.name}}
         </h1>
         
         <app-html-text
@@ -28,7 +28,10 @@
     <!-- News -->
     <app-icon-card-list
       [articles]="articleEntries"
-      (reachEndOfList)="loadArticlePage.emit($event)"
     ></app-icon-card-list>
+    
+    <ng-container *ngIf="isLoading">
+      <app-spinner class="loading__spinner"></app-spinner> 
+    </ng-container>
   </article>
 </app-page-container>

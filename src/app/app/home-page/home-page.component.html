@@ -2,6 +2,7 @@
   [serverUrl]="serverUrl"
   [campaignData]="(campaignData$ | async) ?? undefined"
   [newArticles]="(recentlyUpdatedArticles$ | async) ?? []"
+  [canLoadMore]="!!(hasMoreArticles$ | async)"
   (search)="search($event)"
   (loadArticlePage)="loadArticlePage($event)"
 ></app-home>

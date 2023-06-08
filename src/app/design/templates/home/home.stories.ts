@@ -140,7 +140,7 @@ export default {
   ],
   args: {
     serverUrl: 'https://www.aldrune.com',
-    articles: dummyOverview,
+    newArticles: dummyOverview,
     campaignData: dummyCampaign,
   },
 } as Meta<HomeComponent>;
@@ -149,7 +149,6 @@ const Template: StoryFn<HomeComponent> = (args: HomeComponent) => ({
   props: {
     ...args,
     search: action('search'),
-    loadArticlePage: action('loadArticlePage'),
   },
 });
 

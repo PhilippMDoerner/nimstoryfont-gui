@@ -44,3 +44,4 @@ export const loadRecentlyUpdatedArticlesSuccess = createAction('[App] Load Recen
 export const loadRecentlyUpdatedArticlesFailure = createAction('[App] Load Recently Updated Articles Failure', props<{ error: any }>());
 
 export const searchArticles = createAction('[App] Search Campaign', props<{ campaignName: string, search: string}>());
+export const resetRecentlyUpdatedArticleLoadState = createAction('[App] Reset Recently Updated Article Load State');

@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit, OnChanges{
   
   @Output() search: EventEmitter<string> = new EventEmitter();
   @Output() loadArticlePage: EventEmitter<number> = new EventEmitter();
-  @Output() reachEndOfList: EventEmitter<number> = new EventEmitter();
   
   articleEntries: IconCardEntry[] = [];
   isLoading: boolean = false;
@@ -93,7 +92,7 @@ export class HomeComponent implements OnInit, OnChanges{
 
     this.pageNumber += 1;
     this.isLoading = true;
-    this.reachEndOfList.emit(this.pageNumber);
+    this.loadArticlePage.emit(this.pageNumber);
   }
   
   private isNearPageEnd(pageScrollEvent: CustomEvent): boolean {

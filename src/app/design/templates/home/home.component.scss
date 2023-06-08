@@ -21,3 +21,10 @@
     align-self: center;
   }
 }
+
+.loading__spinner{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  --thickness: 30px;
+}

@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Login } from 'src/app/_models/login';
 import { CampaignMemberships, CampaignRole, CampaignRoles, TokenData, UserData } from 'src/app/_models/token';
-import { User } from 'src/app/_models/user';
 import { environment } from 'src/environments/environment';
 
 
@@ -19,8 +19,7 @@ export class TokenService {
 
   constructor(private http: HttpClient) { }
 
-  public login(userModel: User): Observable<UserData>{
-    const loginData: object = {username: userModel.username, password: userModel.password};
+  public login(loginData: Login): Observable<UserData>{
     return this.http.post<UserData>(this.jwtTokenUrl, loginData)
   }
 
@@ -28,7 +27,11 @@ export class TokenService {
     const refreshToken = TokenService.getRefreshToken().token;
     const httpHeaders = new HttpHeaders().set("Authorization", `Bearer ${refreshToken}`);
     //TODO Figure out why this was necessary
-    return this.http.post<UserData>(this.refreshTokenUrl, {refresh: refreshToken}, {headers: httpHeaders});
+    return this.http.post<UserData>(
+      this.refreshTokenUrl, 
+      {refresh: refreshToken}, 
+      {headers: httpHeaders}
+    );
   }
 
   public invalidateJWTToken(): void{

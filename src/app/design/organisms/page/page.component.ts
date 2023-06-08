@@ -44,12 +44,12 @@ export class PageComponent {
     }
   }
   
-  slideRightViaMargin(newMargin: number){    
+  private slideRightViaMargin(newMargin: number){    
     const element: HTMLElement = this.contentElement.nativeElement;
     element.style.marginLeft = `${newMargin}px`;
   }
 
-  resetSlide(){
+  private resetSlide(){
     const element: HTMLElement = this.contentElement.nativeElement;
     element.style.marginLeft = '';
   }
@@ -73,7 +73,23 @@ export class PageComponent {
     this.startX = 0;
   }
   
-  isMobile(){
+  private isMobile(){
     return screen.width <= this.mobileWidth;
+  }
+  
+  /**
+   * Due to the structure of the webpage (left sidebar, right a global content section)
+   * where the scrollable element is not window or document or body, but instead the .page
+   * element, none of the child-elements can know when a scroll event is triggered.
+   * This propagates a scroll-event to the window, making it "global" in a sense.
+   * That way, all child components (e.g. home.component) can listen to scroll events.
+   */
+  onPageScroll(event: Event): void{
+    this.dispatchCustomPageScrollEvent(event);
+  }
+  
+  private dispatchCustomPageScrollEvent(event: Event): void{
+    const pageScrollEvent = new Event('page.scroll', event);
+    window.dispatchEvent(pageScrollEvent)
   }
 }

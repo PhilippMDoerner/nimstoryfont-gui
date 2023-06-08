@@ -44,6 +44,7 @@
   height: 100%;
   transition: margin-left 0.1s ease-out;
   position: relative;
+  overflow-y: scroll;
   
   // Desktop view show side-by-side with page
   @include media-breakpoint-up(md){

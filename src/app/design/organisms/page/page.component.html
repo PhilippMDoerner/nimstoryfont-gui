@@ -8,12 +8,15 @@
 
 <div 
   class="page" 
-  (scroll)="onPageScroll($event)"
   [class.page--shift-right]="showSidebar" 
   #content
 >
   
-  <div class="page__content">  
+  <div 
+    class="page__content" 
+    (scroll)="onPageScroll($event)"
+    #innerContent
+  >  
     <router-outlet #routerOutlet></router-outlet>
   </div>
   

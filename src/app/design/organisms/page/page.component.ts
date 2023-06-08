@@ -12,6 +12,7 @@ export class PageComponent {
   
   @ViewChild('sidebar') sidebarElement!: ElementRef;
   @ViewChild('content') contentElement!: ElementRef;
+  @ViewChild('innerContent') innerContentElement!: ElementRef;
   
   startX: number = 0;
   currentX: number = 0;
@@ -89,7 +90,12 @@ export class PageComponent {
   }
   
   private dispatchCustomPageScrollEvent(event: Event): void{
-    const pageScrollEvent = new Event('page.scroll', event);
+    const pageScrollEvent: CustomEvent = new CustomEvent('page.scroll', {
+      ...event,
+      detail: {
+        pageElement: this.innerContentElement,
+      },
+    });
     window.dispatchEvent(pageScrollEvent)
   }
 }

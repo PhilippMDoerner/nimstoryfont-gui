@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CampaignOverview } from './_models/campaign';
-import { loadCampaignSet, selectCurrentCampaign } from './app';
+import { loadCampaignSet, logout, selectCurrentCampaign } from './app';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -25,5 +25,9 @@ export class AppComponent implements OnInit{
   
   loadCampaignOverview(): void{
     this.store.dispatch(loadCampaignSet());
+  }
+  
+  logout(): void{
+    this.store.dispatch(logout());
   }
 }

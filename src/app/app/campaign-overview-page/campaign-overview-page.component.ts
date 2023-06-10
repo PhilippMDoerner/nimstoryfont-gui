@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { TokenService } from 'src/app/_services/utils/token.service';
 import { environment } from 'src/environments/environment';
+import { logout } from '../app.actions';
 import { selectCampaigns } from '../app.reducer';
 
 @Component({
@@ -26,5 +27,9 @@ export class CampaignOverviewPageComponent implements OnInit{
     this.userName = this.tokenService.getCurrentUserName();
     this.isGlobalAdmin = this.tokenService.isAdmin() || this.tokenService.isSuperUser();
     this.campaigns$ = this.store.select(selectCampaigns);
+  }
+  
+  logout(): void{
+    this.store.dispatch(logout());
   }
 }

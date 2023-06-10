@@ -1,4 +1,5 @@
 <app-page
   [serverUrl]="serverUrl"
   [campaign]="(campaign$ | async) ?? undefined"
+  (logout)="logout()"
 ></app-page>

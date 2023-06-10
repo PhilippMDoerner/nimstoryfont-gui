@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot } from "@angular/router";
 import { RoutingService } from "src/app/_services/routing.service";
 import { TokenService } from "src/app/_services/utils/token.service";
 
-export const authGuard = (next: ActivatedRouteSnapshot) => {
+export const siteAdminGuard = (next: ActivatedRouteSnapshot) => {
   const tokenService = inject(TokenService);
   const routingService = inject(RoutingService);
   

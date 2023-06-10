@@ -35,6 +35,7 @@ import { metaReducers, rootReducers } from './root.reducer';
     HomePageComponent,
     CampaignOverviewPageComponent,
     LoginPageComponent,
+    ConfigAdministrationPageComponent,
   ],
   imports: [
     AdministrationModule,

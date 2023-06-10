@@ -4,10 +4,11 @@ import { environment } from 'src/environments/environment';
 import { siteAdminGuard } from './_guards/admin.guard';
 import { campaignGuard } from './_guards/campaign.guard';
 import { loginGuard } from './_guards/login.guard';
-import { CampaignRoute, GeneralRoute } from './_models/route';
+import { AdminRoute, CampaignRoute, GeneralRoute } from './_models/route';
 import { CampaignOverviewPageComponent, HomePageComponent, MapPageComponent, mapDefaultResolver, mapResolver, updateCurrentCampaignResolver } from './app';
 import { clearCurrentCampaignResolver } from './app/_resolvers/campaign.resolver';
 import { recentlyUpdatedArticleResolver, resetRecentlyUpdatedArticleLoadStateResolver } from './app/_resolvers/recently-updated-article.resolver';
+import { ConfigAdministrationPageComponent } from './app/config-administration-page/config-administration-page.component';
 import { LoginPageComponent } from './app/login-page/login-page.component';
 
 const generalRoutes: GeneralRoute[] = [
@@ -51,6 +52,16 @@ const generalRoutes: GeneralRoute[] = [
 		}
 	},
 ];
+
+const adminRoutes: AdminRoute[] = [
+		//General Admin Routes
+		{
+			path: `${environment.frontendPrefix}/configtables`,
+			component: ConfigAdministrationPageComponent,
+			data: { name: "config-tables"},
+			canActivate: [siteAdminGuard]
+		},
+]
 
 const campaignRoutes: CampaignRoute[] = [
   //Home Routes
@@ -111,6 +122,7 @@ const homeRoutes: any[] = [];
     ...generalRoutes,
     ...campaignRoutes,
     ...homeRoutes,
+		...adminRoutes,	
   ])],
   exports: [RouterModule]
 })

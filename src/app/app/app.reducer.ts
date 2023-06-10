@@ -3,7 +3,8 @@ import { CampaignOverview } from '../_models/campaign';
 import { SpecialLoginState } from '../_models/login';
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
-import { clearCurrentCampaign, deleteMapSuccess, loadCampaignSetFailure, loadCampaignSetSuccess, loadMapFailure, loadMapOverviewItemsFailure, loadMapOverviewItemsSuccess, loadMapSuccess, loadRecentlyUpdatedArticlesFailure, loadRecentlyUpdatedArticlesSuccess, resetPassword, resetPasswordFailure, resetPasswordSuccess, resetRecentlyUpdatedArticleLoadState, setCurrentCampaign as setCurrentCampaignName } from './app.actions';
+import { ConfigTableData } from '../design/templates/_models/config-table';
+import { clearCurrentCampaign, createConfigTableEntrySuccess, deleteConfigTableEntrySuccess, deleteMapSuccess, loadCampaignSetFailure, loadCampaignSetSuccess, loadConfigTableEntriesFailure, loadConfigTableEntriesSuccess, loadMapFailure, loadMapOverviewItemsFailure, loadMapOverviewItemsSuccess, loadMapSuccess, loadRecentlyUpdatedArticlesFailure, loadRecentlyUpdatedArticlesSuccess, resetPassword, resetPasswordFailure, resetPasswordSuccess, resetRecentlyUpdatedArticleLoadState, setCurrentCampaign as setCurrentCampaignName } from './app.actions';
 
 export const APP_STORE = 'app';
 
@@ -16,6 +17,7 @@ export interface AppState{
   canLoadMoreRecentlyUpdatedArticles: boolean;
   resetErrorMessage?: string;
   specialLoginState?: SpecialLoginState;
+  configTableEntries: ConfigTableData;
 }
 
 const initialState: AppState = {
@@ -27,6 +29,7 @@ const initialState: AppState = {
   resetErrorMessage: undefined,
   specialLoginState: undefined,
   canLoadMoreRecentlyUpdatedArticles: true,
+  configTableEntries: {},
 }
 
 const reducer = createReducer(
@@ -83,8 +86,52 @@ const reducer = createReducer(
   on(resetRecentlyUpdatedArticleLoadState, (state): AppState => ({
     ...state,
     canLoadMoreRecentlyUpdatedArticles: true,
-  }))
-)
+  })),
+  on(loadConfigTableEntriesSuccess, (state, { table, entries }): AppState => {
+    const newConfigTableEntries = {
+      ...state.configTableEntries,
+      [table]: entries,
+    }
+    
+    return {
+      ...state,
+      configTableEntries: newConfigTableEntries
+    };
+  }),
+  on(loadConfigTableEntriesFailure, (state, { table }): AppState => ({
+    ...state,
+    configTableEntries: {
+      ...state.configTableEntries,
+      [table]: undefined,
+    }
+  })),
+  on(deleteConfigTableEntrySuccess, (state, {table, entryId}): AppState => {
+    const entries = state.configTableEntries[table];
+    const newEntries = entries?.filter(entry => entry.id === entryId);
+    
+    const newConfigTableEntries = {
+      ...state.configTableEntries,
+      [table]: newEntries,
+    };
+    
+    return {
+      ...state,
+      configTableEntries: newConfigTableEntries,
+    };
+  }),
+  on(createConfigTableEntrySuccess, (state, {table, entry}): AppState => {
+    const entries = state.configTableEntries[table];
+    entries?.push(entry);
+    
+    return {
+      ...state,
+      configTableEntries: {
+        ...state.configTableEntries,
+        [table]: entries,
+      }
+    };
+  }),
+);
 
 export const appReducer = (state: AppState | undefined, action: Action): AppState => reducer(state, action);
 
@@ -120,12 +167,16 @@ export const selectRecentlyUpdatedArticles = createSelector(
 export const selectSpecialLoginState = createSelector(
   selectCampaignState,
   (state: AppState): SpecialLoginState | undefined => state?.specialLoginState
-)
+);
 export const selectResetPasswordErrorMessage = createSelector(
   selectCampaignState,
   (state: AppState): string | undefined => state?.resetErrorMessage,
-)
+);
 export const selectCanLoadMoreArticles = createSelector(
   selectCampaignState,
   (state: AppState): boolean => state?.canLoadMoreRecentlyUpdatedArticles,
-)
+);
+export const selectConfigTableData = createSelector(
+  selectCampaignState,
+  (state: AppState): ConfigTableData => state?.configTableEntries,
+);

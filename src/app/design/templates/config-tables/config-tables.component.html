@@ -43,13 +43,13 @@
         <!-- Section Body -->
   
         <ng-container *ngIf="!table.showForm">
-            <ng-container *ngIf="table.entries.length === 0">
+            <ng-container *ngIf="table.entries?.length === 0">
               Load entries to see them
             </ng-container>
   
             <div class="section__table-container">
               <!-- Table -->
-              <ng-container *ngIf="table.entries.length > 0">
+              <ng-container *ngIf="table.entries && table.entries.length > 0">
                 <table class="table table-dark table-striped">
                   <!-- Table heading -->
                   <thead>
@@ -95,7 +95,7 @@
               [model]="table.model" 
               [fields]="table.formFields" 
               [cancelButtonType]="'DARK'"
-              (formlySubmit)="createTableEntry.emit(table.model)" 
+              (formlySubmit)="createTableEntry.emit({table: table.kind, entry: table.model})" 
               (formlyCancel)="table.showForm = !table.showForm"
             ></app-form>
           </app-card>  

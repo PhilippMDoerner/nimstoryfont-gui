@@ -1,25 +1,19 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import * as _ from 'lodash';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ConfigTableData, ConfigTableKind, configTableKinds } from '../_models/config-table';
 
 interface ConfigTable {
   name: string;
   kind: ConfigTableKind;
-  entries: any[];
+  entries?: any[];
   icon: string;
   model: unknown;
   formFields: FormlyFieldConfig[];
   showForm: boolean;
 }
-
-export type ConfigTableKind = 'MARKER_TYPE' | 'PLAYER_CLASS';
-const tableKinds: ConfigTableKind[] = [ 'MARKER_TYPE', 'PLAYER_CLASS']
-
-export type ConfigTableData = {
-  [key in ConfigTableKind]: any;
-}
-
 
 @Component({
   selector: 'app-config-tables',
@@ -27,11 +21,11 @@ export type ConfigTableData = {
   styleUrls: ['./config-tables.component.scss']
 })
 export class ConfigTablesComponent implements OnChanges{
-  @Input() tableData!: ConfigTableData;
+  @Input() tableData?: ConfigTableData;
   
   @Output() loadTableEntries: EventEmitter<ConfigTableKind> = new EventEmitter();
-  @Output() deleteTableEntry: EventEmitter<{table: ConfigTableKind, entry: any}> = new EventEmitter();
-  @Output() createTableEntry: EventEmitter<any> = new EventEmitter();
+  @Output() deleteTableEntry: EventEmitter<{table: ConfigTableKind, entry: unknown}> = new EventEmitter();
+  @Output() createTableEntry: EventEmitter<{table: ConfigTableKind, entry: unknown}> = new EventEmitter();
   
   tables: ConfigTable[] = [
     {
@@ -90,12 +84,17 @@ export class ConfigTablesComponent implements OnChanges{
   }
   
   private addDataToTables(): void{
-    this.tables = tableKinds.map(
+    if(_.isNil(this.tableData)){
+      return;
+    }
+    
+    this.tables = configTableKinds.map(
       kind => {
         const table: ConfigTable = this.tables.find(table => table.kind === kind) as ConfigTable;
+        const entries =  (this.tableData as ConfigTableData)[kind];
         return {
           ...table,
-          entries: this.tableData[kind],
+          entries: entries,
         }
       }
     );

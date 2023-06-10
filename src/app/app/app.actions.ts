@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { createAction, props } from "@ngrx/store";
 import { Campaign, CampaignOverview } from "../_models/campaign";
 import { Login } from "../_models/login";
@@ -45,3 +46,15 @@ export const loadRecentlyUpdatedArticlesFailure = createAction('[App] Load Recen
 
 export const searchArticles = createAction('[App] Search Campaign', props<{ campaignName: string, search: string}>());
 export const resetRecentlyUpdatedArticleLoadState = createAction('[App] Reset Recently Updated Article Load State');
+
+export const loadConfigTableEntries = createAction('[App] Load Config Table Entries', props<{ table: ConfigTableKind }>());
+export const loadConfigTableEntriesSuccess = createAction('[App] Load Config Table Entries Success', props<{ table: ConfigTableKind, entries: unknown[] }>());
+export const loadConfigTableEntriesFailure = createAction('[App] Load Config Table Entries Failure', props<{ table: ConfigTableKind, error: HttpErrorResponse }>());
+
+export const createConfigTableEntry = createAction('[App] Create Config Table Entry', props<{ table: ConfigTableKind, entry: unknown}>());
+export const createConfigTableEntrySuccess = createAction('[App] Create Config Table Entry Success', props<{ table: ConfigTableKind, entry: unknown }>());
+export const createConfigTableEntryFailure = createAction('[App] Create Config Table Entry Failure', props<{ table: ConfigTableKind, error: HttpErrorResponse }>());
+
+export const deleteConfigTableEntry = createAction('[App] Delete Config Table Entry', props<{ table: ConfigTableKind, entryId: number}>());
+export const deleteConfigTableEntrySuccess = createAction('[App] Delete Config Table Entry Success', props<{ table: ConfigTableKind, entryId: number}>());
+export const deleteConfigTableEntryFailure = createAction('[App] Delete Config Table Entry Failure', props<{ table: ConfigTableKind, error: HttpErrorResponse }>());

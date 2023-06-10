@@ -1,7 +1,11 @@
+:host{
+  width: 100%;
+  max-width: 30rem;
+}
+
 .login{
-  max-width: 20rem;
   --animate-duration: 1000ms;
-  
+
   &__subtitle-warning{
     margin-bottom: var(--spacer-3);
     color: var(--bs-warning);

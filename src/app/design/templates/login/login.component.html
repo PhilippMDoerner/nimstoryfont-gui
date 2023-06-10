@@ -1,31 +1,29 @@
 <div class="login" #loginMainCard>
   <app-page-container>
     <ng-container *ngIf="state === 'LOGIN'; else passwordResetView">
-      <article>
-        <h1>Log In</h1>
-        <ng-container *ngIf="loginState">
-          <div class="login__subtitle-warning">{{loginMessages[loginState]}}</div>
-        </ng-container>
-        <form
-          class="login__form"
-          (submit)="onLogin()" 
-        >
-          <formly-form 
-            [model]="model" 
-            [fields]="fields" 
-            [form]="form"
-          ></formly-form>
-          <a class="login__reset-link" (click)="setState('PASSWORD_RESET')"> 
-            Forgot your password?
-          </a>
-          <app-button
-            class="login__button"
-            [type]="'PRIMARY'"
-            [text]="'Login'"
-            [isSubmitButton]="true"
-          ></app-button>
-        </form>
-      </article>
+      <h1>Sign In</h1>
+      <ng-container *ngIf="loginState">
+        <div class="login__subtitle-warning">{{loginMessages[loginState]}}</div>
+      </ng-container>
+      <form
+        class="login__form"
+        (submit)="onLogin()" 
+      >
+        <formly-form 
+          [model]="model" 
+          [fields]="fields" 
+          [form]="form"
+        ></formly-form>
+        <a class="login__reset-link" (click)="setState('PASSWORD_RESET')"> 
+          Forgot your password?
+        </a>
+        <app-button
+          class="login__button"
+          [type]="'PRIMARY'"
+          [text]="'Login'"
+          [isSubmitButton]="true"
+        ></app-button>
+      </form>
     </ng-container>
   </app-page-container>
 </div>

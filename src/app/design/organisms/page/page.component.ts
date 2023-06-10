@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { Campaign } from 'src/app/_models/campaign';
 
 @Component({
@@ -9,6 +9,8 @@ import { Campaign } from 'src/app/_models/campaign';
 export class PageComponent {
   @Input() serverUrl!: string;
   @Input() campaign?: Campaign;
+  
+  @Output() logout: EventEmitter<void> = new EventEmitter();
   
   @ViewChild('sidebar') sidebarElement!: ElementRef;
   @ViewChild('content') contentElement!: ElementRef;
@@ -21,7 +23,7 @@ export class PageComponent {
   showSidebar: boolean = false;
   
   mobileWidth: number = 767; //medium screen size
-  
+    
   @HostListener('touchstart', ['$event'])
   onTouchStart(event: TouchEvent) {
     if(!this.isMobile()){
@@ -88,7 +90,7 @@ export class PageComponent {
   onPageScroll(event: Event): void{
     this.dispatchCustomPageScrollEvent(event);
   }
-  
+    
   private dispatchCustomPageScrollEvent(event: Event): void{
     const pageScrollEvent: CustomEvent = new CustomEvent('page.scroll', {
       ...event,

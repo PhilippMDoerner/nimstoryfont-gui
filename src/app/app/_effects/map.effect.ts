@@ -9,7 +9,7 @@ import { loadMap, loadMapFailure, loadMapSuccess } from "../app.actions";
 @Injectable()
 export class MapEffects {
 
-  loadMap$: Observable<Action> = createEffect((): Observable<Action> => this.actions$.pipe(
+  load: Observable<Action> = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType(loadMap),
     switchMap(({campaignName, mapName}): Observable<Action> => {
       return this.mapService.readByParam(campaignName, { name: mapName }).pipe(

@@ -8,7 +8,7 @@ import { loadRecentlyUpdatedArticles, loadRecentlyUpdatedArticlesFailure, loadRe
 
 @Injectable()
 export class LoadRecentlyUpdatedArticlesEffects {  
-  loadRecentlyUpdatedArticles$: Observable<Action> = createEffect((): Observable<Action> => this.actions$.pipe(
+  load$: Observable<Action> = createEffect((): Observable<Action> => this.actions$.pipe(
     ofType(loadRecentlyUpdatedArticles),
     switchMap(({ campaignName, pageCount }): Observable<Action> => {
       return this.recentlyUpdated.getRecentlyUpdatedArticle(campaignName, pageCount).pipe(

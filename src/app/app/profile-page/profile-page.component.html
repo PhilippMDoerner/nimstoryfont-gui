@@ -1,0 +1,8 @@
+<ng-container *ngIf="(user$ | async) as user">
+  <app-profile
+    [user]="user"
+    [memberships]="memberships"
+    [canDeleteProfile]="!!(isCurrentUser$ | async)"
+    [campaignName]="(campaignName$ | async) ?? undefined"
+  ></app-profile>
+</ng-container>

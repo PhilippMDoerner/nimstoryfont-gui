@@ -8,8 +8,10 @@ import { AdminRoute, CampaignRoute, GeneralRoute } from './_models/route';
 import { CampaignOverviewPageComponent, HomePageComponent, MapPageComponent, mapDefaultResolver, mapResolver, updateCurrentCampaignResolver } from './app';
 import { clearCurrentCampaignResolver } from './app/_resolvers/campaign.resolver';
 import { recentlyUpdatedArticleResolver, resetRecentlyUpdatedArticleLoadStateResolver } from './app/_resolvers/recently-updated-article.resolver';
+import { userResolver } from './app/_resolvers/user.resolver';
 import { ConfigAdministrationPageComponent } from './app/config-administration-page/config-administration-page.component';
 import { LoginPageComponent } from './app/login-page/login-page.component';
+import { ProfilePageComponent } from './app/profile-page/profile-page.component';
 
 const generalRoutes: GeneralRoute[] = [
   //Redirect Routes
@@ -41,6 +43,16 @@ const generalRoutes: GeneralRoute[] = [
 		path: `${environment.frontendPrefix}/login/:state`, 
 		component: LoginPageComponent, 
 		data:{ name: "login-state"}
+	},
+	//User Routes
+	{
+		path: `${environment.frontendPrefix}/profile/me`,
+		component: ProfilePageComponent,
+		data: { name: "direct-profile"},
+		canActivate: [loginGuard],
+		resolve: {
+			userResolver
+		}
 	},
 	{
 		path: `${environment.frontendPrefix}/campaigns`, 

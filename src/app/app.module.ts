@@ -18,11 +18,13 @@ import { LoadRecentlyUpdatedArticlesEffects } from './app/_effects/load-recently
 import { LoginEffects } from './app/_effects/login.effect';
 import { MapEffects } from './app/_effects/map.effect';
 import { ResetPasswordEffects } from './app/_effects/resetPassword.effect';
+import { UserEffects } from './app/_effects/user.effect';
 import { CampaignOverviewPageComponent } from './app/campaign-overview-page/campaign-overview-page.component';
 import { ConfigAdministrationPageComponent } from './app/config-administration-page/config-administration-page.component';
 import { HomePageComponent } from './app/home-page/home-page.component';
 import { LoginPageComponent } from './app/login-page/login-page.component';
 import { MapPageComponent } from './app/map-page/map-page.component';
+import { ProfilePageComponent } from './app/profile-page/profile-page.component';
 import { FormlyFileFieldComponent } from './design/molecules';
 import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelectDisableFieldComponent } from './design/organisms';
 import { TemplatesModule } from './design/templates/templates.module';
@@ -35,6 +37,7 @@ import { metaReducers, rootReducers } from './root.reducer';
     HomePageComponent,
     CampaignOverviewPageComponent,
     LoginPageComponent,
+    ProfilePageComponent,
     ConfigAdministrationPageComponent,
   ],
   imports: [
@@ -82,6 +85,7 @@ import { metaReducers, rootReducers } from './root.reducer';
       MapEffects,
       ResetPasswordEffects,
       LoadConfigTablesEffects,
+      UserEffects,
     ]),
     TemplatesModule,
   ],

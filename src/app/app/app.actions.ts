@@ -5,6 +5,7 @@ import { Login } from "../_models/login";
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
 import { UserData } from "../_models/token";
+import { User } from "../_models/user";
 import { ConfigTableKind } from "../design/templates/_models/config-table";
 
 export const loadCampaignSet = createAction('[App] Load Campaignset');
@@ -59,3 +60,7 @@ export const createConfigTableEntryFailure = createAction('[App] Create Config T
 export const deleteConfigTableEntry = createAction('[App] Delete Config Table Entry', props<{ table: ConfigTableKind, entryId: number}>());
 export const deleteConfigTableEntrySuccess = createAction('[App] Delete Config Table Entry Success', props<{ table: ConfigTableKind, entryId: number}>());
 export const deleteConfigTableEntryFailure = createAction('[App] Delete Config Table Entry Failure', props<{ table: ConfigTableKind, error: HttpErrorResponse }>());
+
+export const loadCurrentUser = createAction('[App] Load Current User');
+export const loadCurrentUserSuccess = createAction('[App] Load Current User Success', props<User>());
+export const loadCurrentUserFailure = createAction('[App] Load Current User Failure', props<{ error: HttpErrorResponse }>());

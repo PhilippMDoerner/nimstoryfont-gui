@@ -3,8 +3,30 @@ import { CampaignOverview } from '../_models/campaign';
 import { SpecialLoginState } from '../_models/login';
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
+import { User } from '../_models/user';
 import { ConfigTableData } from '../design/templates/_models/config-table';
-import { clearCurrentCampaign, createConfigTableEntrySuccess, deleteConfigTableEntrySuccess, deleteMapSuccess, loadCampaignSetFailure, loadCampaignSetSuccess, loadConfigTableEntriesFailure, loadConfigTableEntriesSuccess, loadMapFailure, loadMapOverviewItemsFailure, loadMapOverviewItemsSuccess, loadMapSuccess, loadRecentlyUpdatedArticlesFailure, loadRecentlyUpdatedArticlesSuccess, resetPassword, resetPasswordFailure, resetPasswordSuccess, resetRecentlyUpdatedArticleLoadState, setCurrentCampaign as setCurrentCampaignName } from './app.actions';
+import {
+  clearCurrentCampaign,
+  createConfigTableEntrySuccess,
+  deleteConfigTableEntrySuccess,
+  deleteMapSuccess,
+  loadCampaignSetFailure,
+  loadCampaignSetSuccess,
+  loadConfigTableEntriesFailure,
+  loadConfigTableEntriesSuccess,
+  loadCurrentUserSuccess,
+  loadMapFailure,
+  loadMapOverviewItemsFailure,
+  loadMapOverviewItemsSuccess,
+  loadMapSuccess,
+  loadRecentlyUpdatedArticlesFailure,
+  loadRecentlyUpdatedArticlesSuccess,
+  resetPassword,
+  resetPasswordFailure,
+  resetPasswordSuccess,
+  resetRecentlyUpdatedArticleLoadState,
+  setCurrentCampaign as setCurrentCampaignName,
+} from './app.actions';
 
 export const APP_STORE = 'app';
 
@@ -18,6 +40,7 @@ export interface AppState{
   resetErrorMessage?: string;
   specialLoginState?: SpecialLoginState;
   configTableEntries: ConfigTableData;
+  currentUser?: User;
 }
 
 const initialState: AppState = {
@@ -30,6 +53,7 @@ const initialState: AppState = {
   specialLoginState: undefined,
   canLoadMoreRecentlyUpdatedArticles: true,
   configTableEntries: {},
+  currentUser: undefined,
 }
 
 const reducer = createReducer(
@@ -131,6 +155,10 @@ const reducer = createReducer(
       }
     };
   }),
+  on(loadCurrentUserSuccess, (state, user): AppState => ({
+    ...state,
+    currentUser: user,
+  })),
 );
 
 export const appReducer = (state: AppState | undefined, action: Action): AppState => reducer(state, action);
@@ -179,4 +207,8 @@ export const selectCanLoadMoreArticles = createSelector(
 export const selectConfigTableData = createSelector(
   selectCampaignState,
   (state: AppState): ConfigTableData => state?.configTableEntries,
+);
+export const selectCurrentUser = createSelector(
+  selectCampaignState,
+  (state: AppState): User | undefined => state?.currentUser,
 );

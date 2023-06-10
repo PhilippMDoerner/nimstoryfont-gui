@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { siteAdminGuard } from './_guards/admin.guard';
 import { campaignGuard } from './_guards/campaign.guard';
 import { loginGuard } from './_guards/login.guard';
 import { CampaignRoute, GeneralRoute } from './_models/route';

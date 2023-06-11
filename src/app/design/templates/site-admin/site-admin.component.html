@@ -148,7 +148,7 @@
             <div class="row mb-4">
               <div class="col-sm-3">
                 <img 
-                  [src]="serverUrl + campaign.icon" 
+                  [src]="serverUrl + '/' + campaign.icon" 
                   [alt]="'Icon of campaign ' + campaign.name" 
                   class="body__icon"
                 >
@@ -156,7 +156,7 @@
               </div>
               <div class="col-sm-3"> {{campaign.admins?.length ?? 0}} Admins</div>
               <div class="col-sm-3"> {{campaign.members?.length ?? 0}} Members</div>
-              <div class="col-sm-3"> {{campaign.guests?.length ?? 0}} Guest</div>
+              <div class="col-sm-3"> {{campaign.guests?.length ?? 0}} Guests </div>
             </div>
           </ng-container>
         </div>

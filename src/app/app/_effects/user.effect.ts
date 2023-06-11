@@ -5,7 +5,7 @@ import { Observable, catchError, of, switchMap } from "rxjs";
 import { User } from "src/app/_models/user";
 import { UserService } from "src/app/_services/article/user.service";
 import { TokenService } from "src/app/_services/utils/token.service";
-import { loadCurrentUser, loadCurrentUserFailure, loadCurrentUserSuccess } from "../app.actions";
+import { loadCurrentUser, loadCurrentUserFailure, loadCurrentUserSuccess, loadSiteUsers, loadSiteUsersFailure, loadSiteUsersSuccess } from "../app.actions";
 
 @Injectable()
 export class UserEffects {
@@ -20,6 +20,16 @@ export class UserEffects {
       );
     }),
   ));
+  
+  loadSiteUsers$: Observable<Action> = createEffect((): Observable<Action> => this.actions$.pipe(
+    ofType(loadSiteUsers),
+    switchMap((): Observable<Action> => {
+      return this.userService.list().pipe(
+        switchMap((users: User[]) => of(loadSiteUsersSuccess({ users }))),
+        catchError(error => of(loadSiteUsersFailure(error)))
+      );
+    }),
+  ));  
   
   constructor(
     private actions$: Actions,

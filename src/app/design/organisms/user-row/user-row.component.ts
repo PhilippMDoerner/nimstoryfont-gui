@@ -10,7 +10,7 @@ import { BadgeListEntry } from '../../molecules';
 })
 export class UserRowComponent implements OnChanges{
   @Input() user!: User;
-  @Input() groups!: PermissionGroup[];
+  @Input() groups?: PermissionGroup[];
   @Input() canCreate: boolean = false;
   @Input() canDelete: boolean = false;
   

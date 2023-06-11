@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from "@angular/common/http";
 import { createAction, props } from "@ngrx/store";
-import { Campaign, CampaignOverview } from "../_models/campaign";
+import { PermissionGroup } from "../_models/auth";
+import { Campaign, CampaignOverview, WikiStatistics } from "../_models/campaign";
 import { Login } from "../_models/login";
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
@@ -60,6 +61,22 @@ export const createConfigTableEntryFailure = createAction('[App] Create Config T
 export const deleteConfigTableEntry = createAction('[App] Delete Config Table Entry', props<{ table: ConfigTableKind, entryId: number}>());
 export const deleteConfigTableEntrySuccess = createAction('[App] Delete Config Table Entry Success', props<{ table: ConfigTableKind, entryId: number}>());
 export const deleteConfigTableEntryFailure = createAction('[App] Delete Config Table Entry Failure', props<{ table: ConfigTableKind, error: HttpErrorResponse }>());
+
+export const loadCampaignDetailSet = createAction('[App] Load Campaign Detail Set');
+export const loadCampaignDetailSetSuccess = createAction('[App] Load Campaign Detail Set Success', props<{ campaigns: Campaign[] }>());
+export const loadCampaignDetailSetFailure = createAction('[App] Load Campaign Detail Set Failure', props<{ error: HttpErrorResponse }>());
+
+export const loadSiteUsers = createAction('[App] Load Site Users');
+export const loadSiteUsersSuccess = createAction('[App] Load Site Users Success', props<{ users: User[] }>());
+export const loadSiteUsersFailure = createAction('[App] Load Site Users Failure', props<{ error: HttpErrorResponse }>());
+
+export const loadSiteStatistics = createAction('[App] Load Site Statistics');
+export const loadSiteStatisticsSuccess = createAction('[App] Load Site Statistics Success', props<{ statistics: WikiStatistics} >());
+export const loadSiteStatisticsFailure = createAction('[App] Load Site Statistics Failure', props<{ error: HttpErrorResponse }>());
+
+export const loadSiteUserGroups = createAction('[App] Load Site User Groups');
+export const loadSiteUserGroupsSuccess = createAction('[App] Load Site User Groups Success', props<{ groups: PermissionGroup[] }>());
+export const loadSiteUserGroupsFailure = createAction('[App] Load Site User Groups Failure', props<{ error: HttpErrorResponse }>());
 
 export const loadCurrentUser = createAction('[App] Load Current User');
 export const loadCurrentUserSuccess = createAction('[App] Load Current User Success', props<User>());

@@ -1,5 +1,6 @@
 import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
-import { CampaignOverview } from '../_models/campaign';
+import { PermissionGroup } from '../_models/auth';
+import { Campaign, CampaignOverview, WikiStatistics } from '../_models/campaign';
 import { SpecialLoginState } from '../_models/login';
 import { ExtendedMap } from "../_models/map";
 import { OverviewItem } from "../_models/overview";
@@ -10,6 +11,7 @@ import {
   createConfigTableEntrySuccess,
   deleteConfigTableEntrySuccess,
   deleteMapSuccess,
+  loadCampaignDetailSetSuccess,
   loadCampaignSetFailure,
   loadCampaignSetSuccess,
   loadConfigTableEntriesFailure,
@@ -21,6 +23,9 @@ import {
   loadMapSuccess,
   loadRecentlyUpdatedArticlesFailure,
   loadRecentlyUpdatedArticlesSuccess,
+  loadSiteStatisticsSuccess,
+  loadSiteUserGroupsSuccess,
+  loadSiteUsersSuccess,
   resetPassword,
   resetPasswordFailure,
   resetPasswordSuccess,
@@ -32,6 +37,7 @@ export const APP_STORE = 'app';
 
 export interface AppState{
   campaignSet: CampaignOverview[];
+  campaignDetailSet?: Campaign[];
   currentCampaignName?: string;
   mapOverviewItems: OverviewItem[];
   map?: ExtendedMap;
@@ -41,6 +47,9 @@ export interface AppState{
   specialLoginState?: SpecialLoginState;
   configTableEntries: ConfigTableData;
   currentUser?: User;
+  siteUsers?: User[];
+  siteStatistics?: WikiStatistics;
+  siteUserGroups?: PermissionGroup[];
 }
 
 const initialState: AppState = {
@@ -54,6 +63,10 @@ const initialState: AppState = {
   canLoadMoreRecentlyUpdatedArticles: true,
   configTableEntries: {},
   currentUser: undefined,
+  siteStatistics: undefined,
+  campaignDetailSet: undefined,
+  siteUserGroups: undefined,
+  siteUsers: undefined,
 }
 
 const reducer = createReducer(
@@ -159,6 +172,22 @@ const reducer = createReducer(
     ...state,
     currentUser: user,
   })),
+  on(loadCampaignDetailSetSuccess, (state, { campaigns }): AppState => ({
+    ...state,
+    campaignDetailSet: campaigns,
+  })),
+  on(loadSiteStatisticsSuccess, (state, { statistics }): AppState => ({
+    ...state,
+    siteStatistics: statistics,
+  })),
+  on(loadSiteUserGroupsSuccess, (state, { groups }): AppState => ({
+    ...state,
+    siteUserGroups: groups,
+  })),
+  on(loadSiteUsersSuccess, (state, { users }): AppState => ({
+    ...state,
+    siteUsers: users,
+  })),
 );
 
 export const appReducer = (state: AppState | undefined, action: Action): AppState => reducer(state, action);
@@ -212,3 +241,19 @@ export const selectCurrentUser = createSelector(
   selectCampaignState,
   (state: AppState): User | undefined => state?.currentUser,
 );
+export const selectAllSiteUsers = createSelector(
+  selectCampaignState,
+  (state: AppState): User[] | undefined => state?.siteUsers,
+);
+export const selectAllSiteCampaigns = createSelector(
+  selectCampaignState,
+  (state: AppState): Campaign[] | undefined => state.campaignDetailSet,
+);
+export const selectAllSiteGroups = createSelector(
+  selectCampaignState,
+  (state: AppState): PermissionGroup[] | undefined => state?.siteUserGroups,
+)
+export const selectSiteStatistics = createSelector(
+  selectCampaignState,
+  (state: AppState): WikiStatistics | undefined => state.siteStatistics,
+)

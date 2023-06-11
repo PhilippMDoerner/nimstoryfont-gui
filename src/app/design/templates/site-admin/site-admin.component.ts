@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PermissionGroup } from 'src/app/_models/auth';
-import { BaseCampaignData, Campaign } from 'src/app/_models/campaign';
+import { BaseCampaignData, Campaign, WikiStatistics } from 'src/app/_models/campaign';
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -15,10 +15,10 @@ type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
   styleUrls: ['./site-admin.component.scss']
 })
 export class SiteAdminComponent implements OnInit, OnChanges{
-  @Input() users!: User[];
-  @Input() campaigns!: Campaign[];
-  @Input() allGroups!: PermissionGroup[];
-  @Input() statistics!: {[key: string]: number};
+  @Input() users?: User[];
+  @Input() campaigns?: Campaign[];
+  @Input() allGroups?: PermissionGroup[];
+  @Input() statistics?: WikiStatistics;
   @Input() serverUrl!: string;
   
   @Output() createCampaign: EventEmitter<BaseCampaignData> = new EventEmitter();
@@ -115,8 +115,9 @@ export class SiteAdminComponent implements OnInit, OnChanges{
    
   private setUserCards(): void{
     this.userCards = this.users
-    .map(user => ({isOpen: false, user}))
-    .sort((entry1, entry2) =>  entry1.user.username.toLowerCase() > entry2.user.username.toLowerCase() ? 1 : -1);
+    ?.map(user => ({isOpen: false, user}))
+    ?.sort((entry1, entry2) =>  entry1.user.username.toLowerCase() > entry2.user.username.toLowerCase() ? 1 : -1)
+    ?? [];
   }
   
   private setCampaignOverviewUrl(): void{

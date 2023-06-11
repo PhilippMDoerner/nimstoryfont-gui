@@ -1,0 +1,7 @@
+<app-site-admin
+  [users]="(allSiteUsers$ | async) ?? undefined"
+  [campaigns]="(allSiteCampaigns$ | async) ?? undefined"
+  [allGroups]="(allPermissionGroups$ | async) ?? undefined"
+  [statistics]="(siteStatistics$ | async) ?? undefined"
+  [serverUrl]="serverUrl"
+></app-site-admin>

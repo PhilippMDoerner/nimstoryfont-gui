@@ -18,7 +18,7 @@
       [createOptions]="{
         valueProp: 'id',
         labelProp: 'name',
-        options: groups,
+        options: groups ?? [],
       }"
       [label]="'Permission-Groups'"
       (entryCreate)="addGroup.emit($event)"

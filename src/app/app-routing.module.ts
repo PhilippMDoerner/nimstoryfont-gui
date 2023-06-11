@@ -6,12 +6,15 @@ import { campaignGuard } from './_guards/campaign.guard';
 import { loginGuard } from './_guards/login.guard';
 import { AdminRoute, CampaignRoute, GeneralRoute } from './_models/route';
 import { CampaignOverviewPageComponent, HomePageComponent, MapPageComponent, mapDefaultResolver, mapResolver, updateCurrentCampaignResolver } from './app';
-import { clearCurrentCampaignResolver } from './app/_resolvers/campaign.resolver';
+import { campaignDetailSetResolver, clearCurrentCampaignResolver } from './app/_resolvers/campaign.resolver';
+import { siteGroupsResolver } from './app/_resolvers/group.resolver';
 import { recentlyUpdatedArticleResolver, resetRecentlyUpdatedArticleLoadStateResolver } from './app/_resolvers/recently-updated-article.resolver';
-import { userResolver } from './app/_resolvers/user.resolver';
+import { siteStatisticsResolver } from './app/_resolvers/statistics.resolver';
+import { siteUsersResolver, userResolver } from './app/_resolvers/user.resolver';
 import { ConfigAdministrationPageComponent } from './app/config-administration-page/config-administration-page.component';
 import { LoginPageComponent } from './app/login-page/login-page.component';
 import { ProfilePageComponent } from './app/profile-page/profile-page.component';
+import { SiteAdministrationPageComponent } from './app/site-administration-page/site-administration-page.component';
 
 const generalRoutes: GeneralRoute[] = [
   //Redirect Routes
@@ -67,6 +70,18 @@ const generalRoutes: GeneralRoute[] = [
 
 const adminRoutes: AdminRoute[] = [
 		//General Admin Routes
+		{
+			path: `${environment.frontendPrefix}/admin`,
+			component: SiteAdministrationPageComponent,
+			data: { name: "admin"},
+			canActivate: [siteAdminGuard],
+			resolve: {
+				siteUsersResolver,
+				siteGroupsResolver,
+				siteStatisticsResolver,
+				campaignDetailSetResolver
+			}
+		},
 		{
 			path: `${environment.frontendPrefix}/configtables`,
 			component: ConfigAdministrationPageComponent,

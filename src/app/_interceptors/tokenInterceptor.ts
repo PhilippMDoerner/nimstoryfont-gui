@@ -33,7 +33,9 @@ export class TokenInterceptor implements HttpInterceptor{
 
       const accessToken = TokenService.getAccessToken();
       if (this.refreshTokenService.tokenNeedsRefresh(accessToken)){
-        return this.handleByRefreshingAccessToken(request, next);
+        const x = this.handleByRefreshingAccessToken(request, next);
+        x.subscribe(y => console.log("Result: ", y));
+        return x;
       }
 
       if (this.refreshTokenService.hasToWaitForRefresh(accessToken)){
@@ -56,8 +58,7 @@ export class TokenInterceptor implements HttpInterceptor{
         }),
         catchError(error =>{
           if (error.status === 401){
-            console.log("Error while refreshing access token");
-            console.log(error)
+            console.log("Error while refreshing access token\n", error);
             this.routingService.routeToPath('login-state', {state: 'token-expired'});
             return EMPTY;
           } 
@@ -76,14 +77,12 @@ export class TokenInterceptor implements HttpInterceptor{
       }),
       catchError(error =>{
         if(error.status===401){
-          console.log("Error while waiting for access token refresh");
-          console.log(error);
+          console.log("Error while waiting for access token refresh\n", error);
           this.routingService.routeToPath('login-state', {state: '???'});
           return EMPTY;
         }
 
-        console.log("Error during token refresh. Uncertain what error, but status "+error.status);
-        console.log(error)
+        console.log("Error during token refresh. Uncertain what error, but status ", error.status, "\n", error);
         this.routingService.routeToErrorPage(error.status);
         return EMPTY;
       })

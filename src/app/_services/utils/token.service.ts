@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { Login } from 'src/app/_models/login';
 import { CampaignMemberships, CampaignRole, CampaignRoles, TokenData, UserData } from 'src/app/_models/token';
 import { environment } from 'src/environments/environment';
@@ -14,7 +14,7 @@ export class TokenService {
   
   apiUrl = environment.apiUrl;
   private jwtTokenUrl: string = `${this.apiUrl}/token`;
-  private refreshTokenUrl: string = `${this.apiUrl}/refresh`;
+  private refreshTokenUrl: string = `${this.apiUrl}/token/refresh`;
   private ID_IDENTIFIER_PREFIX: string = "id_";
 
   constructor(private http: HttpClient) { }
@@ -24,6 +24,7 @@ export class TokenService {
   }
 
   public refreshUserData(): Observable<UserData>{
+    console.log("Trigger refresh call")
     const refreshToken = TokenService.getRefreshToken().token;
     const httpHeaders = new HttpHeaders().set("Authorization", `Bearer ${refreshToken}`);
     //TODO Figure out why this was necessary
@@ -31,7 +32,7 @@ export class TokenService {
       this.refreshTokenUrl, 
       {refresh: refreshToken}, 
       {headers: httpHeaders}
-    );
+    ).pipe(tap(x => console.log("Refresh call responded: ", x)));
   }
 
   public invalidateJWTToken(): void{

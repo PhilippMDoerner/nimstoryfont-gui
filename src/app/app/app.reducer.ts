@@ -1,9 +1,19 @@
-import { Action, createFeatureSelector, createReducer, createSelector, on } from '@ngrx/store';
+import {
+  Action,
+  createFeatureSelector,
+  createReducer,
+  createSelector,
+  on,
+} from '@ngrx/store';
 import { PermissionGroup } from '../_models/auth';
-import { Campaign, CampaignOverview, WikiStatistics } from '../_models/campaign';
+import {
+  Campaign,
+  CampaignOverview,
+  WikiStatistics,
+} from '../_models/campaign';
 import { SpecialLoginState } from '../_models/login';
-import { ExtendedMap } from "../_models/map";
-import { OverviewItem } from "../_models/overview";
+import { ExtendedMap } from '../_models/map';
+import { OverviewItem } from '../_models/overview';
 import { User } from '../_models/user';
 import { ConfigTableData } from '../design/templates/_models/config-table';
 import {
@@ -35,7 +45,7 @@ import {
 
 export const APP_STORE = 'app';
 
-export interface AppState{
+export interface AppState {
   campaignSet: CampaignOverview[];
   campaignDetailSet?: Campaign[];
   currentCampaignName?: string;
@@ -67,130 +77,192 @@ const initialState: AppState = {
   campaignDetailSet: undefined,
   siteUserGroups: undefined,
   siteUsers: undefined,
-}
+};
 
 const reducer = createReducer(
   initialState,
-  on(loadCampaignSetSuccess, (state, { campaigns }): AppState => ({
-    ...state,
-    campaignSet: [...campaigns],
-  })),
-  on(loadCampaignSetFailure, (state, { error }): AppState => ({
-    ...state,
-    campaignSet: [],
-  })),
-  on(setCurrentCampaignName, (state, { campaignName }): AppState => ({
-    ...state,
-    currentCampaignName: campaignName,
-  })),
-  on(resetPassword, resetPasswordSuccess, (state): AppState => ({
-    ...state,
-    resetErrorMessage: undefined,
-  })),
-  on(resetPasswordFailure, (state, { error }): AppState => ({
-    ...state,
-    resetErrorMessage: error.message,
-  })),
-  on(clearCurrentCampaign, (state): AppState => ({
-    ...state,
-    currentCampaignName: undefined,
-  })),
-  on(loadMapOverviewItemsSuccess, (state, { mapOverviewItems }): AppState => ({
-    ...state,
-    mapOverviewItems: [...mapOverviewItems],
-  })),
-  on(loadMapOverviewItemsFailure, (state): AppState => ({
-    ...state,
-    mapOverviewItems: [],
-  })),
-  on(loadMapSuccess, (state, { map }): AppState => ({
-    ...state,
-    map: { ...map },
-  })),
-  on(loadMapFailure, deleteMapSuccess, (state): AppState => ({
-    ...state,
-    map: undefined,
-  })),
-  on(loadRecentlyUpdatedArticlesSuccess, (state, { recentlyUpdatedArticles }): AppState => ({
-    ...state,
-    recentlyUpdatedArticles: recentlyUpdatedArticles,
-    canLoadMoreRecentlyUpdatedArticles: !!recentlyUpdatedArticles,
-  })),
-  on(loadRecentlyUpdatedArticlesFailure, (state): AppState => ({
-    ...state,
-    recentlyUpdatedArticles: [],
-  })),
-  on(resetRecentlyUpdatedArticleLoadState, (state): AppState => ({
-    ...state,
-    canLoadMoreRecentlyUpdatedArticles: true,
-  })),
+  on(
+    loadCampaignSetSuccess,
+    (state, { data: campaigns }): AppState => ({
+      ...state,
+      campaignSet: [...campaigns],
+    })
+  ),
+  on(
+    loadCampaignSetFailure,
+    (state, { error }): AppState => ({
+      ...state,
+      campaignSet: [],
+    })
+  ),
+  on(
+    setCurrentCampaignName,
+    (state, { campaignName }): AppState => ({
+      ...state,
+      currentCampaignName: campaignName,
+    })
+  ),
+  on(
+    resetPassword,
+    resetPasswordSuccess,
+    (state): AppState => ({
+      ...state,
+      resetErrorMessage: undefined,
+    })
+  ),
+  on(
+    resetPasswordFailure,
+    (state, { error }): AppState => ({
+      ...state,
+      resetErrorMessage: error.message,
+    })
+  ),
+  on(
+    clearCurrentCampaign,
+    (state): AppState => ({
+      ...state,
+      currentCampaignName: undefined,
+    })
+  ),
+  on(
+    loadMapOverviewItemsSuccess,
+    (state, { mapOverviewItems }): AppState => ({
+      ...state,
+      mapOverviewItems: [...mapOverviewItems],
+    })
+  ),
+  on(
+    loadMapOverviewItemsFailure,
+    (state): AppState => ({
+      ...state,
+      mapOverviewItems: [],
+    })
+  ),
+  on(
+    loadMapSuccess,
+    (state, { map }): AppState => ({
+      ...state,
+      map: { ...map },
+    })
+  ),
+  on(
+    loadMapFailure,
+    deleteMapSuccess,
+    (state): AppState => ({
+      ...state,
+      map: undefined,
+    })
+  ),
+  on(
+    loadRecentlyUpdatedArticlesSuccess,
+    (state, { recentlyUpdatedArticles }): AppState => ({
+      ...state,
+      recentlyUpdatedArticles: recentlyUpdatedArticles,
+      canLoadMoreRecentlyUpdatedArticles: !!recentlyUpdatedArticles,
+    })
+  ),
+  on(
+    loadRecentlyUpdatedArticlesFailure,
+    (state): AppState => ({
+      ...state,
+      recentlyUpdatedArticles: [],
+    })
+  ),
+  on(
+    resetRecentlyUpdatedArticleLoadState,
+    (state): AppState => ({
+      ...state,
+      canLoadMoreRecentlyUpdatedArticles: true,
+    })
+  ),
   on(loadConfigTableEntriesSuccess, (state, { table, entries }): AppState => {
     const newConfigTableEntries = {
       ...state.configTableEntries,
       [table]: entries,
-    }
-    
-    return {
-      ...state,
-      configTableEntries: newConfigTableEntries
     };
-  }),
-  on(loadConfigTableEntriesFailure, (state, { table }): AppState => ({
-    ...state,
-    configTableEntries: {
-      ...state.configTableEntries,
-      [table]: undefined,
-    }
-  })),
-  on(deleteConfigTableEntrySuccess, (state, {table, entryId}): AppState => {
-    const entries = state.configTableEntries[table];
-    const newEntries = entries?.filter(entry => entry.id === entryId);
-    
-    const newConfigTableEntries = {
-      ...state.configTableEntries,
-      [table]: newEntries,
-    };
-    
+
     return {
       ...state,
       configTableEntries: newConfigTableEntries,
     };
   }),
-  on(createConfigTableEntrySuccess, (state, {table, entry}): AppState => {
+  on(
+    loadConfigTableEntriesFailure,
+    (state, { table }): AppState => ({
+      ...state,
+      configTableEntries: {
+        ...state.configTableEntries,
+        [table]: undefined,
+      },
+    })
+  ),
+  on(deleteConfigTableEntrySuccess, (state, { table, entryId }): AppState => {
+    const entries = state.configTableEntries[table];
+    const newEntries = entries?.filter((entry) => entry.id === entryId);
+
+    const newConfigTableEntries = {
+      ...state.configTableEntries,
+      [table]: newEntries,
+    };
+
+    return {
+      ...state,
+      configTableEntries: newConfigTableEntries,
+    };
+  }),
+  on(createConfigTableEntrySuccess, (state, { table, entry }): AppState => {
     const entries = state.configTableEntries[table];
     entries?.push(entry);
-    
+
     return {
       ...state,
       configTableEntries: {
         ...state.configTableEntries,
         [table]: entries,
-      }
+      },
     };
   }),
-  on(loadCurrentUserSuccess, (state, user): AppState => ({
-    ...state,
-    currentUser: user,
-  })),
-  on(loadCampaignDetailSetSuccess, (state, { campaigns }): AppState => ({
-    ...state,
-    campaignDetailSet: campaigns,
-  })),
-  on(loadSiteStatisticsSuccess, (state, { statistics }): AppState => ({
-    ...state,
-    siteStatistics: statistics,
-  })),
-  on(loadSiteUserGroupsSuccess, (state, { groups }): AppState => ({
-    ...state,
-    siteUserGroups: groups,
-  })),
-  on(loadSiteUsersSuccess, (state, { users }): AppState => ({
-    ...state,
-    siteUsers: users,
-  })),
+  on(
+    loadCurrentUserSuccess,
+    (state, user): AppState => ({
+      ...state,
+      currentUser: user,
+    })
+  ),
+  on(
+    loadCampaignDetailSetSuccess,
+    (state, { data: campaigns }): AppState => ({
+      ...state,
+      campaignDetailSet: campaigns,
+    })
+  ),
+  on(
+    loadSiteStatisticsSuccess,
+    (state, { statistics }): AppState => ({
+      ...state,
+      siteStatistics: statistics,
+    })
+  ),
+  on(
+    loadSiteUserGroupsSuccess,
+    (state, { data: groups }): AppState => ({
+      ...state,
+      siteUserGroups: groups,
+    })
+  ),
+  on(
+    loadSiteUsersSuccess,
+    (state, { users }): AppState => ({
+      ...state,
+      siteUsers: users,
+    })
+  )
 );
 
-export const appReducer = (state: AppState | undefined, action: Action): AppState => reducer(state, action);
+export const appReducer = (
+  state: AppState | undefined,
+  action: Action
+): AppState => reducer(state, action);
 
 // SELECTORS
 export const selectCampaignState = createFeatureSelector<AppState>(APP_STORE);
@@ -208,18 +280,19 @@ export const selectCampaigns = createSelector(
 );
 export const selectCurrentCampaignName = createSelector(
   selectCampaignState,
-  (state: AppState) => state?.currentCampaignName,
+  (state: AppState) => state?.currentCampaignName
 );
 export const selectCurrentCampaign = createSelector(
   selectCampaignState,
   (state: AppState): CampaignOverview | undefined => {
     const campaignName = state.currentCampaignName;
-    return state.campaignSet.find(campaign => campaign.name === campaignName);
+    return state.campaignSet.find((campaign) => campaign.name === campaignName);
   }
 );
 export const selectRecentlyUpdatedArticles = createSelector(
   selectCampaignState,
-  (state: AppState): OverviewItem[] => state?.recentlyUpdatedArticles as OverviewItem[],
+  (state: AppState): OverviewItem[] =>
+    state?.recentlyUpdatedArticles as OverviewItem[]
 );
 export const selectSpecialLoginState = createSelector(
   selectCampaignState,
@@ -227,33 +300,33 @@ export const selectSpecialLoginState = createSelector(
 );
 export const selectResetPasswordErrorMessage = createSelector(
   selectCampaignState,
-  (state: AppState): string | undefined => state?.resetErrorMessage,
+  (state: AppState): string | undefined => state?.resetErrorMessage
 );
 export const selectCanLoadMoreArticles = createSelector(
   selectCampaignState,
-  (state: AppState): boolean => state?.canLoadMoreRecentlyUpdatedArticles,
+  (state: AppState): boolean => state?.canLoadMoreRecentlyUpdatedArticles
 );
 export const selectConfigTableData = createSelector(
   selectCampaignState,
-  (state: AppState): ConfigTableData => state?.configTableEntries,
+  (state: AppState): ConfigTableData => state?.configTableEntries
 );
 export const selectCurrentUser = createSelector(
   selectCampaignState,
-  (state: AppState): User | undefined => state?.currentUser,
+  (state: AppState): User | undefined => state?.currentUser
 );
 export const selectAllSiteUsers = createSelector(
   selectCampaignState,
-  (state: AppState): User[] | undefined => state?.siteUsers,
+  (state: AppState): User[] | undefined => state?.siteUsers
 );
 export const selectAllSiteCampaigns = createSelector(
   selectCampaignState,
-  (state: AppState): Campaign[] | undefined => state.campaignDetailSet,
+  (state: AppState): Campaign[] | undefined => state.campaignDetailSet
 );
 export const selectAllSiteGroups = createSelector(
   selectCampaignState,
-  (state: AppState): PermissionGroup[] | undefined => state?.siteUserGroups,
-)
+  (state: AppState): PermissionGroup[] | undefined => state?.siteUserGroups
+);
 export const selectSiteStatistics = createSelector(
   selectCampaignState,
-  (state: AppState): WikiStatistics | undefined => state.siteStatistics,
-)
+  (state: AppState): WikiStatistics | undefined => state.siteStatistics
+);

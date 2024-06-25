@@ -1,13 +1,23 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { OverviewItem } from 'src/app/_models/overview';
-import { dateMessage, dateValidator, integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from '../../../_services/formly/validators';
-import { FormlyDatepickerFieldComponent, OrganismsModule } from '../../../design/organisms';
-import { SessionaudioCardComponent } from './sessionaudio-card.component';
+import { RouterTestingModule } from "@angular/router/testing";
+import { FormlyModule } from "@ngx-formly/core";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { OverviewItem } from "src/app/_models/overview";
+import {
+  dateMessage,
+  dateValidator,
+  integerValidator,
+  notIntegerMessage,
+  requiredMessage,
+  requiredValidator,
+} from "../../../_services/formly/validators";
+import {
+  FormlyDatepickerFieldComponent,
+  OrganismsModule,
+} from "../../../design/organisms";
+import { SessionaudioCardComponent } from "./sessionaudio-card.component";
 
-const dummySessionAudio: OverviewItem =   {
-  getAbsoluteRouterUrl: () => '/sessionaudio/456',
+const dummySessionAudio: OverviewItem = {
+  getAbsoluteRouterUrl: () => "/sessionaudio/456",
   article_type: "audio",
   name: "Audio of Main Session 83",
   pk: 1001,
@@ -18,19 +28,18 @@ const dummySessionAudio: OverviewItem =   {
     pk: 1,
     session_number: 1,
     is_main_session: true,
-    is_main_session_int: 1
+    is_main_session_int: 1,
   },
   audio_url: "dnd-session-1-audio.mp3",
   download_url: "dnd-session-1-audio-download.mp3",
   campaign_details: {
     pk: 100,
-    name: "The Chronicles of Adventure"
-  }
+    name: "The Chronicles of Adventure",
+  },
 };
 
-
 export default {
-  title: 'DesignSystem/Organisms/SessionaudioCardComponent',
+  title: "DesignSystem/Organisms/SessionaudioCardComponent",
   component: SessionaudioCardComponent,
   decorators: [
     moduleMetadata({
@@ -39,34 +48,28 @@ export default {
         RouterTestingModule,
         FormlyModule.forRoot({
           types: [
-            { name: 'datepicker', component: FormlyDatepickerFieldComponent },
+            { name: "datepicker", component: FormlyDatepickerFieldComponent },
           ],
-          validationMessages: [
-            requiredMessage,
-            dateMessage,
-            notIntegerMessage,
-          ],
-          validators: [
-            requiredValidator,
-            dateValidator,
-            integerValidator,
-          ],
+          validationMessages: [requiredMessage, dateMessage, notIntegerMessage],
+          validators: [requiredValidator, dateValidator, integerValidator],
         }),
       ],
-      declarations: [
-      ]
+      declarations: [],
     }),
   ],
   args: {
-    serverUrl: 'https://www.aldrune.com',
+    serverUrl: "https://www.aldrune.com",
     sessionAudio: dummySessionAudio,
-  }
+  },
 } as Meta<SessionaudioCardComponent>;
 
-const Template: StoryFn<SessionaudioCardComponent> = (args: SessionaudioCardComponent) => ({ 
+const Template: StoryFn<SessionaudioCardComponent> = (
+  args: SessionaudioCardComponent,
+) => ({
   props: {
-    ...args,  },
+    ...args,
+  },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

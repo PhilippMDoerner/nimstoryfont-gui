@@ -1,19 +1,26 @@
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
-import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { EditorModule } from '@tinymce/tinymce-angular';
-import { Rule } from 'src/app/_models/rule';
-import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from 'src/app/_services/formly/validators';
-import { MoleculesModule } from 'src/app/design/molecules';
-import * as all from 'tinymce/tinymce';
-import { AtomsModule } from '../../../design/atoms';
-import { FormlyEditorFieldComponent } from '../../../design/organisms';
-import { RuleComponent } from '../rule/rule.component';
-import { RulesComponent } from './rules.component';
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { FormlyModule } from "@ngx-formly/core";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { EditorModule } from "@tinymce/tinymce-angular";
+import { Rule } from "src/app/_models/rule";
+import {
+  hasSpecialCharactersMessage,
+  integerValidator,
+  notIntegerMessage,
+  requiredMessage,
+  requiredValidator,
+  specialCharacterValidator,
+} from "src/app/_services/formly/validators";
+import { MoleculesModule } from "src/app/design/molecules";
+import * as all from "tinymce/tinymce";
+import { AtomsModule } from "../../../design/atoms";
+import { FormlyEditorFieldComponent } from "../../../design/organisms";
+import { RuleComponent } from "../rule/rule.component";
+import { RulesComponent } from "./rules.component";
 
 const x = all;
 
@@ -31,11 +38,11 @@ const dummyRule: Rule = {
   <p> This rule adds an exciting element of chance to combat encounters in the campaign, while also providing some risk and uncertainty for players who attempt to score a critical hit. By implementing this rule, players will have to think strategically about when to attempt a critical hit and when to play it safe, adding an additional layer of strategy and excitement to combat encounters. </p>
   `,
   campaign: 2,
-  campaign_details: { pk: 2, name: "The Quest for the Lost City" }
+  campaign_details: { pk: 2, name: "The Quest for the Lost City" },
 };
 
 export default {
-  title: 'DesignSystem/Organisms/RulesComponent',
+  title: "DesignSystem/Organisms/RulesComponent",
   component: RulesComponent,
   decorators: [
     moduleMetadata({
@@ -50,7 +57,7 @@ export default {
         ReactiveFormsModule,
         FormlyModule.forRoot({
           types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
+            { name: "text-editor", component: FormlyEditorFieldComponent },
           ],
           validationMessages: [
             requiredMessage,
@@ -63,11 +70,8 @@ export default {
             specialCharacterValidator,
           ],
         }),
-      ],       
-      declarations: [
-        FormlyEditorFieldComponent,
-        RuleComponent,
-      ]
+      ],
+      declarations: [FormlyEditorFieldComponent, RuleComponent],
     }),
   ],
   args: {
@@ -79,27 +83,26 @@ export default {
   },
 } as Meta<RulesComponent>;
 
-const Template: StoryFn<RulesComponent> = (args: RulesComponent) => ({ 
+const Template: StoryFn<RulesComponent> = (args: RulesComponent) => ({
   props: {
     ...args,
-    ruleDelete: action('ruleDelete'),
-    ruleUpdate: action('ruleUpdate'),
-    ruleCreate: action('ruleCreate'),
+    ruleDelete: action("ruleDelete"),
+    ruleUpdate: action("ruleUpdate"),
+    ruleCreate: action("ruleCreate"),
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
-
+Default.args = {};
 
 export const NoPermissions = Template.bind({});
 NoPermissions.args = {
   canUpdate: false,
   canCreate: false,
   canDelete: false,
-}
+};
 
 export const NoRules = Template.bind({});
 NoRules.args = {
   rules: [],
-}
+};

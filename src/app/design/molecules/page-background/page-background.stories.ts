@@ -1,24 +1,24 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
-import { PageBackgroundComponent } from './page-background.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { AtomsModule } from "../../atoms";
+import { PageBackgroundComponent } from "./page-background.component";
 
 export default {
-  title: 'DesignSystem/Molecules/PageBackgroundComponent',
+  title: "DesignSystem/Molecules/PageBackgroundComponent",
   component: PageBackgroundComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        AtomsModule,
-      ],
+      imports: [AtomsModule],
     }),
   ],
   args: {
-    serverUrl: 'https://www.aldrune.com',
-    imageUrl: '/assets/default_images/audio_pic_default.webp',
-  }
+    serverUrl: "https://www.aldrune.com",
+    imageUrl: "/assets/default_images/audio_pic_default.webp",
+  },
 } as Meta<PageBackgroundComponent>;
 
-const Template: StoryFn<PageBackgroundComponent> = (args: PageBackgroundComponent) => ({ 
+const Template: StoryFn<PageBackgroundComponent> = (
+  args: PageBackgroundComponent,
+) => ({
   props: {
     ...args,
   },
@@ -29,7 +29,7 @@ const Template: StoryFn<PageBackgroundComponent> = (args: PageBackgroundComponen
         [imageUrl]="imageUrl"
       ></app-page-background>
     </div>
-  `
+  `,
 });
 
 export const Default = Template.bind({});

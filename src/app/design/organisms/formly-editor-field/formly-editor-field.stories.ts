@@ -1,16 +1,25 @@
-import { forwardRef } from '@angular/core';
-import { FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
-import { Meta, StoryFn, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
-import { EditorModule } from '@tinymce/tinymce-angular';
-import * as all from 'tinymce/tinymce';
-import { FormlyEditorFieldComponent } from './formly-editor-field.component';
+import { forwardRef } from "@angular/core";
+import {
+  FormGroup,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from "@angular/forms";
+import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
+import { FormlyModule } from "@ngx-formly/core";
+import {
+  Meta,
+  StoryFn,
+  componentWrapperDecorator,
+  moduleMetadata,
+} from "@storybook/angular";
+import { EditorModule } from "@tinymce/tinymce-angular";
+import * as all from "tinymce/tinymce";
+import { FormlyEditorFieldComponent } from "./formly-editor-field.component";
 
 const sth = all; //Needed so that the import of "tinymce/tinymce" does not get removed
 
 export default {
-  title: 'DesignSystem/Organisms/FormlyEditorFieldComponent',
+  title: "DesignSystem/Organisms/FormlyEditorFieldComponent",
   component: FormlyEditorFieldComponent,
   args: {
     form: new FormGroup({}),
@@ -18,35 +27,34 @@ export default {
     options: {},
     fields: [
       {
-        key: 'text',
-        type: 'text-editor',
+        key: "text",
+        type: "text-editor",
       },
     ],
   },
   decorators: [
     moduleMetadata({
-      declarations: [
-        FormlyEditorFieldComponent
-      ],
+      declarations: [FormlyEditorFieldComponent],
       imports: [
         ReactiveFormsModule,
         FormlyBootstrapModule,
         EditorModule,
         FormlyModule.forRoot({
           types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent }
-          ]
+            { name: "text-editor", component: FormlyEditorFieldComponent },
+          ],
         }),
       ],
       providers: [
         {
           provide: NG_VALUE_ACCESSOR,
           useExisting: forwardRef(() => FormlyEditorFieldComponent),
-          multi: true
-        }
+          multi: true,
+        },
       ],
     }),
-    componentWrapperDecorator(() => `
+    componentWrapperDecorator(
+      () => `
       <form [formGroup]="form">
         <formly-form 
           [model]="model" 
@@ -55,15 +63,18 @@ export default {
           [form]="form"
         ></formly-form>
       </form>
-    `),
+    `,
+    ),
   ],
 } as Meta<FormlyEditorFieldComponent>;
 
-const Template: StoryFn<FormlyEditorFieldComponent> = (args: FormlyEditorFieldComponent) => ({ 
+const Template: StoryFn<FormlyEditorFieldComponent> = (
+  args: FormlyEditorFieldComponent,
+) => ({
   props: {
     ...args,
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

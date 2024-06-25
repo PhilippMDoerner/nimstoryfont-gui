@@ -1,12 +1,22 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
-import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { PlayerClass } from '../../../_models/playerclass';
-import { Spell } from '../../../_models/spell';
-import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from '../../../_services/formly/validators';
-import { FormlyEditorFieldComponent, OrganismsModule } from '../../../design/organisms';
-import { SpellComponent } from './spell.component';
+import { RouterTestingModule } from "@angular/router/testing";
+import { FormlyModule } from "@ngx-formly/core";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { PlayerClass } from "../../../_models/playerclass";
+import { Spell } from "../../../_models/spell";
+import {
+  hasSpecialCharactersMessage,
+  integerValidator,
+  notIntegerMessage,
+  requiredMessage,
+  requiredValidator,
+  specialCharacterValidator,
+} from "../../../_services/formly/validators";
+import {
+  FormlyEditorFieldComponent,
+  OrganismsModule,
+} from "../../../design/organisms";
+import { SpellComponent } from "./spell.component";
 
 const dummySpell: Spell = {
   getAbsoluteRouterUrl: () => "/spells/1",
@@ -62,12 +72,11 @@ const dummyClasses: PlayerClass[] = [
   { pk: 7, name: "Paladin" },
   { pk: 8, name: "Ranger" },
   { pk: 9, name: "Rogue" },
-  { pk: 10, name: "Wizard" }
+  { pk: 10, name: "Wizard" },
 ];
 
-
 export default {
-  title: 'DesignSystem/Organisms/SpellComponent',
+  title: "DesignSystem/Organisms/SpellComponent",
   component: SpellComponent,
   decorators: [
     moduleMetadata({
@@ -76,7 +85,7 @@ export default {
         RouterTestingModule,
         FormlyModule.forRoot({
           types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
+            { name: "text-editor", component: FormlyEditorFieldComponent },
           ],
           validationMessages: [
             requiredMessage,
@@ -90,8 +99,7 @@ export default {
           ],
         }),
       ],
-      declarations: [
-      ]
+      declarations: [],
     }),
   ],
   args: {
@@ -101,37 +109,37 @@ export default {
     canUpdate: true,
     canDelete: true,
     serverModel: undefined,
-  }
+  },
 } as Meta<SpellComponent>;
 
-const Template: StoryFn<SpellComponent> = (args: SpellComponent) => ({ 
+const Template: StoryFn<SpellComponent> = (args: SpellComponent) => ({
   props: {
     ...args,
-    spellDelete: action('spellDelete'),
-    spellCreate: action('spellCreate'),
-    spellUpdate: action('spellUpdate'),
-    connectionCreate: action('connectionCreate'),
-    connectionDelete: action('connectionDelete'),
+    spellDelete: action("spellDelete"),
+    spellCreate: action("spellCreate"),
+    spellUpdate: action("spellUpdate"),
+    connectionCreate: action("connectionCreate"),
+    connectionDelete: action("connectionDelete"),
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};
 
 export const NoPermission = Template.bind({});
 NoPermission.args = {
   canCreate: false,
   canUpdate: false,
   canDelete: false,
-}
+};
 
 export const NoSpell = Template.bind({});
 NoSpell.args = {
-  spell: undefined
-}
+  spell: undefined,
+};
 
 export const NoSpellNoCreate = Template.bind({});
 NoSpellNoCreate.args = {
   spell: undefined,
   canCreate: false,
-}
+};

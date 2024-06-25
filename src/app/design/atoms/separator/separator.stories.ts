@@ -1,8 +1,8 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { SeparatorComponent } from './separator.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { SeparatorComponent } from "./separator.component";
 
 export default {
-  title: 'DesignSystem/Atoms/SeparatorComponent',
+  title: "DesignSystem/Atoms/SeparatorComponent",
   component: SeparatorComponent,
   decorators: [
     moduleMetadata({
@@ -11,14 +11,14 @@ export default {
     }),
   ],
   args: {
-    separatorColor: '#fff',
+    separatorColor: "#fff",
     separatorThickness: 1,
-  }
+  },
 } as Meta<SeparatorComponent>;
 
-const Template: StoryFn<SeparatorComponent> = (args: SeparatorComponent) => ({ 
+const Template: StoryFn<SeparatorComponent> = (args: SeparatorComponent) => ({
   props: {
-    ...args
+    ...args,
   },
   template: `
     <div class="my-5">
@@ -30,4 +30,4 @@ const Template: StoryFn<SeparatorComponent> = (args: SeparatorComponent) => ({
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

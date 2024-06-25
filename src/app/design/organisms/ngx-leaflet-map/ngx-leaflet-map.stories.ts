@@ -1,11 +1,11 @@
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import * as x from 'leaflet';
-import { dummyMarkers } from 'src/app/_services/article/marker.service.mock';
-import { MoleculesModule } from 'src/app/design/molecules';
-import { ExtendedMap } from '../../../_models/map';
-import { AtomsModule } from '../../../design/atoms';
-import { NgxLeafletMapComponent } from './ngx-leaflet-map.component';
+import { LeafletModule } from "@asymmetrik/ngx-leaflet";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import * as x from "leaflet";
+import { dummyMarkers } from "src/app/_services/article/marker.service.mock";
+import { MoleculesModule } from "src/app/design/molecules";
+import { ExtendedMap } from "../../../_models/map";
+import { AtomsModule } from "../../../design/atoms";
+import { NgxLeafletMapComponent } from "./ngx-leaflet-map.component";
 
 const y = x;
 
@@ -19,36 +19,33 @@ const dummyMap: ExtendedMap = {
   campaign: 1,
   campaign_details: {
     name: "Aldrune",
-    pk: 1
+    pk: 1,
   },
-  markers: dummyMarkers
-}
+  markers: dummyMarkers,
+};
 
 export default {
-  title: 'DesignSystem/Organisms/NgxLeafletMapComponent',
+  title: "DesignSystem/Organisms/NgxLeafletMapComponent",
   component: NgxLeafletMapComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        AtomsModule,
-        MoleculesModule,
-        LeafletModule,
-      ],       
-      declarations: [
-      ]
+      imports: [AtomsModule, MoleculesModule, LeafletModule],
+      declarations: [],
     }),
   ],
   args: {
     mapData: dummyMap,
-    serverUrl: 'https://www.aldrune.com'
+    serverUrl: "https://www.aldrune.com",
   },
 } as Meta<NgxLeafletMapComponent>;
 
-const Template: StoryFn<NgxLeafletMapComponent> = (args: NgxLeafletMapComponent) => ({ 
+const Template: StoryFn<NgxLeafletMapComponent> = (
+  args: NgxLeafletMapComponent,
+) => ({
   props: {
     ...args,
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

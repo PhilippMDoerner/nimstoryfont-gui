@@ -1,20 +1,20 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { SpinnerComponent } from './spinner.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { SpinnerComponent } from "./spinner.component";
 
 export default {
-  title: 'DesignSystem/Atoms/SpinnerComponent',
+  title: "DesignSystem/Atoms/SpinnerComponent",
   component: SpinnerComponent,
   decorators: [
     moduleMetadata({
-      imports: []
+      imports: [],
     }),
   ],
   args: {
-    'thickness': 24,
-  }
+    thickness: 24,
+  },
 } as Meta<SpinnerComponent>;
 
-const Template: StoryFn<SpinnerComponent> = (args: SpinnerComponent) => ({ 
+const Template: StoryFn<SpinnerComponent> = (args: SpinnerComponent) => ({
   props: {
     ...args,
   },
@@ -25,4 +25,4 @@ const Template: StoryFn<SpinnerComponent> = (args: SpinnerComponent) => ({
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

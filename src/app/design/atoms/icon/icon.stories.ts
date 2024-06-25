@@ -1,18 +1,18 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ALL_REGULAR_ICONS, ALL_SOLID_ICONS } from '../_models/icon';
-import { IconComponent } from './icon.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { ALL_REGULAR_ICONS, ALL_SOLID_ICONS } from "../_models/icon";
+import { IconComponent } from "./icon.component";
 
 export default {
-  title: 'DesignSystem/Atoms/IconComponent',
+  title: "DesignSystem/Atoms/IconComponent",
   component: IconComponent,
   decorators: [
     moduleMetadata({
-      imports: []
+      imports: [],
     }),
   ],
 } as Meta<IconComponent>;
 
-const Template: StoryFn<IconComponent> = (args: IconComponent) => ({ 
+const Template: StoryFn<IconComponent> = (args: IconComponent) => ({
   props: {
     ...args,
     solidIcons: ALL_SOLID_ICONS,
@@ -31,4 +31,4 @@ const Template: StoryFn<IconComponent> = (args: IconComponent) => ({
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

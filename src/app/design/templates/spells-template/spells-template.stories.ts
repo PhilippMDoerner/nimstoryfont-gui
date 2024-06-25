@@ -1,15 +1,22 @@
-import { CommonModule } from '@angular/common';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
-import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { PlayerClass } from 'src/app/_models/playerclass';
-import { Spell } from 'src/app/_models/spell';
-import { hasSpecialCharactersMessage, integerValidator, notIntegerMessage, requiredMessage, requiredValidator, specialCharacterValidator } from 'src/app/_services/formly/validators';
-import * as all from 'tinymce/tinymce';
-import { FormlyEditorFieldComponent, OrganismsModule } from '../../organisms';
-import { SpellsTemplateComponent } from './spells-template.component';
+import { CommonModule } from "@angular/common";
+import { RouterTestingModule } from "@angular/router/testing";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { FormlyModule } from "@ngx-formly/core";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { PlayerClass } from "src/app/_models/playerclass";
+import { Spell } from "src/app/_models/spell";
+import {
+  hasSpecialCharactersMessage,
+  integerValidator,
+  notIntegerMessage,
+  requiredMessage,
+  requiredValidator,
+  specialCharacterValidator,
+} from "src/app/_services/formly/validators";
+import * as all from "tinymce/tinymce";
+import { FormlyEditorFieldComponent, OrganismsModule } from "../../organisms";
+import { SpellsTemplateComponent } from "./spells-template.component";
 
 const x = all;
 
@@ -99,12 +106,11 @@ const dummyClasses: PlayerClass[] = [
   { pk: 7, name: "Paladin" },
   { pk: 8, name: "Ranger" },
   { pk: 9, name: "Rogue" },
-  { pk: 10, name: "Wizard" }
+  { pk: 10, name: "Wizard" },
 ];
 
-
 export default {
-  title: 'DesignSystem/Templates/SpellsTemplateComponent',
+  title: "DesignSystem/Templates/SpellsTemplateComponent",
   component: SpellsTemplateComponent,
   decorators: [
     moduleMetadata({
@@ -115,7 +121,7 @@ export default {
         RouterTestingModule,
         FormlyModule.forRoot({
           types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
+            { name: "text-editor", component: FormlyEditorFieldComponent },
           ],
           validationMessages: [
             requiredMessage,
@@ -128,48 +134,45 @@ export default {
             specialCharacterValidator,
           ],
         }),
-      ],       
-      declarations: [
-      ]
+      ],
+      declarations: [],
     }),
   ],
   args: {
-    spells: [
-      ...Array(3).fill(dummySpell),
-      dummySpell2
-    ],
+    spells: [...Array(3).fill(dummySpell), dummySpell2],
     playerClasses: dummyClasses,
     canCreate: true,
     canUpdate: true,
     canDelete: true,
     serverModel: undefined,
-    campaignName: 'Aldrune',
+    campaignName: "Aldrune",
   },
 } as Meta<SpellsTemplateComponent>;
 
-const Template: StoryFn<SpellsTemplateComponent> = (args: SpellsTemplateComponent) => ({ 
+const Template: StoryFn<SpellsTemplateComponent> = (
+  args: SpellsTemplateComponent,
+) => ({
   props: {
     ...args,
-    spellDelete: action('spellDelete'),
-    spellUpdate: action('spellUpdate'),
-    spellCreate: action('spellCreate'),
-    connectionDelete: action('connectionDelete'),
-    connectionCreate: action('connectionCreate'),
+    spellDelete: action("spellDelete"),
+    spellUpdate: action("spellUpdate"),
+    spellCreate: action("spellCreate"),
+    connectionDelete: action("connectionDelete"),
+    connectionCreate: action("connectionCreate"),
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
-
+Default.args = {};
 
 export const NoPermissions = Template.bind({});
 NoPermissions.args = {
   canUpdate: false,
   canCreate: false,
   canDelete: false,
-}
+};
 
 export const NoSpells = Template.bind({});
 NoSpells.args = {
   spells: [],
-}
+};

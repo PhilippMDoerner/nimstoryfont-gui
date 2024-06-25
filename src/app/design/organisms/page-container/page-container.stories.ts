@@ -1,36 +1,35 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { MoleculesModule } from 'src/app/design/molecules';
-import { PageContainerComponent } from './page-container.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { MoleculesModule } from "src/app/design/molecules";
+import { PageContainerComponent } from "./page-container.component";
 
 export default {
-  title: 'DesignSystem/Organisms/PageContainerComponent',
+  title: "DesignSystem/Organisms/PageContainerComponent",
   component: PageContainerComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        MoleculesModule,
-      ],
-      declarations: [
-      ]
+      imports: [MoleculesModule],
+      declarations: [],
     }),
   ],
   parameters: {
-    layout: 'fullscreen',
-    backgrounds: { default: 'grey' }, // https://storybook.js.org/docs/angular/essentials/backgrounds
+    layout: "fullscreen",
+    backgrounds: { default: "grey" }, // https://storybook.js.org/docs/angular/essentials/backgrounds
   },
-  args: {}
+  args: {},
 } as Meta<PageContainerComponent>;
 
-const Template: StoryFn<PageContainerComponent> = (args: PageContainerComponent) => ({ 
+const Template: StoryFn<PageContainerComponent> = (
+  args: PageContainerComponent,
+) => ({
   props: {
-    ...args
+    ...args,
   },
   template: `
     <app-page-container>
       <h1 class="text-center"> A headline </h1>
       <p> Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt aliquam sapiente facilis laudantium eveniet laborum explicabo perspiciatis tempore culpa quia vitae, modi ullam animi, molestias itaque alias fugit in neque. </p>
     </app-page-container>
-  `
+  `,
 });
 
 export const Default = Template.bind({});

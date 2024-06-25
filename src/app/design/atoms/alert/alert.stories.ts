@@ -1,23 +1,22 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AlertComponent } from './alert.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { AlertComponent } from "./alert.component";
 
 export default {
-  title: 'DesignSystem/Atoms/AlertComponent',
+  title: "DesignSystem/Atoms/AlertComponent",
   component: AlertComponent,
   decorators: [
     moduleMetadata({
       imports: [],
-      declarations: [
-      ]
+      declarations: [],
     }),
   ],
   args: {
-    text: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci temporibus quas, quam veniam beatae necessitatibus. Ut cupiditate illo harum debitis. Temporibus accusamus, ab exercitationem vero assumenda saepe recusandae nostrum similique.',
-    type: 'PRIMARY',
-  }
+    text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci temporibus quas, quam veniam beatae necessitatibus. Ut cupiditate illo harum debitis. Temporibus accusamus, ab exercitationem vero assumenda saepe recusandae nostrum similique.",
+    type: "PRIMARY",
+  },
 } as Meta<AlertComponent>;
 
-const Template: StoryFn<AlertComponent> = (args: AlertComponent) => ({ 
+const Template: StoryFn<AlertComponent> = (args: AlertComponent) => ({
   props: {
     ...args,
   },
@@ -25,38 +24,38 @@ const Template: StoryFn<AlertComponent> = (args: AlertComponent) => ({
     <app-alert [type]="type">
       {{text}}
     </app-alert>
-  `
+  `,
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type: 'SECONDARY'
-}
+  type: "SECONDARY",
+};
 
 export const Dark = Template.bind({});
 Dark.args = {
-  type: 'DARK'
-}
+  type: "DARK",
+};
 
 export const Warning = Template.bind({});
 Warning.args = {
-  type: 'WARNING'
-}
+  type: "WARNING",
+};
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type: 'DANGER'
-}
+  type: "DANGER",
+};
 
 export const Light = Template.bind({});
 Light.args = {
-  type: 'LIGHT'
-}
+  type: "LIGHT",
+};
 
 export const Info = Template.bind({});
 Info.args = {
-  type: 'INFO'
-}
+  type: "INFO",
+};

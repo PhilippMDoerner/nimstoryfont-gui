@@ -1,13 +1,17 @@
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
-import { Meta, StoryFn, componentWrapperDecorator, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
-import { FormlyFileFieldComponent } from './formly-file-field.component';
-
+import { FormGroup, ReactiveFormsModule } from "@angular/forms";
+import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
+import { FormlyFieldConfig, FormlyModule } from "@ngx-formly/core";
+import {
+  Meta,
+  StoryFn,
+  componentWrapperDecorator,
+  moduleMetadata,
+} from "@storybook/angular";
+import { AtomsModule } from "../../atoms";
+import { FormlyFileFieldComponent } from "./formly-file-field.component";
 
 export default {
-  title: 'DesignSystem/Molecules/FormlyFileFieldComponent',
+  title: "DesignSystem/Molecules/FormlyFileFieldComponent",
   component: FormlyFileFieldComponent,
   args: {
     form: new FormGroup({}),
@@ -15,29 +19,34 @@ export default {
     options: {},
     fields: [
       {
-        key: 'file',
-        type: 'file',
+        key: "file",
+        type: "file",
         props: {
-          buttonType: 'SECONDARY',
-        }
+          buttonType: "SECONDARY",
+        },
       } as FormlyFieldConfig,
     ],
   },
   decorators: [
     moduleMetadata({
-      declarations: [
-        FormlyFileFieldComponent
-      ],
+      declarations: [FormlyFileFieldComponent],
       imports: [
         AtomsModule,
         ReactiveFormsModule,
         FormlyBootstrapModule,
         FormlyModule.forRoot({
-          types: [{ name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] }],
-        })
+          types: [
+            {
+              name: "file",
+              component: FormlyFileFieldComponent,
+              wrappers: ["form-field"],
+            },
+          ],
+        }),
       ],
     }),
-    componentWrapperDecorator(() => `
+    componentWrapperDecorator(
+      () => `
       <form [formGroup]="form">
         <formly-form 
           [model]="model" 
@@ -46,28 +55,33 @@ export default {
           [form]="form"
         ></formly-form>
       </form>
-    `)
+    `,
+    ),
   ],
 } as Meta<FormlyFileFieldComponent>;
 
-const Template: StoryFn<FormlyFileFieldComponent> = (args: FormlyFileFieldComponent) => ({ 
+const Template: StoryFn<FormlyFileFieldComponent> = (
+  args: FormlyFileFieldComponent,
+) => ({
   props: {
     ...args,
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};
 
-const PrimaryTemplate: StoryFn<FormlyFileFieldComponent> = (args: FormlyFileFieldComponent) => ({ 
+const PrimaryTemplate: StoryFn<FormlyFileFieldComponent> = (
+  args: FormlyFileFieldComponent,
+) => ({
   props: {
     ...args,
     fields: [
       {
-        key: 'file',
-        type: 'file',
+        key: "file",
+        type: "file",
         props: {
-          buttonType: 'PRIMARY',
+          buttonType: "PRIMARY",
         },
       },
     ],

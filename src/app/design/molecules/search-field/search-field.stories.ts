@@ -1,30 +1,28 @@
-import { FormsModule } from '@angular/forms';
-import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
-import { SearchFieldComponent } from './search-field.component';
+import { FormsModule } from "@angular/forms";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { AtomsModule } from "../../atoms";
+import { SearchFieldComponent } from "./search-field.component";
 
 export default {
-  title: 'DesignSystem/Molecules/SearchFieldComponent',
+  title: "DesignSystem/Molecules/SearchFieldComponent",
   component: SearchFieldComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        AtomsModule,
-        FormsModule,
-      ],
+      imports: [AtomsModule, FormsModule],
     }),
   ],
-  args: {
-  },
+  args: {},
 } as Meta<SearchFieldComponent>;
 
-const Template: StoryFn<SearchFieldComponent> = (args: SearchFieldComponent) => ({ 
+const Template: StoryFn<SearchFieldComponent> = (
+  args: SearchFieldComponent,
+) => ({
   props: {
     ...args,
-    search: action('search'),
+    search: action("search"),
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

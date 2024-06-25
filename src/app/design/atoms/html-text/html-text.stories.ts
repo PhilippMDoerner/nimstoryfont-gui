@@ -1,6 +1,6 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { SafeHtmlPipe } from '../_pipes/safeHtml';
-import { HtmlTextComponent } from './html-text.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { SafeHtmlPipe } from "../_pipes/safeHtml";
+import { HtmlTextComponent } from "./html-text.component";
 
 const htmlDummyText = `
 <div class="content note-editor notes">
@@ -21,44 +21,42 @@ const htmlDummyText = `
 <p>She strongly adheres to the philosophy of "I am the only one that can do this, so I must do it because the world needs it". And with her as a role model, so does her church.</p>
 <p>She for the most part wanders about in her civilian form, aiding those she can and giving them peace. But beware of angering her, as her battle-form will quickly give you a taste of Remorse.</p>
 </div>
-`
+`;
 
 export default {
-  title: 'DesignSystem/Atoms/HtmlTextComponent',
+  title: "DesignSystem/Atoms/HtmlTextComponent",
   component: HtmlTextComponent,
   decorators: [
     moduleMetadata({
       imports: [],
-      declarations: [
-        SafeHtmlPipe
-      ]
+      declarations: [SafeHtmlPipe],
     }),
   ],
   args: {
     text: htmlDummyText,
-  }
+  },
 } as Meta<HtmlTextComponent>;
 
-const Template: StoryFn<HtmlTextComponent> = (args: HtmlTextComponent) => ({ 
+const Template: StoryFn<HtmlTextComponent> = (args: HtmlTextComponent) => ({
   props: {
-    ...args
+    ...args,
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};
 
 export const NoText = Template.bind({});
 NoText.args = {
-  text: undefined
-}
+  text: undefined,
+};
 
 export const EmptyText = Template.bind({});
 EmptyText.args = {
-  text: ''
-}
+  text: "",
+};
 
 export const NoHtml = Template.bind({});
 NoHtml.args = {
-  text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda eveniet commodi, aspernatur ipsum non, a adipisci tempora quo quis, temporibus nihil. Cumque nostrum ab, repellat ducimus recusandae dolor. Recusandae, sint!'
-}
+  text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda eveniet commodi, aspernatur ipsum non, a adipisci tempora quo quis, temporibus nihil. Cumque nostrum ab, repellat ducimus recusandae dolor. Recusandae, sint!",
+};

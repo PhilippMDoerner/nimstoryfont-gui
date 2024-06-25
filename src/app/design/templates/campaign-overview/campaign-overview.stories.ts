@@ -1,46 +1,42 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
-import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { dummyCampaigns } from 'src/app/_services/utils/campaign.mock.service';
-import { OrganismsModule } from '../../organisms';
-import { CampaignOverviewComponent } from './campaign-overview.component';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterTestingModule } from "@angular/router/testing";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { dummyCampaigns } from "src/app/_services/utils/campaign.mock.service";
+import { OrganismsModule } from "../../organisms";
+import { CampaignOverviewComponent } from "./campaign-overview.component";
 
 export default {
-  title: 'DesignSystem/Templates/CampaignOverviewComponent',
+  title: "DesignSystem/Templates/CampaignOverviewComponent",
   component: CampaignOverviewComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        OrganismsModule,
-        RouterTestingModule,
-        BrowserAnimationsModule,
-      ],       
-      declarations: [
-      ],
-      providers: [
-      ]
+      imports: [OrganismsModule, RouterTestingModule, BrowserAnimationsModule],
+      declarations: [],
+      providers: [],
     }),
   ],
   args: {
     isGlobalAdmin: false,
-    userName: 'Isofruit',
+    userName: "Isofruit",
     campaigns: dummyCampaigns,
-    serverUrl: 'https://www.aldrune.com'
+    serverUrl: "https://www.aldrune.com",
   },
 } as Meta<CampaignOverviewComponent>;
 
-const Template: StoryFn<CampaignOverviewComponent> = (args: CampaignOverviewComponent) => ({ 
+const Template: StoryFn<CampaignOverviewComponent> = (
+  args: CampaignOverviewComponent,
+) => ({
   props: {
     ...args,
-    logout: action('logout'),
+    logout: action("logout"),
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};
 
 export const Admin = Template.bind({});
 Admin.args = {
   isGlobalAdmin: true,
-}
+};

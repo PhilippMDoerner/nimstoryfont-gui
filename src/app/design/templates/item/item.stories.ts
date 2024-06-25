@@ -1,13 +1,17 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
-import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { Item } from 'src/app/_models/item';
-import { integerValidator, notIntegerMessage, requiredMessage, requiredValidator } from 'src/app/_services/formly/validators';
-import { FormlyFileFieldComponent } from '../../molecules';
-import { OrganismsModule } from '../../organisms';
-import { ItemComponent } from './item.component';
-
+import { RouterTestingModule } from "@angular/router/testing";
+import { FormlyModule } from "@ngx-formly/core";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { Item } from "src/app/_models/item";
+import {
+  integerValidator,
+  notIntegerMessage,
+  requiredMessage,
+  requiredValidator,
+} from "src/app/_services/formly/validators";
+import { FormlyFileFieldComponent } from "../../molecules";
+import { OrganismsModule } from "../../organisms";
+import { ItemComponent } from "./item.component";
 
 const dummyItem: Item = {
   pk: 123,
@@ -22,9 +26,26 @@ const dummyItem: Item = {
   owner: 456,
   owner_details: { name: "John Doe", pk: 456 },
   images: [
-    { pk: 789, image: "/breeds/mastiff-tibetan/n02108551_5830.jpg", name: "Sword Image", item_article: 123, article_type: "Item" },
-    { pk: 790, image: "/breeds/mastiff-tibetan/n02108551_5830.jpg", name: "Sword Close-Up", item_article: 123, article_type: "Item" },
-    { pk: 791, image: "/breeds/mastiff-tibetan/n02108551_5830.jpg", item_article: 123, article_type: "Item" },
+    {
+      pk: 789,
+      image: "/breeds/mastiff-tibetan/n02108551_5830.jpg",
+      name: "Sword Image",
+      item_article: 123,
+      article_type: "Item",
+    },
+    {
+      pk: 790,
+      image: "/breeds/mastiff-tibetan/n02108551_5830.jpg",
+      name: "Sword Close-Up",
+      item_article: 123,
+      article_type: "Item",
+    },
+    {
+      pk: 791,
+      image: "/breeds/mastiff-tibetan/n02108551_5830.jpg",
+      item_article: 123,
+      article_type: "Item",
+    },
   ],
   campaign: 1,
   campaign_details: { pk: 1, name: "Campaign of Adventures" },
@@ -33,10 +54,8 @@ const dummyItem: Item = {
   getAbsoluteRouterUrl: () => "https://example.com/items/123",
 };
 
-
-
 export default {
-  title: 'DesignSystem/Templates/ItemComponent',
+  title: "DesignSystem/Templates/ItemComponent",
   component: ItemComponent,
   decorators: [
     moduleMetadata({
@@ -45,19 +64,17 @@ export default {
         RouterTestingModule,
         FormlyModule.forRoot({
           types: [
-              { name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] },          ],
-          validationMessages: [
-            requiredMessage,
-            notIntegerMessage,
+            {
+              name: "file",
+              component: FormlyFileFieldComponent,
+              wrappers: ["form-field"],
+            },
           ],
-          validators: [
-            requiredValidator,
-            integerValidator,
-          ],
+          validationMessages: [requiredMessage, notIntegerMessage],
+          validators: [requiredValidator, integerValidator],
         }),
-      ],       
-      declarations: [
-      ]
+      ],
+      declarations: [],
     }),
   ],
   args: {
@@ -66,26 +83,26 @@ export default {
     canUpdate: true,
     canDelete: true,
     item: dummyItem,
-    serverUrl: 'https://images.dog.ceo',
+    serverUrl: "https://images.dog.ceo",
   },
 } as Meta<ItemComponent>;
 
-const Template: StoryFn<ItemComponent> = (args: ItemComponent) => ({ 
+const Template: StoryFn<ItemComponent> = (args: ItemComponent) => ({
   props: {
     ...args,
-    createImage: action('createImage'),
-    deleteImage: action('deleteImage'),
-    updateImage: action('updateImage'),
-    itemDelete: action('itemDelete'),
+    createImage: action("createImage"),
+    deleteImage: action("deleteImage"),
+    updateImage: action("updateImage"),
+    itemDelete: action("itemDelete"),
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};
 
 export const NoPermission = Template.bind({});
 NoPermission.args = {
   canDelete: false,
   canUpdate: false,
   canCreate: false,
-}
+};

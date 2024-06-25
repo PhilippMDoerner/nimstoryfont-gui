@@ -1,28 +1,26 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { IconComponent } from '../icon/icon.component';
-import { ButtonComponent } from './button.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { IconComponent } from "../icon/icon.component";
+import { ButtonComponent } from "./button.component";
 
 export default {
-  title: 'DesignSystem/Atoms/ButtonComponent',
+  title: "DesignSystem/Atoms/ButtonComponent",
   component: ButtonComponent,
   decorators: [
     moduleMetadata({
       imports: [],
-      declarations: [
-        IconComponent
-      ]
+      declarations: [IconComponent],
     }),
   ],
   args: {
-    type: 'PRIMARY',
-    text: 'ButtonText',
-    icon: 'plus',
-    size: 'MEDIUM',
+    type: "PRIMARY",
+    text: "ButtonText",
+    icon: "plus",
+    size: "MEDIUM",
     isSubmitButton: false,
-  }
+  },
 } as Meta<ButtonComponent>;
 
-const Template: StoryFn<ButtonComponent> = (args: ButtonComponent) => ({ 
+const Template: StoryFn<ButtonComponent> = (args: ButtonComponent) => ({
   props: args,
   template: `
     <div class="d-flex flex-column">
@@ -51,48 +49,48 @@ const Template: StoryFn<ButtonComponent> = (args: ButtonComponent) => ({
       </div>
       
     </div>
-  `
+  `,
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type : 'SECONDARY'
-}
+  type: "SECONDARY",
+};
 
 export const Dark = Template.bind({});
 Dark.args = {
-  type : 'DARK'
-}
+  type: "DARK",
+};
 
 export const Warning = Template.bind({});
 Warning.args = {
-  type : 'WARNING'
-}
+  type: "WARNING",
+};
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type : 'DANGER'
-}
+  type: "DANGER",
+};
 
 export const Light = Template.bind({});
 Light.args = {
-  type : 'LIGHT'
-}
+  type: "LIGHT",
+};
 
 export const Info = Template.bind({});
 Info.args = {
-  type : 'INFO'
-}
+  type: "INFO",
+};
 
 export const NoText = Template.bind({});
 NoText.args = {
   text: undefined,
-}
+};
 
 export const NoIcon = Template.bind({});
 NoIcon.args = {
   icon: undefined,
-}
+};

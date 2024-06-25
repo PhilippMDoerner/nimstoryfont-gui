@@ -1,17 +1,14 @@
-import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
-import { LinkEntryComponent } from './link-entry.component';
-
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { AtomsModule } from "../../atoms";
+import { LinkEntryComponent } from "./link-entry.component";
 
 export default {
-  title: 'DesignSystem/Molecules/LinkEntryComponent',
+  title: "DesignSystem/Molecules/LinkEntryComponent",
   component: LinkEntryComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        AtomsModule,
-      ],
+      imports: [AtomsModule],
     }),
   ],
   args: {
@@ -20,18 +17,20 @@ export default {
     entry: {
       label: "Some Label",
       linkText: "Link me to thing",
-      value: { x: "Super value"}
+      value: { x: "Super value" },
     },
   },
 } as Meta<LinkEntryComponent<any>>;
 
-const Template: StoryFn<LinkEntryComponent<any>> = (args: LinkEntryComponent<any>) => ({ 
+const Template: StoryFn<LinkEntryComponent<any>> = (
+  args: LinkEntryComponent<any>,
+) => ({
   props: {
     ...args,
-    delete: action('delete'),
-    linkClick: action('linkClick'),
+    delete: action("delete"),
+    linkClick: action("linkClick"),
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

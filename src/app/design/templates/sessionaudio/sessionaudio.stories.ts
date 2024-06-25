@@ -1,17 +1,48 @@
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
-import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { SessionAudio, Timestamp } from 'src/app/_models/sessionAudio';
-import { integerValidator, invalidTimeMessage, notIntegerMessage, requiredMessage, requiredValidator, timeValidator } from 'src/app/_services/formly/validators';
-import { OrganismsModule } from '../../organisms';
-import { SessionaudioComponent } from './sessionaudio.component';
+import { RouterTestingModule } from "@angular/router/testing";
+import { FormlyModule } from "@ngx-formly/core";
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { SessionAudio, Timestamp } from "src/app/_models/sessionAudio";
+import {
+  integerValidator,
+  invalidTimeMessage,
+  notIntegerMessage,
+  requiredMessage,
+  requiredValidator,
+  timeValidator,
+} from "src/app/_services/formly/validators";
+import { OrganismsModule } from "../../organisms";
+import { SessionaudioComponent } from "./sessionaudio.component";
 
 const dummyTimestamps: Timestamp[] = [
-  { pk: 1, name: "Timestamp 1", time: 1.5, encounter: "Encounter 1", session_audio: 123 },
-  { pk: 2, name: "Timestamp 2", time: 2.3, encounter: "Encounter 1", session_audio: 123 },
-  { pk: 3, name: "Timestamp 3", time: 3.2, encounter: "Encounter 2", session_audio: 456 },
-  { pk: 4, name: "Timestdsfa fasdfdas fsdafsdamp 4", time: 4.1, encounter: "Encounter 2", session_audio: 456 },
+  {
+    pk: 1,
+    name: "Timestamp 1",
+    time: 1.5,
+    encounter: "Encounter 1",
+    session_audio: 123,
+  },
+  {
+    pk: 2,
+    name: "Timestamp 2",
+    time: 2.3,
+    encounter: "Encounter 1",
+    session_audio: 123,
+  },
+  {
+    pk: 3,
+    name: "Timestamp 3",
+    time: 3.2,
+    encounter: "Encounter 2",
+    session_audio: 456,
+  },
+  {
+    pk: 4,
+    name: "Timestdsfa fasdfdas fsdafsdamp 4",
+    time: 4.1,
+    encounter: "Encounter 2",
+    session_audio: 456,
+  },
   { pk: 5, name: "Timestamp 5", time: 4.8, session_audio: 789 },
 ];
 
@@ -21,10 +52,10 @@ const dummySessionAudio: SessionAudio = {
   audio_file: "/tech/piano2-CoolEdit.mp3",
   audio_url: "/tech/piano2-CoolEdit.mp3",
   session: 12,
-  session_details: { 
-    pk: 12, 
-    is_main_session: true, 
-    session_number: 12, 
+  session_details: {
+    pk: 12,
+    is_main_session: true,
+    session_number: 12,
     session_date: "2022-06-01",
     name: "Session Audio 1",
   },
@@ -40,9 +71,8 @@ const dummySessionAudio: SessionAudio = {
   getAbsoluteRouterUrl: () => "https://example.com/session-audio/123",
 };
 
-
 export default {
-  title: 'DesignSystem/Templates/SessionaudioComponent',
+  title: "DesignSystem/Templates/SessionaudioComponent",
   component: SessionaudioComponent,
   decorators: [
     moduleMetadata({
@@ -55,15 +85,10 @@ export default {
             notIntegerMessage,
             invalidTimeMessage,
           ],
-          validators: [
-            requiredValidator,
-            integerValidator,
-            timeValidator,
-          ],
+          validators: [requiredValidator, integerValidator, timeValidator],
         }),
       ],
-      declarations: [
-      ]
+      declarations: [],
     }),
   ],
   args: {
@@ -73,18 +98,20 @@ export default {
     canUpdate: true,
     timestamps: dummyTimestamps,
     sessionaudio: dummySessionAudio,
-    serverUrl: 'https://www.kozco.com',
-  }
+    serverUrl: "https://www.kozco.com",
+  },
 } as Meta<SessionaudioComponent>;
 
-const Template: StoryFn<SessionaudioComponent> = (args: SessionaudioComponent) => ({ 
+const Template: StoryFn<SessionaudioComponent> = (
+  args: SessionaudioComponent,
+) => ({
   props: {
     ...args,
-    deleteTimestamp: action('deleteTimestamp'),
-    createTimestamp: action('createTimestamp'),
-    sessionaudioDelete: action('sessionaudioDelete'),
+    deleteTimestamp: action("deleteTimestamp"),
+    createTimestamp: action("createTimestamp"),
+    sessionaudioDelete: action("sessionaudioDelete"),
   },
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};

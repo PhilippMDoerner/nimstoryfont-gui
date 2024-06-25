@@ -4,7 +4,6 @@ import { applicationConfig } from '@storybook/angular';
 
 export const parameters = {
   viewMode: 'docs',
-  actions: {argTypesRegex: "^on[A-Z].*"},
   controls: {
     matchers: {
       color: /(background|color)$/i,
@@ -47,6 +46,7 @@ const decorators = [
 const preview = {
   parameters: parameters,
   decorators: decorators,
+  tags: ['autodocs']
 };
 
 export default preview;

@@ -1,24 +1,24 @@
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { IconComponent } from '../icon/icon.component';
-import { ArrowButtonComponent } from './arrow-button.component';
+import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
+import { IconComponent } from "../icon/icon.component";
+import { ArrowButtonComponent } from "./arrow-button.component";
 
 export default {
-  title: 'DesignSystem/Atoms/ArrowButtonComponent',
+  title: "DesignSystem/Atoms/ArrowButtonComponent",
   component: ArrowButtonComponent,
   decorators: [
     moduleMetadata({
       imports: [],
-      declarations: [
-        IconComponent
-      ]
+      declarations: [IconComponent],
     }),
   ],
   args: {
-    type: 'PRIMARY',
-  }
+    type: "PRIMARY",
+  },
 } as Meta<ArrowButtonComponent>;
 
-const Template: StoryFn<ArrowButtonComponent> = (args: ArrowButtonComponent) => ({ 
+const Template: StoryFn<ArrowButtonComponent> = (
+  args: ArrowButtonComponent,
+) => ({
   props: args,
   template: `
     <div class="d-flex flex-column">
@@ -30,38 +30,38 @@ const Template: StoryFn<ArrowButtonComponent> = (args: ArrowButtonComponent) => 
         </app-arrow-button>
       </div>
     </div>
-  `
+  `,
 });
 
 export const Default = Template.bind({});
-Default.args = {}
+Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type : 'SECONDARY'
-}
+  type: "SECONDARY",
+};
 
 export const Dark = Template.bind({});
 Dark.args = {
-  type : 'DARK'
-}
+  type: "DARK",
+};
 
 export const Warning = Template.bind({});
 Warning.args = {
-  type : 'WARNING'
-}
+  type: "WARNING",
+};
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type : 'DANGER'
-}
+  type: "DANGER",
+};
 
 export const Light = Template.bind({});
 Light.args = {
-  type : 'LIGHT'
-}
+  type: "LIGHT",
+};
 
 export const Info = Template.bind({});
 Info.args = {
-  type : 'INFO'
-}
+  type: "INFO",
+};

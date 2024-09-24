@@ -1,11 +1,10 @@
 <app-page-container>
   <article>
-    
-    <h1 class="heading"> 
-      Spells 
-      
-      <ng-container *ngFor="let name of selectedClassNames; let i = index" >
-        <app-badge 
+    <h1 class="heading">
+      Spells
+
+      <ng-container *ngFor="let name of selectedClassNames; let i = index">
+        <app-badge
           class="heading__player-class-badge"
           [text]="name"
           [icon]="'times'"
@@ -14,13 +13,14 @@
         ></app-badge>
       </ng-container>
     </h1>
-    
+
     <app-spells
       [spells]="filteredSpells"
       [serverModel]="serverModel"
       [canCreate]="canCreate"
       [canUpdate]="canUpdate"
       [canDelete]="canDelete"
+      [playerClasses]="playerClasses"
       (spellDelete)="spellDelete.emit($event)"
       (spellCreate)="spellCreate.emit($event)"
       (spellUpdate)="spellUpdate.emit($event)"
@@ -28,7 +28,7 @@
       (connectionCreate)="connectionCreate.emit($event)"
       (spellClassClick)="onClassAdd($event)"
     ></app-spells>
-    
+
     <div class="container">
       <a class="row back-link" [routerLink]="homeUrl">
         <app-button

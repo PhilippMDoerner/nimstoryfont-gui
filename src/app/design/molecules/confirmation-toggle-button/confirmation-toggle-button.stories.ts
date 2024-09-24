@@ -1,11 +1,11 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { AtomsModule } from "../../atoms";
-import { ConfirmationToggleButtonComponent } from "./confirmation-toggle-button.component";
+import { BrowserModule } from '@angular/platform-browser';
+import { action } from '@storybook/addon-actions';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { AtomsModule } from '../../atoms';
+import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button.component';
 
 export default {
-  title: "DesignSystem/Molecules/ConfirmationToggleButtonComponent",
+  title: 'DesignSystem/Molecules/ConfirmationToggleButtonComponent',
   component: ConfirmationToggleButtonComponent,
   decorators: [
     moduleMetadata({
@@ -13,18 +13,16 @@ export default {
     }),
   ],
   args: {
-    confirmationQuestion: "Are you sure?",
-    toggleType: "DANGER",
-    cancelButtonType: "SECONDARY",
+    confirmationQuestion: 'Are you sure?',
+    toggleType: 'DANGER',
+    cancelButtonType: 'SECONDARY',
   },
 } as Meta<ConfirmationToggleButtonComponent>;
 
-const Template: StoryFn<ConfirmationToggleButtonComponent> = (
-  args: ConfirmationToggleButtonComponent,
-) => ({
+const Template: StoryFn<ConfirmationToggleButtonComponent> = (args) => ({
   props: {
     ...args,
-    confirm: action("confirm"),
+    confirm: action('confirm'),
   },
   template: `
     <app-confirmation-toggle-button
@@ -42,20 +40,20 @@ Default.args = {};
 
 export const Warning = Template.bind({});
 Warning.args = {
-  toggleType: "WARNING",
+  toggleType: 'WARNING',
 };
 
 export const Primary = Template.bind({});
 Primary.args = {
-  toggleType: "PRIMARY",
+  toggleType: 'PRIMARY',
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  toggleType: "SECONDARY",
+  toggleType: 'SECONDARY',
 };
 
 export const Dark = Template.bind({});
 Dark.args = {
-  toggleType: "DARK",
+  toggleType: 'DARK',
 };

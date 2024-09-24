@@ -1,18 +1,18 @@
-import { RouterTestingModule } from "@angular/router/testing";
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import * as x from "leaflet";
-import { dummyMarkers } from "src/app/_services/article/marker.service.mock";
-import { MapMarker } from "../../../_models/mapMarker";
-import { OrganismsModule } from "../../organisms";
-import { MarkerComponent } from "./marker.component";
+import { RouterTestingModule } from '@angular/router/testing';
+import { action } from '@storybook/addon-actions';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import * as x from 'leaflet';
+import { dummyMarkers } from 'src/app/_services/article/marker.service.mock';
+import { MapMarker } from '../../../_models/mapMarker';
+import { OrganismsModule } from '../../organisms';
+import { MarkerComponent } from './marker.component';
 
 const y = x;
 
 const dummyMarker: MapMarker = dummyMarkers[0];
 
 export default {
-  title: "DesignSystem/Templates/MarkerComponent",
+  title: 'DesignSystem/Templates/MarkerComponent',
   component: MarkerComponent,
   decorators: [
     moduleMetadata({
@@ -27,10 +27,10 @@ export default {
   },
 } as Meta<MarkerComponent>;
 
-const Template: StoryFn<MarkerComponent> = (args: MarkerComponent) => ({
+const Template: StoryFn<MarkerComponent> = (args) => ({
   props: {
     ...args,
-    markerDelete: action("markerDelete"),
+    markerDelete: action('markerDelete'),
   },
 });
 

@@ -1,11 +1,11 @@
-import { CommonModule } from "@angular/common";
-import { RouterTestingModule } from "@angular/router/testing";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { FormlyModule } from "@ngx-formly/core";
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { dummyGroups } from "src/app/_services/article/group.service.mock";
-import { dummyUsers } from "src/app/_services/article/user.mock.service";
+import { CommonModule } from '@angular/common';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormlyModule } from '@ngx-formly/core';
+import { action } from '@storybook/addon-actions';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { dummyGroups } from 'src/app/_services/article/group.service.mock';
+import { dummyUsers } from 'src/app/_services/article/user.mock.service';
 import {
   fieldMatchValidator,
   fieldsDontMatchMessage,
@@ -15,20 +15,20 @@ import {
   requiredMessage,
   requiredValidator,
   specialCharacterValidator,
-} from "src/app/_services/formly/validators";
+} from 'src/app/_services/formly/validators';
 import {
   dummyCampaigns,
-  dummySiteStatistics,
-} from "src/app/_services/utils/campaign.mock.service";
-import { FormlyFileFieldComponent } from "../../molecules";
+  dummyStatistics,
+} from 'src/app/_services/utils/campaign.mock.service';
+import { FormlyFileFieldComponent } from '../../molecules';
 import {
   FormlySelectDisableFieldComponent,
   OrganismsModule,
-} from "../../organisms";
-import { SiteAdminComponent } from "./site-admin.component";
+} from '../../organisms';
+import { SiteAdminComponent } from './site-admin.component';
 
 export default {
-  title: "DesignSystem/Templates/SiteAdminComponent",
+  title: 'DesignSystem/Templates/SiteAdminComponent',
   component: SiteAdminComponent,
   decorators: [
     moduleMetadata({
@@ -40,12 +40,12 @@ export default {
         FormlyModule.forRoot({
           types: [
             {
-              name: "file",
+              name: 'file',
               component: FormlyFileFieldComponent,
-              wrappers: ["form-field"],
+              wrappers: ['form-field'],
             },
             {
-              name: "select-disable",
+              name: 'select-disable',
               component: FormlySelectDisableFieldComponent,
             },
           ],
@@ -70,20 +70,20 @@ export default {
     users: dummyUsers,
     campaigns: dummyCampaigns,
     allGroups: dummyGroups,
-    statistics: dummySiteStatistics,
-    serverUrl: "https://www.aldrune.com",
+    statistics: dummyStatistics,
+    serverUrl: 'https://www.aldrune.com',
   },
 } as Meta<SiteAdminComponent>;
 
-const Template: StoryFn<SiteAdminComponent> = (args: SiteAdminComponent) => ({
+const Template: StoryFn<SiteAdminComponent> = (args) => ({
   props: {
     ...args,
-    createCampaign: action("createCampaign"),
-    createUser: action("createUser"),
-    addUserGroup: action("addUserGroup"),
-    removeUserGroup: action("removeUserGroup"),
-    downloadDatabase: action("downloadDatabase"),
-    deleteUser: action("deleteUser"),
+    createCampaign: action('createCampaign'),
+    createUser: action('createUser'),
+    addUserGroup: action('addUserGroup'),
+    removeUserGroup: action('removeUserGroup'),
+    downloadDatabase: action('downloadDatabase'),
+    deleteUser: action('deleteUser'),
   },
 });
 

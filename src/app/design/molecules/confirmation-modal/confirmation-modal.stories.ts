@@ -1,16 +1,16 @@
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { action } from "@storybook/addon-actions";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { action } from '@storybook/addon-actions';
 import {
   Meta,
   StoryFn,
   componentWrapperDecorator,
   moduleMetadata,
-} from "@storybook/angular";
-import { AtomsModule } from "../../atoms";
-import { ConfirmationModalComponent } from "./confirmation-modal.component";
+} from '@storybook/angular';
+import { AtomsModule } from '../../atoms';
+import { ConfirmationModalComponent } from './confirmation-modal.component';
 
 export default {
-  title: "DesignSystem/Molecules/ConfirmationModalComponent",
+  title: 'DesignSystem/Molecules/ConfirmationModalComponent',
   component: ConfirmationModalComponent,
   decorators: [
     moduleMetadata({
@@ -49,24 +49,22 @@ export default {
     ),
   ],
   args: {
-    heading: "Modal Heading",
-    cancelButtonLabel: "No",
-    submitButtonLabel: "Yes",
-    modalType: "PRIMARY",
-    cancelButtonType: "SECONDARY",
-    confirmValue: "Confirm value to emit",
-    submitIcon: "plus",
+    heading: 'Modal Heading',
+    cancelButtonLabel: 'No',
+    submitButtonLabel: 'Yes',
+    modalType: 'PRIMARY',
+    cancelButtonType: 'SECONDARY',
+    confirmValue: 'Confirm value to emit',
+    submitIcon: 'plus',
   },
 } as Meta<ConfirmationModalComponent>;
 
-const Template: StoryFn<ConfirmationModalComponent> = (
-  args: ConfirmationModalComponent,
-) => ({
+const Template: StoryFn<ConfirmationModalComponent> = (args) => ({
   props: {
     ...args,
-    modalClose: action("modalClose"),
-    confirm: action("confirm"),
-    cancel: action("cancel"),
+    modalClose: action('modalClose'),
+    confirm: action('confirm'),
+    cancel: action('cancel'),
   },
 });
 
@@ -75,30 +73,30 @@ Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  modalType: "SECONDARY",
+  modalType: 'SECONDARY',
 };
 
 export const Dark = Template.bind({});
 Dark.args = {
-  modalType: "DARK",
+  modalType: 'DARK',
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
-  modalType: "WARNING",
+  modalType: 'WARNING',
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  modalType: "DANGER",
+  modalType: 'DANGER',
 };
 
 export const Light = Template.bind({});
 Light.args = {
-  modalType: "LIGHT",
+  modalType: 'LIGHT',
 };
 
 export const Info = Template.bind({});
 Info.args = {
-  modalType: "INFO",
+  modalType: 'INFO',
 };

@@ -1,8 +1,8 @@
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { PlayerComponent } from "./player.component";
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { PlayerComponent } from './player.component';
 
 export default {
-  title: "DesignSystem/Organisms/PlayerComponent",
+  title: 'DesignSystem/Organisms/PlayerComponent',
   component: PlayerComponent,
   decorators: [
     moduleMetadata({
@@ -10,12 +10,12 @@ export default {
     }),
   ],
   args: {
-    audioSource: "https://www.kozco.com/tech/piano2-CoolEdit.mp3",
-    downloadSource: "https://www.potato.testurl.com",
+    audioSource: 'https://www.kozco.com/tech/piano2-CoolEdit.mp3',
+    downloadSource: 'https://www.potato.testurl.com',
   },
 } as Meta<PlayerComponent>;
 
-const Template: StoryFn<PlayerComponent> = (args: PlayerComponent) => ({
+const Template: StoryFn<PlayerComponent> = (args) => ({
   props: {
     ...args,
   },

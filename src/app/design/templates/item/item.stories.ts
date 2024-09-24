@@ -1,21 +1,21 @@
-import { RouterTestingModule } from "@angular/router/testing";
-import { FormlyModule } from "@ngx-formly/core";
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { Item } from "src/app/_models/item";
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormlyModule } from '@ngx-formly/core';
+import { action } from '@storybook/addon-actions';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { Item } from 'src/app/_models/item';
 import {
   integerValidator,
   notIntegerMessage,
   requiredMessage,
   requiredValidator,
-} from "src/app/_services/formly/validators";
-import { FormlyFileFieldComponent } from "../../molecules";
-import { OrganismsModule } from "../../organisms";
-import { ItemComponent } from "./item.component";
+} from 'src/app/_services/formly/validators';
+import { FormlyFileFieldComponent } from '../../molecules';
+import { OrganismsModule } from '../../organisms';
+import { ItemComponent } from './item.component';
 
 const dummyItem: Item = {
   pk: 123,
-  name: "Sword of the Paladin",
+  name: 'Sword of the Paladin',
   description: `
     <div>
       <p>The Holy Sword is a legendary weapon of immense power and great significance. It is said to have been forged by the gods themselves and imbued with their divine energy, making it one of the most powerful weapons in existence. The sword is said to have been wielded by the greatest heroes throughout history, and it is believed that whoever possesses the sword is destined to become a hero themselves.</p>
@@ -24,38 +24,38 @@ const dummyItem: Item = {
     </div>
   `,
   owner: 456,
-  owner_details: { name: "John Doe", pk: 456 },
+  owner_details: { name: 'John Doe', pk: 456 },
   images: [
     {
       pk: 789,
-      image: "/breeds/mastiff-tibetan/n02108551_5830.jpg",
-      name: "Sword Image",
+      image: '/breeds/mastiff-tibetan/n02108551_5830.jpg',
+      name: 'Sword Image',
       item_article: 123,
-      article_type: "Item",
+      article_type: 'Item',
     },
     {
       pk: 790,
-      image: "/breeds/mastiff-tibetan/n02108551_5830.jpg",
-      name: "Sword Close-Up",
+      image: '/breeds/mastiff-tibetan/n02108551_5830.jpg',
+      name: 'Sword Close-Up',
       item_article: 123,
-      article_type: "Item",
+      article_type: 'Item',
     },
     {
       pk: 791,
-      image: "/breeds/mastiff-tibetan/n02108551_5830.jpg",
+      image: '/breeds/mastiff-tibetan/n02108551_5830.jpg',
       item_article: 123,
-      article_type: "Item",
+      article_type: 'Item',
     },
   ],
   campaign: 1,
-  campaign_details: { pk: 1, name: "Campaign of Adventures" },
-  creation_datetime: "2022-04-01T12:00:00Z",
-  update_datetime: "2022-04-03T09:30:00Z",
-  getAbsoluteRouterUrl: () => "https://example.com/items/123",
+  campaign_details: { pk: 1, name: 'Campaign of Adventures' },
+  creation_datetime: '2022-04-01T12:00:00Z',
+  update_datetime: '2022-04-03T09:30:00Z',
+  getAbsoluteRouterUrl: () => 'https://example.com/items/123',
 };
 
 export default {
-  title: "DesignSystem/Templates/ItemComponent",
+  title: 'DesignSystem/Templates/ItemComponent',
   component: ItemComponent,
   decorators: [
     moduleMetadata({
@@ -65,9 +65,9 @@ export default {
         FormlyModule.forRoot({
           types: [
             {
-              name: "file",
+              name: 'file',
               component: FormlyFileFieldComponent,
-              wrappers: ["form-field"],
+              wrappers: ['form-field'],
             },
           ],
           validationMessages: [requiredMessage, notIntegerMessage],
@@ -83,17 +83,17 @@ export default {
     canUpdate: true,
     canDelete: true,
     item: dummyItem,
-    serverUrl: "https://images.dog.ceo",
+    serverUrl: 'https://images.dog.ceo',
   },
 } as Meta<ItemComponent>;
 
-const Template: StoryFn<ItemComponent> = (args: ItemComponent) => ({
+const Template: StoryFn<ItemComponent> = (args) => ({
   props: {
     ...args,
-    createImage: action("createImage"),
-    deleteImage: action("deleteImage"),
-    updateImage: action("updateImage"),
-    itemDelete: action("itemDelete"),
+    createImage: action('createImage'),
+    deleteImage: action('deleteImage'),
+    updateImage: action('updateImage'),
+    itemDelete: action('itemDelete'),
   },
 });
 

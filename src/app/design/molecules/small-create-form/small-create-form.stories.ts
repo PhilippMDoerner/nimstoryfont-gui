@@ -1,28 +1,28 @@
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { AtomsModule } from "../../atoms";
-import { SmallCreateFormComponent } from "./small-create-form.component";
+import { action } from '@storybook/addon-actions';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { AtomsModule } from '../../atoms';
+import { SmallCreateFormComponent } from './small-create-form.component';
 
 const dummyOptions: any[] = [
-  { myLabel: "A value", myValue: 5 },
-  { myLabel: "Another value", myValue: 7 },
-  { myLabel: "Yet another value", myValue: 2 },
-  { myLabel: "More values", myValue: 9 },
-  { myLabel: "Even more values", myValue: 4 },
-  { myLabel: "Values galore", myValue: 1 },
-  { myLabel: "The value of values", myValue: 8 },
-  { myLabel: "The value of life", myValue: 42 },
-  { myLabel: "The value of time", myValue: 24 },
-  { myLabel: "The value of money", myValue: 100 },
-  { myLabel: "The value of love", myValue: 99 },
-  { myLabel: "The value of friendship", myValue: 10 },
-  { myLabel: "The value of knowledge", myValue: 314 },
-  { myLabel: "The value of wisdom", myValue: 999 },
-  { myLabel: "The value of power", myValue: 666 },
+  { myLabel: 'A value', myValue: 5 },
+  { myLabel: 'Another value', myValue: 7 },
+  { myLabel: 'Yet another value', myValue: 2 },
+  { myLabel: 'More values', myValue: 9 },
+  { myLabel: 'Even more values', myValue: 4 },
+  { myLabel: 'Values galore', myValue: 1 },
+  { myLabel: 'The value of values', myValue: 8 },
+  { myLabel: 'The value of life', myValue: 42 },
+  { myLabel: 'The value of time', myValue: 24 },
+  { myLabel: 'The value of money', myValue: 100 },
+  { myLabel: 'The value of love', myValue: 99 },
+  { myLabel: 'The value of friendship', myValue: 10 },
+  { myLabel: 'The value of knowledge', myValue: 314 },
+  { myLabel: 'The value of wisdom', myValue: 999 },
+  { myLabel: 'The value of power', myValue: 666 },
 ];
 
 export default {
-  title: "DesignSystem/Molecules/SmallCreateFormComponent",
+  title: 'DesignSystem/Molecules/SmallCreateFormComponent',
   component: SmallCreateFormComponent,
   decorators: [
     moduleMetadata({
@@ -31,20 +31,18 @@ export default {
   ],
   args: {
     options: dummyOptions,
-    labelProp: "myLabel",
-    valueProp: "myValue",
-    badgeText: "Add Entry",
-    submitButtonType: "PRIMARY",
-    cancelButtonType: "SECONDARY",
+    labelProp: 'myLabel',
+    valueProp: 'myValue',
+    badgeText: 'Add Entry',
+    submitButtonType: 'PRIMARY',
+    cancelButtonType: 'SECONDARY',
   },
 } as Meta<SmallCreateFormComponent>;
 
-const Template: StoryFn<SmallCreateFormComponent> = (
-  args: SmallCreateFormComponent,
-) => ({
+const Template: StoryFn<SmallCreateFormComponent> = (args) => ({
   props: {
     ...args,
-    create: action("create"),
+    create: action('create'),
   },
 });
 

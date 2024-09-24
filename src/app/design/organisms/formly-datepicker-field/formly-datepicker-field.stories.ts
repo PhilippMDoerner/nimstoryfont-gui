@@ -1,17 +1,17 @@
-import { FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
-import { FormlyModule } from "@ngx-formly/core";
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FormlyModule } from '@ngx-formly/core';
 import {
   Meta,
   StoryFn,
   componentWrapperDecorator,
   moduleMetadata,
-} from "@storybook/angular";
-import { AtomsModule } from "../../atoms";
-import { FormlyDatepickerFieldComponent } from "./formly-datepicker-field.component";
+} from '@storybook/angular';
+import { AtomsModule } from '../../atoms';
+import { FormlyDatepickerFieldComponent } from './formly-datepicker-field.component';
 
 export default {
-  title: "DesignSystem/Organisms/FormlyDatepickerFieldComponent",
+  title: 'DesignSystem/Organisms/FormlyDatepickerFieldComponent',
   component: FormlyDatepickerFieldComponent,
   args: {
     form: new FormGroup({}),
@@ -19,8 +19,8 @@ export default {
     options: {},
     fields: [
       {
-        key: "date",
-        type: "datepicker",
+        key: 'date',
+        type: 'datepicker',
       },
     ],
   },
@@ -33,7 +33,7 @@ export default {
         FormlyBootstrapModule,
         FormlyModule.forRoot({
           types: [
-            { name: "datepicker", component: FormlyDatepickerFieldComponent },
+            { name: 'datepicker', component: FormlyDatepickerFieldComponent },
           ],
         }),
       ],
@@ -53,9 +53,7 @@ export default {
   ],
 } as Meta<FormlyDatepickerFieldComponent>;
 
-const Template: StoryFn<FormlyDatepickerFieldComponent> = (
-  args: FormlyDatepickerFieldComponent,
-) => ({
+const Template: StoryFn<FormlyDatepickerFieldComponent> = (args) => ({
   props: {
     ...args,
   },

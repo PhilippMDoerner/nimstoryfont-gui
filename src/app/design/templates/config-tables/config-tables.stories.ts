@@ -1,11 +1,11 @@
-import { RouterTestingModule } from "@angular/router/testing";
-import { FormlyModule } from "@ngx-formly/core";
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { dummyMarkerTypes } from "src/app/_services/article/marker-type.service.mock";
-import { dummyOrganizations } from "src/app/_services/article/organization.service.mock";
-import { dummyClasses } from "src/app/_services/article/player-class.service.mock";
-import { FormlyProvider } from "src/app/_services/formly/formly-service.mock";
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormlyModule } from '@ngx-formly/core';
+import { action } from '@storybook/addon-actions';
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { dummyMarkerTypes } from 'src/app/_services/article/marker-type.service.mock';
+import { dummyOrganizations } from 'src/app/_services/article/organization.service.mock';
+import { dummyClasses } from 'src/app/_services/article/player-class.service.mock';
+import { FormlyProvider } from 'src/app/_services/formly/formly-service.mock';
 import {
   dateMessage,
   dateValidator,
@@ -25,18 +25,18 @@ import {
   sessionAuthorUniqueValidator,
   specialCharacterValidator,
   timeValidator,
-} from "../../../_services/formly/validators";
-import { FormlyFileFieldComponent } from "../../molecules";
+} from '../../../_services/formly/validators';
+import { FormlyFileFieldComponent } from '../../molecules';
 import {
   FormlyDatepickerFieldComponent,
   FormlyEditorFieldComponent,
   FormlySelectDisableFieldComponent,
   OrganismsModule,
-} from "../../organisms";
-import { ConfigTablesComponent } from "./config-tables.component";
+} from '../../organisms';
+import { ConfigTablesComponent } from './config-tables.component';
 
 export default {
-  title: "DesignSystem/Templates/ConfigTablesComponent",
+  title: 'DesignSystem/Templates/ConfigTablesComponent',
   component: ConfigTablesComponent,
   decorators: [
     moduleMetadata({
@@ -46,16 +46,16 @@ export default {
         FormlyModule.forRoot({
           types: [
             {
-              name: "file",
+              name: 'file',
               component: FormlyFileFieldComponent,
-              wrappers: ["form-field"],
+              wrappers: ['form-field'],
             },
-            { name: "text-editor", component: FormlyEditorFieldComponent },
+            { name: 'text-editor', component: FormlyEditorFieldComponent },
             {
-              name: "select-disable",
+              name: 'select-disable',
               component: FormlySelectDisableFieldComponent,
             },
-            { name: "datepicker", component: FormlyDatepickerFieldComponent },
+            { name: 'datepicker', component: FormlyDatepickerFieldComponent },
           ],
           validationMessages: [
             invalidTimeMessage,
@@ -86,8 +86,8 @@ export default {
     }),
   ],
   args: {
-    campaignName: "Aldrune",
-    state: "CREATE",
+    campaignName: 'Aldrune',
+    state: 'CREATE',
     userModel: {},
     serverModel: undefined,
     classOptions: dummyClasses,
@@ -95,14 +95,12 @@ export default {
   },
 } as Meta<ConfigTablesComponent>;
 
-const Template: StoryFn<ConfigTablesComponent> = (
-  args: ConfigTablesComponent,
-) => ({
+const Template: StoryFn<ConfigTablesComponent> = (args) => ({
   props: {
     ...args,
-    loadTableEntries: action("loadTableEntries"),
-    deleteTableEntry: action("deleteTableEntry"),
-    createTableEntry: action("createTableEntry"),
+    loadTableEntries: action('loadTableEntries'),
+    deleteTableEntry: action('deleteTableEntry'),
+    createTableEntry: action('createTableEntry'),
   },
 });
 

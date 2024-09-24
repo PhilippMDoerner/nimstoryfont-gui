@@ -358,7 +358,7 @@ export default {
   },
 } as Meta<DiaryentryComponent>;
 
-const Template: StoryFn<DiaryentryComponent> = (args: DiaryentryComponent) => ({
+const Template: StoryFn<DiaryentryComponent> = (args) => ({
   props: {
     ...args,
     diaryentryDelete: action("diaryentryDelete"),

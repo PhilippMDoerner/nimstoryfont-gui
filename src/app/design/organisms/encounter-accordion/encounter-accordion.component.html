@@ -1,15 +1,18 @@
 <div class="encounter-list mb-5 mt-3">
-  <ngb-accordion [closeOthers]="true" [animation]="true">
+  <div ngbAccordion [closeOthers]="true" [animation]="true">
     <ng-container *ngFor="let encounter of encounters; let i = index">
-      <ngb-panel [id]="'static-'+i">
-
-        <ng-template ngbPanelTitle>
-          <div class="panel-title">
-            <strong class="encounter-title" [innerHTML]="encounter.name"></strong>
+      <div ngbAccordionItem [id]="'static-' + i">
+        <div ngbAccordionHeader>
+          <div ngbAccordionButton class="panel-title">
+            <strong
+              class="encounter-title"
+              [innerHTML]="encounter.name"
+            ></strong>
           </div>
-        </ng-template>
+        </div>
 
-        <ng-template ngbPanelContent>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
             <app-encounter
               class="panel-content"
               [encounter]="encounter"
@@ -23,9 +26,9 @@
               (encounterDelete)="encounterDelete.emit($event)"
               (encounterUpdate)="encounterUpdate.emit($event)"
             ></app-encounter>
-        </ng-template>
-
-      </ngb-panel>
+          </div>
+        </div>
+      </div>
     </ng-container>
-  </ngb-accordion>
+  </div>
 </div>

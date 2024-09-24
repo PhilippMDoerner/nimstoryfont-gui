@@ -1,11 +1,11 @@
 <h4>
-  Locations of Interest 
-  
+  Locations of Interest
+
   <ng-container *ngIf="canCreate">
     <a [routerLink]="createUrl">
-      <app-button 
-        class="create-button" 
-        [type]="'PRIMARY'" 
+      <app-button
+        class="create-button"
+        [type]="'PRIMARY'"
         [size]="'SMALL'"
         [icon]="'plus'"
       ></app-button>
@@ -13,23 +13,26 @@
   </ng-container>
 </h4>
 
-<ngb-accordion [closeOthers]="true">
-  <ngb-panel [id]="'static-'+i" *ngFor="let entry of accordionEntries; let i = index">
-      <!-- Header -->
-      <ng-template ngbPanelTitle class="button-container">
-          <strong>
-              <a class="location-title" [routerLink]="entry.link"> 
-                  {{ entry.value.name }} 
-              </a>
-          </strong>
-      </ng-template>
+<div ngbAccordion [closeOthers]="true">
+  <div
+    ngbAccordionItem
+    [id]="'static-' + i"
+    *ngFor="let entry of accordionEntries; let i = index"
+  >
+    <!-- Header -->
+    <div ngbAccordionHeader class="button-container">
+      <button ngbAccordionButton>
+        <a class="location-title" [routerLink]="entry.link">
+          {{ entry.value.name }}
+        </a>
+      </button>
+    </div>
 
-      <!-- Body -->
-      <ng-template ngbPanelContent>
-          <app-location
-            [location]="entry.value"
-          ></app-location>
-      </ng-template>
-
-  </ngb-panel>
-</ngb-accordion>
+    <!-- Body -->
+    <div ngbAccordionCollapse>
+      <div ngbAccordionBody>
+        <app-location [location]="entry.value"></app-location>
+      </div>
+    </div>
+  </div>
+</div>

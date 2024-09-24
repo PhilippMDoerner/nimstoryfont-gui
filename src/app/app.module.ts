@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,72 +33,66 @@ import { FormlyDatepickerFieldComponent, FormlyEditorFieldComponent, FormlySelec
 import { TemplatesModule } from './design/templates/templates.module';
 import { metaReducers, rootReducers } from './root.reducer';
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    MapPageComponent,
-    HomePageComponent,
-    CampaignOverviewPageComponent,
-    LoginPageComponent,
-    ProfilePageComponent,
-    ConfigAdministrationPageComponent,
-    SiteAdministrationPageComponent,
-  ],
-  imports: [
-    AdministrationModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    LeafletModule,
-    HttpClientModule,
-    FormlyModule.forRoot({
-      types: [
-        { name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] },
-        { name: 'text-editor', component: FormlyEditorFieldComponent },
-        { name: 'select-disable', component: FormlySelectDisableFieldComponent },
-        { name: 'datepicker', component: FormlyDatepickerFieldComponent },
-      ],
-      validationMessages: [
-        invalidTimeMessage,
-        requiredMessage,
-        dateMessage,
-        requiredIconMessage,
-        faPrefixMessage,
-        notIntegerMessage,
-        hasSpecialCharactersMessage,
-        fieldsDontMatchMessage,
-        sessionAlreadyHasAuthor,
-      ],
-      validators: [
-        timeValidator,
-        requiredValidator,
-        dateValidator,
-        requiredIconValidator,
-        iconValidator,
-        integerValidator,
-        specialCharacterValidator,
-        fieldMatchValidator,
-        sessionAuthorUniqueValidator,
-      ],
-    }),
-    StoreModule.forRoot(rootReducers , { metaReducers }),
-    EffectsModule.forRoot([
-      CampaignEffects,
-      LoadRecentlyUpdatedArticlesEffects,
-      LoginEffects,
-      MapEffects,
-      ResetPasswordEffects,
-      LoadConfigTablesEffects,
-      UserEffects,
-      StatisticEffects,
-      GroupEffects,
-    ]),
-    TemplatesModule,
-  ],
-  providers: [
-    { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
-    httpInterceptorProviders,
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        MapPageComponent,
+        HomePageComponent,
+        CampaignOverviewPageComponent,
+        LoginPageComponent,
+        ProfilePageComponent,
+        ConfigAdministrationPageComponent,
+        SiteAdministrationPageComponent,
+    ],
+    bootstrap: [AppComponent], imports: [AdministrationModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        LeafletModule,
+        FormlyModule.forRoot({
+            types: [
+                { name: 'file', component: FormlyFileFieldComponent, wrappers: ['form-field'] },
+                { name: 'text-editor', component: FormlyEditorFieldComponent },
+                { name: 'select-disable', component: FormlySelectDisableFieldComponent },
+                { name: 'datepicker', component: FormlyDatepickerFieldComponent },
+            ],
+            validationMessages: [
+                invalidTimeMessage,
+                requiredMessage,
+                dateMessage,
+                requiredIconMessage,
+                faPrefixMessage,
+                notIntegerMessage,
+                hasSpecialCharactersMessage,
+                fieldsDontMatchMessage,
+                sessionAlreadyHasAuthor,
+            ],
+            validators: [
+                timeValidator,
+                requiredValidator,
+                dateValidator,
+                requiredIconValidator,
+                iconValidator,
+                integerValidator,
+                specialCharacterValidator,
+                fieldMatchValidator,
+                sessionAuthorUniqueValidator,
+            ],
+        }),
+        StoreModule.forRoot(rootReducers, { metaReducers }),
+        EffectsModule.forRoot([
+            CampaignEffects,
+            LoadRecentlyUpdatedArticlesEffects,
+            LoginEffects,
+            MapEffects,
+            ResetPasswordEffects,
+            LoadConfigTablesEffects,
+            UserEffects,
+            StatisticEffects,
+            GroupEffects,
+        ]),
+        TemplatesModule], providers: [
+        { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
+        httpInterceptorProviders,
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import * as Plyr from 'plyr';
+import Plyr from 'plyr';
 
 type HotKey = "Space" | "Enter" | "KeyM" | "ArrowRight" | "ArrowLeft"
 

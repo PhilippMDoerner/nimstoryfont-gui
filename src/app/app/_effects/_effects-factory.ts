@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { Action, ActionCreator, TypedAction } from '@ngrx/store/src/models';
+import { Action, ActionCreator } from '@ngrx/store/src/models';
 import { Observable, catchError, filter, of, switchMap } from 'rxjs';
 import { selectCurrentCampaignName } from '../app.reducer';
 
@@ -18,13 +18,13 @@ interface AsyncEffectActions<T> {
   startAction: ActionCreator;
   endAction: ActionCreator<
     string,
-    (props: { data: T }) => { data: T } & TypedAction<string>
+    (props: { data: T }) => { data: T } & any
   >;
   failureAction: ActionCreator<
     string,
     (props: {
       error: HttpErrorResponse;
-    }) => { error: HttpErrorResponse } & TypedAction<string>
+    }) => { error: HttpErrorResponse } & any
   >;
 }
 
@@ -39,7 +39,7 @@ export interface CampaignEffectData<T> extends AsyncEffectActions<T> {
 export interface CampaignAndNameEffectData<T> extends AsyncEffectActions<T> {
   startAction: ActionCreator<
     string,
-    (props: { name: string }) => { name: string } & TypedAction<string>
+    (props: { name: string }) => { name: string } & any
   >;
   serviceCall: (campaignName: string, params: string) => Observable<T>;
 }
@@ -47,7 +47,7 @@ export interface CampaignAndNameEffectData<T> extends AsyncEffectActions<T> {
 export interface CampaignAndPkEffectData<T> extends AsyncEffectActions<T> {
   startAction: ActionCreator<
     string,
-    (props: { pk: number }) => { pk: number } & TypedAction<string>
+    (props: { pk: number }) => { pk: number } & any
   >;
   serviceCall: (campaignName: string, params: number) => Observable<T>;
 }

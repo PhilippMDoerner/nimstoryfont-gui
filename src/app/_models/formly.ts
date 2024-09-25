@@ -1,14 +1,14 @@
-import { ElementType } from "../design/atoms/";
-import { ArticleKind } from "./overview";
+import { ElementType } from '../../design/atoms';
+import { ArticleKind } from './overview';
 
-export interface FormlyPasswordInterface{
+export interface FormlyPasswordInterface {
   label?: string;
   className?: string;
   validators?: string[];
   disabled?: boolean;
 }
 
-export interface FormlyInterface{
+export interface FormlyInterface {
   key: string;
   label?: string;
   required?: boolean;
@@ -21,7 +21,7 @@ export interface FormlyInterface{
   showWrapperLabel?: boolean;
 }
 
-export interface FormlyOverviewSelectConfig extends FormlyInterface{
+export interface FormlyOverviewSelectConfig extends FormlyInterface {
   labelProp: string;
   overviewType: ArticleKind;
   valueProp?: string;
@@ -29,15 +29,16 @@ export interface FormlyOverviewSelectConfig extends FormlyInterface{
   campaign?: string;
 }
 
-export interface FormlyOverviewDisabledSelectConfig extends FormlyOverviewSelectConfig{
+export interface FormlyOverviewDisabledSelectConfig
+  extends FormlyOverviewSelectConfig {
   disabledExpression: Function;
   tooltipMessage: string;
   warningMessage: string;
 }
 
-export type InputKind = "NUMBER" | "STRING" | "NAME"; 
+export type InputKind = 'NUMBER' | 'STRING' | 'NAME';
 
-export interface FormlyInputConfig extends FormlyInterface{
+export interface FormlyInputConfig extends FormlyInterface {
   placeholder?: string;
   maxLength?: number;
   minLength?: number;
@@ -47,28 +48,28 @@ export interface FormlyInputConfig extends FormlyInterface{
 
 export type FileFieldKind = 'IMAGE' | 'OTHER';
 
-export interface FormlyFileConfig extends FormlyInterface{
+export interface FormlyFileConfig extends FormlyInterface {
   fileButtonType?: ElementType;
   fileFieldKind?: FileFieldKind;
 }
 
-export interface StaticOption{
-  label: String; 
-  value: String | Number
+export interface StaticOption {
+  label: String;
+  value: String | Number;
 }
 
-export interface FormlyCustomStringSelectConfig extends FormlyInterface{
-  options: string[]
+export interface FormlyCustomStringSelectConfig extends FormlyInterface {
+  options: string[];
 }
 
-export interface FormlyCustomSelectConfig extends FormlyInterface{
-  options: StaticOption[]
+export interface FormlyCustomSelectConfig extends FormlyInterface {
+  options: StaticOption[];
 }
 
-export interface FormlyCheckboxConfig extends FormlyInterface{
-  defaultValue: boolean
+export interface FormlyCheckboxConfig extends FormlyInterface {
+  defaultValue: boolean;
 }
 
-export interface FormlyDatepickerConfig extends FormlyInterface{}
+export interface FormlyDatepickerConfig extends FormlyInterface {}
 
-export interface FormlyCustomSessionSelect extends FormlyInterface{}
+export interface FormlyCustomSessionSelect extends FormlyInterface {}

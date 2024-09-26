@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { copyToClipboard } from 'src/app/app/_functions/clipboard';
+import { copyToClipboard } from 'src/app/core/_functions/clipboard';
 import { BadgeListEntry } from 'src/design/molecules';
 import { Character } from '../../../app/_models/character';
 import { Quote, QuoteConnection } from '../../../app/_models/quote';

@@ -41,22 +41,23 @@ import {
 import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CampaignEffects } from './app/_effects/campaign.effect';
-import { LoadConfigTablesEffects } from './app/_effects/config-tables.effect';
-import { GroupEffects } from './app/_effects/group.effect';
-import { LoadRecentlyUpdatedArticlesEffects } from './app/_effects/load-recently-updated-article.effect';
-import { LoginEffects } from './app/_effects/login.effect';
-import { MapEffects } from './app/_effects/map.effect';
-import { ResetPasswordEffects } from './app/_effects/resetPassword.effect';
-import { StatisticEffects } from './app/_effects/statistics.effect';
-import { UserEffects } from './app/_effects/user.effect';
-import { CampaignOverviewPageComponent } from './app/campaign-overview-page/campaign-overview-page.component';
-import { ConfigAdministrationPageComponent } from './app/config-administration-page/config-administration-page.component';
-import { HomePageComponent } from './app/home-page/home-page.component';
-import { LoginPageComponent } from './app/login-page/login-page.component';
-import { MapPageComponent } from './app/map-page/map-page.component';
-import { ProfilePageComponent } from './app/profile-page/profile-page.component';
-import { SiteAdministrationPageComponent } from './app/site-administration-page/site-administration-page.component';
+import { CampaignEffects } from './core/_effects/campaign.effect';
+import { LoadConfigTablesEffects } from './core/_effects/config-tables.effect';
+import { GroupEffects } from './core/_effects/group.effect';
+import { LoadRecentlyUpdatedArticlesEffects } from './core/_effects/load-recently-updated-article.effect';
+import { LoginEffects } from './core/_effects/login.effect';
+import { MapEffects } from './core/_effects/map.effect';
+import { ResetPasswordEffects } from './core/_effects/resetPassword.effect';
+import { StatisticEffects } from './core/_effects/statistics.effect';
+import { UserEffects } from './core/_effects/user.effect';
+import { CampaignOverviewPageComponent } from './core/campaign-overview-page/campaign-overview-page.component';
+import { ConfigAdministrationPageComponent } from './core/config-administration-page/config-administration-page.component';
+import { CoreStore } from './core/core.store';
+import { HomePageComponent } from './core/home-page/home-page.component';
+import { LoginPageComponent } from './core/login-page/login-page.component';
+import { MapPageComponent } from './core/map-page/map-page.component';
+import { ProfilePageComponent } from './core/profile-page/profile-page.component';
+import { SiteAdministrationPageComponent } from './core/site-administration-page/site-administration-page.component';
 import { metaReducers, rootReducers } from './root.reducer';
 
 @NgModule({
@@ -129,6 +130,7 @@ import { metaReducers, rootReducers } from './root.reducer';
     TemplatesModule,
   ],
   providers: [
+    CoreStore,
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     httpInterceptorProviders,
     provideHttpClient(withInterceptorsFromDi()),

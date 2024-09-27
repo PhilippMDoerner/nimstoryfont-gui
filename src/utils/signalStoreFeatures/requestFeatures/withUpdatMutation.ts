@@ -3,6 +3,7 @@ import {
   EnvironmentInjector,
   inject,
   runInInjectionContext,
+  Signal,
 } from '@angular/core';
 import {
   patchState,
@@ -14,7 +15,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { RequestStatus, UpdateFunction } from './types';
+import { EmptyFeature, RequestStatus, UpdateFunction } from './types';
 
 export type UpdateState<T, Prop extends string> = {
   [K in Prop as `${K}UpdateRequestStatus`]: RequestStatus;
@@ -24,26 +25,29 @@ export type UpdateState<T, Prop extends string> = {
   [M in Prop as `${M}Data`]: T | undefined;
 };
 
-function getKeys(name: string) {
-  const titleCaseName = toTitleCase(name);
-  const updateName = `update${titleCaseName}`;
-  const updateTitleName = toTitleCase(updateName);
+export type UpdateComputed<Prop extends string> = {
+  [K in Prop as `is${Capitalize<K>}UpdatePending`]: Signal<boolean>;
+} & {
+  [K in Prop as `has${Capitalize<K>}UpdateLoaded`]: Signal<boolean>;
+} & {
+  [K in Prop as `has${Capitalize<K>}UpdateFailed`]: Signal<boolean>;
+};
 
-  return {
-    requestStatus: `${updateName}RequestStatus`,
-    error: `${updateName}Error`,
-    data: `${name}Data`,
-    isPending: `is${updateTitleName}Pending`,
-    hasLoaded: `has${updateTitleName}Loaded`,
-    hasError: `has${updateTitleName}Error`,
-    update: updateName,
-  };
-}
+export type UpdateMethods<UpdateArgs, Prop extends string> = {
+  [K in Prop as `update${Capitalize<K>}`]: (args: UpdateArgs) => void;
+} & {};
+
+export type UpdateFeature<T, UpdateArgs, Prop extends string> = {
+  state: UpdateState<T, Prop>;
+  signals: UpdateComputed<Prop>;
+  computed: UpdateComputed<Prop>;
+  methods: UpdateMethods<UpdateArgs, Prop>;
+};
 
 export function withUpdateMutation<T, UpdateArgs, Prop extends string>(
   name: Prop,
   updateMutation: UpdateFunction<UpdateArgs, T>,
-): SignalStoreFeature {
+): SignalStoreFeature<EmptyFeature, UpdateFeature<T, UpdateArgs, Prop>> {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
     store[keys.requestStatus]();
@@ -87,5 +91,19 @@ export function withUpdateMutation<T, UpdateArgs, Prop extends string>(
         });
       },
     })),
-  );
+  ) as SignalStoreFeature<EmptyFeature, UpdateFeature<T, UpdateArgs, Prop>>;
+}
+
+function getKeys(name: string) {
+  const titleCaseName = toTitleCase(name);
+
+  return {
+    requestStatus: `${titleCaseName}UpdateRequestStatus`,
+    error: `${titleCaseName}UpdateError`,
+    data: `${name}Data`,
+    isPending: `is${titleCaseName}UpdatePending`,
+    hasLoaded: `has${titleCaseName}UpdateLoaded`,
+    hasError: `has${titleCaseName}UpdateError`,
+    update: `update${titleCaseName}`,
+  };
 }

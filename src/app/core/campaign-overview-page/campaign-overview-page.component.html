@@ -1,7 +1,7 @@
 <app-campaign-overview
   [serverUrl]="serverUrl"
   [userName]="userName"
-  [campaigns]="(campaigns$ | async)!"
+  [campaigns]="campaigns()"
   [isGlobalAdmin]="isGlobalAdmin"
   (logout)="logout()"
 ></app-campaign-overview>

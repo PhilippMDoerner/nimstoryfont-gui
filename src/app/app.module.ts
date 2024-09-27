@@ -52,7 +52,6 @@ import { StatisticEffects } from './core/_effects/statistics.effect';
 import { UserEffects } from './core/_effects/user.effect';
 import { CampaignOverviewPageComponent } from './core/campaign-overview-page/campaign-overview-page.component';
 import { ConfigAdministrationPageComponent } from './core/config-administration-page/config-administration-page.component';
-import { CoreStore } from './core/core.store';
 import { HomePageComponent } from './core/home-page/home-page.component';
 import { LoginPageComponent } from './core/login-page/login-page.component';
 import { MapPageComponent } from './core/map-page/map-page.component';
@@ -130,7 +129,6 @@ import { metaReducers, rootReducers } from './root.reducer';
     TemplatesModule,
   ],
   providers: [
-    CoreStore,
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     httpInterceptorProviders,
     provideHttpClient(withInterceptorsFromDi()),

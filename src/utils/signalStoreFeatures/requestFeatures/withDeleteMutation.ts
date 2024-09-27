@@ -3,6 +3,7 @@ import {
   EnvironmentInjector,
   inject,
   runInInjectionContext,
+  Signal,
 } from '@angular/core';
 import {
   patchState,
@@ -14,7 +15,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { DeleteFunction, RequestStatus } from './types';
+import { DeleteFunction, EmptyFeature, RequestStatus } from './types';
 
 export type DeleteState<T, Prop extends string> = {
   [K in Prop as `${K}DeleteRequestStatus`]: RequestStatus;
@@ -24,26 +25,29 @@ export type DeleteState<T, Prop extends string> = {
   [M in Prop as `${M}Data`]: T | undefined;
 };
 
-function getKeys(name: string) {
-  const titleCaseName = toTitleCase(name);
-  const deleteName = `delete${titleCaseName}`;
-  const deleteTitleName = toTitleCase(deleteName);
+export type DeleteComputed<Prop extends string> = {
+  [K in Prop as `is${Capitalize<K>}DeletePending`]: Signal<boolean>;
+} & {
+  [K in Prop as `has${Capitalize<K>}DeleteLoaded`]: Signal<boolean>;
+} & {
+  [K in Prop as `has${Capitalize<K>}DeleteFailed`]: Signal<boolean>;
+};
 
-  return {
-    requestStatus: `${deleteName}RequestStatus`,
-    error: `${deleteName}Error`,
-    data: `${name}Data`,
-    isPending: `is${deleteTitleName}Pending`,
-    hasLoaded: `has${deleteTitleName}Loaded`,
-    hasError: `has${deleteTitleName}Error`,
-    delete: deleteName,
-  };
-}
+export type DeleteMethods<QueryArgs, Prop extends string> = {
+  [K in Prop as `delete${Capitalize<K>}`]: (args: QueryArgs) => void;
+} & {};
+
+export type DeleteFeature<T, DeleteArgs, Prop extends string> = {
+  state: DeleteState<T, Prop>;
+  signals: DeleteComputed<Prop>;
+  computed: DeleteComputed<Prop>;
+  methods: DeleteMethods<DeleteArgs, Prop>;
+};
 
 export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
   name: Prop,
   deleteMutation: DeleteFunction<DeleteArgs>,
-): SignalStoreFeature {
+): SignalStoreFeature<EmptyFeature, DeleteFeature<T, DeleteArgs, Prop>> {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
     store[keys.requestStatus]();
@@ -87,5 +91,19 @@ export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
         });
       },
     })),
-  );
+  ) as SignalStoreFeature<EmptyFeature, DeleteFeature<T, DeleteArgs, Prop>>;
+}
+
+function getKeys(name: string) {
+  const titleCaseName = toTitleCase(name);
+
+  return {
+    requestStatus: `${titleCaseName}DeleteRequestStatus`,
+    error: `${titleCaseName}DeleteError`,
+    data: `${name}Data`,
+    isPending: `is${titleCaseName}DeletePending`,
+    hasLoaded: `has${titleCaseName}DeleteLoaded`,
+    hasError: `has${titleCaseName}DeleteError`,
+    delete: `delete${titleCaseName}`,
+  };
 }

@@ -1,35 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { CampaignOverview } from 'src/app/_models/campaign';
-import { TokenService } from 'src/app/_services/utils/token.service';
+import { Component, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { logout } from '../app.actions';
-import { selectCampaigns } from '../app.reducer';
+import { CoreStore } from '../core.store';
 
 @Component({
   selector: 'app-campaign-overview-page',
   templateUrl: './campaign-overview-page.component.html',
-  styleUrls: ['./campaign-overview-page.component.scss']
+  styleUrls: ['./campaign-overview-page.component.scss'],
 })
-export class CampaignOverviewPageComponent implements OnInit{
+export class CampaignOverviewPageComponent {
+  private readonly signalStore = inject(CoreStore);
+
   serverUrl = environment.backendDomain;
-  userName!: string;
-  campaigns$!: Observable<CampaignOverview[]>
-  isGlobalAdmin!: boolean;
-    
-  constructor(
-    private store: Store,
-    private tokenService: TokenService,
-  ){}
-  
-  ngOnInit(): void {
-    this.userName = this.tokenService.getCurrentUserName();
-    this.isGlobalAdmin = this.tokenService.isAdmin() || this.tokenService.isSuperUser();
-    this.campaigns$ = this.store.select(selectCampaigns);
+  userName = this.signalStore.getCurrentUserName();
+  isGlobalAdmin = this.signalStore.isGlobalAdmin();
+  campaigns = this.signalStore.campaignsData;
+
+  constructor() {
+    this.signalStore.loadCampaigns();
   }
-  
-  logout(): void{
-    this.store.dispatch(logout());
+
+  logout(): void {
+    this.signalStore.logout();
   }
 }

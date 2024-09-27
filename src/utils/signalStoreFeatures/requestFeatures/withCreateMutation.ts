@@ -3,6 +3,7 @@ import {
   EnvironmentInjector,
   inject,
   runInInjectionContext,
+  Signal,
 } from '@angular/core';
 import {
   patchState,
@@ -19,30 +20,40 @@ import { CreateFunction, RequestStatus } from './types';
 export type CreateState<T, Prop extends string> = {
   [K in Prop as `${K}CreateRequestStatus`]: RequestStatus;
 } & {
-  [L in Prop as `${L}CreationError`]: any | undefined;
+  [L in Prop as `${L}CreateError`]: any | undefined;
 } & {
   [M in Prop as `${M}Data`]: T | undefined;
 };
 
+export type CreateComputed<Prop extends string> = {
+  [K in Prop as `is${Capitalize<K>}CreatePending`]: Signal<boolean>;
+} & {
+  [K in Prop as `has${Capitalize<K>}CreateLoaded`]: Signal<boolean>;
+} & {
+  [K in Prop as `has${Capitalize<K>}CreateFailed`]: Signal<boolean>;
+};
+
+export type CreateMethods<CreateArgs, Prop extends string> = {
+  [K in Prop as `create${Capitalize<K>}`]: (args: CreateArgs) => void;
+} & {};
+
 function getKeys(name: string) {
   const titleCaseName = toTitleCase(name);
-  const createName = `create${titleCaseName}`;
-  const createTitleName = toTitleCase(createName);
 
   return {
-    requestStatus: `${createName}RequestStatus`,
-    error: `${createName}Error`,
+    requestStatus: `${titleCaseName}CreateRequestStatus`,
+    error: `${titleCaseName}CreateError`,
     data: `${name}Data`,
-    isPending: `is${createTitleName}Pending`,
-    hasLoaded: `has${createTitleName}Loaded`,
-    hasError: `has${createTitleName}Error`,
-    create: createName,
+    isPending: `is${titleCaseName}CreatePending`,
+    hasLoaded: `has${titleCaseName}CreateLoaded`,
+    hasError: `has${titleCaseName}CreateError`,
+    create: `create${titleCaseName}`,
   };
 }
 
-export function withCreateMutation<T, Prop extends string>(
+export function withCreateMutation<T, CreateArgs, Prop extends string>(
   name: Prop,
-  creationMutation: CreateFunction<T>,
+  creationMutation: CreateFunction<CreateArgs, T>,
 ): SignalStoreFeature {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
@@ -62,7 +73,7 @@ export function withCreateMutation<T, Prop extends string>(
     })),
 
     withMethods((store, environmentInjector = inject(EnvironmentInjector)) => ({
-      [keys.create]: (args: Partial<T>) => {
+      [keys.create]: (args: CreateArgs) => {
         patchState(store, {
           [keys.requestStatus]: 'pending',
           [keys.data]: undefined,

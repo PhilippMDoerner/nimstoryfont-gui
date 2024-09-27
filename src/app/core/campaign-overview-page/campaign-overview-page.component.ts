@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AuthStore } from '../auth.store';
 import { CoreStore } from '../core.store';
 
 @Component({
@@ -8,18 +9,19 @@ import { CoreStore } from '../core.store';
   styleUrls: ['./campaign-overview-page.component.scss'],
 })
 export class CampaignOverviewPageComponent {
-  private readonly signalStore = inject(CoreStore);
+  private readonly coreStore = inject(CoreStore);
+  private readonly authStore = inject(AuthStore);
 
   serverUrl = environment.backendDomain;
-  userName = this.signalStore.getCurrentUserName();
-  isGlobalAdmin = this.signalStore.isGlobalAdmin();
-  campaigns = this.signalStore.campaignsData;
+  userName = this.authStore.userName as Signal<string>;
+  isGlobalAdmin = this.authStore.isGlobalAdmin;
+  campaigns = this.coreStore.campaignsData;
 
   constructor() {
-    this.signalStore.loadCampaigns();
+    this.coreStore.loadCampaigns();
   }
 
   logout(): void {
-    this.signalStore.logout();
+    this.coreStore.logout();
   }
 }

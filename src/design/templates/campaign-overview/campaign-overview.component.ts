@@ -19,33 +19,30 @@ import { RoutingService } from 'src/app/_services/routing.service';
     ]),
   ],
 })
-export class CampaignOverviewComponent implements OnInit{
+export class CampaignOverviewComponent implements OnInit {
   @Input() serverUrl!: string;
-  @Input() userName!: string;
+  @Input() userName?: string;
   @Input() campaigns?: CampaignOverview[];
   @Input() isGlobalAdmin: boolean = false;
-  
+
   @Output() logout: EventEmitter<void> = new EventEmitter();
-  
+
   profileUrl?: string;
   generalAdminUrl?: string;
   configTableUrl?: string;
   dragonFrameUrl = '/assets/dragon-frame.jpg';
-  
-  constructor(
-    private routingService: RoutingService,
-  ){}
-  
+
+  constructor(private routingService: RoutingService) {}
+
   ngOnInit(): void {
-    this.profileUrl = this.routingService.getRoutePath("direct-profile", {username: this.userName});
+    this.profileUrl = this.routingService.getRoutePath('direct-profile', {
+      username: this.userName,
+    });
     this.configTableUrl = this.routingService.getRoutePath('config-tables');
     this.generalAdminUrl = this.routingService.getRoutePath('admin');
   }
-  
-  onCampaignClick(event: CampaignOverview): void{
-    this.routingService.routeToPath(
-      'home',
-      { campaign: event.name}
-    );
+
+  onCampaignClick(event: CampaignOverview): void {
+    this.routingService.routeToPath('home', { campaign: event.name });
   }
 }

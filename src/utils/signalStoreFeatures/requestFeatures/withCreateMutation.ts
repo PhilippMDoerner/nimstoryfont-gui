@@ -41,8 +41,8 @@ function getKeys(name: string) {
   const titleCaseName = toTitleCase(name);
 
   return {
-    requestStatus: `${titleCaseName}CreateRequestStatus`,
-    error: `${titleCaseName}CreateError`,
+    requestStatus: `${name}CreateRequestStatus`,
+    error: `${name}CreateError`,
     data: `${name}Data`,
     isPending: `is${titleCaseName}CreatePending`,
     hasLoaded: `has${titleCaseName}CreateLoaded`,

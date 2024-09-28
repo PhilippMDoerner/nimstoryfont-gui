@@ -1,50 +1,58 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component, computed, inject, Signal } from '@angular/core';
+import { MapMarkerType } from 'src/app/_models/mapMarkerType';
+import { PlayerClass } from 'src/app/_models/playerclass';
 import {
   ConfigTableData,
   ConfigTableKind,
 } from 'src/design/templates/_models/config-table';
-import {
-  createConfigTableEntry,
-  deleteConfigTableEntry,
-  loadConfigTableEntries,
-} from '../app.actions';
-import { selectConfigTableData } from '../app.reducer';
+import { CoreStore } from '../core.store';
 
 @Component({
   selector: 'app-config-administration-page',
   templateUrl: './config-administration-page.component.html',
   styleUrls: ['./config-administration-page.component.scss'],
 })
-export class ConfigAdministrationPageComponent implements OnInit {
-  tableData$!: Observable<ConfigTableData>;
-
-  constructor(private store: Store) {}
-
-  ngOnInit(): void {
-    this.tableData$ = this.store.select(selectConfigTableData);
-  }
+export class ConfigAdministrationPageComponent {
+  readonly coreStore = inject(CoreStore);
+  tableData: Signal<ConfigTableData> = computed(() => ({
+    MARKER_TYPE: this.coreStore.markerTypeTableData(),
+    PLAYER_CLASS: this.coreStore.playerClassTableData(),
+  }));
 
   loadTableEntries(table: ConfigTableKind): void {
-    this.store.dispatch(loadConfigTableEntries({ table }));
+    switch (table) {
+      case 'MARKER_TYPE':
+        this.coreStore.loadMarkerTypeTable();
+        break;
+      case 'PLAYER_CLASS':
+        this.coreStore.loadPlayerClassTable();
+        break;
+    }
   }
 
   deleteTableEntry(event: { table: ConfigTableKind; entry: any }): void {
-    this.store.dispatch(
-      deleteConfigTableEntry({
-        entryId: event.entry.id,
-        table: event.table,
-      }),
-    );
+    const entryId: number = event.entry.id ?? event.entry.pk;
+    if (entryId == null) return;
+
+    switch (event.table) {
+      case 'MARKER_TYPE':
+        this.coreStore.deleteMarkerType({ entryId });
+        break;
+      case 'PLAYER_CLASS':
+        this.coreStore.deletePlayerClass({ entryId });
+        break;
+    }
   }
 
   createTableEntry(event: { table: ConfigTableKind; entry: unknown }): void {
-    this.store.dispatch(
-      createConfigTableEntry({
-        table: event.table,
-        entry: event.entry,
-      }),
-    );
+    if (event.entry == null) return;
+    switch (event.table) {
+      case 'MARKER_TYPE':
+        this.coreStore.createMarkerType(event.entry as MapMarkerType);
+        break;
+      case 'PLAYER_CLASS':
+        this.coreStore.createPlayerClass(event.entry as PlayerClass);
+        break;
+    }
   }
 }

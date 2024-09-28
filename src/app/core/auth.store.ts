@@ -1,7 +1,16 @@
 import { computed, inject } from '@angular/core';
-import { signalStore, withComputed, withMethods } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withHooks,
+  withMethods,
+} from '@ngrx/signals';
+import { tap } from 'rxjs';
+import { withDevtools } from 'src/utils/signalStoreFeatures/devtools/withDevtools';
 import {
   getQueryData,
+  setQueryData,
   withQuery,
 } from 'src/utils/signalStoreFeatures/requestFeatures/withQuery';
 import { Login } from '../_models/login';
@@ -10,9 +19,12 @@ import { TokenService } from '../_services/utils/token.service';
 
 export const AuthStore = signalStore(
   { providedIn: 'root' },
+  withDevtools('Auth'),
   withQuery('login', (login: Login) => {
     const tokenService = inject(TokenService);
-    return tokenService.login(login);
+    return tokenService
+      .login(login)
+      .pipe(tap((data) => tokenService.setUserData(data)));
   }),
   withComputed((store) => {
     const userData = getQueryData<UserData>(store, 'login');
@@ -36,6 +48,15 @@ export const AuthStore = signalStore(
         tokenService.removeJWTTokenFromLocalStorage();
       },
       login: (data: Login) => tokenService.login(data),
+    };
+  }),
+  withHooks((store) => {
+    return {
+      onInit() {
+        patchState(store, {
+          ...setQueryData('login', TokenService.getUserData()),
+        });
+      },
     };
   }),
 );

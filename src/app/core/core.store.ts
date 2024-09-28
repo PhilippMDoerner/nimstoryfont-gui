@@ -12,10 +12,16 @@ import {
 import { filter, map, Observable } from 'rxjs';
 import { withDevtools } from 'src/utils/signalStoreFeatures/devtools/withDevtools';
 import { withArticle } from 'src/utils/signalStoreFeatures/requestFeatures/withArticle';
+import { withCreateMutation } from 'src/utils/signalStoreFeatures/requestFeatures/withCreateMutation';
+import { withDeleteMutation } from 'src/utils/signalStoreFeatures/requestFeatures/withDeleteMutation';
 import { withPageableQuery } from 'src/utils/signalStoreFeatures/requestFeatures/withPageableQuery';
 import { withQuery } from 'src/utils/signalStoreFeatures/requestFeatures/withQuery';
 import { Campaign, CampaignOverview } from '../_models/campaign';
+import { MapMarkerType } from '../_models/mapMarkerType';
 import { OverviewItem } from '../_models/overview';
+import { PlayerClass } from '../_models/playerclass';
+import { MarkerTypeService } from '../_services/article/marker-type.service';
+import { PlayerClassService } from '../_services/article/player-class.service';
 import { RecentlyUpdatedService } from '../_services/article/recently-updated.service';
 import { CampaignService } from '../_services/utils/campaign.service';
 
@@ -27,7 +33,7 @@ const initialCoreSubState: CoreSubState = { currentCampaignName: undefined };
 
 export const CoreStore = signalStore(
   { providedIn: 'root' },
-  withDevtools(),
+  withDevtools('Core'),
   withState<CoreSubState>(initialCoreSubState),
   withArticle<Campaign, 'campaign'>('campaign', CampaignService),
   withPageableQuery<
@@ -42,9 +48,31 @@ export const CoreStore = signalStore(
     const service = inject(CampaignService);
     return service.campaignOverview();
   }),
+  withQuery<MapMarkerType[], void, 'markerTypeTable'>('markerTypeTable', () =>
+    inject(MarkerTypeService).list(),
+  ),
+  withDeleteMutation<MapMarkerType, { entryId: number }, 'markerType'>(
+    'markerType',
+    ({ entryId }) => inject(MarkerTypeService).delete(entryId),
+  ),
+  withCreateMutation<MapMarkerType, Partial<MapMarkerType>, 'markerType'>(
+    'markerType',
+    (data) => inject(MarkerTypeService).create(data),
+  ),
+  withQuery<PlayerClass[], void, 'playerClassTable'>('playerClassTable', () =>
+    inject(PlayerClassService).list(),
+  ),
+  withDeleteMutation<PlayerClass, { entryId: number }, 'playerClass'>(
+    'playerClass',
+    ({ entryId }) => inject(PlayerClassService).delete(entryId),
+  ),
+  withCreateMutation<PlayerClass, Partial<PlayerClass>, 'playerClass'>(
+    'playerClass',
+    (data) => inject(PlayerClassService).create(data),
+  ),
+
   withComputed((store) => {
     const campaigns = store.campaignsData;
-    const curentCampaignName = store.currentCampaignName;
 
     return {
       currentCampaign: computed(() => {

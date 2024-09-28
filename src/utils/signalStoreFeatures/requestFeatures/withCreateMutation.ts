@@ -15,7 +15,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { CreateFunction, RequestStatus } from '../types';
+import { CreateFunction, EmptyFeature, RequestStatus } from '../types';
 
 export type CreateState<T, Prop extends string> = {
   [K in Prop as `${K}CreateRequestStatus`]: RequestStatus;
@@ -37,24 +37,16 @@ export type CreateMethods<CreateArgs, Prop extends string> = {
   [K in Prop as `create${Capitalize<K>}`]: (args: CreateArgs) => void;
 } & {};
 
-function getKeys(name: string) {
-  const titleCaseName = toTitleCase(name);
-
-  return {
-    requestStatus: `${name}CreateRequestStatus`,
-    error: `${name}CreateError`,
-    data: `${name}Data`,
-    isPending: `is${titleCaseName}CreatePending`,
-    hasLoaded: `has${titleCaseName}CreateLoaded`,
-    hasError: `has${titleCaseName}CreateError`,
-    create: `create${titleCaseName}`,
-  };
-}
+export type CreateFeature<T, CreateArgs, Prop extends string> = {
+  state: CreateState<T, Prop>;
+  computed: CreateComputed<Prop>;
+  methods: CreateMethods<CreateArgs, Prop>;
+};
 
 export function withCreateMutation<T, CreateArgs, Prop extends string>(
   name: Prop,
   creationMutation: CreateFunction<CreateArgs, T>,
-): SignalStoreFeature {
+): SignalStoreFeature<EmptyFeature, CreateFeature<T, CreateArgs, Prop>> {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
     store[keys.requestStatus]();
@@ -99,5 +91,19 @@ export function withCreateMutation<T, CreateArgs, Prop extends string>(
         });
       },
     })),
-  );
+  ) as SignalStoreFeature<EmptyFeature, CreateFeature<T, CreateArgs, Prop>>;
+}
+
+function getKeys(name: string) {
+  const titleCaseName = toTitleCase(name);
+
+  return {
+    requestStatus: `${name}CreateRequestStatus`,
+    error: `${name}CreateError`,
+    data: `${name}Data`,
+    isPending: `is${titleCaseName}CreatePending`,
+    hasLoaded: `has${titleCaseName}CreateLoaded`,
+    hasError: `has${titleCaseName}CreateError`,
+    create: `create${titleCaseName}`,
+  };
 }

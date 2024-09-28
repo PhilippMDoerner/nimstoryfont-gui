@@ -7,27 +7,31 @@
         [text]="'Back to campaign overview'"
       ></app-button>
     </a>
-    
+
     <!-- Sections -->
     <ng-container *ngFor="let table of tables; let tableIndex = index">
       <div class="config-tables__section section">
         <!-- Section Heading -->
         <div class="section__heading heading">
-          <h3 class="heading__text"> 
+          <h3 class="heading__text">
             <app-icon [icon]="table.icon"></app-icon>
             {{ table.name }}
           </h3>
-            
+
           <!-- Heading Buttons -->
           <div class="heading__buttons">
             <!-- Add Users -->
-            <app-button 
+            <app-button
               [type]="'DARK'"
-              [icon]="table.showForm ? 'times' : 'plus' "
-              [text]="table.showForm ? 'Cancel ' + table.name + ' creation' : 'Add ' + table.name "
+              [icon]="table.showForm ? 'times' : 'plus'"
+              [text]="
+                table.showForm
+                  ? 'Cancel ' + table.name + ' creation'
+                  : 'Add ' + table.name
+              "
               (click)="table.showForm = !table.showForm"
             ></app-button>
-            
+
             <app-button
               [type]="'PRIMARY'"
               [icon]="'refresh'"
@@ -35,76 +39,79 @@
               (click)="loadTableEntries.emit(table.kind)"
             ></app-button>
           </div>
-  
         </div>
-  
+
         <app-separator class="section__separator"></app-separator>
-  
+
         <!-- Section Body -->
-  
+
         <ng-container *ngIf="!table.showForm">
-            <ng-container *ngIf="table.entries?.length === 0">
-              Load entries to see them
-            </ng-container>
-  
-            <div class="section__table-container">
-              <!-- Table -->
-              <ng-container *ngIf="table.entries && table.entries.length > 0">
-                <table class="table table-dark table-striped">
-                  <!-- Table heading -->
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <ng-container *ngFor="let property of table.entries[0]|keyvalue">
-                        <th scope="col" class="text-uppercase">
-                          {{property.key}}
-                        </th>
-                      </ng-container>
-                    </tr>
-                  </thead>
-                  <!-- Table body -->
-                  <tbody>
-                    <ng-container *ngFor="let entry of table.entries; let entryIndex = index">
-                      <tr>
-                        <th scope="row">{{ entry.id }} {{entry.pk}}</th>
-                        <td *ngFor="let property of entry|keyvalue">{{property.value}}</td>
-                        <td>
-                          <app-confirmation-toggle-button 
-                            [toggleType]="'DANGER'"
-                            [toggleSize]="'SMALL'"
-                            [confirmationQuestion]="'Delete this Entry?'"
-                            [icon]="'trash'"
-                            (deleteEvent)="deleteTableEntry.emit({table: table.kind, entry})"
-                          ></app-confirmation-toggle-button>
-                        </td>
-                      </tr>
+          <ng-container *ngIf="table.entries?.length === 0">
+            Load entries to see them
+          </ng-container>
+
+          <div class="section__table-container">
+            <!-- Table -->
+            <ng-container *ngIf="table.entries && table.entries.length > 0">
+              <table class="table table-dark table-striped">
+                <!-- Table heading -->
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <ng-container
+                      *ngFor="let property of table.entries[0] | keyvalue"
+                    >
+                      <th scope="col" class="text-uppercase">
+                        {{ property.key }}
+                      </th>
                     </ng-container>
-  
-                  </tbody>
-                </table>
-              </ng-container>
-            </div>
-  
+                  </tr>
+                </thead>
+                <!-- Table body -->
+                <tbody>
+                  <ng-container
+                    *ngFor="let entry of table.entries; let entryIndex = index"
+                  >
+                    <tr>
+                      <th scope="row">{{ entry.id }} {{ entry.pk }}</th>
+                      <td *ngFor="let property of entry | keyvalue">
+                        {{ property.value }}
+                      </td>
+                      <td>
+                        <app-confirmation-toggle-button
+                          [toggleType]="'DANGER'"
+                          [toggleSize]="'SMALL'"
+                          [confirmationQuestion]="'Delete this Entry?'"
+                          [icon]="'trash'"
+                          (confirm)="
+                            deleteTableEntry.emit({ table: table.kind, entry })
+                          "
+                        ></app-confirmation-toggle-button>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </ng-container>
+          </div>
         </ng-container>
-  
+
         <ng-container *ngIf="table.showForm">
           <app-card>
             <h4>Adding new {{ table.name }}</h4>
             <!-- Form -->
-            <app-form 
-              [model]="table.model" 
-              [fields]="table.formFields" 
+            <app-form
+              [model]="table.model"
+              [fields]="table.formFields"
               [cancelButtonType]="'DARK'"
-              (formlySubmit)="createTableEntry.emit({table: table.kind, entry: table.model})" 
+              (formlySubmit)="createEntry(table.kind, table.model)"
               (formlyCancel)="table.showForm = !table.showForm"
             ></app-form>
-          </app-card>  
-  
+          </app-card>
         </ng-container>
-  
       </div>
     </ng-container>
-    
+
     <a class="config-tables__return-button" [routerLink]="campaignOverviewUrl">
       <app-button
         [type]="'SECONDARY'"

@@ -112,14 +112,14 @@ export function withQuery<T, QueryArgs, Prop extends string>(
   ) as SignalStoreFeature<EmptyFeature, QueryFeature<T, QueryArgs, Prop>>;
 }
 
-const data = (name: string) => `${name}Data`;
+const dataField = (name: string) => `${name}Data`;
 
 function getKeys(name: string) {
   const titleName = toTitleCase(name);
   return {
     requestStatus: `${name}QueryRequestStatus`,
     error: `${name}QueryError`,
-    data: data(name),
+    data: dataField(name),
     isPending: `is${titleName}QueryPending`,
     hasLoaded: `has${titleName}QuerySucceeded`,
     hasFailed: `has${titleName}QueryFailed`,
@@ -131,5 +131,16 @@ export function getQueryData<T>(
   store: any,
   name: string,
 ): Signal<T | undefined> {
-  return store[data(name)] as Signal<T | undefined>;
+  return store[dataField(name)] as Signal<T | undefined>;
+}
+
+export function setQueryData<T, Prop extends string>(
+  name: Prop,
+  data: T,
+): {
+  [K in Prop as `${K}Data`]: T | undefined;
+} {
+  return { [dataField(name)]: data } as {
+    [K in Prop as `${K}Data`]: T | undefined;
+  };
 }

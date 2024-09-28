@@ -126,21 +126,3 @@ function getKeys(name: string) {
     load: `load${titleName}`,
   };
 }
-
-export function getQueryData<T>(
-  store: any,
-  name: string,
-): Signal<T | undefined> {
-  return store[dataField(name)] as Signal<T | undefined>;
-}
-
-export function setQueryData<T, Prop extends string>(
-  name: Prop,
-  data: T,
-): {
-  [K in Prop as `${K}Data`]: T | undefined;
-} {
-  return { [dataField(name)]: data } as {
-    [K in Prop as `${K}Data`]: T | undefined;
-  };
-}

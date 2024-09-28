@@ -94,24 +94,19 @@ export const CoreStore = signalStore(
   }),
   withHooks({
     onInit(store) {
-      trackCampaignPathParam(store);
+      getCampaignNameParam().subscribe({
+        next: (name) => patchState(store, { currentCampaignName: name }),
+      });
     },
   }),
 );
 
-function trackCampaignPathParam(store: any) {
-  const campaignNameParam$ = inject(Router).events.pipe(
+function getCampaignNameParam(): Observable<string> {
+  return inject(Router).events.pipe(
     filter((event) => event instanceof ActivationEnd),
     map((event) => event.snapshot.paramMap.get('campaign') ?? undefined),
     filter((name) => name != null),
   );
-
-  campaignNameParam$.subscribe({
-    next: (name) => {
-      console.log('Update ActivationEnd');
-      patchState(store, { currentCampaignName: name });
-    },
-  });
 }
 
 export function getCurrentCampaignName$(): Observable<string> {

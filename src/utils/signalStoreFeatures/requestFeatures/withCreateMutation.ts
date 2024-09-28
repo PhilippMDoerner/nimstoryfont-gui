@@ -54,8 +54,6 @@ export function withCreateMutation<T, CreateArgs, Prop extends string>(
   config?: RequestFeatureConfig<T>,
 ): SignalStoreFeature<EmptyFeature, CreateFeature<T, CreateArgs, Prop>> {
   const keys = getKeys(name);
-  const getRequestStatus = (store: any): RequestStatus =>
-    store[keys.requestStatus]();
 
   return signalStoreFeature(
     withState<CreateState<T, Prop>>({
@@ -64,11 +62,19 @@ export function withCreateMutation<T, CreateArgs, Prop extends string>(
       [keys.data]: undefined,
     } as CreateState<T, Prop>),
 
-    withComputed((store) => ({
-      [keys.isPending]: computed(() => getRequestStatus(store) === 'pending'),
-      [keys.hasLoaded]: computed(() => getRequestStatus(store) === 'success'),
-      [keys.hasError]: computed(() => getRequestStatus(store) === 'error'),
-    })),
+    withComputed((store) => {
+      const getRequestStatus = (store: any): Signal<RequestStatus> =>
+        store[keys.requestStatus];
+      return {
+        [keys.isPending]: computed(
+          () => getRequestStatus(store)() === 'pending',
+        ),
+        [keys.hasLoaded]: computed(
+          () => getRequestStatus(store)() === 'success',
+        ),
+        [keys.hasError]: computed(() => getRequestStatus(store)() === 'error'),
+      };
+    }),
 
     withMethods((store, environmentInjector = inject(EnvironmentInjector)) => ({
       [keys.create]: (args: CreateArgs) => {

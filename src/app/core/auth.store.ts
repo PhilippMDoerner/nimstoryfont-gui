@@ -8,11 +8,7 @@ import {
 } from '@ngrx/signals';
 import { tap } from 'rxjs';
 import { withDevtools } from 'src/utils/signalStoreFeatures/devtools/withDevtools';
-import {
-  getQueryData,
-  setQueryData,
-  withQuery,
-} from 'src/utils/signalStoreFeatures/requestFeatures/withQuery';
+import { withQuery } from 'src/utils/signalStoreFeatures/requestFeatures/withQuery';
 import { Login } from '../_models/login';
 import { UserData } from '../_models/token';
 import { TokenService } from '../_services/utils/token.service';
@@ -20,14 +16,14 @@ import { TokenService } from '../_services/utils/token.service';
 export const AuthStore = signalStore(
   { providedIn: 'root' },
   withDevtools('Auth'),
-  withQuery('login', (login: Login) => {
+  withQuery<UserData, Login, 'login'>('login', (login: Login) => {
     const tokenService = inject(TokenService);
     return tokenService
       .login(login)
       .pipe(tap((data) => tokenService.setUserData(data)));
   }),
   withComputed((store) => {
-    const userData = getQueryData<UserData>(store, 'login');
+    const userData = store.loginData;
 
     return {
       userName: computed(() => userData()?.userName),
@@ -37,7 +33,7 @@ export const AuthStore = signalStore(
     };
   }),
   withMethods((store) => {
-    const userData = getQueryData<UserData>(store, 'login');
+    const userData = store.loginData;
     const tokenService = inject(TokenService);
     return {
       canWriteInCampaign: (name: string) => canWrite(userData(), name),
@@ -53,9 +49,7 @@ export const AuthStore = signalStore(
   withHooks((store) => {
     return {
       onInit() {
-        patchState(store, {
-          ...setQueryData('login', TokenService.getUserData()),
-        });
+        patchState(store, { loginData: TokenService.getUserData() });
       },
     };
   }),

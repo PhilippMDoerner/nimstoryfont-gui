@@ -58,8 +58,6 @@ export function withPageableQuery<T, QueryArgs, Prop extends string>(
   query: PageeableQueryFunction<QueryArgs, T[]>,
 ): SignalStoreFeature<EmptyFeature, PageableQueryFeature<T, QueryArgs, Prop>> {
   const keys = getKeys(name);
-  const getRequestStatus = (store: any): RequestStatus =>
-    store[keys.requestStatus]();
 
   return signalStoreFeature(
     withState<PageableQueryState<T, Prop>>({
@@ -70,21 +68,29 @@ export function withPageableQuery<T, QueryArgs, Prop extends string>(
       [keys.canLoadMore]: true,
     } as PageableQueryState<T, Prop>),
 
-    withComputed((store: any) => ({
-      [keys.isPending]: computed(() => getRequestStatus(store) === 'pending'),
-      [keys.hasLoaded]: computed(() => getRequestStatus(store) === 'success'),
-      [keys.hasError]: computed(() => getRequestStatus(store) === 'error'),
-      [keys.nextPageIndex]: computed(() => {
-        const currentIndex = store[keys.latestPageIndex]() as
-          | number
-          | undefined;
-        const hasLoadedAnyPage = currentIndex !== undefined;
-        return hasLoadedAnyPage ? currentIndex + 1 : 0;
-      }),
-    })),
+    withComputed((store) => {
+      const getRequestStatus = (store: any): RequestStatus =>
+        store[keys.requestStatus]();
+      const getLatestPageIndex = (store: any): number | undefined =>
+        store[keys.latestPageIndex]();
+      return {
+        [keys.isPending]: computed(() => getRequestStatus(store) === 'pending'),
+        [keys.hasLoaded]: computed(() => getRequestStatus(store) === 'success'),
+        [keys.hasError]: computed(() => getRequestStatus(store) === 'error'),
+        [keys.nextPageIndex]: computed(() => {
+          const currentIndex = getLatestPageIndex(store);
+          const hasLoadedAnyPage = currentIndex !== undefined;
+          return hasLoadedAnyPage ? currentIndex + 1 : 0;
+        }),
+      };
+    }),
 
-    withMethods(
-      (store: any, environmentInjector = inject(EnvironmentInjector)) => ({
+    withMethods((store, environmentInjector = inject(EnvironmentInjector)) => {
+      const getNextPageIndex = (store: any): number =>
+        store[keys.nextPageIndex]();
+      const getItems = (store: any): T[] => store[keys.items]() ?? [];
+
+      return {
         [keys.loadNext]: (args: QueryArgs) => {
           const isAlreadyLoading = store[keys.isPending]() === true;
           const canLoadPage = store[keys.canLoadMore]() === true;
@@ -96,12 +102,12 @@ export function withPageableQuery<T, QueryArgs, Prop extends string>(
           } as PageableQueryState<T, Prop>);
 
           const queryResult = runInInjectionContext(environmentInjector, () =>
-            query(args, store[keys.nextPageIndex]()),
+            query(args, getNextPageIndex(store)),
           );
 
           queryResult.pipe(take(1)).subscribe({
             next: (newItems) => {
-              const items: T[] = store[keys.items]() ?? [];
+              const items: T[] = getItems(store);
               const canLoadMore = newItems.length > 0;
 
               patchState(store, {
@@ -139,7 +145,7 @@ export function withPageableQuery<T, QueryArgs, Prop extends string>(
 
           queryResult.pipe(take(1)).subscribe({
             next: (newItems) => {
-              const items: T[] = store[keys.items]() ?? [];
+              const items: T[] = getItems(store);
               const canLoadMore = newItems.length > 0;
 
               patchState(store, {
@@ -158,8 +164,8 @@ export function withPageableQuery<T, QueryArgs, Prop extends string>(
             },
           });
         },
-      }),
-    ),
+      };
+    }),
   ) as SignalStoreFeature<
     EmptyFeature,
     PageableQueryFeature<T, QueryArgs, Prop>

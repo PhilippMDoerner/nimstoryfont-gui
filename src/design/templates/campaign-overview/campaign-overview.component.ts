@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -7,17 +6,6 @@ import { RoutingService } from 'src/app/_services/routing.service';
   selector: 'app-campaign-overview',
   templateUrl: './campaign-overview.component.html',
   styleUrls: ['./campaign-overview.component.scss'],
-  animations: [
-    trigger('slideInOut', [
-      transition(':enter', [
-        style({ transform: 'translateX(-100%)' }),
-        animate('500ms', style({ transform: 'translateX(0%)' })),
-      ]),
-      transition(':leave', [
-        animate('500ms', style({ transform: 'translateX(-100%)' })),
-      ]),
-    ]),
-  ],
 })
 export class CampaignOverviewComponent implements OnInit {
   @Input() serverUrl!: string;

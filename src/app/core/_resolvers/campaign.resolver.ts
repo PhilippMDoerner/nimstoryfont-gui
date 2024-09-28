@@ -5,11 +5,7 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import {
-  clearCurrentCampaign,
-  loadCampaignDetailSet,
-  setCurrentCampaign,
-} from '../app.actions';
+import { loadCampaignDetailSet, setCurrentCampaign } from '../app.actions';
 import { CoreStore } from '../core.store';
 
 export const campaignSetResolver: ResolveFn<void> = (
@@ -38,4 +34,4 @@ export const updateCurrentCampaignResolver: ResolveFn<void> = (
 };
 
 export const clearCurrentCampaignResolver: ResolveFn<void> = () =>
-  inject(Store).dispatch(clearCurrentCampaign());
+  inject(CoreStore).clearCurrentCampaign();

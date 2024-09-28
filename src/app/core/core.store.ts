@@ -6,6 +6,7 @@ import {
   signalStore,
   withComputed,
   withHooks,
+  withMethods,
   withState,
 } from '@ngrx/signals';
 import { filter, map, Observable } from 'rxjs';
@@ -51,6 +52,12 @@ export const CoreStore = signalStore(
           (campaign) => campaign.name === store.currentCampaignName(),
         );
       }),
+    };
+  }),
+  withMethods((store) => {
+    return {
+      clearCurrentCampaign: () =>
+        patchState(store, { currentCampaignName: undefined }),
     };
   }),
   withHooks({

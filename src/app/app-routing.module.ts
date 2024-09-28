@@ -162,20 +162,23 @@ const homeRoutes: any[] = [];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot([
-      {
-        path: '',
-        children: [
-          ...generalRoutes,
-          ...campaignRoutes,
-          ...homeRoutes,
-          ...adminRoutes,
-        ],
-        resolve: {
-          campaignSetResolver,
+    RouterModule.forRoot(
+      [
+        {
+          path: '',
+          children: [
+            ...generalRoutes,
+            ...campaignRoutes,
+            ...homeRoutes,
+            ...adminRoutes,
+          ],
+          resolve: {
+            campaignSetResolver,
+          },
         },
-      },
-    ]),
+      ],
+      { enableViewTransitions: true },
+    ),
   ],
   exports: [RouterModule],
 })

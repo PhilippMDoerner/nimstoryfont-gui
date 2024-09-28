@@ -1,6 +1,7 @@
 import {
   animate,
   query,
+  state,
   style,
   transition,
   trigger,
@@ -14,7 +15,7 @@ import {
 
 const inactiveStyle = style({
   transform: 'translateX(-100%)',
-  opaacity: 0,
+  opacity: 0,
 });
 const activeStyle = style({
   transform: 'translateX(0%)',
@@ -29,13 +30,18 @@ export const slideInOut = trigger('slideInOut', [
   ]),
 ]);
 
-export const slideInOut2 = trigger('slideInOut2', [
-  transition(':enter', [
-    inactiveStyle, //apply default styles before animation starts
-    animate('1000ms ease-in-out', activeStyle),
-  ]),
-  transition(':leave', [
-    activeStyle, //apply default styles before animation starts
-    animate('1000ms ease-in-out', inactiveStyle),
-  ]),
+const hiddenSidebarStyle = style({
+  width: '0px',
+});
+const visibleSidebarStyle = style({
+  width: 'var(--sb-width)',
+});
+const hiddenState = state('hidden', hiddenSidebarStyle);
+const visibleState = state('visible', visibleSidebarStyle);
+
+export const sidebarSlideInOut = trigger('sidebarSlideInOut', [
+  hiddenState,
+  visibleState,
+  transition('hidden => visible', [animate('650ms 400ms ease-in-out')]),
+  transition('visible => hidden', [animate('250ms ease-in-out')]),
 ]);

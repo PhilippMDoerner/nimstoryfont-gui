@@ -30,6 +30,7 @@ export const AuthStore = signalStore(
     return {
       canWriteInCampaign: (name: string) => canWrite(userData(), name),
       canReadInCampaign: (name: string) => canRead(userData(), name),
+      hasCampaignAdminRights: (name?: string) => isAdmin(userData(), name),
       logout: () => {
         tokenService.invalidateJWTToken();
         tokenService.removeJWTTokenFromLocalStorage();
@@ -39,12 +40,31 @@ export const AuthStore = signalStore(
   }),
 );
 
+function isAdmin(
+  userData: UserData | undefined,
+  campaignName: string | undefined,
+) {
+  if (userData == null) return false;
+  if (userData.isAdmin || userData.isSuperUser) return true;
+  if (!campaignName) return false;
+  const role = userData.campaignMemberships[campaignName];
+
+  switch (role) {
+    case 'admin':
+      return true;
+    default:
+      return false;
+  }
+}
+
 function canWrite(
   userData: UserData | undefined,
-  campaignName: string,
+  campaignName: string | undefined,
 ): boolean {
   if (userData == null) return false;
   if (userData.isAdmin || userData.isSuperUser) return true;
+  if (!campaignName) return false;
+
   const role = userData.campaignMemberships[campaignName];
   switch (role) {
     case 'member':
@@ -60,10 +80,11 @@ function canWrite(
 
 function canRead(
   userData: UserData | undefined,
-  campaignName: string,
+  campaignName: string | undefined,
 ): boolean {
   if (userData == null) return false;
   if (userData.isAdmin || userData.isSuperUser) return true;
+  if (!campaignName) return false;
   const role = userData.campaignMemberships[campaignName];
   switch (role) {
     case 'member':

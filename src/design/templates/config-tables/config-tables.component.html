@@ -9,7 +9,7 @@
     </a>
 
     <!-- Sections -->
-    <ng-container *ngFor="let table of tables; let tableIndex = index">
+    @for (table of tables; track table.kind) {
       <div class="config-tables__section section">
         <!-- Section Heading -->
         <div class="section__heading heading">
@@ -69,9 +69,7 @@
                 </thead>
                 <!-- Table body -->
                 <tbody>
-                  <ng-container
-                    *ngFor="let entry of table.entries; let entryIndex = index"
-                  >
+                  @for (entry of table.entries; track entry.pk) {
                     <tr>
                       <th scope="row">{{ entry.id }} {{ entry.pk }}</th>
                       <td *ngFor="let property of entry | keyvalue">
@@ -89,7 +87,7 @@
                         ></app-confirmation-toggle-button>
                       </td>
                     </tr>
-                  </ng-container>
+                  }
                 </tbody>
               </table>
             </ng-container>
@@ -110,7 +108,7 @@
           </app-card>
         </ng-container>
       </div>
-    </ng-container>
+    }
 
     <a class="config-tables__return-button" [routerLink]="campaignOverviewUrl">
       <app-button

@@ -15,7 +15,12 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { DeleteFunction, EmptyFeature, RequestStatus } from '../types';
+import {
+  DeleteFunction,
+  EmptyFeature,
+  RequestFeatureConfig,
+  RequestStatus,
+} from '../types';
 
 export type DeleteState<T, Prop extends string> = {
   [K in Prop as `${K}DeleteRequestStatus`]: RequestStatus;
@@ -47,6 +52,7 @@ export type DeleteFeature<T, DeleteArgs, Prop extends string> = {
 export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
   name: Prop,
   deleteMutation: DeleteFunction<DeleteArgs>,
+  config?: RequestFeatureConfig<T>,
 ): SignalStoreFeature<EmptyFeature, DeleteFeature<T, DeleteArgs, Prop>> {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
@@ -81,12 +87,16 @@ export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
               [keys.requestStatus]: 'success',
               [keys.data]: undefined,
             } as DeleteState<T, Prop>);
+
+            if (config?.successUpdate) config.successUpdate(store);
           },
           error: (error) => {
             patchState(store, {
               [keys.requestStatus]: 'error',
               [keys.error]: error,
             } as DeleteState<T, Prop>);
+
+            if (config?.errorUpdate) config.errorUpdate(store, error);
           },
         });
       },

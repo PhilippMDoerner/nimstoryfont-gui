@@ -15,7 +15,12 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { CreateFunction, EmptyFeature, RequestStatus } from '../types';
+import {
+  CreateFunction,
+  EmptyFeature,
+  RequestFeatureConfig,
+  RequestStatus,
+} from '../types';
 
 export type CreateState<T, Prop extends string> = {
   [K in Prop as `${K}CreateRequestStatus`]: RequestStatus;
@@ -46,6 +51,7 @@ export type CreateFeature<T, CreateArgs, Prop extends string> = {
 export function withCreateMutation<T, CreateArgs, Prop extends string>(
   name: Prop,
   creationMutation: CreateFunction<CreateArgs, T>,
+  config?: RequestFeatureConfig<T>,
 ): SignalStoreFeature<EmptyFeature, CreateFeature<T, CreateArgs, Prop>> {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
@@ -81,12 +87,16 @@ export function withCreateMutation<T, CreateArgs, Prop extends string>(
               [keys.requestStatus]: 'success',
               [keys.data]: data,
             } as CreateState<T, Prop>);
+
+            if (config?.successUpdate) config.successUpdate(store, data);
           },
           error: (error) => {
             patchState(store, {
               [keys.requestStatus]: 'error',
               [keys.error]: error,
             } as CreateState<T, Prop>);
+
+            if (config?.errorUpdate) config.errorUpdate(store, error);
           },
         });
       },

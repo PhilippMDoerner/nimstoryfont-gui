@@ -11,6 +11,11 @@ export type RequestStatus = 'init' | 'pending' | 'success' | 'error';
  */
 export type BaseServiceChild<T> = new (...args: never) => BaseService<T>;
 
+export type RequestFeatureConfig<T> = {
+  successUpdate?: (store: any, data?: T) => void; //In withDeleteMutation data is undefined
+  errorUpdate?: (store: any, error: any) => void;
+};
+
 export type PageeableQueryFunction<Q, T> = (
   args: Q,
   pageIndex: number,

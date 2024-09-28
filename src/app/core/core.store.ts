@@ -54,10 +54,12 @@ export const CoreStore = signalStore(
   withDeleteMutation<MapMarkerType, { entryId: number }, 'markerType'>(
     'markerType',
     ({ entryId }) => inject(MarkerTypeService).delete(entryId),
+    { successUpdate: (store) => store.loadMarkerTypeTable() },
   ),
   withCreateMutation<MapMarkerType, Partial<MapMarkerType>, 'markerType'>(
     'markerType',
     (data) => inject(MarkerTypeService).create(data),
+    { successUpdate: (store) => store.loadMarkerTypeTable() },
   ),
   withQuery<PlayerClass[], void, 'playerClassTable'>('playerClassTable', () =>
     inject(PlayerClassService).list(),
@@ -65,10 +67,12 @@ export const CoreStore = signalStore(
   withDeleteMutation<PlayerClass, { entryId: number }, 'playerClass'>(
     'playerClass',
     ({ entryId }) => inject(PlayerClassService).delete(entryId),
+    { successUpdate: (store) => store.loadPlayerClassTable() },
   ),
   withCreateMutation<PlayerClass, Partial<PlayerClass>, 'playerClass'>(
     'playerClass',
     (data) => inject(PlayerClassService).create(data),
+    { successUpdate: (store) => store.loadPlayerClassTable() },
   ),
 
   withComputed((store) => {

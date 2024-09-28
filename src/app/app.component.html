@@ -1,5 +1,5 @@
 <app-page
   [serverUrl]="serverUrl"
-  [campaign]="(campaign$ | async) ?? undefined"
+  [campaign]="campaign()"
   (logout)="logout()"
 ></app-page>

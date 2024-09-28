@@ -22,8 +22,6 @@ export class HomePageComponent {
     this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
       this.coreStore.loadFirstRecentlyUpdatedArticlesPage({ campaignName });
     });
-
-    this.coreStore.loadCampaigns();
   }
 
   search(searchVal: string): void {

@@ -6,7 +6,6 @@ import {
   signalStore,
   withComputed,
   withHooks,
-  withMethods,
   withState,
 } from '@ngrx/signals';
 import { filter, map, Observable } from 'rxjs';
@@ -18,7 +17,6 @@ import { Campaign, CampaignOverview } from '../_models/campaign';
 import { OverviewItem } from '../_models/overview';
 import { RecentlyUpdatedService } from '../_services/article/recently-updated.service';
 import { CampaignService } from '../_services/utils/campaign.service';
-import { TokenService } from '../_services/utils/token.service';
 
 type RecentlyUpdatedArticlesQueryArgs = { campaignName: string };
 
@@ -50,18 +48,11 @@ export const CoreStore = signalStore(
     return {
       currentCampaign: computed(() => {
         return campaigns()?.find(
-          (campaign) => campaign.name === curentCampaignName(),
+          (campaign) => campaign.name === store.currentCampaignName(),
         );
       }),
     };
   }),
-  withMethods((store) => ({
-    logout: () => {
-      const service = inject(TokenService);
-      service.invalidateJWTToken();
-      service.removeJWTTokenFromLocalStorage();
-    },
-  })),
   withHooks({
     onInit(store) {
       trackCampaignPathParam(store);
@@ -73,6 +64,7 @@ function trackCampaignPathParam(store: any) {
   const campaignNameParam$ = inject(Router).events.pipe(
     filter((event) => event instanceof ActivationEnd),
     map((event) => event.snapshot.paramMap.get('campaign') ?? undefined),
+    filter((name) => name != null),
   );
 
   campaignNameParam$.subscribe({

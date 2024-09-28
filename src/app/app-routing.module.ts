@@ -15,6 +15,7 @@ import {
 } from './core';
 import {
   campaignDetailSetResolver,
+  campaignSetResolver,
   clearCurrentCampaignResolver,
 } from './core/_resolvers/campaign.resolver';
 import { siteGroupsResolver } from './core/_resolvers/group.resolver';
@@ -162,10 +163,18 @@ const homeRoutes: any[] = [];
 @NgModule({
   imports: [
     RouterModule.forRoot([
-      ...generalRoutes,
-      ...campaignRoutes,
-      ...homeRoutes,
-      ...adminRoutes,
+      {
+        path: '',
+        children: [
+          ...generalRoutes,
+          ...campaignRoutes,
+          ...homeRoutes,
+          ...adminRoutes,
+        ],
+        resolve: {
+          campaignSetResolver,
+        },
+      },
     ]),
   ],
   exports: [RouterModule],

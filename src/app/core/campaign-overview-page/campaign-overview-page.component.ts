@@ -17,11 +17,7 @@ export class CampaignOverviewPageComponent {
   isGlobalAdmin = this.authStore.isGlobalAdmin;
   campaigns = this.coreStore.campaignsData;
 
-  constructor() {
-    this.coreStore.loadCampaigns();
-  }
-
   logout(): void {
-    this.coreStore.logout();
+    inject(AuthStore).logout();
   }
 }

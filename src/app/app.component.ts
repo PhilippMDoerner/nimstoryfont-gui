@@ -1,31 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Component, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { CampaignOverview } from './_models/campaign';
-import { loadCampaignSet, logout, selectCurrentCampaign } from './core';
+import { AuthStore } from './core/auth.store';
+import { CoreStore } from './core/core.store';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
+  readonly store = inject(CoreStore);
   serverUrl: string = environment.backendDomain;
-  campaign$!: Observable<CampaignOverview | undefined>;
-
-  constructor(private store: Store) {}
-
-  ngOnInit(): void {
-    this.loadCampaignOverview();
-
-    this.campaign$ = this.store.select(selectCurrentCampaign);
-  }
-
-  loadCampaignOverview(): void {
-    this.store.dispatch(loadCampaignSet());
-  }
+  campaign = this.store.currentCampaign;
 
   logout(): void {
-    this.store.dispatch(logout());
+    inject(AuthStore).logout();
   }
 }

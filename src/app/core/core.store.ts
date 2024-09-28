@@ -10,8 +10,8 @@ import {
   withState,
 } from '@ngrx/signals';
 import { filter, map, Observable } from 'rxjs';
+import { withDevtools } from 'src/utils/signalStoreFeatures/devtools/withDevtools';
 import { withArticle } from 'src/utils/signalStoreFeatures/requestFeatures/withArticle';
-import { withDevtools } from 'src/utils/signalStoreFeatures/requestFeatures/withLogging';
 import { withPageableQuery } from 'src/utils/signalStoreFeatures/requestFeatures/withPageableQuery';
 import { withQuery } from 'src/utils/signalStoreFeatures/requestFeatures/withQuery';
 import { Campaign, CampaignOverview } from '../_models/campaign';

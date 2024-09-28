@@ -15,7 +15,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { EmptyFeature, PageeableQueryFunction, RequestStatus } from './types';
+import { EmptyFeature, PageeableQueryFunction, RequestStatus } from '../types';
 
 export type PageableQueryState<T, Prop extends string> = {
   [K in Prop as `${K}RequestStatus`]: RequestStatus;

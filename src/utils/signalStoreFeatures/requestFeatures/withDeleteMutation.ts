@@ -15,7 +15,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { DeleteFunction, EmptyFeature, RequestStatus } from './types';
+import { DeleteFunction, EmptyFeature, RequestStatus } from '../types';
 
 export type DeleteState<T, Prop extends string> = {
   [K in Prop as `${K}DeleteRequestStatus`]: RequestStatus;

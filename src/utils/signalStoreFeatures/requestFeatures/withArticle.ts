@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { signalStoreFeature, SignalStoreFeature } from '@ngrx/signals';
 import { BaseService } from 'src/app/_services/base.service';
-import { EmptyFeature } from './types';
+import { EmptyFeature } from '../types';
 import {
   CreateComputed,
   CreateMethods,

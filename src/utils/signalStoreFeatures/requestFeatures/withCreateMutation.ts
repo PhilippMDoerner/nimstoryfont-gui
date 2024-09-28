@@ -15,7 +15,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { CreateFunction, RequestStatus } from './types';
+import { CreateFunction, RequestStatus } from '../types';
 
 export type CreateState<T, Prop extends string> = {
   [K in Prop as `${K}CreateRequestStatus`]: RequestStatus;

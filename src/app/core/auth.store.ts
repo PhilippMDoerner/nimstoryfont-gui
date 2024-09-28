@@ -26,10 +26,15 @@ export const AuthStore = signalStore(
   }),
   withMethods((store) => {
     const userData = getQueryData<UserData>(store, 'login');
-
+    const tokenService = inject(TokenService);
     return {
       canWriteInCampaign: (name: string) => canWrite(userData(), name),
       canReadInCampaign: (name: string) => canRead(userData(), name),
+      logout: () => {
+        tokenService.invalidateJWTToken();
+        tokenService.removeJWTTokenFromLocalStorage();
+      },
+      login: (data: Login) => tokenService.login(data),
     };
   }),
 );

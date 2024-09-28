@@ -67,7 +67,7 @@ export function withPageableQuery<T, QueryArgs, Prop extends string>(
       [keys.error]: undefined,
       [keys.items]: undefined,
       [keys.latestPageIndex]: undefined,
-      [keys.canLoadMore]: false,
+      [keys.canLoadMore]: true,
     } as PageableQueryState<T, Prop>),
 
     withComputed((store: any) => ({

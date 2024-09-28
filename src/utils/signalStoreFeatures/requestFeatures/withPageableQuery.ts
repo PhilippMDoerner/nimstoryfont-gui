@@ -129,6 +129,7 @@ export function withPageableQuery<T, QueryArgs, Prop extends string>(
             [keys.requestStatus]: 'pending',
             [keys.error]: undefined,
             [keys.latestPageIndex]: undefined,
+            [keys.items]: undefined,
           } as PageableQueryState<T, Prop>);
 
           const firstPageIndex = 0;

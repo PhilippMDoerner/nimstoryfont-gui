@@ -1,37 +1,36 @@
 <app-page-container>
-  <article class="container home">
+  <article class="home">
     <!-- Heading -->
     <ng-container *ngIf="campaignData">
       <header class="home__heading-container heading-container">
-        <img class="heading-container__icon"
-          [src]="serverUrl + campaignData.icon" 
+        <img
+          class="heading-container__icon"
+          [src]="serverUrl + campaignData.icon"
           [alt]="DEFAULT_ICON"
         />
-        
-        <h1 class="heading-container__heading"> 
-          {{campaignData.name}}
+
+        <h1 class="heading-container__heading">
+          {{ campaignData.name }}
         </h1>
-        
+
         <app-html-text
-          class="heading-container__subheading" 
+          class="heading-container__subheading"
           [text]="campaignData.subtitle"
         ></app-html-text>
       </header>
     </ng-container>
-    
+
     <!-- Search Bar -->
     <app-search-field
       [placeholder]="'Search for Articles...'"
       (search)="search.emit($event)"
     ></app-search-field>
-  
+
     <!-- News -->
-    <app-icon-card-list
-      [articles]="articleEntries"
-    ></app-icon-card-list>
-    
+    <app-icon-card-list [articles]="articleEntries"></app-icon-card-list>
+
     <ng-container *ngIf="isLoading">
-      <app-spinner class="loading__spinner"></app-spinner> 
+      <app-spinner class="loading__spinner"></app-spinner>
     </ng-container>
   </article>
 </app-page-container>

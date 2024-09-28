@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Icon } from '../../atoms';
 
 @Component({
   selector: 'app-icon-card',
   templateUrl: './icon-card.component.html',
-  styleUrls: ['./icon-card.component.scss']
+  styleUrls: ['./icon-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconCardComponent {
   @Input() icon!: Icon;

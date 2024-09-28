@@ -153,7 +153,7 @@ export default {
   ],
   args: {
     serverUrl: 'https://www.aldrune.com',
-    newArticles: dummyOverview,
+    articles: dummyOverview,
     campaignData: dummyCampaign,
   },
 } as Meta<HomeComponent>;

@@ -44,7 +44,6 @@ import { AppComponent } from './app.component';
 import { CampaignEffects } from './core/_effects/campaign.effect';
 import { LoadConfigTablesEffects } from './core/_effects/config-tables.effect';
 import { GroupEffects } from './core/_effects/group.effect';
-import { LoadRecentlyUpdatedArticlesEffects } from './core/_effects/load-recently-updated-article.effect';
 import { LoginEffects } from './core/_effects/login.effect';
 import { MapEffects } from './core/_effects/map.effect';
 import { ResetPasswordEffects } from './core/_effects/resetPassword.effect';
@@ -117,7 +116,6 @@ import { metaReducers, rootReducers } from './root.reducer';
     StoreModule.forRoot(rootReducers, { metaReducers }),
     EffectsModule.forRoot([
       CampaignEffects,
-      LoadRecentlyUpdatedArticlesEffects,
       LoginEffects,
       MapEffects,
       ResetPasswordEffects,

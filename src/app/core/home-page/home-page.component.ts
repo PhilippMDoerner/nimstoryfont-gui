@@ -1,50 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, first } from 'rxjs';
-import { CampaignOverview } from 'src/app/_models/campaign';
-import { OverviewItem } from 'src/app/_models/overview';
+import { Component, inject } from '@angular/core';
+import { Observable, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { loadRecentlyUpdatedArticles, searchArticles } from '../app.actions';
-import { selectCanLoadMoreArticles, selectCurrentCampaign, selectRecentlyUpdatedArticles } from '../app.reducer';
+import { CoreStore, getCurrentCampaignName$ } from '../core.store';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss']
+  styleUrls: ['./home-page.component.scss'],
 })
-export class HomePageComponent implements OnInit{
+export class HomePageComponent {
   serverUrl = environment.backendDomain;
-  campaignData$!: Observable<CampaignOverview | undefined>;
-  recentlyUpdatedArticles$!: Observable<OverviewItem[]>;
-  hasMoreArticles$!: Observable<boolean>;
-  
-  constructor(
-    private store: Store,
-  ){}
-  
-  ngOnInit(): void {
-    this.campaignData$ = this.store.select(selectCurrentCampaign);
-    this.recentlyUpdatedArticles$ = this.store.select(selectRecentlyUpdatedArticles);
-    this.hasMoreArticles$ = this.store.select(selectCanLoadMoreArticles);
+  readonly coreStore = inject(CoreStore);
+  campaignData = this.coreStore.currentCampaign;
+  currentCampaignName$!: Observable<string>;
+  recentlyUpdatedArticles = this.coreStore.recentlyUpdatedArticlesItems;
+  hasMoreArticles = this.coreStore.canLoadMoreRecentlyUpdatedArticlesPages;
+
+  constructor() {
+    this.currentCampaignName$ = getCurrentCampaignName$();
+
+    this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
+      this.coreStore.loadFirstRecentlyUpdatedArticlesPage({ campaignName });
+    });
+
+    this.coreStore.loadCampaigns();
   }
-  
-  search(searchVal: string): void{
-    this.campaignData$
-      .pipe(first())
-      .subscribe(campaignData => {
-        const campaignName = campaignData?.name as string;
-        const payload = { campaignName, search: searchVal };
-        this.store.dispatch(searchArticles(payload));
-      });
+
+  search(searchVal: string): void {
+    // this.campaignData$;
+    // const payload = { campaignName, search: searchVal };
+    // this.store.dispatch(searchArticles(payload)); // TODO: Implement firing article search
   }
-  
-  loadArticlePage(pageCount: number): void{
-    this.campaignData$
-      .pipe(first())
-      .subscribe(campaignData => {
-        const campaignName = campaignData?.name as string;
-        const payload = { campaignName, pageCount };
-        this.store.dispatch(loadRecentlyUpdatedArticles(payload));
-      });
+
+  loadArticlePage(): void {
+    this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
+      this.coreStore.loadNextRecentlyUpdatedArticlesPage({ campaignName });
+    });
   }
 }

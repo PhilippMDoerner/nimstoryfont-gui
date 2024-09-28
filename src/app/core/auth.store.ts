@@ -13,6 +13,8 @@ import { Login } from '../_models/login';
 import { UserData } from '../_models/token';
 import { TokenService } from '../_services/utils/token.service';
 
+export type AuthStoreType = InstanceType<typeof AuthStore>;
+
 export const AuthStore = signalStore(
   { providedIn: 'root' },
   withDevtools('Auth'),

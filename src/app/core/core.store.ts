@@ -31,6 +31,8 @@ type CoreSubState = { currentCampaignName: string | undefined };
 
 const initialCoreSubState: CoreSubState = { currentCampaignName: undefined };
 
+export type CoreStoreType = InstanceType<typeof CoreStore>;
+
 export const CoreStore = signalStore(
   { providedIn: 'root' },
   withDevtools('Core'),

@@ -1,5 +1,4 @@
 import { computed, inject } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivationEnd, Router } from '@angular/router';
 import {
   patchState,
@@ -103,15 +102,10 @@ export const CoreStore = signalStore(
   }),
 );
 
-function getCampaignNameParam(): Observable<string> {
+export function getCampaignNameParam(): Observable<string> {
   return inject(Router).events.pipe(
     filter((event) => event instanceof ActivationEnd),
     map((event) => event.snapshot.paramMap.get('campaign') ?? undefined),
     filter((name) => name != null),
   );
-}
-
-export function getCurrentCampaignName$(): Observable<string> {
-  const campaignName$ = toObservable(inject(CoreStore).currentCampaignName);
-  return campaignName$.pipe(filter((name) => name != null));
 }

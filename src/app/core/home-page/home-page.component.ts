@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Observable, take } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CoreStore, getCurrentCampaignName$ } from '../core.store';
+import { CoreStore, getCampaignNameParam } from '../core.store';
 
 @Component({
   selector: 'app-home-page',
@@ -17,7 +17,7 @@ export class HomePageComponent {
   hasMoreArticles = this.coreStore.canLoadMoreRecentlyUpdatedArticlesPages;
 
   constructor() {
-    this.currentCampaignName$ = getCurrentCampaignName$();
+    this.currentCampaignName$ = getCampaignNameParam();
 
     this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
       this.coreStore.loadFirstRecentlyUpdatedArticlesPage({ campaignName });

@@ -6,6 +6,7 @@ import {
   Signal,
 } from '@angular/core';
 import {
+  EmptyFeatureResult,
   patchState,
   SignalStoreFeature,
   signalStoreFeature,
@@ -15,12 +16,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import {
-  DeleteFunction,
-  EmptyFeature,
-  RequestFeatureConfig,
-  RequestStatus,
-} from '../types';
+import { DeleteFunction, RequestFeatureConfig, RequestStatus } from '../types';
 
 export type DeleteState<T, Prop extends string> = {
   [K in Prop as `${K}DeleteRequestStatus`]: RequestStatus;
@@ -52,8 +48,8 @@ export type DeleteFeature<T, DeleteArgs, Prop extends string> = {
 export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
   name: Prop,
   deleteMutation: DeleteFunction<DeleteArgs>,
-  config?: RequestFeatureConfig<T>,
-): SignalStoreFeature<EmptyFeature, DeleteFeature<T, DeleteArgs, Prop>> {
+  config?: RequestFeatureConfig<DeleteArgs>,
+): SignalStoreFeature<EmptyFeatureResult, DeleteFeature<T, DeleteArgs, Prop>> {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
     store[keys.requestStatus]();
@@ -88,7 +84,7 @@ export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
               [keys.data]: undefined,
             } as DeleteState<T, Prop>);
 
-            if (config?.successUpdate) config.successUpdate(store);
+            if (config?.successUpdate) config.successUpdate(store, args);
           },
           error: (error) => {
             patchState(store, {
@@ -101,7 +97,10 @@ export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
         });
       },
     })),
-  ) as SignalStoreFeature<EmptyFeature, DeleteFeature<T, DeleteArgs, Prop>>;
+  ) as SignalStoreFeature<
+    EmptyFeatureResult,
+    DeleteFeature<T, DeleteArgs, Prop>
+  >;
 }
 
 function getKeys(name: string) {

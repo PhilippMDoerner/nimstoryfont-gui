@@ -24,10 +24,3 @@ export type QueryFunction<Q, T> = (args: Q) => Observable<T>;
 export type CreateFunction<Q, T> = (args: Q) => Observable<T>;
 export type DeleteFunction<Q> = (args: Q) => Observable<void>;
 export type UpdateFunction<Q, T> = (args: Q) => Observable<T>;
-
-export type EmptyFeature = {
-  state: {};
-  signals: {};
-  methods: {};
-  computed: {};
-};

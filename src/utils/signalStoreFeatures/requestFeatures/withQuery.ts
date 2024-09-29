@@ -6,6 +6,7 @@ import {
   Signal,
 } from '@angular/core';
 import {
+  EmptyFeatureResult,
   patchState,
   SignalStoreFeature,
   signalStoreFeature,
@@ -15,7 +16,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { EmptyFeature, QueryFunction, RequestStatus } from '../types';
+import { QueryFunction, RequestStatus } from '../types';
 
 export type QueryState<T, Prop extends string> = {
   [K in Prop as `${K}QueryRequestStatus`]: RequestStatus;
@@ -59,7 +60,7 @@ export type QueryFeature<T, QueryArgs, Prop extends string> = {
 export function withQuery<T, QueryArgs, Prop extends string>(
   name: Prop,
   query: QueryFunction<QueryArgs, T>,
-): SignalStoreFeature<EmptyFeature, QueryFeature<T, QueryArgs, Prop>> {
+): SignalStoreFeature<EmptyFeatureResult, QueryFeature<T, QueryArgs, Prop>> {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
     store[keys.requestStatus]();
@@ -109,7 +110,7 @@ export function withQuery<T, QueryArgs, Prop extends string>(
           },
         }) as QueryMethods<QueryArgs, Prop>,
     ),
-  ) as SignalStoreFeature<EmptyFeature, QueryFeature<T, QueryArgs, Prop>>;
+  ) as SignalStoreFeature<EmptyFeatureResult, QueryFeature<T, QueryArgs, Prop>>;
 }
 
 const dataField = (name: string) => `${name}Data`;
@@ -125,4 +126,24 @@ function getKeys(name: string) {
     hasFailed: `has${titleName}QueryFailed`,
     load: `load${titleName}`,
   };
+}
+
+export function patchQueryFeatureStore<T, Prop extends string>(
+  store: any,
+  name: Prop,
+  data: T,
+) {
+  const keys = getKeys(name);
+  patchState(store, {
+    [keys.error]: undefined,
+    [keys.data]: data,
+    [keys.requestStatus]: 'init' satisfies RequestStatus,
+  });
+}
+
+export function getFeatureData<T, Prop extends string>(
+  store: any,
+  name: Prop,
+): T | undefined {
+  return store[dataField(name)]();
 }

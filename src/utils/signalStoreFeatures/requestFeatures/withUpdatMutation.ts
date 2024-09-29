@@ -6,6 +6,7 @@ import {
   Signal,
 } from '@angular/core';
 import {
+  EmptyFeatureResult,
   patchState,
   signalStoreFeature,
   SignalStoreFeature,
@@ -15,12 +16,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import {
-  EmptyFeature,
-  RequestFeatureConfig,
-  RequestStatus,
-  UpdateFunction,
-} from '../types';
+import { RequestFeatureConfig, RequestStatus, UpdateFunction } from '../types';
 
 export type UpdateState<T, Prop extends string> = {
   [K in Prop as `${K}UpdateRequestStatus`]: RequestStatus;
@@ -53,7 +49,7 @@ export function withUpdateMutation<T, UpdateArgs, Prop extends string>(
   name: Prop,
   updateMutation: UpdateFunction<UpdateArgs, T>,
   config?: RequestFeatureConfig<T>,
-): SignalStoreFeature<EmptyFeature, UpdateFeature<T, UpdateArgs, Prop>> {
+): SignalStoreFeature<EmptyFeatureResult, UpdateFeature<T, UpdateArgs, Prop>> {
   const keys = getKeys(name);
 
   return signalStoreFeature(
@@ -101,7 +97,10 @@ export function withUpdateMutation<T, UpdateArgs, Prop extends string>(
         });
       },
     })),
-  ) as SignalStoreFeature<EmptyFeature, UpdateFeature<T, UpdateArgs, Prop>>;
+  ) as SignalStoreFeature<
+    EmptyFeatureResult,
+    UpdateFeature<T, UpdateArgs, Prop>
+  >;
 }
 
 function getKeys(name: string) {

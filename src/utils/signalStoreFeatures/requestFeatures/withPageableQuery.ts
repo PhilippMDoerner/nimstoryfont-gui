@@ -6,6 +6,7 @@ import {
   Signal,
 } from '@angular/core';
 import {
+  EmptyFeatureResult,
   patchState,
   signalStoreFeature,
   SignalStoreFeature,
@@ -15,7 +16,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { EmptyFeature, PageeableQueryFunction, RequestStatus } from '../types';
+import { PageeableQueryFunction, RequestStatus } from '../types';
 
 export type PageableQueryState<T, Prop extends string> = {
   [K in Prop as `${K}RequestStatus`]: RequestStatus;
@@ -56,7 +57,10 @@ export type PageableQueryFeature<T, QueryArgs, Prop extends string> = {
 export function withPageableQuery<T, QueryArgs, Prop extends string>(
   name: Prop,
   query: PageeableQueryFunction<QueryArgs, T[]>,
-): SignalStoreFeature<EmptyFeature, PageableQueryFeature<T, QueryArgs, Prop>> {
+): SignalStoreFeature<
+  EmptyFeatureResult,
+  PageableQueryFeature<T, QueryArgs, Prop>
+> {
   const keys = getKeys(name);
 
   return signalStoreFeature(
@@ -167,7 +171,7 @@ export function withPageableQuery<T, QueryArgs, Prop extends string>(
       };
     }),
   ) as SignalStoreFeature<
-    EmptyFeature,
+    EmptyFeatureResult,
     PageableQueryFeature<T, QueryArgs, Prop>
   >;
 }

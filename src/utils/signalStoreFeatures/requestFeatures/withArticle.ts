@@ -1,7 +1,10 @@
 import { inject } from '@angular/core';
-import { signalStoreFeature, SignalStoreFeature } from '@ngrx/signals';
+import {
+  EmptyFeatureResult,
+  signalStoreFeature,
+  SignalStoreFeature,
+} from '@ngrx/signals';
 import { BaseService } from 'src/app/_services/base.service';
-import { EmptyFeature } from '../types';
 import {
   CreateComputed,
   CreateMethods,
@@ -58,7 +61,7 @@ export type ArticleFeature<T, Prop extends string> = {
 export function withArticle<T, Prop extends string>(
   name: Prop,
   serviceClass: new (...args: never) => BaseService<T>,
-): SignalStoreFeature<EmptyFeature, ArticleFeature<T, Prop>> {
+): SignalStoreFeature<EmptyFeatureResult, ArticleFeature<T, Prop>> {
   return signalStoreFeature(
     withQuery<T, NameQueryArgs, Prop>(name, (args: NameQueryArgs) => {
       const service = inject<BaseService<T>>(serviceClass);
@@ -76,5 +79,5 @@ export function withArticle<T, Prop extends string>(
       const service = inject<BaseService<T>>(serviceClass);
       return service.patch(args.pk, args.article);
     }),
-  ) as SignalStoreFeature<EmptyFeature, ArticleFeature<T, Prop>>;
+  ) as SignalStoreFeature<EmptyFeatureResult, ArticleFeature<T, Prop>>;
 }

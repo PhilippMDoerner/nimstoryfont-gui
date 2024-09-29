@@ -16,7 +16,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { DeleteFunction, RequestFeatureConfig, RequestStatus } from '../types';
+import { DeleteFunction, RequestStatus } from '../types';
 
 export type DeleteState<T, Prop extends string> = {
   [K in Prop as `${K}DeleteRequestStatus`]: RequestStatus;
@@ -48,7 +48,6 @@ export type DeleteFeature<T, DeleteArgs, Prop extends string> = {
 export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
   name: Prop,
   deleteMutation: DeleteFunction<DeleteArgs>,
-  config?: RequestFeatureConfig<DeleteArgs>,
 ): SignalStoreFeature<EmptyFeatureResult, DeleteFeature<T, DeleteArgs, Prop>> {
   const keys = getKeys(name);
   const getRequestStatus = (store: any): RequestStatus =>
@@ -84,7 +83,11 @@ export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
               [keys.data]: undefined,
             } as DeleteState<T, Prop>);
 
-            if (config?.successUpdate) config.successUpdate(store, args);
+            // Optional additional Behavior Post Store update
+            const onSuccess = (
+              store as Record<string, (args: DeleteArgs) => void>
+            )[keys.onRequestSuccess];
+            if (onSuccess) onSuccess(args);
           },
           error: (error) => {
             patchState(store, {
@@ -92,7 +95,10 @@ export function withDeleteMutation<T, DeleteArgs, Prop extends string>(
               [keys.error]: error,
             } as DeleteState<T, Prop>);
 
-            if (config?.errorUpdate) config.errorUpdate(store, error);
+            const onError = (
+              store as Record<string, (args: DeleteArgs) => void>
+            )[keys.onRequestError];
+            if (onError) onError(error);
           },
         });
       },
@@ -114,5 +120,7 @@ function getKeys(name: string) {
     hasLoaded: `has${titleCaseName}DeleteLoaded`,
     hasError: `has${titleCaseName}DeleteError`,
     delete: `delete${titleCaseName}`,
+    onRequestSuccess: `onDelete${titleCaseName}Success`,
+    onRequestError: `onDelete${titleCaseName}Error`,
   };
 }

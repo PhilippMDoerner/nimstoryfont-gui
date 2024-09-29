@@ -12,7 +12,7 @@ export type RequestStatus = 'init' | 'pending' | 'success' | 'error';
 export type BaseServiceChild<T> = new (...args: never) => BaseService<T>;
 
 export type RequestFeatureConfig<T> = {
-  successUpdate?: (store: any, data?: T) => void; //In withDeleteMutation data is undefined
+  successUpdate?: (store: any, data: T) => void;
   errorUpdate?: (store: any, error: any) => void;
 };
 
@@ -24,3 +24,9 @@ export type QueryFunction<Q, T> = (args: Q) => Observable<T>;
 export type CreateFunction<Q, T> = (args: Q) => Observable<T>;
 export type DeleteFunction<Q> = (args: Q) => Observable<void>;
 export type UpdateFunction<Q, T> = (args: Q) => Observable<T>;
+
+export type Entity = {
+  id?: number;
+  pk?: number;
+  [otherFields: string | number | symbol]: unknown;
+};

@@ -16,7 +16,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { CreateFunction, RequestFeatureConfig, RequestStatus } from '../types';
+import { CreateFunction, RequestStatus } from '../types';
 
 export type CreateState<T, Prop extends string> = {
   [K in Prop as `${K}CreateRequestStatus`]: RequestStatus;
@@ -47,7 +47,6 @@ export type CreateFeature<T, CreateArgs, Prop extends string> = {
 export function withCreateMutation<T, CreateArgs, Prop extends string>(
   name: Prop,
   creationMutation: CreateFunction<CreateArgs, T>,
-  config?: RequestFeatureConfig<T>,
 ): SignalStoreFeature<EmptyFeatureResult, CreateFeature<T, CreateArgs, Prop>> {
   const keys = getKeys(name);
 
@@ -90,7 +89,11 @@ export function withCreateMutation<T, CreateArgs, Prop extends string>(
               [keys.data]: data,
             } as CreateState<T, Prop>);
 
-            if (config?.successUpdate) config.successUpdate(store, data);
+            // Optional additional Behavior Post Store update
+            const onSuccess = (store as Record<string, (args: T) => void>)[
+              keys.onRequestSuccess
+            ];
+            if (onSuccess) onSuccess(data);
           },
           error: (error) => {
             patchState(store, {
@@ -98,7 +101,9 @@ export function withCreateMutation<T, CreateArgs, Prop extends string>(
               [keys.error]: error,
             } as CreateState<T, Prop>);
 
-            if (config?.errorUpdate) config.errorUpdate(store, error);
+            // Optional additional Behavior Post Store update
+            const onError = store[keys.onRequestError];
+            if (onError) onError();
           },
         });
       },
@@ -120,5 +125,7 @@ function getKeys(name: string) {
     hasLoaded: `has${titleCaseName}CreateLoaded`,
     hasError: `has${titleCaseName}CreateError`,
     create: `create${titleCaseName}`,
+    onRequestSuccess: `onCreate${titleCaseName}Success`,
+    onRequestError: `onCreate${titleCaseName}Error`,
   };
 }

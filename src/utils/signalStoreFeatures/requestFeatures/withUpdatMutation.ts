@@ -16,7 +16,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
-import { RequestFeatureConfig, RequestStatus, UpdateFunction } from '../types';
+import { RequestStatus, UpdateFunction } from '../types';
 
 export type UpdateState<T, Prop extends string> = {
   [K in Prop as `${K}UpdateRequestStatus`]: RequestStatus;
@@ -48,7 +48,6 @@ export type UpdateFeature<T, UpdateArgs, Prop extends string> = {
 export function withUpdateMutation<T, UpdateArgs, Prop extends string>(
   name: Prop,
   updateMutation: UpdateFunction<UpdateArgs, T>,
-  config?: RequestFeatureConfig<T>,
 ): SignalStoreFeature<EmptyFeatureResult, UpdateFeature<T, UpdateArgs, Prop>> {
   const keys = getKeys(name);
 
@@ -85,14 +84,24 @@ export function withUpdateMutation<T, UpdateArgs, Prop extends string>(
               [keys.requestStatus]: 'success',
               [keys.data]: data,
             } as UpdateState<T, Prop>);
-            if (config?.successUpdate) config.successUpdate(store, data);
+
+            // Optional additional Behavior Post Store update
+            const onSuccess = (store as Record<string, (args: T) => void>)[
+              keys.onRequestSuccess
+            ];
+            if (onSuccess) onSuccess(data);
           },
           error: (error) => {
             patchState(store, {
               [keys.requestStatus]: 'error',
               [keys.error]: error,
             } as UpdateState<T, Prop>);
-            if (config?.errorUpdate) config.errorUpdate(store, error);
+
+            // Optional additional Behavior Post Store update
+            const onError = (store as Record<string, (args: any) => void>)[
+              keys.onRequestError
+            ];
+            if (onError) onError(error);
           },
         });
       },
@@ -114,5 +123,7 @@ function getKeys(name: string) {
     hasLoaded: `has${titleCaseName}UpdateLoaded`,
     hasError: `has${titleCaseName}UpdateError`,
     update: `update${titleCaseName}`,
+    onRequestSuccess: `onUpdate${titleCaseName}Success`,
+    onRequestError: `onUpdate${titleCaseName}Error`,
   };
 }

@@ -1,45 +1,17 @@
-import { signalStore, withHooks } from '@ngrx/signals';
+import { patchState, signalStore, withMethods } from '@ngrx/signals';
+import { withExample } from './withExample';
 
-// withExample.ts - SignalStoreFeature with types that should impact the ExampleStore type
-import {
-  signalStoreFeature,
-  SignalStoreFeature,
-  withState,
-} from '@ngrx/signals';
-
-export type ExampleState<Prop extends string> = {
-  [K in Prop as `${K}Field1`]: string;
-};
-
-export type EmptyFeature = {
-  state: {};
-  signals: {};
-  methods: {};
-  computed: {};
-};
-
-export type FilledFeature<Prop extends string> = {
-  state: ExampleState<Prop>;
-  computed: {};
-  methods: {};
-};
-
-export function withExample<Prop extends string>(
-  name: Prop,
-): SignalStoreFeature<EmptyFeature, FilledFeature<Prop>> {
-  return signalStoreFeature(
-    withState<ExampleState<Prop>>({
-      [`${name}Field1`]: 'foo',
-    } as ExampleState<Prop>),
-  ) as SignalStoreFeature<EmptyFeature, FilledFeature<Prop>>;
-}
+export type ExampleStoreType = InstanceType<typeof ExampleStore>;
 
 export const ExampleStore = signalStore(
   { providedIn: 'root' },
-  withExample('example'),
-  withHooks((store) => {
+  withMethods((store) => {
     return {
-      onInit() {},
+      _onexampleSuccess: () => {
+        patchState(store, { otherField: 'bar' });
+      },
     };
   }),
+  withExample('example'),
+  withExample('other'),
 );

@@ -1,6 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { CoreStore } from 'src/app/core/core.store';
 
 @Component({
   selector: 'app-campaign-overview',
@@ -20,7 +28,9 @@ export class CampaignOverviewComponent implements OnInit {
   configTableUrl?: string;
   dragonFrameUrl = '/assets/dragon-frame.jpg';
 
-  constructor(private routingService: RoutingService) {}
+  constructor(private routingService: RoutingService) {
+    console.log(inject(CoreStore));
+  }
 
   ngOnInit(): void {
     this.profileUrl = this.routingService.getRoutePath('direct-profile', {

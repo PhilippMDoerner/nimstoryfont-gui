@@ -3,7 +3,6 @@ import { slideInOut } from 'src/design/animations/slideInOut';
 import { environment } from 'src/environments/environment';
 import { AuthStore } from '../auth.store';
 import { CoreStore } from '../core.store';
-import { ExampleStore } from '../example.store';
 
 @Component({
   selector: 'app-campaign-overview-page',
@@ -23,9 +22,6 @@ export class CampaignOverviewPageComponent {
   isGlobalAdmin = this.authStore.isGlobalAdmin;
   campaigns = this.coreStore.campaignsData;
 
-  constructor() {
-    console.log(inject(ExampleStore));
-  }
   logout(): void {
     inject(AuthStore).logout();
   }

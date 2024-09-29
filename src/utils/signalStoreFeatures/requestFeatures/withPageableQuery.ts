@@ -18,35 +18,29 @@ import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
 import { PageeableQueryFunction, RequestStatus } from '../types';
 
-export type PageableQueryState<T, Prop extends string> = {
-  [K in Prop as `${K}RequestStatus`]: RequestStatus;
-} & {
-  [L in Prop as `${L}Error`]: any | undefined;
-} & {
-  [M in Prop as `${M}Items`]: T[] | undefined;
-} & {
-  [N in Prop as `${N}LastPageIndex`]: number | undefined;
-} & {
-  [K in Prop as `canLoadMore${Capitalize<K>}Pages`]: boolean;
-};
+export type PageableQueryState<T, Prop extends string> = Record<
+  `${Prop}RequestStatus`,
+  RequestStatus
+> &
+  Record<`${Prop}Error`, any | undefined> &
+  Record<`${Prop}Items`, T[] | undefined> &
+  Record<`${Prop}LastPageIndex`, number | undefined> &
+  Record<`canLoadMore${Capitalize<Prop>}Pages`, boolean>;
 
-export type PageableQueryComputed<Prop extends string> = {
-  [K in Prop as `is${Capitalize<K>}PageQueryPending`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}PageQuerySucceeded`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}PageQueryFailed`]: Signal<boolean>;
-} & {
-  [K in Prop as `next${Capitalize<K>}PageIndex`]: Signal<number>;
-};
+export type PageableQueryComputed<Prop extends string> = Record<
+  `is${Capitalize<Prop>}PageQueryPending`,
+  Signal<boolean>
+> &
+  Record<`has${Capitalize<Prop>}PageQuerySucceeded`, Signal<boolean>> &
+  Record<`has${Capitalize<Prop>}PageQueryFailed`, Signal<boolean>> &
+  Record<`next${Capitalize<Prop>}PageIndex`, Signal<number>>;
 
-export type PageableQueryMethods<QueryArgs, Prop extends string> = {
-  [K in Prop as `loadNext${Capitalize<K>}Page`]: (args: QueryArgs) => void;
-} & {
-  [K in Prop as `loadPrior${Capitalize<K>}Page`]: (args: QueryArgs) => void;
-} & {
-  [K in Prop as `loadFirst${Capitalize<K>}Page`]: (args: QueryArgs) => void;
-};
+export type PageableQueryMethods<QueryArgs, Prop extends string> = Record<
+  `loadNext${Capitalize<Prop>}Page`,
+  (args: QueryArgs) => void
+> &
+  Record<`loadPrio${Capitalize<Prop>}Page`, (args: QueryArgs) => void> &
+  Record<`loadFirst${Capitalize<Prop>}Page`, (args: QueryArgs) => void>;
 
 export type PageableQueryFeature<T, QueryArgs, Prop extends string> = {
   state: PageableQueryState<T, Prop>;

@@ -18,25 +18,24 @@ import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
 import { QueryFunction, RequestStatus } from '../types';
 
-export type QueryState<T, Prop extends string> = {
-  [K in Prop as `${K}QueryRequestStatus`]: RequestStatus;
-} & {
-  [K in Prop as `${K}QueryError`]: any | undefined;
-} & {
-  [K in Prop as `${K}Data`]: T | undefined;
-};
+export type QueryState<T, Prop extends string> = Record<
+  `${Prop}QueryRequestStatus`,
+  RequestStatus
+> &
+  Record<`${Prop}QueryError`, any | undefined> &
+  Record<`${Prop}Data`, T | undefined>;
 
-export type QueryComputed<Prop extends string> = {
-  [K in Prop as `is${Capitalize<K>}QueryPending`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}QuerySucceeded`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}QueryFailed`]: Signal<boolean>;
-};
+export type QueryComputed<Prop extends string> = Record<
+  `is${Capitalize<Prop>}QueryPending`,
+  Signal<boolean>
+> &
+  Record<`has${Capitalize<Prop>}QuerySucceeded`, Signal<boolean>> &
+  Record<`has${Capitalize<Prop>}QueryFailed`, Signal<boolean>>;
 
-export type QueryMethods<QueryArgs, Prop extends string> = {
-  [K in Prop as `load${Capitalize<K>}`]: (args: QueryArgs) => void;
-} & {};
+export type QueryMethods<QueryArgs, Prop extends string> = Record<
+  `load${Capitalize<Prop>}`,
+  (args: QueryArgs) => void
+>;
 
 export type QueryFeature<T, QueryArgs, Prop extends string> = {
   state: QueryState<T, Prop>;

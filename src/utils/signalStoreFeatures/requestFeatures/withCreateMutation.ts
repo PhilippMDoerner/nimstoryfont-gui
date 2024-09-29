@@ -18,25 +18,24 @@ import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
 import { CreateFunction, RequestStatus } from '../types';
 
-export type CreateState<T, Prop extends string> = {
-  [K in Prop as `${K}CreateRequestStatus`]: RequestStatus;
-} & {
-  [L in Prop as `${L}CreateError`]: any | undefined;
-} & {
-  [M in Prop as `${M}Data`]: T | undefined;
-};
+export type CreateState<T, Prop extends string> = Record<
+  `${Prop}CreateRequestStatus`,
+  RequestStatus
+> &
+  Record<`${Prop}CreateError`, any | undefined> &
+  Record<`${Prop}Data`, T | undefined>;
 
-export type CreateComputed<Prop extends string> = {
-  [K in Prop as `is${Capitalize<K>}CreatePending`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}CreateLoaded`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}CreateFailed`]: Signal<boolean>;
-};
+export type CreateComputed<Prop extends string> = Record<
+  `is${Capitalize<Prop>}CreatePending`,
+  Signal<boolean>
+> &
+  Record<`has${Capitalize<Prop>}CreateLoaded`, Signal<boolean>> &
+  Record<`has${Capitalize<Prop>}CreateFailed`, Signal<boolean>>;
 
-export type CreateMethods<CreateArgs, Prop extends string> = {
-  [K in Prop as `create${Capitalize<K>}`]: (args: CreateArgs) => void;
-} & {};
+export type CreateMethods<CreateArgs, Prop extends string> = Record<
+  `create${Capitalize<Prop>}`,
+  (args: CreateArgs) => void
+>;
 
 export type CreateFeature<T, CreateArgs, Prop extends string> = {
   state: CreateState<T, Prop>;

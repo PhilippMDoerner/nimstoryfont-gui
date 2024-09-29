@@ -18,25 +18,24 @@ import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
 import { RequestStatus, UpdateFunction } from '../types';
 
-export type UpdateState<T, Prop extends string> = {
-  [K in Prop as `${K}UpdateRequestStatus`]: RequestStatus;
-} & {
-  [L in Prop as `${L}UpdateError`]: any | undefined;
-} & {
-  [M in Prop as `${M}Data`]: T | undefined;
-};
+export type UpdateState<T, Prop extends string> = Record<
+  `${Prop}UpdateRequestStatus`,
+  RequestStatus
+> &
+  Record<`${Prop}UpdateError`, any | undefined> &
+  Record<`${Prop}Data`, T | undefined>;
 
-export type UpdateComputed<Prop extends string> = {
-  [K in Prop as `is${Capitalize<K>}UpdatePending`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}UpdateLoaded`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}UpdateFailed`]: Signal<boolean>;
-};
+export type UpdateComputed<Prop extends string> = Record<
+  `is${Capitalize<Prop>}UpdatePending`,
+  Signal<boolean>
+> &
+  Record<`has${Capitalize<Prop>}UpdateLoaded`, Signal<boolean>> &
+  Record<`has${Capitalize<Prop>}UpdateFailed`, Signal<boolean>>;
 
-export type UpdateMethods<UpdateArgs, Prop extends string> = {
-  [K in Prop as `update${Capitalize<K>}`]: (args: UpdateArgs) => void;
-} & {};
+export type UpdateMethods<UpdateArgs, Prop extends string> = Record<
+  `update${Capitalize<Prop>}`,
+  (args: UpdateArgs) => void
+>;
 
 export type UpdateFeature<T, UpdateArgs, Prop extends string> = {
   state: UpdateState<T, Prop>;

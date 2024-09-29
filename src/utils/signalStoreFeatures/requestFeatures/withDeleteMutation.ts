@@ -18,25 +18,24 @@ import { take } from 'rxjs';
 import { toTitleCase } from 'src/utils/string';
 import { DeleteFunction, RequestStatus } from '../types';
 
-export type DeleteState<T, Prop extends string> = {
-  [K in Prop as `${K}DeleteRequestStatus`]: RequestStatus;
-} & {
-  [L in Prop as `${L}DeleteError`]: any | undefined;
-} & {
-  [M in Prop as `${M}Data`]: T | undefined;
-};
+export type DeleteState<T, Prop extends string> = Record<
+  `${Prop}DeleteRequestSuccess`,
+  RequestStatus
+> &
+  Record<`${Prop}DeleteError`, any | undefined> &
+  Record<`${Prop}Data`, T | undefined>;
 
-export type DeleteComputed<Prop extends string> = {
-  [K in Prop as `is${Capitalize<K>}DeletePending`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}DeleteLoaded`]: Signal<boolean>;
-} & {
-  [K in Prop as `has${Capitalize<K>}DeleteFailed`]: Signal<boolean>;
-};
+export type DeleteComputed<Prop extends string> = Record<
+  `is${Capitalize<Prop>}DeletePending`,
+  Signal<boolean>
+> &
+  Record<`has${Capitalize<Prop>}DeleteLoaded`, Signal<boolean>> &
+  Record<`has${Capitalize<Prop>}DeleteFailed`, Signal<boolean>>;
 
-export type DeleteMethods<QueryArgs, Prop extends string> = {
-  [K in Prop as `delete${Capitalize<K>}`]: (args: QueryArgs) => void;
-} & {};
+export type DeleteMethods<QueryArgs, Prop extends string> = Record<
+  `delete${Capitalize<Prop>}`,
+  (args: QueryArgs) => void
+>;
 
 export type DeleteFeature<T, DeleteArgs, Prop extends string> = {
   state: DeleteState<T, Prop>;

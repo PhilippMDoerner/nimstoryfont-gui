@@ -1,18 +1,24 @@
-export interface PlayerClass{
+export interface PlayerClass {
   pk?: number;
   name: string;
   update_datetime?: string;
 }
 
-export interface CharacterPlayerClassConnection{
-  pk?: number,
-  player_class: number,
-  character: number
-  player_class_details?: PlayerClass,
+export interface CharacterPlayerClassConnectionRaw {
+  pk: number;
+  player_class: number;
+  character: number;
 }
 
-export interface SpellClassConnection{
-  pk?: number,
-  player_class: number,
-  spell: number
+export interface CharacterPlayerClassConnectionDetail {
+  pk: number;
+  player_class: number;
+  character: number;
+  player_class_details?: PlayerClass;
+}
+
+export interface SpellClassConnection {
+  pk?: number;
+  player_class: number;
+  spell: number;
 }

@@ -12,7 +12,7 @@ import {
   FormlyEditorFieldComponent,
   FormlySelectDisableFieldComponent,
 } from '..';
-import { Character } from '../../../app/_models/character';
+import { CharacterDetails } from '../../../app/_models/character';
 import { Quote } from '../../../app/_models/quote';
 import {
   dateMessage,
@@ -81,7 +81,7 @@ const dummyQuote: Quote = {
   ],
 };
 
-const dummyCharacter: Character = {
+const dummyCharacter: CharacterDetails = {
   getAbsoluteRouterUrl: () => '/dummy/url',
   player_character: false,
   alive: true,

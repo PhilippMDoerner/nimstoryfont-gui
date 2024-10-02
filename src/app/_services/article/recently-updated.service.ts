@@ -1,144 +1,141 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OverviewItem } from 'src/app/_models/overview';
 import { environment } from 'src/environments/environment';
+import { createRequestSubjects, trackQuery } from 'src/utils/query';
 import { RoutingService } from '../routing.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RecentlyUpdatedService {
   apiUrl: string = environment.apiUrl;
-  
-  recentlyUpdatedUrl: string = `${this.apiUrl}/recentupdates`
-  searchUrl: string = `${this.apiUrl}/search`
+
+  recentlyUpdatedUrl: string = `${this.apiUrl}/recentupdates`;
+  searchUrl: string = `${this.apiUrl}/search`;
+
+  recentlyUpdatedArticles = createRequestSubjects<OverviewItem[]>();
+  searchedArticles = createRequestSubjects<{
+    articles: OverviewItem[];
+    emptyResponse: string;
+  }>();
 
   constructor(
     private routingService: RoutingService,
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+  ) {}
 
-  getRecentlyUpdatedArticle(campaign: string, pageNumber: number): Observable<OverviewItem[]>{
-    if(pageNumber == null) pageNumber = 0;
-    return this.http.get<any[]>(`${this.recentlyUpdatedUrl}/${campaign}/${pageNumber}`)
+  loadRecentlyUpdatedArticle(campaign: string, pageNumber: number = 0) {
+    const entries$ = this.http
+      .get<any[]>(`${this.recentlyUpdatedUrl}/${campaign}/${pageNumber}`)
       .pipe(
-        map(entries => entries.map(entry => this.parseOverviewEntity(entry))),
+        map((entries) =>
+          entries.map((entry) => this.parseOverviewEntity(entry)),
+        ),
       );
+
+    trackQuery(entries$, this.recentlyUpdatedArticles);
   }
 
-  
-  getGlobalSearchArticle(searchString: string): Observable<{articles: OverviewItem[], emptyResonse: string}>{
-    const resultObservable = this.http.get<{articles: OverviewItem[], emptyResonse: string}>(`${this.searchUrl}/${searchString}`);
-    const modifiedObservable = resultObservable.pipe(
-      map(searchResponse => {
-        const searchArticles: OverviewItem[] = searchResponse.articles;
-        const searchArticleObjects: OverviewItem[] = searchArticles.map((item: OverviewItem) =>  this.parseOverviewEntity(item));
-        searchResponse.articles = searchArticleObjects;
-        return searchResponse;
-      })
-    );
-
-    return modifiedObservable;
-  }
-
-
-  getCampaignSearchArticle(campaign: string, searchString: string): Observable<{articles: OverviewItem[], emptyResponse: string}>{
-    const resultObservable = this.http.get<{articles: OverviewItem[], emptyResponse: string}>(`${this.searchUrl}/${campaign}/${searchString}`);
-    return resultObservable.pipe(
-      map(searchResponse => {
+  getCampaignSearchArticle(campaign: string, searchString: string) {
+    const resultObservable = this.http.get<{
+      articles: OverviewItem[];
+      emptyResponse: string;
+    }>(`${this.searchUrl}/${campaign}/${searchString}`);
+    const entries$ = resultObservable.pipe(
+      map((searchResponse) => {
         const searchArticles: any[] = searchResponse.articles;
-        const searchArticleObjects: OverviewItem[] = searchArticles.map((item: OverviewItem) =>  this.parseOverviewEntity(item));
+        const searchArticleObjects: OverviewItem[] = searchArticles.map(
+          (item: OverviewItem) => this.parseOverviewEntity(item),
+        );
         searchResponse.articles = searchArticleObjects;
         return searchResponse;
-      })
+      }),
     );
+    trackQuery(entries$, this.searchedArticles);
   }
-  
+
   parseOverviewEntity(data: any): OverviewItem {
     return {
       ...data,
       getAbsoluteRouterUrl: this.generateUrlCallback(data),
     };
   }
-  
-  private generateUrlCallback(data: any){
+
+  private generateUrlCallback(data: any) {
     const articleType = data.article_type;
     const campaignName = data.campaign_details.name;
     const params: any = { campaign: campaignName };
-    let routeName: string = "";
-    switch (articleType){
-      case "character":
+    let routeName: string = '';
+    switch (articleType) {
+      case 'character':
         params.name = data.name;
-        routeName = "character";
+        routeName = 'character';
         break;
-      case "creature":
+      case 'creature':
         params.name = data.name;
-        routeName = "creature";
+        routeName = 'creature';
         break;
-      case "diaryentry":
+      case 'diaryentry':
         params.session_number = data.session_details.session_number;
         params.isMainSession = data.session_details.is_main_session_int;
         params.authorName = data.author_details.name;
-        routeName = "diaryentry";
+        routeName = 'diaryentry';
         break;
-      case "encounter":
+      case 'encounter':
         params.session_number = data.diaryentry_details.session_number;
         params.isMainSession = data.diaryentry_details.is_main_session_int;
         params.authorName = data.diaryentry_details.author_name;
         params.encounterTitle = data.title;
-        routeName = "diaryentry-encounter";
+        routeName = 'diaryentry-encounter';
         break;
-      case "item":
+      case 'item':
         params.name = data.name;
-        routeName = "item";
+        routeName = 'item';
         break;
-      case "location":
+      case 'location':
         params.name = data.name;
         params.parent_name = data.parent_location_details.name;
-        routeName = "location";
+        routeName = 'location';
         break;
-      case "organization":
+      case 'organization':
         params.name = data.name;
-        routeName = "organization";
+        routeName = 'organization';
         break;
-      case "quest":
+      case 'quest':
         params.name = data.name;
-        routeName = "quest";
+        routeName = 'quest';
         break;
-      case "sessionaudio":
+      case 'sessionaudio':
         params.isMainSession = data.session_details.is_main_session_int;
         params.sessionNumber = data.session_details.session_number;
-        routeName = "sessionaudio";
+        routeName = 'sessionaudio';
         break;
-      case "session":
-        routeName = "sessions";
+      case 'session':
+        routeName = 'sessions';
         break;
-      case "map":
+      case 'map':
         params.name = data.name;
-        routeName = "map";
+        routeName = 'map';
         break;
-      case "timestamp":
-        routeName = "default-map";
+      case 'timestamp':
+        routeName = 'default-map';
         break;
-      case "mapmarker":
+      case 'mapmarker':
         params.name = data.name;
-        routeName = "map";
+        routeName = 'map';
         break;
-      case "spell":
+      case 'spell':
         params.name = data.name;
-        routeName = "spells";
+        routeName = 'spells';
         break;
-      case "rules":
+      case 'rules':
         params.name = data.name;
-        routeName = "rules";
+        routeName = 'rules';
         break;
     }
-    
-    return () => this.routingService.getRoutePath(
-      routeName,
-      params
-    );
+
+    return () => this.routingService.getRoutePath(routeName, params);
   }
 }

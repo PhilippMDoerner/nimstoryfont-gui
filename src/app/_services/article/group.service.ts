@@ -5,18 +5,20 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { BaseService } from '../base.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class GroupService extends BaseService<PermissionGroup>{
+export class GroupService extends BaseService<
+  PermissionGroup,
+  PermissionGroup
+> {
+  constructor(http: HttpClient) {
+    super(http, 'group');
+  }
 
-  constructor(
-    http: HttpClient
-  ) { super(http, 'group')}
-  
   override parseEntity(data: any): PermissionGroup {
     return data;
   }
-  
+
   override parseOverviewEntity(data: any): OverviewItem {
     return data;
   }

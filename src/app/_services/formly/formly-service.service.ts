@@ -1,22 +1,34 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import * as _ from 'lodash';
 import { Observable, map } from 'rxjs';
-import { FormlyCheckboxConfig, FormlyDatepickerConfig, FormlyFileConfig, FormlyInputConfig, FormlyInterface, FormlyOverviewDisabledSelectConfig, FormlyOverviewSelectConfig, FormlyPasswordInterface, FormlyCustomSelectConfig as FormlyStaticSelectConfig, FormlyCustomStringSelectConfig as FormlyStaticStringSelectConfig, StaticOption } from 'src/app/_models/formly';
-import { OverviewItem } from 'src/app/_models/overview';
-import { OverviewService } from '../article/overview.service';
+import {
+  FormlyCheckboxConfig,
+  FormlyDatepickerConfig,
+  FormlyFileConfig,
+  FormlyInputConfig,
+  FormlyInterface,
+  FormlyOverviewDisabledSelectConfig,
+  FormlyOverviewSelectConfig,
+  FormlyPasswordInterface,
+  FormlyCustomSelectConfig as FormlyStaticSelectConfig,
+  FormlyCustomStringSelectConfig as FormlyStaticStringSelectConfig,
+  StaticOption,
+} from 'src/app/_models/formly';
+import { toTitleCase } from 'src/utils/string';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FormlyService {
+  buildOverviewSelectConfig(
+    config: FormlyOverviewSelectConfig,
+  ): FormlyFieldConfig {
+    const isRequiredField = config.required == null || config.required == true;
 
-  constructor(
-    private overviewService: OverviewService,
-  ) { }
-  
-  buildOverviewSelectConfig(config: FormlyOverviewSelectConfig): FormlyFieldConfig{
-    const options$: Observable<any[]> = this.getOverviewItems(config);
+    const options$: Observable<any[]> = isRequiredField
+      ? this.addEmptyOption(config.options$, config)
+      : config.options$;
+
     const validators = this.getValidators(config);
 
     return {
@@ -25,8 +37,8 @@ export class FormlyService {
       className: config.className,
       wrappers: config.wrappers,
       hideExpression: config.hide,
-      props:{
-        label: config.label ?? this.capitalizeFirstLetter(config.key),
+      props: {
+        label: config.label ?? toTitleCase(config.key),
         labelProp: config.labelProp,
         valueProp: config.valueProp ?? 'pk',
         options: options$,
@@ -34,25 +46,32 @@ export class FormlyService {
         disabled: config.disabled,
       },
       validators: {
-        validation: validators
-      }
+        validation: validators,
+      },
     };
   }
-  
-  buildDisableSelectConfig(config: FormlyOverviewDisabledSelectConfig): FormlyFieldConfig{
-    const options$: Observable<any[]> = this.getOverviewItems(config);
+
+  buildDisableSelectConfig(
+    config: FormlyOverviewDisabledSelectConfig,
+  ): FormlyFieldConfig {
+    const isRequiredField = config.required == null || config.required == true;
+
+    const options$: Observable<any[]> = isRequiredField
+      ? this.addEmptyOption(config.options$, config)
+      : config.options$;
+
     const validators = this.getValidators(config);
-    
+
     return {
       key: config.key,
       type: 'select-disable',
       className: config.className,
       wrappers: config.wrappers,
       hideExpression: config.hide ?? false,
-      props:{
-        label: config.label ?? this.capitalizeFirstLetter(config.key),
-        labelProp:  config.labelProp,
-        valueProp:  config.valueProp ?? 'pk',
+      props: {
+        label: config.label ?? toTitleCase(config.key),
+        labelProp: config.labelProp,
+        valueProp: config.valueProp ?? 'pk',
         options: options$,
         required: config.required ?? true,
         disabledExpression: config.disabledExpression,
@@ -60,15 +79,15 @@ export class FormlyService {
         warningMessage: config.warningMessage,
         additionalProperties: {
           showWrapperLabel: config.showWrapperLabel ?? true,
-        }
+        },
       },
       validators: {
-        validation: validators
+        validation: validators,
       },
     };
   }
-  
-  buildStaticSelectConfig(config: FormlyStaticSelectConfig): FormlyFieldConfig{
+
+  buildStaticSelectConfig(config: FormlyStaticSelectConfig): FormlyFieldConfig {
     const validators = this.getValidators(config);
 
     return {
@@ -77,8 +96,8 @@ export class FormlyService {
       className: config.className,
       wrappers: config.wrappers,
       hideExpression: config.hide ?? false,
-      props:{
-        label: config.label ?? this.capitalizeFirstLetter(config.key),
+      props: {
+        label: config.label ?? toTitleCase(config.key),
         options: config.options,
         required: config.required ?? true,
         disabled: config.disabled,
@@ -86,43 +105,45 @@ export class FormlyService {
       validators: {
         validation: validators,
       },
-    }
+    };
   }
-  
-  buildStaticStringSelectConfig(partialConfig: FormlyStaticStringSelectConfig): FormlyFieldConfig{
+
+  buildStaticStringSelectConfig(
+    partialConfig: FormlyStaticStringSelectConfig,
+  ): FormlyFieldConfig {
     const optionStrings: string[] = partialConfig.options;
-    
-    let options: StaticOption[] = optionStrings.map(str => {
-      return {label: str, value: str}
+
+    let options: StaticOption[] = optionStrings.map((str) => {
+      return { label: str, value: str };
     });
-    
+
     const config: FormlyStaticSelectConfig = {
       ...partialConfig,
-      options
+      options,
     };
-    
+
     return this.buildStaticSelectConfig(config);
   }
-    
-  buildInputConfig(config: FormlyInputConfig): FormlyFieldConfig{
+
+  buildInputConfig(config: FormlyInputConfig): FormlyFieldConfig {
     const validators = this.getValidators(config);
-    if(config.inputKind === 'NUMBER'){
+    if (config.inputKind === 'NUMBER') {
       validators.push('notInteger');
     }
-    if(config.inputKind === 'NAME'){
+    if (config.inputKind === 'NAME') {
       //Why 'hasSpecialCharacters' validation? Names are used in URLs, they mustn't have special characters
       validators.push('hasSpecialCharacters');
     }
-    
+
     let innerInputType: 'string' | 'number';
-    switch(config.inputKind){
+    switch (config.inputKind) {
       case 'NUMBER':
         innerInputType = 'number';
         break;
       default:
-        innerInputType = 'string'
+        innerInputType = 'string';
     }
-    
+
     return {
       key: config.key,
       type: 'input',
@@ -130,22 +151,22 @@ export class FormlyService {
       wrappers: config.wrappers,
       hideExpression: config.hide ?? false,
       parsers: config.parsers,
-      props:{
+      props: {
         maxLength: config.maxLength,
         minLength: config.minLength,
-        label: config.label ?? this.capitalizeFirstLetter(config.key),
+        label: config.label ?? toTitleCase(config.key),
         type: innerInputType,
         required: config.required ?? true,
         disabled: !!config.disabled,
         placeholder: config.placeholder ?? undefined,
       },
-      validators:{
+      validators: {
         validation: validators,
-      }
-    }
+      },
+    };
   }
-  
-  buildSinglePasswordConfig(config: FormlyInterface): FormlyFieldConfig{
+
+  buildSinglePasswordConfig(config: FormlyInterface): FormlyFieldConfig {
     const validators = this.getValidators(config);
 
     return {
@@ -153,82 +174,83 @@ export class FormlyService {
       type: 'input',
       className: config.className,
       fieldGroupClassName: config.fieldGroupClassName,
-      templateOptions:{
+      templateOptions: {
         label: config.label ?? 'Password',
         type: 'password',
         required: true,
         placeholder: 'Your password',
         disabled: config.disabled,
       },
-      validators:{
-        validation: validators
-      }
-    }
+      validators: {
+        validation: validators,
+      },
+    };
   }
-  
-  buildConfirmedPasswordConfig(config: FormlyPasswordInterface): FormlyFieldConfig{
+
+  buildConfirmedPasswordConfig(
+    config: FormlyPasswordInterface,
+  ): FormlyFieldConfig {
     const validators = config.validators ?? [];
     validators.push('required');
-    
+
     const passwordField = {
       key: 'password', //Hard coded, fieldMatch validator depends on this
       type: 'input',
       className: config.className,
-      templateOptions:{
+      templateOptions: {
         label: config.label ?? 'Password',
         type: 'password',
         required: true,
         placeholder: 'Password, at least 7 characters',
         disabled: config.disabled,
       },
-      validators:{
-        validation: validators
-      }
-    }
+      validators: {
+        validation: validators,
+      },
+    };
 
     const confirmPasswordField = {
       key: 'passwordConfirm', //Hard coded, fieldMatch validator depends on this
       type: 'input',
       className: config.className,
-      templateOptions:{
-        label: (config.label) ? 'Confirm ' + config.label : 'Password Confirmation',
+      templateOptions: {
+        label: config.label
+          ? 'Confirm ' + config.label
+          : 'Password Confirmation',
         type: 'password',
         required: true,
         placeholder: 'Please re-enter your password',
         disabled: config.disabled,
       },
-    }
+    };
 
     return {
       validators: {
         validation: [
           { name: 'fieldMatch', options: { errorPath: 'passwordConfirm' } },
-        ]
+        ],
       },
-      fieldGroup: [
-        passwordField,
-        confirmPasswordField
-      ]
-    }
+      fieldGroup: [passwordField, confirmPasswordField],
+    };
   }
-  
-  buildCheckboxConfig(config: FormlyCheckboxConfig): FormlyFieldConfig{
-    return{
+
+  buildCheckboxConfig(config: FormlyCheckboxConfig): FormlyFieldConfig {
+    return {
       key: config.key,
       type: 'checkbox',
       className: config.className,
       wrappers: config.wrappers,
       defaultValue: config.defaultValue,
       hideExpression: config.hide,
-      props:{
-        label: config.label ?? this.capitalizeFirstLetter(config.key),
+      props: {
+        label: config.label ?? toTitleCase(config.key),
         required: config.required ?? true,
         disabled: config.disabled,
       },
-    }
+    };
   }
-  
-  buildDatepickerConfig(config: FormlyDatepickerConfig): FormlyFieldConfig{
+
+  buildDatepickerConfig(config: FormlyDatepickerConfig): FormlyFieldConfig {
     const validators = this.getValidators(config);
     validators.push('date');
 
@@ -238,20 +260,20 @@ export class FormlyService {
       className: config.className,
       wrappers: config.wrappers,
       hideExpression: config.hide,
-      props:{
-        label: config.label ?? this.capitalizeFirstLetter(config.key),
+      props: {
+        label: config.label ?? toTitleCase(config.key),
         required: config.required ?? true,
         disabled: config.disabled,
       },
-      validators:{
+      validators: {
         validation: validators,
-      }
-    }
+      },
+    };
   }
-  
-  buildFileFieldConfig(config: FormlyFileConfig): FormlyFieldConfig{
+
+  buildFileFieldConfig(config: FormlyFileConfig): FormlyFieldConfig {
     const validators = this.getValidators(config);
-    
+
     return {
       key: config.key,
       type: 'file',
@@ -261,34 +283,34 @@ export class FormlyService {
       props: {
         buttonType: config.fileButtonType ?? 'SECONDARY',
         fileFieldKind: config.fileFieldKind ?? 'IMAGE',
-        label: config.label ?? this.capitalizeFirstLetter(config.key),
+        label: config.label ?? toTitleCase(config.key),
         required: config.required ?? true,
         disabled: !!config.disabled,
       },
-      validators:{
+      validators: {
         validation: validators,
-      }
-    }
+      },
+    };
   }
-  
-  buildEditorConfig(config: FormlyInterface): FormlyFieldConfig{
+
+  buildEditorConfig(config: FormlyInterface): FormlyFieldConfig {
     const validators = this.getValidators(config);
-    
+
     return {
       key: config.key,
       type: 'text-editor',
       className: config.className,
       wrappers: config.wrappers,
       hideExpression: config.hide,
-      props:{
-        label: config.label ?? this.capitalizeFirstLetter(config.key),
+      props: {
+        label: config.label ?? toTitleCase(config.key),
         required: config.required ?? true,
         disabled: config.disabled,
       },
-      validators:{
-        validation: validators
-      }
-    }
+      validators: {
+        validation: validators,
+      },
+    };
   }
 
   /**
@@ -299,56 +321,36 @@ export class FormlyService {
    * - File Fields: The Browser does not allow to assign values to a file field
    *    Trying to do so will cause errors and crashes
    */
-  toUpdateForm(fields: FormlyFieldConfig[]): FormlyFieldConfig[]{
-    return fields.filter(field => {
+  toUpdateForm(fields: FormlyFieldConfig[]): FormlyFieldConfig[] {
+    return fields.filter((field) => {
       const isFileField = field.type === 'file';
       return !isFileField;
     });
   }
-  
-  private getValidators(config: FormlyInterface){
+
+  private getValidators(config: FormlyInterface) {
     const validators = config.validators ?? [];
     if (config.required) {
       validators.push('required');
     }
-    
+
     return validators;
   }
-  
-  private getOverviewItems(config: FormlyOverviewSelectConfig): Observable<any[]> {
-    const isCampaignSpecific = !_.isNil(config.campaign);
-    const sortProp = config.sortProp as keyof OverviewItem;
-    let options = isCampaignSpecific 
-      ? this.overviewService.getCampaignOverviewItems(config.campaign as string, config.overviewType, sortProp)
-      : this.overviewService.getAllOverviewItems(config.overviewType, sortProp);
-        
-    const isRequiredField = config.required == null || config.required == true;
-    if(!isRequiredField){
-      options = this.addEmptyOption(options, config);
-    }
-    
-    return options;
-  }
-  
-  private addEmptyOption(observable: Observable<any[]>, config: FormlyOverviewSelectConfig): Observable<any[]>{
+
+  private addEmptyOption(
+    observable: Observable<any[]>,
+    config: FormlyOverviewSelectConfig,
+  ): Observable<any[]> {
     return observable.pipe(
-      map(values => [
-        this.createEmptyOption(config), 
-        ...values
-      ]),
+      map((values) => [this.createEmptyOption(config), ...values]),
     );
   }
-  
-  private createEmptyOption(config: FormlyOverviewSelectConfig){
+
+  private createEmptyOption(config: FormlyOverviewSelectConfig) {
     const emptyOption: any = {};
     emptyOption[config.key] = '------';
     const valueProp: string = config.valueProp ?? config.key;
     emptyOption[valueProp] = null;
     return emptyOption;
-  }
-  
-  
-  private capitalizeFirstLetter(s: string){
-    return s.charAt(0).toUpperCase() + s.slice(1);
   }
 }

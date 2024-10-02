@@ -11,7 +11,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/design/molecules';
-import { Character } from '../../../app/_models/character';
+import { CharacterDetails } from '../../../app/_models/character';
 import { Quote, QuoteConnection } from '../../../app/_models/quote';
 
 type QuoteState =
@@ -28,7 +28,7 @@ type QuoteState =
 })
 export class QuoteFieldComponent implements OnInit, OnChanges {
   @Input() quote?: Quote;
-  @Input() character!: Character;
+  @Input() character!: CharacterDetails;
   @Input() campaignCharacters!: OverviewItem[];
   @Input() serverModel?: Quote;
   @Input() canCreate: boolean = false;

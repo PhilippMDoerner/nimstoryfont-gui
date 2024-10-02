@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { ElementType } from '../../design/atoms';
 import { ArticleKind } from './overview';
 
@@ -27,6 +28,7 @@ export interface FormlyOverviewSelectConfig extends FormlyInterface {
   valueProp?: string;
   sortProp?: string;
   campaign?: string;
+  options$: Observable<any[]>;
 }
 
 export interface FormlyOverviewDisabledSelectConfig

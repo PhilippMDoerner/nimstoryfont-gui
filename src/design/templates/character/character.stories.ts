@@ -2,7 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { Character } from 'src/app/_models/character';
+import { CharacterDetails } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Quote } from 'src/app/_models/quote';
 import {
@@ -219,7 +219,7 @@ const dummyCharacters: OverviewItem[] = [
   },
 ];
 
-const dummyCharacter: Character = {
+const dummyCharacter: CharacterDetails = {
   getAbsoluteRouterUrl: () => 'character/83',
   pk: 83,
   player_character: false,

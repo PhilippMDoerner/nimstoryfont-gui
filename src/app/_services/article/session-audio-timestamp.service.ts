@@ -1,37 +1,48 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map } from 'rxjs';
 import { Timestamp } from 'src/app/_models/sessionAudio';
 import { environment } from 'src/environments/environment';
+import { createRequestSubjects, trackQuery } from 'src/utils/query';
 
 const httpOptions = {
-  headers: new HttpHeaders({"Content-Type": "application/json"}),
-}
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+};
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SessionAudioTimestampService {
   apiUrl: string = environment.apiUrl;
-  baseUrl: string = `${this.apiUrl}/timestamp`
+  baseUrl: string = `${this.apiUrl}/timestamp`;
 
-  constructor(
-    private http: HttpClient
-  ) {}
+  timestamps = createRequestSubjects<Timestamp[]>();
+  create = createRequestSubjects<Timestamp>();
+  delete = createRequestSubjects<void>();
 
-  getTimestamps(
-    campaign: string, 
-    isMainSessionInt: number, 
-    sessionNumber: number
-  ): Observable<Timestamp[]>{
-    return this.http.get<Timestamp[]>(`${this.baseUrl}/${campaign}/${isMainSessionInt}/${sessionNumber}/`);
+  constructor(private http: HttpClient) {}
+
+  loadTimestamps(
+    campaign: string,
+    isMainSessionInt: number,
+    sessionNumber: number,
+  ) {
+    const entries$ = this.http.get<Timestamp[]>(
+      `${this.baseUrl}/${campaign}/${isMainSessionInt}/${sessionNumber}/`,
+    );
+
+    trackQuery(entries$, this.timestamps);
   }
-  
-  create(data: any): Observable<Timestamp>{
-    return this.http.post<Timestamp>(`${this.baseUrl}/`, data);
+
+  runCreate(data: any) {
+    const entry$ = this.http.post<Timestamp>(`${this.baseUrl}/`, data);
+    trackQuery(entry$, this.create);
   }
-  
-  delete(pk: number): Observable<any>{
-    return this.http.delete(`${this.baseUrl}/pk/${pk}/`);
+
+  runDelete(pk: number) {
+    const entry$ = this.http
+      .delete(`${this.baseUrl}/pk/${pk}/`)
+      .pipe(map(() => void 0));
+    trackQuery(entry$, this.delete);
   }
 }

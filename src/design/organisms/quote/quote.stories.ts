@@ -2,7 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { Character } from '../../../app/_models/character';
+import { CharacterDetails } from '../../../app/_models/character';
 import { Quote } from '../../../app/_models/quote';
 import { MoleculesModule } from '../../molecules';
 import { QuoteComponent } from './quote.component';
@@ -51,7 +51,7 @@ const dummyQuote: Quote = {
   ],
 };
 
-const dummyCharacter: Character = {
+const dummyCharacter: CharacterDetails = {
   getAbsoluteRouterUrl: () => '/dummy/url',
   player_character: false,
   alive: true,

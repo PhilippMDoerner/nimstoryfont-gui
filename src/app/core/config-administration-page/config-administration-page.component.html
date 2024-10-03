@@ -1,5 +1,5 @@
 <app-config-tables
-  [tableData]="tableData()"
+  [tableData]="(tableData$ | async) ?? {}"
   (loadTableEntries)="loadTableEntries($event)"
   (deleteTableEntry)="deleteTableEntry($event)"
   (createTableEntry)="createTableEntry($event)"

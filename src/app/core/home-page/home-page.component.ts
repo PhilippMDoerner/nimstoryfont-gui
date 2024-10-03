@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { Observable, take } from 'rxjs';
+import { Component } from '@angular/core';
+import { take } from 'rxjs';
+import { RecentlyUpdatedService } from 'src/app/_services/article/recently-updated.service';
+import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
 import { environment } from 'src/environments/environment';
-import { CoreStore, getCampaignNameParam } from '../core.store';
+import { filterNil } from 'src/utils/rxjs-operators';
 
 @Component({
   selector: 'app-home-page',
@@ -10,17 +12,21 @@ import { CoreStore, getCampaignNameParam } from '../core.store';
 })
 export class HomePageComponent {
   serverUrl = environment.backendDomain;
-  readonly coreStore = inject(CoreStore);
-  campaignData = this.coreStore.currentCampaign;
-  currentCampaignName$!: Observable<string>;
-  recentlyUpdatedArticles = this.coreStore.recentlyUpdatedArticlesItems;
-  hasMoreArticles = this.coreStore.canLoadMoreRecentlyUpdatedArticlesPages;
+  campaignData$ = this.paramService.currentCampaign;
+  currentCampaignName$ = this.paramService.campaignNameParam$.pipe(filterNil());
+  recentlyUpdatedArticles$ =
+    this.recentlyUpdatedService.recentlyUpdatedArticles.data;
+  hasMoreArticles$ =
+    this.recentlyUpdatedService.recentlyUpdatedArticles.canLoadMore;
 
-  constructor() {
-    this.currentCampaignName$ = getCampaignNameParam();
-
+  constructor(
+    private paramService: GlobalUrlParamsService,
+    private recentlyUpdatedService: RecentlyUpdatedService,
+  ) {
     this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
-      this.coreStore.loadFirstRecentlyUpdatedArticlesPage({ campaignName });
+      this.recentlyUpdatedService.loadRecentlyUpdatedArticlesFirstPage(
+        campaignName,
+      );
     });
   }
 
@@ -32,7 +38,9 @@ export class HomePageComponent {
 
   loadArticlePage(): void {
     this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
-      this.coreStore.loadNextRecentlyUpdatedArticlesPage({ campaignName });
+      this.recentlyUpdatedService.loadRecentlyUpdatedArticlesNextPage(
+        campaignName,
+      );
     });
   }
 }

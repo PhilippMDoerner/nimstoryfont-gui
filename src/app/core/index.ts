@@ -1,7 +1,4 @@
-export {
-  campaignSetResolver,
-  updateCurrentCampaignResolver,
-} from './_resolvers/campaign.resolver';
+export { campaignSetResolver } from './_resolvers/campaign.resolver';
 export {
   mapDefaultResolver,
   mapOverviewResolver,

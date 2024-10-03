@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import {
   FormlyCheckboxConfig,
   FormlyDatepickerConfig,
@@ -25,7 +25,7 @@ export class FormlyService {
   ): FormlyFieldConfig {
     const isRequiredField = config.required == null || config.required == true;
 
-    const options$: Observable<any[]> = isRequiredField
+    const options$ = isRequiredField
       ? this.addEmptyOption(config.options$, config)
       : config.options$;
 
@@ -56,7 +56,7 @@ export class FormlyService {
   ): FormlyFieldConfig {
     const isRequiredField = config.required == null || config.required == true;
 
-    const options$: Observable<any[]> = isRequiredField
+    const options$ = isRequiredField
       ? this.addEmptyOption(config.options$, config)
       : config.options$;
 
@@ -338,12 +338,16 @@ export class FormlyService {
   }
 
   private addEmptyOption(
-    observable: Observable<any[]>,
+    list: Observable<any[]> | any[],
     config: FormlyOverviewSelectConfig,
   ): Observable<any[]> {
-    return observable.pipe(
-      map((values) => [this.createEmptyOption(config), ...values]),
-    );
+    if (Array.isArray(list)) {
+      return of([this.createEmptyOption(config), ...list]);
+    } else {
+      return list.pipe(
+        map((values) => [this.createEmptyOption(config), ...values]),
+      );
+    }
   }
 
   private createEmptyOption(config: FormlyOverviewSelectConfig) {

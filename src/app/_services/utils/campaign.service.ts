@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, mergeMap, map as switchMap } from 'rxjs/operators';
 import {
   convertMultiFileModelToFormData,
   convertSingleFileModelToFormData,
@@ -9,18 +9,27 @@ import {
 import {
   Campaign,
   CampaignOverview,
+  CampaignRaw,
   WikiStatistics,
 } from 'src/app/_models/campaign';
 import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { OverviewItem } from 'src/app/_models/overview';
+import { CampaignRole } from 'src/app/_models/token';
 import { User } from 'src/app/_models/user';
+import { createRequestSubjects, trackQuery } from 'src/utils/query';
 import { BaseService } from '../base.service';
 import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CampaignService extends BaseService<Campaign> {
+export class CampaignService extends BaseService<CampaignRaw, Campaign> {
+  campaignOverview = createRequestSubjects<CampaignOverview[]>();
+  deactivate = createRequestSubjects<void>();
+  users = createRequestSubjects<User[]>();
+  addEmptySearchResponse = createRequestSubjects<EmptySearchResponse>();
+  deleteEmptySearchResponse = createRequestSubjects<void>();
+
   constructor(
     http: HttpClient,
     private tokenService: TokenService,
@@ -28,44 +37,59 @@ export class CampaignService extends BaseService<Campaign> {
     super(http, 'campaign');
   }
 
-  campaignOverview(): Observable<CampaignOverview[]> {
-    const campaignObs: Observable<CampaignOverview[]> = this.http.get<
+  loadCampaignOverview() {
+    const campaignsObs$: Observable<CampaignOverview[]> = this.http.get<
       CampaignOverview[]
     >(`${this.baseUrl}/overview/`);
-    return campaignObs.pipe(
-      map((campaigns: CampaignOverview[]) => {
-        campaigns.forEach((campaign) => {
-          campaign.isMember = this.tokenService.isCampaignMember(
-            campaign.name.toLowerCase(),
-          );
-          campaign.isAdmin = this.tokenService.isCampaignAdmin(
-            campaign.name.toLowerCase(),
-          );
-          campaign.isGuest = this.tokenService.isCampaignGuest(
-            campaign.name.toLowerCase(),
-          );
-        });
-        return campaigns;
+
+    const roles$: Observable<(CampaignRole | undefined)[]> = campaignsObs$.pipe(
+      mergeMap((campaigns) => {
+        const roles$ = campaigns
+          .map((campaign) => campaign.name)
+          .map((name) => this.tokenService.getCampaignRole(name.toLowerCase()));
+
+        return combineLatest(roles$);
       }),
     );
+
+    const entries$ = combineLatest({
+      campaigns: campaignsObs$,
+      roles: roles$,
+    }).pipe(
+      map(({ campaigns, roles }) => {
+        if (campaigns.length !== roles.length)
+          throw 'You made a mistake while inferring roles from campaigns';
+
+        return campaigns.map((campaign, index) => ({
+          ...campaign,
+          isMember: roles[index] === 'member',
+          isAdmin: roles[index] === 'admin',
+          isGuest: roles[index] === 'guest',
+        }));
+      }),
+    );
+
+    trackQuery(entries$, this.campaignOverview);
   }
 
-  override doCreate(data: Campaign): Observable<Campaign> {
+  override runCreate(data: Campaign) {
     const campaignData = this.processCampaignData(data);
-    return super.doCreate(campaignData);
+    super.runCreate(campaignData);
   }
 
-  override doUpdate(pk: number, data: Campaign): Observable<Campaign> {
-    const campaignData = this.processCampaignData(data);
-    return super.doUpdate(pk, campaignData);
+  override runUpdate(pk: number, data: CampaignRaw) {
+    const campaignData = this.processCampaignData(data) as CampaignRaw;
+    super.runUpdate(pk, campaignData);
   }
 
-  override patch(pk: number, data: Campaign): Observable<Campaign> {
-    const campaignData = this.processCampaignData(data);
-    return super.patch(pk, campaignData);
+  override runPatch(pk: number, data: CampaignRaw) {
+    const campaignData = this.processCampaignData(data) as CampaignRaw;
+    super.runPatch(pk, campaignData);
   }
 
-  private processCampaignData(userModel: Campaign): Campaign | FormData {
+  private processCampaignData(
+    userModel: Campaign | CampaignRaw,
+  ): Campaign | CampaignRaw | FormData {
     const hasNewIcon: boolean = this.hasImageSelected(userModel.icon);
     const hasNewBackgroundImage: boolean = this.hasImageSelected(
       userModel.background_image,
@@ -102,18 +126,18 @@ export class CampaignService extends BaseService<Campaign> {
     return imageFieldValue.constructor.name === 'FileList';
   }
 
-  override delete(pk: number): Observable<any> {
+  override runDelete(pk: number) {
     throw "You can not delete a campaign, please use 'deactivate' instead";
   }
 
   /** Under the hood this may call "delete" but "delete" does not actually delete a campaign in the backend, it just deactivates it
    * The functions were renamed to make that fact clear
    */
-  deactivate(pk: number): Observable<any> {
-    return super.delete(pk);
+  runDeactivate(pk: number) {
+    super.runDelete(pk);
   }
 
-  statistics(campaign_name: string): Observable<any> {
+  loadStatistics(campaign_name: string): Observable<any> {
     const statisticsUrl = `${this.apiUrl}/admin/statistics/${campaign_name}`;
     return this.http.get<WikiStatistics>(statisticsUrl);
   }
@@ -124,70 +148,80 @@ export class CampaignService extends BaseService<Campaign> {
    * @param param
    * @returns The data from that endpoint by the service
    */
-  override loadReadByParam(campaign: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/${campaign}/`);
+  override loadReadByParam(campaign: string) {
+    const entry$ = this.http.get<Campaign>(`${this.baseUrl}/${campaign}/`);
+    trackQuery(entry$, this.read);
   }
 
-  addGuest(campaign: string, user: User): Observable<User[]> {
+  runAddGuest(campaign: string, user: User) {
     const requestBody = { action: 'add_guest', user };
-    return this.http.patch<User[]>(
+    const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
       requestBody,
     );
+    trackQuery(entries$, this.users);
   }
 
-  addMember(campaign: string, user: User): Observable<User[]> {
+  runAddMember(campaign: string, user: User) {
     const requestBody = { action: 'add_member', user };
-    return this.http.patch<User[]>(
+    const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
       requestBody,
     );
+    trackQuery(entries$, this.users);
   }
 
-  addAdmin(campaign: string, user: User): Observable<User[]> {
+  runAddAdmin(campaign: string, user: User) {
     const requestBody = { action: 'add_admin', user };
-
-    return this.http.patch<User[]>(
+    const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
       requestBody,
     );
+
+    trackQuery(entries$, this.users);
   }
 
-  removeGuest(campaign: string, user: User): Observable<User[]> {
+  runRemoveGuest(campaign: string, user: User) {
     const requestBody = { action: 'remove_guest', user };
-    return this.http.patch<User[]>(
+    const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
       requestBody,
     );
+    trackQuery(entries$, this.users);
   }
 
-  removeMember(campaign: string, user: User): Observable<User[]> {
+  runRemoveMember(campaign: string, user: User) {
     const requestBody = { action: 'remove_member', user };
-    return this.http.patch<User[]>(
+    const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
       requestBody,
     );
+    trackQuery(entries$, this.users);
   }
 
-  removeAdmin(campaign: string, user: User): Observable<User[]> {
+  runRemoveAdmin(campaign: string, user: User) {
     const requestBody = { action: 'remove_admin', user };
-    return this.http.patch<User[]>(
+    const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
       requestBody,
     );
+    trackQuery(entries$, this.users);
   }
 
-  addEmptySearchResponse(
-    responseModel: EmptySearchResponse,
-  ): Observable<EmptySearchResponse> {
+  runAddEmptySearchResponse(responseModel: EmptySearchResponse) {
     const emptySearchUrl = `${this.apiUrl}/emptysearchresponse/`;
-    return this.http.post<EmptySearchResponse>(emptySearchUrl, responseModel);
+    const entry$ = this.http.post<EmptySearchResponse>(
+      emptySearchUrl,
+      responseModel,
+    );
+    trackQuery(entry$, this.addEmptySearchResponse);
   }
 
-  deleteEmptySearchResponse(emptySearchResponsePk: number): Observable<any> {
-    return this.http.delete(
-      `${this.apiUrl}/emptysearchresponse/pk/${emptySearchResponsePk}`,
-    );
+  runDeleteEmptySearchResponse(emptySearchResponsePk: number) {
+    const entry$ = this.http
+      .delete(`${this.apiUrl}/emptysearchresponse/pk/${emptySearchResponsePk}`)
+      .pipe(switchMap(() => void 0));
+    trackQuery(entry$, this.deleteEmptySearchResponse);
   }
 
   override parseEntity(data: any): Campaign {

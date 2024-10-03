@@ -55,7 +55,7 @@ export class UserService extends BaseService<UserRaw, User> {
   }
 
   loadThisUser() {
-    const userPk: number = this.tokenService.getCurrentUserPk();
+    const userPk = this.tokenService.getCurrentUserPk();
     const url: string = `${this.baseUrl}/pk/${userPk}/`;
     const entry$ = this.http.get<User>(url);
 

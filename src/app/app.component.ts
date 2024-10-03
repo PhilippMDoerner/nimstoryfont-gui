@@ -1,22 +1,29 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { of, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AuthStore } from './core/auth.store';
-import { CoreStore } from './core/core.store';
+import { CampaignService } from './_services/utils/campaign.service';
+import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
+import { TokenService } from './_services/utils/token.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  readonly store = inject(CoreStore);
-  readonly authStore = inject(AuthStore);
+  readonly tokenService = inject(TokenService);
+  readonly paramsService = inject(GlobalUrlParamsService);
+  readonly campaignService = inject(CampaignService);
   serverUrl: string = environment.backendDomain;
-  campaign = this.store.currentCampaign;
-  hasCampaignAdminPrivileges = computed(() =>
-    this.authStore.hasCampaignAdminRights(this.store.currentCampaignName()),
+  campaign$ = this.campaignService.read.data;
+  hasCampaignAdminRights$ = this.campaign$.pipe(
+    switchMap((campaign) => {
+      const campaignName = campaign?.name;
+      if (campaignName == null) return of(false);
+      return this.tokenService.isCampaignAdmin(campaignName);
+    }),
   );
 
   logout(): void {
-    inject(AuthStore).logout();
+    this.tokenService.logout();
   }
 }

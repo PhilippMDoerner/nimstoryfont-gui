@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import * as _ from 'lodash';
 import { Observable, filter, map } from 'rxjs';
-import { CampaignMemberships } from 'src/app/_models/token';
+import { CampaignRole, UserData } from 'src/app/_models/token';
 import { User } from 'src/app/_models/user';
+import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
-import { CampaignMembership } from 'src/design/templates/_models/campaign-membership';
-import { selectCurrentCampaignName, selectCurrentUser } from '../app.reducer';
+import { selectCurrentUser } from '../app.reducer';
 
 @Component({
   selector: 'app-profile-page',
@@ -16,12 +16,15 @@ import { selectCurrentCampaignName, selectCurrentUser } from '../app.reducer';
 export class ProfilePageComponent implements OnInit {
   user$!: Observable<User>;
   isCurrentUser$!: Observable<boolean>;
-  campaignName$!: Observable<string>;
-  memberships!: CampaignMembership[];
+  campaignName$ = this.paramsService.campaignNameParam$;
+  memberships$ = this.tokenService.userData.data.pipe(
+    map((data) => this.mapMemberships(data)),
+  );
 
   constructor(
     private tokenService: TokenService,
     private store: Store,
+    private paramsService: GlobalUrlParamsService,
   ) {}
 
   ngOnInit(): void {
@@ -31,19 +34,18 @@ export class ProfilePageComponent implements OnInit {
 
     const userId = this.tokenService.getCurrentUserPk();
     this.isCurrentUser$ = this.user$.pipe(map((user) => user.pk === userId));
-
-    this.campaignName$ = this.store
-      .select(selectCurrentCampaignName)
-      .pipe(filter((name) => !_.isNil(name))) as Observable<string>;
-
-    this.setMemberships();
   }
 
-  private setMemberships(): void {
-    const memberships: CampaignMemberships =
-      this.tokenService.getCampaignMemberships();
+  private mapMemberships(
+    data: UserData | undefined,
+  ):
+    | { campaignName: string; role: CampaignRole; isLeaving: boolean }[]
+    | undefined {
+    const memberships = this.tokenService.getCampaignMemberships(data);
+    if (memberships == null) return undefined;
+
     const campaignNames = Object.keys(memberships);
-    this.memberships = campaignNames.map((name) => ({
+    return campaignNames.map((name) => ({
       campaignName: name,
       role: memberships[name],
       isLeaving: false,

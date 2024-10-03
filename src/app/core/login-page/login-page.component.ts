@@ -1,33 +1,48 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { map, Observable } from 'rxjs';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
-import { login, resetPassword } from '../app.actions';
-import { selectResetPasswordErrorMessage, selectSpecialLoginState } from '../app.reducer';
+import { RoutingService } from 'src/app/_services/routing.service';
+import { MailService } from 'src/app/_services/utils/mail.service';
+import { TokenService } from 'src/app/_services/utils/token.service';
+import { takeFirstNonNil } from 'src/utils/rxjs-operators';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  styleUrls: ['./login-page.component.scss'],
 })
-export class LoginPageComponent implements OnInit{
-  specialLoginState$!: Observable<SpecialLoginState | undefined>;
-  resetErrorMessage$!: Observable<string | undefined>;
-  
-  constructor(
-    private store: Store,
-  ){}
-  
-  ngOnInit(): void {
-    this.specialLoginState$ = this.store.select(selectSpecialLoginState);
-    this.resetErrorMessage$ = this.store.select(selectResetPasswordErrorMessage);
+export class LoginPageComponent {
+  tokenService = inject(TokenService);
+  route = inject(ActivatedRoute);
+  mailService = inject(MailService);
+  routingService = inject(RoutingService);
+
+  specialLoginState$: Observable<SpecialLoginState> = this.route.paramMap.pipe(
+    map((params) => {
+      return (params.get('state') as SpecialLoginState) ?? undefined;
+    }),
+  );
+  resetErrorMessage$: Observable<string | undefined> =
+    this.mailService.passwordReset.error.pipe(
+      takeUntilDestroyed(),
+      takeFirstNonNil(),
+      map((error) => (error as HttpErrorResponse).message),
+    );
+
+  constructor() {
+    this.tokenService.userData.hasSucceeded
+      .pipe(takeFirstNonNil())
+      .subscribe(() => this.routingService.routeToPath('campaign-overview'));
   }
-  
-  onLogin(event: Login): void{
-    this.store.dispatch(login(event));
+
+  onLogin(loginData: Login): void {
+    this.tokenService.login(loginData);
   }
-  
-  onResetPassword(event: string): void{
-    this.store.dispatch(resetPassword({username: event}));
+
+  onResetPassword(username: string): void {
+    this.mailService.requestPasswordReset(username);
   }
 }

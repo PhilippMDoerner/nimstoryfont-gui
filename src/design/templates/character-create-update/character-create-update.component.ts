@@ -1,12 +1,14 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnChanges,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { filter, of } from 'rxjs';
 import {
   CharacterDetails,
   CharacterOrganization,
@@ -15,6 +17,7 @@ import {
 import { Organization } from 'src/app/_models/organization';
 import { OverviewItem } from 'src/app/_models/overview';
 import { PlayerClass } from 'src/app/_models/playerclass';
+import { LocationService } from 'src/app/_services/article/location.service';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { BadgeListEntry } from '../../molecules';
 import { CreateUpdateState } from '../_models/create-update-states';
@@ -80,6 +83,9 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
       overviewType: 'LOCATION',
       campaign: this.campaignName,
       required: false,
+      options$: inject(LocationService)
+        .campaignList.data.asObservable()
+        .pipe(filter((list) => list != null)),
     }),
     this.formlyService.buildEditorConfig({
       key: 'description',
@@ -104,6 +110,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
         this.hasMembership(organization) ? true : null,
       tooltipMessage: 'The organization or group this character is a member of',
       warningMessage: '',
+      options$: of(this.organizations),
     }),
   ];
 

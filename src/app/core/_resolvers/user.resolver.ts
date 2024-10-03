@@ -2,21 +2,20 @@ import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   ResolveFn,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { loadCurrentUser, loadSiteUsers } from '../app.actions';
+import { UserService } from 'src/app/_services/article/user.service';
 
 export const userResolver: ResolveFn<void> = (
-  route: ActivatedRouteSnapshot, 
-  state: RouterStateSnapshot
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
 ) => {
-  inject(Store).dispatch(loadCurrentUser());
-}
+  inject(UserService).loadThisUser();
+};
 
 export const siteUsersResolver: ResolveFn<void> = (
-  route: ActivatedRouteSnapshot, 
-  state: RouterStateSnapshot
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
 ) => {
-  inject(Store).dispatch(loadSiteUsers());
-}
+  inject(UserService).loadList();
+};

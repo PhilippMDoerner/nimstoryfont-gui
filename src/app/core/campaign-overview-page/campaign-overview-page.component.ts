@@ -1,8 +1,9 @@
-import { Component, inject, Signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { map } from 'rxjs';
+import { CampaignService } from 'src/app/_services/utils/campaign.service';
+import { TokenService } from 'src/app/_services/utils/token.service';
 import { slideInOut } from 'src/design/animations/slideInOut';
 import { environment } from 'src/environments/environment';
-import { AuthStore } from '../auth.store';
-import { CoreStore } from '../core.store';
 
 @Component({
   selector: 'app-campaign-overview-page',
@@ -14,15 +15,17 @@ import { CoreStore } from '../core.store';
   animations: [slideInOut],
 })
 export class CampaignOverviewPageComponent {
-  private readonly coreStore = inject(CoreStore);
-  private readonly authStore = inject(AuthStore);
+  private readonly campaignService = inject(CampaignService);
+  private readonly tokenService = inject(TokenService);
 
   serverUrl = environment.backendDomain;
-  userName = this.authStore.userName as Signal<string>;
-  isGlobalAdmin = this.authStore.isGlobalAdmin;
-  campaigns = this.coreStore.campaignsData;
+  userName$ = this.tokenService.userData.data.pipe(
+    map((data) => data?.userName),
+  );
+  isGlobalAdmin$ = this.tokenService.isGlobalAdmin$;
+  campaigns$ = this.campaignService.campaignOverview.data;
 
   logout(): void {
-    inject(AuthStore).logout();
+    inject(TokenService).logout();
   }
 }

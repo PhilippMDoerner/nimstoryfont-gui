@@ -11,18 +11,13 @@ import {
   MapPageComponent,
   mapDefaultResolver,
   mapResolver,
-  updateCurrentCampaignResolver,
 } from './core';
 import {
   campaignDetailSetResolver,
   campaignSetResolver,
-  clearCurrentCampaignResolver,
 } from './core/_resolvers/campaign.resolver';
 import { siteGroupsResolver } from './core/_resolvers/group.resolver';
-import {
-  recentlyUpdatedArticleResolver,
-  resetRecentlyUpdatedArticleLoadStateResolver,
-} from './core/_resolvers/recently-updated-article.resolver';
+import { recentlyUpdatedArticleResolver } from './core/_resolvers/recently-updated-article.resolver';
 import { siteStatisticsResolver } from './core/_resolvers/statistics.resolver';
 import {
   siteUsersResolver,
@@ -78,9 +73,6 @@ const generalRoutes: GeneralRoute[] = [
     component: CampaignOverviewPageComponent,
     data: { name: 'campaign-overview' },
     canActivate: [loginGuard],
-    resolve: {
-      clearCurrentCampaignResolver,
-    },
   },
 ];
 
@@ -114,9 +106,7 @@ const campaignRoutes: CampaignRoute[] = [
     data: { name: 'home', requiredMinimumRole: 'guest' },
     canActivate: [campaignGuard],
     resolve: {
-      updateCurrentCampaignResolver,
       recentlyUpdatedArticleResolver,
-      resetRecentlyUpdatedArticleLoadStateResolver,
     },
   },
   // Map Routes

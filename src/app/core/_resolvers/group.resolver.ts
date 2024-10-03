@@ -1,11 +1,14 @@
-import { inject } from "@angular/core";
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from "@angular/router";
-import { Store } from "@ngrx/store";
-import { loadSiteUserGroups } from "../app.actions";
+import { inject } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  ResolveFn,
+  RouterStateSnapshot,
+} from '@angular/router';
+import { GroupService } from 'src/app/_services/article/group.service';
 
 export const siteGroupsResolver: ResolveFn<void> = (
-  route: ActivatedRouteSnapshot, 
-  state: RouterStateSnapshot
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
 ) => {
-  inject(Store).dispatch(loadSiteUserGroups());
-}
+  inject(GroupService).loadList();
+};

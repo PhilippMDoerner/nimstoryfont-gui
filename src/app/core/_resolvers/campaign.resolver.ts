@@ -4,34 +4,25 @@ import {
   ResolveFn,
   RouterStateSnapshot,
 } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { loadCampaignDetailSet, setCurrentCampaign } from '../app.actions';
-import { CoreStore } from '../core.store';
+import { take } from 'rxjs';
+import { CampaignService } from 'src/app/_services/utils/campaign.service';
 
 export const campaignSetResolver: ResolveFn<void> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  const coreStore = inject(CoreStore);
-  const hasAlreadyLoaded = coreStore.campaignsData() != null;
-  if (hasAlreadyLoaded) return;
+  const campaignService = inject(CampaignService);
 
-  coreStore.loadCampaigns();
+  campaignService.campaignList.data.pipe(take(1)).subscribe((list) => {
+    const hasAlreaddyLoaded = list != null;
+    if (hasAlreaddyLoaded) return;
+    campaignService.loadCampaignOverview();
+  });
 };
 
 export const campaignDetailSetResolver: ResolveFn<void> = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot,
 ) => {
-  inject(Store).dispatch(loadCampaignDetailSet());
+  inject(CampaignService).loadList();
 };
-export const updateCurrentCampaignResolver: ResolveFn<void> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
-  const campaignName = route.params['campaign'];
-  inject(Store).dispatch(setCurrentCampaign({ campaignName }));
-};
-
-export const clearCurrentCampaignResolver: ResolveFn<void> = () =>
-  inject(CoreStore).clearCurrentCampaign();

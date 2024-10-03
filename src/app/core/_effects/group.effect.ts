@@ -16,7 +16,7 @@ export class GroupEffects {
   constructor(private groupService: GroupService) {
     this.loadGroups$ = createBasicEffect({
       startAction: loadSiteUserGroups,
-      serviceCall: () => this.groupService.list(),
+      serviceCall: () => this.groupService.loadList(),
       endAction: loadSiteUserGroupsSuccess,
       failureAction: loadSiteUserGroupsFailure,
     });

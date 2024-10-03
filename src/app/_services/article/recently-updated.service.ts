@@ -1,9 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { OverviewItem } from 'src/app/_models/overview';
 import { environment } from 'src/environments/environment';
-import { createRequestSubjects, trackQuery } from 'src/utils/query';
+import {
+  createRequestSubjects,
+  RequestState,
+  trackQuery,
+} from 'src/utils/query';
 import { RoutingService } from '../routing.service';
 
 @Injectable({
@@ -15,7 +20,8 @@ export class RecentlyUpdatedService {
   recentlyUpdatedUrl: string = `${this.apiUrl}/recentupdates`;
   searchUrl: string = `${this.apiUrl}/search`;
 
-  recentlyUpdatedArticles = createRequestSubjects<OverviewItem[]>();
+  recentlyUpdatedArticles = this.createRecentlyUpdatedArticlesSubjects();
+  recentlyUpdatedArticlesPage = 0;
   searchedArticles = createRequestSubjects<{
     articles: OverviewItem[];
     emptyResponse: string;
@@ -26,7 +32,21 @@ export class RecentlyUpdatedService {
     private http: HttpClient,
   ) {}
 
-  loadRecentlyUpdatedArticle(campaign: string, pageNumber: number = 0) {
+  public loadRecentlyUpdatedArticlesFirstPage(campaign: string) {
+    this.resetArticleList();
+    this.loadRecentlyUpdatedArticles(campaign, 0);
+  }
+
+  public loadRecentlyUpdatedArticlesNextPage(campaign: string) {
+    this.recentlyUpdatedArticlesPage += 1;
+    this.recentlyUpdatedArticles.state.next('pending-next-page');
+    this.loadRecentlyUpdatedArticles(
+      campaign,
+      ++this.recentlyUpdatedArticlesPage,
+    );
+  }
+
+  private loadRecentlyUpdatedArticles(campaign: string, pageNumber: number) {
     const entries$ = this.http
       .get<any[]>(`${this.recentlyUpdatedUrl}/${campaign}/${pageNumber}`)
       .pipe(
@@ -35,7 +55,26 @@ export class RecentlyUpdatedService {
         ),
       );
 
-    trackQuery(entries$, this.recentlyUpdatedArticles);
+    combineLatest({
+      priorEntries: this.recentlyUpdatedArticles.data,
+      entries: entries$,
+    })
+      .pipe(take(1))
+      .subscribe({
+        next: ({ priorEntries, entries }) => {
+          const updatedList = [...(priorEntries ?? []), ...entries];
+          this.recentlyUpdatedArticles.data.next(updatedList);
+          this.recentlyUpdatedArticles.state.next('success');
+
+          const hasMoreEntries = entries.length > 0;
+          this.recentlyUpdatedArticles.canLoadMore.next(hasMoreEntries);
+        },
+        error: (error) => {
+          this.recentlyUpdatedArticles.error.next(error);
+          this.recentlyUpdatedArticles.state.next('error');
+          this.recentlyUpdatedArticlesPage += 1;
+        },
+      });
   }
 
   getCampaignSearchArticle(campaign: string, searchString: string) {
@@ -137,5 +176,33 @@ export class RecentlyUpdatedService {
     }
 
     return () => this.routingService.getRoutePath(routeName, params);
+  }
+
+  private resetArticleList() {
+    this.recentlyUpdatedArticles.data.next(undefined);
+    this.recentlyUpdatedArticles.error.next(undefined);
+    this.recentlyUpdatedArticles.state.next('pending');
+    this.recentlyUpdatedArticles.canLoadMore.next(true);
+    this.recentlyUpdatedArticlesPage = 0;
+  }
+
+  private createRecentlyUpdatedArticlesSubjects() {
+    const state = new BehaviorSubject<RequestState | 'pending-next-page'>(
+      'pending',
+    );
+    const data = new BehaviorSubject<OverviewItem[] | undefined>(undefined);
+    const error = new Subject();
+
+    return {
+      data,
+      state: state,
+      error: error,
+      hasFailed: state.pipe(map((state) => state === 'error')),
+      isLoadingFirstPage: state.pipe(map((state) => state === 'pending')),
+      isLoadingNextPage: state.pipe(
+        map((state) => state === 'pending-next-page'),
+      ),
+      canLoadMore: new BehaviorSubject(true),
+    };
   }
 }

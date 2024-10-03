@@ -1,8 +1,8 @@
 <app-home
   [serverUrl]="serverUrl"
-  [campaignData]="campaignData()"
-  [articles]="recentlyUpdatedArticles()"
-  [canLoadMore]="hasMoreArticles()"
+  [campaignData]="(campaignData$ | async) ?? undefined"
+  [articles]="(recentlyUpdatedArticles$ | async) ?? []"
+  [canLoadMore]="(hasMoreArticles$ | async) === true"
   (search)="search($event)"
   (loadArticlePage)="loadArticlePage()"
 ></app-home>

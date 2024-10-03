@@ -1,7 +1,7 @@
 <app-campaign-overview
   [serverUrl]="serverUrl"
-  [userName]="userName()"
-  [campaigns]="campaigns()"
-  [isGlobalAdmin]="isGlobalAdmin()"
+  [userName]="(userName$ | async) ?? ''"
+  [campaigns]="(campaigns$ | async) ?? []"
+  [isGlobalAdmin]="(isGlobalAdmin$ | async) === true"
   (logout)="logout()"
 ></app-campaign-overview>

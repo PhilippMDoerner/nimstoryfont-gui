@@ -28,7 +28,7 @@ export interface FormlyOverviewSelectConfig extends FormlyInterface {
   valueProp?: string;
   sortProp?: string;
   campaign?: string;
-  options$: Observable<any[]>;
+  options$: Observable<any[]> | any[];
 }
 
 export interface FormlyOverviewDisabledSelectConfig

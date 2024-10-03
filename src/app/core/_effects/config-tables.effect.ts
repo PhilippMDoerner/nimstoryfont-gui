@@ -26,7 +26,7 @@ export class LoadConfigTablesEffects {
         ofType(loadConfigTableEntries),
         switchMap(({ table }): Observable<Action> => {
           const service = this.getService(table);
-          return service.list().pipe(
+          return service.loadList().pipe(
             switchMap((entries: unknown[]) =>
               of(loadConfigTableEntriesSuccess({ table, entries: entries })),
             ),
@@ -58,7 +58,7 @@ export class LoadConfigTablesEffects {
         ofType(createConfigTableEntry),
         switchMap(({ table, entry }): Observable<Action> => {
           const service = this.getService(table);
-          return service.create(entry).pipe(
+          return service.doCreate(entry).pipe(
             switchMap((newEntry) =>
               of(createConfigTableEntrySuccess({ table, entry: newEntry })),
             ),

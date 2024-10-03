@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { combineLatest, filter, map, Observable, switchMap, tap } from 'rxjs';
 import { CampaignRole } from 'src/app/_models/token';
 import { RoutingService } from '../routing.service';
+import { GlobalUrlParamsService } from './global-url-params.service';
 import { TokenService } from './token.service';
 
 @Injectable({
@@ -10,7 +12,7 @@ import { TokenService } from './token.service';
 export class LoginGuardService implements CanActivate {
   constructor(
     private routingService: RoutingService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
   ) {}
 
   canActivate(): boolean {
@@ -34,27 +36,23 @@ export class AdminGuardService implements CanActivate {
   //Administrative Permissions are special in that their values are booleans. You either are, or aren't an admin.
   constructor(
     public tokenService: TokenService,
-    public routingService: RoutingService
+    public routingService: RoutingService,
   ) {}
-  canActivate(route: ActivatedRouteSnapshot): boolean {
+  canActivate(route: ActivatedRouteSnapshot): Observable<boolean> | boolean {
     if (!this.isUserLoggedIn()) {
       this.routingService.routeToPath('login');
       return false;
     }
 
-    const hasRequiredPermissions: boolean = this.isGeneralAdmin();
-    if (!hasRequiredPermissions) {
-      this.routingService.routeToPath('campaign-overview');
-    }
-    return hasRequiredPermissions;
+    return this.tokenService.isGlobalAdmin$.pipe(
+      tap((isAdmin) => {
+        if (!isAdmin) this.routingService.routeToPath('campaign-overview');
+      }),
+    );
   }
 
   isUserLoggedIn(): boolean {
     return this.tokenService.hasValidJWTToken();
-  }
-
-  isGeneralAdmin(): boolean {
-    return this.tokenService.isSuperUser() || this.tokenService.isAdmin();
   }
 }
 
@@ -63,49 +61,69 @@ export class AdminGuardService implements CanActivate {
 })
 export class CampaignGuardService extends AdminGuardService {
   //Administrative Permissions are special in that their values are booleans. You either are, or aren't an admin.
-  constructor(tokenService: TokenService, routingService: RoutingService) {
+  constructor(
+    tokenService: TokenService,
+    routingService: RoutingService,
+    public paramService: GlobalUrlParamsService,
+  ) {
     super(tokenService, routingService);
   }
 
-  override canActivate(route: ActivatedRouteSnapshot): boolean {
+  override canActivate(
+    route: ActivatedRouteSnapshot,
+  ): Observable<boolean> | boolean {
     if (!this.isUserLoggedIn()) {
       this.routingService.routeToPath('login');
       return false;
     }
 
-    if (this.isGeneralAdmin()) return true;
+    const currentCampaignName$ = this.paramService.campaignNameParam$;
+    const isGlobalAdmin$ = this.tokenService.isGlobalAdmin$;
+    const role$ = currentCampaignName$.pipe(
+      filter((campaignName) => campaignName != null),
+      switchMap((campaignName) =>
+        this.tokenService.getCampaignRole(campaignName),
+      ),
+    );
+    return combineLatest({
+      campaignName: currentCampaignName$,
+      isAdmin: isGlobalAdmin$,
+      role: role$,
+    }).pipe(
+      map(({ campaignName, isAdmin, role }) => {
+        if (isAdmin) return true;
 
-    const campaignNameOfRoute: string = route.params['campaign'];
-    if (campaignNameOfRoute == null)
-      throw "Invalid Route Exception. The campaign-route you're trying to access has no campaign name parameter";
+        if (campaignName == null) {
+          throw "Invalid Route Exception. The campaign-route you're trying to access has no campaign name parameter";
+        }
 
-    const hasNoRoleInCampaign: boolean =
-      this.tokenService.getCampaignRole(campaignNameOfRoute) == null;
-    if (hasNoRoleInCampaign) {
-      this.routingService.routeToPath('campaign-overview');
-      return false;
-    }
+        const hasRoleInCampaign = role != null;
+        if (!hasRoleInCampaign) {
+          this.routingService.routeToPath('campaign-overview');
+          return false;
+        }
 
-    const requiredMiniumRole: CampaignRole = route.data['requiredMinimumRole'];
-    if (requiredMiniumRole == null)
-      throw "Invalid Route Exception. The campaign-route you're trying to access has no defined minimum role needed to access it";
+        const requiredMiniumRole: CampaignRole =
+          route.data['requiredMinimumRole'];
+        if (requiredMiniumRole == null) {
+          throw "Invalid Route Exception. The campaign-route you're trying to access has no defined minimum role needed to access it";
+        }
 
-    return this.hasRoleOrBetter(campaignNameOfRoute, requiredMiniumRole);
+        return this.hasRoleOrBetter(role, requiredMiniumRole);
+      }),
+    );
   }
 
-  hasRoleOrBetter(campaignName: string, role: CampaignRole): boolean {
-    const isCampaignAdmin: boolean =
-      this.tokenService.isCampaignAdmin(campaignName);
-    const isCampaignMember: boolean =
-      this.tokenService.isCampaignMember(campaignName);
-    const isCampaignGuest: boolean =
-      this.tokenService.isCampaignGuest(campaignName);
-
-    if (role === 'admin') return isCampaignAdmin;
-    if (role === 'member') return isCampaignAdmin || isCampaignMember;
-    if (role === 'guest')
-      return isCampaignAdmin || isCampaignMember || isCampaignGuest;
-
-    return false;
+  hasRoleOrBetter(role: CampaignRole, minimumRole: CampaignRole): boolean {
+    switch (minimumRole) {
+      case 'member':
+        return ['member', 'admin'].includes(role);
+      case 'admin':
+        return role === 'admin';
+      case 'guest':
+        return ['member', 'admin', 'guest'].includes(role);
+      default:
+        return false;
+    }
   }
 }

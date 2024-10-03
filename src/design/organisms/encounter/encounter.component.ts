@@ -7,8 +7,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { filter } from 'rxjs';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
+import { LocationService } from 'src/app/_services/article/location.service';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/design/molecules';
@@ -50,6 +52,7 @@ export class EncounterComponent implements OnInit, OnChanges {
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
+    private locationService: LocationService,
   ) {}
 
   ngOnInit(): void {
@@ -85,6 +88,9 @@ export class EncounterComponent implements OnInit, OnChanges {
         sortProp: 'name_full',
         overviewType: 'LOCATION',
         campaign: this.campaignName,
+        options$: this.locationService.campaignList.data.pipe(
+          filter((x) => !!x),
+        ),
         labelProp: 'name',
       }),
       this.formlyService.buildEditorConfig({

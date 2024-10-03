@@ -1,11 +1,13 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component } from '@angular/core';
+import { combineLatest, map, Observable } from 'rxjs';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
+import { MarkerTypeService } from 'src/app/_services/article/marker-type.service';
+import { PlayerClassService } from 'src/app/_services/article/player-class.service';
 import {
   ConfigTableData,
   ConfigTableKind,
 } from 'src/design/templates/_models/config-table';
-import { CoreStore } from '../core.store';
 
 @Component({
   selector: 'app-config-administration-page',
@@ -13,19 +15,28 @@ import { CoreStore } from '../core.store';
   styleUrls: ['./config-administration-page.component.scss'],
 })
 export class ConfigAdministrationPageComponent {
-  readonly coreStore = inject(CoreStore);
-  tableData: Signal<ConfigTableData> = computed(() => ({
-    MARKER_TYPE: this.coreStore.markerTypeTableData(),
-    PLAYER_CLASS: this.coreStore.playerClassTableData(),
-  }));
+  tableData$: Observable<ConfigTableData> = combineLatest({
+    markerTypes: this.markerTypeService.list.data,
+    playerClasses: this.playerClassService.list.data,
+  }).pipe(
+    map(({ markerTypes, playerClasses }) => ({
+      MARKER_TYPE: markerTypes,
+      PLAYER_CLASS: playerClasses,
+    })),
+  );
+
+  constructor(
+    private markerTypeService: MarkerTypeService,
+    private playerClassService: PlayerClassService,
+  ) {}
 
   loadTableEntries(table: ConfigTableKind): void {
     switch (table) {
       case 'MARKER_TYPE':
-        this.coreStore.loadMarkerTypeTable();
+        this.markerTypeService.loadList();
         break;
       case 'PLAYER_CLASS':
-        this.coreStore.loadPlayerClassTable();
+        this.playerClassService.loadList();
         break;
     }
   }
@@ -36,10 +47,10 @@ export class ConfigAdministrationPageComponent {
 
     switch (event.table) {
       case 'MARKER_TYPE':
-        this.coreStore.deleteMarkerType({ entryId });
+        this.markerTypeService.runDelete(entryId);
         break;
       case 'PLAYER_CLASS':
-        this.coreStore.deletePlayerClass({ entryId });
+        this.playerClassService.runDelete(entryId);
         break;
     }
   }
@@ -48,10 +59,10 @@ export class ConfigAdministrationPageComponent {
     if (event.entry == null) return;
     switch (event.table) {
       case 'MARKER_TYPE':
-        this.coreStore.createMarkerType(event.entry as MapMarkerType);
+        this.markerTypeService.runCreate(event.entry as MapMarkerType);
         break;
       case 'PLAYER_CLASS':
-        this.coreStore.createPlayerClass(event.entry as PlayerClass);
+        this.playerClassService.runCreate(event.entry as PlayerClass);
         break;
     }
   }

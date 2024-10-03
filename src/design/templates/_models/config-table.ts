@@ -5,5 +5,5 @@ export const configTableKinds: ConfigTableKind[] = [
 ];
 
 export type ConfigTableData = {
-  [key in ConfigTableKind]?: any[];
+  [key in ConfigTableKind]?: any[] | undefined;
 };

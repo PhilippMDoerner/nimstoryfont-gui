@@ -29,7 +29,7 @@ export class CampaignEffects {
       startAction: loadCampaignDetailSet,
       endAction: loadCampaignDetailSetSuccess,
       failureAction: loadCampaignDetailSetFailure,
-      serviceCall: () => this.campaignService.list(),
+      serviceCall: () => this.campaignService.loadList(),
     });
   }
 }

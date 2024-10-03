@@ -22,7 +22,7 @@ export const AuthStore = signalStore(
     const tokenService = inject(TokenService);
     return tokenService
       .login(login)
-      .pipe(tap((data) => tokenService.setUserData(data)));
+      .pipe(tap((data) => tokenService.storeUserData(data)));
   }),
   withComputed((store) => {
     const userData = store.loginData;

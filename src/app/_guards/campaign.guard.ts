@@ -1,12 +1,16 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
+import { combineLatest, map, switchMap } from 'rxjs';
 import { CampaignRole } from 'src/app/_models/token';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
+import { filterNil } from 'src/utils/rxjs-operators';
+import { GlobalUrlParamsService } from '../_services/utils/global-url-params.service';
 
 export const campaignGuard = (route: ActivatedRouteSnapshot) => {
   const tokenService = inject(TokenService);
   const routingService = inject(RoutingService);
+  const paramService = inject(GlobalUrlParamsService);
 
   const isLoggedIn: boolean = tokenService.hasValidJWTToken();
   if (!isLoggedIn) {
@@ -14,46 +18,53 @@ export const campaignGuard = (route: ActivatedRouteSnapshot) => {
     return false;
   }
 
-  const isAdmin: boolean = tokenService.isSuperUser() || tokenService.isAdmin();
-  if (isAdmin) {
-    return true;
-  }
+  const currentCampaignName$ = paramService.campaignNameParam$;
+  const isGlobalAdmin$ = tokenService.isGlobalAdmin$;
+  const role$ = currentCampaignName$.pipe(
+    filterNil(),
+    switchMap((campaignName) => tokenService.getCampaignRole(campaignName)),
+  );
+  return combineLatest({
+    campaignName: currentCampaignName$,
+    isAdmin: isGlobalAdmin$,
+    role: role$,
+  }).pipe(
+    map(({ campaignName, isAdmin, role }) => {
+      if (isAdmin) return true;
 
-  const campaignNameOfRoute: string = route.params['campaign'];
-  if (campaignNameOfRoute == null)
-    throw "Invalid Route Exception. The campaign-route you're trying to access has no campaign name parameter";
+      if (campaignName == null) {
+        throw "Invalid Route Exception. The campaign-route you're trying to access has no campaign name parameter";
+      }
 
-  const hasNoRoleInCampaign: boolean =
-    tokenService.getCampaignRole(campaignNameOfRoute) == null;
-  if (hasNoRoleInCampaign) {
-    routingService.routeToPath('campaign-overview');
-    return false;
-  }
+      const hasRoleInCampaign = role != null;
+      if (!hasRoleInCampaign) {
+        routingService.routeToPath('campaign-overview');
+        return false;
+      }
 
-  const requiredMiniumRole: CampaignRole = route.data['requiredMinimumRole'];
-  if (requiredMiniumRole == null)
-    throw "Invalid Route Exception. The campaign-route you're trying to access has no defined minimum role needed to access it";
+      const requiredMiniumRole: CampaignRole =
+        route.data['requiredMinimumRole'];
+      if (requiredMiniumRole == null) {
+        throw "Invalid Route Exception. The campaign-route you're trying to access has no defined minimum role needed to access it";
+      }
 
-  return hasRoleOrBetter(campaignNameOfRoute, requiredMiniumRole, tokenService);
+      return hasRoleOrBetter(role, requiredMiniumRole);
+    }),
+  );
 };
 
 function hasRoleOrBetter(
-  campaignName: string,
   role: CampaignRole,
-  tokenService: TokenService
+  minimumRole: CampaignRole,
 ): boolean {
-  const isCampaignAdmin: boolean = tokenService.isCampaignAdmin(campaignName);
-  const isCampaignMember: boolean = tokenService.isCampaignMember(campaignName);
-  const isCampaignGuest: boolean = tokenService.isCampaignGuest(campaignName);
-
-  switch (role) {
-    case 'admin':
-      return isCampaignAdmin;
+  switch (minimumRole) {
     case 'member':
-    case 'globalmember':
-      return isCampaignAdmin || isCampaignMember;
+      return ['member', 'admin'].includes(role);
+    case 'admin':
+      return role === 'admin';
     case 'guest':
-    case 'globalguest':
-      return isCampaignAdmin || isCampaignMember || isCampaignGuest;
+      return ['member', 'admin', 'guest'].includes(role);
+    default:
+      return false;
   }
 }

@@ -39,14 +39,20 @@ type DeleteArgs = { entryId: number };
 export type CoreStoreType = InstanceType<typeof CoreStore>;
 
 export const CoreStore = signalStore(
-  { providedIn: 'root' },
+  withMethods((store) => {
+    return {
+      _onCreateSucces: (kind: string) => {
+        console.log('Called', kind);
+      },
+    };
+  }),
   withDevtools('Core'),
   withState<CoreSubState>(initialCoreSubState),
   withQuery<MapMarkerType[], void, 'markerTypeTable'>('markerTypeTable', () =>
-    inject(MarkerTypeService).list(),
+    inject(MarkerTypeService).loadList(),
   ),
   withQuery<PlayerClass[], void, 'playerClassTable'>('playerClassTable', () =>
-    inject(PlayerClassService).list(),
+    inject(PlayerClassService).loadList(),
   ),
   withMethods((store) => {
     // Extend deletion/creation behavior for MapMarkerType & PlayerClass
@@ -72,7 +78,7 @@ export const CoreStore = signalStore(
     'recentlyUpdatedArticles'
   >('recentlyUpdatedArticles', (args, pageIndex) => {
     const service = inject(RecentlyUpdatedService);
-    return service.getRecentlyUpdatedArticle(args.campaignName, pageIndex);
+    return service.loadRecentlyUpdatedArticles(args.campaignName, pageIndex);
   }),
   withQuery<CampaignOverview[], void, 'campaigns'>('campaigns', () => {
     const service = inject(CampaignService);
@@ -84,7 +90,7 @@ export const CoreStore = signalStore(
   ),
   withCreateMutation<MapMarkerType, Partial<MapMarkerType>, 'markerType'>(
     'markerType',
-    (data) => inject(MarkerTypeService).create(data),
+    (data) => inject(MarkerTypeService).doCreate(data),
   ),
   withDeleteMutation<PlayerClass, DeleteArgs, 'playerClass'>(
     'playerClass',
@@ -92,7 +98,7 @@ export const CoreStore = signalStore(
   ),
   withCreateMutation<PlayerClass, Partial<PlayerClass>, 'playerClass'>(
     'playerClass',
-    (data) => inject(PlayerClassService).create(data),
+    (data) => inject(PlayerClassService).doCreate(data),
   ),
 
   withComputed((store) => {

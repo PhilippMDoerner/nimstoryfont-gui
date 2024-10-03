@@ -1,13 +1,8 @@
-import {
-  provideHttpClient,
-  withInterceptorsFromDi,
-} from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 import { FormlyModule } from '@ngx-formly/core';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { FormlyFileFieldComponent } from '../design/molecules';
@@ -17,7 +12,7 @@ import {
   FormlySelectDisableFieldComponent,
 } from '../design/organisms';
 import { TemplatesModule } from '../design/templates/templates.module';
-import { httpInterceptorProviders } from './_interceptors';
+import { addTokenInterceptor } from './_interceptors/tokenInterceptor';
 import {
   dateMessage,
   dateValidator,
@@ -41,14 +36,6 @@ import {
 import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CampaignEffects } from './core/_effects/campaign.effect';
-import { LoadConfigTablesEffects } from './core/_effects/config-tables.effect';
-import { GroupEffects } from './core/_effects/group.effect';
-import { LoginEffects } from './core/_effects/login.effect';
-import { MapEffects } from './core/_effects/map.effect';
-import { ResetPasswordEffects } from './core/_effects/resetPassword.effect';
-import { StatisticEffects } from './core/_effects/statistics.effect';
-import { UserEffects } from './core/_effects/user.effect';
 import { CampaignOverviewPageComponent } from './core/campaign-overview-page/campaign-overview-page.component';
 import { ConfigAdministrationPageComponent } from './core/config-administration-page/config-administration-page.component';
 import { HomePageComponent } from './core/home-page/home-page.component';
@@ -56,7 +43,6 @@ import { LoginPageComponent } from './core/login-page/login-page.component';
 import { MapPageComponent } from './core/map-page/map-page.component';
 import { ProfilePageComponent } from './core/profile-page/profile-page.component';
 import { SiteAdministrationPageComponent } from './core/site-administration-page/site-administration-page.component';
-import { metaReducers, rootReducers } from './root.reducer';
 
 @NgModule({
   declarations: [
@@ -113,23 +99,12 @@ import { metaReducers, rootReducers } from './root.reducer';
         sessionAuthorUniqueValidator,
       ],
     }),
-    StoreModule.forRoot(rootReducers, { metaReducers }),
-    EffectsModule.forRoot([
-      CampaignEffects,
-      LoginEffects,
-      MapEffects,
-      ResetPasswordEffects,
-      LoadConfigTablesEffects,
-      UserEffects,
-      StatisticEffects,
-      GroupEffects,
-    ]),
+    //TODO: Remove those below, we're using services now
     TemplatesModule,
   ],
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
-    httpInterceptorProviders,
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withInterceptors([addTokenInterceptor])),
   ],
 })
 export class AppModule {}

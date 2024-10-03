@@ -2,23 +2,20 @@ import { inject } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   ResolveFn,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { loadRecentlyUpdatedArticles, resetRecentlyUpdatedArticleLoadState } from '../app.actions';
+import { RecentlyUpdatedService } from 'src/app/_services/article/recently-updated.service';
+import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
+import { takeFirstNonNil } from 'src/utils/rxjs-operators';
 
 export const recentlyUpdatedArticleResolver: ResolveFn<void> = (
-  route: ActivatedRouteSnapshot, 
-  state: RouterStateSnapshot
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
 ) => {
-  const campaignName = route.params['campaign'];
-  inject(Store).dispatch(loadRecentlyUpdatedArticles({ pageCount: 0, campaignName }));
-}
-
-
-export const resetRecentlyUpdatedArticleLoadStateResolver: ResolveFn<void> = (
-  route: ActivatedRouteSnapshot, 
-  state: RouterStateSnapshot
-) => {
-  inject(Store).dispatch(resetRecentlyUpdatedArticleLoadState());
-}
+  const service = inject(RecentlyUpdatedService);
+  inject(GlobalUrlParamsService)
+    .campaignNameParam$.pipe(takeFirstNonNil())
+    .subscribe((campaignName) => {
+      service.loadRecentlyUpdatedArticlesFirstPage(campaignName);
+    });
+};

@@ -15,6 +15,7 @@ import {
 import {
   campaignDetailSetResolver,
   campaignSetResolver,
+  trackCampaignName,
 } from './core/_resolvers/campaign.resolver';
 import { siteGroupsResolver } from './core/_resolvers/group.resolver';
 import { recentlyUpdatedArticleResolver } from './core/_resolvers/recently-updated-article.resolver';
@@ -158,10 +159,18 @@ const homeRoutes: any[] = [];
         {
           path: '',
           children: [
-            ...generalRoutes,
-            ...campaignRoutes,
-            ...homeRoutes,
-            ...adminRoutes,
+            ...[
+              ...generalRoutes,
+              ...homeRoutes,
+              ...adminRoutes,
+              ...campaignRoutes,
+            ].map((route) => ({
+              ...route,
+              resolve: {
+                ...route.resolve,
+                trackCampaignName,
+              },
+            })),
           ],
           resolve: {
             campaignSetResolver,

@@ -23,6 +23,7 @@ export class HomePageComponent {
     private paramService: GlobalUrlParamsService,
     private recentlyUpdatedService: RecentlyUpdatedService,
   ) {
+    console.log('SNAPPY');
     this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
       this.recentlyUpdatedService.loadRecentlyUpdatedArticlesFirstPage(
         campaignName,

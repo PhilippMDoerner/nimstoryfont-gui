@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn } from '@angular/router';
-import { combineLatest, map, switchMap } from 'rxjs';
+import { combineLatest, map } from 'rxjs';
 import { CampaignRole } from 'src/app/_models/token';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
@@ -17,21 +17,18 @@ export const campaignGuard: CanActivateFn = (next: ActivatedRouteSnapshot) => {
     return false;
   }
 
-  const currentCampaignName$ = paramService.campaignNameParam$;
+  const currentCampaignName = next.params['campaign'];
   const isGlobalAdmin$ = tokenService.isGlobalAdmin$;
-  const role$ = currentCampaignName$.pipe(
-    switchMap((campaignName) => tokenService.getCampaignRole(campaignName)),
-  );
+  const role$ = tokenService.getCampaignRole(currentCampaignName);
 
   return combineLatest({
-    campaignName: currentCampaignName$,
     isAdmin: isGlobalAdmin$,
     role: role$,
   }).pipe(
-    map(({ campaignName, isAdmin, role }) => {
+    map(({ isAdmin, role }) => {
       if (isAdmin) return true;
 
-      if (campaignName == null) {
+      if (currentCampaignName == null) {
         throw "Invalid Route Exception. The campaign-route you're trying to access has no campaign name parameter";
       }
 

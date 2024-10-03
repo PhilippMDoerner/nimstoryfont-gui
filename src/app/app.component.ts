@@ -13,8 +13,9 @@ export class AppComponent {
   readonly tokenService = inject(TokenService);
   readonly paramsService = inject(GlobalUrlParamsService);
   readonly campaignService = inject(CampaignService);
+
   serverUrl: string = environment.backendDomain;
-  campaign$ = this.campaignService.read.data;
+  campaign$ = this.paramsService.currentCampaign;
   hasCampaignAdminRights$ = this.campaign$.pipe(
     switchMap((campaign) => {
       const campaignName = campaign?.name;

@@ -3,14 +3,13 @@ import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   ActivatedRouteSnapshot,
+  NavigationEnd,
   Params,
-  ResolveStart,
   Router,
 } from '@angular/router';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject } from 'rxjs';
 import { filter, map, skip, startWith, take } from 'rxjs/operators';
 import { CampaignOverview } from 'src/app/_models/campaign';
-import { RoutingService } from '../routing.service';
 import { CampaignService } from '../utils/campaign.service';
 import { TitleService } from './title.service';
 
@@ -19,11 +18,11 @@ import { TitleService } from './title.service';
 })
 export class GlobalUrlParamsService {
   public currentCampaignSet$ = this.campaignService.campaignOverview.data;
-  private currentRouteSnapshot$ = this.trackCurrentRoute();
+  private currentRouteSnapshot$ =
+    new ReplaySubject<ActivatedRouteSnapshot | null>(1);
 
   public campaignNameParam$ = this.currentRouteSnapshot$.pipe(
     map((snapshot) => snapshot?.params['campaign'] as string | undefined),
-    startWith(undefined),
   );
   public isLoadingCampaignSet$ =
     this.campaignService.campaignOverview.isLoading;
@@ -35,10 +34,10 @@ export class GlobalUrlParamsService {
   constructor(
     private campaignService: CampaignService,
     private router: Router,
-    private routingService: RoutingService,
     private urlLocation: Location,
     private myTitleService: TitleService,
   ) {
+    this.currentRouteSnapshot$.subscribe();
     this.syncPageTitleWithRouteData();
   }
 
@@ -92,8 +91,12 @@ export class GlobalUrlParamsService {
    */
   private trackCurrentRoute(): Observable<ActivatedRouteSnapshot | null> {
     return this.router.events.pipe(
-      filter((event): event is ResolveStart => event instanceof ResolveStart),
-      map((event: ResolveStart) => event.state.root.firstChild),
+      filter((event) => event instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.router.routerState.snapshot.root),
     );
+  }
+  nextSnapshot(snapshot: ActivatedRouteSnapshot): void {
+    this.currentRouteSnapshot$.next(snapshot);
   }
 }

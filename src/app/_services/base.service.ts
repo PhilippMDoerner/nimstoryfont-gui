@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { createRequestSubjects, trackQuery } from 'src/utils/query';
+import { debugLog } from 'src/utils/rxjs-operators';
 import { OverviewItem } from '../_models/overview';
 
 @Injectable({
@@ -38,9 +39,10 @@ export abstract class BaseService<Raw, Detail> {
   loadList(): void {
     if (this.isDevelop) console.log('loadList', this.baseUrl);
 
-    const entries$ = this.http
-      .get<Detail[]>(`${this.baseUrl}/`)
-      .pipe(map((entries) => entries.map((entry) => this.parseEntity(entry))));
+    const entries$ = this.http.get<Detail[]>(`${this.baseUrl}/`).pipe(
+      map((entries) => entries.map((entry) => this.parseEntity(entry))),
+      debugLog(this.loadList.name),
+    );
 
     trackQuery(entries$, this.list);
   }
@@ -58,6 +60,7 @@ export abstract class BaseService<Raw, Detail> {
         map((entries) =>
           entries.map((entry) => this.parseOverviewEntity(entry)),
         ),
+        debugLog(this.loadCampaignList.name),
       );
 
     trackQuery(entries$, this.campaignList);
@@ -74,7 +77,10 @@ export abstract class BaseService<Raw, Detail> {
 
     const entries = this.http
       .get<Detail[]>(`${this.baseUrl}/${campaign}/`)
-      .pipe(map((entries) => entries.map((entry) => this.parseEntity(entry))));
+      .pipe(
+        map((entries) => entries.map((entry) => this.parseEntity(entry))),
+        debugLog(this.loadCampaignDetailList.name),
+      );
 
     trackQuery(entries, this.campaignDetailList);
   }
@@ -85,9 +91,10 @@ export abstract class BaseService<Raw, Detail> {
   runCreate(data: any): void {
     if (this.isDevelop) console.log('runCreate', this.baseUrl, data);
 
-    const entry$ = this.http
-      .post<Detail>(`${this.baseUrl}/`, data)
-      .pipe(map((entry) => this.parseEntity(entry)));
+    const entry$ = this.http.post<Detail>(`${this.baseUrl}/`, data).pipe(
+      map((entry) => this.parseEntity(entry)),
+      debugLog(this.runCreate.name),
+    );
 
     trackQuery(entry$, this.create);
   }
@@ -100,7 +107,10 @@ export abstract class BaseService<Raw, Detail> {
 
     const entry$ = this.http
       .put<Detail>(`${this.baseUrl}/pk/${pk}/`, data)
-      .pipe(map((entry) => this.parseEntity(entry)));
+      .pipe(
+        map((entry) => this.parseEntity(entry)),
+        debugLog(this.runUpdate.name),
+      );
 
     trackQuery(entry$, this.update);
   }
@@ -111,9 +121,10 @@ export abstract class BaseService<Raw, Detail> {
   loadRead(pk: number): void {
     if (this.isDevelop) console.log('loadRead', this.baseUrl, pk);
 
-    const entry$ = this.http
-      .get<Detail>(`${this.baseUrl}/pk/${pk}/`)
-      .pipe(map((entry) => this.parseEntity(entry)));
+    const entry$ = this.http.get<Detail>(`${this.baseUrl}/pk/${pk}/`).pipe(
+      map((entry) => this.parseEntity(entry)),
+      debugLog(this.loadRead.name),
+    );
 
     trackQuery(entry$, this.read);
   }
@@ -140,7 +151,10 @@ export abstract class BaseService<Raw, Detail> {
 
     const entry$ = this.http
       .get<Detail>(`${this.baseUrl}/${campaign}/${params.name}/`)
-      .pipe(map((entry) => this.parseEntity(entry)));
+      .pipe(
+        map((entry) => this.parseEntity(entry)),
+        debugLog(this.loadReadByParam.name),
+      );
 
     trackQuery(entry$, this.read);
   }
@@ -151,9 +165,10 @@ export abstract class BaseService<Raw, Detail> {
   runDelete(pk: number): void {
     if (this.isDevelop) console.log('runDelete', this.baseUrl, pk);
 
-    const entry$ = this.http
-      .delete(`${this.baseUrl}/pk/${pk}/`)
-      .pipe(map(() => void 0));
+    const entry$ = this.http.delete(`${this.baseUrl}/pk/${pk}/`).pipe(
+      map(() => void 0),
+      debugLog(this.runDelete.name),
+    );
 
     trackQuery(entry$, this.delete);
   }
@@ -166,7 +181,10 @@ export abstract class BaseService<Raw, Detail> {
 
     const entry$ = this.http
       .patch<Detail>(`${this.baseUrl}/pk/${pk}/`, data)
-      .pipe(map((entry) => this.parseEntity(entry)));
+      .pipe(
+        map((entry) => this.parseEntity(entry)),
+        debugLog(this.runPatch.name),
+      );
 
     trackQuery(entry$, this.patch);
   }

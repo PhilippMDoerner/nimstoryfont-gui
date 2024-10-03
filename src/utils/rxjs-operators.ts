@@ -1,4 +1,5 @@
 import { filter, OperatorFunction, pipe, take, tap } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 export function filterNil<T>(): OperatorFunction<T, NonNullable<T>> {
   return filter((x) => x != null);
@@ -18,4 +19,9 @@ export function throwUnless<T>(
     }
     return value as T;
   });
+}
+
+export function debugLog<T>(debugSymbol?: string): OperatorFunction<T, T> {
+  const isDevelop = environment.kind === 'DEVELOPMENT';
+  return tap((x) => isDevelop && console.log(`[DEBUG] ${debugSymbol}:`, x));
 }

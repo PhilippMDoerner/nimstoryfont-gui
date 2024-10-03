@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { map, skip, take, tap } from 'rxjs/operators';
+import { map, skip, take } from 'rxjs/operators';
 import { CampaignOverview } from 'src/app/_models/campaign';
+import { debugLog } from 'src/utils/rxjs-operators';
 import { CampaignService } from '../utils/campaign.service';
 import { TitleService } from './title.service';
 
@@ -18,7 +19,7 @@ export class GlobalUrlParamsService {
 
   public campaignNameParam$ = this.currentRouteSnapshot$.pipe(
     map((snapshot) => snapshot?.params['campaign'] as string | undefined),
-    tap((x) => console.log('Current campaign name', x)),
+    debugLog('campaignName'),
   );
   public isLoadingCampaignSet$ =
     this.campaignService.campaignOverview.isLoading;

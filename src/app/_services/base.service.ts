@@ -20,6 +20,8 @@ export abstract class BaseService<Raw, Detail> {
   delete = createRequestSubjects<unknown>();
   patch = createRequestSubjects<Detail>();
 
+  isDevelop = environment.kind === 'DEVELOPMENT';
+
   constructor(
     public http: HttpClient,
     baseUrl: string,
@@ -34,6 +36,8 @@ export abstract class BaseService<Raw, Detail> {
    * NOTE: May be either expensive for performance or not implemented. Always check before using if it works well.
    */
   loadList(): void {
+    if (this.isDevelop) console.log('loadList', this.baseUrl);
+
     const entries$ = this.http
       .get<Detail[]>(`${this.baseUrl}/`)
       .pipe(map((entries) => entries.map((entry) => this.parseEntity(entry))));
@@ -45,6 +49,9 @@ export abstract class BaseService<Raw, Detail> {
    * Sends a GET request for an overview list of all entries of the campaign with the given name.
    */
   loadCampaignList(campaign: string, sortProperty?: keyof OverviewItem): void {
+    if (this.isDevelop)
+      console.log('loadCampaignList', this.baseUrl, campaign, sortProperty);
+
     let entries$ = this.http
       .get<OverviewItem[]>(`${this.baseUrl}/${campaign}/overview/`)
       .pipe(
@@ -62,6 +69,9 @@ export abstract class BaseService<Raw, Detail> {
    * This may be expensive. Prefer campaignList if possible.
    */
   loadCampaignDetailList(campaign: string): void {
+    if (this.isDevelop)
+      console.log('loadCampaignDetailList', this.baseUrl, campaign);
+
     const entries = this.http
       .get<Detail[]>(`${this.baseUrl}/${campaign}/`)
       .pipe(map((entries) => entries.map((entry) => this.parseEntity(entry))));
@@ -73,6 +83,8 @@ export abstract class BaseService<Raw, Detail> {
    * Sends a POST request for the specified data
    */
   runCreate(data: any): void {
+    if (this.isDevelop) console.log('runCreate', this.baseUrl, data);
+
     const entry$ = this.http
       .post<Detail>(`${this.baseUrl}/`, data)
       .pipe(map((entry) => this.parseEntity(entry)));
@@ -84,6 +96,8 @@ export abstract class BaseService<Raw, Detail> {
    * Sends a PUT request for the entry with the given pk and the specified data
    */
   runUpdate(pk: number, data: Raw): void {
+    if (this.isDevelop) console.log('runUpdate', this.baseUrl, pk, data);
+
     const entry$ = this.http
       .put<Detail>(`${this.baseUrl}/pk/${pk}/`, data)
       .pipe(map((entry) => this.parseEntity(entry)));
@@ -95,6 +109,8 @@ export abstract class BaseService<Raw, Detail> {
    * Sends a GET request for the entry with the given pk
    */
   loadRead(pk: number): void {
+    if (this.isDevelop) console.log('loadRead', this.baseUrl, pk);
+
     const entry$ = this.http
       .get<Detail>(`${this.baseUrl}/pk/${pk}/`)
       .pipe(map((entry) => this.parseEntity(entry)));
@@ -112,6 +128,8 @@ export abstract class BaseService<Raw, Detail> {
     campaign: string,
     params: { name?: string; [key: PropertyKey]: unknown },
   ): void {
+    if (this.isDevelop) console.log('loadReadByParam', this.baseUrl, params);
+
     if (typeof params.name !== 'string') {
       console.error('The params you used in the service: ', params);
       throw `Invalid params exception. You tried to use the base readByParams of GenericService with a parameter 
@@ -131,6 +149,8 @@ export abstract class BaseService<Raw, Detail> {
    * Sends a DELETE request for the entry with the specified primary key
    */
   runDelete(pk: number): void {
+    if (this.isDevelop) console.log('runDelete', this.baseUrl, pk);
+
     const entry$ = this.http
       .delete(`${this.baseUrl}/pk/${pk}/`)
       .pipe(map(() => void 0));
@@ -142,6 +162,8 @@ export abstract class BaseService<Raw, Detail> {
    * Sends a PATCH request for the entry with the given pk and the specified data
    */
   runPatch(pk: number, data: Partial<Raw>): void {
+    if (this.isDevelop) console.log('runPatch', this.baseUrl, pk, data);
+
     const entry$ = this.http
       .patch<Detail>(`${this.baseUrl}/pk/${pk}/`, data)
       .pipe(map((entry) => this.parseEntity(entry)));

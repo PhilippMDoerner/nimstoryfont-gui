@@ -26,6 +26,6 @@ export class CampaignOverviewPageComponent {
   campaigns$ = this.campaignService.campaignOverview.data;
 
   logout(): void {
-    inject(TokenService).logout();
+    this.tokenService.logout();
   }
 }

@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { combineLatest, map, Observable, of, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable, tap } from 'rxjs';
 import { Login } from 'src/app/_models/login';
 import {
   CampaignMemberships,
@@ -12,6 +12,7 @@ import {
 } from 'src/app/_models/token';
 import { environment } from 'src/environments/environment';
 import { createRequestSubjects, trackQuery } from 'src/utils/query';
+import { RoutingService } from '../routing.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +30,22 @@ export class TokenService {
   private refreshTokenUrl: string = `${this.apiUrl}/token/refresh`;
   private ID_IDENTIFIER_PREFIX: string = 'id_';
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private routingService: RoutingService,
+  ) {
+    this.userData.data.next(TokenService.getUserData());
+
     this.userData.data
       .pipe(takeUntilDestroyed())
       .subscribe((data) => this.setUserData(data));
+
+    this.userData.data
+      .pipe(
+        takeUntilDestroyed(),
+        filter((data) => data == null),
+      )
+      .subscribe(() => this.routingService.routeToPath('login'));
   }
 
   public login(loginData: Login) {
@@ -146,12 +159,12 @@ export class TokenService {
   }
 
   public getCampaignRole(
-    campaignName: string,
+    campaignName: string | undefined,
   ): Observable<CampaignRole | undefined> {
-    if (campaignName == null) return of(undefined);
-
     return this.userData.data.pipe(
       map((data) => {
+        if (campaignName == null) return undefined;
+
         const memberships = this.getCampaignMemberships(data);
         if (memberships == null) return undefined;
 

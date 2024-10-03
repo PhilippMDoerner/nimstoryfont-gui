@@ -1,13 +1,12 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivateFn } from '@angular/router';
 import { combineLatest, map, switchMap } from 'rxjs';
 import { CampaignRole } from 'src/app/_models/token';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
-import { filterNil } from 'src/utils/rxjs-operators';
 import { GlobalUrlParamsService } from '../_services/utils/global-url-params.service';
 
-export const campaignGuard = (route: ActivatedRouteSnapshot) => {
+export const campaignGuard: CanActivateFn = (next: ActivatedRouteSnapshot) => {
   const tokenService = inject(TokenService);
   const routingService = inject(RoutingService);
   const paramService = inject(GlobalUrlParamsService);
@@ -21,9 +20,9 @@ export const campaignGuard = (route: ActivatedRouteSnapshot) => {
   const currentCampaignName$ = paramService.campaignNameParam$;
   const isGlobalAdmin$ = tokenService.isGlobalAdmin$;
   const role$ = currentCampaignName$.pipe(
-    filterNil(),
     switchMap((campaignName) => tokenService.getCampaignRole(campaignName)),
   );
+
   return combineLatest({
     campaignName: currentCampaignName$,
     isAdmin: isGlobalAdmin$,
@@ -42,8 +41,7 @@ export const campaignGuard = (route: ActivatedRouteSnapshot) => {
         return false;
       }
 
-      const requiredMiniumRole: CampaignRole =
-        route.data['requiredMinimumRole'];
+      const requiredMiniumRole: CampaignRole = next.data['requiredMinimumRole'];
       if (requiredMiniumRole == null) {
         throw "Invalid Route Exception. The campaign-route you're trying to access has no defined minimum role needed to access it";
       }

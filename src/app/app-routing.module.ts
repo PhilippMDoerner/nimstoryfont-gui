@@ -73,6 +73,7 @@ const generalRoutes: GeneralRoute[] = [
     component: CampaignOverviewPageComponent,
     data: { name: 'campaign-overview' },
     canActivate: [loginGuard],
+    resolve: {},
   },
 ];
 

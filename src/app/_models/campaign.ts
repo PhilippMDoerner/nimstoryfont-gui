@@ -41,9 +41,6 @@ export interface Campaign extends BaseCampaignData {
 }
 
 export interface CampaignOverview extends BaseCampaignData {
-  isMember: boolean;
-  isAdmin: boolean;
-  isGuest: boolean;
   duration: {
     start_date: string;
     last_date: string;

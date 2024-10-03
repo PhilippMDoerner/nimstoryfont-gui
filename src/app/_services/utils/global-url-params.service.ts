@@ -8,7 +8,7 @@ import {
   Router,
 } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, skip, take } from 'rxjs/operators';
+import { filter, map, skip, startWith, take } from 'rxjs/operators';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { RoutingService } from '../routing.service';
 import { CampaignService } from '../utils/campaign.service';
@@ -23,6 +23,7 @@ export class GlobalUrlParamsService {
 
   public campaignNameParam$ = this.currentRouteSnapshot$.pipe(
     map((snapshot) => snapshot?.params['campaign'] as string | undefined),
+    startWith(undefined),
   );
   public isLoadingCampaignSet$ =
     this.campaignService.campaignOverview.isLoading;

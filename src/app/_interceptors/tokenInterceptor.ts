@@ -5,10 +5,10 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { exhaustMap, first, map, mergeMap, retry, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { RoutingService } from '../_services/routing.service';
+import { throwUnless } from 'src/utils/rxjs-operators';
 import { RefreshTokenService } from '../_services/utils/refresh-token.service';
 import { TokenService } from '../_services/utils/token.service';
 
@@ -20,7 +20,6 @@ export function addTokenInterceptor(
 
   const tokenService = inject(TokenService);
   const refreshService = inject(RefreshTokenService);
-  const routingService = inject(RoutingService);
 
   const accessToken = TokenService.getAccessToken();
   const hasAccessToken = accessToken != null;
@@ -28,51 +27,25 @@ export function addTokenInterceptor(
     refreshService.refreshUserData();
   }
 
-  const modifiedRequest$ = combineLatest({
-    userData: refreshService.userData.data,
-    isRefreshInProgress: refreshService.isTokenRefreshInProgress$,
-    refreshError: refreshService.userData.error,
-  }).pipe(
-    map(({ userData, isRefreshInProgress, refreshError }) => {
-      const error = refreshError as { status: number };
-      const hadErrorDuringRefresh = refreshError != null;
-      if (hadErrorDuringRefresh) {
-        if (error.status === 401) {
-          console.log('Error while waiting for access token refresh\n', error);
-          routingService.routeToPath('login-state', { state: '???' });
-          return undefined;
-        }
-
-        console.log(
-          'Error during token refresh. Uncertain what error, but status ',
-          error.status,
-          '\n',
-          error,
-        );
-        routingService.routeToErrorPage(error.status);
-      }
-
-      const isLoggedIn = userData != null;
-      if (!isLoggedIn) {
-        routingService.routeToPath('login-state', { state: 'no-token' });
-        return undefined;
-      }
-
-      const accessToken = userData.accessToken;
-      if (tokenService.isTokenExpired(accessToken) && !isRefreshInProgress) {
-        if (!isRefreshInProgress) {
-          refreshService.refreshUserData();
-        }
-        return undefined;
-      }
-
-      return addTokenToRequest(accessToken.token, req);
+  return tokenService.userData.data.pipe(
+    map((data) => data?.accessToken.token),
+    first(),
+    throwUnless(
+      (token) => token != null,
+      () => new Error('No token available'),
+    ),
+    map((token) => addTokenToRequest(token as string, req)),
+    mergeMap((updatedRequest) => next(updatedRequest)),
+    retry({
+      delay: (err) =>
+        err.pipe(
+          tap((x) => console.log('4', req.url, x)),
+          exhaustMap(() => {
+            tokenService.refreshUserData();
+            return tokenService.userData.data;
+          }),
+        ),
     }),
-  );
-
-  return modifiedRequest$.pipe(
-    filter((req) => req !== undefined),
-    switchMap((req) => next(req)),
   );
 }
 

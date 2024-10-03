@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { map, mergeMap, map as switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map as switchMap } from 'rxjs/operators';
 import {
   convertMultiFileModelToFormData,
   convertSingleFileModelToFormData,
@@ -14,7 +14,6 @@ import {
 } from 'src/app/_models/campaign';
 import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { OverviewItem } from 'src/app/_models/overview';
-import { CampaignRole } from 'src/app/_models/token';
 import { User } from 'src/app/_models/user';
 import { createRequestSubjects, trackQuery } from 'src/utils/query';
 import { BaseService } from '../base.service';
@@ -29,6 +28,7 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   users = createRequestSubjects<User[]>();
   addEmptySearchResponse = createRequestSubjects<EmptySearchResponse>();
   deleteEmptySearchResponse = createRequestSubjects<void>();
+  statistics = createRequestSubjects<WikiStatistics>();
 
   constructor(
     http: HttpClient,
@@ -38,38 +38,13 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   loadCampaignOverview() {
+    if (this.isDevelop) console.log('loadCampaignOverview', this.baseUrl);
+
     const campaignsObs$: Observable<CampaignOverview[]> = this.http.get<
       CampaignOverview[]
     >(`${this.baseUrl}/overview/`);
 
-    const roles$: Observable<(CampaignRole | undefined)[]> = campaignsObs$.pipe(
-      mergeMap((campaigns) => {
-        const roles$ = campaigns
-          .map((campaign) => campaign.name)
-          .map((name) => this.tokenService.getCampaignRole(name.toLowerCase()));
-
-        return combineLatest(roles$);
-      }),
-    );
-
-    const entries$ = combineLatest({
-      campaigns: campaignsObs$,
-      roles: roles$,
-    }).pipe(
-      map(({ campaigns, roles }) => {
-        if (campaigns.length !== roles.length)
-          throw 'You made a mistake while inferring roles from campaigns';
-
-        return campaigns.map((campaign, index) => ({
-          ...campaign,
-          isMember: roles[index] === 'member',
-          isAdmin: roles[index] === 'admin',
-          isGuest: roles[index] === 'guest',
-        }));
-      }),
-    );
-
-    trackQuery(entries$, this.campaignOverview);
+    trackQuery(campaignsObs$, this.campaignOverview);
   }
 
   override runCreate(data: Campaign) {
@@ -90,6 +65,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   private processCampaignData(
     userModel: Campaign | CampaignRaw,
   ): Campaign | CampaignRaw | FormData {
+    if (this.isDevelop) console.log('processCampaignData', userModel);
+
     const hasNewIcon: boolean = this.hasImageSelected(userModel.icon);
     const hasNewBackgroundImage: boolean = this.hasImageSelected(
       userModel.background_image,
@@ -137,9 +114,12 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     super.runDelete(pk);
   }
 
-  loadStatistics(campaign_name: string): Observable<any> {
+  loadStatistics(campaign_name: string) {
     const statisticsUrl = `${this.apiUrl}/admin/statistics/${campaign_name}`;
-    return this.http.get<WikiStatistics>(statisticsUrl);
+    if (this.isDevelop) console.log('loadStatistics', statisticsUrl);
+
+    const entity$ = this.http.get<WikiStatistics>(statisticsUrl);
+    trackQuery(entity$, this.statistics);
   }
 
   /**
@@ -154,6 +134,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   runAddGuest(campaign: string, user: User) {
+    if (this.isDevelop) console.log('runAddGuest', campaign, user);
+
     const requestBody = { action: 'add_guest', user };
     const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
@@ -163,6 +145,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   runAddMember(campaign: string, user: User) {
+    if (this.isDevelop) console.log('runAddMember', campaign, user);
+
     const requestBody = { action: 'add_member', user };
     const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
@@ -172,6 +156,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   runAddAdmin(campaign: string, user: User) {
+    if (this.isDevelop) console.log('runAddAdmin', campaign, user);
+
     const requestBody = { action: 'add_admin', user };
     const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
@@ -182,6 +168,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   runRemoveGuest(campaign: string, user: User) {
+    if (this.isDevelop) console.log('runRemoveGuest', campaign, user);
+
     const requestBody = { action: 'remove_guest', user };
     const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
@@ -191,6 +179,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   runRemoveMember(campaign: string, user: User) {
+    if (this.isDevelop) console.log('runRemoveMember', campaign, user);
+
     const requestBody = { action: 'remove_member', user };
     const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
@@ -200,6 +190,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   runRemoveAdmin(campaign: string, user: User) {
+    if (this.isDevelop) console.log('runRemoveAdmin', campaign, user);
+
     const requestBody = { action: 'remove_admin', user };
     const entries$ = this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
@@ -209,6 +201,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   runAddEmptySearchResponse(responseModel: EmptySearchResponse) {
+    if (this.isDevelop) console.log('runAddEmptySearchResponse', responseModel);
+
     const emptySearchUrl = `${this.apiUrl}/emptysearchresponse/`;
     const entry$ = this.http.post<EmptySearchResponse>(
       emptySearchUrl,
@@ -218,6 +212,9 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   runDeleteEmptySearchResponse(emptySearchResponsePk: number) {
+    if (this.isDevelop)
+      console.log('runDeleteEmptySearchResponse', emptySearchResponsePk);
+
     const entry$ = this.http
       .delete(`${this.apiUrl}/emptysearchresponse/pk/${emptySearchResponsePk}`)
       .pipe(switchMap(() => void 0));

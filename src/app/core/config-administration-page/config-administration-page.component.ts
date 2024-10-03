@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import { combineLatest, map, Observable } from 'rxjs';
+import {
+  combineLatest,
+  delay,
+  filter,
+  first,
+  map,
+  Observable,
+  startWith,
+} from 'rxjs';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { MarkerTypeService } from 'src/app/_services/article/marker-type.service';
@@ -25,6 +33,29 @@ export class ConfigAdministrationPageComponent {
     })),
   );
 
+  markerTypesLoaded$ = combineLatest({
+    isDeleteDone: this.markerTypeService.delete.hasSucceeded.pipe(
+      startWith(false),
+    ),
+    isCreateDone: this.markerTypeService.create.hasSucceeded.pipe(
+      startWith(false),
+    ),
+  }).pipe(
+    filter((data) => data.isCreateDone || data.isDeleteDone),
+    delay(100),
+  );
+  playerClassesLoaded$ = combineLatest({
+    isDeleteDone: this.playerClassService.delete.hasSucceeded.pipe(
+      startWith(false),
+    ),
+    isCreateDone: this.playerClassService.create.hasSucceeded.pipe(
+      startWith(false),
+    ),
+  }).pipe(
+    filter((data) => data.isCreateDone || data.isDeleteDone),
+    delay(100),
+  );
+
   constructor(
     private markerTypeService: MarkerTypeService,
     private playerClassService: PlayerClassService,
@@ -48,9 +79,15 @@ export class ConfigAdministrationPageComponent {
     switch (event.table) {
       case 'MARKER_TYPE':
         this.markerTypeService.runDelete(entryId);
+        this.markerTypesLoaded$
+          .pipe(first())
+          .subscribe(() => this.loadTableEntries(event.table));
         break;
       case 'PLAYER_CLASS':
         this.playerClassService.runDelete(entryId);
+        this.playerClassesLoaded$
+          .pipe(first())
+          .subscribe(() => this.loadTableEntries(event.table));
         break;
     }
   }
@@ -60,9 +97,15 @@ export class ConfigAdministrationPageComponent {
     switch (event.table) {
       case 'MARKER_TYPE':
         this.markerTypeService.runCreate(event.entry as MapMarkerType);
+        this.markerTypesLoaded$
+          .pipe(first())
+          .subscribe(() => this.loadTableEntries(event.table));
         break;
       case 'PLAYER_CLASS':
         this.playerClassService.runCreate(event.entry as PlayerClass);
+        this.playerClassesLoaded$
+          .pipe(first())
+          .subscribe(() => this.loadTableEntries(event.table));
         break;
     }
   }

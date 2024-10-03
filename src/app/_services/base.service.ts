@@ -166,8 +166,8 @@ export abstract class BaseService<Raw, Detail> {
     if (this.isDevelop) console.log('runDelete', this.baseUrl, pk);
 
     const entry$ = this.http.delete(`${this.baseUrl}/pk/${pk}/`).pipe(
-      map(() => void 0),
       debugLog(this.runDelete.name),
+      map(() => void 0),
     );
 
     trackQuery(entry$, this.delete);

@@ -23,5 +23,11 @@ export function throwUnless<T>(
 
 export function debugLog<T>(debugSymbol?: string): OperatorFunction<T, T> {
   const isDevelop = environment.kind === 'DEVELOPMENT';
-  return tap((x) => isDevelop && console.log(`[DEBUG] ${debugSymbol}:`, x));
+  return tap((x) => {
+    if (isDevelop) {
+      console.groupCollapsed(`[DEBUG] ${debugSymbol}:`, x);
+      console.trace();
+      console.groupEnd();
+    }
+  });
 }

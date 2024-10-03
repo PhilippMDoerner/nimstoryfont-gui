@@ -1,11 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router, Routes } from '@angular/router';
+
+interface RouteNode {
+  fullPath: string;
+  route: Route;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class RoutingService {
   private NONE_STRING = 'None';
+  private routeNodes: RouteNode[] = this.router.config
+    .map((route) => this.getEndRoutes(route))
+    .flat();
 
   constructor(private router: Router) {}
 
@@ -27,7 +35,6 @@ export class RoutingService {
           throw `Tried to create path for route ${routeName} but lacked parameter ${variableName}`;
         }
 
-        const hasParamWithNullValue = params[variableName] === null;
         if (params[variableName] === null) {
           params[variableName] = this.NONE_STRING;
         }
@@ -72,7 +79,7 @@ export class RoutingService {
       .replace('†', '%E2%80%A0');
   }
 
-  private getVariableRouteByName(routeName: string): Route {
+  private getVariableRouteByName(routeName: string): RouteNode {
     const routesWithRouteName = this.getRoutesWithName(routeName);
 
     switch (routesWithRouteName.length) {
@@ -86,8 +93,8 @@ export class RoutingService {
   }
 
   private getVariableRoutePathByName(routeName: string): string {
-    const targetRouteObject: Route = this.getVariableRouteByName(routeName);
-    return targetRouteObject.path as string;
+    const targetRouteObject = this.getVariableRouteByName(routeName);
+    return targetRouteObject.fullPath as string;
   }
 
   private hasPathVariables(routePath: string): boolean {
@@ -99,10 +106,9 @@ export class RoutingService {
     return routesWithRouteName.length > 0;
   }
 
-  private getRoutesWithName(routeName: string): Route[] {
-    const routes: Route[] = this.getEndRoutes();
-    return routes.filter((pathObject) => {
-      const routeData = pathObject.data;
+  private getRoutesWithName(routeName: string): RouteNode[] {
+    return this.routeNodes.filter((pathObject) => {
+      const routeData = pathObject.route.data;
       if (routeData == null) {
         return false;
       }
@@ -110,18 +116,18 @@ export class RoutingService {
     });
   }
 
-  private getEndRoutes(routes: Route[] = this.router.config): Route[] {
-    let endRoutes: Route[] = [];
-    routes.forEach((route) => {
-      const isEndRoute = route.children == null;
-      if (isEndRoute) {
-        endRoutes.push(route);
-      } else {
-        const childrenEndRoutes = this.getEndRoutes(route.children);
-        endRoutes = endRoutes.concat(childrenEndRoutes);
-      }
-    });
-    return endRoutes;
+  private getEndRoutes(route: Route, parentPath: string = ''): RouteNode[] {
+    const path = !!parentPath
+      ? `${parentPath}/${route.path}`
+      : (route.path as string);
+    const isEndRoute = route.children == null;
+    if (isEndRoute) {
+      return [{ route, fullPath: path }];
+    } else {
+      return (route.children as Routes)
+        .map((route) => this.getEndRoutes(route, path))
+        .flat();
+    }
   }
 
   private getPathVariableNames(routePath: string): string[] {

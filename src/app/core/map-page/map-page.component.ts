@@ -1,17 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { Observable, first, switchMap } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
+import { MapService } from 'src/app/_services/article/map.service';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
 import { environment } from 'src/environments/environment';
-import { deleteMap, loadMap } from '../app.actions';
-import {
-  selectCurrentCampaignName,
-  selectMap,
-  selectMapOverviewItems,
-} from '../app.reducer';
+import { filterNil } from 'src/utils/rxjs-operators';
 
 @Component({
   selector: 'app-map-page',
@@ -22,14 +18,17 @@ export class MapPageComponent implements OnInit {
   canCreate$!: Observable<boolean>;
   canDelete$!: Observable<boolean>;
   canUpdate$!: Observable<boolean>;
-  map$!: Observable<ExtendedMap | undefined>;
-  mapChoices$!: Observable<OverviewItem[]>;
+  map$: Observable<ExtendedMap | undefined> = this.mapService.read.data;
+  mapChoices$: Observable<OverviewItem[]> =
+    this.mapService.campaignList.data.pipe(filterNil());
+
   serverUrl = environment.backendDomain;
 
   constructor(
     private tokenService: TokenService,
-    private store: Store,
     private paramsService: GlobalUrlParamsService,
+    private mapService: MapService,
+    private routingService: RoutingService,
   ) {}
 
   ngOnInit(): void {
@@ -41,26 +40,14 @@ export class MapPageComponent implements OnInit {
     this.canCreate$ = hasMemberPermissions$;
     this.canDelete$ = hasMemberPermissions$;
     this.canUpdate$ = hasMemberPermissions$;
-    this.map$ = this.store.select(selectMap);
-    this.mapChoices$ = this.store.select(selectMapOverviewItems);
   }
 
   mapDelete(map: ExtendedMap): void {
-    this.store.dispatch(deleteMap({ map }));
+    this.mapService.runDelete(map.pk as number);
   }
 
   mapChange(map: OverviewItem): void {
     const mapName = map.name;
-
-    this.store
-      .select(selectCurrentCampaignName)
-      .pipe(first())
-      .subscribe((campaignName) => {
-        const payload = {
-          mapName,
-          campaignName: campaignName as string,
-        };
-        this.store.dispatch(loadMap(payload));
-      });
+    this.routingService.routeToPath('map', { name: mapName });
   }
 }

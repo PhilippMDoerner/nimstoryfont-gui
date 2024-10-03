@@ -1,21 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
-import * as _ from 'lodash';
-import { Observable, filter, map } from 'rxjs';
+import { Component } from '@angular/core';
+import { map } from 'rxjs';
 import { CampaignRole, UserData } from 'src/app/_models/token';
-import { User } from 'src/app/_models/user';
+import { UserService } from 'src/app/_services/article/user.service';
 import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
-import { selectCurrentUser } from '../app.reducer';
+import { filterNil } from 'src/utils/rxjs-operators';
 
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss'],
 })
-export class ProfilePageComponent implements OnInit {
-  user$!: Observable<User>;
-  isCurrentUser$!: Observable<boolean>;
+export class ProfilePageComponent {
+  user$ = this.userService.thisUser.data.pipe(filterNil());
+  isCurrentUser$ = this.user$.pipe(
+    map((user) => user.pk === this.tokenService.getCurrentUserPk()),
+  );
   campaignName$ = this.paramsService.campaignNameParam$;
   memberships$ = this.tokenService.userData.data.pipe(
     map((data) => this.mapMemberships(data)),
@@ -23,18 +23,9 @@ export class ProfilePageComponent implements OnInit {
 
   constructor(
     private tokenService: TokenService,
-    private store: Store,
     private paramsService: GlobalUrlParamsService,
+    private userService: UserService,
   ) {}
-
-  ngOnInit(): void {
-    this.user$ = this.store
-      .select(selectCurrentUser)
-      .pipe(filter((user) => !_.isNil(user))) as Observable<User>;
-
-    const userId = this.tokenService.getCurrentUserPk();
-    this.isCurrentUser$ = this.user$.pipe(map((user) => user.pk === userId));
-  }
 
   private mapMemberships(
     data: UserData | undefined,

@@ -15,6 +15,7 @@ import {
 import {
   campaignDetailSetResolver,
   campaignSetResolver,
+  resetTracking,
   trackCampaignName,
 } from './core/_resolvers/campaign.resolver';
 import { siteGroupsResolver } from './core/_resolvers/group.resolver';
@@ -32,36 +33,36 @@ const generalRoutes: GeneralRoute[] = [
   //Redirect Routes
   {
     path: environment.frontendPrefix,
-    redirectTo: `${environment.frontendPrefix}/campaigns`,
+    redirectTo: `campaigns`,
     pathMatch: 'full',
     data: { name: 'start' },
   },
   {
     path: '',
-    redirectTo: `${environment.frontendPrefix}/campaigns`,
+    redirectTo: `campaigns`,
     pathMatch: 'full',
     data: { name: 'start' },
   },
   {
-    path: `${environment.frontendPrefix}/home`,
-    redirectTo: `${environment.frontendPrefix}/campaigns`,
+    path: `home`,
+    redirectTo: `campaigns`,
     pathMatch: 'full',
     data: { name: 'no-campaigns' },
   },
   //Login Routes
   {
-    path: `${environment.frontendPrefix}/login`,
+    path: `login`,
     component: LoginPageComponent,
     data: { name: 'login' },
   },
   {
-    path: `${environment.frontendPrefix}/login/:state`,
+    path: `login/:state`,
     component: LoginPageComponent,
     data: { name: 'login-state' },
   },
   //User Routes
   {
-    path: `${environment.frontendPrefix}/profile/me`,
+    path: `profile/me`,
     component: ProfilePageComponent,
     data: { name: 'direct-profile' },
     canActivate: [loginGuard],
@@ -70,7 +71,7 @@ const generalRoutes: GeneralRoute[] = [
     },
   },
   {
-    path: `${environment.frontendPrefix}/campaigns`,
+    path: `campaigns`,
     component: CampaignOverviewPageComponent,
     data: { name: 'campaign-overview' },
     canActivate: [loginGuard],
@@ -81,7 +82,7 @@ const generalRoutes: GeneralRoute[] = [
 const adminRoutes: AdminRoute[] = [
   //General Admin Routes
   {
-    path: `${environment.frontendPrefix}/admin`,
+    path: `admin`,
     component: SiteAdministrationPageComponent,
     data: { name: 'admin' },
     canActivate: [siteAdminGuard],
@@ -93,7 +94,7 @@ const adminRoutes: AdminRoute[] = [
     },
   },
   {
-    path: `${environment.frontendPrefix}/configtables`,
+    path: `configtables`,
     component: ConfigAdministrationPageComponent,
     data: { name: 'config-tables' },
     canActivate: [siteAdminGuard],
@@ -103,7 +104,7 @@ const adminRoutes: AdminRoute[] = [
 const campaignRoutes: CampaignRoute[] = [
   //Home Routes
   {
-    path: `${environment.frontendPrefix}/home/:campaign`,
+    path: `home`,
     component: HomePageComponent,
     data: { name: 'home', requiredMinimumRole: 'guest' },
     canActivate: [campaignGuard],
@@ -113,7 +114,7 @@ const campaignRoutes: CampaignRoute[] = [
   },
   // Map Routes
   // {
-  // 	path: `${environment.frontendPrefix}/map/:campaign/create`,
+  // 	path: `map/create`,
   // 	component: MapUpdateComponent,
   // 	data:{ name: "map-create", requiredRole: CampaignRole.MEMBER},
   // 	resolve: {
@@ -122,7 +123,7 @@ const campaignRoutes: CampaignRoute[] = [
   // 	}
   // },
   {
-    path: `${environment.frontendPrefix}/map/:campaign/default`,
+    path: `map/default`,
     component: MapPageComponent,
     data: { name: 'default-map', requiredMinimumRole: 'guest' },
     canActivate: [campaignGuard],
@@ -131,7 +132,7 @@ const campaignRoutes: CampaignRoute[] = [
     },
   },
   {
-    path: `${environment.frontendPrefix}/map/:campaign/:name`,
+    path: `map/:name`,
     component: MapPageComponent,
     data: { name: 'map', requiredMinimumRole: 'guest' },
     canActivate: [campaignGuard],
@@ -140,7 +141,7 @@ const campaignRoutes: CampaignRoute[] = [
     },
   },
   // {
-  // 	path: `${environment.frontendPrefix}/map/:campaign/:name/update`,
+  // 	path: `map/:name/update`,
   // 	component: MapUpdateComponent,
   // 	data:{ name: "map-update", requiredRole: CampaignRole.MEMBER},
   // 	resolve: {
@@ -157,20 +158,20 @@ const homeRoutes: any[] = [];
     RouterModule.forRoot(
       [
         {
-          path: '',
+          path: environment.frontendPrefix,
           children: [
-            ...[
-              ...generalRoutes,
-              ...homeRoutes,
-              ...adminRoutes,
-              ...campaignRoutes,
-            ].map((route) => ({
-              ...route,
+            {
+              path: '',
+              children: [...generalRoutes, ...homeRoutes, ...adminRoutes],
               resolve: {
-                ...route.resolve,
-                trackCampaignName,
+                resetTracking,
               },
-            })),
+            },
+            {
+              path: ':campaign',
+              children: campaignRoutes,
+              resolve: { trackCampaignName },
+            },
           ],
           resolve: {
             campaignSetResolver,

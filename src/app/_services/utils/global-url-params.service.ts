@@ -1,14 +1,9 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  ActivatedRouteSnapshot,
-  NavigationEnd,
-  Params,
-  Router,
-} from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { combineLatest, Observable, ReplaySubject } from 'rxjs';
-import { filter, map, skip, startWith, take } from 'rxjs/operators';
+import { map, skip, take, tap } from 'rxjs/operators';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { CampaignService } from '../utils/campaign.service';
 import { TitleService } from './title.service';
@@ -23,6 +18,7 @@ export class GlobalUrlParamsService {
 
   public campaignNameParam$ = this.currentRouteSnapshot$.pipe(
     map((snapshot) => snapshot?.params['campaign'] as string | undefined),
+    tap((x) => console.log('Current campaign name', x)),
   );
   public isLoadingCampaignSet$ =
     this.campaignService.campaignOverview.isLoading;
@@ -33,7 +29,6 @@ export class GlobalUrlParamsService {
 
   constructor(
     private campaignService: CampaignService,
-    private router: Router,
     private urlLocation: Location,
     private myTitleService: TitleService,
   ) {
@@ -43,14 +38,13 @@ export class GlobalUrlParamsService {
 
   private syncPageTitleWithRouteData() {
     this.currentRouteSnapshot$
-      .pipe(
-        takeUntilDestroyed(),
-        filter((x) => x != null),
-      )
+      .pipe(takeUntilDestroyed())
       .subscribe((snapshot) => {
-        const routeParams: Params = snapshot?.params;
-        const routeName: string = snapshot?.data['name'];
-        this.myTitleService.updatePageTitle(routeParams, routeName);
+        const routeParams = snapshot?.params;
+        const routeName = snapshot?.data['name'];
+        if (routeParams != null && routeName != null) {
+          this.myTitleService.updatePageTitle(routeParams, routeName);
+        }
       });
   }
 
@@ -84,19 +78,7 @@ export class GlobalUrlParamsService {
       .subscribe(() => this.urlLocation.back());
   }
 
-  /**
-   * @description Starts the mechanism that whenever the route is changed, the currently selected campaign is automatically updated
-   * Aka when there is a route that does not have the "campaign" parameter defined, camaignName will be null and the currently
-   * selected campaign will be updated to be null.
-   */
-  private trackCurrentRoute(): Observable<ActivatedRouteSnapshot | null> {
-    return this.router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-      startWith(null),
-      map(() => this.router.routerState.snapshot.root),
-    );
-  }
-  nextSnapshot(snapshot: ActivatedRouteSnapshot): void {
+  nextSnapshot(snapshot: ActivatedRouteSnapshot | null): void {
     this.currentRouteSnapshot$.next(snapshot);
   }
 }

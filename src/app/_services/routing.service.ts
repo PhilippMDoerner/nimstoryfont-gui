@@ -11,9 +11,19 @@ interface RouteNode {
 })
 export class RoutingService {
   private NONE_STRING = 'None';
-  private routeNodes: RouteNode[] = this.router.config
+  private routeNodes = this.router.config
     .map((route) => this.getEndRoutes(route))
-    .flat();
+    .flat()
+    .reduce(
+      (acc, route) => {
+        const routeName = route.route?.data?.['name'];
+        if (routeName != null) {
+          acc[routeName] = route;
+        }
+        return acc;
+      },
+      {} as { [key: string]: RouteNode },
+    );
 
   constructor(private router: Router) {}
 
@@ -80,16 +90,13 @@ export class RoutingService {
   }
 
   private getVariableRouteByName(routeName: string): RouteNode {
-    const routesWithRouteName = this.getRoutesWithName(routeName);
+    const route = this.routeNodes[routeName];
 
-    switch (routesWithRouteName.length) {
-      case 1:
-        return routesWithRouteName[0];
-      case 0:
-        throw `There is no route with the name ${routeName}. Please contact the Developer to use either a different route name or create a route for this name.`;
-      default:
-        throw `There is more than 1 route with the name ${routeName}. Please contact the Developer to ensure all routes have unique names.`;
+    if (route == null) {
+      throw `There is no route with the name ${routeName}. Please contact the Developer to use either a different route name or create a route for this name.`;
     }
+
+    return route;
   }
 
   private getVariableRoutePathByName(routeName: string): string {
@@ -102,18 +109,8 @@ export class RoutingService {
   }
 
   public hasRoutePath(routeName: string): boolean {
-    const routesWithRouteName = this.getRoutesWithName(routeName);
-    return routesWithRouteName.length > 0;
-  }
-
-  private getRoutesWithName(routeName: string): RouteNode[] {
-    return this.routeNodes.filter((pathObject) => {
-      const routeData = pathObject.route.data;
-      if (routeData == null) {
-        return false;
-      }
-      return routeData['name'] === routeName;
-    });
+    const routesWithRouteName = this.routeNodes[routeName];
+    return routesWithRouteName != null;
   }
 
   private getEndRoutes(route: Route, parentPath: string = ''): RouteNode[] {

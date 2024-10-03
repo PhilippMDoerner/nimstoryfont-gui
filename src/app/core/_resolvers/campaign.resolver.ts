@@ -33,3 +33,7 @@ export const trackCampaignName: ResolveFn<void> = (
 ) => {
   inject(GlobalUrlParamsService).nextSnapshot(route);
 };
+
+export const resetTracking: ResolveFn<void> = () => {
+  inject(GlobalUrlParamsService).nextSnapshot(null);
+};

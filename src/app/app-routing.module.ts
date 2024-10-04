@@ -7,52 +7,45 @@ import {
   trackCampaignName,
 } from './_resolvers/campaign.resolver';
 
-@NgModule({
-  imports: [
-    RouterModule.forRoot(
-      [
-        {
-          path: environment.frontendPrefix,
-          children: [
-            {
-              path: '',
-              children: [
-                {
-                  path: 'admin',
-                  loadChildren: () =>
-                    import('./administration/administration.module').then(
-                      (m) => m.AdministrationModule,
-                    ),
-                },
-                {
-                  path: 'general',
-                  loadChildren: () =>
-                    import('./general/general.module').then(
-                      (m) => m.GeneralModule,
-                    ),
-                },
-              ],
-              resolve: {
-                resetTracking,
-              },
-            },
-            {
-              path: ':campaign',
-              loadChildren: () =>
-                import('./campaign/campaign.module').then(
-                  (m) => m.CampaignModule,
-                ),
-              resolve: { trackCampaignName },
-            },
-          ],
-          resolve: {
-            campaignSetResolver,
+const routes = [
+  {
+    path: environment.frontendPrefix,
+    children: [
+      {
+        path: '',
+        children: [
+          {
+            path: 'admin',
+            loadChildren: () =>
+              import('./administration/administration.module').then(
+                (m) => m.AdministrationModule,
+              ),
           },
+          {
+            path: 'general',
+            loadChildren: () =>
+              import('./general/general.module').then((m) => m.GeneralModule),
+          },
+        ],
+        resolve: {
+          resetTracking,
         },
-      ],
-      { enableViewTransitions: true },
-    ),
-  ],
+      },
+      {
+        path: ':campaign',
+        loadChildren: () =>
+          import('./campaign/campaign.module').then((m) => m.CampaignModule),
+        resolve: { trackCampaignName },
+      },
+    ],
+    resolve: {
+      campaignSetResolver,
+    },
+  },
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes, { enableViewTransitions: true })],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

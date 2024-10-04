@@ -1,12 +1,13 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandlerFn,
   HttpHeaders,
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Observable } from 'rxjs';
-import { exhaustMap, first, map, mergeMap, retry, tap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, first, map, mergeMap, retry, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { throwUnless } from 'src/utils/rxjs-operators';
 import { RefreshTokenService } from '../_services/utils/refresh-token.service';
@@ -37,14 +38,17 @@ export function addTokenInterceptor(
     map((token) => addTokenToRequest(token as string, req)),
     mergeMap((updatedRequest) => next(updatedRequest)),
     retry({
-      delay: (err) =>
-        err.pipe(
-          tap((x) => console.log('4', req.url, x)),
-          exhaustMap(() => {
-            tokenService.refreshUserData();
-            return tokenService.userData.data;
-          }),
-        ),
+      delay: (err: HttpErrorResponse) => {
+        tokenService.refreshUserData();
+        return combineLatest({
+          data: tokenService.userData.data,
+          isLoading: tokenService.userData.isLoading,
+        }).pipe(
+          filter(({ isLoading, data }) => !isLoading && data != null),
+          take(1),
+          map(({ data }) => data),
+        );
+      },
     }),
   );
 }

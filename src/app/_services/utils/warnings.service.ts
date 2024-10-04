@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
-import { copyToClipboard } from 'src/app/core/_functions/clipboard';
+import { copyToClipboard } from 'src/utils/clipboard';
 
 @Injectable({
   providedIn: 'root',

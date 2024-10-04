@@ -6,7 +6,7 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
-import { AppState, appReducer } from './core';
+import { AppState, appReducer } from './campaign';
 
 export interface RootState {
   router: RouterReducerState;

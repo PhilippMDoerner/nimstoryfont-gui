@@ -12,10 +12,3 @@ export const userResolver: ResolveFn<void> = (
 ) => {
   inject(UserService).loadThisUser();
 };
-
-export const siteUsersResolver: ResolveFn<void> = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
-) => {
-  inject(UserService).loadList();
-};

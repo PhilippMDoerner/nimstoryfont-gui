@@ -1,4 +1,5 @@
-export { campaignSetResolver } from './_resolvers/campaign.resolver';
+export { campaignSetResolver } from '../_resolvers/campaign.resolver';
+export { CampaignOverviewPageComponent } from '../general/pages/campaign-overview-page/campaign-overview-page.component';
 export {
   mapDefaultResolver,
   mapOverviewResolver,
@@ -16,6 +17,5 @@ export {
   selectMapOverviewItems,
   selectRecentlyUpdatedArticles,
 } from './app.reducer';
-export { CampaignOverviewPageComponent } from './campaign-overview-page/campaign-overview-page.component';
-export { HomePageComponent } from './home-page/home-page.component';
-export { MapPageComponent } from './map-page/map-page.component';
+export { HomePageComponent } from './pages/home-page/home-page.component';
+export { MapPageComponent } from './pages/map-page/map-page.component';

@@ -46,6 +46,31 @@ export class RecentlyUpdatedService {
     );
   }
 
+  public loadCampaignSearchArticle(campaign: string, searchString: string) {
+    const resultObservable = this.http.get<{
+      articles: OverviewItem[];
+      emptyResponse: string;
+    }>(`${this.searchUrl}/${campaign}/${searchString}`);
+    const entries$ = resultObservable.pipe(
+      map((searchResponse) => {
+        const searchArticles: any[] = searchResponse.articles;
+        const searchArticleObjects: OverviewItem[] = searchArticles.map(
+          (item: OverviewItem) => this.parseOverviewEntity(item),
+        );
+        searchResponse.articles = searchArticleObjects;
+        return searchResponse;
+      }),
+    );
+    trackQuery(entries$, this.searchedArticles);
+  }
+
+  parseOverviewEntity(data: any): OverviewItem {
+    return {
+      ...data,
+      getAbsoluteRouterUrl: this.generateUrlCallback(data),
+    };
+  }
+
   private loadRecentlyUpdatedArticles(campaign: string, pageNumber: number) {
     const entries$ = this.http
       .get<any[]>(`${this.recentlyUpdatedUrl}/${campaign}/${pageNumber}`)
@@ -75,31 +100,6 @@ export class RecentlyUpdatedService {
           this.recentlyUpdatedArticlesPage += 1;
         },
       });
-  }
-
-  getCampaignSearchArticle(campaign: string, searchString: string) {
-    const resultObservable = this.http.get<{
-      articles: OverviewItem[];
-      emptyResponse: string;
-    }>(`${this.searchUrl}/${campaign}/${searchString}`);
-    const entries$ = resultObservable.pipe(
-      map((searchResponse) => {
-        const searchArticles: any[] = searchResponse.articles;
-        const searchArticleObjects: OverviewItem[] = searchArticles.map(
-          (item: OverviewItem) => this.parseOverviewEntity(item),
-        );
-        searchResponse.articles = searchArticleObjects;
-        return searchResponse;
-      }),
-    );
-    trackQuery(entries$, this.searchedArticles);
-  }
-
-  parseOverviewEntity(data: any): OverviewItem {
-    return {
-      ...data,
-      getAbsoluteRouterUrl: this.generateUrlCallback(data),
-    };
   }
 
   private generateUrlCallback(data: any) {

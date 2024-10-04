@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { map } from 'rxjs';
 import { CampaignService } from 'src/app/_services/utils/campaign.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
@@ -15,15 +15,17 @@ import { environment } from 'src/environments/environment';
   animations: [slideInOut],
 })
 export class CampaignOverviewPageComponent {
-  private readonly campaignService = inject(CampaignService);
-  private readonly tokenService = inject(TokenService);
-
   serverUrl = environment.backendDomain;
   userName$ = this.tokenService.userData.data.pipe(
     map((data) => data?.userName),
   );
   isGlobalAdmin$ = this.tokenService.isGlobalAdmin$;
   campaigns$ = this.campaignService.campaignOverview.data;
+
+  constructor(
+    private tokenService: TokenService,
+    private campaignService: CampaignService,
+  ) {}
 
   logout(): void {
     this.tokenService.logout();

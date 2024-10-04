@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map, Observable } from 'rxjs';
@@ -15,11 +15,6 @@ import { takeFirstNonNil } from 'src/utils/rxjs-operators';
   styleUrls: ['./login-page.component.scss'],
 })
 export class LoginPageComponent {
-  tokenService = inject(TokenService);
-  route = inject(ActivatedRoute);
-  mailService = inject(MailService);
-  routingService = inject(RoutingService);
-
   specialLoginState$: Observable<SpecialLoginState> = this.route.paramMap.pipe(
     map((params) => {
       return (params.get('state') as SpecialLoginState) ?? undefined;
@@ -32,7 +27,12 @@ export class LoginPageComponent {
       map((error) => (error as HttpErrorResponse).message),
     );
 
-  constructor() {
+  constructor(
+    private tokenService: TokenService,
+    private routingService: RoutingService,
+    private mailService: MailService,
+    private route: ActivatedRoute,
+  ) {
     this.tokenService.userData.hasSucceeded
       .pipe(takeFirstNonNil())
       .subscribe(() => this.routingService.routeToPath('campaign-overview'));

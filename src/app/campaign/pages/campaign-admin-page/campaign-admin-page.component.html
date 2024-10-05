@@ -13,6 +13,8 @@
     (removeAdmin)="removeMemberFromCampaignGroup('ADMIN', $event)"
     (removeMember)="removeMemberFromCampaignGroup('MEMBER', $event)"
     (removeGuest)="removeMemberFromCampaignGroup('GUEST', $event)"
+    (addEmptySearchResponse)="addEmptySearchResponse($event)"
+    (removeEmptySearchResponse)="deleteEmptySearchResponse($event)"
   />
 }
 

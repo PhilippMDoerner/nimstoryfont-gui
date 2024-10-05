@@ -151,10 +151,6 @@ export class CampaignAdminComponent implements OnChanges {
     }
   }
 
-  das(user: User) {
-    this.removeGuest.emit(user);
-  }
-
   onAddUser(role: CampaignRole, model: Partial<User>): void {
     switch (role) {
       case 'member':
@@ -183,6 +179,7 @@ export class CampaignAdminComponent implements OnChanges {
 
   onAddResponse(model: Partial<EmptySearchResponse>): void {
     this.addEmptySearchResponse.emit(model as EmptySearchResponse);
+    this.toggleResponseAddForm();
   }
 
   private setUrls(): void {

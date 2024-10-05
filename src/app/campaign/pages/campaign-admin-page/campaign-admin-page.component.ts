@@ -1,11 +1,17 @@
 import { AsyncPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { withLatestFrom } from 'rxjs';
+import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/article/user.service';
 import { CampaignService } from 'src/app/_services/utils/campaign.service';
 import { environment } from 'src/environments/environment';
-import { filterNil, takeFirstNonNil } from 'src/utils/rxjs-operators';
+import {
+  filterNil,
+  takeFirstNonNil,
+  takeNextNewValueEquals,
+} from 'src/utils/rxjs-operators';
 import { TemplatesModule } from '../../../../design/templates/templates.module';
 
 @Component({
@@ -39,11 +45,11 @@ export class CampaignAdminPageComponent {
           this.campaignService.runAddGuest(campaign.name, user);
       }
 
-      this.campaignService.loadRead(campaign.pk);
+      this.reloadCampaignAfterMemberChange(campaign.pk);
     });
   }
 
-  async removeMemberFromCampaignGroup(
+  removeMemberFromCampaignGroup(
     type: 'ADMIN' | 'MEMBER' | 'GUEST',
     user: User,
   ) {
@@ -59,7 +65,29 @@ export class CampaignAdminPageComponent {
           this.campaignService.runRemoveGuest(campaign.name, user);
           break;
       }
-      this.campaignService.loadRead(campaign.pk);
+
+      this.reloadCampaignAfterMemberChange(campaign.pk);
     });
+  }
+
+  addEmptySearchResponse(newItem: EmptySearchResponse) {
+    this.campaignService.runAddEmptySearchResponse(newItem);
+  }
+
+  deleteEmptySearchResponse(deleteItem: EmptySearchResponse) {
+    this.campaignService.runDeleteEmptySearchResponse(deleteItem.id);
+
+    this.campaignService.deleteEmptySearchResponse.isLoading
+      .pipe(
+        takeNextNewValueEquals(false),
+        withLatestFrom(this.campaign$.pipe(filterNil())),
+      )
+      .subscribe(([_, campaign]) => this.campaignService.loadRead(campaign.pk));
+  }
+
+  private reloadCampaignAfterMemberChange(campaignPk: number) {
+    this.campaignService.users.isLoading
+      .pipe(takeNextNewValueEquals(false))
+      .subscribe(() => this.campaignService.loadRead(campaignPk));
   }
 }

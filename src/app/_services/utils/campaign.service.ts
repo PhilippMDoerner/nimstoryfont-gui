@@ -26,7 +26,6 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   campaignOverview = createRequestSubjects<CampaignOverview[]>();
   deactivate = createRequestSubjects<void>();
   users = createRequestSubjects<User[]>();
-  addEmptySearchResponse = createRequestSubjects<EmptySearchResponse>();
   deleteEmptySearchResponse = createRequestSubjects<void>();
   statistics = createRequestSubjects<WikiStatistics>();
 
@@ -204,11 +203,8 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     if (this.isDevelop) console.log('runAddEmptySearchResponse', responseModel);
 
     const emptySearchUrl = `${this.apiUrl}/emptysearchresponse/`;
-    const entry$ = this.http.post<EmptySearchResponse>(
-      emptySearchUrl,
-      responseModel,
-    );
-    trackQuery(entry$, this.addEmptySearchResponse);
+    const entry$ = this.http.post<Campaign>(emptySearchUrl, responseModel);
+    trackQuery(entry$, this.read);
   }
 
   runDeleteEmptySearchResponse(emptySearchResponsePk: number) {
@@ -216,7 +212,7 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
       console.log('runDeleteEmptySearchResponse', emptySearchResponsePk);
 
     const entry$ = this.http
-      .delete(`${this.apiUrl}/emptysearchresponse/pk/${emptySearchResponsePk}`)
+      .delete(`${this.apiUrl}/emptysearchresponse/pk/${emptySearchResponsePk}/`)
       .pipe(switchMap(() => void 0));
     trackQuery(entry$, this.deleteEmptySearchResponse);
   }

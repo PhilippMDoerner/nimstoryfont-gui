@@ -6,7 +6,7 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, EMPTY, Observable } from 'rxjs';
 import {
   filter,
   first,
@@ -53,6 +53,9 @@ export function addTokenInterceptor(
     retry({
       count: 4,
       delay: (err: HttpErrorResponse, retryCount) => {
+        const isAuthIssue = err.status === 401;
+        if (!isAuthIssue) return EMPTY;
+
         tokenService.refreshUserData();
         const canSuccessfullyLogin = retryCount <= MAX_RETRY_COUNT;
         if (!canSuccessfullyLogin) {

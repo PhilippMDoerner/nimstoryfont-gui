@@ -1,4 +1,4 @@
-import { filter, OperatorFunction, pipe, take, tap } from 'rxjs';
+import { filter, OperatorFunction, pipe, skip, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { log } from './logging';
 
@@ -8,6 +8,14 @@ export function filterNil<T>(): OperatorFunction<T, NonNullable<T>> {
 
 export function takeFirstNonNil<T>(): OperatorFunction<T, NonNullable<T>> {
   return pipe(filterNil(), take(1));
+}
+
+export function takeNextNewValueEquals<T>(x: T): OperatorFunction<T, T> {
+  return pipe(
+    skip(1),
+    filter((obsVal) => obsVal === x),
+    take(1),
+  );
 }
 
 export function throwUnless<T>(

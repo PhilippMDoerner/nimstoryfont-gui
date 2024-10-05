@@ -150,7 +150,7 @@
               [icon]="'trash'"
               [toggleSize]="'SMALL'"
               [confirmationQuestion]="'Remove ' + user.username + ' as guest?'"
-              (confirm)="das(user)"
+              (confirm)="removeGuest.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
         </ng-container>

@@ -2,7 +2,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { UserServiceMockProvider } from 'src/app/_services/article/user.mock.service';
 import {
   dateMessage,
   dateValidator,
@@ -39,7 +38,6 @@ export default {
         }),
       ],
       declarations: [],
-      providers: [UserServiceMockProvider],
     }),
   ],
   args: {

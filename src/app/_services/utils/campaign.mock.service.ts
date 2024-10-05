@@ -25,9 +25,6 @@ export const dummyCampaigns: CampaignOverview[] = [
       start_date: '2020-04-07T00:00:00.000000Z',
       last_date: '2023-04-11T00:00:00.000000Z',
     },
-    isMember$: false,
-    isAdmin$: false,
-    isGuest$: false,
   },
   {
     pk: 2,
@@ -43,9 +40,6 @@ export const dummyCampaigns: CampaignOverview[] = [
       start_date: '2022-01-15T00:00:00.000000Z',
       last_date: '2022-02-19T00:00:00.000000Z',
     },
-    isMember$: false,
-    isAdmin$: false,
-    isGuest$: false,
   },
 ];
 

@@ -59,7 +59,7 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
     private routingService: RoutingService,
     private formlyService: FormlyService,
     private encounterService: EncounterService,
-    private sessionService: SessionService,
+    private sessionService: SessionService
   ) {}
 
   ngOnInit(): void {
@@ -86,21 +86,19 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
       }),
       this.formlyService.buildOverviewSelectConfig({
         key: 'session',
-        overviewType: 'SESSION',
         required: true,
         campaign: this.campaignName,
         options$: this.sessionService.campaignList.data.pipe(
-          filter((x) => !!x),
+          filter((x) => !!x)
         ),
         labelProp: 'name_full',
         valueProp: 'pk',
       }),
       this.formlyService.buildOverviewSelectConfig({
         key: 'encounter',
-        overviewType: 'ENCOUNTER',
         required: false,
         options$: this.encounterService.campaignList.data.pipe(
-          filter((x) => !!x),
+          filter((x) => !!x)
         ),
         campaign: this.campaignName,
         labelProp: 'name_full',

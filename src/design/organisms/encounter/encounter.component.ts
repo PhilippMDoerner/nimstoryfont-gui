@@ -52,7 +52,7 @@ export class EncounterComponent implements OnInit, OnChanges {
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
-    private locationService: LocationService,
+    private locationService: LocationService
   ) {}
 
   ngOnInit(): void {
@@ -86,10 +86,9 @@ export class EncounterComponent implements OnInit, OnChanges {
         key: 'location',
         label: 'Encounter Location',
         sortProp: 'name_full',
-        overviewType: 'LOCATION',
         campaign: this.campaignName,
         options$: this.locationService.campaignList.data.pipe(
-          filter((x) => !!x),
+          filter((x) => !!x)
         ),
         labelProp: 'name',
       }),
@@ -159,7 +158,7 @@ export class EncounterComponent implements OnInit, OnChanges {
   }
 
   private parseConnection(
-    connections: EncounterConnection[],
+    connections: EncounterConnection[]
   ): BadgeListEntry[] {
     return connections.map((con) => {
       const characterName = con.character_details?.name as string;

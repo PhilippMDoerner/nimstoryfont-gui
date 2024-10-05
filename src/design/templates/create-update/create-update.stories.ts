@@ -276,7 +276,7 @@ const isInGroup = (selectOption: any, groupName: string): boolean => {
   }
 
   const isMember = groupsOfUser.some(
-    (group) => group.name.toLowerCase() === groupName,
+    (group) => group.name.toLowerCase() === groupName
   );
   return isMember;
 };

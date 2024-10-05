@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
 import { ElementType } from '../../design/atoms';
-import { ArticleKind } from './overview';
 
 export interface FormlyPasswordInterface {
   label?: string;
@@ -24,7 +23,6 @@ export interface FormlyInterface {
 
 export interface FormlyOverviewSelectConfig extends FormlyInterface {
   labelProp: string;
-  overviewType: ArticleKind;
   valueProp?: string;
   sortProp?: string;
   campaign?: string;

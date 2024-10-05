@@ -1,19 +1,31 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
 import { CampaignRoute } from '../_models/route';
+import { campaignResolver } from '../_resolvers/campaign.resolver';
+import { siteUsersResolver } from '../_resolvers/users.resolver';
 import { mapDefaultResolver, mapResolver } from './_resolvers/map.resolver';
 import { recentlyUpdatedArticleResolver } from './_resolvers/recently-updated-article.resolver';
+import { statisticsResolver } from './_resolvers/statistics.resolver';
+import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { MapPageComponent } from './pages/map-page/map-page.component';
 
-const campaignRoutes: CampaignRoute[] = [
+const innerCampaignRoutes: CampaignRoute[] = [
+  //Campaign Admin Routes
+  {
+    path: `admin`,
+    component: CampaignAdminPageComponent,
+    data: { name: 'campaign-admin', requiredMinimumRole: 'admin' },
+    resolve: {
+      campaignResolver,
+      statisticsResolver,
+      siteUsersResolver,
+    },
+  },
   //Home Routes
   {
     path: `home`,
     component: HomePageComponent,
     data: { name: 'home', requiredMinimumRole: 'guest' },
-    canActivate: [campaignGuard],
     resolve: {
       recentlyUpdatedArticleResolver,
     },
@@ -32,18 +44,16 @@ const campaignRoutes: CampaignRoute[] = [
     path: `map/default`,
     component: MapPageComponent,
     data: { name: 'default-map', requiredMinimumRole: 'guest' },
-    canActivate: [campaignGuard],
     resolve: {
-      mapDefaultResolver: mapDefaultResolver,
+      mapDefaultResolver,
     },
   },
   {
     path: `map/:name`,
     component: MapPageComponent,
     data: { name: 'map', requiredMinimumRole: 'guest' },
-    canActivate: [campaignGuard],
     resolve: {
-      mapResolver: mapResolver,
+      mapResolver,
     },
   },
   // {
@@ -56,8 +66,11 @@ const campaignRoutes: CampaignRoute[] = [
   // 	}
   // },
 ];
-@NgModule({
-  imports: [RouterModule.forChild(campaignRoutes)],
-  exports: [RouterModule],
-})
-export class CampaignRoutingModule {}
+
+export const campaignRoutes = [
+  {
+    path: '',
+    children: innerCampaignRoutes,
+    canActivate: [campaignGuard],
+  },
+];

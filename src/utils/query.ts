@@ -23,10 +23,13 @@ export function createRequestSubjects<T>() {
 export function trackQuery<T>(
   data$: Observable<T>,
   trackingSubjects: ReturnType<typeof createRequestSubjects<T>>,
+  clearWhilePending = false,
 ) {
   trackingSubjects.state.next('pending');
-  trackingSubjects.data.next(undefined);
   trackingSubjects.error.next(undefined);
+  if (clearWhilePending) {
+    trackingSubjects.data.next(undefined);
+  }
 
   return data$.pipe(take(1)).subscribe({
     error: (error) => {

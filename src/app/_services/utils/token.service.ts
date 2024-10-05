@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { combineLatest, filter, map, Observable, tap } from 'rxjs';
+import { combineLatest, filter, map, Observable } from 'rxjs';
 import { Login } from 'src/app/_models/login';
 import {
   CampaignMemberships,
@@ -69,17 +69,12 @@ export class TokenService {
       `Bearer ${refreshToken}`,
     );
     //TODO Figure out why this was necessary
-    const entry$ = this.http
-      .post<UserData>(
-        this.refreshTokenUrl,
-        { refresh: refreshToken },
-        { headers: httpHeaders },
-      )
-      .pipe(
-        tap((x) => console.log('Refresh call responded: ', x)),
-        tap((data) => this.setUserData(data)),
-      );
-    trackQuery(entry$, this.userData);
+    const entry$ = this.http.post<UserData>(
+      this.refreshTokenUrl,
+      { refresh: refreshToken },
+      { headers: httpHeaders },
+    );
+    trackQuery(entry$, this.userData, false);
   }
 
   public invalidateJWTToken(): void {

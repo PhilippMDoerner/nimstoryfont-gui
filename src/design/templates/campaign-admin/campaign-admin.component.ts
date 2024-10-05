@@ -1,9 +1,12 @@
 import {
   Component,
+  computed,
   EventEmitter,
+  input,
   Input,
   OnChanges,
   Output,
+  Signal,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Campaign, WikiStatistics } from 'src/app/_models/campaign';
@@ -22,7 +25,7 @@ export class CampaignAdminComponent implements OnChanges {
   @Input() campaign!: Campaign;
   @Input() serverUrl!: string;
   @Input() campaignStatistics!: WikiStatistics;
-  @Input() users!: User[];
+  users = input<User[]>();
 
   @Output() removeMember: EventEmitter<User> = new EventEmitter();
   @Output() removeAdmin: EventEmitter<User> = new EventEmitter();
@@ -42,14 +45,14 @@ export class CampaignAdminComponent implements OnChanges {
   memberModel!: Partial<User>;
   showMemberAddForm: boolean = false;
   memberTooltip: string = `Allows creating, reading, updating and deleting articles in this campaign. Also makes the person a possible "author" for diaryentries.`;
-  memberFormlyFields: FormlyFieldConfig[] = [
+  memberFormlyFields: Signal<FormlyFieldConfig[]> = computed(() => [
     this.formlyService.buildDisableSelectConfig({
       key: 'pk',
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
       overviewType: 'USER',
-      options$: this.users,
+      options$: this.users() ?? [],
       disabledExpression: (selectOption: User) =>
         this.isInGroup(selectOption, this.campaign.member_group_name),
       tooltipMessage:
@@ -57,38 +60,38 @@ export class CampaignAdminComponent implements OnChanges {
       warningMessage:
         'The user you selected is already member of this campaign',
     }),
-  ];
+  ]);
 
   adminModel!: Partial<User>;
   showAdminAddForm: boolean = false;
   adminTooltip: string = `Allows adding admins, members and guests to a campaign. Does not add the person to the list of possible "authors" for diaryentries.`;
-  adminFormlyFields: FormlyFieldConfig[] = [
+  adminFormlyFields: Signal<FormlyFieldConfig[]> = computed(() => [
     this.formlyService.buildDisableSelectConfig({
       key: 'pk',
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
       overviewType: 'USER',
-      options$: this.users,
+      options$: this.users() ?? [],
       disabledExpression: (selectOption: User) =>
         this.isInGroup(selectOption, this.campaign.admin_group_name),
       tooltipMessage:
         'Keep in mind that being an admin only represents being the one administering this campaign, not being a member of it!',
       warningMessage: 'The user you selected is already admin of this campaign',
     }),
-  ];
+  ]);
 
   guestModel!: Partial<User>;
   showGuestAddForm: boolean = false;
   guestTooltip = `Allows only reading articles in this campaign.`;
-  guestFormlyFields: FormlyFieldConfig[] = [
+  guestFormlyFields: Signal<FormlyFieldConfig[]> = computed(() => [
     this.formlyService.buildDisableSelectConfig({
       key: 'pk',
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
       overviewType: 'USER',
-      options$: this.users,
+      options$: this.users() ?? [],
       disabledExpression: (selectOption: User) => {
         const isAdmin = this.isInGroup(
           selectOption,
@@ -108,7 +111,7 @@ export class CampaignAdminComponent implements OnChanges {
         "Keep in mind that there's no point in being a guest when you're already a member or admin.",
       warningMessage: 'The user you selected is already guest of this campaign',
     }),
-  ];
+  ]);
 
   responseModel!: Partial<EmptySearchResponse>;
   showResponseForm: boolean = false;
@@ -146,6 +149,10 @@ export class CampaignAdminComponent implements OnChanges {
         this.showGuestAddForm = showForm;
         this.guestModel = {};
     }
+  }
+
+  das(user: User) {
+    this.removeGuest.emit(user);
   }
 
   onAddUser(role: CampaignRole, model: Partial<User>): void {

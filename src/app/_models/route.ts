@@ -1,6 +1,5 @@
 import { Route } from '@angular/router';
 import { siteAdminGuard } from '../_guards/admin.guard';
-import { campaignGuard } from '../_guards/campaign.guard';
 import { loginGuard } from '../_guards/login.guard';
 import { CampaignRole } from './token';
 
@@ -28,5 +27,4 @@ export interface AdminRoute extends BaseNamedRoute {
 
 export interface CampaignRoute extends BaseNamedRoute {
   data: RoleRouteData;
-  canActivate: [typeof campaignGuard];
 }

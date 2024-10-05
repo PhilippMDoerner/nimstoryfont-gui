@@ -4,6 +4,7 @@ import { combineLatest, map } from 'rxjs';
 import { CampaignRole } from 'src/app/_models/token';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
+import { log } from 'src/utils/logging';
 import { GlobalUrlParamsService } from '../_services/utils/global-url-params.service';
 
 export const campaignGuard: CanActivateFn = (next: ActivatedRouteSnapshot) => {
@@ -13,6 +14,7 @@ export const campaignGuard: CanActivateFn = (next: ActivatedRouteSnapshot) => {
 
   const isLoggedIn: boolean = tokenService.hasValidJWTToken();
   if (!isLoggedIn) {
+    log(campaignGuard.name, 'User is not logged in');
     routingService.routeToPath('login');
     return false;
   }

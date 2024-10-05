@@ -1,6 +1,3 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { environment } from 'src/environments/environment';
 import { loginGuard } from '../_guards/login.guard';
 import { GeneralRoute } from '../_models/route';
 import { CampaignOverviewPageComponent } from '../campaign';
@@ -8,26 +5,7 @@ import { userResolver } from './_resolvers/user.resolver';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 
-const generalRoutes: GeneralRoute[] = [
-  //Redirect Routes
-  {
-    path: environment.frontendPrefix,
-    redirectTo: `campaigns`,
-    pathMatch: 'full',
-    data: { name: 'start' },
-  },
-  {
-    path: '',
-    redirectTo: `campaigns`,
-    pathMatch: 'full',
-    data: { name: 'start' },
-  },
-  {
-    path: `home`,
-    redirectTo: `campaigns`,
-    pathMatch: 'full',
-    data: { name: 'no-campaigns' },
-  },
+export const generalRoutes: GeneralRoute[] = [
   //Login Routes
   {
     path: `login`,
@@ -57,9 +35,3 @@ const generalRoutes: GeneralRoute[] = [
     resolve: {},
   },
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(generalRoutes)],
-  exports: [RouterModule],
-})
-export class GeneralRoutingModule {}

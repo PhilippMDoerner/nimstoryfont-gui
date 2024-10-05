@@ -33,8 +33,11 @@ import {
   specialCharacterValidator,
   timeValidator,
 } from './_services/formly/validators';
+import { AdministrationModule } from './administration/administration.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { CampaignModule } from './campaign/campaign.module';
+import { GeneralModule } from './general/general.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -44,6 +47,9 @@ import { AppComponent } from './app.component';
     BrowserAnimationsModule,
     AppRoutingModule,
     LeafletModule,
+    AdministrationModule,
+    GeneralModule,
+    CampaignModule,
     TemplatesModule,
     FormlyModule.forRoot({
       types: [

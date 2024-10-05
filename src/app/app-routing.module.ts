@@ -1,13 +1,39 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {
   campaignSetResolver,
   resetTracking,
   trackCampaignName,
 } from './_resolvers/campaign.resolver';
+import { adminRoutes } from './administration/administration-routes';
+import { campaignRoutes } from './campaign/campaign-routes';
+import { generalRoutes } from './general/general-routes';
 
-const routes = [
+const redirectRoutes: Routes = [
+  //Redirect Routes
+  {
+    path: environment.frontendPrefix,
+    redirectTo: `${environment.frontendPrefix}/campaigns`,
+    pathMatch: 'full',
+    data: { name: 'start' },
+  },
+  {
+    path: '',
+    redirectTo: `${environment.frontendPrefix}/campaigns`,
+    pathMatch: 'full',
+    data: { name: 'start' },
+  },
+  {
+    path: `home`,
+    redirectTo: `${environment.frontendPrefix}/campaigns`,
+    pathMatch: 'full',
+    data: { name: 'no-campaigns' },
+  },
+];
+
+const routes: Routes = [
+  ...redirectRoutes,
   {
     path: environment.frontendPrefix,
     children: [
@@ -16,16 +42,9 @@ const routes = [
         children: [
           {
             path: 'admin',
-            loadChildren: () =>
-              import('./administration/administration.module').then(
-                (m) => m.AdministrationModule,
-              ),
+            children: adminRoutes,
           },
-          {
-            path: 'general',
-            loadChildren: () =>
-              import('./general/general.module').then((m) => m.GeneralModule),
-          },
+          ...generalRoutes,
         ],
         resolve: {
           resetTracking,
@@ -33,8 +52,7 @@ const routes = [
       },
       {
         path: ':campaign',
-        loadChildren: () =>
-          import('./campaign/campaign.module').then((m) => m.CampaignModule),
+        children: campaignRoutes,
         resolve: { trackCampaignName },
       },
     ],
@@ -45,7 +63,11 @@ const routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableViewTransitions: true })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      enableViewTransitions: true,
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

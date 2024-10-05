@@ -14,7 +14,7 @@ export interface CampaignRaw {
 export interface BaseCampaignData {
   name: string;
   subtitle: string;
-  pk?: number;
+  pk: number;
   background_image?: string;
   icon?: string;
   default_map?: number;

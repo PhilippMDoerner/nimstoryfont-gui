@@ -4,16 +4,7 @@ import { CampaignService } from 'src/app/_services/utils/campaign.service';
 import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
 import { takeFirstNonNil } from 'src/utils/rxjs-operators';
 
-/*************  ✨ Codeium Command ⭐  *************/
-/**
- * A resolver that loads the campaign overview list. This list is used to populate
- * the campaign selection dropdown in the sidebar.
- *
- * @returns An observable that completes when the overview list is loaded.
- */
-/******  c096364d-b340-4489-936c-7b0aa7322ad8  *******/ export const campaignSetResolver: ResolveFn<
-  void
-> = () => {
+export const campaignSetResolver: ResolveFn<void> = () => {
   inject(CampaignService).loadCampaignOverview();
 };
 

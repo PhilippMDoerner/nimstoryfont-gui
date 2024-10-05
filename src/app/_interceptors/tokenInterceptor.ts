@@ -7,11 +7,22 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, first, map, mergeMap, retry, take } from 'rxjs/operators';
+import {
+  filter,
+  first,
+  map,
+  mergeMap,
+  retry,
+  skip,
+  take,
+} from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { throwUnless } from 'src/utils/rxjs-operators';
+import { filterNil, throwUnless } from 'src/utils/rxjs-operators';
+import { RoutingService } from '../_services/routing.service';
 import { RefreshTokenService } from '../_services/utils/refresh-token.service';
 import { TokenService } from '../_services/utils/token.service';
+
+const MAX_RETRY_COUNT = 3;
 
 export function addTokenInterceptor(
   req: HttpRequest<unknown>,
@@ -21,6 +32,7 @@ export function addTokenInterceptor(
 
   const tokenService = inject(TokenService);
   const refreshService = inject(RefreshTokenService);
+  const routingService = inject(RoutingService);
 
   const accessToken = TokenService.getAccessToken();
   const hasAccessToken = accessToken != null;
@@ -29,6 +41,7 @@ export function addTokenInterceptor(
   }
 
   return tokenService.userData.data.pipe(
+    filterNil(),
     map((data) => data?.accessToken.token),
     first(),
     throwUnless(
@@ -38,9 +51,17 @@ export function addTokenInterceptor(
     map((token) => addTokenToRequest(token as string, req)),
     mergeMap((updatedRequest) => next(updatedRequest)),
     retry({
-      delay: (err: HttpErrorResponse) => {
+      count: 4,
+      delay: (err: HttpErrorResponse, retryCount) => {
         tokenService.refreshUserData();
-        return combineLatest({
+        const canSuccessfullyLogin = retryCount <= MAX_RETRY_COUNT;
+        if (!canSuccessfullyLogin) {
+          // TODO: Show toast that user is no longer logged in
+          routingService.routeToPath('login');
+          return tokenService.userData.data.pipe(skip(1), take(1));
+        }
+
+        const userDataAfterRefresh = combineLatest({
           data: tokenService.userData.data,
           isLoading: tokenService.userData.isLoading,
         }).pipe(
@@ -48,6 +69,8 @@ export function addTokenInterceptor(
           take(1),
           map(({ data }) => data),
         );
+
+        return userDataAfterRefresh;
       },
     }),
   );

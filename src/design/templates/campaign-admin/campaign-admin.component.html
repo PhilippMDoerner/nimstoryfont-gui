@@ -2,66 +2,64 @@
   <article class="container campaign">
     <div class="campaign__edit-container">
       <a [routerLink]="updateUrl">
-        <app-button
-          [icon]="'pencil'"
-          [type]="'SECONDARY'"
-        ></app-button>
+        <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
       </a>
     </div>
-  
+
     <!-- Heading -->
     <div class="row">
-      <h1 class="text-center col campaign__heading"> {{ campaign.name }} </h1>
+      <h1 class="text-center col campaign__heading">{{ campaign.name }}</h1>
     </div>
-  
+
     <!-- Image Fields of Campaign -->
-    <h3> 
+    <h3>
       <app-icon [icon]="'cog'"></app-icon>
       Campaign Settings
     </h3>
-    
+
     <app-card class="campaign__settings settings">
       <div class="settings__images">
         <div class="settings__image-container">
-          <h3 class="text-center"> Background </h3>
-          <img 
-            class="settings__image" 
-            title="Campaign background image" 
+          <h3 class="text-center">Background</h3>
+          <img
+            class="settings__image"
+            title="Campaign background image"
             alt="Background image of this campaign"
-            [src]="serverUrl + campaign.background_image" 
-          >
+            [src]="serverUrl + campaign.background_image"
+          />
         </div>
-    
+
         <div class="settings__image-container">
           <h3 class="text-center">Icon</h3>
-          <img 
-            class="settings__image" 
-            title="Campaign Icon" 
+          <img
+            class="settings__image"
+            title="Campaign Icon"
             alt="Icon of this campaign"
-            [src]="campaign.icon" 
-          >
+            [src]="campaign.icon"
+          />
         </div>
       </div>
-  
+
       <div class="row settings__data">
         <strong class="col-md-3 col-6">Default Map: </strong>
-        <div class="col-md-9 col-6">{{ campaign.default_map_details?.name }}</div>
-  
+        <div class="col-md-9 col-6">
+          {{ campaign.default_map_details?.name }}
+        </div>
+
         <strong class="col-md-3 col-6">Subtitle: </strong>
-        <app-html-text 
+        <app-html-text
           class="col-md-9 col-6"
           [text]="campaign.subtitle"
         ></app-html-text>
       </div>
     </app-card>
-  
-  
+
     <!-- Members & Admins-->
-    <h3> 
+    <h3>
       <app-icon [icon]="'users-cog'"></app-icon>
       Campaign Members
     </h3>
-    
+
     <div class="mb-3 row">
       <app-card class="col-md-6 col-12 campaign__user-group user-group">
         <h3 class="user-group__heading">
@@ -70,11 +68,11 @@
             [tooltip]="adminTooltip"
           ></app-info-circle-tooltip>
         </h3>
-        
+
         <ng-container *ngFor="let user of campaign.admins">
           <div class="user-group__user">
-            {{user.username}}
-  
+            {{ user.username }}
+
             <app-confirmation-toggle-button
               class="user-group__remove-button"
               [icon]="'trash'"
@@ -84,21 +82,21 @@
             ></app-confirmation-toggle-button>
           </div>
         </ng-container>
-  
+
         <!-- Form -->
         <div class="user-group__add-user">
           <ng-container *ngIf="showAdminAddForm; else addAdminButton">
-            <app-form 
-              [model]="adminModel" 
-              [fields]="adminFormlyFields" 
+            <app-form
+              [model]="adminModel"
+              [fields]="adminFormlyFields()"
               [cancelButtonType]="'DARK'"
-              (formlySubmit)="onAddUser('admin', adminModel)" 
+              (formlySubmit)="onAddUser('admin', adminModel)"
               (formlyCancel)="changeState('admin', false)"
             ></app-form>
           </ng-container>
         </div>
       </app-card>
-  
+
       <app-card class="col-md-6 col-12 campaign__user-group user-group">
         <h3 class="user-group__heading">
           <app-info-circle-tooltip
@@ -106,11 +104,11 @@
             [tooltip]="memberTooltip"
           ></app-info-circle-tooltip>
         </h3>
-        
+
         <ng-container *ngFor="let user of campaign.members">
           <div class="user-group__user">
-            {{user.username}}
-    
+            {{ user.username }}
+
             <app-confirmation-toggle-button
               class="user-group__remove-button"
               [icon]="'trash'"
@@ -120,21 +118,21 @@
             ></app-confirmation-toggle-button>
           </div>
         </ng-container>
-  
+
         <!-- Form -->
-        <div class="user-group__add-user">        
+        <div class="user-group__add-user">
           <ng-container *ngIf="showMemberAddForm; else addMemberButton">
             <app-form
-              [model]="memberModel" 
-              [fields]="memberFormlyFields"
+              [model]="memberModel"
+              [fields]="memberFormlyFields()"
               [cancelButtonType]="'DARK'"
-              (formlySubmit)="onAddUser('member', memberModel)" 
+              (formlySubmit)="onAddUser('member', memberModel)"
               (formlyCancel)="changeState('member', false)"
             ></app-form>
           </ng-container>
         </div>
       </app-card>
-  
+
       <app-card class="col-md-6 col-12 campaign__user-group user-group">
         <h3 class="user-group__heading">
           <app-info-circle-tooltip
@@ -142,90 +140,94 @@
             [tooltip]="guestTooltip"
           ></app-info-circle-tooltip>
         </h3>
-        
+
         <ng-container *ngFor="let user of campaign.guests">
           <div class="user-group__user">
-            {{user.username}}
-    
+            {{ user.username }}
+
             <app-confirmation-toggle-button
               class="user-group__remove-button"
               [icon]="'trash'"
               [toggleSize]="'SMALL'"
               [confirmationQuestion]="'Remove ' + user.username + ' as guest?'"
-              (confirm)="removeGuest.emit(user)"
+              (confirm)="das(user)"
             ></app-confirmation-toggle-button>
           </div>
         </ng-container>
-  
+
         <!-- Form -->
-        <div class="user-group__add-user">        
+        <div class="user-group__add-user">
           <ng-container *ngIf="showGuestAddForm; else addGuestButton">
-            <app-form 
+            <app-form
               [model]="guestModel"
-              [fields]="guestFormlyFields"
+              [fields]="guestFormlyFields()"
               [cancelButtonType]="'DARK'"
-              (formlySubmit)="onAddUser('guest', guestModel)" 
+              (formlySubmit)="onAddUser('guest', guestModel)"
               (formlyCancel)="changeState('guest', false)"
             ></app-form>
-          </ng-container>        
+          </ng-container>
         </div>
       </app-card>
     </div>
-  
+
     <!-- Campaign Statistics -->
     <h1>
       <app-icon [icon]="'table'"></app-icon>
       Campaign Statistics
     </h1>
-  
+
     <div class="container mb-5">
       <div class="row" *ngFor="let statistic of campaignStatistics | keyvalue">
-        <div class="col-6 col-md-3"> {{ statistic.key }}</div>
-        <div class="col-6 col-md-3"> {{ statistic.value }}</div>
+        <div class="col-6 col-md-3">{{ statistic.key }}</div>
+        <div class="col-6 col-md-3">{{ statistic.value }}</div>
       </div>
     </div>
-  
+
     <!-- EmptySearchResponses -->
     <h1>
       <app-icon [icon]="'search'"></app-icon>
       Empty Search Responses
-      <app-info-circle-tooltip 
-        [tooltip]="'Shown when a search came up empty. You can throw in in-jokes or references about things coming up empty.'"
+      <app-info-circle-tooltip
+        [tooltip]="
+          'Shown when a search came up empty. You can throw in in-jokes or references about things coming up empty.'
+        "
       ></app-info-circle-tooltip>
     </h1>
-  
+
     <div class="row mb-5">
-        <div class="col-12 mb-3">
-          <app-card class="campaign__user-group user-group">
-            <div *ngFor="let emptyResponse of campaign.emptySearchResponses" class="mb-3">
-              {{emptyResponse.text}}
-  
-              <app-confirmation-toggle-button
-                class="user-group__remove-button"
-                [icon]="'trash'"
-                [toggleSize]="'SMALL'"
-                [confirmationQuestion]="'Remove response?'"
-                (confirm)="removeEmptySearchResponse.emit(emptyResponse)"
-              ></app-confirmation-toggle-button>
-            </div>
-            
-            <div class="user-group__add-user">        
-              <!-- Form -->
-              <ng-container *ngIf="showResponseForm; else addResponseButton">
-                <app-form
-                  [model]="responseModel" 
-                  [fields]="responseFormlyFields"
-                  [cancelButtonType]="'DARK'"
-                  (formlySubmit)="onAddResponse(responseModel)" 
-                  (formlyCancel)="showResponseForm=false"
-                ></app-form>
-              </ng-container>
-            </div>
-  
-          </app-card>
-        </div>
+      <div class="col-12 mb-3">
+        <app-card class="campaign__user-group user-group">
+          <div
+            *ngFor="let emptyResponse of campaign.emptySearchResponses"
+            class="mb-3"
+          >
+            {{ emptyResponse.text }}
+
+            <app-confirmation-toggle-button
+              class="user-group__remove-button"
+              [icon]="'trash'"
+              [toggleSize]="'SMALL'"
+              [confirmationQuestion]="'Remove response?'"
+              (confirm)="removeEmptySearchResponse.emit(emptyResponse)"
+            ></app-confirmation-toggle-button>
+          </div>
+
+          <div class="user-group__add-user">
+            <!-- Form -->
+            <ng-container *ngIf="showResponseForm; else addResponseButton">
+              <app-form
+                [model]="responseModel"
+                [fields]="responseFormlyFields"
+                [cancelButtonType]="'DARK'"
+                (formlySubmit)="onAddResponse(responseModel)"
+                (formlyCancel)="showResponseForm = false"
+              ></app-form>
+            </ng-container>
+          </div>
+        </app-card>
+      </div>
     </div>
-  
+
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer
       [showDelete]="!campaign.is_deactivated"
@@ -234,7 +236,6 @@
       [deleteMessage]="'Deactivate Campaign ?'"
       (delete)="deactivateCampaign.emit(campaign)"
     ></app-article-footer>
-    
   </article>
 </app-page-container>
 

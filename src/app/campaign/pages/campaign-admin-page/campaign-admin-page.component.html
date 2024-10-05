@@ -1,0 +1,18 @@
+@let campaign = campaign$ | async;
+@let campaignStatistics = campaignStatistics$ | async;
+
+@if(campaign != null && campaignStatistics != null){
+  <app-campaign-admin
+    [campaign]="campaign"
+    [serverUrl]="serverUrl"
+    [campaignStatistics]="campaignStatistics"
+    [users]="users()"
+    (addAdmin)="addMemberToCampaignGroup('ADMIN', $event)"
+    (addMember)="addMemberToCampaignGroup('MEMBER', $event)"
+    (addGuest)="addMemberToCampaignGroup('GUEST', $event)"
+    (removeAdmin)="removeMemberFromCampaignGroup('ADMIN', $event)"
+    (removeMember)="removeMemberFromCampaignGroup('MEMBER', $event)"
+    (removeGuest)="removeMemberFromCampaignGroup('GUEST', $event)"
+  />
+}
+

@@ -352,7 +352,7 @@ export class FormlyService {
 
   private createEmptyOption(config: FormlyOverviewSelectConfig) {
     const emptyOption: any = {};
-    emptyOption[config.key] = '------';
+    emptyOption[config.labelProp] = '------';
     const valueProp: string = config.valueProp ?? config.key;
     emptyOption[valueProp] = null;
     return emptyOption;

@@ -11,19 +11,7 @@ interface RouteNode {
 })
 export class RoutingService {
   private NONE_STRING = 'None';
-  private routeNodes = this.router.config
-    .map((route) => this.getEndRoutes(route))
-    .flat()
-    .reduce(
-      (acc, route) => {
-        const routeName = route.route?.data?.['name'];
-        if (routeName != null) {
-          acc[routeName] = route;
-        }
-        return acc;
-      },
-      {} as { [key: string]: RouteNode },
-    );
+  private routeNodes = this.getRouteTree();
 
   constructor(private router: Router) {}
 
@@ -114,9 +102,14 @@ export class RoutingService {
   }
 
   private getEndRoutes(route: Route, parentPath: string = ''): RouteNode[] {
-    const path = !!parentPath
-      ? `${parentPath}/${route.path}`
-      : (route.path as string);
+    let path = '';
+    if (!!parentPath && !!route.path) {
+      path = `${parentPath}/${route.path}`;
+    } else if (!!parentPath) {
+      path = parentPath;
+    } else if (!!route.path) {
+      path = route.path;
+    }
     const isEndRoute = route.children == null;
     if (isEndRoute) {
       return [{ route, fullPath: path }];
@@ -136,5 +129,23 @@ export class RoutingService {
     return pathVariables.map((segment) =>
       segment.slice(variableNameStartIndex),
     );
+  }
+
+  private getRouteTree(): { [key: string]: RouteNode } {
+    const x = this.router.config
+      .map((route) => this.getEndRoutes(route))
+      .flat()
+      .reduce(
+        (acc, route) => {
+          const routeName = route.route?.data?.['name'];
+          if (routeName != null) {
+            acc[routeName] = route;
+          }
+          return acc;
+        },
+        {} as { [key: string]: RouteNode },
+      );
+    console.log(Object.values(x).map((x) => x.fullPath));
+    return x;
   }
 }

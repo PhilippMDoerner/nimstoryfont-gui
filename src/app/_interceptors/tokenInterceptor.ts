@@ -6,11 +6,10 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, mergeMap, retry, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { takeFirstNonNil } from 'src/utils/rxjs-operators';
-import { RoutingService } from '../_services/routing.service';
 import { RefreshTokenService } from '../_services/utils/refresh-token.service';
 import { TokenService } from '../_services/utils/token.service';
 
@@ -24,7 +23,6 @@ export function addTokenInterceptor(
 
   const tokenService = inject(TokenService);
   const refreshService = inject(RefreshTokenService);
-  const routingService = inject(RoutingService);
 
   const accessToken = TokenService.getAccessToken();
   const hasAccessToken = accessToken != null;
@@ -35,10 +33,10 @@ export function addTokenInterceptor(
   return tokenService.userData.data.pipe(
     map((data) => data?.accessToken.token),
     takeFirstNonNil(),
-    map((token) => addTokenToRequest(token as string, req)),
+    map((token) => addTokenToRequest(token, req)),
     mergeMap((updatedRequest) => next(updatedRequest)),
     retry({
-      count: 4,
+      count: MAX_RETRY_COUNT + 1,
       delay: (err: HttpErrorResponse, retryCount: number) => {
         switch (err.status) {
           case 401:
@@ -46,8 +44,8 @@ export function addTokenInterceptor(
             const canSuccessfullyRefresh = retryCount <= MAX_RETRY_COUNT;
             if (!canSuccessfullyRefresh) {
               // TODO: Show toast that user is no longer logged in
-              routingService.routeToPath('login');
-              return of(err);
+              tokenService.logout();
+              throw err;
             }
 
             const userDataAfterRefresh = combineLatest({

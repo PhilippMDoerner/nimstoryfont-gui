@@ -1,0 +1,13 @@
+@let campaign = campaign$ | async;
+@let mapOptions = mapOptions$ | async;
+@let serverModel = (serverModel$ | async) ?? undefined;
+
+@if (campaign != null && mapOptions != null) {
+  <app-campaign-update
+    [userModel]="campaign"
+    [serverModel]="serverModel"
+    [mapOptions]="mapOptions"
+    (update)="updateCampaign($event)"
+    (cancel)="cancel()"
+  />
+}

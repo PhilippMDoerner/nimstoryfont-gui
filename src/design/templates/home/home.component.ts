@@ -6,7 +6,6 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
-import * as _ from 'lodash';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { ArticleKind, OverviewItem } from 'src/app/_models/overview';
 import { ellipsize } from 'src/utils/string';
@@ -52,11 +51,11 @@ export class HomeComponent implements OnChanges {
   ngOnChanges(): void {
     this.isLoading = false;
 
-    if (_.isNil(this.articles)) {
+    if (this.articles == null) {
       return;
     }
     this.articleEntries = this.articles.map((article) =>
-      this.toIconCardEntry(article),
+      this.toIconCardEntry(article)
     );
   }
 

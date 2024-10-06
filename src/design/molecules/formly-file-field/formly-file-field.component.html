@@ -1,33 +1,30 @@
-<div class="mb-3 {{field.className}}" [class.d-none]="to.hidden">
-
-  <app-button  
+<div class="mb-3 {{ field.className }}" [class.d-none]="to.hidden">
+  <app-button
     class="file-field"
-    [class.disabled]="props.disabled" 
+    [class.disabled]="props.disabled"
     [disabled]="!!props.disabled"
-    [type]="buttonType" 
+    [type]="buttonType"
     [icon]="'upload'"
     [text]="'Choose a file'"
     (click)="onButtonClick($event)"
   ></app-button>
   <div class="mt-2">
-    <div *ngIf="selectedFileName; else noFileSelected"> 
+    <div *ngIf="selectedFileName; else noFileSelected">
       <span class="me-3"> Currently Selected: </span>
-      {{selectedFileName}}
+      {{ selectedFileName }}
     </div>
   </div>
 </div>
 
-<input 
+<input
   #fileInputElement
-  type="file" 
+  type="file"
   class="d-none"
   (change)="onFileSelect($event)"
-  [formControl]="formControl" 
-  [formlyAttributes]="field" 
-  [id]="props['name']" 
+  [formControl]="formControl"
+  [formlyAttributes]="field"
+  [id]="props['name']"
   [name]="props['name']"
->
+/>
 
-<ng-template #noFileSelected>
-  No File Selected
-</ng-template>
+<ng-template #noFileSelected> No File Selected </ng-template>

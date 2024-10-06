@@ -51,7 +51,6 @@ export class CampaignAdminComponent implements OnChanges {
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
-      overviewType: 'USER',
       options$: this.users() ?? [],
       disabledExpression: (selectOption: User) =>
         this.isInGroup(selectOption, this.campaign.member_group_name),
@@ -71,7 +70,6 @@ export class CampaignAdminComponent implements OnChanges {
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
-      overviewType: 'USER',
       options$: this.users() ?? [],
       disabledExpression: (selectOption: User) =>
         this.isInGroup(selectOption, this.campaign.admin_group_name),
@@ -90,7 +88,6 @@ export class CampaignAdminComponent implements OnChanges {
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
-      overviewType: 'USER',
       options$: this.users() ?? [],
       disabledExpression: (selectOption: User) => {
         const isAdmin = this.isInGroup(

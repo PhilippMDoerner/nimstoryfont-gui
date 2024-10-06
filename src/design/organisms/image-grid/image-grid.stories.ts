@@ -8,7 +8,7 @@ const dummyEntries: any[] = [
   {
     entryType: 'CHARACTER',
     icon: 'user',
-    link: 'https://example.com/characters/123',
+    link: 'https://images.dog.ceo/breeds/schnauzer-giant/n02097130_878.jpg',
     title: 'John Smith',
     subText: 'Level 10 Paladin',
     updateDatetime: '2022-04-28T14:30:00Z',
@@ -17,7 +17,7 @@ const dummyEntries: any[] = [
   {
     entryType: 'CREATURE',
     icon: 'dragon',
-    link: 'https://example.com/creatures/456',
+    link: 'https://images.dog.ceo/breeds/schnauzer-giant/n02097130_878.jpg',
     title: 'Red Dragon',
     subText: 'CR 10',
     updateDatetime: '2022-04-27T10:15:00Z',
@@ -26,7 +26,7 @@ const dummyEntries: any[] = [
   {
     entryType: 'DIARYENTRY',
     icon: 'book-open',
-    link: 'https://example.com/diary/789',
+    link: 'https://images.dog.ceo/breeds/schnauzer-giant/n02097130_878.jpg',
     title: 'Adventures in the Underdark',
     subText: 'Session 3',
     updateDatetime: '2022-04-26T18:00:00Z',
@@ -35,7 +35,7 @@ const dummyEntries: any[] = [
   {
     entryType: 'ENCOUNTER',
     icon: 'dice',
-    link: 'https://example.com/encounters/1234',
+    link: 'https://images.dog.ceo/breeds/schnauzer-giant/n02097130_878.jpg',
     title: 'Orc Ambush',
     subText: 'Difficulty: Hard',
     updateDatetime: '2022-04-25T15:30:00Z',
@@ -44,7 +44,7 @@ const dummyEntries: any[] = [
   {
     entryType: 'ITEM',
     icon: 'magic',
-    link: 'https://example.com/items/567',
+    link: 'https://images.dog.ceo/breeds/schnauzer-giant/n02097130_878.jpg',
     title: 'Sword of Sharpness',
     subText: 'Legendary Weapon',
     updateDatetime: '2022-04-24T12:00:00Z',
@@ -53,7 +53,7 @@ const dummyEntries: any[] = [
   {
     entryType: 'LOCATION',
     icon: 'map-marker-alt',
-    link: 'https://example.com/locations/890',
+    link: 'https://images.dog.ceo/breeds/schnauzer-giant/n02097130_878.jpg',
     title: 'The Forbidden Forest',
     subText: 'Home of the Treants',
     updateDatetime: '2022-04-23T09:45:00Z',
@@ -62,7 +62,7 @@ const dummyEntries: any[] = [
   {
     entryType: 'MAP',
     icon: 'map',
-    link: 'https://example.com/maps/1234',
+    link: 'https://images.dog.ceo/breeds/schnauzer-giant/n02097130_878.jpg',
     title: 'World Map',
     subText: 'All regions',
     updateDatetime: '2022-04-22T17:30:00Z',
@@ -71,7 +71,7 @@ const dummyEntries: any[] = [
   {
     entryType: 'MARKER_TYPE',
     icon: 'map-marker',
-    link: 'https://example.com/markers/4567',
+    link: 'https://images.dog.ceo/breeds/schnauzer-giant/n02097130_878.jpg',
     title: 'City',
     subText: 'Capital of the Kingdom',
     updateDatetime: '2022-04-21T14:15:00Z',

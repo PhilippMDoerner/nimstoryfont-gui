@@ -1,24 +1,23 @@
 // Modifies all Formly/Angular forms
 .form-label,
-.form-check-label{
+.form-check-label {
   font-weight: bold;
 }
 
-.form-check-input{
+.form-check-input {
   border-color: var(--bs-border-color);
 }
 
-
 // Adds new custom "updated" class to formly
-.updated{
+.updated * {
   background: repeating-linear-gradient(
-      45deg, 
-      hsl(210, 23%, 20%), 
-      hsl(210, 23%, 20%) 10px, 
-      hsl(210, 23%, 25%) 10px, 
-      hsl(210, 23%, 25%) 20px,
+    45deg,
+    hsl(210, 23%, 20%),
+    hsl(210, 23%, 20%) 10px,
+    hsl(210, 23%, 25%) 10px,
+    hsl(210, 23%, 25%) 20px
   );
-  
+
   border-radius: var(--bs-border-radius);
 }
 
@@ -28,6 +27,6 @@ a {
 }
 
 //Animations
-.animate__animated{
-	--animate-duration: 0.35s;
+.animate__animated {
+  --animate-duration: 0.35s;
 }

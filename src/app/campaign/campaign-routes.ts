@@ -2,9 +2,14 @@ import { campaignGuard } from '../_guards/campaign.guard';
 import { CampaignRoute } from '../_models/route';
 import { campaignResolver } from '../_resolvers/campaign.resolver';
 import { siteUsersResolver } from '../_resolvers/users.resolver';
-import { mapDefaultResolver, mapResolver } from './_resolvers/map.resolver';
+import {
+  mapDefaultResolver,
+  mapOverviewResolver,
+  mapResolver,
+} from './_resolvers/map.resolver';
 import { recentlyUpdatedArticleResolver } from './_resolvers/recently-updated-article.resolver';
 import { statisticsResolver } from './_resolvers/statistics.resolver';
+import { CampaignUpdatePageComponent } from './campaign-update-page/campaign-update-page.component';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { MapPageComponent } from './pages/map-page/map-page.component';
@@ -19,6 +24,15 @@ const innerCampaignRoutes: CampaignRoute[] = [
       campaignResolver,
       statisticsResolver,
       siteUsersResolver,
+    },
+  },
+  {
+    path: 'admin/update',
+    component: CampaignUpdatePageComponent,
+    data: { name: 'campaign-update', requiredMinimumRole: 'admin' },
+    resolve: {
+      mapOverviewResolver,
+      campaignResolver,
     },
   },
   //Home Routes

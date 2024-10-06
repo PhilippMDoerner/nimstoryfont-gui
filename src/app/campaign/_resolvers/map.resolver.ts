@@ -5,7 +5,6 @@ import {
   ResolveFn,
   RouterStateSnapshot,
 } from '@angular/router';
-import * as _ from 'lodash';
 import { combineLatest, take } from 'rxjs';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -15,7 +14,7 @@ import { filterNil, takeFirstNonNil } from 'src/utils/rxjs-operators';
 
 export const mapResolver: ResolveFn<void> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
+  state: RouterStateSnapshot
 ) => {
   const mapService = inject(MapService);
   const mapName = route.params['name'];
@@ -27,7 +26,7 @@ export const mapResolver: ResolveFn<void> = (
 
 export const mapOverviewResolver: ResolveFn<void> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
+  state: RouterStateSnapshot
 ) => {
   const mapService = inject(MapService);
   inject(GlobalUrlParamsService)
@@ -37,11 +36,11 @@ export const mapOverviewResolver: ResolveFn<void> = (
 
 export const mapDefaultResolver: ResolveFn<void> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot,
+  state: RouterStateSnapshot
 ) => {
   const mapService = inject(MapService);
   const campaign$ = inject(GlobalUrlParamsService).currentCampaign.pipe(
-    filterNil(),
+    filterNil()
   );
   const availableMaps$ = mapService.campaignList.data;
   combineLatest({
@@ -53,7 +52,7 @@ export const mapDefaultResolver: ResolveFn<void> = (
       const mapName: string | undefined = getDefaultMapName(
         route.params,
         campaign as CampaignOverview,
-        maps ?? [],
+        maps ?? []
       );
       const hasValidMapName = mapName != null;
       if (!hasValidMapName) {
@@ -67,7 +66,7 @@ export const mapDefaultResolver: ResolveFn<void> = (
 function getDefaultMapName(
   params: Params,
   campaign: CampaignOverview,
-  maps: OverviewItem[],
+  maps: OverviewItem[]
 ): string | undefined {
   const hasMap = maps.length > 0;
   if (!hasMap) {
@@ -79,7 +78,7 @@ function getDefaultMapName(
     return params['name'] as string;
   }
 
-  const hasCampaignDefaultMap = !_.isNil(campaign.default_map_details?.name);
+  const hasCampaignDefaultMap = campaign.default_map_details?.name != null;
   if (hasCampaignDefaultMap) {
     return campaign.default_map_details?.name as string;
   }

@@ -26,8 +26,8 @@ export class FormlyService {
     const isRequiredField = config.required == null || config.required == true;
 
     const options$ = isRequiredField
-      ? this.addEmptyOption(config.options$, config)
-      : config.options$;
+      ? config.options$
+      : this.addEmptyOption(config.options$, config);
 
     const validators = this.getValidators(config);
 

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map as switchMap } from 'rxjs/operators';
 import {
+  convertModelToFormData,
   convertMultiFileModelToFormData,
   convertSingleFileModelToFormData,
 } from 'src/app/_functions/formDataConverter';
@@ -15,9 +16,9 @@ import {
 import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { OverviewItem } from 'src/app/_models/overview';
 import { User } from 'src/app/_models/user';
+import { log } from 'src/utils/logging';
 import { createRequestSubjects, trackQuery } from 'src/utils/query';
 import { BaseService } from '../base.service';
-import { TokenService } from './token.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,15 +30,12 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   deleteEmptySearchResponse = createRequestSubjects<void>();
   statistics = createRequestSubjects<WikiStatistics>();
 
-  constructor(
-    http: HttpClient,
-    private tokenService: TokenService,
-  ) {
+  constructor(http: HttpClient) {
     super(http, 'campaign');
   }
 
   loadCampaignOverview() {
-    if (this.isDevelop) console.log('loadCampaignOverview', this.baseUrl);
+    log(this.loadCampaignOverview.name, this.baseUrl);
 
     const campaignsObs$: Observable<CampaignOverview[]> = this.http.get<
       CampaignOverview[]
@@ -51,8 +49,14 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     super.runCreate(campaignData);
   }
 
-  override runUpdate(pk: number, data: CampaignRaw) {
-    const campaignData = this.processCampaignData(data) as CampaignRaw;
+  override runUpdate(
+    pk: number,
+    data: CampaignRaw &
+      Record<'pk', number> &
+      Record<'update_datetime', string>,
+  ) {
+    const campaignData = this.processCampaignData(data) as CampaignRaw &
+      Record<'pk', number>;
     super.runUpdate(pk, campaignData);
   }
 
@@ -64,7 +68,7 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   private processCampaignData(
     userModel: Campaign | CampaignRaw,
   ): Campaign | CampaignRaw | FormData {
-    if (this.isDevelop) console.log('processCampaignData', userModel);
+    log(this.processCampaignData.name, userModel);
 
     const hasNewIcon: boolean = this.hasImageSelected(userModel.icon);
     const hasNewBackgroundImage: boolean = this.hasImageSelected(
@@ -74,7 +78,7 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     if (!hasNewIcon && !hasNewBackgroundImage) {
       delete userModel.icon;
       delete userModel.background_image;
-      return userModel;
+      return convertModelToFormData(userModel);
     } else if (!hasNewIcon && hasNewBackgroundImage) {
       delete userModel.icon;
       const userModelFormData: FormData = convertSingleFileModelToFormData(

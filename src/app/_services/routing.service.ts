@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Route, Router, Routes } from '@angular/router';
+import { log } from 'src/utils/logging';
 
 interface RouteNode {
   fullPath: string;
@@ -13,7 +14,9 @@ export class RoutingService {
   private NONE_STRING = 'None';
   private routeNodes = this.getRouteTree();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+    log(`${RoutingService.name}-routeNodes`, this.routeNodes);
+  }
 
   public routeToPath(routeName: string, params: any = {}): void {
     const routePath: string = this.getRoutePath(routeName, params);

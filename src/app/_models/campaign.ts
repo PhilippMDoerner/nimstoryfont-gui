@@ -26,6 +26,7 @@ export interface BaseCampaignData {
   };
   is_deactivated?: boolean;
   has_audio_recording_permission?: boolean;
+  update_datetime?: string;
 }
 
 export interface Campaign extends BaseCampaignData {

@@ -6,18 +6,10 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { combineLatest, EMPTY, Observable } from 'rxjs';
-import {
-  filter,
-  first,
-  map,
-  mergeMap,
-  retry,
-  skip,
-  take,
-} from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { filter, map, mergeMap, retry, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { filterNil, throwUnless } from 'src/utils/rxjs-operators';
+import { takeFirstNonNil } from 'src/utils/rxjs-operators';
 import { RoutingService } from '../_services/routing.service';
 import { RefreshTokenService } from '../_services/utils/refresh-token.service';
 import { TokenService } from '../_services/utils/token.service';
@@ -41,39 +33,36 @@ export function addTokenInterceptor(
   }
 
   return tokenService.userData.data.pipe(
-    filterNil(),
     map((data) => data?.accessToken.token),
-    first(),
-    throwUnless(
-      (token) => token != null,
-      () => new Error('No token available'),
-    ),
+    takeFirstNonNil(),
     map((token) => addTokenToRequest(token as string, req)),
     mergeMap((updatedRequest) => next(updatedRequest)),
     retry({
       count: 4,
-      delay: (err: HttpErrorResponse, retryCount) => {
-        const isAuthIssue = err.status === 401;
-        if (!isAuthIssue) return EMPTY;
+      delay: (err: HttpErrorResponse, retryCount: number) => {
+        switch (err.status) {
+          case 401:
+            tokenService.refreshUserData();
+            const canSuccessfullyRefresh = retryCount <= MAX_RETRY_COUNT;
+            if (!canSuccessfullyRefresh) {
+              // TODO: Show toast that user is no longer logged in
+              routingService.routeToPath('login');
+              return of(err);
+            }
 
-        tokenService.refreshUserData();
-        const canSuccessfullyLogin = retryCount <= MAX_RETRY_COUNT;
-        if (!canSuccessfullyLogin) {
-          // TODO: Show toast that user is no longer logged in
-          routingService.routeToPath('login');
-          return tokenService.userData.data.pipe(skip(1), take(1));
+            const userDataAfterRefresh = combineLatest({
+              data: tokenService.userData.data,
+              isLoading: tokenService.userData.isLoading,
+            }).pipe(
+              filter(({ isLoading, data }) => !isLoading && data != null),
+              take(1),
+              map(({ data }) => data),
+            );
+
+            return userDataAfterRefresh;
+          default:
+            throw err;
         }
-
-        const userDataAfterRefresh = combineLatest({
-          data: tokenService.userData.data,
-          isLoading: tokenService.userData.isLoading,
-        }).pipe(
-          filter(({ isLoading, data }) => !isLoading && data != null),
-          take(1),
-          map(({ data }) => data),
-        );
-
-        return userDataAfterRefresh;
       },
     }),
   );

@@ -6,7 +6,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import * as _ from 'lodash';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import {
@@ -92,7 +91,7 @@ export class ConfigTablesComponent implements OnChanges {
 
   constructor(
     private routingService: RoutingService,
-    private formlyService: FormlyService,
+    private formlyService: FormlyService
   ) {}
 
   ngOnChanges(): void {
@@ -106,7 +105,7 @@ export class ConfigTablesComponent implements OnChanges {
   }
 
   private addDataToTables(): void {
-    if (_.isNil(this.tableData)) {
+    if (this.tableData == null) {
       return;
     }
 

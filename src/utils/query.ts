@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, filter, map, Observable, Subject, take } from 'rxjs';
 
 export type RequestState = 'pending' | 'success' | 'error';
@@ -5,7 +6,7 @@ export type RequestState = 'pending' | 'success' | 'error';
 export function createRequestSubjects<T>() {
   const state = new BehaviorSubject<RequestState>('pending');
   const data = new BehaviorSubject<T | undefined>(undefined);
-  const error = new Subject<unknown>();
+  const error = new Subject<HttpErrorResponse | undefined>();
 
   return {
     data,

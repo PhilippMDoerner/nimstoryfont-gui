@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { log } from 'src/utils/logging';
 import { createRequestSubjects, trackQuery } from 'src/utils/query';
 import { debugLog } from 'src/utils/rxjs-operators';
 import { OverviewItem } from '../_models/overview';
@@ -102,8 +103,8 @@ export abstract class BaseService<Raw, Detail> {
   /**
    * Sends a PUT request for the entry with the given pk and the specified data
    */
-  runUpdate(pk: number, data: Raw): void {
-    if (this.isDevelop) console.log('runUpdate', this.baseUrl, pk, data);
+  runUpdate(pk: number, data: Raw & Record<'pk', number>): void {
+    log(this.runUpdate.name, { baseUrl: this.baseUrl, pk, data });
 
     const entry$ = this.http
       .put<Detail>(`${this.baseUrl}/pk/${pk}/`, data)

@@ -1,14 +1,16 @@
 import {
   Component,
+  computed,
   EventEmitter,
   inject,
-  Input,
+  input,
   OnChanges,
   OnInit,
   Output,
+  Signal,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { filter, of } from 'rxjs';
+import { filter } from 'rxjs';
 import {
   CharacterDetails,
   CharacterOrganization,
@@ -30,12 +32,12 @@ type MembershipFormState = 'CREATE' | 'DISPLAY';
   styleUrls: ['./character-create-update.component.scss'],
 })
 export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
-  @Input() state!: CreateUpdateState;
-  @Input() campaignName!: string;
-  @Input() userModel: Partial<CharacterDetails> = {};
-  @Input() serverModel!: CharacterDetails;
-  @Input() classOptions!: PlayerClass[];
-  @Input() organizations!: OverviewItem[];
+  state = input.required<CreateUpdateState>();
+  campaignName = input.required<string>();
+  userModel = input<Partial<CharacterDetails>>({});
+  serverModel = input.required<CharacterDetails>({});
+  classOptions = input.required<PlayerClass[]>();
+  organizationOptions = input.required<OverviewItem[]>();
 
   @Output() create: EventEmitter<CharacterDetails> = new EventEmitter();
   @Output() update: EventEmitter<CharacterDetails> = new EventEmitter();
@@ -47,7 +49,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
   @Output() removeOrganizationMembership: EventEmitter<OrganizationMembership> =
     new EventEmitter();
 
-  formlyFields: FormlyFieldConfig[] = [
+  formlyFields: Signal<FormlyFieldConfig[]> = computed(() => [
     this.formlyService.buildCheckboxConfig({
       key: 'player_character',
       label: 'Player Character',
@@ -80,8 +82,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
       sortProp: 'name_full',
       labelProp: 'name_full',
       label: 'Location',
-      overviewType: 'LOCATION',
-      campaign: this.campaignName,
+      campaign: this.campaignName(),
       required: false,
       options$: inject(LocationService)
         .campaignList.data.asObservable()
@@ -90,7 +91,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
     this.formlyService.buildEditorConfig({
       key: 'description',
     }),
-  ];
+  ]);
 
   organizationModel: Partial<OrganizationMembership> = {};
   organizationFormlyFields: FormlyFieldConfig[] = [
@@ -104,13 +105,12 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
       sortProp: 'name_full',
       label: 'Organization',
       labelProp: 'name_full',
-      overviewType: 'ORGANIZATION',
-      campaign: this.campaignName,
+      campaign: this.campaignName(),
       disabledExpression: (organization: Organization) =>
         this.hasMembership(organization) ? true : null,
       tooltipMessage: 'The organization or group this character is a member of',
       warningMessage: '',
-      options$: of(this.organizations),
+      options$: this.organizationOptions(),
     }),
   ];
 
@@ -138,7 +138,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
   }
 
   onSubmit(submittedData: Partial<CharacterDetails>): void {
-    switch (this.state) {
+    switch (this.state()) {
       case 'CREATE':
         this.create.emit(submittedData as CharacterDetails);
         break;
@@ -153,7 +153,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
     const membership: OrganizationMembership = {
       ...event,
       organization_id: parseInt(event.organization_id),
-      member_id: this.userModel.pk,
+      member_id: this.userModel().pk,
     };
     this.addOrganizationMembership.emit(membership);
   }
@@ -164,7 +164,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
 
   private setCharacterClasses(): void {
     this.characterClasses =
-      this.userModel.player_class_connections?.map((connection) => ({
+      this.userModel().player_class_connections?.map((connection) => ({
         text: connection.player_class_details?.name ?? '',
         badgeValue: connection.player_class_details as PlayerClass,
       })) ?? [];
@@ -172,14 +172,14 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
 
   private setCharacterOrganizations(): void {
     this.characterOrganizations =
-      this.userModel.organizations?.map((membership) => ({
+      this.userModel().organizations?.map((membership) => ({
         text: `${membership.name} - ${membership.role}`,
         badgeValue: membership,
       })) ?? [];
   }
 
   private setHeading(): void {
-    switch (this.state) {
+    switch (this.state()) {
       case 'CREATE':
         this.heading = 'Creating New Character';
         break;
@@ -191,9 +191,9 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
 
   private hasMembership(organization: Organization): boolean {
     return (
-      this.userModel.organizations?.some(
+      this.userModel().organizations?.some(
         (membership: CharacterOrganization) =>
-          membership.organization_id === organization.pk,
+          membership.organization_id === organization.pk
       ) ?? false
     );
   }

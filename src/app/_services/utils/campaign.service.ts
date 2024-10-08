@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { merge, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map as switchMap } from 'rxjs/operators';
 import {
   convertModelToFormData,
@@ -17,7 +17,7 @@ import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { OverviewItem } from 'src/app/_models/overview';
 import { User } from 'src/app/_models/user';
 import { log } from 'src/utils/logging';
-import { createRequestPipeline } from 'src/utils/query';
+import { createRequestPipeline, mergeRequestPipelines } from 'src/utils/query';
 import { BaseService, ReadByNameParams } from '../base.service';
 
 type ChangeMemberAction =
@@ -66,50 +66,11 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     (model) => this._runAddEmptySearchResponse(model),
   );
 
-  override read: ReturnType<
-    typeof createRequestPipeline<
-      EmptySearchResponse | ReadByNameParams,
-      Campaign
-    >
-  > = {
-    data$: merge(
-      this._read.data$,
-      this.addEmptySearchResponse.data$,
-      this._readByParams.data$,
-    ),
-    error$: merge(
-      this._read.error$,
-      this.addEmptySearchResponse.error$,
-      this._readByParams.error$,
-    ),
-    hasFailed$: merge(
-      this._read.hasFailed$,
-      this.addEmptySearchResponse.hasFailed$,
-      this._readByParams.hasFailed$,
-    ),
-    hasSucceeded$: merge(
-      this._read.hasSucceeded$,
-      this.addEmptySearchResponse.hasSucceeded$,
-      this._readByParams.hasSucceeded$,
-    ),
-    isLoading$: merge(
-      this._read.isLoading$,
-      this.addEmptySearchResponse.isLoading$,
-      this._readByParams.isLoading$,
-    ),
-    onRequestFailed$: merge(
-      this._read.onRequestFailed$,
-      this.addEmptySearchResponse.onRequestFailed$,
-    ),
-    onRequestStart$: merge(
-      this._read.onRequestStart$,
-      this.addEmptySearchResponse.onRequestStart$,
-    ),
-    onRequestSuccess$: merge(
-      this._read.onRequestSuccess$,
-      this.addEmptySearchResponse.onRequestSuccess$,
-    ),
-  };
+  override read = mergeRequestPipelines(
+    this._read,
+    this.addEmptySearchResponse,
+    this._readByParams,
+  );
 
   private deleteEmptySearchResponseTrigger = new Subject<{ pk: number }>();
   deleteEmptySearchResponse = createRequestPipeline<{ pk: number }, void>(

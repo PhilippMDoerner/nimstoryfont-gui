@@ -4,6 +4,7 @@ import {
   BehaviorSubject,
   filter,
   map,
+  merge,
   Observable,
   shareReplay,
   Subject,
@@ -33,10 +34,21 @@ export function createRequestSubjects<T>() {
   };
 }
 
+export type RequestPipeline<T> = {
+  data$: Observable<T | undefined>;
+  error$: Observable<HttpErrorResponse>;
+  isLoading$: Observable<boolean>;
+  hasFailed$: Observable<boolean>;
+  hasSucceeded$: Observable<boolean>;
+  onRequestSuccess$: Observable<void>;
+  onRequestFailed$: Observable<void>;
+  onRequestStart$: Observable<void>;
+};
+
 export const createRequestPipeline = <Params, Response>(
   trigger$: Observable<Params>,
   requestCb: (params: Params) => Observable<Response>,
-) => {
+): RequestPipeline<Response> => {
   const state$ = new Subject<RequestState>();
   const error$ = new Subject<HttpErrorResponse>();
   const data$: Observable<Response | undefined> = trigger$.pipe(
@@ -82,6 +94,21 @@ export const createRequestPipeline = <Params, Response>(
       filter((state) => state === 'pending'),
       mapVoid(),
     ),
+  };
+};
+
+export const mergeRequestPipelines = <T>(
+  ...pipelines: RequestPipeline<T>[]
+): RequestPipeline<T> => {
+  return {
+    data$: merge(...pipelines.map((x) => x.data$)),
+    error$: merge(...pipelines.map((x) => x.error$)),
+    isLoading$: merge(...pipelines.map((x) => x.isLoading$)),
+    hasFailed$: merge(...pipelines.map((x) => x.hasFailed$)),
+    hasSucceeded$: merge(...pipelines.map((x) => x.hasSucceeded$)),
+    onRequestSuccess$: merge(...pipelines.map((x) => x.onRequestSuccess$)),
+    onRequestFailed$: merge(...pipelines.map((x) => x.onRequestFailed$)),
+    onRequestStart$: merge(...pipelines.map((x) => x.onRequestStart$)),
   };
 };
 

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, merge, Observable, Subject } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { log } from 'src/utils/logging';
-import { createRequestPipeline } from 'src/utils/query';
+import { createRequestPipeline, mergeRequestPipelines } from 'src/utils/query';
 import { debugLog } from 'src/utils/rxjs-operators';
 import { OverviewItem } from '../_models/overview';
 
@@ -68,28 +68,7 @@ export abstract class BaseService<Raw, Detail> {
     ({ params, campaign }) => this._loadReadByParam(campaign, params),
   );
 
-  public read: ReturnType<typeof createRequestPipeline<Raw, Detail>> = {
-    data$: merge(this._read.data$, this._readByParams.data$),
-    hasFailed$: merge(this._read.hasFailed$, this._readByParams.hasFailed$),
-    hasSucceeded$: merge(
-      this._read.hasSucceeded$,
-      this._readByParams.hasSucceeded$,
-    ),
-    isLoading$: merge(this._read.isLoading$, this._readByParams.isLoading$),
-    onRequestFailed$: merge(
-      this._read.onRequestFailed$,
-      this._readByParams.onRequestFailed$,
-    ),
-    onRequestStart$: merge(
-      this._read.onRequestStart$,
-      this._readByParams.onRequestStart$,
-    ),
-    onRequestSuccess$: merge(
-      this._read.onRequestSuccess$,
-      this._readByParams.onRequestSuccess$,
-    ),
-    error$: merge(this._read.error$, this._readByParams.error$),
-  };
+  public read = mergeRequestPipelines(this._read, this._readByParams);
 
   protected deleteTrigger$ = new Subject<{ pk: number }>();
   public delete = createRequestPipeline(

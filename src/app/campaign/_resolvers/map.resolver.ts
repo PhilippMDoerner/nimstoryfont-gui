@@ -14,7 +14,7 @@ import { filterNil, takeFirstNonNil } from 'src/utils/rxjs-operators';
 
 export const mapResolver: ResolveFn<void> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ) => {
   const mapService = inject(MapService);
   const mapName = route.params['name'];
@@ -26,7 +26,7 @@ export const mapResolver: ResolveFn<void> = (
 
 export const mapOverviewResolver: ResolveFn<void> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ) => {
   const mapService = inject(MapService);
   inject(GlobalUrlParamsService)
@@ -36,13 +36,13 @@ export const mapOverviewResolver: ResolveFn<void> = (
 
 export const mapDefaultResolver: ResolveFn<void> = (
   route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  state: RouterStateSnapshot,
 ) => {
   const mapService = inject(MapService);
   const campaign$ = inject(GlobalUrlParamsService).currentCampaign.pipe(
-    filterNil()
+    filterNil(),
   );
-  const availableMaps$ = mapService.campaignList.data;
+  const availableMaps$ = mapService.campaignList.data$;
   combineLatest({
     campaign: campaign$,
     maps: availableMaps$,
@@ -52,7 +52,7 @@ export const mapDefaultResolver: ResolveFn<void> = (
       const mapName: string | undefined = getDefaultMapName(
         route.params,
         campaign as CampaignOverview,
-        maps ?? []
+        maps ?? [],
       );
       const hasValidMapName = mapName != null;
       if (!hasValidMapName) {
@@ -66,7 +66,7 @@ export const mapDefaultResolver: ResolveFn<void> = (
 function getDefaultMapName(
   params: Params,
   campaign: CampaignOverview,
-  maps: OverviewItem[]
+  maps: OverviewItem[],
 ): string | undefined {
   const hasMap = maps.length > 0;
   if (!hasMap) {

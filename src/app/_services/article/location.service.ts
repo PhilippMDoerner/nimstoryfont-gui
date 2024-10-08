@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Location, LocationRaw } from 'src/app/_models/location';
 import { OverviewItem } from 'src/app/_models/overview';
-import { trackQuery } from 'src/utils/query';
-import { BaseService } from '../base.service';
+import { log } from 'src/utils/logging';
+import { BaseService, ReadByNameParams } from '../base.service';
 import { RoutingService } from '../routing.service';
 
 @Injectable({
@@ -22,12 +22,25 @@ export class LocationService extends BaseService<LocationRaw, Location> {
     campaign: string,
     params: { name: string; parentLocationName: string },
   ) {
-    const url = `${this.baseUrl}/${campaign}/${params.parentLocationName}/${params.name}/`;
-    const entry$ = this.http
-      .get<any>(url)
-      .pipe(map((data) => this.parseEntity(data)));
+    const _params: ReadByNameParams = {
+      campaign,
+      params: {
+        name: params.name,
+        parentLocationName: params.parentLocationName,
+      },
+    };
+    this.readByParamTrigger$.next(_params);
+  }
 
-    trackQuery(entry$, this.read);
+  protected override _loadReadByParam(
+    campaign: string,
+    params: { name: string; parentLocationName: string },
+  ): Observable<Location> {
+    log(this._loadReadByParam.name, { campaign, params });
+    const url = `${this.baseUrl}/${campaign}/${params.parentLocationName}/${params.name}/`;
+    return this.http
+      .get<Location>(url)
+      .pipe(map((data) => this.parseEntity(data)));
   }
 
   override parseEntity(data: any): Location {

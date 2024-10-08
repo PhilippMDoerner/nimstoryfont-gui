@@ -148,7 +148,6 @@ export class RoutingService {
         },
         {} as { [key: string]: RouteNode },
       );
-    console.log(Object.values(x).map((x) => x.fullPath));
     return x;
   }
 }

@@ -18,9 +18,9 @@ import { CampaignUpdateComponent } from '../../../design/templates/campaign-upda
 })
 export class CampaignUpdatePageComponent {
   serverUrl = environment.backendDomain;
-  campaign$ = this.campaignService.read.data;
-  mapOptions$ = this.mapService.campaignList.data;
-  serverModel$ = this.campaignService.update.error.pipe(
+  campaign$ = this.campaignService.read.data$;
+  mapOptions$ = this.mapService.campaignList.data$;
+  serverModel$ = this.campaignService.update.error$.pipe(
     map((errorResponse) => errorResponse?.error as Campaign),
   );
 
@@ -53,7 +53,7 @@ export class CampaignUpdatePageComponent {
 
     this.campaignService.runUpdate(campaignPk, rawCampaign);
 
-    this.campaignService.update.hasSucceeded
+    this.campaignService.update.onRequestSuccess$
       .pipe(take(1))
       .subscribe(() => this.routeToAdmin());
   }

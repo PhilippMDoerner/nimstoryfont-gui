@@ -24,8 +24,8 @@ import {
 })
 export class ConfigAdministrationPageComponent {
   tableData$: Observable<ConfigTableData> = combineLatest({
-    markerTypes: this.markerTypeService.list.data,
-    playerClasses: this.playerClassService.list.data,
+    markerTypes: this.markerTypeService.list.data$,
+    playerClasses: this.playerClassService.list.data$,
   }).pipe(
     map(({ markerTypes, playerClasses }) => ({
       MARKER_TYPE: markerTypes,
@@ -34,10 +34,10 @@ export class ConfigAdministrationPageComponent {
   );
 
   markerTypesLoaded$ = combineLatest({
-    isDeleteDone: this.markerTypeService.delete.hasSucceeded.pipe(
+    isDeleteDone: this.markerTypeService.delete.hasSucceeded$.pipe(
       startWith(false),
     ),
-    isCreateDone: this.markerTypeService.create.hasSucceeded.pipe(
+    isCreateDone: this.markerTypeService.create.hasSucceeded$.pipe(
       startWith(false),
     ),
   }).pipe(
@@ -45,10 +45,10 @@ export class ConfigAdministrationPageComponent {
     delay(100),
   );
   playerClassesLoaded$ = combineLatest({
-    isDeleteDone: this.playerClassService.delete.hasSucceeded.pipe(
+    isDeleteDone: this.playerClassService.delete.hasSucceeded$.pipe(
       startWith(false),
     ),
-    isCreateDone: this.playerClassService.create.hasSucceeded.pipe(
+    isCreateDone: this.playerClassService.create.hasSucceeded$.pipe(
       startWith(false),
     ),
   }).pipe(

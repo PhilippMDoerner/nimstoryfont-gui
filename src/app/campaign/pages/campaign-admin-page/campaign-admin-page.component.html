@@ -1,12 +1,13 @@
 @let campaign = campaign$ | async;
 @let campaignStatistics = campaignStatistics$ | async;
+@let users = users$ | async;
 
-@if(campaign != null && campaignStatistics != null){
+@if (campaign != null && campaignStatistics != null && users != null) {
   <app-campaign-admin
     [campaign]="campaign"
     [serverUrl]="serverUrl"
     [campaignStatistics]="campaignStatistics"
-    [users]="users()"
+    [users]="users"
     (addAdmin)="addMemberToCampaignGroup('ADMIN', $event)"
     (addMember)="addMemberToCampaignGroup('MEMBER', $event)"
     (addGuest)="addMemberToCampaignGroup('GUEST', $event)"
@@ -17,4 +18,3 @@
     (removeEmptySearchResponse)="deleteEmptySearchResponse($event)"
   />
 }
-

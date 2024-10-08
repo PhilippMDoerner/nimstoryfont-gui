@@ -11,6 +11,7 @@ import {
   UserData,
 } from 'src/app/_models/token';
 import { environment } from 'src/environments/environment';
+import { log } from 'src/utils/logging';
 import { createRequestSubjects, trackQuery } from 'src/utils/query';
 import { RoutingService } from '../routing.service';
 
@@ -60,7 +61,7 @@ export class TokenService {
   }
 
   public refreshUserData() {
-    console.log('Trigger refresh call');
+    log(this.refreshUserData.name);
     const refreshToken = TokenService.getRefreshToken()?.token;
     if (!refreshToken) return;
 

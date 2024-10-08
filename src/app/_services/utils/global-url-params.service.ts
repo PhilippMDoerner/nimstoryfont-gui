@@ -13,7 +13,7 @@ import { TitleService } from './title.service';
   providedIn: 'root',
 })
 export class GlobalUrlParamsService {
-  public currentCampaignSet$ = this.campaignService.campaignOverview.data;
+  public currentCampaignSet$ = this.campaignService.campaignOverview.data$;
   private currentRouteSnapshot$ =
     new ReplaySubject<ActivatedRouteSnapshot | null>(1);
 
@@ -22,7 +22,7 @@ export class GlobalUrlParamsService {
     debugLog('campaignName'),
   );
   public isLoadingCampaignSet$ =
-    this.campaignService.campaignOverview.isLoading;
+    this.campaignService.campaignOverview.isLoading$;
   public currentCampaign = this.trackCurrentCampaign(
     this.currentCampaignSet$,
     this.campaignNameParam$,

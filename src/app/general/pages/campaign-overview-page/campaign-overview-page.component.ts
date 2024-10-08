@@ -20,7 +20,7 @@ export class CampaignOverviewPageComponent {
     map((data) => data?.userName),
   );
   isGlobalAdmin$ = this.tokenService.isGlobalAdmin$;
-  campaigns$ = this.campaignService.campaignOverview.data;
+  campaigns$ = this.campaignService.campaignOverview.data$;
 
   constructor(
     private tokenService: TokenService,

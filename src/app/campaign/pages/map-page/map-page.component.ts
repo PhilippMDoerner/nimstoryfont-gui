@@ -7,7 +7,6 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
 import { environment } from 'src/environments/environment';
-import { filterNil } from 'src/utils/rxjs-operators';
 
 @Component({
   selector: 'app-map-page',
@@ -18,9 +17,9 @@ export class MapPageComponent implements OnInit {
   canCreate$!: Observable<boolean>;
   canDelete$!: Observable<boolean>;
   canUpdate$!: Observable<boolean>;
-  map$: Observable<ExtendedMap | undefined> = this.mapService.read.data;
-  mapChoices$: Observable<OverviewItem[]> =
-    this.mapService.campaignList.data.pipe(filterNil());
+  map$: Observable<ExtendedMap | undefined> = this.mapService.read.data$;
+  mapChoices$: Observable<OverviewItem[] | undefined> =
+    this.mapService.campaignList.data$;
 
   serverUrl = environment.backendDomain;
 

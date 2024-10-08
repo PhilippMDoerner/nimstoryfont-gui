@@ -1,10 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
 import { convertSingleFileModelToFormData } from 'src/app/_functions/formDataConverter';
 import { ExtendedMap, Map, MapRaw } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
-import { trackQuery } from 'src/utils/query';
 import { BaseService } from '../base.service';
 import { RoutingService } from '../routing.service';
 
@@ -24,12 +22,7 @@ export class MapService extends BaseService<MapRaw, ExtendedMap> {
       mapData,
       'image',
     );
-
-    const entry$ = this.http
-      .post<ExtendedMap>(`${this.baseUrl}/`, formData)
-      .pipe(map((entry) => this.parseEntity(entry)));
-
-    trackQuery(entry$, this.create);
+    this.createTrigger$.next(formData);
   }
 
   override runPatch(mapPk: number, mapData: Partial<MapRaw>) {
@@ -43,11 +36,7 @@ export class MapService extends BaseService<MapRaw, ExtendedMap> {
       formData = mapData;
     }
 
-    const entry$ = this.http
-      .patch<ExtendedMap>(`${this.baseUrl}/pk/${mapPk}/`, formData)
-      .pipe(map((entry) => this.parseEntity(entry)));
-
-    trackQuery(entry$, this.patch);
+    this.patchTrigger$.next({ pk: mapPk, data: formData as MapRaw });
   }
 
   override parseEntity(data: any): Map {

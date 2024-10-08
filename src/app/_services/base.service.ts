@@ -1,11 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, merge, Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { log } from 'src/utils/logging';
-import { createRequestSubjects, trackQuery } from 'src/utils/query';
+import { createRequestPipeline } from 'src/utils/query';
 import { debugLog } from 'src/utils/rxjs-operators';
 import { OverviewItem } from '../_models/overview';
+
+export type ListParams<T> = {
+  campaign: string;
+  sortProperty?: keyof T;
+};
+
+export type ReadByNameParams = {
+  campaign: string;
+  params: { name: string; [key: string]: unknown };
+};
 
 @Injectable({
   providedIn: 'root',
@@ -13,16 +23,85 @@ import { OverviewItem } from '../_models/overview';
 export abstract class BaseService<Raw, Detail> {
   public apiUrl: string = environment.apiUrl;
   public baseUrl: string;
-  list = createRequestSubjects<Detail[]>();
-  campaignList = createRequestSubjects<OverviewItem[]>();
-  campaignDetailList = createRequestSubjects<Detail[]>();
-  create = createRequestSubjects<Detail>();
-  read = createRequestSubjects<Detail>();
-  update = createRequestSubjects<Detail>();
-  delete = createRequestSubjects<unknown>();
-  patch = createRequestSubjects<Detail>();
+  protected listTrigger$ = new Subject<void>();
+  public list = createRequestPipeline(this.listTrigger$.asObservable(), () =>
+    this._loadList(),
+  );
 
-  isDevelop = environment.kind === 'DEVELOPMENT';
+  protected campaignListTrigger$ = new Subject<ListParams<OverviewItem>>();
+  public campaignList = createRequestPipeline(
+    this.campaignListTrigger$.asObservable(),
+    (params) => this._loadCampaignList(params.campaign, params.sortProperty),
+  );
+
+  protected campaignDetailListTrigger$ = new Subject<ListParams<Detail>>();
+  public campaignDetailList = createRequestPipeline(
+    this.campaignDetailListTrigger$.asObservable(),
+    (params) =>
+      this._loadCampaignDetailList(params.campaign, params.sortProperty),
+  );
+
+  protected createTrigger$ = new Subject<any>();
+  public create = createRequestPipeline(
+    this.createTrigger$.asObservable(),
+    (data) => this._runCreate(data),
+  );
+
+  protected updateTrigger$ = new Subject<{
+    pk: number;
+    data: Raw & Record<'pk', number>;
+  }>();
+  public update = createRequestPipeline(
+    this.updateTrigger$.asObservable(),
+    (params) => this._runUpdate(params.pk, params.data),
+  );
+
+  protected readTrigger$ = new Subject<{ pk: number }>();
+  protected _read = createRequestPipeline(
+    this.readTrigger$.asObservable(),
+    (params) => this._loadRead(params.pk),
+  );
+
+  protected readByParamTrigger$ = new Subject<ReadByNameParams>();
+  protected _readByParams = createRequestPipeline(
+    this.readByParamTrigger$.asObservable(),
+    ({ params, campaign }) => this._loadReadByParam(campaign, params),
+  );
+
+  public read: ReturnType<typeof createRequestPipeline<Raw, Detail>> = {
+    data$: merge(this._read.data$, this._readByParams.data$),
+    hasFailed$: merge(this._read.hasFailed$, this._readByParams.hasFailed$),
+    hasSucceeded$: merge(
+      this._read.hasSucceeded$,
+      this._readByParams.hasSucceeded$,
+    ),
+    isLoading$: merge(this._read.isLoading$, this._readByParams.isLoading$),
+    onRequestFailed$: merge(
+      this._read.onRequestFailed$,
+      this._readByParams.onRequestFailed$,
+    ),
+    onRequestStart$: merge(
+      this._read.onRequestStart$,
+      this._readByParams.onRequestStart$,
+    ),
+    onRequestSuccess$: merge(
+      this._read.onRequestSuccess$,
+      this._readByParams.onRequestSuccess$,
+    ),
+    error$: merge(this._read.error$, this._readByParams.error$),
+  };
+
+  protected deleteTrigger$ = new Subject<{ pk: number }>();
+  public delete = createRequestPipeline(
+    this.deleteTrigger$.asObservable(),
+    (params) => this._runDelete(params.pk),
+  );
+
+  protected patchTrigger$ = new Subject<{ pk: number; data: Partial<Raw> }>();
+  public patch = createRequestPipeline(
+    this.patchTrigger$.asObservable(),
+    ({ pk, data }) => this._runPatch(pk, data),
+  );
 
   constructor(
     public http: HttpClient,
@@ -38,33 +117,43 @@ export abstract class BaseService<Raw, Detail> {
    * NOTE: May be either expensive for performance or not implemented. Always check before using if it works well.
    */
   loadList(): void {
-    if (this.isDevelop) console.log('loadList', this.baseUrl);
+    this.listTrigger$.next();
+  }
 
-    const entries$ = this.http.get<Detail[]>(`${this.baseUrl}/`).pipe(
+  protected _loadList(): Observable<Detail[]> {
+    const debugSymbol = this.loadList.name;
+    return this.http.get<Detail[]>(`${this.baseUrl}/`).pipe(
       map((entries) => entries.map((entry) => this.parseEntity(entry))),
-      debugLog(this.loadList.name),
+      debugLog(debugSymbol),
     );
-
-    trackQuery(entries$, this.list);
   }
 
   /**
    * Sends a GET request for an overview list of all entries of the campaign with the given name.
    */
   loadCampaignList(campaign: string, sortProperty?: keyof OverviewItem): void {
-    if (this.isDevelop)
-      console.log('loadCampaignList', this.baseUrl, campaign, sortProperty);
+    this.campaignListTrigger$.next({ campaign, sortProperty });
+  }
 
-    let entries$ = this.http
+  protected _loadCampaignList(
+    campaign: string,
+    sortProperty?: keyof OverviewItem,
+  ): Observable<OverviewItem[]> {
+    return this.http
       .get<OverviewItem[]>(`${this.baseUrl}/${campaign}/overview/`)
       .pipe(
-        map((entries) =>
-          entries.map((entry) => this.parseOverviewEntity(entry)),
-        ),
+        map((entries) => {
+          const entities = entries.map((entry) =>
+            this.parseOverviewEntity(entry),
+          );
+          if (sortProperty) {
+            return this.sortList(entities, sortProperty);
+          } else {
+            return entities;
+          }
+        }),
         debugLog(this.loadCampaignList.name),
       );
-
-    trackQuery(entries$, this.campaignList);
   }
 
   /**
@@ -72,32 +161,45 @@ export abstract class BaseService<Raw, Detail> {
    * NOTE: This is a detailed list filling all fields for every entry as far as available.
    * This may be expensive. Prefer campaignList if possible.
    */
-  loadCampaignDetailList(campaign: string): void {
-    if (this.isDevelop)
-      console.log('loadCampaignDetailList', this.baseUrl, campaign);
+  loadCampaignDetailList(campaign: string, sortProperty?: keyof Detail): void {
+    log(this.loadCampaignDetailList.name, {
+      baseUrl: this.baseUrl,
+      campaign,
+      sortProperty,
+    });
+    this.campaignDetailListTrigger$.next({ campaign, sortProperty });
+  }
 
-    const entries = this.http
-      .get<Detail[]>(`${this.baseUrl}/${campaign}/`)
-      .pipe(
-        map((entries) => entries.map((entry) => this.parseEntity(entry))),
-        debugLog(this.loadCampaignDetailList.name),
-      );
-
-    trackQuery(entries, this.campaignDetailList);
+  protected _loadCampaignDetailList(
+    campaign: string,
+    sortProperty?: keyof Detail,
+  ): Observable<Detail[]> {
+    return this.http.get<Detail[]>(`${this.baseUrl}/${campaign}/`).pipe(
+      map((entries) => {
+        const entities = entries.map((entry) => this.parseEntity(entry));
+        if (sortProperty) {
+          return this.sortList(entities, sortProperty);
+        } else {
+          return entities;
+        }
+      }),
+      debugLog(this.loadCampaignDetailList.name),
+    );
   }
 
   /**
    * Sends a POST request for the specified data
    */
   runCreate(data: any): void {
-    if (this.isDevelop) console.log('runCreate', this.baseUrl, data);
+    log(this.runCreate.name, { baseUrl: this.baseUrl, data });
+    this.createTrigger$.next(data);
+  }
 
-    const entry$ = this.http.post<Detail>(`${this.baseUrl}/`, data).pipe(
+  protected _runCreate(data: any): Observable<Detail> {
+    return this.http.post<Detail>(`${this.baseUrl}/`, data).pipe(
       map((entry) => this.parseEntity(entry)),
       debugLog(this.runCreate.name),
     );
-
-    trackQuery(entry$, this.create);
   }
 
   /**
@@ -105,29 +207,31 @@ export abstract class BaseService<Raw, Detail> {
    */
   runUpdate(pk: number, data: Raw & Record<'pk', number>): void {
     log(this.runUpdate.name, { baseUrl: this.baseUrl, pk, data });
-
-    const entry$ = this.http
-      .put<Detail>(`${this.baseUrl}/pk/${pk}/`, data)
-      .pipe(
-        map((entry) => this.parseEntity(entry)),
-        debugLog(this.runUpdate.name),
-      );
-
-    trackQuery(entry$, this.update);
+    this.updateTrigger$.next({ pk, data });
   }
 
+  protected _runUpdate(
+    pk: number,
+    data: Raw & Record<'pk', number>,
+  ): Observable<Detail> {
+    return this.http.put<Detail>(`${this.baseUrl}/pk/${pk}/`, data).pipe(
+      map((entry) => this.parseEntity(entry)),
+      debugLog(this.runUpdate.name),
+    );
+  }
   /**
    * Sends a GET request for the entry with the given pk
    */
   loadRead(pk: number): void {
-    if (this.isDevelop) console.log('loadRead', this.baseUrl, pk);
+    log(this.loadRead.name, { baseUrl: this.baseUrl, pk });
+    this.readTrigger$.next({ pk });
+  }
 
-    const entry$ = this.http.get<Detail>(`${this.baseUrl}/pk/${pk}/`).pipe(
+  protected _loadRead(pk: number): Observable<Detail> {
+    return this.http.get<Detail>(`${this.baseUrl}/pk/${pk}/`).pipe(
       map((entry) => this.parseEntity(entry)),
       debugLog(this.loadRead.name),
     );
-
-    trackQuery(entry$, this.read);
   }
 
   /**
@@ -136,11 +240,8 @@ export abstract class BaseService<Raw, Detail> {
    * @param param
    * @returns The data from that endpoint by the service
    */
-  loadReadByParam(
-    campaign: string,
-    params: { name?: string; [key: PropertyKey]: unknown },
-  ): void {
-    if (this.isDevelop) console.log('loadReadByParam', this.baseUrl, params);
+  loadReadByParam(campaign: string, params: { name: string }): void {
+    log(this.loadReadByParam.name, { baseUrl: this.baseUrl, params });
 
     if (typeof params.name !== 'string') {
       console.error('The params you used in the service: ', params);
@@ -150,47 +251,64 @@ export abstract class BaseService<Raw, Detail> {
         GenericObjectService and implement the function yourself`;
     }
 
-    const entry$ = this.http
+    this.readByParamTrigger$.next({ campaign, params });
+  }
+
+  protected _loadReadByParam(
+    campaign: string,
+    params: { name: string },
+  ): Observable<Detail> {
+    return this.http
       .get<Detail>(`${this.baseUrl}/${campaign}/${params.name}/`)
       .pipe(
         map((entry) => this.parseEntity(entry)),
         debugLog(this.loadReadByParam.name),
       );
-
-    trackQuery(entry$, this.read);
   }
 
   /**
    * Sends a DELETE request for the entry with the specified primary key
    */
   runDelete(pk: number): void {
-    if (this.isDevelop) console.log('runDelete', this.baseUrl, pk);
+    log(this.runDelete.name, { baseUrl: this.baseUrl, pk });
+    this.deleteTrigger$.next({ pk });
+  }
 
-    const entry$ = this.http.delete(`${this.baseUrl}/pk/${pk}/`).pipe(
+  protected _runDelete(pk: number): Observable<void> {
+    return this.http.delete(`${this.baseUrl}/pk/${pk}/`).pipe(
       debugLog(this.runDelete.name),
       map(() => void 0),
     );
-
-    trackQuery(entry$, this.delete);
   }
 
   /**
    * Sends a PATCH request for the entry with the given pk and the specified data
    */
   runPatch(pk: number, data: Partial<Raw>): void {
-    if (this.isDevelop) console.log('runPatch', this.baseUrl, pk, data);
+    log(this.runPatch.name, { baseUrl: this.baseUrl, pk, data });
+    this.patchTrigger$.next({ pk, data });
+  }
 
-    const entry$ = this.http
-      .patch<Detail>(`${this.baseUrl}/pk/${pk}/`, data)
-      .pipe(
-        map((entry) => this.parseEntity(entry)),
-        debugLog(this.runPatch.name),
-      );
-
-    trackQuery(entry$, this.patch);
+  protected _runPatch(pk: number, data: Partial<Raw>): Observable<Detail> {
+    return this.http.patch<Detail>(`${this.baseUrl}/pk/${pk}/`, data).pipe(
+      map((entry) => this.parseEntity(entry)),
+      debugLog(this.runPatch.name),
+    );
   }
 
   abstract parseEntity(data: any): Detail;
 
   abstract parseOverviewEntity(data: any): OverviewItem;
+
+  protected sortList<T>(entries: T[], sortProperty: keyof T): T[] {
+    return entries.sort((a, b) => {
+      const aVal = a[sortProperty];
+      const bVal = b[sortProperty];
+      if (aVal === bVal) return 0;
+      if (aVal == null) return -1;
+      if (bVal == null) return 1;
+
+      return aVal > bVal ? 1 : -1;
+    });
+  }
 }

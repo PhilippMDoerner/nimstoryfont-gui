@@ -6,8 +6,8 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, mergeMap, retry, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, mergeMap, retry, skip, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { takeFirstNonNil } from 'src/utils/rxjs-operators';
 import { RefreshTokenService } from '../_services/utils/refresh-token.service';
@@ -43,23 +43,25 @@ export function addTokenInterceptor(
             tokenService.refreshUserData();
             const canSuccessfullyRefresh = retryCount <= MAX_RETRY_COUNT;
             if (!canSuccessfullyRefresh) {
-              // TODO: Show toast that user is no longer logged in
-              tokenService.logout();
               throw err;
             }
 
-            const userDataAfterRefresh = combineLatest({
-              data: tokenService.userData.data,
-              isLoading: tokenService.userData.isLoading,
-            }).pipe(
-              filter(({ isLoading, data }) => !isLoading && data != null),
-              take(1),
-              map(({ data }) => data),
+            const userDataAfterRefresh = tokenService.userData.data.pipe(
+              skip(1),
             );
-
             return userDataAfterRefresh;
           default:
             throw err;
+        }
+      },
+    }),
+    tap({
+      error: (error) => {
+        const isAuthError =
+          error instanceof HttpErrorResponse && error.status === 401;
+        if (isAuthError) {
+          // TODO: Show toast that user is no longer logged in due to HTTP error
+          tokenService.logout();
         }
       },
     }),

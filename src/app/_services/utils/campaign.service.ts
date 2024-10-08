@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { merge, Observable, Subject } from 'rxjs';
 import { map as switchMap } from 'rxjs/operators';
 import {
   convertModelToFormData,
@@ -17,18 +17,111 @@ import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { OverviewItem } from 'src/app/_models/overview';
 import { User } from 'src/app/_models/user';
 import { log } from 'src/utils/logging';
-import { createRequestSubjects, trackQuery } from 'src/utils/query';
-import { BaseService } from '../base.service';
+import { createRequestPipeline } from 'src/utils/query';
+import { BaseService, ReadByNameParams } from '../base.service';
+
+type ChangeMemberAction =
+  | 'add_member'
+  | 'remove_member'
+  | 'add_admin'
+  | 'remove_admin'
+  | 'add_guest'
+  | 'remove_guest';
+type ChangeMemberRequest = {
+  campaign: string;
+  body: {
+    user: User;
+    action: ChangeMemberAction;
+  };
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class CampaignService extends BaseService<CampaignRaw, Campaign> {
-  campaignOverview = createRequestSubjects<CampaignOverview[]>();
-  deactivate = createRequestSubjects<void>();
-  users = createRequestSubjects<User[]>();
-  deleteEmptySearchResponse = createRequestSubjects<void>();
-  statistics = createRequestSubjects<WikiStatistics>();
+  private camapignOverviewTrigger$ = new Subject<void>();
+  campaignOverview = createRequestPipeline<void, CampaignOverview[]>(
+    this.camapignOverviewTrigger$.asObservable(),
+    () => this._loadCampaignOverview(),
+  );
+
+  deactivate = this.delete;
+
+  private changeMembersTrigger = new Subject<ChangeMemberRequest>();
+  changedMembers = createRequestPipeline<ChangeMemberRequest, User[]>(
+    this.changeMembersTrigger.asObservable(),
+    ({ campaign, body }) => this._patchMember(campaign, body),
+  );
+
+  protected override _readByParams = createRequestPipeline<
+    ReadByNameParams,
+    Campaign
+  >(this.readByParamTrigger$.asObservable(), ({ campaign }) =>
+    this._loadReadByParam(campaign),
+  );
+
+  private addEmptySearchResponseTrigger$ = new Subject<EmptySearchResponse>();
+  addEmptySearchResponse = createRequestPipeline<EmptySearchResponse, Campaign>(
+    this.addEmptySearchResponseTrigger$.asObservable(),
+    (model) => this._runAddEmptySearchResponse(model),
+  );
+
+  override read: ReturnType<
+    typeof createRequestPipeline<
+      EmptySearchResponse | ReadByNameParams,
+      Campaign
+    >
+  > = {
+    data$: merge(
+      this._read.data$,
+      this.addEmptySearchResponse.data$,
+      this._readByParams.data$,
+    ),
+    error$: merge(
+      this._read.error$,
+      this.addEmptySearchResponse.error$,
+      this._readByParams.error$,
+    ),
+    hasFailed$: merge(
+      this._read.hasFailed$,
+      this.addEmptySearchResponse.hasFailed$,
+      this._readByParams.hasFailed$,
+    ),
+    hasSucceeded$: merge(
+      this._read.hasSucceeded$,
+      this.addEmptySearchResponse.hasSucceeded$,
+      this._readByParams.hasSucceeded$,
+    ),
+    isLoading$: merge(
+      this._read.isLoading$,
+      this.addEmptySearchResponse.isLoading$,
+      this._readByParams.isLoading$,
+    ),
+    onRequestFailed$: merge(
+      this._read.onRequestFailed$,
+      this.addEmptySearchResponse.onRequestFailed$,
+    ),
+    onRequestStart$: merge(
+      this._read.onRequestStart$,
+      this.addEmptySearchResponse.onRequestStart$,
+    ),
+    onRequestSuccess$: merge(
+      this._read.onRequestSuccess$,
+      this.addEmptySearchResponse.onRequestSuccess$,
+    ),
+  };
+
+  private deleteEmptySearchResponseTrigger = new Subject<{ pk: number }>();
+  deleteEmptySearchResponse = createRequestPipeline<{ pk: number }, void>(
+    this.deleteEmptySearchResponseTrigger.asObservable(),
+    ({ pk }) => this._runDeleteEmptySearchResponse(pk),
+  );
+
+  private statisticsTrigger = new Subject<{ campaignName: string }>();
+  statistics = createRequestPipeline<{ campaignName: string }, WikiStatistics>(
+    this.statisticsTrigger.asObservable(),
+    ({ campaignName }) => this._loadStatistics(campaignName),
+  );
 
   constructor(http: HttpClient) {
     super(http, 'campaign');
@@ -36,12 +129,11 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
 
   loadCampaignOverview() {
     log(this.loadCampaignOverview.name, this.baseUrl);
+    this.camapignOverviewTrigger$.next();
+  }
 
-    const campaignsObs$: Observable<CampaignOverview[]> = this.http.get<
-      CampaignOverview[]
-    >(`${this.baseUrl}/overview/`);
-
-    trackQuery(campaignsObs$, this.campaignOverview);
+  private _loadCampaignOverview(): Observable<CampaignOverview[]> {
+    return this.http.get<CampaignOverview[]>(`${this.baseUrl}/overview/`);
   }
 
   override runCreate(data: Campaign) {
@@ -117,12 +209,15 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     super.runDelete(pk);
   }
 
-  loadStatistics(campaign_name: string) {
-    const statisticsUrl = `${this.apiUrl}/admin/statistics/${campaign_name}`;
-    if (this.isDevelop) console.log('loadStatistics', statisticsUrl);
+  loadStatistics(campaignName: string) {
+    log(this.loadStatistics.name, { campaignName });
+    this.statisticsTrigger.next({ campaignName });
+  }
 
-    const entity$ = this.http.get<WikiStatistics>(statisticsUrl);
-    trackQuery(entity$, this.statistics);
+  private _loadStatistics(campaignName: string): Observable<WikiStatistics> {
+    return this.http.get<WikiStatistics>(
+      `${this.apiUrl}/admin/statistics/${campaignName}`,
+    );
   }
 
   /**
@@ -132,93 +227,97 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
    * @returns The data from that endpoint by the service
    */
   override loadReadByParam(campaign: string) {
-    const entry$ = this.http.get<Campaign>(`${this.baseUrl}/${campaign}/`);
-    trackQuery(entry$, this.read);
+    log(this.loadReadByParam.name, campaign);
+    this.readByParamTrigger$.next({ campaign, params: { name: campaign } });
+  }
+
+  protected override _loadReadByParam(campaign: string): Observable<Campaign> {
+    return this.http.get<Campaign>(`${this.baseUrl}/${campaign}/`);
   }
 
   runAddGuest(campaign: string, user: User) {
-    if (this.isDevelop) console.log('runAddGuest', campaign, user);
-
-    const requestBody = { action: 'add_guest', user };
-    const entries$ = this.http.patch<User[]>(
-      `${this.baseUrl}/${campaign}/members/`,
-      requestBody,
-    );
-    trackQuery(entries$, this.users);
+    log(this.runAddGuest.name, { campaign, user });
+    this.changeMembersTrigger.next({
+      campaign,
+      body: { action: 'add_guest', user },
+    });
   }
 
   runAddMember(campaign: string, user: User) {
-    if (this.isDevelop) console.log('runAddMember', campaign, user);
-
-    const requestBody = { action: 'add_member', user };
-    const entries$ = this.http.patch<User[]>(
-      `${this.baseUrl}/${campaign}/members/`,
-      requestBody,
-    );
-    trackQuery(entries$, this.users);
+    log(this.runAddMember.name, { campaign, user });
+    this.changeMembersTrigger.next({
+      campaign,
+      body: { action: 'add_member', user },
+    });
   }
 
   runAddAdmin(campaign: string, user: User) {
-    if (this.isDevelop) console.log('runAddAdmin', campaign, user);
-
-    const requestBody = { action: 'add_admin', user };
-    const entries$ = this.http.patch<User[]>(
-      `${this.baseUrl}/${campaign}/members/`,
-      requestBody,
-    );
-
-    trackQuery(entries$, this.users);
+    log(this.runAddAdmin.name, { campaign, user });
+    this.changeMembersTrigger.next({
+      campaign,
+      body: { action: 'add_admin', user },
+    });
   }
 
   runRemoveGuest(campaign: string, user: User) {
-    if (this.isDevelop) console.log('runRemoveGuest', campaign, user);
-
-    const requestBody = { action: 'remove_guest', user };
-    const entries$ = this.http.patch<User[]>(
-      `${this.baseUrl}/${campaign}/members/`,
-      requestBody,
-    );
-    trackQuery(entries$, this.users);
+    log(this.runRemoveGuest.name, { campaign, user });
+    this.changeMembersTrigger.next({
+      campaign,
+      body: { action: 'remove_guest', user },
+    });
   }
 
   runRemoveMember(campaign: string, user: User) {
-    if (this.isDevelop) console.log('runRemoveMember', campaign, user);
-
-    const requestBody = { action: 'remove_member', user };
-    const entries$ = this.http.patch<User[]>(
-      `${this.baseUrl}/${campaign}/members/`,
-      requestBody,
-    );
-    trackQuery(entries$, this.users);
+    log(this.runRemoveMember.name, { campaign, user });
+    this.changeMembersTrigger.next({
+      campaign,
+      body: { action: 'remove_member', user },
+    });
   }
 
   runRemoveAdmin(campaign: string, user: User) {
-    if (this.isDevelop) console.log('runRemoveAdmin', campaign, user);
+    log(this.runRemoveAdmin.name, { campaign, user });
+    this.changeMembersTrigger.next({
+      campaign,
+      body: { action: 'remove_admin', user },
+    });
+  }
 
-    const requestBody = { action: 'remove_admin', user };
-    const entries$ = this.http.patch<User[]>(
+  private _patchMember(
+    campaign: string,
+    requestBody: { action: string; user: User },
+  ): Observable<User[]> {
+    return this.http.patch<User[]>(
       `${this.baseUrl}/${campaign}/members/`,
       requestBody,
     );
-    trackQuery(entries$, this.users);
   }
 
   runAddEmptySearchResponse(responseModel: EmptySearchResponse) {
-    if (this.isDevelop) console.log('runAddEmptySearchResponse', responseModel);
+    log(this.runAddEmptySearchResponse.name, responseModel);
+    this.addEmptySearchResponseTrigger$.next(responseModel);
+  }
 
-    const emptySearchUrl = `${this.apiUrl}/emptysearchresponse/`;
-    const entry$ = this.http.post<Campaign>(emptySearchUrl, responseModel);
-    trackQuery(entry$, this.read);
+  private _runAddEmptySearchResponse(
+    responseModel: EmptySearchResponse,
+  ): Observable<Campaign> {
+    return this.http.post<Campaign>(
+      `${this.apiUrl}/emptysearchresponse/`,
+      responseModel,
+    );
   }
 
   runDeleteEmptySearchResponse(emptySearchResponsePk: number) {
-    if (this.isDevelop)
-      console.log('runDeleteEmptySearchResponse', emptySearchResponsePk);
+    log(this.runDeleteEmptySearchResponse.name, emptySearchResponsePk);
+    this.deleteEmptySearchResponseTrigger.next({ pk: emptySearchResponsePk });
+  }
 
-    const entry$ = this.http
+  private _runDeleteEmptySearchResponse(
+    emptySearchResponsePk: number,
+  ): Observable<void> {
+    return this.http
       .delete(`${this.apiUrl}/emptysearchresponse/pk/${emptySearchResponsePk}/`)
       .pipe(switchMap(() => void 0));
-    trackQuery(entry$, this.deleteEmptySearchResponse);
   }
 
   override parseEntity(data: any): Campaign {

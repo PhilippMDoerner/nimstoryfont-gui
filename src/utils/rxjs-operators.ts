@@ -1,4 +1,4 @@
-import { filter, OperatorFunction, pipe, skip, take, tap } from 'rxjs';
+import { filter, map, OperatorFunction, pipe, skip, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { log } from './logging';
 
@@ -30,11 +30,15 @@ export function throwUnless<T>(
   });
 }
 
-export function debugLog<T>(debugSymbol?: string): OperatorFunction<T, T> {
+export const debugLog = <T>(debugSymbol?: string): OperatorFunction<T, T> => {
   const isDevelop = environment.kind === 'DEVELOPMENT';
   return tap((x) => {
     if (isDevelop) {
       log(debugSymbol, x);
     }
   });
+};
+
+export function mapVoid<T>(): OperatorFunction<T, void> {
+  return map(() => void 0);
 }

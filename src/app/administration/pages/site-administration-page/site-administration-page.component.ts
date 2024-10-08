@@ -14,8 +14,8 @@ export class SiteAdministrationPageComponent {
   readonly userService = inject(UserService);
   readonly campaignService = inject(CampaignService);
   readonly groupService = inject(GroupService);
-  allSiteUsers$ = this.userService.list.data;
-  allSiteCampaigns$ = this.campaignService.list.data;
-  siteStatistics$ = this.campaignService.statistics.data;
-  allPermissionGroups$ = this.groupService.list.data;
+  allSiteUsers$ = this.userService.list.data$;
+  allSiteCampaigns$ = this.campaignService.list.data$;
+  siteStatistics$ = this.campaignService.statistics.data$;
+  allPermissionGroups$ = this.groupService.list.data$;
 }

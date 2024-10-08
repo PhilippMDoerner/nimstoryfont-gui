@@ -84,9 +84,9 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
       label: 'Location',
       campaign: this.campaignName(),
       required: false,
-      options$: inject(LocationService)
-        .campaignList.data.asObservable()
-        .pipe(filter((list) => list != null)),
+      options$: inject(LocationService).campaignList.data$.pipe(
+        filter((list) => list != null),
+      ),
     }),
     this.formlyService.buildEditorConfig({
       key: 'description',
@@ -193,7 +193,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
     return (
       this.userModel().organizations?.some(
         (membership: CharacterOrganization) =>
-          membership.organization_id === organization.pk
+          membership.organization_id === organization.pk,
       ) ?? false
     );
   }

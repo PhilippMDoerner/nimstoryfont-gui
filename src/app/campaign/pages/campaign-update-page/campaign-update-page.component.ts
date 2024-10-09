@@ -7,7 +7,7 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { CampaignService } from 'src/app/_services/utils/campaign.service';
 import { environment } from 'src/environments/environment';
 import { takeFirstNonNil } from 'src/utils/rxjs-operators';
-import { CampaignUpdateComponent } from '../../../design/templates/campaign-update/campaign-update.component';
+import { CampaignUpdateComponent } from '../../../../design/templates/campaign-update/campaign-update.component';
 
 @Component({
   selector: 'app-campaign-update-page',

@@ -9,8 +9,8 @@ import {
 } from './_resolvers/map.resolver';
 import { recentlyUpdatedArticleResolver } from './_resolvers/recently-updated-article.resolver';
 import { statisticsResolver } from './_resolvers/statistics.resolver';
-import { CampaignUpdatePageComponent } from './campaign-update-page/campaign-update-page.component';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
+import { CampaignUpdatePageComponent } from './pages/campaign-update-page/campaign-update-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { MapPageComponent } from './pages/map-page/map-page.component';
 

@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CampaignOverviewPageComponent {
   serverUrl = environment.backendDomain;
-  userName$ = this.tokenService.userData.data.pipe(
+  userName$ = this.tokenService.userData.data$.pipe(
     map((data) => data?.userName),
   );
   isGlobalAdmin$ = this.tokenService.isGlobalAdmin$;

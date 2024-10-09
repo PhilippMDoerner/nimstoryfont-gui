@@ -10,7 +10,6 @@ import { Observable } from 'rxjs';
 import { map, mergeMap, retry, skip, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { takeFirstNonNil } from 'src/utils/rxjs-operators';
-import { RefreshTokenService } from '../_services/utils/refresh-token.service';
 import { TokenService } from '../_services/utils/token.service';
 
 const MAX_RETRY_COUNT = 3;
@@ -22,15 +21,14 @@ export function addTokenInterceptor(
   if (!isApiUrlRequiringJWTToken(req.url)) return next(req);
 
   const tokenService = inject(TokenService);
-  const refreshService = inject(RefreshTokenService);
 
   const accessToken = TokenService.getAccessToken();
   const hasAccessToken = accessToken != null;
   if (!hasAccessToken) {
-    refreshService.refreshUserData();
+    tokenService.refreshUserData();
   }
 
-  return tokenService.userData.data.pipe(
+  return tokenService.userData.data$.pipe(
     map((data) => data?.accessToken.token),
     takeFirstNonNil(),
     map((token) => addTokenToRequest(token, req)),
@@ -46,7 +44,7 @@ export function addTokenInterceptor(
               throw err;
             }
 
-            const userDataAfterRefresh = tokenService.userData.data.pipe(
+            const userDataAfterRefresh = tokenService.userData.data$.pipe(
               skip(1),
             );
             return userDataAfterRefresh;

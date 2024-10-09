@@ -30,7 +30,7 @@ export class QuestService extends BaseService<QuestRaw, Quest> {
 
   loadQuestTakers(campaign: string) {
     this.characterService.loadPlayerCharacters(campaign);
-    const entries$ = this.characterService.playerCharacters.data.pipe(
+    const entries$ = this.characterService.playerCharacters.data$.pipe(
       filter((characters) => characters != null),
       map((characters) => {
         const groupAsQuestTaker: OverviewItem = {

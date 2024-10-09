@@ -21,7 +21,7 @@ export class LoginPageComponent {
     }),
   );
   resetErrorMessage$: Observable<string | undefined> =
-    this.mailService.passwordReset.error.pipe(
+    this.mailService.passwordReset.error$.pipe(
       takeUntilDestroyed(),
       takeFirstNonNil(),
       map((error) => (error as HttpErrorResponse).message),
@@ -33,7 +33,7 @@ export class LoginPageComponent {
     private mailService: MailService,
     private route: ActivatedRoute,
   ) {
-    this.tokenService.userData.hasSucceeded
+    this.tokenService.userData.hasSucceeded$
       .pipe(takeFirstNonNil())
       .subscribe(() => this.routingService.routeToPath('campaign-overview'));
   }

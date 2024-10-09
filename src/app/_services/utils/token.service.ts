@@ -23,7 +23,7 @@ export class TokenService {
 
   apiUrl = environment.apiUrl;
   userData = createRequestSubjects<UserData>();
-  isGlobalAdmin$ = this.userData.data.pipe(
+  isGlobalAdmin$ = this.userData.data$.pipe(
     map((data) => !!(data?.isAdmin || data?.isSuperUser)),
   );
 
@@ -35,13 +35,13 @@ export class TokenService {
     private http: HttpClient,
     private routingService: RoutingService,
   ) {
-    this.userData.data.next(TokenService.getUserData());
+    this.userData.data$.next(TokenService.getUserData());
 
-    this.userData.data
+    this.userData.data$
       .pipe(takeUntilDestroyed())
       .subscribe((data) => this.setUserData(data));
 
-    this.userData.data
+    this.userData.data$
       .pipe(
         takeUntilDestroyed(),
         filter((data) => data == null),
@@ -55,9 +55,9 @@ export class TokenService {
   }
 
   public logout() {
-    this.userData.data.next(undefined);
-    this.userData.error.next(undefined);
-    this.userData.state.next('pending');
+    this.userData.data$.next(undefined);
+    this.userData.error$.next(undefined);
+    this.userData.state$.next('pending');
   }
 
   public refreshUserData() {
@@ -157,7 +157,7 @@ export class TokenService {
   public getCampaignRole(
     campaignName: string | undefined,
   ): Observable<CampaignRole | undefined> {
-    return this.userData.data.pipe(
+    return this.userData.data$.pipe(
       map((data) => {
         if (campaignName == null) return undefined;
 

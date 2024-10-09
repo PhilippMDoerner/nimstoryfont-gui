@@ -12,12 +12,12 @@ import { filterNil } from 'src/utils/rxjs-operators';
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent {
-  user$ = this.userService.thisUser.data.pipe(filterNil());
+  user$ = this.userService.thisUser.data$.pipe(filterNil());
   isCurrentUser$ = this.user$.pipe(
     map((user) => user.pk === this.tokenService.getCurrentUserPk()),
   );
   campaignName$ = this.paramsService.campaignNameParam$;
-  memberships$ = this.tokenService.userData.data.pipe(
+  memberships$ = this.tokenService.userData.data$.pipe(
     map((data) => this.mapMemberships(data)),
   );
 

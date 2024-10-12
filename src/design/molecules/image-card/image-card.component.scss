@@ -1,14 +1,15 @@
-.card{
-  &-body{
+.card {
+  &-body {
     padding: var(--spacer-3);
   }
-  
-  &-title{
+
+  &-title {
     margin-bottom: var(--spacer-0);
     text-align: center;
   }
-  
-  &-img-top{
+
+  &-img-top {
     object-fit: cover;
+    max-height: 7rem;
   }
 }

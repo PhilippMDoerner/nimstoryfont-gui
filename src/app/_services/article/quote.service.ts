@@ -1,36 +1,75 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Subject } from 'rxjs';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Quote, QuoteRaw } from 'src/app/_models/quote';
-import { createRequestSubjects, trackQuery } from 'src/utils/query';
+import { createRequestPipeline, createRequestSubjects } from 'src/utils/query';
+import { debugLog } from 'src/utils/rxjs-operators';
 import { BaseService } from '../base.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuoteService extends BaseService<QuoteRaw, Quote> {
+  private randomQuoteTrigger$ = new Subject<{
+    campaignName: string;
+    characterName: string;
+  }>();
+  randomQuote = createRequestPipeline(
+    this.randomQuoteTrigger$.asObservable(),
+    ({ campaignName, characterName }) =>
+      this._loadRandomQuote(campaignName, characterName),
+  );
+
+  private characterQuotesTrigger$ = new Subject<{
+    campaignName: string;
+    characterName: string;
+  }>();
+  characterQuotes = createRequestPipeline(
+    this.characterQuotesTrigger$.asObservable(),
+    ({ campaignName, characterName }) =>
+      this._loadAllCharacterQuotes(campaignName, characterName),
+  );
+
   constructor(http: HttpClient) {
     super(http, 'quote');
   }
 
-  randomQuote$ = createRequestSubjects<Quote>();
   characterQuotes$ = createRequestSubjects<Quote[]>();
 
-  loadRandomQuote(campaign: string, character_name: string) {
-    const entry$ = this.http
-      .get<any>(`${this.baseUrl}/${campaign}/${character_name}/random/`)
-      .pipe(map((entry) => this.parseEntity(entry)));
+  loadRandomQuote(campaign: string, characterName: string) {
+    this.randomQuoteTrigger$.next({
+      campaignName: campaign,
+      characterName: characterName,
+    });
+  }
+  private _loadRandomQuote(campaign: string, character_name: string) {
+    const debugSymbol = this.loadRandomQuote.name;
 
-    trackQuery(entry$, this.randomQuote$);
+    return this.http
+      .get<any>(`${this.baseUrl}/${campaign}/${character_name}/random/`)
+      .pipe(
+        map((entry) => this.parseEntity(entry)),
+        debugLog(debugSymbol),
+      );
   }
 
-  loadAllCharacterQuotes(campaign: string, character_name: string) {
-    const entries$ = this.http
-      .get<any[]>(`${this.baseUrl}/${campaign}/${character_name}/`)
-      .pipe(map((entries) => entries.map((entry) => this.parseEntity(entry))));
+  public loadAllCharacterQuotes(campaign: string, character_name: string) {
+    this.characterQuotesTrigger$.next({
+      campaignName: campaign,
+      characterName: character_name,
+    });
+  }
 
-    trackQuery(entries$, this.characterQuotes$);
+  private _loadAllCharacterQuotes(campaign: string, character_name: string) {
+    const debugSymbol = this.loadAllCharacterQuotes.name;
+
+    return this.http
+      .get<any[]>(`${this.baseUrl}/${campaign}/${character_name}/`)
+      .pipe(
+        map((entries) => entries.map((entry) => this.parseEntity(entry))),
+        debugLog(debugSymbol),
+      );
   }
 
   override parseEntity(data: any): Quote {

@@ -14,10 +14,10 @@ export interface CRUDService<T> extends CUDService<T> {
 
 export interface CUDService<T> extends CreateDeleteService<T> {
   patch(pk: number, data: Partial<T>): Observable<T>;
-  doUpdate(pk: number, data: T): Observable<T>;
+  _runUpdate(pk: number, data: T): Observable<T>;
 }
 
 export interface CreateDeleteService<T> {
-  doCreate(data: any): Observable<T>;
+  _runCreate(data: any): Observable<T>;
   delete(pk: number): Observable<any>;
 }

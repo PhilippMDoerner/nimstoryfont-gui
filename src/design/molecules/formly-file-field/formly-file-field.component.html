@@ -9,10 +9,12 @@
     (click)="onButtonClick($event)"
   ></app-button>
   <div class="mt-2">
-    <div *ngIf="selectedFileName; else noFileSelected">
+    @if (selectedFileName) {
       <span class="me-3"> Currently Selected: </span>
       {{ selectedFileName }}
-    </div>
+    } @else {
+      No File Selected
+    }
   </div>
 </div>
 
@@ -25,6 +27,5 @@
   [formlyAttributes]="field"
   [id]="props['name']"
   [name]="props['name']"
+  data-formly-field-type="file"
 />
-
-<ng-template #noFileSelected> No File Selected </ng-template>

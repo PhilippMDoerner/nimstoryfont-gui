@@ -1,11 +1,7 @@
 <div class="card">
-  <ng-container *ngIf="imageUrl">
-    <img 
-      class="card-img-top" 
-      [src]="serverUrl + imageUrl" 
-      [alt]="alt"
-    >
-  </ng-container>
+  @if (imageUrl) {
+    <img class="card-img-top" [src]="serverUrl + imageUrl" [alt]="alt" />
+  }
   <div class="card-body">
     <h5 class="card-title">
       {{ text }}

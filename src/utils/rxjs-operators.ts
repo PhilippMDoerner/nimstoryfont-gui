@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { filter, map, OperatorFunction, pipe, skip, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { log } from './logging';
@@ -41,4 +42,14 @@ export const debugLog = <T>(debugSymbol?: string): OperatorFunction<T, T> => {
 
 export function mapVoid<T>(): OperatorFunction<T, void> {
   return map(() => void 0);
+}
+
+export function mapServerModel<T>(): OperatorFunction<
+  HttpErrorResponse,
+  T | undefined
+> {
+  return pipe(
+    filter((error) => error.status === 401),
+    map((error) => error.error as T | undefined),
+  );
 }

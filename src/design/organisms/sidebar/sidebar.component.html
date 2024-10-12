@@ -1,4 +1,4 @@
-<ng-container *ngIf="campaign">
+<ng-container *ngIf="campaign()">
   <nav class="sidebar">
     <!-- Brand -->
     <div class="sidebar__brand brand">
@@ -10,8 +10,8 @@
 
       <div
         class="brand__home"
-        [title]="campaign.name + '-Home'"
-        [class.disabled-entry]="campaign == null"
+        [title]="campaign()?.name + '-Home'"
+        [class.disabled-entry]="campaign() == null"
       >
         <a class="brand__home-link" [routerLink]="homeUrl">
           <h4 class="brand__home-link-text">
@@ -31,7 +31,7 @@
       <ng-container *ngIf="hasCampaignAdminPrivileges">
         <li
           class="sidebar__entry entry"
-          [class.disabled-entry]="campaign == null"
+          [class.disabled-entry]="campaign() == null"
         >
           <a class="entry__link" [routerLink]="campaignAdminUrl">
             <app-icon class="entry__icon" [icon]="'hammer'"></app-icon>
@@ -44,7 +44,7 @@
       @for (entry of sidebarEntries(); track $index) {
         <li
           class="sidebar__entry entry"
-          [class.disabled-entry]="campaign == null"
+          [class.disabled-entry]="campaign() == null"
         >
           <a [routerLink]="entry.route" class="entry__link">
             <app-icon class="entry__icon" [icon]="entry.iconClass"></app-icon>

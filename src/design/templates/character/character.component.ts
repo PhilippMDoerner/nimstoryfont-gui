@@ -32,7 +32,7 @@ interface OrganizationEntry {
 })
 export class CharacterComponent implements OnInit, OnChanges {
   @Input() character!: CharacterDetails;
-  @Input() characterQuote!: Quote;
+  @Input() characterQuote?: Quote;
   @Input() campaignCharacters!: OverviewItem[];
   @Input() serverUrl!: string;
   @Input() quoteServerModel?: Quote;

@@ -1,8 +1,10 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { TemplatesModule } from 'src/design/templates/templates.module';
 import { addTokenInterceptor } from './_interceptors/tokenInterceptor';
@@ -24,6 +26,8 @@ import { GeneralModule } from './general/general.module';
     AdministrationModule,
     GeneralModule,
     CampaignModule,
+    FormlyBootstrapModule,
+    ReactiveFormsModule,
     TemplatesModule,
     FORMLY_MODULE,
   ],

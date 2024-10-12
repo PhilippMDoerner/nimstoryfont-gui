@@ -14,6 +14,7 @@ import { ConfirmationModalComponent } from './confirmation-modal/confirmation-mo
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button/confirmation-toggle-button.component';
 import { EditToggleComponent } from './edit-toggle/edit-toggle.component';
 import { FormComponent } from './form/form.component';
+import { FileValueAccessor } from './formly-file-field/file-value-accessor';
 import { FormlyFileFieldComponent } from './formly-file-field/formly-file-field.component';
 import { IconCardComponent } from './icon-card/icon-card.component';
 import { ImageCardComponent } from './image-card/image-card.component';
@@ -23,8 +24,6 @@ import { PageBackgroundComponent } from './page-background/page-background.compo
 import { SearchFieldComponent } from './search-field/search-field.component';
 import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
-
-
 
 @NgModule({
   declarations: [
@@ -37,6 +36,7 @@ import { SmallCreateFormComponent } from './small-create-form/small-create-form.
     ConfirmationToggleButtonComponent,
     EditToggleComponent,
     FormComponent,
+    FileValueAccessor,
     FormlyFileFieldComponent,
     IconCardComponent,
     ImageCardComponent,

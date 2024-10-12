@@ -1,13 +1,15 @@
 import {
   Component,
-  computed,
   EventEmitter,
-  input,
+  Input,
+  OnChanges,
+  OnInit,
   Output,
-  Signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { FormlyFieldProps } from '@ngx-formly/bootstrap/form-field';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { Observable } from 'rxjs';
 import { ElementType, Icon } from '../../atoms';
 
 @Component({
@@ -15,37 +17,68 @@ import { ElementType, Icon } from '../../atoms';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent<T> {
+export class FormComponent<T> implements OnInit, OnChanges {
   form = new FormGroup({});
 
-  model = input.required<T>();
-  fields = input.required<FormlyFieldConfig[]>();
-  enctype = input<string>('application/x-www-form-urlencoded');
-  enableSubmitButtons = input<boolean>(true);
-  disabled = input<boolean>(false);
-  submitButtonType = input<ElementType>('PRIMARY');
-  cancelButtonType = input<ElementType>('SECONDARY');
-  submitIcon = input<Icon | undefined>(undefined);
+  @Input() model!: T;
+  @Input() fields!: FormlyFieldConfig[];
+  @Input() enctype: string = 'application/x-www-form-urlencoded'; //Default form enctype in HTML5
+  @Input() enableSubmitButtons: boolean = true;
+  @Input() disabled: boolean = false;
+  @Input() submitButtonType: ElementType = 'PRIMARY';
+  @Input() cancelButtonType: ElementType = 'SECONDARY';
+  @Input() submitIcon?: Icon;
 
-  @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter<
-    NonNullable<T>
-  >();
+  @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();
 
-  _fields: Signal<FormlyFieldConfig[]> = computed(() =>
-    this.fields().map((field): FormlyFieldConfig => {
-      const canBeDisabled = field.props != null; // props = template-specific options. No props means you can't set anything to disabled
-      if (!canBeDisabled) return field;
+  usedFields!: FormlyFieldConfig[];
 
-      return {
-        ...field,
-        props: {
-          ...field.props,
-          disabled: this.disabled(),
-        },
-      };
-    }),
-  );
+  ngOnInit(): void {
+    this.usedFields = this.copyFields(this.fields);
+
+    if (this.disabled) {
+      this.disableFields(this.usedFields);
+    }
+  }
+
+  ngOnChanges(): void {
+    this.usedFields = this.copyFields(this.fields);
+
+    if (this.disabled) {
+      this.disableFields(this.usedFields);
+    }
+  }
+
+  copyFields(fields: FormlyFieldConfig[]): FormlyFieldConfig[] {
+    return fields.map((field) => this.copyField(field));
+  }
+
+  copyField(field: FormlyFieldConfig): FormlyFieldConfig {
+    const newField: FormlyFieldConfig = JSON.parse(JSON.stringify(field));
+
+    const isSelectFieldWithObservable =
+      field.props?.options instanceof Observable;
+    if (isSelectFieldWithObservable) {
+      const properties = newField.props as FormlyFieldProps;
+      properties.options = field.props?.options;
+    }
+
+    return newField;
+  }
+
+  disableFields(fields: FormlyFieldConfig[]) {
+    for (let field of fields) {
+      const properties = field.props;
+
+      const canBeDisabled = properties != null;
+      if (!canBeDisabled) {
+        continue;
+      }
+
+      properties.disabled = true;
+    }
+  }
 
   onSubmit(event: Event | undefined): void {
     event?.preventDefault(); //Prevent event from bubbling up
@@ -54,11 +87,7 @@ export class FormComponent<T> {
       return;
     }
 
-    const formData = this.form.value as Partial<T>;
-    this.formlySubmit.emit({
-      ...this.model(),
-      ...formData,
-    } as NonNullable<T>);
+    this.formlySubmit.emit(this.model as NonNullable<T>);
   }
 
   onCancel(): void {

@@ -1,0 +1,36 @@
+@let character = character$ | async;
+@let characterQuote = (characterQuote$ | async) ?? undefined;
+@let campaignCharacters = campaignCharacters$ | async;
+@let imageServerModel = (imageServerModel$ | async) ?? undefined;
+@let quoteServerModel = (quoteServerModel$ | async) ?? undefined;
+@let encounterServerModel = (encounterServerModel$ | async) ?? undefined;
+@let hasWritePermission = (hasWritePermission$ | async) === true;
+
+@if (character != null && campaignCharacters != null) {
+  <app-character
+    [character]="character"
+    [characterQuote]="characterQuote"
+    [campaignCharacters]="campaignCharacters"
+    [serverUrl]="serverUrl"
+    [quoteServerModel]="quoteServerModel"
+    [imageServerModel]="imageServerModel"
+    [encounterServerModel]="encounterServerModel"
+    [canUpdate]="hasWritePermission"
+    [canCreate]="hasWritePermission"
+    [canDelete]="hasWritePermission"
+    (characterDelete)="onCharacterDelete($event)"
+    (createImage)="onCreateImage($event)"
+    (deleteImage)="onDeleteImage($event)"
+    (updateImage)="onUpdateImage($event)"
+    (quoteCreate)="onCreateQuote($event)"
+    (quoteUpdate)="onUpdateQuote($event)"
+    (quoteDelete)="onDeleteQuote($event)"
+    (quoteConnectionCreate)="onCreateQuoteConnection($event)"
+    (quoteConnectionDelete)="onDeleteQuoteConnection($event)"
+    (encounterUpdate)="onUpdateEncounter($event)"
+    (encounterDelete)="onDeleteEncounter($event)"
+    (encounterConnectionCreate)="onCreateEncounterConnection($event)"
+    (encounterConnectionDelete)="onDeleteEncounterConnection($event)"
+    (refreshQuote)="onRefreshQuote()"
+  ></app-character>
+}

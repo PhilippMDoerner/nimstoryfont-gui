@@ -40,7 +40,7 @@ export class GeneralOverviewPageComponent {
   campaignName$ = this.paramsService.campaignNameParam$;
   canCreate$ = this.campaignName$.pipe(
     filterNil(),
-    switchMap((name) => this.tokenService.isCampaignAdmin(name)),
+    switchMap((name) => this.tokenService.isCampaignMember(name)),
   );
   overviewType$ = this.route.data.pipe(
     map((data) => data['overviewType'] as GeneralOverviewType),

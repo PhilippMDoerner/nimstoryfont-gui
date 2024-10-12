@@ -3,6 +3,11 @@ import { ActivatedRouteSnapshot } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
 import { CampaignOverviewRoute, CampaignRoute } from '../_models/route';
 import { campaignResolver } from '../_resolvers/campaign.resolver';
+import {
+  characterListResolver,
+  characterResolver,
+} from '../_resolvers/character.resolver';
+import { randomQuoteResolver } from '../_resolvers/quote.resolver';
 import { siteUsersResolver } from '../_resolvers/users.resolver';
 import { CharacterService } from '../_services/article/character.service';
 import { CreatureService } from '../_services/article/creature.service';
@@ -19,9 +24,14 @@ import { recentlyUpdatedArticleResolver } from './_resolvers/recently-updated-ar
 import { statisticsResolver } from './_resolvers/statistics.resolver';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
 import { CampaignUpdatePageComponent } from './pages/campaign-update-page/campaign-update-page.component';
+import { CharacterPageComponent } from './pages/character-page/character-page.component';
+import { CharacterUpdatePageComponent } from './pages/character-update-page/character-update-page.component';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { LocationPageComponent } from './pages/location-page/location-page.component';
 import { MapPageComponent } from './pages/map-page/map-page.component';
+import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
+import { QuoteOverviewPageComponent } from './pages/quote-overview-page/quote-overview-page.component';
 
 const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
   {
@@ -141,6 +151,43 @@ const innerCampaignRoutes: CampaignRoute[] = [
     },
   },
   // Character Routes
+  {
+    path: 'character/:name',
+    component: CharacterPageComponent,
+    data: { name: 'character', requiredMinimumRole: 'guest' },
+    resolve: {
+      characterResolver,
+      randomQuoteResolver,
+      characterListResolver,
+    },
+  },
+  {
+    path: 'character/:name/update',
+    component: CharacterUpdatePageComponent,
+    data: { name: 'character-update', requiredMinimumRole: 'guest' },
+    resolve: {},
+  },
+  // Location Routes
+  {
+    path: 'location/:parent_name/:name',
+    component: LocationPageComponent,
+    data: { name: 'location', requiredMinimumRole: 'guest' },
+    resolve: {},
+  },
+  // Organization Routes
+  {
+    path: 'organization/:name',
+    component: OrganizationPageComponent,
+    data: { name: 'organization', requiredMinimumRole: 'guest' },
+    resolve: {},
+  },
+  // Quote Routes
+  {
+    path: 'quotes/:name',
+    component: QuoteOverviewPageComponent,
+    data: { name: 'quote-overview', requiredMinimumRole: 'guest' },
+    resolve: {},
+  },
   // Map Routes
   // {
   // 	path: `map/create`,

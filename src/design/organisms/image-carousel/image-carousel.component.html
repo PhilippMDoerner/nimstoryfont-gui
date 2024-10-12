@@ -4,6 +4,7 @@
     [interval]="0"
     [showNavigationArrows]="images.length > 1"
     [showNavigationIndicators]="images.length > 1"
+    [activeId]="'imageIndex-' + currentSlideIndex"
     (slide)="onSlide($event)"
     (slid)="onSlideEnd($event)"
   >
@@ -13,10 +14,7 @@
       [id]="'imageIndex-' + i"
     >
       <div class="image-container" [title]="image.name">
-        <img
-          [src]="serverUrl + image.image"
-          [alt]="'Image ' + i "
-        />
+        <img [src]="serverUrl + image.image" [alt]="'Image ' + i" />
       </div>
     </ng-template>
   </ngb-carousel>
@@ -26,9 +24,9 @@
 <div class="edit-image-buttons">
   <!-- Create Image Button -->
   <ng-container *ngIf="canCreate">
-    <app-button 
-      class="mx-2" 
-      [type]="'PRIMARY'" 
+    <app-button
+      class="mx-2"
+      [type]="'PRIMARY'"
       [size]="'SMALL'"
       [icon]="'plus-square'"
       (click)="onImageCreate()"
@@ -37,9 +35,9 @@
 
   <!-- Update Image button -->
   <ng-container *ngIf="images.length > 0 && canUpdate">
-    <app-button 
-      class="mx-2" 
-      [type]="'SECONDARY'" 
+    <app-button
+      class="mx-2"
+      [type]="'SECONDARY'"
       [size]="'SMALL'"
       [icon]="'pencil'"
       (click)="onImageUpdate()"
@@ -48,15 +46,14 @@
 
   <!-- Delete Image Button -->
   <ng-container *ngIf="images.length > 1 && canDelete">
-    <app-button 
-      class="mx-2" 
-      [type]="'DANGER'" 
+    <app-button
+      class="mx-2"
+      [type]="'DANGER'"
       [size]="'SMALL'"
       [icon]="'trash'"
       (click)="onImageDelete()"
     ></app-button>
   </ng-container>
-
 </div>
 
 <ng-template #defaultImage>

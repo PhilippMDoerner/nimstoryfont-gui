@@ -63,14 +63,18 @@ export class CharacterPageComponent {
       ...img,
       character_article: character?.pk as number,
     });
+
+    this.reloadCharacter();
   }
 
   onDeleteImage(img: Image) {
     this.imageService.runDelete(img.pk as number);
+    this.reloadCharacter();
   }
 
   onUpdateImage(img: Image) {
     this.imageService.runPatch(img.pk as number, img);
+    this.reloadCharacter();
   }
 
   onCreateQuote(quote: Quote) {
@@ -106,25 +110,36 @@ export class CharacterPageComponent {
 
   onCreateQuoteConnection(connection: QuoteConnection) {
     this.quoteConnectionService.runCreate(connection);
+    this.reloadCharacter();
   }
 
   onDeleteQuoteConnection(connection: QuoteConnection) {
     this.quoteConnectionService.runDelete(connection.pk as number);
+    this.reloadCharacter();
   }
 
   onDeleteEncounter(encounter: CharacterEncounter) {
     this.encounterService.runDelete(encounter.pk as number);
+    this.reloadCharacter();
   }
 
   onUpdateEncounter(encounter: CharacterEncounter) {
     this.encounterService.runPatch(encounter.pk as number, encounter);
+    this.reloadCharacter();
   }
 
   onCreateEncounterConnection(connection: EncounterConnection) {
     this.encounterConnectionService.runCreate(connection);
+    this.reloadCharacter();
   }
 
   onDeleteEncounterConnection(connection: EncounterConnection) {
     this.encounterConnectionService.runDelete(connection.pk as number);
+    this.reloadCharacter();
+  }
+
+  private async reloadCharacter() {
+    const character = await firstValueFrom(this.character$);
+    this.characterService.loadRead(character?.pk as number);
   }
 }

@@ -18,16 +18,18 @@
 </ng-container>
 
 <ng-template #displayState>
-    <app-image-carousel
-      [images]="images"
-      [serverUrl]="serverUrl"
-      [canDelete]="canDelete"
-      [canUpdate]="canUpdate"
-      [canCreate]="canCreate"
-      (deleteImage)="changeState(currentImage, 'DELETE')"      
-      (updateImage)="changeState(currentImage, 'UPDATE')"      
-      (createImage)="changeState({}, 'CREATE')"      
-    ></app-image-carousel>
+  <app-image-carousel
+    [images]="images"
+    [serverUrl]="serverUrl"
+    [canDelete]="canDelete"
+    [canUpdate]="canUpdate"
+    [canCreate]="canCreate"
+    [currentSlideIndex]="currentImageIndex"
+    (deleteImage)="changeState(currentImage, 'DELETE')"
+    (updateImage)="changeState(currentImage, 'UPDATE')"
+    (createImage)="changeState({}, 'CREATE')"
+    (slide)="onSlide($event)"
+  ></app-image-carousel>
 </ng-template>
 
 <ng-template #updateState>
@@ -46,7 +48,7 @@
         alt=""
       />
     </div>
-    
+
     <app-form
       class="form-card__form"
       [model]="userModel"
@@ -101,18 +103,18 @@
         Do you really want to delete this image?
       </span>
       <div class="confirmation__button-container">
-        <app-button 
-          class="confirmation__button" 
-          [type]="'DARK'" 
+        <app-button
+          class="confirmation__button"
+          [type]="'DARK'"
           [icon]="'times'"
           [text]="'No'"
           (click)="onCancel()"
         ></app-button>
-        <app-button 
-          class="confirmation__button" 
+        <app-button
+          class="confirmation__button"
           [type]="'DANGER'"
           [icon]="'trash'"
-          [text]="'Yes'" 
+          [text]="'Yes'"
           (click)="onSubmit(undefined)"
         ></app-button>
       </div>

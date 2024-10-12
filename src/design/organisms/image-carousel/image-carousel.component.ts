@@ -13,6 +13,7 @@ export class ImageCarouselComponent {
   @Input() canDelete: boolean = false;
   @Input() canCreate: boolean = false;
   @Input() canUpdate: boolean = false;
+  @Input({ required: true }) currentSlideIndex!: number;
 
   @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
   @Output() createImage: EventEmitter<null> = new EventEmitter();
@@ -22,18 +23,15 @@ export class ImageCarouselComponent {
   @Output() slideEnd: EventEmitter<{ event: NgbSlideEvent; index: number }> =
     new EventEmitter();
 
-  currentSlideIndex: number = 0;
-
   onSlide(event: NgbSlideEvent) {
     const slideIndexStr: string | undefined = event.current.split('-').pop();
     if (slideIndexStr == null) {
       throw `ImageCarousel - Image with id '${event.current}' does not match the expected pattern of 'imageIndex-<number>'!`;
     }
 
-    const slideIndex: number = parseInt(slideIndexStr);
-    this.currentSlideIndex = slideIndex;
+    const nextSlideIndex: number = parseInt(slideIndexStr);
 
-    this.slide.emit({ event, index: this.currentSlideIndex });
+    this.slide.emit({ event, index: nextSlideIndex });
   }
 
   onSlideEnd(event: NgbSlideEvent) {

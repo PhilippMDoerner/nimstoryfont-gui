@@ -1,9 +1,11 @@
 import {
   Component,
+  computed,
   EventEmitter,
-  Input,
+  input,
   OnChanges,
   Output,
+  Signal,
 } from '@angular/core';
 import { Campaign } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -16,13 +18,26 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnChanges {
-  @Input() campaign?: Campaign;
-  @Input() hasCampaignAdminPrivileges!: boolean;
+  campaign = input<Campaign | undefined>(undefined);
+  hasCampaignAdminPrivileges = input<boolean>(false);
 
   @Output() logout: EventEmitter<null> = new EventEmitter();
 
   serverUrl = environment.backendDomain;
-  sidebarEntries: ArticleMetaData[] = SIDEBAR_ENTRIES;
+  sidebarEntries: Signal<ArticleMetaData[]> = computed(() =>
+    SIDEBAR_ENTRIES.map((entry) => {
+      const route = this.routingService.hasRoutePath(entry.route)
+        ? this.routingService.getRoutePath(entry.route, {
+            campaign: this.campaign()?.name,
+          })
+        : entry.route;
+      return {
+        ...entry,
+        route,
+      };
+    }),
+  );
+
   campaignOverviewUrl: string =
     this.routingService.getRoutePath('campaign-overview');
   campaignAdminUrl!: string;

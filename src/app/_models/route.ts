@@ -1,4 +1,5 @@
 import { Route } from '@angular/router';
+import { GeneralOverviewType } from 'src/design/templates/_models/generalOverviewType';
 import { siteAdminGuard } from '../_guards/admin.guard';
 import { loginGuard } from '../_guards/login.guard';
 import { CampaignRole } from './token';
@@ -27,4 +28,8 @@ export interface AdminRoute extends BaseNamedRoute {
 
 export interface CampaignRoute extends BaseNamedRoute {
   data: RoleRouteData;
+}
+
+export interface CampaignOverviewRoute extends BaseNamedRoute {
+  data: RoleRouteData & { overviewType: GeneralOverviewType };
 }

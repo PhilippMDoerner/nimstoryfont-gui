@@ -18,9 +18,11 @@ export function addTokenInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
-  if (!isApiUrlRequiringJWTToken(req.url)) return next(req);
-
   const tokenService = inject(TokenService);
+  const onHTTPError = createErrorCallback(tokenService);
+  if (!isApiUrlRequiringJWTToken(req.url)) {
+    return next(req).pipe(tap({ error: onHTTPError }));
+  }
 
   const accessToken = TokenService.getAccessToken();
   const hasAccessToken = accessToken != null;
@@ -53,18 +55,20 @@ export function addTokenInterceptor(
         }
       },
     }),
-    tap({
-      error: (error) => {
-        const isAuthError =
-          error instanceof HttpErrorResponse && error.status === 401;
-        if (isAuthError) {
-          // TODO: Show toast that user is no longer logged in due to HTTP error
-          tokenService.logout();
-        }
-      },
-    }),
+    tap({ error: onHTTPError }),
   );
 }
+
+const createErrorCallback = (tokenService: TokenService) => {
+  return (error: any) => {
+    const isAuthError =
+      error instanceof HttpErrorResponse && error.status === 401;
+    if (isAuthError) {
+      // TODO: Show toast that user is no longer logged in due to HTTP error
+      tokenService.logout();
+    }
+  };
+};
 
 const isApiUrlRequiringJWTToken = (url: string) =>
   isApiUrl(url) && isUrlRequiringJWTToken(url);

@@ -235,7 +235,7 @@ export abstract class BaseService<Raw, Detail> {
 
   protected _loadReadByParam(
     campaign: string,
-    params: { name: string },
+    params: { name: string } & Record<string, unknown>,
   ): Observable<Detail> {
     return this.http
       .get<Detail>(`${this.baseUrl}/${campaign}/${params.name}/`)

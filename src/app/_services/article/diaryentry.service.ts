@@ -1,16 +1,28 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DiaryEntry, DiaryEntryRaw } from 'src/app/_models/diaryentry';
 import { OverviewItem } from 'src/app/_models/overview';
-import { trackQuery } from 'src/utils/query';
+import { createRequestPipeline } from 'src/utils/query';
 import { BaseService } from '../base.service';
 import { RoutingService } from '../routing.service';
+
+type ReadByNameDiaryentryParams = {
+  name: string;
+  isMainSession: number | string;
+  sessionNumber: number | string;
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class DiaryentryService extends BaseService<DiaryEntryRaw, DiaryEntry> {
+  protected override _readByParams = createRequestPipeline(
+    this.readByParamTrigger$.asObservable(),
+    ({ campaign, params }) =>
+      this._loadReadByParam(campaign, params as ReadByNameDiaryentryParams),
+  );
   constructor(
     private routingService: RoutingService,
     http: HttpClient,
@@ -20,18 +32,20 @@ export class DiaryentryService extends BaseService<DiaryEntryRaw, DiaryEntry> {
 
   override loadReadByParam(
     campaign: string,
-    params: {
-      isMainSession: number | string;
-      sessionNumber: number | string;
-      authorName: string;
-    },
+    params: ReadByNameDiaryentryParams,
   ) {
-    const url = `${this.baseUrl}/${campaign}/${params.sessionNumber}/${params.isMainSession}/${params.authorName}/`;
-    const entry$ = this.http
+    this.readByParamTrigger$.next({ campaign, params });
+  }
+
+  protected override _loadReadByParam(
+    campaign: string,
+    params: ReadByNameDiaryentryParams,
+  ): Observable<DiaryEntry> {
+    const authorName = params.name;
+    const url = `${this.baseUrl}/${campaign}/${params.sessionNumber}/${params.isMainSession}/${authorName}/`;
+    return this.http
       .get<DiaryEntry>(url)
       .pipe(map((diaryEntry) => this.parseDiaryEntry(diaryEntry)));
-
-    trackQuery(entry$, this.read);
   }
 
   private parseDiaryEntry(entry: any): DiaryEntry {

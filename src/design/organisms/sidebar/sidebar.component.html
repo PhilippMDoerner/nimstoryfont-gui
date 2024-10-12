@@ -17,17 +17,17 @@
           <h4 class="brand__home-link-text">
             <img
               class="brand__icon"
-              [src]="serverUrl + campaign.icon"
+              [src]="serverUrl + campaign()?.icon"
               alt="..."
             />
-            <div class="brand__home-link-text-text">{{ campaign.name }}</div>
+            <div class="brand__home-link-text-text">{{ campaign()?.name }}</div>
           </h4>
         </a>
       </div>
     </div>
 
-    <!-- Admin Section -->
     <ul class="sidebar__entries">
+      <!-- Admin Section -->
       <ng-container *ngIf="hasCampaignAdminPrivileges">
         <li
           class="sidebar__entry entry"
@@ -41,7 +41,7 @@
       </ng-container>
 
       <!-- Campaign Overview Entries -->
-      <ng-container *ngFor="let entry of sidebarEntries">
+      @for (entry of sidebarEntries(); track $index) {
         <li
           class="sidebar__entry entry"
           [class.disabled-entry]="campaign == null"
@@ -51,7 +51,7 @@
             <span class="entry__text">{{ entry.title }}</span>
           </a>
         </li>
-      </ng-container>
+      }
     </ul>
 
     <!-- Logout -->

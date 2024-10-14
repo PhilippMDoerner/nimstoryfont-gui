@@ -81,9 +81,13 @@ export class RoutingService {
   }
 
   private getVariableRouteByName(routeName: string): RouteNode {
-    const route = this.routeNodes[routeName];
+    const route: RouteNode | undefined = this.routeNodes[routeName];
 
     if (route == null) {
+      return {
+        fullPath: '/dummy',
+        route,
+      };
       throw `There is no route with the name ${routeName}. Please contact the Developer to use either a different route name or create a route for this name.`;
     }
 

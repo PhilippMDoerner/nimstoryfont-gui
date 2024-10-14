@@ -1,6 +1,6 @@
 <app-page
   [serverUrl]="serverUrl"
-  [hasCampaignAdminPrivileges]="(hasCampaignAdminRights$ | async) === true"
-  [campaign]="(campaign$ | async) ?? undefined"
+  [hasCampaignAdminPrivileges]="hasCampaignAdminRights$() === true"
+  [campaign]="campaign$() ?? undefined"
   (logout)="logout()"
 ></app-page>

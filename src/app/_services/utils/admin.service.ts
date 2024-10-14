@@ -1,38 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { createRequestSubjects, trackQuery } from 'src/utils/query';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AdminService {
   apiUrl = environment.apiUrl;
-  adminUrl = `${this.apiUrl}/admin`;
+  adminUrl =  `${this.apiUrl}/admin`;
 
-  clearDatabase = createRequestSubjects<void>();
-  database = createRequestSubjects<Blob>();
-  statistics = createRequestSubjects<{ [key: PropertyKey]: number }>();
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
-
-  runClearDatabase() {
-    const entry$ = this.http.delete<void>(`${this.adminUrl}/dbclear`);
-    trackQuery(entry$, this.clearDatabase);
+  clearDatabase(): Observable<any>{
+    return this.http.delete(`${this.adminUrl}/dbclear`);
   }
 
-  loadDatabase() {
-    const entry$ = this.http.get(`${this.adminUrl}/dbdownload`, {
-      responseType: 'blob',
-    });
-    trackQuery(entry$, this.database);
+  downloadDatabase(): Observable<any>{
+    return this.http.get(`${this.adminUrl}/dbdownload`, {responseType: 'blob'});
   }
 
-  loadStatistics() {
-    const entries$ = this.http.get<{ [key: string]: number }>(
-      `${this.adminUrl}/statistics`,
-    );
-
-    trackQuery(entries$, this.statistics);
+  getStatistics(): Observable<any>{
+    return this.http.get(`${this.adminUrl}/statistics`);
   }
 }

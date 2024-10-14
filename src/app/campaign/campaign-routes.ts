@@ -1,37 +1,8 @@
-import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
 import { CampaignOverviewRoute, CampaignRoute } from '../_models/route';
-import { campaignResolver } from '../_resolvers/campaign.resolver';
-import {
-  characterListResolver,
-  characterResolver,
-} from '../_resolvers/character.resolver';
-import { randomQuoteResolver } from '../_resolvers/quote.resolver';
-import { siteUsersResolver } from '../_resolvers/users.resolver';
-import { CharacterService } from '../_services/article/character.service';
-import { CreatureService } from '../_services/article/creature.service';
-import { DiaryentryService } from '../_services/article/diaryentry.service';
-import { ItemService } from '../_services/article/item.service';
-import { LocationService } from '../_services/article/location.service';
-import { OrganizationService } from '../_services/article/organization.service';
-import {
-  mapDefaultResolver,
-  mapOverviewResolver,
-  mapResolver,
-} from './_resolvers/map.resolver';
-import { recentlyUpdatedArticleResolver } from './_resolvers/recently-updated-article.resolver';
-import { statisticsResolver } from './_resolvers/statistics.resolver';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
-import { CampaignUpdatePageComponent } from './pages/campaign-update-page/campaign-update-page.component';
-import { CharacterPageComponent } from './pages/character-page/character-page.component';
-import { CharacterUpdatePageComponent } from './pages/character-update-page/character-update-page.component';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
-import { LocationPageComponent } from './pages/location-page/location-page.component';
-import { MapPageComponent } from './pages/map-page/map-page.component';
-import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
-import { QuoteOverviewPageComponent } from './pages/quote-overview-page/quote-overview-page.component';
 
 const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
   {
@@ -43,10 +14,6 @@ const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
       requiredMinimumRole: 'guest',
       overviewType: 'CHARACTER',
     },
-    resolve: {
-      charactersResolver: (route: ActivatedRouteSnapshot) =>
-        inject(CharacterService).loadCampaignList(route.params['campaign']),
-    },
   },
   {
     path: 'creature',
@@ -56,10 +23,6 @@ const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
       name: 'creature-overview',
       requiredMinimumRole: 'guest',
       overviewType: 'CREATURE',
-    },
-    resolve: {
-      charactersResolver: (route: ActivatedRouteSnapshot) =>
-        inject(CreatureService).loadCampaignList(route.params['campaign']),
     },
   },
   {
@@ -71,10 +34,6 @@ const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
       requiredMinimumRole: 'guest',
       overviewType: 'DIARYENTRY',
     },
-    resolve: {
-      charactersResolver: (route: ActivatedRouteSnapshot) =>
-        inject(DiaryentryService).loadCampaignList(route.params['campaign']),
-    },
   },
   {
     path: 'item',
@@ -84,10 +43,6 @@ const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
       name: 'item-overview',
       requiredMinimumRole: 'guest',
       overviewType: 'ITEM',
-    },
-    resolve: {
-      charactersResolver: (route: ActivatedRouteSnapshot) =>
-        inject(ItemService).loadCampaignList(route.params['campaign']),
     },
   },
   {
@@ -99,10 +54,6 @@ const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
       requiredMinimumRole: 'guest',
       overviewType: 'LOCATION',
     },
-    resolve: {
-      charactersResolver: (route: ActivatedRouteSnapshot) =>
-        inject(LocationService).loadCampaignList(route.params['campaign']),
-    },
   },
   {
     path: 'organization',
@@ -113,10 +64,6 @@ const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
       requiredMinimumRole: 'guest',
       overviewType: 'ORGANIZATION',
     },
-    resolve: {
-      charactersResolver: (route: ActivatedRouteSnapshot) =>
-        inject(OrganizationService).loadCampaignList(route.params['campaign']),
-    },
   },
 ];
 
@@ -126,68 +73,62 @@ const innerCampaignRoutes: CampaignRoute[] = [
     path: `admin`,
     component: CampaignAdminPageComponent,
     data: { name: 'campaign-admin', requiredMinimumRole: 'admin' },
-    resolve: {
-      campaignResolver,
-      statisticsResolver,
-      siteUsersResolver,
-    },
+    resolve: {},
   },
-  {
-    path: 'admin/update',
-    component: CampaignUpdatePageComponent,
-    data: { name: 'campaign-update', requiredMinimumRole: 'admin' },
-    resolve: {
-      mapOverviewResolver,
-      campaignResolver,
-    },
-  },
+  // {
+  //   path: 'admin/update',
+  //   component: CampaignUpdatePageComponent,
+  //   data: { name: 'campaign-update', requiredMinimumRole: 'admin' },
+  //   resolve: {
+  //     mapOverviewResolver,
+  //     campaignResolver,
+  //   },
+  // },
   //Home Routes
   {
     path: `home`,
     component: HomePageComponent,
     data: { name: 'home', requiredMinimumRole: 'guest' },
-    resolve: {
-      recentlyUpdatedArticleResolver,
-    },
+    resolve: {},
   },
   // Character Routes
-  {
-    path: 'character/:name',
-    component: CharacterPageComponent,
-    data: { name: 'character', requiredMinimumRole: 'guest' },
-    resolve: {
-      characterResolver,
-      randomQuoteResolver,
-      characterListResolver,
-    },
-  },
-  {
-    path: 'character/:name/update',
-    component: CharacterUpdatePageComponent,
-    data: { name: 'character-update', requiredMinimumRole: 'guest' },
-    resolve: {},
-  },
-  // Location Routes
-  {
-    path: 'location/:parent_name/:name',
-    component: LocationPageComponent,
-    data: { name: 'location', requiredMinimumRole: 'guest' },
-    resolve: {},
-  },
-  // Organization Routes
-  {
-    path: 'organization/:name',
-    component: OrganizationPageComponent,
-    data: { name: 'organization', requiredMinimumRole: 'guest' },
-    resolve: {},
-  },
-  // Quote Routes
-  {
-    path: 'quotes/:name',
-    component: QuoteOverviewPageComponent,
-    data: { name: 'quote-overview', requiredMinimumRole: 'guest' },
-    resolve: {},
-  },
+  // {
+  //   path: 'character/:name',
+  //   component: CharacterPageComponent,
+  //   data: { name: 'character', requiredMinimumRole: 'guest' },
+  //   resolve: {
+  //     characterResolver,
+  //     randomQuoteResolver,
+  //     characterListResolver,
+  //   },
+  // },
+  // {
+  //   path: 'character/:name/update',
+  //   component: CharacterUpdatePageComponent,
+  //   data: { name: 'character-update', requiredMinimumRole: 'guest' },
+  //   resolve: {},
+  // },
+  // // Location Routes
+  // {
+  //   path: 'location/:parent_name/:name',
+  //   component: LocationPageComponent,
+  //   data: { name: 'location', requiredMinimumRole: 'guest' },
+  //   resolve: {},
+  // },
+  // // Organization Routes
+  // {
+  //   path: 'organization/:name',
+  //   component: OrganizationPageComponent,
+  //   data: { name: 'organization', requiredMinimumRole: 'guest' },
+  //   resolve: {},
+  // },
+  // // Quote Routes
+  // {
+  //   path: 'quotes/:name',
+  //   component: QuoteOverviewPageComponent,
+  //   data: { name: 'quote-overview', requiredMinimumRole: 'guest' },
+  //   resolve: {},
+  // },
   // Map Routes
   // {
   // 	path: `map/create`,
@@ -198,22 +139,22 @@ const innerCampaignRoutes: CampaignRoute[] = [
   // 		modelData: MapUpdateResolver,
   // 	}
   // },
-  {
-    path: `map/default`,
-    component: MapPageComponent,
-    data: { name: 'default-map', requiredMinimumRole: 'guest' },
-    resolve: {
-      mapDefaultResolver,
-    },
-  },
-  {
-    path: `map/:name`,
-    component: MapPageComponent,
-    data: { name: 'map', requiredMinimumRole: 'guest' },
-    resolve: {
-      mapResolver,
-    },
-  },
+  // {
+  //   path: `map/default`,
+  //   component: MapPageComponent,
+  //   data: { name: 'default-map', requiredMinimumRole: 'guest' },
+  //   resolve: {
+  //     mapDefaultResolver,
+  //   },
+  // },
+  // {
+  //   path: `map/:name`,
+  //   component: MapPageComponent,
+  //   data: { name: 'map', requiredMinimumRole: 'guest' },
+  //   resolve: {
+  //     mapResolver,
+  //   },
+  // },
   // {
   // 	path: `map/:name/update`,
   // 	component: MapUpdateComponent,
@@ -228,7 +169,10 @@ const innerCampaignRoutes: CampaignRoute[] = [
 export const campaignRoutes = [
   {
     path: '',
-    children: [...innerCampaignRoutes, ...innerCampaignOverviewRoutes],
+    children: [
+      ...innerCampaignRoutes,
+      // ...innerCampaignOverviewRoutes
+    ],
     canActivate: [campaignGuard],
   },
 ];

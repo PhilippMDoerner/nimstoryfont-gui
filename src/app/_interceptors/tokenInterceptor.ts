@@ -6,11 +6,13 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { map, mergeMap, retry, skip, tap } from 'rxjs/operators';
+import { filter, map, mergeMap, retry, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { takeFirstNonNil } from 'src/utils/rxjs-operators';
+import { log } from 'src/utils/logging';
 import { TokenService } from '../_services/utils/token.service';
+import { GlobalStore } from '../global.store';
 
 const MAX_RETRY_COUNT = 3;
 
@@ -18,44 +20,30 @@ export function addTokenInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
-  const tokenService = inject(TokenService);
-  const onHTTPError = createErrorCallback(tokenService);
+  const globalStore = inject(GlobalStore);
+
   if (!isApiUrlRequiringJWTToken(req.url)) {
-    return next(req).pipe(tap({ error: onHTTPError }));
+    return next(req);
   }
 
-  const accessToken = TokenService.getAccessToken();
-  const hasAccessToken = accessToken != null;
-  if (!hasAccessToken) {
-    tokenService.refreshUserData();
-  }
-
-  return tokenService.userData.data$.pipe(
+  return toObservable(globalStore.userData).pipe(
+    take(1),
     map((data) => data?.accessToken.token),
-    takeFirstNonNil(),
+    filter(Boolean),
     map((token) => addTokenToRequest(token, req)),
-    mergeMap((updatedRequest) => next(updatedRequest)),
+    mergeMap(next),
     retry({
-      count: MAX_RETRY_COUNT + 1,
-      delay: (err: HttpErrorResponse, retryCount: number) => {
+      count: 3,
+      delay: (err: HttpErrorResponse) => {
+        log(retry.name, err);
         switch (err.status) {
           case 401:
-            tokenService.refreshUserData();
-            const canSuccessfullyRefresh = retryCount <= MAX_RETRY_COUNT;
-            if (!canSuccessfullyRefresh) {
-              throw err;
-            }
-
-            const userDataAfterRefresh = tokenService.userData.data$.pipe(
-              skip(1),
-            );
-            return userDataAfterRefresh;
+            return globalStore.refreshUserData();
           default:
             throw err;
         }
       },
     }),
-    tap({ error: onHTTPError }),
   );
 }
 

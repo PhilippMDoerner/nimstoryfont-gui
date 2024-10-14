@@ -1,19 +1,17 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { map, Observable, switchMap } from 'rxjs';
-import { OverviewItem } from 'src/app/_models/overview';
+import { map, switchMap } from 'rxjs';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { CreatureService } from 'src/app/_services/article/creature.service';
 import { DiaryentryService } from 'src/app/_services/article/diaryentry.service';
 import { ItemService } from 'src/app/_services/article/item.service';
 import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
-import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
-import { TokenService } from 'src/app/_services/utils/token.service';
+import { BaseService } from 'src/app/_services/base.service';
+import { GlobalStore } from 'src/app/global.store';
 import { GeneralOverviewType } from 'src/design/templates/_models/generalOverviewType';
 import { environment } from 'src/environments/environment';
-import { filterNil } from 'src/utils/rxjs-operators';
 import { TemplatesModule } from '../../../../design/templates/templates.module';
 
 @Component({
@@ -24,34 +22,32 @@ import { TemplatesModule } from '../../../../design/templates/templates.module';
   styleUrl: './general-overview-page.component.scss',
 })
 export class GeneralOverviewPageComponent {
+  globalStore = inject(GlobalStore);
   private OVERVIEW_ENTRIES_MAP: {
-    [key in GeneralOverviewType]: Observable<OverviewItem[] | undefined>;
+    [key in GeneralOverviewType]: BaseService<unknown, unknown>;
   } = {
-    CHARACTER: inject(CharacterService).campaignList.data$,
-    CREATURE: inject(CreatureService).campaignList.data$,
-    DIARYENTRY: inject(DiaryentryService).campaignList.data$,
-    ITEM: inject(ItemService).campaignList.data$,
-    LOCATION: inject(LocationService).campaignList.data$,
-    ORGANIZATION: inject(OrganizationService).campaignList.data$,
+    CHARACTER: inject(CharacterService),
+    CREATURE: inject(CreatureService),
+    DIARYENTRY: inject(DiaryentryService),
+    ITEM: inject(ItemService),
+    LOCATION: inject(LocationService),
+    ORGANIZATION: inject(OrganizationService),
   };
 
   serverUrl = environment.backendDomain;
 
-  campaignName$ = this.paramsService.campaignNameParam$;
-  canCreate$ = this.campaignName$.pipe(
-    filterNil(),
-    switchMap((name) => this.tokenService.isCampaignMember(name)),
-  );
+  campaignName$ = this.globalStore.campaignName;
+  canCreate$ = this.globalStore.isCampaignMember();
   overviewType$ = this.route.data.pipe(
     map((data) => data['overviewType'] as GeneralOverviewType),
   );
   entries$ = this.overviewType$.pipe(
-    switchMap((typ) => this.OVERVIEW_ENTRIES_MAP[typ]),
+    switchMap((typ) =>
+      this.OVERVIEW_ENTRIES_MAP[typ].campaignList(
+        this.globalStore.campaignName() as string,
+      ),
+    ),
   );
 
-  constructor(
-    private paramsService: GlobalUrlParamsService,
-    private tokenService: TokenService,
-    private route: ActivatedRoute,
-  ) {}
+  constructor(private route: ActivatedRoute) {}
 }

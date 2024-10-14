@@ -1,7 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { combineLatest, filter, map, Observable } from 'rxjs';
 import { Login } from 'src/app/_models/login';
 import {
   CampaignMemberships,
@@ -12,8 +10,6 @@ import {
 } from 'src/app/_models/token';
 import { environment } from 'src/environments/environment';
 import { log } from 'src/utils/logging';
-import { createRequestSubjects, trackQuery } from 'src/utils/query';
-import { RoutingService } from '../routing.service';
 
 @Injectable({
   providedIn: 'root',
@@ -22,42 +18,19 @@ export class TokenService {
   static USER_DATA_KEY: string = 'user_data';
 
   apiUrl = environment.apiUrl;
-  userData = createRequestSubjects<UserData>();
-  isGlobalAdmin$ = this.userData.data$.pipe(
-    map((data) => !!(data?.isAdmin || data?.isSuperUser)),
-  );
 
   private jwtTokenUrl: string = `${this.apiUrl}/token`;
   private refreshTokenUrl: string = `${this.apiUrl}/token/refresh`;
   private ID_IDENTIFIER_PREFIX: string = 'id_';
 
-  constructor(
-    private http: HttpClient,
-    private routingService: RoutingService,
-  ) {
-    this.userData.data$.next(TokenService.getUserData());
-
-    this.userData.data$
-      .pipe(takeUntilDestroyed())
-      .subscribe((data) => this.setUserData(data));
-
-    this.userData.data$
-      .pipe(
-        takeUntilDestroyed(),
-        filter((data) => data == null),
-      )
-      .subscribe(() => this.routingService.routeToPath('login'));
-  }
+  constructor(private http: HttpClient) {}
 
   public login(loginData: Login) {
-    const entry$ = this.http.post<UserData>(this.jwtTokenUrl, loginData);
-    trackQuery(entry$, this.userData);
+    return this.http.post<UserData>(this.jwtTokenUrl, loginData);
   }
 
   public logout() {
-    this.userData.data$.next(undefined);
-    this.userData.error$.next(undefined);
-    this.userData.state$.next('pending');
+    // No backend call implemented
   }
 
   public refreshUserData() {
@@ -70,12 +43,11 @@ export class TokenService {
       `Bearer ${refreshToken}`,
     );
     //TODO Figure out why this was necessary
-    const entry$ = this.http.post<UserData>(
+    return this.http.post<UserData>(
       this.refreshTokenUrl,
       { refresh: refreshToken },
       { headers: httpHeaders },
     );
-    trackQuery(entry$, this.userData, false);
   }
 
   public invalidateJWTToken(): void {
@@ -88,16 +60,6 @@ export class TokenService {
     const rawUserData = localStorage.getItem(TokenService.USER_DATA_KEY);
     const hasUserData = rawUserData != null && rawUserData !== 'undefined';
     return hasUserData ? JSON.parse(rawUserData) : undefined;
-  }
-
-  public hasTokens(): boolean {
-    if (TokenService.getUserData() == null) return false;
-    return !!TokenService.getAccessToken() && !!TokenService.getRefreshToken();
-  }
-
-  public hasValidJWTToken(): boolean {
-    if (!this.hasTokens()) return false;
-    return !this.isTokenExpired(TokenService.getRefreshToken());
   }
 
   //static for permissionDecorator.ts
@@ -114,61 +76,18 @@ export class TokenService {
     localStorage.setItem(TokenService.USER_DATA_KEY, JSON.stringify(data));
   }
 
-  public removeJWTTokenFromLocalStorage(): void {
-    localStorage.removeItem(TokenService.USER_DATA_KEY);
-  }
-
-  public getCurrentUserPk(): number | undefined {
-    return TokenService.getUserData()?.userId;
-  }
-
-  public getCurrentUserName(): string | undefined {
-    return TokenService.getUserData()?.userName;
-  }
-
-  public isCampaignMember(campaignName: string): Observable<boolean> {
-    const role$ = this.getCampaignRole(campaignName);
-    return combineLatest({
-      isAdmin: this.isGlobalAdmin$,
-      role: role$,
-    }).pipe(
-      map(
-        ({ isAdmin, role }) => isAdmin || role === 'admin' || role === 'member',
-      ),
-    );
-  }
-
-  public isCampaignAdmin(campaignName: string): Observable<boolean> {
-    const role$ = this.getCampaignRole(campaignName);
-    return combineLatest({
-      isAdmin: this.isGlobalAdmin$,
-      role: role$,
-    }).pipe(map(({ isAdmin, role }) => isAdmin || role === 'admin'));
-  }
-
-  public isCampaignGuest(campaignName: string): Observable<boolean> {
-    const role$ = this.getCampaignRole(campaignName);
-    return combineLatest({
-      isAdmin: this.isGlobalAdmin$,
-      role: role$,
-    }).pipe(map(({ isAdmin, role }) => isAdmin || role === 'guest'));
-  }
-
   public getCampaignRole(
+    data: UserData,
     campaignName: string | undefined,
-  ): Observable<CampaignRole | undefined> {
-    return this.userData.data$.pipe(
-      map((data) => {
-        if (campaignName == null) return undefined;
+  ): CampaignRole | undefined {
+    if (campaignName == null) return undefined;
 
-        const memberships = this.getCampaignMemberships(data);
-        if (memberships == null) return undefined;
+    const memberships = this.getCampaignMemberships(data);
+    if (memberships == null) return undefined;
 
-        const role: string = memberships[campaignName.toLowerCase()];
-        const isValidRole = CampaignRoles.some((roleName) => roleName === role);
-        return isValidRole ? (role as CampaignRole) : undefined;
-      }),
-    );
+    const role: string = memberships[campaignName.toLowerCase()];
+    const isValidRole = CampaignRoles.some((roleName) => roleName === role);
+    return isValidRole ? (role as CampaignRole) : undefined;
   }
 
   /**Retrieves campaign memberships of a user from their token */

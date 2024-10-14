@@ -2,7 +2,6 @@ import {
   Component,
   computed,
   EventEmitter,
-  inject,
   input,
   OnChanges,
   OnInit,
@@ -10,7 +9,6 @@ import {
   Signal,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { filter } from 'rxjs';
 import {
   CharacterDetails,
   CharacterOrganization,
@@ -19,7 +17,6 @@ import {
 import { Organization } from 'src/app/_models/organization';
 import { OverviewItem } from 'src/app/_models/overview';
 import { PlayerClass } from 'src/app/_models/playerclass';
-import { LocationService } from 'src/app/_services/article/location.service';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { BadgeListEntry } from '../../molecules';
 import { CreateUpdateState } from '../_models/create-update-states';
@@ -38,6 +35,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
   serverModel = input.required<CharacterDetails>({});
   classOptions = input.required<PlayerClass[]>();
   organizationOptions = input.required<OverviewItem[]>();
+  lastVisitedPlaceOptions = input.required<OverviewItem[]>();
 
   @Output() create: EventEmitter<CharacterDetails> = new EventEmitter();
   @Output() update: EventEmitter<CharacterDetails> = new EventEmitter();
@@ -84,9 +82,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
       label: 'Location',
       campaign: this.campaignName(),
       required: false,
-      options$: inject(LocationService).campaignList.data$.pipe(
-        filter((list) => list != null),
-      ),
+      options$: this.lastVisitedPlaceOptions(),
     }),
     this.formlyService.buildEditorConfig({
       key: 'description',

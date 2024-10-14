@@ -1,14 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { OverviewItem } from 'src/app/_models/overview';
 import { environment } from 'src/environments/environment';
-import {
-  createRequestSubjects,
-  RequestState,
-  trackQuery,
-} from 'src/utils/query';
 import { RoutingService } from '../routing.service';
 
 @Injectable({
@@ -20,38 +15,56 @@ export class RecentlyUpdatedService {
   recentlyUpdatedUrl: string = `${this.apiUrl}/recentupdates`;
   searchUrl: string = `${this.apiUrl}/search`;
 
-  recentlyUpdatedArticles = this.createRecentlyUpdatedArticlesSubjects();
-  recentlyUpdatedArticlesPage = 0;
-  searchedArticles = createRequestSubjects<{
-    articles: OverviewItem[];
-    emptyResponse: string;
-  }>();
-
   constructor(
     private routingService: RoutingService,
     private http: HttpClient,
   ) {}
 
-  public loadRecentlyUpdatedArticlesFirstPage(campaign: string) {
-    this.resetArticleList();
-    this.loadRecentlyUpdatedArticles(campaign, 0);
+  getRecentlyUpdatedArticle(
+    campaign: string,
+    pageNumber: number,
+  ): Observable<OverviewItem[]> {
+    if (pageNumber == null) pageNumber = 0;
+
+    return this.http
+      .get<any[]>(`${this.recentlyUpdatedUrl}/${campaign}/${pageNumber}`)
+      .pipe(
+        map((entries) =>
+          entries.map((entry) => this.parseOverviewEntity(entry)),
+        ),
+      );
   }
 
-  public loadRecentlyUpdatedArticlesNextPage(campaign: string) {
-    this.recentlyUpdatedArticlesPage += 1;
-    this.recentlyUpdatedArticles.state.next('pending-next-page');
-    this.loadRecentlyUpdatedArticles(
-      campaign,
-      ++this.recentlyUpdatedArticlesPage,
+  getGlobalSearchArticle(
+    searchString: string,
+  ): Observable<{ articles: OverviewItem[]; emptyResonse: string }> {
+    const resultObservable = this.http.get<{
+      articles: OverviewItem[];
+      emptyResonse: string;
+    }>(`${this.searchUrl}/${searchString}`);
+    const modifiedObservable = resultObservable.pipe(
+      map((searchResponse) => {
+        const searchArticles: OverviewItem[] = searchResponse.articles;
+        const searchArticleObjects: OverviewItem[] = searchArticles.map(
+          (item: OverviewItem) => this.parseOverviewEntity(item),
+        );
+        searchResponse.articles = searchArticleObjects;
+        return searchResponse;
+      }),
     );
+
+    return modifiedObservable;
   }
 
-  public loadCampaignSearchArticle(campaign: string, searchString: string) {
+  getCampaignSearchArticle(
+    campaign: string,
+    searchString: string,
+  ): Observable<{ articles: OverviewItem[]; emptyResponse: string }> {
     const resultObservable = this.http.get<{
       articles: OverviewItem[];
       emptyResponse: string;
     }>(`${this.searchUrl}/${campaign}/${searchString}`);
-    const entries$ = resultObservable.pipe(
+    return resultObservable.pipe(
       map((searchResponse) => {
         const searchArticles: any[] = searchResponse.articles;
         const searchArticleObjects: OverviewItem[] = searchArticles.map(
@@ -61,7 +74,6 @@ export class RecentlyUpdatedService {
         return searchResponse;
       }),
     );
-    trackQuery(entries$, this.searchedArticles);
   }
 
   parseOverviewEntity(data: any): OverviewItem {
@@ -69,37 +81,6 @@ export class RecentlyUpdatedService {
       ...data,
       getAbsoluteRouterUrl: this.generateUrlCallback(data),
     };
-  }
-
-  private loadRecentlyUpdatedArticles(campaign: string, pageNumber: number) {
-    const entries$ = this.http
-      .get<any[]>(`${this.recentlyUpdatedUrl}/${campaign}/${pageNumber}`)
-      .pipe(
-        map((entries) =>
-          entries.map((entry) => this.parseOverviewEntity(entry)),
-        ),
-      );
-
-    combineLatest({
-      priorEntries: this.recentlyUpdatedArticles.data,
-      entries: entries$,
-    })
-      .pipe(take(1))
-      .subscribe({
-        next: ({ priorEntries, entries }) => {
-          const updatedList = [...(priorEntries ?? []), ...entries];
-          this.recentlyUpdatedArticles.data.next(updatedList);
-          this.recentlyUpdatedArticles.state.next('success');
-
-          const hasMoreEntries = entries.length > 0;
-          this.recentlyUpdatedArticles.canLoadMore.next(hasMoreEntries);
-        },
-        error: (error) => {
-          this.recentlyUpdatedArticles.error.next(error);
-          this.recentlyUpdatedArticles.state.next('error');
-          this.recentlyUpdatedArticlesPage += 1;
-        },
-      });
   }
 
   private generateUrlCallback(data: any) {
@@ -124,7 +105,7 @@ export class RecentlyUpdatedService {
         break;
       case 'encounter':
         params.session_number = data.diaryentry_details.session_number;
-        params.isMainSession = data.diaryentry_details.is_main_session_int;
+        params.isMainSession = data.diaryentry_details.is_main_session;
         params.authorName = data.diaryentry_details.author_name;
         params.encounterTitle = data.title;
         routeName = 'diaryentry-encounter';
@@ -176,33 +157,5 @@ export class RecentlyUpdatedService {
     }
 
     return () => this.routingService.getRoutePath(routeName, params);
-  }
-
-  private resetArticleList() {
-    this.recentlyUpdatedArticles.data.next(undefined);
-    this.recentlyUpdatedArticles.error.next(undefined);
-    this.recentlyUpdatedArticles.state.next('pending');
-    this.recentlyUpdatedArticles.canLoadMore.next(true);
-    this.recentlyUpdatedArticlesPage = 0;
-  }
-
-  private createRecentlyUpdatedArticlesSubjects() {
-    const state = new BehaviorSubject<RequestState | 'pending-next-page'>(
-      'pending',
-    );
-    const data = new BehaviorSubject<OverviewItem[] | undefined>(undefined);
-    const error = new Subject();
-
-    return {
-      data,
-      state: state,
-      error: error,
-      hasFailed: state.pipe(map((state) => state === 'error')),
-      isLoadingFirstPage: state.pipe(map((state) => state === 'pending')),
-      isLoadingNextPage: state.pipe(
-        map((state) => state === 'pending-next-page'),
-      ),
-      canLoadMore: new BehaviorSubject(true),
-    };
   }
 }

@@ -42,7 +42,7 @@ export class MapPageComponent implements OnInit {
   }
 
   mapDelete(map: ExtendedMap): void {
-    this.mapService.runDelete(map.pk as number);
+    this.mapService.delete(map.pk as number);
   }
 
   mapChange(map: OverviewItem): void {

@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <ng-container *ngFor="let article of articles">
+    @for (article of articles; track $index) {
       <div class="entry col-6 col-lg-4 col-xl-3">
         <a
           class="entry__link"
@@ -15,6 +15,6 @@
           ></app-icon-card>
         </a>
       </div>
-    </ng-container>
+    }
   </div>
 </div>

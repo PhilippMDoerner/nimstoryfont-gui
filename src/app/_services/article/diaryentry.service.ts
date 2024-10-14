@@ -4,25 +4,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DiaryEntry, DiaryEntryRaw } from 'src/app/_models/diaryentry';
 import { OverviewItem } from 'src/app/_models/overview';
-import { createRequestPipeline } from 'src/utils/query';
 import { BaseService } from '../base.service';
 import { RoutingService } from '../routing.service';
-
-type ReadByNameDiaryentryParams = {
-  name: string;
-  isMainSession: number | string;
-  sessionNumber: number | string;
-};
 
 @Injectable({
   providedIn: 'root',
 })
 export class DiaryentryService extends BaseService<DiaryEntryRaw, DiaryEntry> {
-  protected override _readByParams = createRequestPipeline(
-    this.readByParamTrigger$.asObservable(),
-    ({ campaign, params }) =>
-      this._loadReadByParam(campaign, params as ReadByNameDiaryentryParams),
-  );
   constructor(
     private routingService: RoutingService,
     http: HttpClient,
@@ -30,16 +18,13 @@ export class DiaryentryService extends BaseService<DiaryEntryRaw, DiaryEntry> {
     super(http, 'diaryentry');
   }
 
-  override loadReadByParam(
+  override readByParam(
     campaign: string,
-    params: ReadByNameDiaryentryParams,
-  ) {
-    this.readByParamTrigger$.next({ campaign, params });
-  }
-
-  protected override _loadReadByParam(
-    campaign: string,
-    params: ReadByNameDiaryentryParams,
+    params: {
+      isMainSession: number | string;
+      sessionNumber: number | string;
+      name: string;
+    },
   ): Observable<DiaryEntry> {
     const authorName = params.name;
     const url = `${this.baseUrl}/${campaign}/${params.sessionNumber}/${params.isMainSession}/${authorName}/`;

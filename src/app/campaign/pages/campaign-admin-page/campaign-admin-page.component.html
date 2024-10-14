@@ -1,6 +1,6 @@
-@let campaign = campaign$ | async;
-@let campaignStatistics = campaignStatistics$ | async;
-@let users = users$ | async;
+@let campaign = store.campaign();
+@let campaignStatistics = store.campaignStatistics();
+@let users = store.users();
 
 @if (campaign != null && campaignStatistics != null && users != null) {
   <app-campaign-admin
@@ -8,13 +8,13 @@
     [serverUrl]="serverUrl"
     [campaignStatistics]="campaignStatistics"
     [users]="users"
-    (addAdmin)="addMemberToCampaignGroup('ADMIN', $event)"
-    (addMember)="addMemberToCampaignGroup('MEMBER', $event)"
-    (addGuest)="addMemberToCampaignGroup('GUEST', $event)"
-    (removeAdmin)="removeMemberFromCampaignGroup('ADMIN', $event)"
-    (removeMember)="removeMemberFromCampaignGroup('MEMBER', $event)"
-    (removeGuest)="removeMemberFromCampaignGroup('GUEST', $event)"
-    (addEmptySearchResponse)="addEmptySearchResponse($event)"
-    (removeEmptySearchResponse)="deleteEmptySearchResponse($event)"
+    (addAdmin)="store.addMemberToCampaignGroup('admin', $event)"
+    (addMember)="store.addMemberToCampaignGroup('member', $event)"
+    (addGuest)="store.addMemberToCampaignGroup('guest', $event)"
+    (removeAdmin)="store.removeMemberFromCampaignGroup('admin', $event)"
+    (removeMember)="store.removeMemberFromCampaignGroup('member', $event)"
+    (removeGuest)="store.removeMemberFromCampaignGroup('guest', $event)"
+    (addEmptySearchResponse)="store.addEmptySearchResponse($event)"
+    (removeEmptySearchResponse)="store.deleteEmptySearchResponse($event)"
   />
 }

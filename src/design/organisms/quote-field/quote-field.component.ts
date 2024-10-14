@@ -7,10 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { filter } from 'rxjs';
 import { OverviewItem } from 'src/app/_models/overview';
-import { EncounterService } from 'src/app/_services/article/encounter.service';
-import { SessionService } from 'src/app/_services/article/session.service';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/design/molecules';
@@ -37,6 +34,8 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
   @Input() canCreate: boolean = false;
   @Input() canUpdate: boolean = false;
   @Input() canDelete: boolean = false;
+  @Input({ required: false }) encounters!: OverviewItem[];
+  @Input({ required: false }) sessions!: OverviewItem[];
 
   @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
   @Output() quoteCreate: EventEmitter<Quote> = new EventEmitter();
@@ -58,8 +57,6 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
-    private encounterService: EncounterService,
-    private sessionService: SessionService,
   ) {}
 
   ngOnInit(): void {
@@ -88,18 +85,14 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
         key: 'session',
         required: true,
         campaign: this.campaignName,
-        options$: this.sessionService.campaignList.data$.pipe(
-          filter((x) => !!x),
-        ),
+        options$: this.sessions,
         labelProp: 'name_full',
         valueProp: 'pk',
       }),
       this.formlyService.buildOverviewSelectConfig({
         key: 'encounter',
         required: false,
-        options$: this.encounterService.campaignList.data$.pipe(
-          filter((x) => !!x),
-        ),
+        options$: this.encounters,
         campaign: this.campaignName,
         labelProp: 'name_full',
         valueProp: 'pk',

@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { filter } from 'rxjs';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { LocationService } from 'src/app/_services/article/location.service';
@@ -31,6 +30,7 @@ export class EncounterComponent implements OnInit, OnChanges {
   @Input() canCreate: boolean = false;
   @Input() canDelete: boolean = false;
   @Input() initialState: EncounterState = 'DISPLAY';
+  @Input() locations!: OverviewItem[];
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();
@@ -87,9 +87,7 @@ export class EncounterComponent implements OnInit, OnChanges {
         label: 'Encounter Location',
         sortProp: 'name_full',
         campaign: this.campaignName,
-        options$: this.locationService.campaignList.data$.pipe(
-          filter((x) => !!x),
-        ),
+        options$: this.locations,
         labelProp: 'name',
       }),
       this.formlyService.buildEditorConfig({

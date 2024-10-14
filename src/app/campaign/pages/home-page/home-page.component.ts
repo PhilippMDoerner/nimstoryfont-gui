@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
-import { take } from 'rxjs';
-import { RecentlyUpdatedService } from 'src/app/_services/article/recently-updated.service';
+import { Component, computed, inject } from '@angular/core';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
+import { GlobalStore } from 'src/app/global.store';
 import { environment } from 'src/environments/environment';
-import { filterNil } from 'src/utils/rxjs-operators';
+import { HomePageStore } from './home-page.store';
 
 @Component({
   selector: 'app-home-page',
@@ -12,19 +10,20 @@ import { filterNil } from 'src/utils/rxjs-operators';
   styleUrls: ['./home-page.component.scss'],
 })
 export class HomePageComponent {
-  serverUrl = environment.backendDomain;
-  campaignData$ = this.paramService.currentCampaign;
-  currentCampaignName$ = this.paramService.campaignNameParam$.pipe(filterNil());
-  recentlyUpdatedArticles$ =
-    this.recentlyUpdatedService.recentlyUpdatedArticles.data;
-  hasMoreArticles$ =
-    this.recentlyUpdatedService.recentlyUpdatedArticles.canLoadMore;
+  globalStore = inject(GlobalStore);
+  homePageStore = inject(HomePageStore);
 
-  constructor(
-    private paramService: GlobalUrlParamsService,
-    private recentlyUpdatedService: RecentlyUpdatedService,
-    private routingService: RoutingService,
-  ) {}
+  serverUrl = environment.backendDomain;
+  campaignData = this.globalStore.currentCampaign;
+  currentCampaignName = computed(
+    () => this.globalStore.currentCampaign()?.name,
+  );
+  recentlyUpdatedArticles = this.homePageStore.recentlyUpdatedArticles;
+  hasMoreArticles = this.homePageStore.canLoadMore;
+
+  constructor(private routingService: RoutingService) {
+    this.homePageStore.loadMoreArticles(0);
+  }
 
   search(searchTerm: string): void {
     if (searchTerm == null || searchTerm === '') {
@@ -33,20 +32,14 @@ export class HomePageComponent {
 
     const cleanedSearch = this.cleanSearchTerm(searchTerm);
 
-    this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
-      this.routingService.routeToPath('campaignSearch', {
-        campaign: campaignName,
-        searchString: cleanedSearch,
-      });
+    this.routingService.routeToPath('campaignSearch', {
+      campaign: this.currentCampaignName(),
+      searchString: cleanedSearch,
     });
   }
 
-  loadArticlePage(): void {
-    this.currentCampaignName$.pipe(take(1)).subscribe((campaignName) => {
-      this.recentlyUpdatedService.loadRecentlyUpdatedArticlesNextPage(
-        campaignName,
-      );
-    });
+  loadArticlePage(pageNumber: number): void {
+    this.homePageStore.loadMoreArticles(pageNumber);
   }
 
   private cleanSearchTerm(searchString: string): string {

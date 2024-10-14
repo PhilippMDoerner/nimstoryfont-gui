@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CampaignModule } from './campaign/campaign.module';
 import { GeneralModule } from './general/general.module';
+import { GlobalStore } from './global.store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,6 +35,7 @@ import { GeneralModule } from './general/general.module';
   providers: [
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     provideHttpClient(withInterceptors([addTokenInterceptor])),
+    GlobalStore,
   ],
 })
 export class AppModule {}

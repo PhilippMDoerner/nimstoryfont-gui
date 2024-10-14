@@ -2,7 +2,7 @@ import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { combineLatest, Observable, ReplaySubject } from 'rxjs';
+import { combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
 import { map, skip, take } from 'rxjs/operators';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { debugLog } from 'src/utils/rxjs-operators';
@@ -13,19 +13,14 @@ import { TitleService } from './title.service';
   providedIn: 'root',
 })
 export class GlobalUrlParamsService {
-  public currentCampaignSet$ = this.campaignService.campaignOverview.data$;
+  public campaignSetTrigger$ = new Subject<void>();
+
   private currentRouteSnapshot$ =
     new ReplaySubject<ActivatedRouteSnapshot | null>(1);
 
   public campaignNameParam$ = this.currentRouteSnapshot$.pipe(
     map((snapshot) => snapshot?.params['campaign'] as string | undefined),
     debugLog('campaignName'),
-  );
-  public isLoadingCampaignSet$ =
-    this.campaignService.campaignOverview.isLoading$;
-  public currentCampaign = this.trackCurrentCampaign(
-    this.currentCampaignSet$,
-    this.campaignNameParam$,
   );
 
   constructor(
@@ -73,8 +68,8 @@ export class GlobalUrlParamsService {
    * before an error was thrown and the campaign set was removed due to not having an internet connection.
    */
   public async refreshAndReturnToLastURL(): Promise<void> {
-    this.campaignService.loadCampaignOverview();
-    this.currentCampaignSet$
+    this.campaignService
+      .campaignOverview()
       .pipe(skip(1), take(1))
       .subscribe(() => this.urlLocation.back());
   }

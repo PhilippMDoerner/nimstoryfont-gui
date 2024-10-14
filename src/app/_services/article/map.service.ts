@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { convertSingleFileModelToFormData } from 'src/app/_functions/formDataConverter';
 import { ExtendedMap, Map, MapRaw } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -9,7 +10,7 @@ import { RoutingService } from '../routing.service';
 @Injectable({
   providedIn: 'root',
 })
-export class MapService extends BaseService<MapRaw, ExtendedMap> {
+export class MapService extends BaseService<MapRaw, Map> {
   constructor(
     private routingService: RoutingService,
     http: HttpClient,
@@ -17,26 +18,26 @@ export class MapService extends BaseService<MapRaw, ExtendedMap> {
     super(http, 'map');
   }
 
-  override runCreate(mapData: MapRaw): void {
-    const formData: FormData = convertSingleFileModelToFormData(
-      mapData,
-      'image',
-    );
-    this.createTrigger$.next(formData);
+  override create(map: MapRaw): Observable<ExtendedMap> {
+    const formData: FormData = convertSingleFileModelToFormData(map, 'image');
+    return this.http.post<ExtendedMap>(`${this.baseUrl}/`, formData);
   }
 
-  override runPatch(mapPk: number, mapData: Partial<MapRaw>) {
-    const hasImageFile = mapData.image?.constructor.name === 'FileList';
+  override patch(mapPk: number, map: Partial<Map>): Observable<ExtendedMap> {
+    const hasImageFile = map.image?.constructor.name === 'FileList';
 
     let formData: FormData | Partial<Map>;
     if (hasImageFile) {
-      formData = convertSingleFileModelToFormData(mapData, 'image');
+      formData = convertSingleFileModelToFormData(map, 'image');
     } else {
-      delete mapData.image;
-      formData = mapData;
+      delete map.image;
+      formData = map;
     }
 
-    this.patchTrigger$.next({ pk: mapPk, data: formData as MapRaw });
+    return this.http.patch<ExtendedMap>(
+      `${this.baseUrl}/pk/${mapPk}/`,
+      formData,
+    );
   }
 
   override parseEntity(data: any): Map {

@@ -13,7 +13,7 @@
         [title]="campaign()?.name + '-Home'"
         [class.disabled-entry]="campaign() == null"
       >
-        <a class="brand__home-link" [routerLink]="homeUrl">
+        <a class="brand__home-link" [routerLink]="homeUrl()">
           <h4 class="brand__home-link-text">
             <img
               class="brand__icon"
@@ -33,7 +33,7 @@
           class="sidebar__entry entry"
           [class.disabled-entry]="campaign() == null"
         >
-          <a class="entry__link" [routerLink]="campaignAdminUrl">
+          <a class="entry__link" [routerLink]="campaignAdminUrl()">
             <app-icon class="entry__icon" [icon]="'hammer'"></app-icon>
             <span class="entry__text"> Campaign Admin </span>
           </a>

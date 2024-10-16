@@ -15,6 +15,7 @@ import { AppComponent } from './app.component';
 import { CampaignModule } from './campaign/campaign.module';
 import { GeneralModule } from './general/general.module';
 import { GlobalStore } from './global.store';
+import { NavigationStore } from './navigation.store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -36,6 +37,7 @@ import { GlobalStore } from './global.store';
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     provideHttpClient(withInterceptors([addTokenInterceptor])),
     GlobalStore,
+    NavigationStore,
   ],
 })
 export class AppModule {}

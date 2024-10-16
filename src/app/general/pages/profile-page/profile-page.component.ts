@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { map } from 'rxjs';
+import { Component, computed, inject } from '@angular/core';
 import { CampaignRole, UserData } from 'src/app/_models/token';
-import { UserService } from 'src/app/_services/article/user.service';
-import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
-import { filterNil } from 'src/utils/rxjs-operators';
+import { GlobalStore } from 'src/app/global.store';
+import { NavigationStore } from 'src/app/navigation.store';
+import { ProfilePageStore } from './profile-page.store';
 
 @Component({
   selector: 'app-profile-page',
@@ -12,20 +12,28 @@ import { filterNil } from 'src/utils/rxjs-operators';
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent {
-  user$ = this.userService.thisUser.data$.pipe(filterNil());
-  isCurrentUser$ = this.user$.pipe(
-    map((user) => user.pk === this.tokenService.getCurrentUserPk()),
+  globalStore = inject(GlobalStore);
+  profilePageStore = inject(ProfilePageStore);
+  navStore = inject(NavigationStore);
+  routingService = inject(RoutingService);
+
+  user$ = this.profilePageStore.user;
+  isCurrentUser$ = computed(
+    () => this.user$()?.pk === this.globalStore.currentUserPk(),
   );
-  campaignName$ = this.paramsService.campaignNameParam$;
-  memberships$ = this.tokenService.userData.data$.pipe(
-    map((data) => this.mapMemberships(data)),
+  campaignName$ = this.globalStore.campaignName;
+  memberships$ = computed(() => {
+    return this.mapMemberships(this.globalStore.userData());
+  });
+  backUrl = computed(
+    () =>
+      this.navStore.priorUrl() ??
+      this.routingService.getRoutePath('campaign-overview'),
   );
 
-  constructor(
-    private tokenService: TokenService,
-    private paramsService: GlobalUrlParamsService,
-    private userService: UserService,
-  ) {}
+  constructor(private tokenService: TokenService) {
+    this.profilePageStore.loadThisUser();
+  }
 
   private mapMemberships(
     data: UserData | undefined,

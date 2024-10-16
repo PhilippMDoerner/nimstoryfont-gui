@@ -2,92 +2,96 @@
   <article class="profile">
     <!-- Section Heading -->
     <div class="row profile__heading heading">
-        <h1 class="col-12 col-sm-6 heading__text"> 
-          <app-icon [icon]="'user-circle'"></app-icon>
-          Profile
-        </h1>
-  
-        <!-- Header Buttons -->
-        <div class="col-12 col-sm-6 heading__buttons">
-          <app-button
-            class="heading__button"
-            [type]="'SECONDARY'"
-            [icon]="showProfileEditForm ? 'times' : 'pencil'"
-            [text]="showProfileEditForm ? 'Cancel Profile Edit' : 'Edit Profile'"
-            (click)="toggleProfileEditState()"
-          ></app-button>
-          
-          <app-button
-            class="heading__button"
-            [type]="'SECONDARY'"
-            [icon]="showPasswordEditForm ? 'times' : 'pencil'"
-            [text]="showPasswordEditForm ? 'Cancel Password Edit' : 'Edit Password'"
-            (click)="togglePasswordEditState()"
-          ></app-button>
-        </div>
+      <h1 class="col-12 col-sm-6 heading__text">
+        <app-icon [icon]="'user-circle'"></app-icon>
+        Profile
+      </h1>
+
+      <!-- Header Buttons -->
+      <div class="col-12 col-sm-6 heading__buttons">
+        <app-button
+          class="heading__button"
+          [type]="'SECONDARY'"
+          [icon]="showProfileEditForm ? 'times' : 'pencil'"
+          [text]="showProfileEditForm ? 'Cancel Profile Edit' : 'Edit Profile'"
+          (click)="toggleProfileEditState()"
+        ></app-button>
+
+        <app-button
+          class="heading__button"
+          [type]="'SECONDARY'"
+          [icon]="showPasswordEditForm ? 'times' : 'pencil'"
+          [text]="
+            showPasswordEditForm ? 'Cancel Password Edit' : 'Edit Password'
+          "
+          (click)="togglePasswordEditState()"
+        ></app-button>
+      </div>
     </div>
-  
+
     <app-separator></app-separator>
-  
+
     <!-- Profile -->
     <ng-container *ngIf="!showProfileEditForm; else profileForm">
       <div class="row profile__data">
-        <h3> Profile Data </h3>
+        <h3>Profile Data</h3>
         <div class="col-4">Username</div>
         <div class="col-8">{{ user.username }}</div>
-  
+
         <div class="col-4">Email</div>
         <div class="col-8">{{ user.email }}</div>
       </div>
-      
+
       <div class="row profile__memberships">
         <h3>Campaign Memberships</h3>
         <ng-container *ngFor="let membership of memberships; let i = index">
           <div>
-            <ng-container 
-              *ngTemplateOutlet="membership.isLeaving 
-                ? leaveCampaignForm 
-                : displayCampaignForm; 
-              context: {$implicit: {membership, index: i}}"
+            <ng-container
+              *ngTemplateOutlet="
+                membership.isLeaving ? leaveCampaignForm : displayCampaignForm;
+                context: { $implicit: { membership, index: i } }
+              "
             ></ng-container>
           </div>
         </ng-container>
       </div>
     </ng-container>
-  
+
     <!-- Password Form -->
     <ng-container *ngIf="showPasswordEditForm">
       <app-card>
         <app-form
-          [model] = "passwordModel"
-          [fields] = "passwordFields"
+          [model]="passwordModel"
+          [fields]="passwordFields"
           [cancelButtonType]="'DARK'"
           (formlyCancel)="togglePasswordEditState()"
           (formlySubmit)="updatePassword()"
         ></app-form>
       </app-card>
     </ng-container>
-  
-    <div class="mt-5 row">
+
+    <div class="mt-5 row justify-content-between">
+      <div class="col-md-3">
+        <a [routerLink]="backUrl()" class="w-100">
+          <app-button
+            [type]="'SECONDARY'"
+            [text]="
+              campaignName ? 'Back To ' + campaignName : 'Back to Campaigns'
+            "
+          ></app-button>
+        </a>
+      </div>
+
+      <ng-container *ngIf="canDeleteProfile">
         <div class="col-md-3">
-          <a [routerLink]="backUrl" class="w-100">
-            <app-button
-              [type]="'SECONDARY'"
-              [text]="campaignName ? 'Back To ' + campaignName : 'Back to Campaigns'"
-            ></app-button>
-          </a>
+          <app-confirmation-toggle-button
+            [toggleType]="'DANGER'"
+            [confirmationQuestion]="'Delete your account?'"
+            [icon]="'trash'"
+            (confirm)="profileDelete.emit(user)"
+          ></app-confirmation-toggle-button>
         </div>
-  
-        <ng-container *ngIf="canDeleteProfile">
-            <div class="col-md-9">
-              <app-confirmation-toggle-button 
-                [toggleType]="'DANGER'"
-                [confirmationQuestion]="'Delete your account?'"
-                [icon]="'trash'"
-                (confirm)="profileDelete.emit(user)"
-              ></app-confirmation-toggle-button>
-            </div>
-        </ng-container>
+      </ng-container>
     </div>
   </article>
 </app-page-container>
@@ -99,30 +103,34 @@
       [fields]="profileFields"
       [cancelButtonType]="'DARK'"
       (formlyCancel)="toggleProfileEditState()"
-      (formlySubmit)="profileUpdate.emit(profileModel)"
+      (formlySubmit)="submitProfileUpdate()"
     ></app-form>
   </app-card>
 </ng-template>
 
 <ng-template #displayCampaignForm let-context>
   <div class="row">
-      <div class="col-5">{{context.membership.campaignName | titlecase}}</div>
-      <div class="col-4">{{context.membership.role | titlecase}}</div>
-      <div class="col-3 d-flex justify-content-end">
-        <app-button
-          [type]="'SECONDARY'"
-          [icon]="'sign-out-alt'"
-          [size]="'SMALL'"
-          (click)="toggleLeaveCampaignState(context.membership)"
-        ></app-button>
-      </div>
+    <div class="col-5">{{ context.membership.campaignName | titlecase }}</div>
+    <div class="col-4">{{ context.membership.role | titlecase }}</div>
+    <div class="col-3 d-flex justify-content-end">
+      <app-button
+        [type]="'SECONDARY'"
+        [icon]="'sign-out-alt'"
+        [size]="'SMALL'"
+        (click)="toggleLeaveCampaignState(context.membership)"
+      ></app-button>
+    </div>
   </div>
 </ng-template>
 
 <ng-template #leaveCampaignForm let-context>
   <app-alert [type]="'DANGER'" class="row">
     <div class="col-md-8">
-        <strong>Permanently leave '{{context.membership.campaignName | titlecase}}'?</strong> 
+      <strong
+        >Permanently leave '{{
+          context.membership.campaignName | titlecase
+        }}'?</strong
+      >
     </div>
     <app-button
       class="col-md-2"

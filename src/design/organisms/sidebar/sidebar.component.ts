@@ -3,7 +3,6 @@ import {
   computed,
   EventEmitter,
   input,
-  OnChanges,
   Output,
   Signal,
 } from '@angular/core';
@@ -17,7 +16,7 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnChanges {
+export class SidebarComponent {
   campaign = input<Campaign | undefined>(undefined);
   hasCampaignAdminPrivileges = input<boolean>(false);
 
@@ -40,29 +39,17 @@ export class SidebarComponent implements OnChanges {
 
   campaignOverviewUrl: string =
     this.routingService.getRoutePath('campaign-overview');
-  campaignAdminUrl!: string;
-  homeUrl!: string;
-  profileUrl!: string;
 
+  campaignAdminUrl = computed(() => {
+    return this.routingService.getRoutePath('campaign-admin', {
+      campaign: this.campaign.name,
+    });
+  });
+  homeUrl = computed(() => {
+    return this.routingService.getRoutePath('home', {
+      campaign: this.campaign.name,
+    });
+  });
+  profileUrl = this.routingService.getRoutePath('direct-profile');
   constructor(private routingService: RoutingService) {}
-
-  ngOnChanges(): void {
-    this.setUrls();
-  }
-
-  private setUrls(): void {
-    if (this.campaign) {
-      this.homeUrl = this.routingService.getRoutePath('home', {
-        campaign: this.campaign.name,
-      });
-      this.campaignAdminUrl = this.routingService.getRoutePath(
-        'campaign-admin',
-        { campaign: this.campaign.name },
-      );
-      this.profileUrl = this.routingService.getRoutePath(
-        'direct-campaign-profile',
-        { campaign: this.campaign.name },
-      );
-    }
-  }
 }

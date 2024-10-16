@@ -4,14 +4,16 @@ import { TemplatesModule } from 'src/design/templates/templates.module';
 import { CampaignOverviewPageComponent } from '../campaign';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { LoginPageStore } from './pages/login-page/login-page.store';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
+import { ProfilePageStore } from './pages/profile-page/profile-page.store';
 
 @NgModule({
   declarations: [
     LoginPageComponent,
-    // ProfilePageComponent,
+    ProfilePageComponent,
     CampaignOverviewPageComponent,
   ],
   imports: [CommonModule, TemplatesModule],
-  providers: [LoginPageStore],
+  providers: [LoginPageStore, ProfilePageStore],
 })
 export class GeneralModule {}

@@ -1,5 +1,7 @@
+import { loginGuard } from '../_guards/login.guard';
 import { GeneralRoute } from '../_models/route';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { ProfilePageComponent } from './pages/profile-page/profile-page.component';
 
 export const generalRoutes: GeneralRoute[] = [
   //Login Routes
@@ -14,13 +16,10 @@ export const generalRoutes: GeneralRoute[] = [
     data: { name: 'login-state' },
   },
   //User Routes
-  // {
-  //   path: `profile/me`,
-  //   component: ProfilePageComponent,
-  //   data: { name: 'direct-profile' },
-  //   canActivate: [loginGuard],
-  //   resolve: {
-  //     userResolver,
-  //   },
-  // },
+  {
+    path: `profile/me`,
+    component: ProfilePageComponent,
+    data: { name: 'direct-profile' },
+    canActivate: [loginGuard],
+  },
 ];

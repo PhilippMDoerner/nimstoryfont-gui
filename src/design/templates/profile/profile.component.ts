@@ -1,17 +1,10 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { RoutingService } from 'src/app/_services/routing.service';
 import { CampaignMembership } from '../_models/campaign-membership';
 
-interface PasswordModel {
+export interface PasswordModel {
   password: string;
   oldPassword: string;
 }
@@ -21,21 +14,20 @@ interface PasswordModel {
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnChanges {
+export class ProfileComponent {
   @Input() user!: User;
   @Input() memberships!: CampaignMembership[];
   @Input() canDeleteProfile: boolean = false;
   @Input() showProfileEditForm: boolean = false;
   @Input() showPasswordEditForm: boolean = false;
   @Input() campaignName?: string;
+  backUrl = input.required<string>();
 
   @Output() profileUpdate: EventEmitter<Partial<User>> = new EventEmitter();
   @Output() passwordUpdate: EventEmitter<PasswordModel> = new EventEmitter();
   @Output() campaignLeave: EventEmitter<CampaignMembership> =
     new EventEmitter();
   @Output() profileDelete: EventEmitter<User> = new EventEmitter();
-
-  backUrl!: string;
 
   passwordModel: Partial<PasswordModel> = {};
   passwordFields: FormlyFieldConfig[] = [
@@ -61,14 +53,7 @@ export class ProfileComponent implements OnChanges {
     }),
   ];
 
-  constructor(
-    private formlyService: FormlyService,
-    private routingService: RoutingService
-  ) {}
-
-  ngOnChanges(): void {
-    this.setBackUrl();
-  }
+  constructor(private formlyService: FormlyService) {}
 
   toggleProfileEditState(): void {
     this.showProfileEditForm = !this.showProfileEditForm;
@@ -79,6 +64,11 @@ export class ProfileComponent implements OnChanges {
         email: this.user.email,
       };
     }
+  }
+
+  submitProfileUpdate(): void {
+    this.profileUpdate.emit(this.profileModel);
+    this.showProfileEditForm = false;
   }
 
   togglePasswordEditState(): void {
@@ -97,19 +87,10 @@ export class ProfileComponent implements OnChanges {
     }
 
     this.passwordUpdate.emit(this.passwordModel as PasswordModel);
+    this.showPasswordEditForm = false;
   }
 
   toggleLeaveCampaignState(membership: CampaignMembership): void {
     membership.isLeaving = !membership.isLeaving;
-  }
-
-  private setBackUrl(): void {
-    const isCampaignProfileRoute = this.campaignName != null;
-
-    this.backUrl = isCampaignProfileRoute
-      ? this.routingService.getRoutePath('home1', {
-          campaign: this.campaignName,
-        })
-      : this.routingService.getRoutePath('campaign-overview');
   }
 }

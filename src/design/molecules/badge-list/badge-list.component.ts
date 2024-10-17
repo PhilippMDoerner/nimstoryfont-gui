@@ -1,76 +1,81 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  input,
+  Input,
+  Output,
+} from '@angular/core';
 import { ElementType } from '../../atoms';
 import { BadgeListEntry, BadgeListSelectOptions } from '../_models/badge-list';
 
-type CreateBadgeKind = "LINK" | "SELECT" | "NONE";
+type CreateBadgeKind = 'LINK' | 'SELECT' | 'NONE';
 
 @Component({
   selector: 'app-badge-list',
   templateUrl: './badge-list.component.html',
-  styleUrls: ['./badge-list.component.scss']
+  styleUrls: ['./badge-list.component.scss'],
 })
-export class BadgeListComponent implements OnInit{
-  @Input() entries!: BadgeListEntry[];
-  @Input() createOptions!: BadgeListSelectOptions | string;
+export class BadgeListComponent<T, O> {
+  @Input() entries!: BadgeListEntry<T>[];
+  createOptions = input<BadgeListSelectOptions<O> | string>();
   @Input() label: string = 'Entry';
   @Input() canCreate: boolean = false;
   @Input() canDelete: boolean = false;
   @Input() submitButtonType: ElementType = 'PRIMARY';
   @Input() cancelButtonType: ElementType = 'SECONDARY';
-  
-  @Output() entryDelete: EventEmitter<any> = new EventEmitter();
-  @Output() entryCreate: EventEmitter<any> = new EventEmitter();
-  
-  options?: any[];
-  optionLabelProp?: string;
-  optionValueProp?: string;
-  createLink?: string;
-  createKind!: CreateBadgeKind;
-  
-  ngOnInit(): void {
-    this.setCreateKind();
-    
-    switch(this.createKind){
-      case 'LINK':
-        this.createLink = this.createOptions as string;
-        break;
-      case 'SELECT':
-        const data = this.createOptions as BadgeListSelectOptions;
-        this.options = data.options;
-        this.optionLabelProp = data.labelProp;
-        this.optionValueProp = data.valueProp;
+
+  @Output() entryDelete: EventEmitter<T> = new EventEmitter();
+  @Output() entryCreate: EventEmitter<O> = new EventEmitter();
+
+  createKind = computed(() => this.toCreateKind(this.createOptions()));
+  createLink = computed(() =>
+    this.createKind() === 'LINK' ? (this.createOptions() as string) : undefined,
+  );
+  options = computed(() =>
+    this.createKind() === 'SELECT'
+      ? (this.createOptions() as BadgeListSelectOptions<O>).options
+      : undefined,
+  );
+  optionLabelProp = computed(() =>
+    this.createKind() === 'SELECT'
+      ? (this.createOptions() as BadgeListSelectOptions<O>).labelProp
+      : undefined,
+  );
+  optionValueProp = computed(() =>
+    this.createKind() === 'SELECT'
+      ? (this.createOptions() as BadgeListSelectOptions<O>).valueProp
+      : undefined,
+  );
+
+  private toCreateKind(
+    createOptions: BadgeListSelectOptions<O> | string | undefined,
+  ): CreateBadgeKind {
+    if (createOptions == undefined) {
+      return 'NONE';
     }
+
+    const isCreateByLink = typeof createOptions === 'string';
+    if (isCreateByLink) {
+      return 'LINK';
+    }
+
+    return 'SELECT';
   }
-  
-  setCreateKind(){
-    if (this.createOptions == undefined){
-      this.createKind = 'NONE';
-      return;
-    }
-    
-    const isCreateByLink = (typeof this.createOptions) === "string";
-    if(isCreateByLink){
-      this.createKind = 'LINK';
-      return;
-    }
-    
-    this.createKind = 'SELECT';
-  }
-  
-  onEntryDelete(entry: BadgeListEntry){
-    if(!this.canDelete){
+
+  onEntryDelete(entry: BadgeListEntry<T>) {
+    if (!this.canDelete) {
       return;
     }
 
     this.entryDelete.emit(entry.badgeValue);
   }
-  
-  onEntryCreate(selectedOption: any){
-    if(!this.canCreate){
+
+  onEntryCreate(selectedOption: O) {
+    if (!this.canCreate) {
       return;
     }
 
     this.entryCreate.emit(selectedOption);
   }
-
 }

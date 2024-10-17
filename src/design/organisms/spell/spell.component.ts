@@ -10,7 +10,6 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { BadgeListEntry } from 'src/design/molecules';
-import { BadgeListSelectOptions } from 'src/design/molecules/_models/badge-list';
 import {
   SPELL_CASTING_TIME,
   SPELL_COMPONENTS,
@@ -52,8 +51,7 @@ export class SpellComponent implements OnInit, OnChanges {
 
   userModel?: Spell;
   state: SpellState = 'DISPLAY';
-  playerClassConnections!: BadgeListEntry[];
-  playerClassSelectOptions!: BadgeListSelectOptions;
+  playerClassConnections!: BadgeListEntry<SpellPlayerClassConnection>[];
 
   formlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildCheckboxConfig({

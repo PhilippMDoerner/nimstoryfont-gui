@@ -111,8 +111,8 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
   ];
 
   heading!: string;
-  characterClasses!: BadgeListEntry[];
-  characterOrganizations!: BadgeListEntry[];
+  characterClasses!: BadgeListEntry<PlayerClass>[];
+  characterOrganizations!: BadgeListEntry<CharacterOrganization>[];
   membershipFormState: MembershipFormState = 'DISPLAY';
 
   constructor(private formlyService: FormlyService) {}
@@ -152,6 +152,16 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
       member_id: this.userModel().pk,
     };
     this.addOrganizationMembership.emit(membership);
+  }
+
+  removeMembership(org: CharacterOrganization): void {
+    const membership: OrganizationMembership = {
+      pk: org.pk,
+      role: org.role,
+      organization_id: org.organization_id,
+      member_id: this.userModel().pk as number,
+    };
+    this.removeOrganizationMembership.emit(membership);
   }
 
   setMembershipFormState(newState: MembershipFormState): void {

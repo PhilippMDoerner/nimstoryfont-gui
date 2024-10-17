@@ -15,7 +15,7 @@ import { BadgeListEntry } from 'src/design/molecules';
 interface SpellCard {
   spell: Spell;
   isOpen: boolean;
-  classes: BadgeListEntry[];
+  classes: BadgeListEntry<undefined>[];
 }
 
 @Component({
@@ -91,7 +91,7 @@ export class SpellsComponent implements OnInit, OnChanges {
 
   private parsePlayerClasses(
     classes: SpellPlayerClassConnection[],
-  ): BadgeListEntry[] {
+  ): BadgeListEntry<undefined>[] {
     return classes.map((entry) => ({
       text: entry.player_class_details?.name as string,
       badgeValue: undefined,

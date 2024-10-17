@@ -1,11 +1,11 @@
-export interface BadgeListEntry{
+export interface BadgeListEntry<T> {
   text: string;
   link?: string;
-  badgeValue: any;
+  badgeValue: T;
 }
 
-export interface BadgeListSelectOptions{
-  options: any[];
-  labelProp: string;
-  valueProp: string;
+export interface BadgeListSelectOptions<T> {
+  options: T[];
+  labelProp: keyof T;
+  valueProp: keyof T;
 }

@@ -125,7 +125,7 @@
       [canCreate]="false"
       [canDelete]="true"
       (entryCreate)="addOrganizationMembership.emit($event)"
-      (entryDelete)="removeOrganizationMembership.emit($event)"
+      (entryDelete)="removeMembership($event)"
     ></app-badge-list>
     <app-badge
       [text]="'Add Membership'"

@@ -13,7 +13,7 @@ export class LocationComponent implements OnInit, OnChanges {
   @Input() location!: Location;
   @Input() campaignCharacters!: OverviewItem[];
 
-  localCharacters: BadgeListEntry[] = [];
+  localCharacters: BadgeListEntry<LocationCharacter>[] = [];
 
   constructor(private routingService: RoutingService) {}
 

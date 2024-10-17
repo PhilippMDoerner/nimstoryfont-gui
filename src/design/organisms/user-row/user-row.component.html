@@ -1,14 +1,14 @@
 <div class="container user-card">
-  <h3 class="row user-card__row user-card__row--heading"> 
+  <h3 class="row user-card__row user-card__row--heading">
     <div class="col-12">
       <app-icon [icon]="'user'"></app-icon>
-      {{user.username | titlecase }} 
+      {{ user.username | titlecase }}
       <ng-container *ngIf="!user.is_active">
-        <span title="Deleted/Deactivated" > (†) </span>
+        <span title="Deleted/Deactivated"> (†) </span>
       </ng-container>
     </div>
   </h3>
-    
+
   <div class="row user-card__row">
     <app-badge-list
       class="col-12"
@@ -25,15 +25,15 @@
       (entryDelete)="removeGroup.emit($event)"
     ></app-badge-list>
   </div>
-  
+
   <div class="row user-card__row">
-    <div class="col-4"> 
+    <div class="col-4">
       <app-icon [icon]="'envelope-o'"></app-icon>
-      Email: 
+      Email:
     </div>
-    <div class="col-8">{{user.email ?? 'Not Provided'}}</div>
+    <div class="col-8">{{ user.email ?? "Not Provided" }}</div>
   </div>
-  
+
   <ng-container *ngIf="user.is_active">
     <app-confirmation-toggle-button
       class="col-12 user-card__row user-card__row--delete"

@@ -47,7 +47,7 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
   @Output() refreshQuote: EventEmitter<null> = new EventEmitter();
 
   state: QuoteState = 'DISPLAY';
-  badgeEntries: BadgeListEntry[] = [];
+  badgeEntries: BadgeListEntry<QuoteConnection>[] = [];
   campaignName!: string;
   isLoadingQuote: boolean = false;
   quoteOverviewUrl!: string;
@@ -155,7 +155,9 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
     this.userModel = { ...newModel } as Quote;
   }
 
-  private parseConnection(connections: QuoteConnection[]): BadgeListEntry[] {
+  private parseConnection(
+    connections: QuoteConnection[],
+  ): BadgeListEntry<QuoteConnection>[] {
     return connections.map((con) => {
       const characterName = con.character_details?.name as string;
       const link = this.routingService.getRoutePath('character', {

@@ -1,31 +1,33 @@
 import { Injectable } from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
-import { copyToClipboard } from 'src/app/detail/_functions/clipboard';
+import { copyToClipboard } from 'src/utils/clipboard';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WarningsService {
-  warnings: {[keys: string]: string} = {
+  warnings: { [keys: string]: string } = {
     0: "This can't be done without an internet connection",
-    200: "Potential Syntaxerror",
-    404: "The target URL for the requested action does not seem to exist",
-    500: "An error occurred on the server, unrelated to your input. Please copy the full error message and send it to the developer",
+    200: 'Potential Syntaxerror',
+    404: 'The target URL for the requested action does not seem to exist',
+    500: 'An error occurred on the server, unrelated to your input. Please copy the full error message and send it to the developer',
     504: "This can't be done without an internet connection",
-  }
+  };
 
-  headings: {[keys: string]: string} = {
-    400: "Invalid Input",
-  }
+  headings: { [keys: string]: string } = {
+    400: 'Invalid Input',
+  };
 
-  defaultWarning: string = "The requested action was not carried out. An error occurred";
+  defaultWarning: string =
+    'The requested action was not carried out. An error occurred';
 
-  constructor() { }
+  constructor() {}
 
-  showWarning(error: number | any){
+  showWarning(error: number | any) {
     console.log(error);
 
-    const errorStatus: number = (typeof error !== "number") ? error.status : error;
+    const errorStatus: number =
+      typeof error !== 'number' ? error.status : error;
     const notificationHeading: string = this.getHeading(errorStatus);
 
     const notificationBody: string = this.getBody(error);
@@ -33,70 +35,81 @@ export class WarningsService {
     this.showErrorNotification(notificationHeading, notificationBody, error);
   }
 
-  getBody(error: any): string{
-    const errorStatus: number = (typeof error !== "number") ? error.status : error;
+  getBody(error: any): string {
+    const errorStatus: number =
+      typeof error !== 'number' ? error.status : error;
 
     var preliminaryErrorBody = this.warnings[errorStatus];
-    preliminaryErrorBody = (preliminaryErrorBody == null) ? this.defaultWarning : preliminaryErrorBody;
+    preliminaryErrorBody =
+      preliminaryErrorBody == null ? this.defaultWarning : preliminaryErrorBody;
     if (errorStatus === 500) return preliminaryErrorBody;
 
-    if (typeof error !== "number" && (!error.hasOwnProperty("status") || !error.hasOwnProperty("error"))){
+    if (
+      typeof error !== 'number' &&
+      (!error.hasOwnProperty('status') || !error.hasOwnProperty('error'))
+    ) {
       console.error(error);
-      throw "Error while trying to display the error above";
-    } 
-    const hasSingleError: boolean = typeof error.error === "string";
-    const isGenericHTTPError: boolean = typeof error === "number";
+      throw 'Error while trying to display the error above';
+    }
+    const hasSingleError: boolean = typeof error.error === 'string';
+    const isGenericHTTPError: boolean = typeof error === 'number';
 
     // Get individual errors
     let httpErrorMessage: string;
-    if(hasSingleError){
-      httpErrorMessage = "The error was caused by: <br>    " + error.error;
-    } else if (isGenericHTTPError){
-      httpErrorMessage = "";
+    if (hasSingleError) {
+      httpErrorMessage = 'The error was caused by: <br>    ' + error.error;
+    } else if (isGenericHTTPError) {
+      httpErrorMessage = '';
     } else {
-      httpErrorMessage = this.getHttpErrorMessages(error)
+      httpErrorMessage = this.getHttpErrorMessages(error);
     }
 
-    const notificationBody = preliminaryErrorBody + "<br>" + httpErrorMessage;
+    const notificationBody = preliminaryErrorBody + '<br>' + httpErrorMessage;
     return notificationBody;
   }
 
-  getHeading(errorStatus: number): string{
+  getHeading(errorStatus: number): string {
     const defaultHeading: string = `Error ${errorStatus}`;
 
     const refinedHeading: string = this.headings[errorStatus];
 
-    return (refinedHeading == null) ? defaultHeading : refinedHeading;
+    return refinedHeading == null ? defaultHeading : refinedHeading;
   }
 
-  getHttpErrorMessages(httpErrorObject: any): string{
-    let httpErrorMessagesHTML: string = "The errors you received were because of:<br>";
+  getHttpErrorMessages(httpErrorObject: any): string {
+    let httpErrorMessagesHTML: string =
+      'The errors you received were because of:<br>';
 
-    for(let formField in httpErrorObject.error){
+    for (let formField in httpErrorObject.error) {
       httpErrorMessagesHTML += `${formField}<br>`;
-      const isErrorMessageArray = Array.isArray(httpErrorObject.error[formField]);
+      const isErrorMessageArray = Array.isArray(
+        httpErrorObject.error[formField],
+      );
 
-      if(isErrorMessageArray){
+      if (isErrorMessageArray) {
         const formFieldErrors: string[] = httpErrorObject.error[formField];
-        formFieldErrors.forEach(errorMessage => {
+        formFieldErrors.forEach((errorMessage) => {
           httpErrorMessagesHTML += `<strong class='ms-5'>- ${errorMessage}</strong> <br>`;
         });
       } else {
         const errorMessage = httpErrorObject.error[formField];
         httpErrorMessagesHTML += `<strong class='ms-5'>- ${errorMessage}</strong> <br>`;
       }
-
     }
 
     return httpErrorMessagesHTML;
   }
 
-  showAlert(text: string){
+  showAlert(text: string) {
     alert(text);
   }
 
-  private showErrorNotification(heading: string, body: string, error: number | any = {}) {
-    const bodyElement: HTMLElement | null = document.querySelector("body");
+  private showErrorNotification(
+    heading: string,
+    body: string,
+    error: number | any = {},
+  ) {
+    const bodyElement: HTMLElement | null = document.querySelector('body');
     const notificationHTML = `
     <div class="card notification animate__animated animate__fadeInDown">
         <div class="card-body">
@@ -113,40 +126,43 @@ export class WarningsService {
     </div>
     `;
 
-
-    const notificationElement: HTMLElement = document.createElement("div")
+    const notificationElement: HTMLElement = document.createElement('div');
     notificationElement.innerHTML = notificationHTML;
-    notificationElement.onclick = (event) => this.onErrorNotificationClick(event, error);
+    notificationElement.onclick = (event) =>
+      this.onErrorNotificationClick(event, error);
 
     bodyElement?.appendChild(notificationElement);
   }
 
-  onErrorNotificationClick(event: any, error: any): void{
-    const isClickOnCloseIcon = event.target.id === "closeIcon";
-    const isClickOnCloseButton = event.target.id === "closeBtn";
+  onErrorNotificationClick(event: any, error: any): void {
+    const isClickOnCloseIcon = event.target.id === 'closeIcon';
+    const isClickOnCloseButton = event.target.id === 'closeBtn';
 
-    if (isClickOnCloseIcon){
+    if (isClickOnCloseIcon) {
       const notificationElement = event.target.parentElement.parentElement;
       console.log(notificationElement);
-      animateElement(notificationElement, 'fadeOutUp')
-        .then(() => notificationElement.parentElement.remove());
+      animateElement(notificationElement, 'fadeOutUp').then(() =>
+        notificationElement.parentElement.remove(),
+      );
     }
 
-    if (isClickOnCloseButton){
-      const notificationElement = event.target.parentElement.parentElement.parentElement;
-      animateElement(notificationElement, 'fadeOutUp')
-        .then(() => notificationElement.parentElement.remove());
-      
+    if (isClickOnCloseButton) {
+      const notificationElement =
+        event.target.parentElement.parentElement.parentElement;
+      animateElement(notificationElement, 'fadeOutUp').then(() =>
+        notificationElement.parentElement.remove(),
+      );
     }
 
-    const isClickOnCopyErrorButton = event.target.id === "copy";
-    if(isClickOnCopyErrorButton) this.copyErrorToClipboard(error)
+    const isClickOnCopyErrorButton = event.target.id === 'copy';
+    if (isClickOnCopyErrorButton) this.copyErrorToClipboard(error);
   }
 
-  copyErrorToClipboard(error: number | any){
-    const isHTTPErrorStatus = typeof error === "number";
-    const errorString = (isHTTPErrorStatus) ? `Error status ${error}` : JSON.stringify(error, null, "    ");
+  copyErrorToClipboard(error: number | any) {
+    const isHTTPErrorStatus = typeof error === 'number';
+    const errorString = isHTTPErrorStatus
+      ? `Error status ${error}`
+      : JSON.stringify(error, null, '    ');
     copyToClipboard(errorString);
   }
-
 }

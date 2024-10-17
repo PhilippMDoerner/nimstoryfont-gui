@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { GroupService } from 'src/app/_services/article/group.service';
-import { UserService } from 'src/app/_services/article/user.service';
-import { CampaignService } from 'src/app/_services/utils/campaign.service';
+import { GlobalStore } from 'src/app/global.store';
 import { environment } from 'src/environments/environment';
+import { SiteAdministrationPageStore } from './site-administration-page.store';
 
 @Component({
   selector: 'app-site-administration-page',
@@ -10,12 +9,19 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./site-administration-page.component.scss'],
 })
 export class SiteAdministrationPageComponent {
+  readonly globalStore = inject(GlobalStore);
+  readonly store = inject(SiteAdministrationPageStore);
+
   serverUrl = environment.backendDomain;
-  readonly userService = inject(UserService);
-  readonly campaignService = inject(CampaignService);
-  readonly groupService = inject(GroupService);
-  allSiteUsers$ = this.userService.list.data$;
-  allSiteCampaigns$ = this.campaignService.list.data$;
-  siteStatistics$ = this.campaignService.statistics.data$;
-  allPermissionGroups$ = this.groupService.list.data$;
+  allSiteUsers = this.store.allSiteUsers;
+  allSiteCampaigns = this.store.allSiteCampaigns;
+  siteStatistics = this.store.siteStatistics;
+  allPermissionGroups = this.store.allPermissionGroups;
+
+  constructor() {
+    this.store.loadUsers();
+    this.store.loadCampaigns();
+    this.store.loadGroups();
+    this.store.loadStatistics();
+  }
 }

@@ -44,7 +44,7 @@ export class EncounterComponent implements OnInit, OnChanges {
 
   userModel!: Encounter;
   state!: EncounterState;
-  badgeEntries!: BadgeListEntry[];
+  badgeEntries!: BadgeListEntry<EncounterConnection>[];
   campaignName!: string;
 
   formlyFields!: FormlyFieldConfig[];
@@ -157,7 +157,7 @@ export class EncounterComponent implements OnInit, OnChanges {
 
   private parseConnection(
     connections: EncounterConnection[],
-  ): BadgeListEntry[] {
+  ): BadgeListEntry<EncounterConnection>[] {
     return connections.map((con) => {
       const characterName = con.character_details?.name as string;
       const link = this.routingService.getRoutePath('character', {

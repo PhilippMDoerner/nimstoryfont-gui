@@ -42,12 +42,12 @@ export class SidebarComponent {
 
   campaignAdminUrl = computed(() => {
     return this.routingService.getRoutePath('campaign-admin', {
-      campaign: this.campaign.name,
+      campaign: this.campaign()?.name,
     });
   });
   homeUrl = computed(() => {
     return this.routingService.getRoutePath('home', {
-      campaign: this.campaign.name,
+      campaign: this.campaign()?.name,
     });
   });
   profileUrl = this.routingService.getRoutePath('direct-profile');

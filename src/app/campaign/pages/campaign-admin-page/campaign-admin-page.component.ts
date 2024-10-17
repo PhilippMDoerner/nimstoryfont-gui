@@ -8,6 +8,7 @@ import { CampaignAdminPageStore } from './campaign-admin-page.store';
   selector: 'app-campaign-admin-page',
   standalone: true,
   imports: [TemplatesModule, AsyncPipe, JsonPipe],
+  providers: [CampaignAdminPageStore],
   templateUrl: './campaign-admin-page.component.html',
   styleUrl: './campaign-admin-page.component.scss',
 })
@@ -15,4 +16,10 @@ export class CampaignAdminPageComponent {
   readonly store = inject(CampaignAdminPageStore);
   campaign = this.store.campaign;
   serverUrl = environment.backendDomain;
+
+  constructor() {
+    this.store.loadCampaign();
+    this.store.loadCampaignStatistics();
+    this.store.loadUsers();
+  }
 }

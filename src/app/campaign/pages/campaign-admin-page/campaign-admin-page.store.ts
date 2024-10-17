@@ -1,14 +1,15 @@
 import { inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { combineLatest, firstValueFrom, Observable } from 'rxjs';
+import { firstValueFrom, Observable, switchMap, take } from 'rxjs';
 import { Campaign, WikiStatistics } from 'src/app/_models/campaign';
 import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { CampaignRole } from 'src/app/_models/token';
 import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/article/user.service';
 import { CampaignService } from 'src/app/_services/utils/campaign.service';
-import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
 import { GlobalStore } from 'src/app/global.store';
+import { filterNil } from 'src/utils/rxjs-operators';
 
 export type CampaignAdminPageState = {
   campaign: Campaign | undefined;
@@ -27,25 +28,36 @@ export const CampaignAdminPageStore = signalStore(
   withMethods((state) => {
     const userService = inject(UserService);
     const campaignService = inject(CampaignService);
-    const paramsService = inject(GlobalUrlParamsService);
     const globalStore = inject(GlobalStore);
 
+    const currentCampaign$ = toObservable(globalStore.currentCampaign).pipe(
+      filterNil(),
+    );
+
     return {
-      initialize: async () => {
-        const overviewCampaign = globalStore.currentCampaign();
-        if (overviewCampaign == null) return;
-        const { campaign, wikiStatistics, users } = await firstValueFrom(
-          combineLatest({
-            users: userService.list(),
-            campaign: campaignService.read(overviewCampaign?.pk),
-            wikiStatistics: campaignService.statistics(overviewCampaign.name),
-          }),
-        );
-        patchState(state, {
-          users,
-          campaign,
-          campaignStatistics: wikiStatistics,
-        });
+      loadUsers: () => {
+        userService
+          .list()
+          .pipe(take(1))
+          .subscribe((users) => patchState(state, { users }));
+      },
+      loadCampaign: () => {
+        currentCampaign$
+          .pipe(
+            switchMap((campaign) => campaignService.read(campaign.pk)),
+            take(1),
+          )
+          .subscribe((campaign) => patchState(state, { campaign }));
+      },
+      loadCampaignStatistics: () => {
+        currentCampaign$
+          .pipe(
+            switchMap((campaign) => campaignService.statistics(campaign.name)),
+            take(1),
+          )
+          .subscribe((statistics) =>
+            patchState(state, { campaignStatistics: statistics }),
+          );
       },
       addMemberToCampaignGroup: async (role: CampaignRole, addedUser: User) => {
         const campaign = state.campaign();

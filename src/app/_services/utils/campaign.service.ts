@@ -95,7 +95,7 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     return super.delete(pk);
   }
 
-  statistics(campaign_name: string): Observable<any> {
+  statistics(campaign_name: string): Observable<WikiStatistics> {
     const statisticsUrl = `${this.apiUrl}/admin/statistics/${campaign_name}`;
     return this.http.get<WikiStatistics>(statisticsUrl);
   }

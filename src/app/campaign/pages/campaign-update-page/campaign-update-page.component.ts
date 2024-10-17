@@ -1,33 +1,36 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
-import { take } from 'rxjs';
+import { Component, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Campaign, CampaignRaw } from 'src/app/_models/campaign';
-import { MapService } from 'src/app/_services/article/map.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { CampaignService } from 'src/app/_services/utils/campaign.service';
+import { GlobalStore } from 'src/app/global.store';
 import { environment } from 'src/environments/environment';
-import { mapServerModel, takeFirstNonNil } from 'src/utils/rxjs-operators';
+import { takeFirstNonNil } from 'src/utils/rxjs-operators';
 import { CampaignUpdateComponent } from '../../../../design/templates/campaign-update/campaign-update.component';
+import { CampaignUpdatePageStore } from './campaign-update-page.store';
 
 @Component({
   selector: 'app-campaign-update-page',
   standalone: true,
   imports: [CampaignUpdateComponent, AsyncPipe, JsonPipe],
+  providers: [CampaignUpdatePageStore],
   templateUrl: './campaign-update-page.component.html',
   styleUrl: './campaign-update-page.component.scss',
 })
 export class CampaignUpdatePageComponent {
-  serverUrl = environment.backendDomain;
-  campaign$ = this.campaignService.read.data$;
-  mapOptions$ = this.mapService.campaignList.data$;
-  serverModel$ =
-    this.campaignService.update.error$.pipe(mapServerModel<Campaign>());
+  globalStore = inject(GlobalStore);
+  campaignUpdatePageStore = inject(CampaignUpdatePageStore);
 
-  constructor(
-    private campaignService: CampaignService,
-    private mapService: MapService,
-    private routingService: RoutingService,
-  ) {}
+  serverUrl = environment.backendDomain;
+  campaign = this.campaignUpdatePageStore.campaign;
+  campaign$ = toObservable(this.campaign);
+  mapOptions = this.campaignUpdatePageStore.mapOptions;
+  serverModel = this.campaignUpdatePageStore.serverModel;
+
+  constructor(private routingService: RoutingService) {
+    this.campaignUpdatePageStore.loadCurrentCampaignDetails();
+    this.campaignUpdatePageStore.loadMapOptions();
+  }
 
   updateCampaign(campaign: Partial<Campaign>) {
     const campaignPk = campaign.pk as number;
@@ -38,7 +41,8 @@ export class CampaignUpdatePageComponent {
 
     let rawCampaign: CampaignRaw &
       Record<'pk', number> &
-      Record<'update_datetime', string> = {
+      Record<'update_datetime', string> &
+      Record<'subtitle', string> = {
       has_audio_recording_permission: false,
       is_deactivated: false,
       name,
@@ -46,15 +50,16 @@ export class CampaignUpdatePageComponent {
       background_image: campaign.background_image ?? '',
       icon: campaign.icon,
       pk: campaignPk,
-      subtitle: campaign.subtitle,
+      subtitle: campaign.subtitle as string,
       update_datetime: campaign.update_datetime as string,
     };
 
-    this.campaignService.runUpdate(campaignPk, rawCampaign);
+    const request$ = this.campaignUpdatePageStore.updateCampaign(
+      campaignPk,
+      rawCampaign,
+    );
 
-    this.campaignService.update.onRequestSuccess$
-      .pipe(take(1))
-      .subscribe(() => this.routeToAdmin());
+    request$.subscribe(() => this.routeToAdmin());
   }
 
   cancel() {

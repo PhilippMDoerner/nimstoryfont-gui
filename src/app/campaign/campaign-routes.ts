@@ -1,6 +1,7 @@
 import { campaignGuard } from '../_guards/campaign.guard';
 import { CampaignOverviewRoute, CampaignRoute } from '../_models/route';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
+import { CampaignUpdatePageComponent } from './pages/campaign-update-page/campaign-update-page.component';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 
@@ -73,17 +74,12 @@ const innerCampaignRoutes: CampaignRoute[] = [
     path: `admin`,
     component: CampaignAdminPageComponent,
     data: { name: 'campaign-admin', requiredMinimumRole: 'admin' },
-    resolve: {},
   },
-  // {
-  //   path: 'admin/update',
-  //   component: CampaignUpdatePageComponent,
-  //   data: { name: 'campaign-update', requiredMinimumRole: 'admin' },
-  //   resolve: {
-  //     mapOverviewResolver,
-  //     campaignResolver,
-  //   },
-  // },
+  {
+    path: 'admin/update',
+    component: CampaignUpdatePageComponent,
+    data: { name: 'campaign-update', requiredMinimumRole: 'admin' },
+  },
   //Home Routes
   {
     path: `home`,

@@ -1,9 +1,8 @@
 import {
   Component,
+  computed,
   EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
+  input,
   Output,
 } from '@angular/core';
 import {
@@ -30,17 +29,17 @@ interface OrganizationEntry {
   templateUrl: './character.component.html',
   styleUrls: ['./character.component.scss'],
 })
-export class CharacterComponent implements OnInit, OnChanges {
-  @Input() character!: CharacterDetails;
-  @Input() characterQuote?: Quote;
-  @Input() campaignCharacters!: OverviewItem[];
-  @Input() serverUrl!: string;
-  @Input() quoteServerModel?: Quote;
-  @Input() imageServerModel?: Image;
-  @Input() encounterServerModel?: Encounter;
-  @Input() canUpdate: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() canDelete: boolean = false;
+export class CharacterComponent {
+  character = input.required<CharacterDetails>();
+  characterQuote = input<Quote>();
+  campaignCharacters = input.required<OverviewItem[]>();
+  serverUrl = input.required<string>();
+  quoteServerModel = input<Quote>();
+  imageServerModel = input<Image>();
+  encounterServerModel = input<Encounter>();
+  canUpdate = input(false);
+  canCreate = input(false);
+  canDelete = input(false);
 
   @Output() createImage: EventEmitter<Image> = new EventEmitter();
   @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
@@ -66,84 +65,68 @@ export class CharacterComponent implements OnInit, OnChanges {
   @Output() encounterUpdate: EventEmitter<CharacterEncounter> =
     new EventEmitter();
 
-  createUrl!: string;
+  campaignName = computed(() => this.character().campaign_details?.name);
+  createUrl = computed(() => {
+    return this.routingService.getRoutePath('character-update', {
+      campaign: this.campaignName(),
+      name: this.character().name,
+    });
+  });
   updateUrl!: string;
   homeUrl!: string;
-  overviewUrl!: string;
+  overviewUrl = computed(() =>
+    this.routingService.getRoutePath('character-overview', {
+      campaign: this.campaignName(),
+    }),
+  );
   itemCreateUrl!: string;
-  locationUrl!: string;
-  organizations!: OrganizationEntry[];
-  characterItems!: ListEntry[];
-  playerClasses?: string;
-
-  constructor(private routingService: RoutingService) {}
-
-  ngOnInit(): void {
-    const campaignName = this.character.campaign_details?.name;
-
-    this.overviewUrl = this.routingService.getRoutePath('character-overview', {
-      campaign: campaignName,
+  locationUrl = computed(() => {
+    const locationName = this.character().current_location_details?.name;
+    const parentLocationName =
+      this.character().current_location_details?.parent_location;
+    return this.routingService.getRoutePath('location', {
+      name: locationName,
+      parent_name: parentLocationName,
+      campaign: this.campaignName(),
     });
-    this.setUrls();
-    this.setPlayerClassString();
-  }
-
-  ngOnChanges(): void {
-    this.setUrls();
-  }
-
-  setUrls(): void {
-    const campaignName = this.character.campaign_details?.name;
-
-    this.locationUrl = this.routingService.getRoutePath('location', {
-      name: this.character.current_location_details?.name,
-      parent_name: this.character.current_location_details?.parent_location,
-      campaign: campaignName,
-    });
-
-    this.organizations =
-      this.character.organizations?.map((entry) => ({
+  });
+  organizations = computed<OrganizationEntry[]>(() => {
+    return (
+      this.character().organizations?.map((entry) => ({
         organization: entry,
         link: this.routingService.getRoutePath('organization', {
           name: entry.name,
-          campaign: campaignName,
+          campaign: this.campaignName(),
         }),
-      })) ?? [];
-
-    this.updateUrl = this.routingService.getRoutePath('character-update', {
-      campaign: campaignName,
-      name: this.character.name,
-    });
-
-    this.setPlayerClassString();
-  }
-
-  setPlayerClassString(): void {
-    this.playerClasses = this.character.player_class_connections
-      ?.map(
+      })) ?? []
+    );
+  });
+  characterItems = computed<ListEntry[]>(() => {
+    return (
+      this.character().items?.map((item) => ({
+        label: item.name,
+        link: this.routingService.getRoutePath('item', {
+          campaign: this.campaignName(),
+          name: item.name,
+        }),
+      })) ?? []
+    );
+  });
+  playerClasses = computed(() => {
+    return this.character()
+      .player_class_connections?.map(
         (con: CharacterPlayerClassConnectionDetail) =>
           con.player_class_details?.name,
       )
       .join(', ');
-  }
+  });
 
-  setItems() {
-    const campaignName = this.character.campaign_details?.name;
-    this.characterItems =
-      this.character.items?.map((item) => ({
-        label: item.name,
-        link: this.routingService.getRoutePath('item', {
-          campaign: campaignName,
-          name: item.name,
-        }),
-      })) ?? [];
-  }
+  constructor(private routingService: RoutingService) {}
 
   routeToItem(): void {
-    const campaignName = this.character.campaign_details?.name;
     this.routingService.routeToPath('item-character-create', {
       character_name: this.character.name,
-      campaign: campaignName,
+      campaign: this.campaignName(),
     });
   }
 }

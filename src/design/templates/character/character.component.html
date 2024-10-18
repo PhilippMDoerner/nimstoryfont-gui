@@ -11,25 +11,28 @@
     <!-- Heading -->
     <div class="row">
       <h1 class="col-12 character__heading">
-        <ng-container *ngIf="character.title">
-          {{ character.title }} -
-        </ng-container>
-        {{ character.name }}
-        <ng-container *ngIf="!character.alive"> (†) </ng-container>
+        @let title = character().title;
+        @if (title) {
+          {{ title }} -
+        }
+        {{ character().name }}
+        @if (!character().alive) {
+          (†)
+        }
       </h1>
 
       <div class="col-12 character__subheading">
         <!-- Organization -->
         <h5>
-          <ng-container *ngIf="character.gender !== 'Other'">
-            {{ character.gender }}
-          </ng-container>
-          {{ character.race }}
-          {{ playerClasses }}
+          @if (character().gender !== "Other") {
+            {{ character().gender }}
+          }
+          {{ character().race }}
+          {{ playerClasses() }}
         </h5>
 
         @if (organizations.length > 0) {
-          @for (entry of organizations; track $index) {
+          @for (entry of organizations(); track $index) {
             <h5 class="col-12">
               {{ entry.organization.role }} of
               <a [routerLink]="entry.link">
@@ -40,26 +43,27 @@
         }
 
         <!-- Current Location -->
-        <ng-container *ngIf="character.current_location_details">
+        @let currentLocationDetails = character().current_location_details;
+        @if (currentLocationDetails) {
           <div class="col-12">
             Last known location:
-            <a [routerLink]="locationUrl">
-              <strong> {{ character.current_location_details.name }} </strong>
+            <a [routerLink]="locationUrl()">
+              <strong> {{ currentLocationDetails.name }} </strong>
             </a>
           </div>
-        </ng-container>
+        }
       </div>
     </div>
 
     <div class="character__images">
       <!-- Image Gallery -->
       <app-image-carousel-card
-        [images]="character.images ?? []"
-        [serverUrl]="serverUrl"
-        [serverModel]="imageServerModel"
-        [canUpdate]="canUpdate"
-        [canCreate]="canCreate"
-        [canDelete]="canDelete"
+        [images]="character().images ?? []"
+        [serverUrl]="serverUrl()"
+        [serverModel]="imageServerModel()"
+        [canUpdate]="canUpdate()"
+        [canCreate]="canCreate()"
+        [canDelete]="canDelete()"
         (createImage)="createImage.emit($event)"
         (deleteImage)="deleteImage.emit($event)"
         (updateImage)="updateImage.emit($event)"
@@ -69,13 +73,13 @@
     <!-- Quote -->
     <div class="character__quote">
       <app-quote-field
-        [quote]="characterQuote"
-        [character]="character"
-        [campaignCharacters]="campaignCharacters"
-        [serverModel]="quoteServerModel"
-        [canUpdate]="canUpdate"
-        [canCreate]="canCreate"
-        [canDelete]="canDelete"
+        [quote]="characterQuote()"
+        [character]="character()"
+        [campaignCharacters]="campaignCharacters()"
+        [serverModel]="quoteServerModel()"
+        [canUpdate]="canUpdate()"
+        [canCreate]="canCreate()"
+        [canDelete]="canDelete()"
         (refreshQuote)="refreshQuote.emit($event)"
         (quoteUpdate)="quoteUpdate.emit($event)"
         (quoteCreate)="quoteCreate.emit($event)"
@@ -87,14 +91,14 @@
 
     <div class="character__description">
       <h4>Description</h4>
-      <app-html-text [text]="character.description"></app-html-text>
+      <app-html-text [text]="character().description"></app-html-text>
     </div>
 
     <div class="character__items">
       <app-list
         [heading]="'Items of Note'"
-        [entries]="characterItems"
-        [enableCreate]="canCreate"
+        [entries]="characterItems()"
+        [enableCreate]="canCreate()"
         [emptyListText]="character.name + ' has no significant items.'"
         (create)="routeToItem()"
       ></app-list>
@@ -103,7 +107,7 @@
     <div class="row">
       <h4 class="col mb-0">
         <app-info-circle-tooltip
-          [text]="(character.encounters?.length ?? 0) + ' Encounters'"
+          [text]="(character().encounters?.length ?? 0) + ' Encounters'"
           [tooltip]="
             'List of all encounters with ' +
             character.name +
@@ -112,12 +116,12 @@
         ></app-info-circle-tooltip>
       </h4>
       <app-encounter-accordion
-        [encounters]="character.encounters ?? []"
-        [campaignCharacters]="campaignCharacters"
-        [serverModel]="encounterServerModel"
-        [canUpdate]="canUpdate"
-        [canCreate]="canCreate"
-        [canDelete]="canDelete"
+        [encounters]="character().encounters ?? []"
+        [campaignCharacters]="campaignCharacters()"
+        [serverModel]="encounterServerModel()"
+        [canUpdate]="canUpdate()"
+        [canCreate]="canCreate()"
+        [canDelete]="canDelete()"
         (connectionCreate)="encounterConnectionCreate.emit($event)"
         (connectionDelete)="encounterConnectionDelete.emit($event)"
         (encounterDelete)="encounterDelete.emit($event)"
@@ -126,11 +130,11 @@
     </div>
 
     <app-article-footer
-      [buttonLink]="overviewUrl"
+      [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Characters'"
-      [showDelete]="canDelete"
+      [showDelete]="canDelete()"
       [deleteMessage]="'Delete ' + character.name + '?'"
-      (delete)="characterDelete.emit(character)"
+      (delete)="characterDelete.emit(character())"
     ></app-article-footer>
   </article>
 </app-page-container>

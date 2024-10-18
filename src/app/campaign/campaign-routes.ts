@@ -99,6 +99,7 @@ const innerCampaignRoutes: CampaignRoute[] = [
     resolve: {
       loadCharacters: () => inject(CharacterStore).loadCharacters(),
       loadCharacter: characterResolver,
+      loadOrganizations: () => inject(CharacterStore).loadOrganizations(),
     },
   },
   // {

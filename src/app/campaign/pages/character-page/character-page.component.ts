@@ -17,12 +17,13 @@ import { CharacterStore } from './character-page.store';
   styleUrl: './character-page.component.scss',
 })
 export class CharacterPageComponent {
-  private store = inject(CharacterStore);
+  store = inject(CharacterStore);
   private routingService = inject(RoutingService);
 
   serverUrl = environment.backendDomain;
   character$ = this.store.character;
-  campaignCharacters$ = this.store.campaignCharacters;
+  campaignCharacters = this.store.campaignCharacters;
+  campaignOrganizations = this.store.campaignOrganizations;
   characterQuote$ = this.store.characterQuote;
   quoteServerModel$ = this.store.quoteServerModel;
   imageServerModel$ = this.store.imageServerModel;

@@ -13,6 +13,7 @@ import { switchMap, take } from 'rxjs';
 import {
   CharacterDetails,
   CharacterEncounter,
+  CharacterOrganizationMembership,
 } from 'src/app/_models/character';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
@@ -22,10 +23,10 @@ import { CharacterService } from 'src/app/_services/article/character.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
 import { EncounterService } from 'src/app/_services/article/encounter.service';
 import { ImageUploadService } from 'src/app/_services/article/image-upload.service';
+import { OrganizationMembershipService } from 'src/app/_services/article/organization-membership.service';
+import { OrganizationService } from 'src/app/_services/article/organization.service';
 import { QuoteConnectionService } from 'src/app/_services/article/quote-connection.service';
 import { QuoteService } from 'src/app/_services/article/quote.service';
-import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
-import { TokenService } from 'src/app/_services/utils/token.service';
 import { GlobalStore } from 'src/app/global.store';
 import { findByProp, removeByProp, replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -35,12 +36,14 @@ export interface CharacterPageState {
   encounterServerModel: Encounter | undefined;
   characterQuote: Quote | undefined;
   campaignCharacters: OverviewItem[];
+  campaignOrganizations: OverviewItem[];
   imageServerModel: Image | undefined;
   quoteServerModel: Quote | undefined;
 }
 
 const initialState: CharacterPageState = {
   campaignCharacters: [],
+  campaignOrganizations: [],
   character: undefined,
   characterQuote: undefined,
   encounterServerModel: undefined,
@@ -51,7 +54,7 @@ const initialState: CharacterPageState = {
 export const CharacterStore = signalStore(
   { providedIn: 'root' },
   withState(initialState),
-  withComputed((state) => {
+  withComputed(() => {
     const globalStore = inject(GlobalStore);
     return {
       hasWritePermission: globalStore.hasRoleOrBetter('member'),
@@ -59,13 +62,13 @@ export const CharacterStore = signalStore(
   }),
   withMethods((state) => {
     const characterService = inject(CharacterService);
+    const membershipService = inject(OrganizationMembershipService);
     const quoteService = inject(QuoteService);
     const imageService = inject(ImageUploadService);
     const encounterService = inject(EncounterService);
-    const tokenService = inject(TokenService);
-    const paramsService = inject(GlobalUrlParamsService);
     const quoteConnectionService = inject(QuoteConnectionService);
     const encounterConnectionService = inject(EncounterConnectionService);
+    const organizationService = inject(OrganizationService);
     const globalStore = inject(GlobalStore);
 
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
@@ -94,6 +97,20 @@ export const CharacterStore = signalStore(
           )
           .subscribe((campaignCharacters) =>
             patchState(state, { campaignCharacters }),
+          );
+      },
+      loadOrganizations: () => {
+        patchState(state, { campaignOrganizations: [] });
+        campaignName$
+          .pipe(
+            take(1),
+            switchMap((campaignName) =>
+              organizationService.campaignList(campaignName),
+            ),
+            take(1),
+          )
+          .subscribe((orgs) =>
+            patchState(state, { campaignOrganizations: orgs }),
           );
       },
       loadRandomQuote: (name: string) => {
@@ -276,6 +293,31 @@ export const CharacterStore = signalStore(
             );
             updatedCharacter.encounters = updatedEncounters;
             patchState(state, { character: updatedCharacter });
+          });
+      },
+      createMembership(membership: CharacterOrganizationMembership) {
+        membershipService
+          .create({
+            member_id: state.character()?.pk as number,
+            organization_id: membership.organization_id,
+            role: membership.role,
+          })
+          .pipe(take(1))
+          .subscribe((updatedCharacter) => {
+            patchState(state, { character: updatedCharacter });
+          });
+      },
+      deleteMembership(membership: CharacterOrganizationMembership) {
+        membershipService
+          .delete(membership.pk as number)
+          .pipe(take(1))
+          .subscribe(() => {
+            const updatedChar = state.character();
+            if (updatedChar == null) return;
+            updatedChar.organizations = updatedChar.organizations?.filter(
+              (org) => org.organization_id !== membership.organization_id,
+            );
+            patchState(state, { character: { ...updatedChar } });
           });
       },
     };

@@ -1,8 +1,8 @@
 <app-page-container>
   <article class="container character">
-    <ng-container *ngIf="canUpdate">
+    <ng-container *ngIf="canUpdate()">
       <div class="character__edit-container">
-        <a [routerLink]="updateUrl">
+        <a [routerLink]="updateUrl()">
           <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
         </a>
       </div>
@@ -30,17 +30,6 @@
           {{ character().race }}
           {{ playerClasses() }}
         </h5>
-
-        @if (organizations.length > 0) {
-          @for (entry of organizations(); track $index) {
-            <h5 class="col-12">
-              {{ entry.organization.role }} of
-              <a [routerLink]="entry.link">
-                <strong>{{ entry.organization.name }}</strong>
-              </a>
-            </h5>
-          }
-        }
 
         <!-- Current Location -->
         @let currentLocationDetails = character().current_location_details;
@@ -80,13 +69,29 @@
         [canUpdate]="canUpdate()"
         [canCreate]="canCreate()"
         [canDelete]="canDelete()"
-        (refreshQuote)="refreshQuote.emit($event)"
+        (refreshQuote)="refreshQuote.emit()"
         (quoteUpdate)="quoteUpdate.emit($event)"
         (quoteCreate)="quoteCreate.emit($event)"
         (quoteDelete)="quoteDelete.emit($event)"
         (connectionCreate)="quoteConnectionCreate.emit($event)"
         (connectionDelete)="quoteConnectionDelete.emit($event)"
       ></app-quote-field>
+    </div>
+
+    <div class="character__organizations">
+      <app-badge-list
+        [canCreate]="canCreate()"
+        [canDelete]="canDelete()"
+        [label]="'Organizations'"
+        [entries]="organizationMemberships()"
+        [createOptions]="{
+          options: campaignOrganizations(),
+          labelProp: 'name',
+          valueProp: 'pk',
+        }"
+        (entryCreate)="onMembershipCreate($event)"
+        (entryDelete)="organizationMembershipDelete.emit($event)"
+      ></app-badge-list>
     </div>
 
     <div class="character__description">
@@ -99,8 +104,8 @@
         [heading]="'Items of Note'"
         [entries]="characterItems()"
         [enableCreate]="canCreate()"
-        [emptyListText]="character.name + ' has no significant items.'"
-        (create)="routeToItem()"
+        [emptyListText]="character().name + ' has no significant items.'"
+        (create)="routeToItemCreate()"
       ></app-list>
     </div>
 
@@ -110,7 +115,7 @@
           [text]="(character().encounters?.length ?? 0) + ' Encounters'"
           [tooltip]="
             'List of all encounters with ' +
-            character.name +
+            character().name +
             '. Starts with the most recent encounter and ends with the latest.'
           "
         ></app-info-circle-tooltip>
@@ -133,7 +138,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Characters'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + character.name + '?'"
+      [deleteMessage]="'Delete ' + character().name + '?'"
       (delete)="characterDelete.emit(character())"
     ></app-article-footer>
   </article>

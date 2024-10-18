@@ -20,7 +20,7 @@ export interface CharacterDetails extends ArticleObject {
   gender: string;
   race: string;
   description: string;
-  organizations?: CharacterOrganization[];
+  organizations?: CharacterOrganizationMembership[];
   current_location?: number;
   current_location_details?: CharacterLocation;
   items?: CharacterItem[];
@@ -64,7 +64,7 @@ export interface CharacterEncounterConnections {
   character_details?: { name: string; name_full: string; pk: number };
 }
 
-export interface CharacterOrganization {
+export interface CharacterOrganizationMembership {
   pk: number;
   name: string;
   organization_id: number;

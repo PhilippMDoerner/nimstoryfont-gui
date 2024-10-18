@@ -9,7 +9,8 @@ import {
   CharacterDetails,
   CharacterEncounter,
   CharacterEncounterConnections,
-  CharacterOrganization,
+  CharacterItem,
+  CharacterOrganizationMembership,
 } from 'src/app/_models/character';
 import { Encounter } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
@@ -17,12 +18,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { CharacterPlayerClassConnectionDetail } from 'src/app/_models/playerclass';
 import { Quote, QuoteConnection } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ListEntry } from '../../molecules';
-
-interface OrganizationEntry {
-  organization: CharacterOrganization;
-  link: string;
-}
+import { BadgeListEntry, ListEntry } from '../../molecules';
 
 @Component({
   selector: 'app-character',
@@ -33,6 +29,7 @@ export class CharacterComponent {
   character = input.required<CharacterDetails>();
   characterQuote = input<Quote>();
   campaignCharacters = input.required<OverviewItem[]>();
+  campaignOrganizations = input.required<OverviewItem[]>();
   serverUrl = input.required<string>();
   quoteServerModel = input<Quote>();
   imageServerModel = input<Image>();
@@ -57,13 +54,16 @@ export class CharacterComponent {
   @Output()
   encounterConnectionCreate: EventEmitter<CharacterEncounterConnections> =
     new EventEmitter();
-  @Output() refreshQuote: EventEmitter<null> = new EventEmitter();
-  @Output() characterDelete: EventEmitter<CharacterDetails> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<CharacterEncounter> =
-    new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<CharacterEncounter> =
-    new EventEmitter();
+  @Output() refreshQuote = new EventEmitter<void>();
+  @Output() characterDelete = new EventEmitter<CharacterDetails>();
+  @Output() encounterDelete = new EventEmitter<CharacterEncounter>();
+  @Output() encounterUpdate = new EventEmitter<CharacterEncounter>();
+  @Output()
+  organizationMembershipCreate =
+    new EventEmitter<CharacterOrganizationMembership>();
+  @Output()
+  organizationMembershipDelete =
+    new EventEmitter<CharacterOrganizationMembership>();
 
   campaignName = computed(() => this.character().campaign_details?.name);
   createUrl = computed(() => {
@@ -72,14 +72,17 @@ export class CharacterComponent {
       name: this.character().name,
     });
   });
-  updateUrl!: string;
-  homeUrl!: string;
+  updateUrl = computed(() => {
+    return this.routingService.getRoutePath('character-update', {
+      campaign: this.campaignName(),
+      name: this.character().name,
+    });
+  });
   overviewUrl = computed(() =>
     this.routingService.getRoutePath('character-overview', {
       campaign: this.campaignName(),
     }),
   );
-  itemCreateUrl!: string;
   locationUrl = computed(() => {
     const locationName = this.character().current_location_details?.name;
     const parentLocationName =
@@ -90,28 +93,17 @@ export class CharacterComponent {
       campaign: this.campaignName(),
     });
   });
-  organizations = computed<OrganizationEntry[]>(() => {
-    return (
-      this.character().organizations?.map((entry) => ({
-        organization: entry,
-        link: this.routingService.getRoutePath('organization', {
-          name: entry.name,
-          campaign: this.campaignName(),
-        }),
-      })) ?? []
-    );
-  });
-  characterItems = computed<ListEntry[]>(() => {
-    return (
-      this.character().items?.map((item) => ({
-        label: item.name,
-        link: this.routingService.getRoutePath('item', {
-          campaign: this.campaignName(),
-          name: item.name,
-        }),
-      })) ?? []
-    );
-  });
+  organizationMemberships = computed<
+    BadgeListEntry<CharacterOrganizationMembership>[]
+  >(
+    () =>
+      this.character().organizations?.map((org) =>
+        this.toBadgeListEntry(org),
+      ) ?? [],
+  );
+  characterItems = computed<ListEntry[]>(
+    () => this.character().items?.map((item) => this.toListEntry(item)) ?? [],
+  );
   playerClasses = computed(() => {
     return this.character()
       .player_class_connections?.map(
@@ -123,10 +115,44 @@ export class CharacterComponent {
 
   constructor(private routingService: RoutingService) {}
 
-  routeToItem(): void {
+  routeToItemCreate(): void {
     this.routingService.routeToPath('item-character-create', {
       character_name: this.character.name,
       campaign: this.campaignName(),
     });
+  }
+
+  onMembershipCreate(org: OverviewItem): void {
+    const newMembership: Partial<CharacterOrganizationMembership> = {
+      name: org.name,
+      organization_id: org.pk,
+      role: 'member',
+    };
+    this.organizationMembershipCreate.emit(
+      newMembership as CharacterOrganizationMembership,
+    );
+  }
+
+  private toBadgeListEntry(
+    org: CharacterOrganizationMembership,
+  ): BadgeListEntry<CharacterOrganizationMembership> {
+    return {
+      badgeValue: org,
+      text: org.name,
+      link: this.routingService.getRoutePath('organization', {
+        name: org.name,
+        campaign: this.campaignName(),
+      }),
+    };
+  }
+
+  private toListEntry(item: CharacterItem): ListEntry {
+    return {
+      label: item.name,
+      link: this.routingService.getRoutePath('item', {
+        campaign: this.campaignName(),
+        name: item.name,
+      }),
+    };
   }
 }

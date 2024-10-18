@@ -1,31 +1,29 @@
 <div class="badge-list">
-  <span class="badge-list__label"> {{ label }}: </span>
+  <span class="badge-list__label"> {{ label() }}: </span>
   <div class="badge-list__list">
-    @for (entry of entries; track $index) {
+    @for (entry of entries(); track $index) {
       <app-interactive-badge
         class="badge-list__entry"
         [type]="'DARK'"
         [iconType]="'DANGER'"
         [text]="entry.text"
         [textLink]="entry.link"
-        [icon]="canDelete ? 'trash' : undefined"
+        [icon]="canDelete() ? 'trash' : undefined"
         (iconClick)="onEntryDelete(entry)"
       ></app-interactive-badge>
     }
 
     <!-- Connection Create Form -->
-    <ng-container *ngIf="canCreate">
-      <ng-container [ngSwitch]="createKind()">
-        <ng-container
-          *ngSwitchCase="'LINK'"
-          [ngTemplateOutlet]="linkCreate"
-        ></ng-container>
-        <ng-container
-          *ngSwitchCase="'SELECT'"
-          [ngTemplateOutlet]="selectCreate"
-        ></ng-container>
-      </ng-container>
-    </ng-container>
+    @if (canCreate()) {
+      @switch (createKind()) {
+        @case ("LINK") {
+          <ng-container [ngTemplateOutlet]="linkCreate" />
+        }
+        @case ("SELECT") {
+          <ng-container [ngTemplateOutlet]="selectCreate" />
+        }
+      }
+    }
   </div>
 </div>
 
@@ -34,22 +32,22 @@
   @let optionLabelPropVal = optionLabelProp();
   @let optionValuePropVal = optionValueProp();
 
-  <ng-container *ngIf="optionsVal && optionLabelPropVal && optionValuePropVal">
+  @if (optionsVal && optionLabelPropVal && optionValuePropVal) {
     <app-small-create-form
       class="badge-list__create-form"
       [options]="optionsVal"
       [labelProp]="optionLabelPropVal"
       [valueProp]="optionValuePropVal"
-      [badgeText]="'Add ' + label"
+      [badgeText]="'Add ' + label()"
       [cancelButtonType]="'DARK'"
       (create)="onEntryCreate($event)"
     ></app-small-create-form>
-  </ng-container>
+  }
 </ng-template>
 
 <ng-template #linkCreate>
   <a [routerLink]="createLink()" class="badge-list__create-form">
-    <app-badge [type]="'PRIMARY'" [icon]="'plus'" [text]="'Add ' + label">
+    <app-badge [type]="'PRIMARY'" [icon]="'plus'" [text]="'Add ' + label()">
     </app-badge>
   </a>
 </ng-template>

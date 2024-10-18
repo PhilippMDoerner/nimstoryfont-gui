@@ -3,7 +3,6 @@ import {
   computed,
   EventEmitter,
   input,
-  Input,
   Output,
 } from '@angular/core';
 import { ElementType } from '../../atoms';
@@ -17,13 +16,13 @@ type CreateBadgeKind = 'LINK' | 'SELECT' | 'NONE';
   styleUrls: ['./badge-list.component.scss'],
 })
 export class BadgeListComponent<T, O> {
-  @Input() entries!: BadgeListEntry<T>[];
+  entries = input.required<BadgeListEntry<T>[]>();
   createOptions = input<BadgeListSelectOptions<O> | string>();
-  @Input() label: string = 'Entry';
-  @Input() canCreate: boolean = false;
-  @Input() canDelete: boolean = false;
-  @Input() submitButtonType: ElementType = 'PRIMARY';
-  @Input() cancelButtonType: ElementType = 'SECONDARY';
+  label = input('Entry');
+  canCreate = input(false);
+  canDelete = input(false);
+  submitButtonType = input<ElementType>('PRIMARY');
+  cancelButtonType = input<ElementType>('SECONDARY');
 
   @Output() entryDelete: EventEmitter<T> = new EventEmitter();
   @Output() entryCreate: EventEmitter<O> = new EventEmitter();
@@ -64,7 +63,7 @@ export class BadgeListComponent<T, O> {
   }
 
   onEntryDelete(entry: BadgeListEntry<T>) {
-    if (!this.canDelete) {
+    if (!this.canDelete()) {
       return;
     }
 
@@ -72,7 +71,7 @@ export class BadgeListComponent<T, O> {
   }
 
   onEntryCreate(selectedOption: O) {
-    if (!this.canCreate) {
+    if (!this.canCreate()) {
       return;
     }
 

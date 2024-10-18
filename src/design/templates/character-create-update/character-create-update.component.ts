@@ -11,7 +11,7 @@ import {
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import {
   CharacterDetails,
-  CharacterOrganization,
+  CharacterOrganizationMembership,
   OrganizationMembership,
 } from 'src/app/_models/character';
 import { Organization } from 'src/app/_models/organization';
@@ -112,7 +112,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
 
   heading!: string;
   characterClasses!: BadgeListEntry<PlayerClass>[];
-  characterOrganizations!: BadgeListEntry<CharacterOrganization>[];
+  characterOrganizations!: BadgeListEntry<CharacterOrganizationMembership>[];
   membershipFormState: MembershipFormState = 'DISPLAY';
 
   constructor(private formlyService: FormlyService) {}
@@ -154,7 +154,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
     this.addOrganizationMembership.emit(membership);
   }
 
-  removeMembership(org: CharacterOrganization): void {
+  removeMembership(org: CharacterOrganizationMembership): void {
     const membership: OrganizationMembership = {
       pk: org.pk,
       role: org.role,
@@ -198,7 +198,7 @@ export class CharacterCreateUpdateComponent implements OnInit, OnChanges {
   private hasMembership(organization: Organization): boolean {
     return (
       this.userModel().organizations?.some(
-        (membership: CharacterOrganization) =>
+        (membership: CharacterOrganizationMembership) =>
           membership.organization_id === organization.pk,
       ) ?? false
     );

@@ -1,18 +1,14 @@
 import {
   Component,
+  computed,
   EventEmitter,
-  Input,
-  OnChanges,
+  input,
   Output,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import {
-  ConfigTableData,
-  ConfigTableKind,
-  configTableKinds,
-} from '../_models/config-table';
+import { ConfigTableData, ConfigTableKind } from '../_models/config-table';
 
 interface ConfigTable {
   name: string;
@@ -29,8 +25,8 @@ interface ConfigTable {
   templateUrl: './config-tables.component.html',
   styleUrls: ['./config-tables.component.scss'],
 })
-export class ConfigTablesComponent implements OnChanges {
-  @Input() tableData?: ConfigTableData;
+export class ConfigTablesComponent {
+  tableData = input.required<ConfigTableData>();
 
   @Output() loadTableEntries: EventEmitter<ConfigTableKind> =
     new EventEmitter();
@@ -43,7 +39,7 @@ export class ConfigTablesComponent implements OnChanges {
     entry: unknown;
   }> = new EventEmitter();
 
-  tables: ConfigTable[] = [
+  tables = computed<ConfigTable[]>(() => [
     {
       name: 'Marker Type',
       kind: 'MARKER_TYPE',
@@ -69,7 +65,7 @@ export class ConfigTablesComponent implements OnChanges {
         }),
       ],
       showForm: false,
-      entries: [],
+      entries: this.tableData().MARKER_TYPE,
     },
     {
       name: 'Class',
@@ -82,49 +78,24 @@ export class ConfigTablesComponent implements OnChanges {
           inputKind: 'NAME',
         }),
       ],
-      entries: [],
+      entries: this.tableData().PLAYER_CLASS,
       showForm: false,
     },
-  ];
+  ]);
 
-  campaignOverviewUrl!: string;
+  campaignOverviewUrl = this.routingService.getRoutePath('campaign-overview');
 
   constructor(
     private routingService: RoutingService,
-    private formlyService: FormlyService
+    private formlyService: FormlyService,
   ) {}
-
-  ngOnChanges(): void {
-    this.addDataToTables();
-    this.setCampaignOverviewUrl();
-  }
 
   createEntry(kind: ConfigTableKind, entry: unknown): void {
     this.createTableEntry.emit({ table: kind, entry: entry });
     this.getTable(kind).showForm = false;
   }
 
-  private addDataToTables(): void {
-    if (this.tableData == null) {
-      return;
-    }
-
-    this.tables = configTableKinds.map((kind) => {
-      const table: ConfigTable = this.getTable(kind);
-      const entries = (this.tableData as ConfigTableData)[kind];
-      return {
-        ...table,
-        entries: entries,
-      };
-    });
-  }
-
-  private setCampaignOverviewUrl(): void {
-    this.campaignOverviewUrl =
-      this.routingService.getRoutePath('campaign-overview');
-  }
-
   private getTable(kind: ConfigTableKind): ConfigTable {
-    return this.tables.find((table) => table.kind === kind) as ConfigTable;
+    return this.tables().find((table) => table.kind === kind) as ConfigTable;
   }
 }

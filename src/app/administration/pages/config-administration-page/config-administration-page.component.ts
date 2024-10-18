@@ -1,13 +1,4 @@
-import { Component } from '@angular/core';
-import {
-  combineLatest,
-  delay,
-  filter,
-  first,
-  map,
-  Observable,
-  startWith,
-} from 'rxjs';
+import { Component, computed, inject } from '@angular/core';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { MarkerTypeService } from 'src/app/_services/article/marker-type.service';
@@ -16,6 +7,7 @@ import {
   ConfigTableData,
   ConfigTableKind,
 } from 'src/design/templates/_models/config-table';
+import { ConfigAdministrationPageStore } from './config-administration-page.store';
 
 @Component({
   selector: 'app-config-administration-page',
@@ -23,37 +15,18 @@ import {
   styleUrls: ['./config-administration-page.component.scss'],
 })
 export class ConfigAdministrationPageComponent {
-  tableData$: Observable<ConfigTableData> = combineLatest({
-    markerTypes: this.markerTypeService.list.data$,
-    playerClasses: this.playerClassService.list.data$,
-  }).pipe(
-    map(({ markerTypes, playerClasses }) => ({
-      MARKER_TYPE: markerTypes,
-      PLAYER_CLASS: playerClasses,
-    })),
+  store = inject(ConfigAdministrationPageStore);
+  tableData = computed<ConfigTableData>(() => {
+    return {
+      MARKER_TYPE: this.store.markerTypes(),
+      PLAYER_CLASS: this.store.playerClasses(),
+    };
+  });
+  markerTypesLoaded = computed(
+    () => this.store.markerTypeLoadState() === 'done',
   );
-
-  markerTypesLoaded$ = combineLatest({
-    isDeleteDone: this.markerTypeService.delete.hasSucceeded$.pipe(
-      startWith(false),
-    ),
-    isCreateDone: this.markerTypeService.create.hasSucceeded$.pipe(
-      startWith(false),
-    ),
-  }).pipe(
-    filter((data) => data.isCreateDone || data.isDeleteDone),
-    delay(100),
-  );
-  playerClassesLoaded$ = combineLatest({
-    isDeleteDone: this.playerClassService.delete.hasSucceeded$.pipe(
-      startWith(false),
-    ),
-    isCreateDone: this.playerClassService.create.hasSucceeded$.pipe(
-      startWith(false),
-    ),
-  }).pipe(
-    filter((data) => data.isCreateDone || data.isDeleteDone),
-    delay(100),
+  playerClassesLoaded = computed(
+    () => this.store.playerClassLoadState() === 'done',
   );
 
   constructor(
@@ -64,10 +37,10 @@ export class ConfigAdministrationPageComponent {
   loadTableEntries(table: ConfigTableKind): void {
     switch (table) {
       case 'MARKER_TYPE':
-        this.markerTypeService.loadList();
+        this.store.loadMarkerTypes();
         break;
       case 'PLAYER_CLASS':
-        this.playerClassService.loadList();
+        this.store.loadPlayerClasses();
         break;
     }
   }
@@ -78,16 +51,10 @@ export class ConfigAdministrationPageComponent {
 
     switch (event.table) {
       case 'MARKER_TYPE':
-        this.markerTypeService.runDelete(entryId);
-        this.markerTypesLoaded$
-          .pipe(first())
-          .subscribe(() => this.loadTableEntries(event.table));
+        this.store.deleteMarkerType(entryId);
         break;
       case 'PLAYER_CLASS':
-        this.playerClassService.runDelete(entryId);
-        this.playerClassesLoaded$
-          .pipe(first())
-          .subscribe(() => this.loadTableEntries(event.table));
+        this.store.deletePlayerClass(entryId);
         break;
     }
   }
@@ -96,16 +63,10 @@ export class ConfigAdministrationPageComponent {
     if (event.entry == null) return;
     switch (event.table) {
       case 'MARKER_TYPE':
-        this.markerTypeService.runCreate(event.entry as MapMarkerType);
-        this.markerTypesLoaded$
-          .pipe(first())
-          .subscribe(() => this.loadTableEntries(event.table));
+        this.store.createMarkerType(event.entry as MapMarkerType);
         break;
       case 'PLAYER_CLASS':
-        this.playerClassService.runCreate(event.entry as PlayerClass);
-        this.playerClassesLoaded$
-          .pipe(first())
-          .subscribe(() => this.loadTableEntries(event.table));
+        this.store.createPlayerClass(event.entry as PlayerClass);
         break;
     }
   }

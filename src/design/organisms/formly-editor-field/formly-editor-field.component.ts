@@ -6,16 +6,16 @@ import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
   templateUrl: './formly-editor-field.component.html',
   styleUrls: ['./formly-editor-field.component.scss'],
 })
-export class FormlyEditorFieldComponent extends FieldType<FieldTypeConfig>{
+export class FormlyEditorFieldComponent extends FieldType<FieldTypeConfig> {
   settings = {
     plugins: [
-        'advlist autolink lists link image charmap anchor',
-        'searchreplace visualblocks fullscreen media',
-        'table paste help wordcount'
+      'advlist autolink lists link image charmap anchor',
+      'searchreplace visualblocks fullscreen media',
+      'table paste help wordcount',
     ],
     toolbar: [
-        'undo redo | formatselect | bold italic underline strikethrough subscript superscript link unlink blockquote | backcolor forecolor hilitecolor fontsizeselect |',
-        'alignleft aligncenter alignright | bullist numlist outdent indent | removeformat | table help'
+      'undo redo | formatselect | bold italic underline strikethrough subscript superscript link unlink blockquote | backcolor forecolor hilitecolor fontsizeselect |',
+      'alignleft aligncenter alignright | bullist numlist outdent indent | removeformat | table help',
     ],
     skin: 'oxide-dark',
     content_css: 'dark',
@@ -26,6 +26,6 @@ export class FormlyEditorFieldComponent extends FieldType<FieldTypeConfig>{
     relative_urls: false,
     branding: false,
     base_url: '/tinymce',
-    suffix: '.min'
+    suffix: '.min',
   };
 }

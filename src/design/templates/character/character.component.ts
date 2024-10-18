@@ -33,6 +33,8 @@ export class CharacterComponent {
   serverUrl = input.required<string>();
   quoteServerModel = input<Quote>();
   imageServerModel = input<Image>();
+  sessions = input.required<OverviewItem[]>();
+  encounters = input.required<OverviewItem[]>();
   encounterServerModel = input<Encounter>();
   canUpdate = input(false);
   canCreate = input(false);

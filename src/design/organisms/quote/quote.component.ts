@@ -1,13 +1,15 @@
 import {
   Component,
+  computed,
   EventEmitter,
-  Input,
+  input,
   OnChanges,
-  OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ElementType, Icon } from 'src/design/atoms';
 import { BadgeListEntry } from 'src/design/molecules';
 import { copyToClipboard } from 'src/utils/clipboard';
 import { CharacterDetails } from '../../../app/_models/character';
@@ -20,18 +22,27 @@ type QuoteState =
   | 'DISPLAY'
   | 'UPDATE_OUTDATED';
 
+type QuoteControl = {
+  isVisible: boolean;
+  title: string;
+  type: ElementType;
+  label?: string;
+  icon: Icon;
+  onClick: () => void;
+};
+
 @Component({
   selector: 'app-quote',
   templateUrl: './quote.component.html',
   styleUrls: ['./quote.component.scss'],
 })
-export class QuoteComponent implements OnInit, OnChanges {
-  @Input() quote?: Quote;
-  @Input() character!: CharacterDetails;
-  @Input() campaignCharacters!: OverviewItem[];
-  @Input() canCreate: boolean = false;
-  @Input() canUpdate: boolean = false;
-  @Input() canDelete: boolean = false;
+export class QuoteComponent implements OnChanges {
+  quote = input<Quote>();
+  character = input.required<CharacterDetails>();
+  campaignCharacters = input.required<OverviewItem[]>();
+  canCreate = input(false);
+  canUpdate = input(false);
+  canDelete = input(false);
 
   @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
   @Output() quoteCreate: EventEmitter<null> = new EventEmitter();
@@ -43,28 +54,79 @@ export class QuoteComponent implements OnInit, OnChanges {
   @Output() refreshQuote: EventEmitter<null> = new EventEmitter();
 
   state: QuoteState = 'DISPLAY';
-  badgeEntries: BadgeListEntry<QuoteConnection>[] = [];
-  campaignName!: string;
-  isLoadingQuote: boolean = false;
-  quoteOverviewUrl!: string;
+  badgeEntries = computed<BadgeListEntry<QuoteConnection>[]>(() =>
+    this.parseConnection(this.quote()?.connections ?? []),
+  );
+  campaignName = computed(() => this.character().campaign_details?.name);
+  isLoadingQuote = signal(false);
+  quoteOverviewUrl = computed(() =>
+    this.routingService.getRoutePath('quote-overview', {
+      name: this.character.name,
+      campaign: this.campaignName,
+    }),
+  );
+
+  private _quoteControlls = computed<QuoteControl[]>(() => [
+    {
+      isVisible: !!this.quote(),
+      title: 'Load new quote',
+      type: 'INFO',
+      icon: 'refresh',
+      onClick: () => this.getNextRandomQuote(),
+    },
+    {
+      isVisible: !!this.quote() && this.canUpdate(),
+      title: 'Edit Quote',
+      type: 'SECONDARY',
+      icon: 'pencil',
+      onClick: () => this.quoteUpdate.emit(this.quote()),
+    },
+    {
+      isVisible: this.canCreate(),
+      title: 'Create Quote',
+      label: this.quote() ? undefined : 'Create Quote',
+      type: 'PRIMARY',
+      icon: 'plus',
+      onClick: () => this.quoteCreate.emit(),
+    },
+    {
+      isVisible: !!this.quote() && this.canDelete(),
+      title: 'Delete Quote',
+      type: 'DANGER',
+      icon: 'trash',
+      onClick: () => this.quoteDelete.emit(this.quote()),
+    },
+    {
+      isVisible: !!this.quote(),
+      title: 'Copy Quote to Clipboard',
+      type: 'DARK',
+      icon: 'copy',
+      onClick: () => this.copyQuoteToClipboard(),
+    },
+    {
+      isVisible: !!this.quote(),
+      title: 'See all quotes',
+      type: 'SECONDARY',
+      icon: 'th-list',
+      onClick: () =>
+        this.routingService.routeToPath('quote-overview', {
+          name: this.character().name,
+          campaign: this.campaignName(),
+        }),
+    },
+  ]);
+  quoteControlls = computed(() =>
+    this._quoteControlls().filter((ctrl) => ctrl.isVisible),
+  );
 
   constructor(private routingService: RoutingService) {}
 
-  ngOnInit(): void {
-    this.badgeEntries = this.parseConnection(this.quote?.connections ?? []);
-    this.campaignName = this.character.campaign_details?.name as string;
-    this.quoteOverviewUrl = this.routingService.getRoutePath('quote-overview', {
-      name: this.character.name,
-      campaign: this.campaignName,
-    });
-  }
-
   ngOnChanges(): void {
-    this.isLoadingQuote = false;
+    this.isLoadingQuote.set(false);
   }
 
   onConnectionDelete(connection: QuoteConnection) {
-    if (!this.canDelete) {
+    if (!this.canDelete()) {
       return;
     }
 
@@ -72,19 +134,19 @@ export class QuoteComponent implements OnInit, OnChanges {
   }
 
   onConnectionCreate(character: OverviewItem) {
-    if (!this.canCreate || !this.quote) {
+    if (!this.canCreate() || !this.quote()) {
       return;
     }
 
     const newConnection: QuoteConnection = {
-      quote: this.quote.pk as number,
+      quote: this.quote()?.pk as number,
       character: character.pk as number,
     };
     this.connectionCreate.emit(newConnection);
   }
 
   getNextRandomQuote() {
-    this.isLoadingQuote = true;
+    this.isLoadingQuote.set(true);
     this.refreshQuote.emit();
   }
 
@@ -95,7 +157,7 @@ export class QuoteComponent implements OnInit, OnChanges {
       const characterName = con.character_details?.name as string;
       const link = this.routingService.getRoutePath('character', {
         name: characterName,
-        campaign: this.campaignName,
+        campaign: this.campaignName(),
       });
 
       return {
@@ -107,16 +169,17 @@ export class QuoteComponent implements OnInit, OnChanges {
   }
 
   copyQuoteToClipboard() {
-    if (!this.quote) {
+    const quote = this.quote();
+    if (!quote) {
       return;
     }
-    const quoteLines = this.quote.quote.split('<br />');
+    const quoteLines = quote.quote.split('<br />');
     const modifiedQuoteLines = quoteLines.map(
       (line: string) => `\>${line.trim().trimStart()}`,
     );
     const modifiedQuote = modifiedQuoteLines.join('<br />');
 
-    const descriptionSuffix = `- ${this.quote.description} `;
+    const descriptionSuffix = `- ${quote.description} `;
     const text = `${modifiedQuote}\n>${descriptionSuffix}`;
     copyToClipboard(text);
   }

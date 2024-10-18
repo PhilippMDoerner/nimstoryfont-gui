@@ -23,6 +23,8 @@ export class CharacterPageComponent {
   serverUrl = environment.backendDomain;
   character$ = this.store.character;
   campaignCharacters = this.store.campaignCharacters;
+  campaignSessions = this.store.sessions;
+  campaignEncounters = this.store.encounters;
   campaignOrganizations = this.store.campaignOrganizations;
   characterQuote$ = this.store.characterQuote;
   quoteServerModel$ = this.store.quoteServerModel;

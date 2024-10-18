@@ -1,12 +1,12 @@
 <app-page-container>
   <article class="container character">
-    <ng-container *ngIf="canUpdate()">
+    @if (canUpdate()) {
       <div class="character__edit-container">
         <a [routerLink]="updateUrl()">
-          <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
+          <app-button [icon]="'pencil'" [type]="'SECONDARY'" />
         </a>
       </div>
-    </ng-container>
+    }
 
     <!-- Heading -->
     <div class="row">
@@ -65,6 +65,8 @@
         [quote]="characterQuote()"
         [character]="character()"
         [campaignCharacters]="campaignCharacters()"
+        [sessions]="sessions()"
+        [encounters]="encounters()"
         [serverModel]="quoteServerModel()"
         [canUpdate]="canUpdate()"
         [canCreate]="canCreate()"

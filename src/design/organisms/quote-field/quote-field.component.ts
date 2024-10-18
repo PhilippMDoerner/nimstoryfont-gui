@@ -36,8 +36,8 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
   @Input() canCreate: boolean = false;
   @Input() canUpdate: boolean = false;
   @Input() canDelete: boolean = false;
-  encounters = input<OverviewItem[]>([]);
-  sessions = input<OverviewItem[]>([]);
+  encounters = input.required<OverviewItem[]>();
+  sessions = input.required<OverviewItem[]>();
 
   @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
   @Output() quoteCreate: EventEmitter<Quote> = new EventEmitter();

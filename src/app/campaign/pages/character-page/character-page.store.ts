@@ -27,6 +27,7 @@ import { OrganizationMembershipService } from 'src/app/_services/article/organiz
 import { OrganizationService } from 'src/app/_services/article/organization.service';
 import { QuoteConnectionService } from 'src/app/_services/article/quote-connection.service';
 import { QuoteService } from 'src/app/_services/article/quote.service';
+import { SessionService } from 'src/app/_services/article/session.service';
 import { GlobalStore } from 'src/app/global.store';
 import { findByProp, removeByProp, replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -34,6 +35,8 @@ import { filterNil } from 'src/utils/rxjs-operators';
 export interface CharacterPageState {
   character: CharacterDetails | undefined;
   encounterServerModel: Encounter | undefined;
+  encounters: OverviewItem[] | undefined;
+  sessions: OverviewItem[] | undefined;
   characterQuote: Quote | undefined;
   campaignCharacters: OverviewItem[];
   campaignOrganizations: OverviewItem[];
@@ -49,6 +52,8 @@ const initialState: CharacterPageState = {
   encounterServerModel: undefined,
   imageServerModel: undefined,
   quoteServerModel: undefined,
+  encounters: undefined,
+  sessions: undefined,
 };
 
 export const CharacterStore = signalStore(
@@ -69,6 +74,7 @@ export const CharacterStore = signalStore(
     const quoteConnectionService = inject(QuoteConnectionService);
     const encounterConnectionService = inject(EncounterConnectionService);
     const organizationService = inject(OrganizationService);
+    const sessionService = inject(SessionService);
     const globalStore = inject(GlobalStore);
 
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
@@ -112,6 +118,26 @@ export const CharacterStore = signalStore(
           .subscribe((orgs) =>
             patchState(state, { campaignOrganizations: orgs }),
           );
+      },
+      loadSessions: () => {
+        campaignName$
+          .pipe(
+            switchMap((campaignName) =>
+              sessionService.campaignList(campaignName),
+            ),
+            take(1),
+          )
+          .subscribe((sessions) => patchState(state, { sessions }));
+      },
+      loadEncounters() {
+        campaignName$
+          .pipe(
+            switchMap((campaignName) =>
+              encounterService.campaignList(campaignName),
+            ),
+            take(1),
+          )
+          .subscribe((encounters) => patchState(state, { encounters }));
       },
       loadRandomQuote: (name: string) => {
         patchState(state, { characterQuote: undefined });

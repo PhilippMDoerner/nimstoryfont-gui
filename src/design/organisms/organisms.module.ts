@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { FormlyModule } from '@ngx-formly/core';
-import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { MoleculesModule } from '../molecules';
 import { DiaryentryEncountersComponent } from './diaryentry-encounters/diaryentry-encounters.component';
 import { EncounterAccordionComponent } from './encounter-accordion/encounter-accordion.component';
@@ -102,6 +101,5 @@ import { UserRowComponent } from './user-row/user-row.component';
     SessionaudioCardComponent,
     UserRowComponent,
   ],
-  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce.min.js' }],
 })
 export class OrganismsModule {}

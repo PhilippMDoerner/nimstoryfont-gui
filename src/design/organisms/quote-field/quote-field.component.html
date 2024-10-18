@@ -1,21 +1,17 @@
-<ng-container [ngSwitch]="state">
-  <ng-container
-    *ngSwitchCase="'DISPLAY'"
-    [ngTemplateOutlet]="display"
-  ></ng-container>
-  <ng-container
-    *ngSwitchCase="'UPDATE'"
-    [ngTemplateOutlet]="update"
-  ></ng-container>
-  <ng-container
-    *ngSwitchCase="'CREATE'"
-    [ngTemplateOutlet]="create"
-  ></ng-container>
-  <ng-container
-    *ngSwitchCase="'DELETE'"
-    [ngTemplateOutlet]="delete"
-  ></ng-container>
-</ng-container>
+@switch (state) {
+  @case ("DISPLAY") {
+    <ng-container [ngTemplateOutlet]="display" />
+  }
+  @case ("UPDATE") {
+    <ng-container [ngTemplateOutlet]="update" />
+  }
+  @case ("CREATE") {
+    <ng-container [ngTemplateOutlet]="create" />
+  }
+  @case ("DELETE") {
+    <ng-container [ngTemplateOutlet]="delete" />
+  }
+}
 
 <ng-template #display>
   <app-quote

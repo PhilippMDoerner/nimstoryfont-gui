@@ -1,7 +1,8 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { combineLatest, map, switchMap } from 'rxjs';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { CreatureService } from 'src/app/_services/article/creature.service';
 import { DiaryentryService } from 'src/app/_services/article/diaryentry.service';
@@ -12,6 +13,7 @@ import { BaseService } from 'src/app/_services/base.service';
 import { GlobalStore } from 'src/app/global.store';
 import { GeneralOverviewType } from 'src/design/templates/_models/generalOverviewType';
 import { environment } from 'src/environments/environment';
+import { filterNil } from 'src/utils/rxjs-operators';
 import { TemplatesModule } from '../../../../design/templates/templates.module';
 
 @Component({
@@ -36,17 +38,21 @@ export class GeneralOverviewPageComponent {
 
   serverUrl = environment.backendDomain;
 
-  campaignName$ = this.globalStore.campaignName;
+  campaignName$ = toObservable(this.globalStore.campaignName).pipe(filterNil());
   canCreate$ = this.globalStore.isCampaignMember();
   overviewType$ = this.route.data.pipe(
     map((data) => data['overviewType'] as GeneralOverviewType),
   );
-  entries$ = this.overviewType$.pipe(
-    switchMap((typ) =>
-      this.OVERVIEW_ENTRIES_MAP[typ].campaignList(
-        this.globalStore.campaignName() as string,
-      ),
-    ),
+  overviewService$ = this.overviewType$.pipe(
+    map((typ) => this.OVERVIEW_ENTRIES_MAP[typ]),
+  );
+  entries$ = combineLatest({
+    service: this.overviewService$,
+    campaignName: this.campaignName$,
+  }).pipe(
+    switchMap(({ service, campaignName }) => {
+      return service.campaignList(campaignName);
+    }),
   );
 
   constructor(private route: ActivatedRoute) {}

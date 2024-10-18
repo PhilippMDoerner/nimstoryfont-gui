@@ -165,10 +165,7 @@ const innerCampaignRoutes: CampaignRoute[] = [
 export const campaignRoutes = [
   {
     path: '',
-    children: [
-      ...innerCampaignRoutes,
-      // ...innerCampaignOverviewRoutes
-    ],
+    children: [...innerCampaignRoutes, ...innerCampaignOverviewRoutes],
     canActivate: [campaignGuard],
   },
 ];

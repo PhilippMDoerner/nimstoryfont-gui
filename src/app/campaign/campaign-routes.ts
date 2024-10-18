@@ -1,7 +1,11 @@
+import { inject } from '@angular/core';
 import { campaignGuard } from '../_guards/campaign.guard';
 import { CampaignOverviewRoute, CampaignRoute } from '../_models/route';
+import { characterResolver } from '../_resolvers/character.resolver';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
 import { CampaignUpdatePageComponent } from './pages/campaign-update-page/campaign-update-page.component';
+import { CharacterPageComponent } from './pages/character-page/character-page.component';
+import { CharacterStore } from './pages/character-page/character-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 
@@ -88,16 +92,15 @@ const innerCampaignRoutes: CampaignRoute[] = [
     resolve: {},
   },
   // Character Routes
-  // {
-  //   path: 'character/:name',
-  //   component: CharacterPageComponent,
-  //   data: { name: 'character', requiredMinimumRole: 'guest' },
-  //   resolve: {
-  //     characterResolver,
-  //     randomQuoteResolver,
-  //     characterListResolver,
-  //   },
-  // },
+  {
+    path: 'character/:name',
+    component: CharacterPageComponent,
+    data: { name: 'character', requiredMinimumRole: 'guest' },
+    resolve: {
+      loadCharacters: () => inject(CharacterStore).loadCharacters(),
+      loadCharacter: characterResolver,
+    },
+  },
   // {
   //   path: 'character/:name/update',
   //   component: CharacterUpdatePageComponent,

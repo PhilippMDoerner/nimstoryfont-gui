@@ -10,7 +10,7 @@ export interface QuoteRaw {
 export interface Quote {
   quote: string;
   description: string;
-  pk?: number;
+  pk: number;
   session: number;
   session_details: Session;
   encounter?: number;

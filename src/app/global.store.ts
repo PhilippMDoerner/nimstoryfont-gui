@@ -151,6 +151,13 @@ export const GlobalStore = signalStore(
             patchState(state, { campaigns: campaigns }),
           );
       },
+      hasRoleOrBetter: (minimumRole: CampaignRole) => {
+        return computed(() => {
+          const currentRole = state.currentCampaignRole();
+          if (currentRole == null) return false;
+          return hasRoleOrBetter(currentRole, minimumRole);
+        });
+      },
     };
   }),
   withHooks((store) => {

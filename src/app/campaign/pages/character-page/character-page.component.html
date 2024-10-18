@@ -1,10 +1,9 @@
-@let character = character$ | async;
-@let characterQuote = (characterQuote$ | async) ?? undefined;
-@let campaignCharacters = campaignCharacters$ | async;
-@let imageServerModel = (imageServerModel$ | async) ?? undefined;
-@let quoteServerModel = (quoteServerModel$ | async) ?? undefined;
-@let encounterServerModel = (encounterServerModel$ | async) ?? undefined;
-@let hasWritePermission = (hasWritePermission$ | async) === true;
+@let character = character$();
+@let characterQuote = characterQuote$();
+@let campaignCharacters = campaignCharacters$();
+@let imageServerModel = imageServerModel$();
+@let quoteServerModel = quoteServerModel$();
+@let encounterServerModel = encounterServerModel$();
 
 @if (character != null && campaignCharacters != null) {
   <app-character
@@ -15,10 +14,10 @@
     [quoteServerModel]="quoteServerModel"
     [imageServerModel]="imageServerModel"
     [encounterServerModel]="encounterServerModel"
-    [canUpdate]="hasWritePermission"
-    [canCreate]="hasWritePermission"
-    [canDelete]="hasWritePermission"
-    (characterDelete)="onCharacterDelete($event)"
+    [canUpdate]="hasWritePermission$()"
+    [canCreate]="hasWritePermission$()"
+    [canDelete]="hasWritePermission$()"
+    (characterDelete)="onCharacterDelete()"
     (createImage)="onCreateImage($event)"
     (deleteImage)="onDeleteImage($event)"
     (updateImage)="onUpdateImage($event)"

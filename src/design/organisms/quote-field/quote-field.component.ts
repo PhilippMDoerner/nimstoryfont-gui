@@ -1,6 +1,8 @@
 import {
   Component,
+  computed,
   EventEmitter,
+  input,
   Input,
   OnChanges,
   OnInit,
@@ -34,8 +36,8 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
   @Input() canCreate: boolean = false;
   @Input() canUpdate: boolean = false;
   @Input() canDelete: boolean = false;
-  @Input({ required: false }) encounters!: OverviewItem[];
-  @Input({ required: false }) sessions!: OverviewItem[];
+  encounters = input<OverviewItem[]>([]);
+  sessions = input<OverviewItem[]>([]);
 
   @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
   @Output() quoteCreate: EventEmitter<Quote> = new EventEmitter();
@@ -52,7 +54,32 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
   isLoadingQuote: boolean = false;
   quoteOverviewUrl!: string;
   userModel!: Quote;
-  formlyFields!: FormlyFieldConfig[];
+  formlyFields = computed<FormlyFieldConfig[]>(() => {
+    return [
+      this.formlyService.buildEditorConfig({ key: 'quote', required: true }),
+      this.formlyService.buildInputConfig({
+        key: 'description',
+        required: true,
+        inputKind: 'STRING',
+      }),
+      this.formlyService.buildOverviewSelectConfig({
+        key: 'session',
+        required: true,
+        campaign: this.campaignName,
+        options$: this.sessions(),
+        labelProp: 'name_full',
+        valueProp: 'pk',
+      }),
+      this.formlyService.buildOverviewSelectConfig({
+        key: 'encounter',
+        required: false,
+        options$: this.encounters(),
+        campaign: this.campaignName,
+        labelProp: 'name_full',
+        valueProp: 'pk',
+      }),
+    ];
+  });
 
   constructor(
     private routingService: RoutingService,
@@ -66,38 +93,10 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
       name: this.character.name,
       campaign: this.campaignName,
     });
-    this.setFormlyFields();
   }
 
   ngOnChanges(): void {
     this.isLoadingQuote = false;
-  }
-
-  setFormlyFields() {
-    this.formlyFields = [
-      this.formlyService.buildEditorConfig({ key: 'quote', required: true }),
-      this.formlyService.buildInputConfig({
-        key: 'description',
-        required: true,
-        inputKind: 'STRING',
-      }),
-      this.formlyService.buildOverviewSelectConfig({
-        key: 'session',
-        required: true,
-        campaign: this.campaignName,
-        options$: this.sessions,
-        labelProp: 'name_full',
-        valueProp: 'pk',
-      }),
-      this.formlyService.buildOverviewSelectConfig({
-        key: 'encounter',
-        required: false,
-        options$: this.encounters,
-        campaign: this.campaignName,
-        labelProp: 'name_full',
-        valueProp: 'pk',
-      }),
-    ];
   }
 
   onSubmit(): void {

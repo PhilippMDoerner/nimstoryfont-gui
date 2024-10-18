@@ -15,14 +15,14 @@ export interface EncounterConnection {
 
 export interface EncounterRaw {
   description: string;
-  location: number;
+  location?: number;
   title: string;
   diaryentry: number;
   order_index: number;
 }
 
 export interface Encounter extends ArticleObject {
-  pk?: number;
+  pk: number;
   description: string;
   encounterConnections?: EncounterConnection[];
   location: number;
@@ -54,7 +54,7 @@ export interface Encounter extends ArticleObject {
 export class EncounterObject implements Encounter {
   orderIndexIncrement: number = 10;
 
-  pk?: number;
+  pk!: number;
   description!: string;
   encounterConnections?: EncounterConnection[];
   location!: number;

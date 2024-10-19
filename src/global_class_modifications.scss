@@ -26,6 +26,20 @@ a {
   text-decoration-style: dashed;
 }
 
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+  &:hover {
+    color: var(--bs-link-hover-color);
+  }
+}
+
 //Animations
 .animate__animated {
   --animate-duration: 0.35s;

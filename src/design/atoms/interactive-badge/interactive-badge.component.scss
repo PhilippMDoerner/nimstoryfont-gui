@@ -1,35 +1,38 @@
-:host{
+:host {
   --inner-badge-padding: var(--spacer-2);
 }
 
-.badge-container{
+.badge-container {
   display: flex;
   flex-direction: row;
 }
 
-.badge{
+.badge {
   cursor: pointer;
   border-bottom: none;
   text-decoration: none;
 
-  &--part1{
+  &--part1 {
     border-top-right-radius: unset;
     border-bottom-right-radius: unset;
     padding-right: var(--inner-badge-padding);
   }
-  
-  &--part2{
+
+  &--part2 {
     border-top-left-radius: unset;
     border-bottom-left-radius: unset;
     padding-left: var(--inner-badge-padding);
     padding-right: var(--inner-badge-padding);
     border-left: 1.5px solid var(--bs-white);
+
+    &:focus {
+      outline: solid 3px var(--bs-link-hover-color);
+    }
   }
-  
 }
 
 .bg-warning,
 .bg-light,
-.bg-info{
+.bg-info {
   color: (var(--bs-black));
 }

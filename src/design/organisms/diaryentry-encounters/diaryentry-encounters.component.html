@@ -18,33 +18,54 @@
           <ng-container *ngIf="canUpdate">
             <app-button
               class="col-6 col-md-4 buttons__button buttons__button--right"
-              title="Insert Cut Encounter"          
+              title="Insert Cut Encounter"
               [size]="'LARGE'"
               [icon]="'file-import'"
               [text]="'Insert Cut Encounter'"
               [type]="'SECONDARY'"
-              [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex === 0"
+              [disabled]="
+                isUpdatingAnything ||
+                cutEncounterIndex == null ||
+                cutEncounterIndex === 0
+              "
               (click)="onInsertExcisedEncounter(-1 + 1)"
             ></app-button>
           </ng-container>
         </div>
       </div>
     </ng-container>
-  
-  
+
     <!-- Diaryentry - Encounters -->
     <div class="row">
-      <div *ngFor="let entryEncounter of diaryEntryEncounters; let encounterIndex = index" class="w-100">
+      <div
+        *ngFor="
+          let entryEncounter of diaryEntryEncounters;
+          let encounterIndex = index
+        "
+        class="w-100"
+      >
         <!-- Encounters -->
         <ng-container [ngSwitch]="state">
           <ng-container *ngSwitchCase="'READ'">
-            <ng-container *ngTemplateOutlet="displayEncounter; context: {$implicit: entryEncounter}"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="
+                displayEncounter;
+                context: { $implicit: entryEncounter }
+              "
+            ></ng-container>
           </ng-container>
           <ng-container *ngSwitchCase="'EDIT'">
-            <ng-container *ngTemplateOutlet="editEncounter; context: {$implicit: { entry: entryEncounter, index: encounterIndex }}"></ng-container>
+            <ng-container
+              *ngTemplateOutlet="
+                editEncounter;
+                context: {
+                  $implicit: { entry: entryEncounter, index: encounterIndex },
+                }
+              "
+            ></ng-container>
           </ng-container>
         </ng-container>
-  
+
         <!-- Insert new Encounter -->
         <ng-container *ngIf="state === 'EDIT'">
           <div class="list__buttons buttons">
@@ -62,12 +83,17 @@
             <ng-container *ngIf="canUpdate">
               <app-button
                 class="col-6 col-md-4 buttons__button buttons__button--right"
-                title="Insert Cut Encounter"          
+                title="Insert Cut Encounter"
                 [size]="'LARGE'"
                 [icon]="'file-import'"
                 [text]="'Insert Cut Encounter'"
                 [type]="'SECONDARY'"
-                [disabled]="isUpdatingAnything || cutEncounterIndex == null || cutEncounterIndex - 1 === encounterIndex || cutEncounterIndex === encounterIndex"
+                [disabled]="
+                  isUpdatingAnything ||
+                  cutEncounterIndex == null ||
+                  cutEncounterIndex - 1 === encounterIndex ||
+                  cutEncounterIndex === encounterIndex
+                "
                 (click)="onInsertExcisedEncounter(encounterIndex + 1)"
               ></app-button>
             </ng-container>
@@ -79,27 +105,30 @@
 </div>
 
 <ng-template #displayEncounter let-entryEncounter>
-  <h4>  {{ entryEncounter.encounter?.title }} </h4>
+  <h4>{{ entryEncounter.encounter?.title }}</h4>
   <app-html-text [text]="entryEncounter.encounter.description"></app-html-text>
 </ng-template>
 
 <ng-template #editEncounter let-context>
-  <app-card 
+  <app-card
     class="encounter-card"
     [ngClass]="{
-      'animate__animated animate__zoomIn': context.entry.encounter.pk == null
+      'animate__animated animate__zoomIn': context.entry.encounter.pk == null,
     }"
   >
-    <ng-container *ngIf="!context.entry.isUpdating else loading;">
+    <ng-container *ngIf="!context.entry.isUpdating; else loading">
       <app-encounter
         class="encounter-card__encounter"
         [encounter]="context.entry.encounter"
         [characters]="campaignCharacters"
+        [locations]="campaignLocations"
         [serverModel]="encounterServerModel"
         [canUpdate]="canUpdate"
         [canDelete]="canDelete"
         [canCreate]="canCreate"
-        [initialState]="context.entry.encounter.pk == null ? 'CREATE' : 'DISPLAY'"
+        [initialState]="
+          context.entry.encounter.pk == null ? 'CREATE' : 'DISPLAY'
+        "
         (connectionDelete)="connectionDelete.emit($event)"
         (connectionCreate)="connectionCreate.emit($event)"
         (encounterDelete)="onEncounterDelete(context.index)"
@@ -111,9 +140,19 @@
         <div class="encounter-card__side-buttons side-buttons">
           <app-button
             class="side-buttons__button side-buttons__button--edit"
-            [disabled]="cutEncounterIndex != null && context.index !== cutEncounterIndex"
-            [type]="cutEncounterIndex != null &&  context.index === cutEncounterIndex ? 'PRIMARY' : 'DARK'"
-            [icon]="cutEncounterIndex != null &&  context.index === cutEncounterIndex ? 'times' : 'cut'"
+            [disabled]="
+              cutEncounterIndex != null && context.index !== cutEncounterIndex
+            "
+            [type]="
+              cutEncounterIndex != null && context.index === cutEncounterIndex
+                ? 'PRIMARY'
+                : 'DARK'
+            "
+            [icon]="
+              cutEncounterIndex != null && context.index === cutEncounterIndex
+                ? 'times'
+                : 'cut'
+            "
             [disabled]="isUpdatingAnything"
             (click)="onExcisionClick(context.index)"
           ></app-button>

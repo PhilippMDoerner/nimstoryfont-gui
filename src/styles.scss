@@ -1,63 +1,69 @@
-@import './custom_bootstrap.scss';
-@import 'bootstrap/scss/bootstrap'; //Must be imported after custom_bootstrap so that values from custom_bootstrap are available for overriding
-@import './variables.scss';
-@import './fonts.scss';
+@import "./custom_bootstrap.scss";
+@import "bootstrap/scss/bootstrap"; //Must be imported after custom_bootstrap so that values from custom_bootstrap are available for overriding
+@import "./variables.scss";
+@import "./fonts.scss";
 
-html{
-	font-size: 18px;
+html {
+  font-size: 18px;
 }
 
-body{
-	font-family: "Source Sans Pro", sans-serif;
-	overflow-x: hidden;
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  overflow-x: hidden;
 }
 
-.highlight{
-	background-color: var(--highlight-gray);
+.highlight {
+  background-color: var(--highlight-gray);
 }
 
-.hover-highlight{
-	transition: 0.2s background-color;
+.hover-highlight {
+  transition: 0.2s background-color;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 
 @media (hover: hover) and (pointer: fine) {
-	.hover-highlight:hover{
-		background-color: var(--highlight-gray);
-	}
+  .hover-highlight:hover {
+    background-color: var(--highlight-gray);
+  }
 }
 
-h1, h2, h3, h4, h5, h6, p {
-	letter-spacing: 0.05rem;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  letter-spacing: 0.05rem;
 }
 
-
-h1{
-	text-transform: uppercase;
-	font-weight: bold!important;
+h1 {
+  text-transform: uppercase;
+  font-weight: bold !important;
 }
 
-h2{
-	text-transform: uppercase;
-	font-weight: bold!important;
+h2 {
+  text-transform: uppercase;
+  font-weight: bold !important;
 }
 
-h3, h4{
-	font-weight: bold;
+h3,
+h4 {
+  font-weight: bold;
 }
 
-blockquote{
-	border-left: solid 4px var(--bs-white);
-	font-style: italic;
-	margin: var(--spacer-0);
-	padding: var(--spacer-2) var(--spacer-0) var(--spacer-1) var(--spacer-4);
+blockquote {
+  border-left: solid 4px var(--bs-white);
+  font-style: italic;
+  margin: var(--spacer-0);
+  padding: var(--spacer-2) var(--spacer-0) var(--spacer-1) var(--spacer-4);
 }
 
-@import './custom_ngbootstrap.scss';
+@import "./custom_ngbootstrap.scss";
 
-@import './global_class_modifications.scss';
+@import "./global_class_modifications.scss";
 
-@import './custom_leaflet.scss';
+@import "./custom_leaflet.scss";

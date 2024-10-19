@@ -30,6 +30,7 @@ export class CharacterComponent {
   characterQuote = input<Quote>();
   campaignCharacters = input.required<OverviewItem[]>();
   campaignOrganizations = input.required<OverviewItem[]>();
+  campaignLocations = input.required<OverviewItem[]>();
   serverUrl = input.required<string>();
   quoteServerModel = input<Quote>();
   imageServerModel = input<Image>();

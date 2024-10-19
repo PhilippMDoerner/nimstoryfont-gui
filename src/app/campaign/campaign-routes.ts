@@ -102,6 +102,7 @@ const innerCampaignRoutes: CampaignRoute[] = [
       loadOrganizations: () => inject(CharacterStore).loadOrganizations(),
       loadEncounters: () => inject(CharacterStore).loadEncounters(),
       loadSessions: () => inject(CharacterStore).loadSessions(),
+      loadLocations: () => inject(CharacterStore).loadLocations(),
     },
   },
   // {

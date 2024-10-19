@@ -1,14 +1,14 @@
 <div class="encounter-list mb-5 mt-3">
   <div ngbAccordion [closeOthers]="true" [animation]="true">
-    <ng-container *ngFor="let encounter of encounters; let i = index">
-      <div ngbAccordionItem [id]="'static-' + i">
+    @for (encounter of encounters(); track $index) {
+      <div ngbAccordionItem [id]="'static-' + $index">
         <div ngbAccordionHeader>
-          <div ngbAccordionButton class="panel-title">
+          <button ngbAccordionButton class="panel-title">
             <strong
               class="encounter-title"
               [innerHTML]="encounter.name"
             ></strong>
-          </div>
+          </button>
         </div>
 
         <div ngbAccordionCollapse>
@@ -16,11 +16,12 @@
             <app-encounter
               class="panel-content"
               [encounter]="encounter"
-              [characters]="campaignCharacters"
-              [serverModel]="serverModel"
-              [canUpdate]="canUpdate"
-              [canDelete]="canDelete"
-              [canCreate]="canCreate"
+              [locations]="campaignLocations()"
+              [characters]="campaignCharacters()"
+              [serverModel]="serverModel()"
+              [canUpdate]="canUpdate()"
+              [canDelete]="canDelete()"
+              [canCreate]="canCreate()"
               (connectionDelete)="connectionDelete.emit($event)"
               (connectionCreate)="connectionCreate.emit($event)"
               (encounterDelete)="encounterDelete.emit($event)"
@@ -29,6 +30,6 @@
           </div>
         </div>
       </div>
-    </ng-container>
+    }
   </div>
 </div>

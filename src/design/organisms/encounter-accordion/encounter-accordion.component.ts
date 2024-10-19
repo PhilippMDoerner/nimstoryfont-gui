@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Encounter, EncounterConnection } from '../../../app/_models/encounter';
@@ -9,12 +9,13 @@ import { Encounter, EncounterConnection } from '../../../app/_models/encounter';
   styleUrls: ['./encounter-accordion.component.scss'],
 })
 export class EncounterAccordionComponent {
-  @Input() encounters!: (Encounter | CharacterEncounter)[];
-  @Input() campaignCharacters!: OverviewItem[];
-  @Input() serverModel?: Encounter;
-  @Input() canUpdate: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() canDelete: boolean = false;
+  encounters = input.required<(Encounter | CharacterEncounter)[]>();
+  campaignLocations = input.required<OverviewItem[]>();
+  campaignCharacters = input.required<OverviewItem[]>();
+  serverModel = input<Encounter>();
+  canUpdate = input(false);
+  canCreate = input(false);
+  canDelete = input(false);
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();

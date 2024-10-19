@@ -26,6 +26,7 @@ export class CharacterPageComponent {
   campaignSessions = this.store.sessions;
   campaignEncounters = this.store.encounters;
   campaignOrganizations = this.store.campaignOrganizations;
+  campaignLocations = this.store.campaignLocations;
   characterQuote$ = this.store.characterQuote;
   quoteServerModel$ = this.store.quoteServerModel;
   imageServerModel$ = this.store.imageServerModel;

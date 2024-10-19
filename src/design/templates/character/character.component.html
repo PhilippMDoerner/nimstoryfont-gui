@@ -124,6 +124,7 @@
       </h4>
       <app-encounter-accordion
         [encounters]="character().encounters ?? []"
+        [campaignLocations]="campaignLocations()"
         [campaignCharacters]="campaignCharacters()"
         [serverModel]="encounterServerModel()"
         [canUpdate]="canUpdate()"

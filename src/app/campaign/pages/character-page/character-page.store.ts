@@ -23,6 +23,7 @@ import { CharacterService } from 'src/app/_services/article/character.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
 import { EncounterService } from 'src/app/_services/article/encounter.service';
 import { ImageUploadService } from 'src/app/_services/article/image-upload.service';
+import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationMembershipService } from 'src/app/_services/article/organization-membership.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
 import { QuoteConnectionService } from 'src/app/_services/article/quote-connection.service';
@@ -40,6 +41,7 @@ export interface CharacterPageState {
   characterQuote: Quote | undefined;
   campaignCharacters: OverviewItem[];
   campaignOrganizations: OverviewItem[];
+  campaignLocations: OverviewItem[];
   imageServerModel: Image | undefined;
   quoteServerModel: Quote | undefined;
 }
@@ -47,6 +49,7 @@ export interface CharacterPageState {
 const initialState: CharacterPageState = {
   campaignCharacters: [],
   campaignOrganizations: [],
+  campaignLocations: [],
   character: undefined,
   characterQuote: undefined,
   encounterServerModel: undefined,
@@ -75,6 +78,7 @@ export const CharacterStore = signalStore(
     const encounterConnectionService = inject(EncounterConnectionService);
     const organizationService = inject(OrganizationService);
     const sessionService = inject(SessionService);
+    const locationService = inject(LocationService);
     const globalStore = inject(GlobalStore);
 
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
@@ -103,6 +107,19 @@ export const CharacterStore = signalStore(
           )
           .subscribe((campaignCharacters) =>
             patchState(state, { campaignCharacters }),
+          );
+      },
+      loadLocations: () => {
+        patchState(state, { campaignLocations: [] });
+        campaignName$
+          .pipe(
+            switchMap((campaignName) =>
+              locationService.campaignList(campaignName),
+            ),
+            take(1),
+          )
+          .subscribe((locations) =>
+            patchState(state, { campaignLocations: locations }),
           );
       },
       loadOrganizations: () => {
@@ -280,9 +297,11 @@ export const CharacterStore = signalStore(
           .subscribe((newConnection) => {
             const updatedCharacter = state.character();
             if (updatedCharacter == null) return;
-            const updatedEncounter = updatedCharacter.encounters?.find(
-              (encounter) => encounter.pk === connection.encounter,
-            ) as CharacterEncounter;
+            const updatedEncounter = {
+              ...(updatedCharacter.encounters?.find(
+                (encounter) => encounter.pk === connection.encounter,
+              ) as CharacterEncounter),
+            };
             updatedEncounter.encounterConnections?.push(newConnection);
             const updatedEncounters = replaceItem<CharacterEncounter>(
               updatedCharacter.encounters ?? [],
@@ -304,7 +323,7 @@ export const CharacterStore = signalStore(
             const updatedEncounter = findByProp(
               updatedCharacter.encounters ?? [],
               'pk',
-              connection.pk,
+              connection.encounter,
             ) as CharacterEncounter;
             updatedEncounter.encounterConnections = removeByProp(
               updatedEncounter.encounterConnections ?? [],
@@ -314,7 +333,7 @@ export const CharacterStore = signalStore(
 
             const updatedEncounters = replaceItem<CharacterEncounter>(
               updatedCharacter.encounters ?? [],
-              updatedEncounter,
+              { ...updatedEncounter },
               'pk',
             );
             updatedCharacter.encounters = updatedEncounters;

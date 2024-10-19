@@ -1,19 +1,23 @@
 import {
   Component,
+  computed,
   EventEmitter,
-  Input,
-  OnChanges,
+  input,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
-import { LocationService } from 'src/app/_services/article/location.service';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/design/molecules';
-import { Encounter, EncounterConnection } from '../../../app/_models/encounter';
+import {
+  Encounter,
+  EncounterConnection,
+  EncounterRaw,
+} from '../../../app/_models/encounter';
 
 type EncounterState = 'DISPLAY' | 'UPDATE' | 'OUTDATEDUPDATE' | 'CREATE';
 
@@ -22,15 +26,15 @@ type EncounterState = 'DISPLAY' | 'UPDATE' | 'OUTDATEDUPDATE' | 'CREATE';
   templateUrl: './encounter.component.html',
   styleUrls: ['./encounter.component.scss'],
 })
-export class EncounterComponent implements OnInit, OnChanges {
-  @Input() encounter?: Encounter | CharacterEncounter;
-  @Input() characters!: OverviewItem[];
-  @Input() serverModel?: Encounter;
-  @Input() canUpdate: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() canDelete: boolean = false;
-  @Input() initialState: EncounterState = 'DISPLAY';
-  @Input() locations!: OverviewItem[];
+export class EncounterComponent implements OnInit {
+  characters = input.required<OverviewItem[]>();
+  locations = input.required<OverviewItem[]>();
+  encounter = input<Encounter | CharacterEncounter>();
+  serverModel = input<Encounter>();
+  canUpdate = input(false);
+  canCreate = input(false);
+  canDelete = input(false);
+  initialState = input<EncounterState>('DISPLAY');
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();
@@ -39,83 +43,68 @@ export class EncounterComponent implements OnInit, OnChanges {
   @Output() encounterDelete: EventEmitter<Encounter | CharacterEncounter> =
     new EventEmitter();
   @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterCreate: EventEmitter<Encounter> = new EventEmitter();
+  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
   @Output() encounterCreateCancel: EventEmitter<null> = new EventEmitter();
 
-  userModel!: Encounter;
-  state!: EncounterState;
-  badgeEntries!: BadgeListEntry<EncounterConnection>[];
-  campaignName!: string;
+  userModel = signal<Encounter | Partial<EncounterRaw>>({});
+  state = signal<EncounterState>('DISPLAY');
+  badgeEntries = computed<BadgeListEntry<EncounterConnection>[]>(() => {
+    const encounterConnections = this.encounter()?.encounterConnections ?? [];
+    return this.parseConnection(encounterConnections);
+  });
+  campaignName = computed(() => this.encounter()?.campaign_details?.name);
 
-  formlyFields!: FormlyFieldConfig[];
+  formlyFields = computed<FormlyFieldConfig[]>(() => [
+    this.formlyService.buildInputConfig({
+      key: 'title',
+      inputKind: 'STRING',
+    }),
+    this.formlyService.buildOverviewSelectConfig({
+      key: 'location',
+      label: 'Encounter Location',
+      sortProp: 'name_full',
+      campaign: this.campaignName(),
+      options$: this.locations(),
+      labelProp: 'name',
+    }),
+    this.formlyService.buildEditorConfig({
+      key: 'description',
+      required: true,
+    }),
+  ]);
 
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
-    private locationService: LocationService,
   ) {}
 
   ngOnInit(): void {
-    const isInCreateScenario = this.initialState === 'CREATE' && this.canCreate;
-    const model = isInCreateScenario ? ({} as Encounter) : undefined;
-    this.changeState(this.initialState, model);
-
-    if (this.encounter) {
-      this.campaignName = this.encounter.campaign_details?.name as string;
-      this.setBadgeEntries();
-      this.setFormlyFields();
-    }
+    const isInCreateScenario =
+      this.initialState() === 'CREATE' && this.canCreate();
+    const model = isInCreateScenario ? {} : undefined;
+    this.changeState(this.initialState(), model);
   }
 
-  ngOnChanges(): void {
-    this.setBadgeEntries();
+  changeState(
+    newState: EncounterState,
+    newModel: Partial<Encounter> | undefined,
+  ) {
+    this.state.set(newState);
+    this.userModel.set({ ...newModel });
   }
 
-  setBadgeEntries() {
-    const encounterConnections = this.encounter?.encounterConnections ?? [];
-    this.badgeEntries = this.parseConnection(encounterConnections);
-  }
-
-  setFormlyFields() {
-    this.formlyFields = [
-      this.formlyService.buildInputConfig({
-        key: 'title',
-        inputKind: 'STRING',
-      }),
-      this.formlyService.buildOverviewSelectConfig({
-        key: 'location',
-        label: 'Encounter Location',
-        sortProp: 'name_full',
-        campaign: this.campaignName,
-        options$: this.locations,
-        labelProp: 'name',
-      }),
-      this.formlyService.buildEditorConfig({
-        key: 'description',
-        required: true,
-      }),
-    ];
-  }
-
-  changeState(newState: EncounterState, newModel: Encounter | undefined) {
-    this.state = newState;
-    this.userModel = { ...newModel } as Encounter;
-  }
-
-  onEncounterCreate(encounter: Encounter) {
-    this.encounterCreate.emit(encounter);
-    this.encounter = encounter;
+  onEncounterCreate(encounter: Partial<EncounterRaw> | Encounter) {
+    this.encounterCreate.emit(encounter as EncounterRaw);
     this.changeState('DISPLAY', encounter);
   }
 
   onEncounterDelete() {
-    this.encounterDelete.emit(this.encounter);
+    this.encounterDelete.emit(this.encounter());
     this.changeState('DISPLAY', undefined);
   }
 
-  onEncounterUpdate(encounter: Encounter) {
-    this.encounterUpdate.emit(encounter);
-    this.encounter = encounter;
+  onEncounterUpdate(encounter: Encounter | Partial<Encounter>) {
+    this.encounterUpdate.emit(encounter as Encounter);
     this.changeState('DISPLAY', undefined);
   }
 
@@ -125,7 +114,7 @@ export class EncounterComponent implements OnInit, OnChanges {
   }
 
   onConnectionDelete(connection: EncounterConnection) {
-    if (!this.canDelete) {
+    if (!this.canDelete()) {
       return;
     }
 
@@ -134,23 +123,23 @@ export class EncounterComponent implements OnInit, OnChanges {
 
   onConnectionCreate(character: OverviewItem) {
     const newConnection: EncounterConnection = {
-      encounter: this.encounter?.pk as number,
+      encounter: this.encounter()?.pk as number,
       character: character.pk as number,
     };
     this.connectionCreate.emit(newConnection);
   }
 
   onToggle(toggled: boolean) {
-    const isCancellingCreation = this.state === 'CREATE';
+    const isCancellingCreation = this.state() === 'CREATE';
     if (isCancellingCreation) {
       this.encounterCreateCancel.emit();
       return;
     }
 
-    const isInDisplayState = this.state === 'DISPLAY';
+    const isInDisplayState = this.state() === 'DISPLAY';
     const nextState = isInDisplayState ? 'UPDATE' : 'DISPLAY';
     const nextModel: Encounter | undefined = toggled
-      ? ({ ...this.encounter } as Encounter)
+      ? ({ ...this.encounter() } as Encounter)
       : undefined;
     this.changeState(nextState, nextModel);
   }
@@ -162,7 +151,7 @@ export class EncounterComponent implements OnInit, OnChanges {
       const characterName = con.character_details?.name as string;
       const link = this.routingService.getRoutePath('character', {
         name: characterName,
-        campaign: this.campaignName,
+        campaign: this.campaignName(),
       });
 
       return {

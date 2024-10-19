@@ -13,6 +13,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/design/molecules';
+import { sortByProp } from 'src/utils/array';
 import {
   Encounter,
   EncounterConnection,
@@ -64,8 +65,9 @@ export class EncounterComponent implements OnInit {
       label: 'Encounter Location',
       sortProp: 'name_full',
       campaign: this.campaignName(),
-      options$: this.locations(),
-      labelProp: 'name',
+      options$: sortByProp(this.locations(), 'name_full'),
+      labelProp: 'name_full',
+      required: false,
     }),
     this.formlyService.buildEditorConfig({
       key: 'description',

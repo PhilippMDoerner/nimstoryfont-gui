@@ -86,11 +86,21 @@ export class EncounterService extends BaseService<EncounterRaw, Encounter> {
   }
 
   private generateUrlCallback(data: any) {
-    const campaignName = data.campaign_details.name;
-    const sessionNumber = data.diaryentry_details.session_number;
-    const isMainSession = data.diaryentry_details.is_main_session;
-    const authorName = data.diaryentry_details.author_name;
+    const campaignName = data.campaign_details?.name;
+    const sessionNumber = data.diaryentry_details?.session_number;
+    const isMainSession = data.diaryentry_details?.is_main_session;
+    const authorName = data.diaryentry_details?.author_name;
     const encounterTitle = data.title;
+
+    if (
+      !campaignName ||
+      !sessionNumber ||
+      !isMainSession ||
+      !authorName ||
+      !encounterTitle
+    ) {
+      return () => '';
+    }
 
     return () =>
       this.routingService.getRoutePath('diaryentry-encounter', {

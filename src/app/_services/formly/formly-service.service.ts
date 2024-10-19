@@ -23,7 +23,7 @@ export class FormlyService {
   buildOverviewSelectConfig(
     config: FormlyOverviewSelectConfig,
   ): FormlyFieldConfig {
-    const isRequiredField = config.required == null || config.required == true;
+    const isRequiredField = config.required ?? true;
 
     const options$ = isRequiredField
       ? config.options$
@@ -54,7 +54,7 @@ export class FormlyService {
   buildDisableSelectConfig(
     config: FormlyOverviewDisabledSelectConfig,
   ): FormlyFieldConfig {
-    const isRequiredField = config.required == null || config.required == true;
+    const isRequiredField = config.required ?? true;
 
     const options$ = isRequiredField
       ? this.addEmptyOption(config.options$, config)

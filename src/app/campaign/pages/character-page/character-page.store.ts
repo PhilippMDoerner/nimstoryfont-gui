@@ -101,7 +101,7 @@ export const CharacterStore = signalStore(
         campaignName$
           .pipe(
             switchMap((campaignName) =>
-              characterService.campaignList(campaignName),
+              characterService.getNonPlayerCharacters(campaignName),
             ),
             take(1),
           )
@@ -269,11 +269,15 @@ export const CharacterStore = signalStore(
       },
       updateEncounter(encounter: Encounter) {
         encounterService
-          .patch(encounter.pk, encounter)
+          .update(encounter.pk, encounter)
           .pipe(take(1))
           .subscribe((newEncounter) => {
-            const updatedChar = state.character();
-            updatedChar?.encounters?.push(newEncounter);
+            const updatedChar = { ...(state.character() as CharacterDetails) };
+            updatedChar.encounters = replaceItem(
+              updatedChar.encounters ?? [],
+              newEncounter,
+              'pk',
+            );
             patchState(state, { character: updatedChar });
           });
       },

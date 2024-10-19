@@ -14,7 +14,7 @@ import {
   FormlyCustomStringSelectConfig as FormlyStaticStringSelectConfig,
   StaticOption,
 } from 'src/app/_models/formly';
-import { toTitleCase } from 'src/utils/string';
+import { capitalize } from 'src/utils/string';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +38,7 @@ export class FormlyService {
       wrappers: config.wrappers,
       hideExpression: config.hide,
       props: {
-        label: config.label ?? toTitleCase(config.key),
+        label: config.label ?? capitalize(config.key),
         labelProp: config.labelProp,
         valueProp: config.valueProp ?? 'pk',
         options: options$,
@@ -69,7 +69,7 @@ export class FormlyService {
       wrappers: config.wrappers,
       hideExpression: config.hide ?? false,
       props: {
-        label: config.label ?? toTitleCase(config.key),
+        label: config.label ?? capitalize(config.key),
         labelProp: config.labelProp,
         valueProp: config.valueProp ?? 'pk',
         options: options$,
@@ -97,7 +97,7 @@ export class FormlyService {
       wrappers: config.wrappers,
       hideExpression: config.hide ?? false,
       props: {
-        label: config.label ?? toTitleCase(config.key),
+        label: config.label ?? capitalize(config.key),
         options: config.options,
         required: config.required ?? true,
         disabled: config.disabled,
@@ -154,7 +154,7 @@ export class FormlyService {
       props: {
         maxLength: config.maxLength,
         minLength: config.minLength,
-        label: config.label ?? toTitleCase(config.key),
+        label: config.label ?? capitalize(config.key),
         type: innerInputType,
         required: config.required ?? true,
         disabled: !!config.disabled,
@@ -243,7 +243,7 @@ export class FormlyService {
       defaultValue: config.defaultValue,
       hideExpression: config.hide,
       props: {
-        label: config.label ?? toTitleCase(config.key),
+        label: config.label ?? capitalize(config.key),
         required: config.required ?? true,
         disabled: config.disabled,
       },
@@ -261,7 +261,7 @@ export class FormlyService {
       wrappers: config.wrappers,
       hideExpression: config.hide,
       props: {
-        label: config.label ?? toTitleCase(config.key),
+        label: config.label ?? capitalize(config.key),
         required: config.required ?? true,
         disabled: config.disabled,
       },
@@ -283,7 +283,7 @@ export class FormlyService {
       props: {
         buttonType: config.fileButtonType ?? 'SECONDARY',
         fileFieldKind: config.fileFieldKind ?? 'IMAGE',
-        label: config.label ?? toTitleCase(config.key),
+        label: config.label ?? capitalize(config.key),
         required: config.required ?? true,
         disabled: !!config.disabled,
       },
@@ -303,7 +303,7 @@ export class FormlyService {
       wrappers: config.wrappers,
       hideExpression: config.hide,
       props: {
-        label: config.label ?? toTitleCase(config.key),
+        label: config.label ?? capitalize(config.key),
         required: config.required ?? true,
         disabled: config.disabled,
       },

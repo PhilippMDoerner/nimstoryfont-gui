@@ -1,5 +1,10 @@
-export function toTitleCase(x: string): string {
+export function capitalize(x: string): string {
   const firstLetter = x[0].toUpperCase();
+  return `${firstLetter}${x.slice(1)}`;
+}
+
+export function uncapitalize(x: string): string {
+  const firstLetter = x[0].toLowerCase();
   return `${firstLetter}${x.slice(1)}`;
 }
 

@@ -1,7 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { signalStoreFeature, withState } from '@ngrx/signals';
-import { SomeVersionOfU2I } from '../../type-utilities';
-import { getKeys, Query, QueryMap, QueryState } from './types';
+import {
+  getKeys,
+  Query,
+  QueryMap,
+  QueryState,
+  SomeVersionOfU2I,
+} from './types';
 
 // Creates an object with a bunch of properties based on an input name
 type NewProperties<Name extends string, Q> =

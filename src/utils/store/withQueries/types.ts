@@ -1,6 +1,12 @@
 import { Observable } from 'rxjs';
 import { capitalize, uncapitalize } from 'src/utils/string';
 
+export type SomeVersionOfU2I<U> = (
+  U extends any ? (x: U) => any : never
+) extends (x: infer I) => any
+  ? I
+  : never;
+
 export type QueryState = 'init' | 'loading' | 'success' | 'error';
 export type Query<Params, Response> = (params: Params) => Observable<Response>;
 export type QueryMap<T extends any | unknown> = Record<string, Query<T, T>>;

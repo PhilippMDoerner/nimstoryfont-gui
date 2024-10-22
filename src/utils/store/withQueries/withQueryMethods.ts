@@ -3,8 +3,13 @@ import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
 import { pipe, switchMap, tap } from 'rxjs';
-import { SomeVersionOfU2I } from '../../type-utilities';
-import { getKeys, Query, QueryMap, QueryState } from './types';
+import {
+  getKeys,
+  Query,
+  QueryMap,
+  QueryState,
+  SomeVersionOfU2I,
+} from './types';
 
 type NewMethods<Name extends string, Q> =
   Q extends Query<infer Params, infer Response>
@@ -26,7 +31,6 @@ export type AllNewMethods<Queries extends QueryMap<unknown>> = SomeVersionOfU2I<
   SingleNewMethod<Queries>
 >;
 
-/** This version works but is incapable of havin */
 export function withQueryMethods<Queries extends QueryMap<any>>(
   queriesFactory: () => Queries,
 ) {

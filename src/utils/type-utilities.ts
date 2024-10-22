@@ -4,12 +4,6 @@ export type ExpandRecursively<T> = T extends object
     : never
   : T;
 
-export type FirstParamType<T extends (...args: any[]) => any> = T extends (
-  arg: infer U,
-) => any
-  ? U
-  : never;
-
 // Utility type for getting the param type of a function... I think
 export type SomeVersionOfU2I<U> = (
   U extends any ? (x: U) => any : never

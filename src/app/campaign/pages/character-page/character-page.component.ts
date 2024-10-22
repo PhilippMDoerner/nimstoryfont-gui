@@ -23,8 +23,8 @@ export class CharacterPageComponent {
   serverUrl = environment.backendDomain;
   character$ = this.store.character;
   campaignCharacters = this.store.campaignCharacters;
-  campaignSessions = this.store.sessions;
-  campaignEncounters = this.store.encounters;
+  campaignSessions = this.store.campaignSessions;
+  campaignEncounters = this.store.campaignEncounters;
   campaignOrganizations = this.store.campaignOrganizations;
   campaignLocations = this.store.campaignLocations;
   characterQuote$ = this.store.characterQuote;
@@ -64,7 +64,7 @@ export class CharacterPageComponent {
   }
 
   onRefreshQuote() {
-    this.store.loadRandomQuote(this.store.character()?.name as string);
+    this.store.loadCharacterQuote(this.store.character()?.name as string);
   }
 
   onCreateQuoteConnection(connection: QuoteConnection) {

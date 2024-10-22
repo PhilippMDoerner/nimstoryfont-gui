@@ -8,9 +8,9 @@
   <app-character
     [character]="character"
     [characterQuote]="characterQuote"
-    [campaignCharacters]="campaignCharacters()"
-    [campaignOrganizations]="campaignOrganizations()"
-    [campaignLocations]="campaignLocations()"
+    [campaignCharacters]="campaignCharacters() ?? []"
+    [campaignOrganizations]="campaignOrganizations() ?? []"
+    [campaignLocations]="campaignLocations() ?? []"
     [serverUrl]="serverUrl"
     [encounters]="campaignEncounters() ?? []"
     [sessions]="campaignSessions() ?? []"

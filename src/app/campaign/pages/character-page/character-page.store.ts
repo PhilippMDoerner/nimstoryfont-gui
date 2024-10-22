@@ -9,7 +9,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { switchMap, take } from 'rxjs';
+import { distinctUntilChanged, map, shareReplay, switchMap, take } from 'rxjs';
 import {
   CharacterDetails,
   CharacterEncounter,
@@ -17,7 +17,6 @@ import {
 } from 'src/app/_models/character';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
-import { OverviewItem } from 'src/app/_models/overview';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
@@ -32,31 +31,20 @@ import { SessionService } from 'src/app/_services/article/session.service';
 import { GlobalStore } from 'src/app/global.store';
 import { findByProp, removeByProp, replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
+import { withQueries } from 'src/utils/store/withQueries';
 
 export interface CharacterPageState {
-  character: CharacterDetails | undefined;
   encounterServerModel: Encounter | undefined;
-  encounters: OverviewItem[] | undefined;
-  sessions: OverviewItem[] | undefined;
   characterQuote: Quote | undefined;
-  campaignCharacters: OverviewItem[];
-  campaignOrganizations: OverviewItem[];
-  campaignLocations: OverviewItem[];
   imageServerModel: Image | undefined;
   quoteServerModel: Quote | undefined;
 }
 
 const initialState: CharacterPageState = {
-  campaignCharacters: [],
-  campaignOrganizations: [],
-  campaignLocations: [],
-  character: undefined,
   characterQuote: undefined,
   encounterServerModel: undefined,
   imageServerModel: undefined,
   quoteServerModel: undefined,
-  encounters: undefined,
-  sessions: undefined,
 };
 
 export const CharacterStore = signalStore(
@@ -68,6 +56,65 @@ export const CharacterStore = signalStore(
       hasWritePermission: globalStore.hasRoleOrBetter('member'),
     };
   }),
+  withQueries(() => {
+    const characterService = inject(CharacterService);
+    const quoteService = inject(QuoteService);
+    const encounterService = inject(EncounterService);
+    const organizationService = inject(OrganizationService);
+    const sessionService = inject(SessionService);
+    const locationService = inject(LocationService);
+    const globalStore = inject(GlobalStore);
+
+    const campaignName$ = toObservable(globalStore.campaignName).pipe(
+      filterNil(),
+      shareReplay(1),
+      take(1),
+    );
+    return {
+      character: (name: string) =>
+        campaignName$.pipe(
+          switchMap((campaign) =>
+            characterService.readByParam(campaign, { name }),
+          ),
+        ),
+      campaignCharacters: () =>
+        campaignName$.pipe(
+          switchMap((campaignName) =>
+            characterService.getNonPlayerCharacters(campaignName),
+          ),
+        ),
+      campaignSessions: () =>
+        campaignName$.pipe(
+          switchMap((campaignName) =>
+            sessionService.campaignList(campaignName),
+          ),
+        ),
+      campaignLocations: () =>
+        campaignName$.pipe(
+          switchMap((campaignName) =>
+            locationService.campaignList(campaignName),
+          ),
+        ),
+      campaignOrganizations: () =>
+        campaignName$.pipe(
+          switchMap((campaignName) =>
+            organizationService.campaignList(campaignName),
+          ),
+        ),
+      campaignEncounters: () =>
+        campaignName$.pipe(
+          switchMap((campaignName) =>
+            encounterService.campaignList(campaignName),
+          ),
+        ),
+      characterQuote: (name: string) =>
+        campaignName$.pipe(
+          switchMap((campaignName) =>
+            quoteService.getRandomQuote(campaignName, name),
+          ),
+        ),
+    };
+  }),
   withMethods((state) => {
     const characterService = inject(CharacterService);
     const membershipService = inject(OrganizationMembershipService);
@@ -76,97 +123,8 @@ export const CharacterStore = signalStore(
     const encounterService = inject(EncounterService);
     const quoteConnectionService = inject(QuoteConnectionService);
     const encounterConnectionService = inject(EncounterConnectionService);
-    const organizationService = inject(OrganizationService);
-    const sessionService = inject(SessionService);
-    const locationService = inject(LocationService);
-    const globalStore = inject(GlobalStore);
 
-    const campaignName$ = toObservable(globalStore.campaignName).pipe(
-      filterNil(),
-    );
     return {
-      loadCharacter: (name: string) => {
-        patchState(state, { character: undefined });
-        campaignName$
-          .pipe(
-            switchMap((campaignName) =>
-              characterService.readByParam(campaignName, { name }),
-            ),
-            take(1),
-          )
-          .subscribe((character) => patchState(state, { character }));
-      },
-      loadCharacters: () => {
-        patchState(state, { campaignCharacters: [] });
-        campaignName$
-          .pipe(
-            switchMap((campaignName) =>
-              characterService.getNonPlayerCharacters(campaignName),
-            ),
-            take(1),
-          )
-          .subscribe((campaignCharacters) =>
-            patchState(state, { campaignCharacters }),
-          );
-      },
-      loadLocations: () => {
-        patchState(state, { campaignLocations: [] });
-        campaignName$
-          .pipe(
-            switchMap((campaignName) =>
-              locationService.campaignList(campaignName),
-            ),
-            take(1),
-          )
-          .subscribe((locations) =>
-            patchState(state, { campaignLocations: locations }),
-          );
-      },
-      loadOrganizations: () => {
-        patchState(state, { campaignOrganizations: [] });
-        campaignName$
-          .pipe(
-            take(1),
-            switchMap((campaignName) =>
-              organizationService.campaignList(campaignName),
-            ),
-            take(1),
-          )
-          .subscribe((orgs) =>
-            patchState(state, { campaignOrganizations: orgs }),
-          );
-      },
-      loadSessions: () => {
-        campaignName$
-          .pipe(
-            switchMap((campaignName) =>
-              sessionService.campaignList(campaignName),
-            ),
-            take(1),
-          )
-          .subscribe((sessions) => patchState(state, { sessions }));
-      },
-      loadEncounters() {
-        campaignName$
-          .pipe(
-            switchMap((campaignName) =>
-              encounterService.campaignList(campaignName),
-            ),
-            take(1),
-          )
-          .subscribe((encounters) => patchState(state, { encounters }));
-      },
-      loadRandomQuote: (name: string) => {
-        patchState(state, { characterQuote: undefined });
-        campaignName$
-          .pipe(
-            switchMap((campaignName) =>
-              quoteService.getRandomQuote(campaignName, name),
-            ),
-            take(1),
-          )
-          .subscribe((characterQuote) => patchState(state, { characterQuote }));
-      },
       deleteCharacater: () => {
         const characterPk = state.character()?.pk;
         if (characterPk == null) return;
@@ -375,9 +333,16 @@ export const CharacterStore = signalStore(
     const character$ = toObservable(store.character).pipe(filterNil());
     return {
       onInit: () => {
-        character$.pipe(takeUntilDestroyed()).subscribe((character) => {
-          store.loadRandomQuote(character.name as string);
-        });
+        character$
+          .pipe(
+            takeUntilDestroyed(),
+            map((char) => char.name),
+            filterNil(),
+            distinctUntilChanged(),
+          )
+          .subscribe((characterName) => {
+            store.loadCharacterQuote(characterName);
+          });
       },
     };
   }),

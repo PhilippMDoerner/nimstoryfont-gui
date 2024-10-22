@@ -97,12 +97,15 @@ const innerCampaignRoutes: CampaignRoute[] = [
     component: CharacterPageComponent,
     data: { name: 'character', requiredMinimumRole: 'guest' },
     resolve: {
-      loadCharacters: () => inject(CharacterStore).loadCharacters(),
+      loadCharacters: () =>
+        inject(CharacterStore).loadCampaignCharacters(void 0),
       loadCharacter: characterResolver,
-      loadOrganizations: () => inject(CharacterStore).loadOrganizations(),
-      loadEncounters: () => inject(CharacterStore).loadEncounters(),
-      loadSessions: () => inject(CharacterStore).loadSessions(),
-      loadLocations: () => inject(CharacterStore).loadLocations(),
+      loadOrganizations: () =>
+        inject(CharacterStore).loadCampaignOrganizations(void 0),
+      loadEncounters: () =>
+        inject(CharacterStore).loadCampaignEncounters(void 0),
+      loadSessions: () => inject(CharacterStore).loadCampaignSessions(void 0),
+      loadLocations: () => inject(CharacterStore).loadCampaignLocations(void 0),
     },
   },
   // {

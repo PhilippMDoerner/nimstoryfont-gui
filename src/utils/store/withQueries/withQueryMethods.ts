@@ -2,7 +2,7 @@ import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
-import { pipe, switchMap, tap } from 'rxjs';
+import { pipe, switchMap, take, tap } from 'rxjs';
 import {
   getKeys,
   Query,
@@ -51,6 +51,7 @@ export function withQueryMethods<Queries extends QueryMap<any>>(
                 }),
               ),
               switchMap((params) => queries[keys.name](params)),
+              take(1),
               tapResponse({
                 next: (val) =>
                   patchState(store, {

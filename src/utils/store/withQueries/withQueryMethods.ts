@@ -31,43 +31,38 @@ export type AllNewMethods<Queries extends QueryMap> = SomeVersionOfU2I<
   SingleNewMethod<Queries>
 >;
 
-export function withQueryMethods<Queries extends QueryMap>(
-  queriesFactory: () => Queries,
-) {
+export function withQueryMethods<Queries extends QueryMap>(queries: Queries) {
   return signalStoreFeature(
     withMethods((store) => {
-      const queries = queriesFactory();
-      const queryKeys = Object.keys(queries).map((queryName) =>
-        getKeys(queryName),
-      );
-
-      const queryLoadFunctions = queryKeys.map((keys) => {
-        return {
-          [keys.loadMethod]: rxMethod(
-            pipe(
-              tap(() =>
-                patchState(store, {
-                  [keys.queryStateField]: 'loading' satisfies QueryState,
+      const queryLoadFunctions = Object.keys(queries)
+        .map((queryName) => getKeys(queryName))
+        .map((keys) => {
+          return {
+            [keys.loadMethod]: rxMethod(
+              pipe(
+                tap(() =>
+                  patchState(store, {
+                    [keys.queryStateField]: 'loading' satisfies QueryState,
+                  }),
+                ),
+                switchMap((params) => queries[keys.name](params)),
+                take(1),
+                tapResponse({
+                  next: (val) =>
+                    patchState(store, {
+                      [keys.dataField]: val,
+                      [keys.queryStateField]: 'success' satisfies QueryState,
+                    }),
+                  error: (err) =>
+                    patchState(store, {
+                      [keys.errorField]: err,
+                      [keys.queryStateField]: 'error' satisfies QueryState,
+                    }),
                 }),
               ),
-              switchMap((params) => queries[keys.name](params)),
-              take(1),
-              tapResponse({
-                next: (val) =>
-                  patchState(store, {
-                    [keys.dataField]: val,
-                    [keys.queryStateField]: 'success' satisfies QueryState,
-                  } as any),
-                error: (err) =>
-                  patchState(store, {
-                    [keys.errorField]: err,
-                    [keys.queryStateField]: 'error' satisfies QueryState,
-                  } as any),
-              }),
             ),
-          ),
-        };
-      });
+          };
+        });
 
       const functions = queryLoadFunctions.reduce(
         (acc, queryLoadFunction) => ({ ...acc, ...queryLoadFunction }),

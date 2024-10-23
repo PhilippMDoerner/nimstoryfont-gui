@@ -34,12 +34,9 @@ export type AllNewProperties<Queries extends QueryMap> = SomeVersionOfU2I<
   SingleNewProperty<Queries>
 >;
 
-export function withQueriesState<Queries extends QueryMap>(
-  queriesFactory: () => Queries,
-) {
+export function withQueriesState<Queries extends QueryMap>(queries: Queries) {
   return signalStoreFeature(
     withState(() => {
-      const queries = queriesFactory();
       const queryStates = Object.keys(queries)
         .map((queryName) => getKeys(queryName))
         .map((keys) => {

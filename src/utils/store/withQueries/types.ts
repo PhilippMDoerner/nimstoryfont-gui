@@ -1,3 +1,8 @@
+import {
+  SignalStoreFeatureResult,
+  StateSignals,
+  WritableStateSource,
+} from '@ngrx/signals';
 import { Observable } from 'rxjs';
 import { capitalize, uncapitalize } from 'src/utils/string';
 
@@ -6,6 +11,12 @@ export type SomeVersionOfU2I<U> = (
 ) extends (x: infer I) => any
   ? I
   : never;
+
+export type ToPublicStore<Input extends SignalStoreFeatureResult> =
+  StateSignals<Input['state']> &
+    Input['computed'] &
+    Input['methods'] &
+    WritableStateSource<Input['state']>;
 
 export type QueryState = 'init' | 'loading' | 'success' | 'error';
 export type Query<Params, Response> = (params: Params) => Observable<Response>;

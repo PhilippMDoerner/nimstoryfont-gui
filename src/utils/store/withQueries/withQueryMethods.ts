@@ -16,22 +16,22 @@ type NewMethods<Name extends string, Q> =
     ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<Params>>>
     : never;
 
-type SingleNewMethodObjectSlice<Queries extends QueryMap<unknown>> = {
+type SingleNewMethodObjectSlice<Queries extends QueryMap> = {
   [Key in keyof Queries & string]: NewMethods<
     Key,
     SomeVersionOfU2I<Queries[Key]>
   >;
 };
 
-type SingleNewMethod<Queries extends QueryMap<unknown>> =
+type SingleNewMethod<Queries extends QueryMap> =
   SingleNewMethodObjectSlice<Queries>[keyof SingleNewMethodObjectSlice<Queries>];
 
 // Extracts params from queries and that... interacts.. somehow to make the correct type
-export type AllNewMethods<Queries extends QueryMap<unknown>> = SomeVersionOfU2I<
+export type AllNewMethods<Queries extends QueryMap> = SomeVersionOfU2I<
   SingleNewMethod<Queries>
 >;
 
-export function withQueryMethods<Queries extends QueryMap<any>>(
+export function withQueryMethods<Queries extends QueryMap>(
   queriesFactory: () => Queries,
 ) {
   return signalStoreFeature(

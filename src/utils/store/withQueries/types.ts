@@ -9,7 +9,7 @@ export type SomeVersionOfU2I<U> = (
 
 export type QueryState = 'init' | 'loading' | 'success' | 'error';
 export type Query<Params, Response> = (params: Params) => Observable<Response>;
-export type QueryMap<T extends any | unknown> = Record<string, Query<T, T>>;
+export type QueryMap = Record<string, Query<any, any>>;
 
 export function getKeys<Name extends string>(
   name: Name,

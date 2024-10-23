@@ -18,7 +18,7 @@ type NewProperties<Name extends string, Q> =
 
 // I think represents a single slice of:
 // `{ <queryName>: { <queyName>: Response, <queryName>Error: HttpErrorResponse, <queryName>QueryState: QueryState } }`
-type SingleNewPropertiesObjectSlice<Queries extends QueryMap<unknown>> = {
+type SingleNewPropertiesObjectSlice<Queries extends QueryMap> = {
   [Key in keyof Queries & string]: NewProperties<
     Key,
     SomeVersionOfU2I<Queries[Key]>
@@ -26,14 +26,15 @@ type SingleNewPropertiesObjectSlice<Queries extends QueryMap<unknown>> = {
 };
 
 // Unpacked version of `SingleNewPropertiesObjectSlice`, essentially just `{ <queyName>: Response, <queryName>Error: HttpErrorResponse, <queryName>QueryState: QueryState }`
-type SingleNewProperty<Queries extends QueryMap<unknown>> =
+type SingleNewProperty<Queries extends QueryMap> =
   SingleNewPropertiesObjectSlice<Queries>[keyof SingleNewPropertiesObjectSlice<Queries>];
 
 // Extracts params from queries and that... interacts.. somehow to make the correct type
-export type AllNewProperties<Queries extends QueryMap<unknown>> =
-  SomeVersionOfU2I<SingleNewProperty<Queries>>;
+export type AllNewProperties<Queries extends QueryMap> = SomeVersionOfU2I<
+  SingleNewProperty<Queries>
+>;
 
-export function withQueriesState<Queries extends QueryMap<any>>(
+export function withQueriesState<Queries extends QueryMap>(
   queriesFactory: () => Queries,
 ) {
   return signalStoreFeature(
@@ -46,7 +47,7 @@ export function withQueriesState<Queries extends QueryMap<any>>(
             [keys.dataField]: undefined,
             [keys.errorField]: undefined,
             [keys.queryStateField]: 'init' satisfies QueryState,
-          } as SingleNewProperty<Queries>;
+          };
           return x;
         });
 

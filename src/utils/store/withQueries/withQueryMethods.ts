@@ -12,9 +12,11 @@ import {
 } from './types';
 
 type NewMethods<Name extends string, Q> =
-  Q extends Query<infer Params, infer Response>
-    ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<Params>>>
-    : never;
+  Q extends Query<void, any>
+    ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<void>>>
+    : Q extends Query<infer Params, any>
+      ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<Params>>>
+      : never;
 
 type SingleNewMethodObjectSlice<Queries extends QueryMap> = {
   [Key in keyof Queries & string]: NewMethods<

@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
 import { capitalize, uncapitalize } from 'src/utils/string';
 
-export type SomeVersionOfU2I<U> = (
+/** Transforms a type-union (A | B | C) into a type-intersection (A & B & C) */
+export type UnionToIntersection<U> = (
   U extends any ? (x: U) => any : never
 ) extends (x: infer I) => any
   ? I

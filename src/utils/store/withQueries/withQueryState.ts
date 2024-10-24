@@ -5,10 +5,12 @@ import {
   Query,
   QueryMap,
   QueryState,
-  SomeVersionOfU2I,
+  UnionToIntersection,
 } from './types';
 
-// Creates an object with a bunch of properties based on an input name
+/**
+ * Creates an object with a bunch of properties based on an input name
+ */
 type NewProperties<Name extends string, Q> =
   Q extends Query<infer Params, infer Response>
     ? Record<Uncapitalize<Name>, Response | undefined> &
@@ -16,22 +18,30 @@ type NewProperties<Name extends string, Q> =
         Record<`${Uncapitalize<Name>}QueryState`, QueryState>
     : never;
 
-// I think represents a single slice of:
-// `{ <queryName>: { <queyName>: Response, <queryName>Error: HttpErrorResponse, <queryName>QueryState: QueryState } }`
-type SingleNewPropertiesObjectSlice<Queries extends QueryMap> = {
+/**
+ * Type describing a gigantic object that contains `NewProperties` for each key inside the Queries-object.
+ * So { x: NewProperties<x>, y: NewPropeties<y>, z: NewProperties<z>... }
+ **/
+type AllNewPropertiesObject<Queries extends QueryMap> = {
   [Key in keyof Queries & string]: NewProperties<
     Key,
-    SomeVersionOfU2I<Queries[Key]>
+    UnionToIntersection<Queries[Key]>
   >;
 };
 
-// Unpacked version of `SingleNewPropertiesObjectSlice`, essentially just `{ <queyName>: Response, <queryName>Error: HttpErrorResponse, <queryName>QueryState: QueryState }`
-type SingleNewProperty<Queries extends QueryMap> =
-  SingleNewPropertiesObjectSlice<Queries>[keyof SingleNewPropertiesObjectSlice<Queries>];
+/**
+ * Type union of all properties from AllNewPropertiesObject
+ * Essentially `NewProperties<x> | NewProperties<y> | NewProperties<z>...`
+ */
+type NewPropertiesUnion<Queries extends QueryMap> =
+  AllNewPropertiesObject<Queries>[keyof AllNewPropertiesObject<Queries>];
 
-// Extracts params from queries and that... interacts.. somehow to make the correct type
-export type AllNewProperties<Queries extends QueryMap> = SomeVersionOfU2I<
-  SingleNewProperty<Queries>
+/**
+ * An intersection type of all new properties. Thus any instance of this type
+ * must have all the fields that were derived via `NewProperties` for all keys in `Queries`.
+ */
+export type AllNewProperties<Queries extends QueryMap> = UnionToIntersection<
+  NewPropertiesUnion<Queries>
 >;
 
 export function withQueriesState<Queries extends QueryMap>(queries: Queries) {

@@ -8,9 +8,12 @@ import {
   Query,
   QueryMap,
   QueryState,
-  SomeVersionOfU2I,
+  UnionToIntersection,
 } from './types';
 
+/**
+ * Creates an object with a bunch of methods based on an input name
+ */
 type NewMethods<Name extends string, Q> =
   Q extends Query<void, any>
     ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<void>>>
@@ -18,18 +21,28 @@ type NewMethods<Name extends string, Q> =
       ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<Params>>>
       : never;
 
-type SingleNewMethodObjectSlice<Queries extends QueryMap> = {
+/**
+ * Type describing a gigantic object that contains `NewProperties` for each key inside the Queries-object.
+ * So { x: NewMethods<x>, y: NewMethods<y>, z: NewMethods<z>... }
+ **/
+type AllNewMethodsObject<Queries extends QueryMap> = {
   [Key in keyof Queries & string]: NewMethods<
     Key,
-    SomeVersionOfU2I<Queries[Key]>
+    UnionToIntersection<Queries[Key]>
   >;
 };
 
+/**
+ * Type union of all methods from AllNewMethodsObject
+ * Essentially `NewMethods<x> | NewMethods<y> | NewMethods<z>...`
+ */
 type SingleNewMethod<Queries extends QueryMap> =
-  SingleNewMethodObjectSlice<Queries>[keyof SingleNewMethodObjectSlice<Queries>];
+  AllNewMethodsObject<Queries>[keyof AllNewMethodsObject<Queries>];
 
-// Extracts params from queries and that... interacts.. somehow to make the correct type
-export type AllNewMethods<Queries extends QueryMap> = SomeVersionOfU2I<
+/**
+ * An intersection type of all new methods. Thus any instance of this type
+ * must have all the fields that were derived via `NewMethods` for all keys in `Queries`.
+ */ export type AllNewMethods<Queries extends QueryMap> = UnionToIntersection<
   SingleNewMethod<Queries>
 >;
 

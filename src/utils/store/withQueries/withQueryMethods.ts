@@ -36,14 +36,14 @@ type AllNewMethodsObject<Queries extends QueryMap> = {
  * Type union of all methods from AllNewMethodsObject
  * Essentially `NewMethods<x> | NewMethods<y> | NewMethods<z>...`
  */
-type SingleNewMethod<Queries extends QueryMap> =
+type NewMethodUnion<Queries extends QueryMap> =
   AllNewMethodsObject<Queries>[keyof AllNewMethodsObject<Queries>];
 
 /**
  * An intersection type of all new methods. Thus any instance of this type
  * must have all the fields that were derived via `NewMethods` for all keys in `Queries`.
  */ export type AllNewMethods<Queries extends QueryMap> = UnionToIntersection<
-  SingleNewMethod<Queries>
+  NewMethodUnion<Queries>
 >;
 
 export function withQueryMethods<Queries extends QueryMap>(queries: Queries) {
@@ -79,11 +79,10 @@ export function withQueryMethods<Queries extends QueryMap>(queries: Queries) {
           };
         });
 
-      const functions = queryLoadFunctions.reduce(
+      return queryLoadFunctions.reduce(
         (acc, queryLoadFunction) => ({ ...acc, ...queryLoadFunction }),
         {},
       ) as MethodsDictionary & AllNewMethods<Queries>;
-      return functions;
     }),
   );
 }

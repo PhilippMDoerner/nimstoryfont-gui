@@ -8,14 +8,17 @@ import {
 import { QueryMap } from './types';
 import { AllNewMethods, withQueryMethods } from './withQueryMethods';
 import { AllNewProperties, withQueriesState } from './withQueryState';
+
+export { Query, QueryMap } from './types';
+
 // The types below are useless as `AllNewMethods` and `AllNewProperties` inside them get evaluated to unknown
-type QueriesFeatureResult<Queries extends QueryMap> = {
+export type QueriesFeatureResult<Queries extends QueryMap> = {
   computed: {};
   methods: MethodsDictionary & AllNewMethods<Queries>;
   state: {} & AllNewProperties<Queries>;
 };
 
-type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
+export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
   Input['state']
 > &
   Input['computed'] &

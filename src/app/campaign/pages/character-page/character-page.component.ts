@@ -34,12 +34,12 @@ export class CharacterPageComponent {
   hasWritePermission$ = this.store.hasWritePermission;
 
   onCharacterDelete() {
-    this.store.deleteCharacater();
+    this.store.deleteCharacter();
     this.routingService.routeToPath('character-overview');
   }
 
   onCreateImage(img: Image) {
-    this.store.createImage(img);
+    this.store.createImage(img, this.store.character()?.pk as number);
   }
 
   onDeleteImage(img: Image) {

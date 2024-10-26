@@ -1,4 +1,12 @@
-export interface Image{
+export type ImageType =
+  | 'character'
+  | 'creature'
+  | 'encounter'
+  | 'item'
+  | 'location'
+  | 'organization';
+
+export interface Image {
   pk: number;
   image: string;
   name?: string;

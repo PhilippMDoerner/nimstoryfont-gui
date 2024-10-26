@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
@@ -21,7 +20,6 @@ import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
 import { EncounterService } from 'src/app/_services/article/encounter.service';
-import { ImageUploadService } from 'src/app/_services/article/image-upload.service';
 import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationMembershipService } from 'src/app/_services/article/organization-membership.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
@@ -31,6 +29,7 @@ import { SessionService } from 'src/app/_services/article/session.service';
 import { GlobalStore } from 'src/app/global.store';
 import { findByProp, removeByProp, replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
+import { withImages } from 'src/utils/store/withImages';
 import { withQueries } from 'src/utils/store/withQueries';
 
 export interface CharacterPageState {
@@ -115,68 +114,43 @@ export const CharacterStore = signalStore(
         ),
     };
   }),
+  withImages('character', {
+    onCreateSuccess: (state, newImage) => {
+      const updatedChar = state.character();
+      updatedChar?.images?.push(newImage);
+      patchState(state, { character: updatedChar });
+    },
+    onDeleteSuccess: (state, imgPk) => {
+      const updatedChar = state.character();
+      if (updatedChar == null) return;
+      updatedChar.images = updatedChar.images?.filter(
+        (img) => img.pk !== imgPk,
+      );
+      patchState(state, { character: updatedChar });
+    },
+    onUpdateSuccess: (state, newImg) => {
+      const updatedChar = state.character();
+      if (updatedChar == null) return;
+      updatedChar.images = replaceItem(updatedChar.images ?? [], newImg, 'pk');
+      patchState(state, { character: updatedChar });
+    },
+  }),
   withMethods((state) => {
     const characterService = inject(CharacterService);
     const membershipService = inject(OrganizationMembershipService);
     const quoteService = inject(QuoteService);
-    const imageService = inject(ImageUploadService);
     const encounterService = inject(EncounterService);
     const quoteConnectionService = inject(QuoteConnectionService);
     const encounterConnectionService = inject(EncounterConnectionService);
 
     return {
-      deleteCharacater: () => {
+      deleteCharacter: () => {
         const characterPk = state.character()?.pk;
         if (characterPk == null) return;
         characterService
           .delete(characterPk)
           .pipe(take(1))
           .subscribe(() => patchState(state, { character: undefined }));
-      },
-      createImage: (img: Image) => {
-        imageService
-          .create({
-            ...img,
-            character_article: state.character()?.pk as number,
-          })
-          .pipe(take(1))
-          .subscribe((newImage) => {
-            const updatedChar = state.character();
-            updatedChar?.images?.push(newImage);
-            patchState(state, { character: updatedChar });
-          });
-      },
-      deleteImage: (imgPk: number) => {
-        imageService
-          .delete(imgPk)
-          .pipe(take(1))
-          .subscribe(() => {
-            const updatedChar = state.character();
-            if (updatedChar == null) return;
-            updatedChar.images = updatedChar.images?.filter(
-              (img) => img.pk !== imgPk,
-            );
-            patchState(state, { character: updatedChar });
-          });
-      },
-      updateImage: (img: Image) => {
-        imageService.patch(img.pk, img).subscribe({
-          next: (newImg) => {
-            const updatedChar = state.character();
-            if (updatedChar == null) return;
-            updatedChar.images = replaceItem(
-              updatedChar.images ?? [],
-              newImg,
-              'pk',
-            );
-            patchState(state, { character: updatedChar });
-          },
-          error: (err: HttpErrorResponse) => {
-            if (err.status !== 401) return;
-            const serverModel: Image = err.error;
-            patchState(state, { imageServerModel: serverModel });
-          },
-        });
       },
       createQuote(quote: QuoteRaw) {
         quoteService

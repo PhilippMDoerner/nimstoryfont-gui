@@ -1,5 +1,5 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
@@ -34,6 +34,10 @@ export class CharacterPageComponent {
   imageServerModel$ = this.store.imageServerModel;
   encounterServerModel$ = this.store.encounterServerModel;
   hasWritePermission$ = this.store.hasWritePermission;
+
+  constructor() {
+    this.routeToOverviewOnMissingCharacter();
+  }
 
   onCharacterDelete() {
     this.store.deleteCharacter();
@@ -93,5 +97,16 @@ export class CharacterPageComponent {
 
   onDeleteEncounterConnection(connection: EncounterConnection) {
     this.store.deleteEncounterConnection(connection);
+  }
+
+  private routeToOverviewOnMissingCharacter() {
+    effect(() => {
+      const characterDoesNotExist = this.store.characterError()?.status === 404;
+      if (characterDoesNotExist) {
+        this.routingService.routeToPath('character-overview', {
+          campaign: this.globalStore.campaignName(),
+        });
+      }
+    });
   }
 }

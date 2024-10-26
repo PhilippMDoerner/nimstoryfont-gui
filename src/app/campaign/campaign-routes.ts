@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
-import { CampaignOverviewRoute, CampaignRoute } from '../_models/route';
+import { CampaignOverviewRoute } from '../_models/route';
 import { characterResolver } from '../_resolvers/character.resolver';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
 import { CampaignUpdatePageComponent } from './pages/campaign-update-page/campaign-update-page.component';
@@ -9,6 +9,8 @@ import { CharacterUpdatePageComponent } from './pages/character-create-update-pa
 import { CharacterCreateUpdateStore } from './pages/character-create-update-page/character-create-update-page.store';
 import { CharacterPageComponent } from './pages/character-page/character-page.component';
 import { CharacterStore } from './pages/character-page/character-page.store';
+import { CreaturePageComponent } from './pages/creature-page/creature-page.component';
+import { CreaturePageStore } from './pages/creature-page/creature-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 
@@ -75,7 +77,7 @@ const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
   },
 ];
 
-const innerCampaignRoutes: CampaignRoute[] = [
+const innerCampaignRoutes: Route[] = [
   //Campaign Admin Routes
   {
     path: `admin`,
@@ -96,44 +98,68 @@ const innerCampaignRoutes: CampaignRoute[] = [
   },
   // Character Routes
   {
-    path: 'character/create',
-    component: CharacterUpdatePageComponent,
-    data: { name: 'character-create', requiredMinimumRole: 'member' },
-    resolve: {
-      loadLocations: () =>
-        inject(CharacterCreateUpdateStore).loadCampaignLocations(),
-      loadOrganizations: () =>
-        inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
-      loadClasses: () => inject(CharacterCreateUpdateStore).loadPlayerClasses(),
-    },
+    path: 'character',
+    children: [
+      {
+        path: 'create',
+        component: CharacterUpdatePageComponent,
+        data: { name: 'character-create', requiredMinimumRole: 'member' },
+        resolve: {
+          loadLocations: () =>
+            inject(CharacterCreateUpdateStore).loadCampaignLocations(),
+          loadOrganizations: () =>
+            inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
+          loadClasses: () =>
+            inject(CharacterCreateUpdateStore).loadPlayerClasses(),
+        },
+      },
+      {
+        path: ':name',
+        component: CharacterPageComponent,
+        data: { name: 'character', requiredMinimumRole: 'guest' },
+        resolve: {
+          loadCharacters: () => inject(CharacterStore).loadCampaignCharacters(),
+          loadCharacter: characterResolver,
+          loadOrganizations: () =>
+            inject(CharacterStore).loadCampaignOrganizations(),
+          loadEncounters: () => inject(CharacterStore).loadCampaignEncounters(),
+          loadSessions: () => inject(CharacterStore).loadCampaignSessions(),
+          loadLocations: () => inject(CharacterStore).loadCampaignLocations(),
+        },
+      },
+      {
+        path: ':name/update',
+        component: CharacterUpdatePageComponent,
+        data: { name: 'character-update', requiredMinimumRole: 'guest' },
+        resolve: {
+          loadCharacter: (route: ActivatedRouteSnapshot) =>
+            inject(CharacterCreateUpdateStore).loadCharacter(
+              route.params['name'],
+            ),
+          loadLocations: () =>
+            inject(CharacterCreateUpdateStore).loadCampaignLocations(),
+          loadOrganizations: () =>
+            inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
+          loadClasses: () =>
+            inject(CharacterCreateUpdateStore).loadPlayerClasses(),
+        },
+      },
+    ],
   },
+  // Creature Routes
   {
-    path: 'character/:name',
-    component: CharacterPageComponent,
-    data: { name: 'character', requiredMinimumRole: 'guest' },
-    resolve: {
-      loadCharacters: () => inject(CharacterStore).loadCampaignCharacters(),
-      loadCharacter: characterResolver,
-      loadOrganizations: () =>
-        inject(CharacterStore).loadCampaignOrganizations(),
-      loadEncounters: () => inject(CharacterStore).loadCampaignEncounters(),
-      loadSessions: () => inject(CharacterStore).loadCampaignSessions(),
-      loadLocations: () => inject(CharacterStore).loadCampaignLocations(),
-    },
-  },
-  {
-    path: 'character/:name/update',
-    component: CharacterUpdatePageComponent,
-    data: { name: 'character-update', requiredMinimumRole: 'guest' },
-    resolve: {
-      loadCharacter: (route: ActivatedRouteSnapshot) =>
-        inject(CharacterCreateUpdateStore).loadCharacter(route.params['name']),
-      loadLocations: () =>
-        inject(CharacterCreateUpdateStore).loadCampaignLocations(),
-      loadOrganizations: () =>
-        inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
-      loadClasses: () => inject(CharacterCreateUpdateStore).loadPlayerClasses(),
-    },
+    path: 'creature',
+    children: [
+      {
+        path: ':name',
+        component: CreaturePageComponent,
+        data: { name: 'creature', requiredMinimumRole: 'guest' },
+        resolve: {
+          loadCreature: (route: ActivatedRouteSnapshot) =>
+            inject(CreaturePageStore).loadCreature(route.params['name']),
+        },
+      },
+    ],
   },
   // // Location Routes
   // {
@@ -196,7 +222,7 @@ const innerCampaignRoutes: CampaignRoute[] = [
 export const campaignRoutes = [
   {
     path: '',
-    children: [...innerCampaignRoutes, ...innerCampaignOverviewRoutes],
+    children: [...innerCampaignOverviewRoutes, ...innerCampaignRoutes],
     canActivate: [campaignGuard],
   },
 ];

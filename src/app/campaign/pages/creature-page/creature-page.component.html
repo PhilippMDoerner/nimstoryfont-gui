@@ -1,0 +1,16 @@
+@let creature = store.creature();
+
+@if (creature) {
+  <app-creature
+    [canCreate]="store.hasWritePermission()"
+    [canDelete]="store.hasWritePermission()"
+    [canUpdate]="store.hasWritePermission()"
+    [serverUrl]="serverUrl"
+    [creature]="creature"
+    [imageServerModel]="store.imageServerModel()"
+    (createImage)="store.createImage($event, creature.pk!)"
+    (updateImage)="store.updateImage($event)"
+    (deleteImage)="store.deleteImage($event.pk!)"
+    (creatureDelete)="deleteCreature($event)"
+  ></app-creature>
+}

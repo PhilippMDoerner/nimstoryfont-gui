@@ -1,44 +1,55 @@
 <app-page-container>
   <article class="container overview">
     <!-- Heading -->
-    <div *ngIf="overviewTypeName">
-      <h1 class="overview__page-heading">
-        <ng-container [ngSwitch]="overviewType">
-          <ng-container *ngSwitchCase="'CHARACTER'"> Characters </ng-container>
-          <ng-container *ngSwitchCase="'LOCATION'"> Locations </ng-container>
-          <ng-container *ngSwitchCase="'ITEM'"> Items </ng-container>
-          <ng-container *ngSwitchCase="'ORGANIZATION'">
-            Organizations
-          </ng-container>
-          <ng-container *ngSwitchCase="'CREATURE'"> Creatures </ng-container>
-          <ng-container *ngSwitchCase="'DIARYENTRY'">
-            Diaryentries
-          </ng-container>
-          <ng-container *ngSwitchDefault> Entries </ng-container>
-        </ng-container>
-      </h1>
-    </div>
+    @if (overviewTypeName) {
+      <div>
+        <h1 class="overview__page-heading">
+          @switch (overviewType) {
+            @case ("CHARACTER") {
+              Characters
+            }
+            @case ("LOCATION") {
+              Locations
+            }
+            @case ("ITEM") {
+              Items
+            }
+            @case ("ORGANIZATION") {
+              Organizations
+            }
+            @case ("CREATURE") {
+              Creatures
+            }
+            @case ("DIARYENTRY") {
+              Diaryentries
+            }
+            @default {
+              Entries
+            }
+          }
+        </h1>
+      </div>
+    }
 
     <div class="overview__subheading">
-      <ng-container [ngSwitch]="overviewType">
-        <ng-container *ngSwitchCase="'CHARACTER'">
+      @switch (overviewType) {
+        @case ("CHARACTER") {
           <ng-container
             [ngTemplateOutlet]="
               (playerCharacters?.length ?? 0 > 0)
                 ? characterHeading
                 : defaultHeading
             "
-          ></ng-container>
-        </ng-container>
-        <ng-container
-          *ngSwitchDefault
-          [ngTemplateOutlet]="defaultHeading"
-        ></ng-container>
-      </ng-container>
+          />
+        }
+        @default {
+          <ng-container [ngTemplateOutlet]="defaultHeading" />
+        }
+      }
     </div>
 
     <!-- Adding Item button -->
-    <ng-container *ngIf="canCreate">
+    @if (canCreate) {
       <div class="overview__create">
         <a [routerLink]="'create'">
           <app-button
@@ -48,23 +59,20 @@
           ></app-button>
         </a>
       </div>
-    </ng-container>
+    }
 
     <div class="row">
-      <ng-container [ngSwitch]="overviewType">
-        <ng-container
-          *ngSwitchCase="'CHARACTER'"
-          [ngTemplateOutlet]="characterBody"
-        ></ng-container>
-        <ng-container
-          *ngSwitchCase="'DIARYENTRY'"
-          [ngTemplateOutlet]="diaryentryBody"
-        ></ng-container>
-        <ng-container
-          *ngSwitchDefault
-          [ngTemplateOutlet]="defaultBody"
-        ></ng-container>
-      </ng-container>
+      @switch (overviewType) {
+        @case ("CHARACTER") {
+          <ng-container [ngTemplateOutlet]="characterBody" />
+        }
+        @case ("DIARYENTRY") {
+          <ng-container [ngTemplateOutlet]="diaryentryBody" />
+        }
+        @default {
+          <ng-container [ngTemplateOutlet]="defaultBody" />
+        }
+      }
     </div>
 
     <!-- Footer -->

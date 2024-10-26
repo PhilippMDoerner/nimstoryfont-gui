@@ -96,6 +96,18 @@ const innerCampaignRoutes: CampaignRoute[] = [
   },
   // Character Routes
   {
+    path: 'character/create',
+    component: CharacterUpdatePageComponent,
+    data: { name: 'character-create', requiredMinimumRole: 'member' },
+    resolve: {
+      loadLocations: () =>
+        inject(CharacterCreateUpdateStore).loadCampaignLocations(),
+      loadOrganizations: () =>
+        inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
+      loadClasses: () => inject(CharacterCreateUpdateStore).loadPlayerClasses(),
+    },
+  },
+  {
     path: 'character/:name',
     component: CharacterPageComponent,
     data: { name: 'character', requiredMinimumRole: 'guest' },

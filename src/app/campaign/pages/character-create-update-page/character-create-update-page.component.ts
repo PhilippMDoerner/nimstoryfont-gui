@@ -7,7 +7,7 @@ import {
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { filter, skip, take } from 'rxjs';
-import { CharacterDetails } from 'src/app/_models/character';
+import { CharacterDetails, CharacterRaw } from 'src/app/_models/character';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
 import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
@@ -46,6 +46,17 @@ export class CharacterUpdatePageComponent {
       return 'UPDATE';
     }
   });
+  userModel = computed(() => {
+    switch (this.state()) {
+      case 'CREATE':
+        return {
+          campaign_id: this.globalStore.currentCampaign()?.pk,
+        } as Partial<CharacterRaw>;
+      case 'UPDATE':
+      case 'OUTDATED_UPDATE':
+        return this.store.character();
+    }
+  });
 
   private characterQueryState$ = toObservable(this.store.characterQueryState);
 
@@ -79,8 +90,13 @@ export class CharacterUpdatePageComponent {
   }
 
   onCreateSubmit(newCharacter: CharacterDetails) {
+    this.characterQueryState$
+      .pipe(
+        filter((state) => state === 'success'),
+        take(1),
+      )
+      .subscribe(() => this.routeToCharacter(newCharacter));
     this.store.createCharacter(newCharacter);
-    this.routeToCharacter(newCharacter);
   }
 
   private routeToCharacter(character: CharacterDetails) {

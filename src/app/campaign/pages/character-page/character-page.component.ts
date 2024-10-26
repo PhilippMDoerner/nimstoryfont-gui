@@ -5,6 +5,7 @@ import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
 import { Quote, QuoteConnection } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { GlobalStore } from 'src/app/global.store';
 import { environment } from 'src/environments/environment';
 import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { CharacterStore } from './character-page.store';
@@ -18,6 +19,7 @@ import { CharacterStore } from './character-page.store';
 })
 export class CharacterPageComponent {
   store = inject(CharacterStore);
+  private globalStore = inject(GlobalStore);
   private routingService = inject(RoutingService);
 
   serverUrl = environment.backendDomain;
@@ -35,7 +37,9 @@ export class CharacterPageComponent {
 
   onCharacterDelete() {
     this.store.deleteCharacter();
-    this.routingService.routeToPath('character-overview');
+    this.routingService.routeToPath('character-overview', {
+      campaign: this.globalStore.campaignName(),
+    });
   }
 
   onCreateImage(img: Image) {

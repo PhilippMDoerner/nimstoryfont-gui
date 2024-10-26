@@ -43,11 +43,13 @@ export type ImageFeatureResult = {
     updateImage: (img: Image) => void;
   };
   state: {
-    imageServerModel?: Image;
+    imageServerModel: Image | undefined;
   };
 };
 
-const initialState: { imageServerModel?: Image } = {};
+const initialState: { imageServerModel: Image | undefined } = {
+  imageServerModel: undefined,
+};
 
 export function withImages<Input extends SignalStoreFeatureResult>(
   imageType: ImageType,

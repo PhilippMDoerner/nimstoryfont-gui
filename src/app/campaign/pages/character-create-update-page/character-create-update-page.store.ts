@@ -94,10 +94,14 @@ export const CharacterCreateUpdateStore = signalStore(
       ),
       createCharacter: rxMethod<CharacterRaw>(
         pipe(
+          tap(() => patchState(store, { characterQueryState: 'loading' })),
           switchMap((data) => characterService.create(data)),
           tapResponse({
             next: (createdData) =>
-              patchState(store, { character: createdData }),
+              patchState(store, {
+                character: createdData,
+                characterQueryState: 'success',
+              }),
             error: (err: HttpErrorResponse) =>
               handleError(store, err, warningService),
           }),

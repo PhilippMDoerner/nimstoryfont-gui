@@ -47,10 +47,7 @@ export class CharacterUpdatePageComponent {
     }
   });
 
-  private onUpdateSuccess$ = toObservable(this.store.characterQueryState).pipe(
-    skip(1),
-    filter((state) => state === 'success'),
-  );
+  private characterQueryState$ = toObservable(this.store.characterQueryState);
 
   addClass(classId: number | undefined) {
     this.store.addClass(classId as number);
@@ -72,8 +69,12 @@ export class CharacterUpdatePageComponent {
   onUpdateSubmit(newCharacter: CharacterDetails) {
     this.store.updateCharacter(newCharacter);
 
-    this.onUpdateSuccess$
-      .pipe(take(1))
+    this.characterQueryState$
+      .pipe(
+        skip(1),
+        filter((state) => state === 'success'),
+        take(1),
+      )
       .subscribe(() => this.routeToCharacter(newCharacter));
   }
 

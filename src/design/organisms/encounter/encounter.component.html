@@ -61,9 +61,12 @@
     <app-badge-list
       [entries]="badgeEntries()"
       [createOptions]="{
-        options: characters(),
-        valueProp: 'pk',
-        labelProp: 'name',
+        kind: 'SELECT',
+        config: {
+          options: characters(),
+          valueProp: 'pk',
+          labelProp: 'name',
+        },
       }"
       [canCreate]="canCreate()"
       [canDelete]="canDelete()"

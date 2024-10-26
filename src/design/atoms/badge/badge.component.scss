@@ -1,9 +1,18 @@
-.badge:hover{
-  color: inherit;
+.badge-button {
+  border-radius: var(--bs-border-radius);
+  &:focus,
+  &:focus-within,
+  &:hover {
+    outline: solid 3px var(--bs-link-hover-color);
+
+    .badge {
+      color: inherit;
+    }
+  }
 }
 
 .bg-warning,
 .bg-light,
-.bg-info{
+.bg-info {
   color: (var(--bs-black));
 }

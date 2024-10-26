@@ -7,7 +7,9 @@ import {
   Output,
   signal,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { map } from 'rxjs';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
@@ -55,6 +57,7 @@ export class EncounterComponent implements OnInit {
   });
   campaignName = computed(() => this.encounter()?.campaign_details?.name);
 
+  locations$ = toObservable(this.locations);
   formlyFields = computed<FormlyFieldConfig[]>(() => [
     this.formlyService.buildInputConfig({
       key: 'title',
@@ -65,7 +68,9 @@ export class EncounterComponent implements OnInit {
       label: 'Encounter Location',
       sortProp: 'name_full',
       campaign: this.campaignName(),
-      options$: sortByProp(this.locations(), 'name_full'),
+      options$: this.locations$.pipe(
+        map((locs) => sortByProp(locs, 'name_full')),
+      ),
       labelProp: 'name_full',
       required: false,
     }),

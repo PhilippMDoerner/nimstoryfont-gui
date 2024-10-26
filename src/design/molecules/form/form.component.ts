@@ -1,9 +1,9 @@
 import {
   Component,
+  computed,
   EventEmitter,
+  input,
   Input,
-  OnChanges,
-  OnInit,
   Output,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -17,14 +17,14 @@ import { ElementType, Icon } from '../../atoms';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent<T> implements OnInit, OnChanges {
+export class FormComponent<T> {
   form = new FormGroup({});
 
   @Input() model!: T;
-  @Input() fields!: FormlyFieldConfig[];
+  fields = input.required<FormlyFieldConfig[]>();
   @Input() enctype: string = 'application/x-www-form-urlencoded'; //Default form enctype in HTML5
   @Input() enableSubmitButtons: boolean = true;
-  @Input() disabled: boolean = false;
+  disabled = input(false);
   @Input() submitButtonType: ElementType = 'PRIMARY';
   @Input() cancelButtonType: ElementType = 'SECONDARY';
   @Input() submitIcon?: Icon;
@@ -32,53 +32,22 @@ export class FormComponent<T> implements OnInit, OnChanges {
   @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();
 
-  usedFields!: FormlyFieldConfig[];
-
-  ngOnInit(): void {
-    this.usedFields = this.copyFields(this.fields);
-
-    if (this.disabled) {
-      this.disableFields(this.usedFields);
-    }
-  }
-
-  ngOnChanges(): void {
-    this.usedFields = this.copyFields(this.fields);
-
-    if (this.disabled) {
-      this.disableFields(this.usedFields);
-    }
-  }
-
-  copyFields(fields: FormlyFieldConfig[]): FormlyFieldConfig[] {
-    return fields.map((field) => this.copyField(field));
-  }
-
-  copyField(field: FormlyFieldConfig): FormlyFieldConfig {
-    const newField: FormlyFieldConfig = JSON.parse(JSON.stringify(field));
-
-    const isSelectFieldWithObservable =
-      field.props?.options instanceof Observable;
-    if (isSelectFieldWithObservable) {
-      const properties = newField.props as FormlyFieldProps;
-      properties.options = field.props?.options;
-    }
-
-    return newField;
-  }
-
-  disableFields(fields: FormlyFieldConfig[]) {
-    for (let field of fields) {
-      const properties = field.props;
-
-      const canBeDisabled = properties != null;
-      if (!canBeDisabled) {
-        continue;
-      }
-
-      properties.disabled = true;
-    }
-  }
+  usedFields = computed<FormlyFieldConfig[]>(() => {
+    return this.fields().map((field) => {
+      const isSelectFieldWithObservable =
+        field.props?.options instanceof Observable;
+      const newProps = isSelectFieldWithObservable
+        ? (field.props as FormlyFieldProps).options
+        : field.props;
+      return {
+        ...field,
+        props: {
+          ...field.props,
+          disabled: this.disabled() ? true : undefined,
+        },
+      } satisfies FormlyFieldConfig;
+    });
+  });
 
   onSubmit(event: Event | undefined): void {
     event?.preventDefault(); //Prevent event from bubbling up

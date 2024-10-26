@@ -25,9 +25,12 @@
             [entries]="badgeEntries()"
             [label]="'Characters'"
             [createOptions]="{
-              options: campaignCharacters(),
-              labelProp: 'name',
-              valueProp: 'pk',
+              kind: 'SELECT',
+              config: {
+                options: campaignCharacters(),
+                labelProp: 'name',
+                valueProp: 'pk',
+              },
             }"
             [canCreate]="canCreate()"
             [canDelete]="canDelete()"

@@ -1,18 +1,27 @@
-<div 
-  class="badge"
-  [ngClass]="{
-    'bg-primary': type === 'PRIMARY',
-    'bg-secondary': type === 'SECONDARY',
-    'bg-dark': type === 'DARK',
-    'bg-danger': type === 'DANGER',
-    'bg-warning': type === 'WARNING',
-    'bg-light': type === 'LIGHT',
-    'bg-info': type === 'INFO',
-  }"
->
-  <app-icon 
-    *ngIf="icon"
-    [icon]="icon"
-  ></app-icon>
-  {{text}}
-</div>
+@if (clickable()) {
+  <button class="badge-button" (click)="badgeClick.emit()">
+    <ng-container [ngTemplateOutlet]="content" />
+  </button>
+} @else {
+  <ng-container [ngTemplateOutlet]="content" />
+}
+
+<ng-template #content>
+  <div
+    class="badge"
+    [ngClass]="{
+      'bg-primary': type === 'PRIMARY',
+      'bg-secondary': type === 'SECONDARY',
+      'bg-dark': type === 'DARK',
+      'bg-danger': type === 'DANGER',
+      'bg-warning': type === 'WARNING',
+      'bg-light': type === 'LIGHT',
+      'bg-info': type === 'INFO',
+    }"
+  >
+    @if (icon) {
+      <app-icon [icon]="icon"></app-icon>
+    }
+    {{ text }}
+  </div>
+</ng-template>

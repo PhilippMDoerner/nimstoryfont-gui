@@ -9,7 +9,6 @@ import {
   withState,
 } from '@ngrx/signals';
 import { firstValueFrom, Observable, shareReplay, take } from 'rxjs';
-import { log } from 'src/utils/logging';
 import { CampaignOverview } from './_models/campaign';
 import { Login } from './_models/login';
 import { CampaignRole, TokenData, UserData } from './_models/token';
@@ -166,7 +165,6 @@ export const GlobalStore = signalStore(
     const paramsService = inject(GlobalUrlParamsService);
     return {
       onInit: () => {
-        log('GlobalStore', store);
         const localUserData = TokenService.getUserData();
         patchState(store, { userData: localUserData });
         effect(() => tokenService.setUserData(store.userData()));

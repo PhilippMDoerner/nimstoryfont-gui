@@ -1,9 +1,12 @@
 import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
 import { CampaignOverviewRoute, CampaignRoute } from '../_models/route';
 import { characterResolver } from '../_resolvers/character.resolver';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
 import { CampaignUpdatePageComponent } from './pages/campaign-update-page/campaign-update-page.component';
+import { CharacterUpdatePageComponent } from './pages/character-create-update-page/character-create-update-page.component';
+import { CharacterCreateUpdateStore } from './pages/character-create-update-page/character-create-update-page.store';
 import { CharacterPageComponent } from './pages/character-page/character-page.component';
 import { CharacterStore } from './pages/character-page/character-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
@@ -106,12 +109,20 @@ const innerCampaignRoutes: CampaignRoute[] = [
       loadLocations: () => inject(CharacterStore).loadCampaignLocations(),
     },
   },
-  // {
-  //   path: 'character/:name/update',
-  //   component: CharacterUpdatePageComponent,
-  //   data: { name: 'character-update', requiredMinimumRole: 'guest' },
-  //   resolve: {},
-  // },
+  {
+    path: 'character/:name/update',
+    component: CharacterUpdatePageComponent,
+    data: { name: 'character-update', requiredMinimumRole: 'guest' },
+    resolve: {
+      loadCharacter: (route: ActivatedRouteSnapshot) =>
+        inject(CharacterCreateUpdateStore).loadCharacter(route.params['name']),
+      loadLocations: () =>
+        inject(CharacterCreateUpdateStore).loadCampaignLocations(),
+      loadOrganizations: () =>
+        inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
+      loadClasses: () => inject(CharacterCreateUpdateStore).loadPlayerClasses(),
+    },
+  },
   // // Location Routes
   // {
   //   path: 'location/:parent_name/:name',

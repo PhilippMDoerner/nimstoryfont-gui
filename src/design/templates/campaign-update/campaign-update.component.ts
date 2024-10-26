@@ -1,5 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Campaign } from 'src/app/_models/campaign';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
@@ -32,6 +33,7 @@ export class CampaignUpdateComponent {
   cancel = output<void>();
   update = output<Partial<Campaign>>();
 
+  mapOptions$ = toObservable(this.mapOptions);
   formlyFields = computed(() => [
     this.formlyService.buildInputConfig({
       key: 'name',
@@ -50,7 +52,7 @@ export class CampaignUpdateComponent {
       label: 'Default Map',
       valueProp: 'pk',
       labelProp: 'name',
-      options$: this.mapOptions(),
+      options$: this.mapOptions$,
       required: false,
     }),
     this.formlyService.buildFileFieldConfig({

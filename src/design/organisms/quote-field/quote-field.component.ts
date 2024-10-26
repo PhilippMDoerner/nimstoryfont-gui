@@ -8,6 +8,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
@@ -48,6 +49,8 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
     new EventEmitter();
   @Output() refreshQuote: EventEmitter<null> = new EventEmitter();
 
+  sessions$ = toObservable(this.sessions);
+  encounters$ = toObservable(this.encounters);
   state: QuoteState = 'DISPLAY';
   badgeEntries: BadgeListEntry<QuoteConnection>[] = [];
   campaignName!: string;
@@ -66,14 +69,14 @@ export class QuoteFieldComponent implements OnInit, OnChanges {
         key: 'session',
         required: true,
         campaign: this.campaignName,
-        options$: this.sessions(),
+        options$: this.sessions$,
         labelProp: 'name_full',
         valueProp: 'pk',
       }),
       this.formlyService.buildOverviewSelectConfig({
         key: 'encounter',
         required: false,
-        options$: this.encounters(),
+        options$: this.encounters$,
         campaign: this.campaignName,
         labelProp: 'name_full',
         valueProp: 'pk',

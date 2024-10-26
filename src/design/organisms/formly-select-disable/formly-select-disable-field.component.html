@@ -1,43 +1,42 @@
-<div class="field mb-3 {{field.className}}" [class.d-none]="to.hidden">
-
-  <label 
-    class="form-label"
-    [for]="'formly_disable_select_' + props.label" 
-  >
+<div class="field mb-3 {{ field.className }}" [class.d-none]="to.hidden">
+  <label class="form-label" [for]="'formly_disable_select_' + props.label">
     <app-info-circle-tooltip
       [text]="props.label + (props.required ? '*' : '')"
-      [tooltip]="props['tooltipMessage']"
+      [tooltip]="props['additionalProperties']['tooltipMessage']"
     ></app-info-circle-tooltip>
   </label>
-  
-  <ng-container *ngIf="!(isLoading$ | async); else loading">
-    <ng-container *ngIf="selectOptions$ as selectOptions">
-      <select 
+
+  @if (!(isLoading$ | async)) {
+    @let selectOptions = selectOptions$ | async;
+    @if (selectOptions) {
+      <select
         class="form-select"
-        [name]="'formly_disable_select_' + props.label" 
-        [id]="'formly_disable_select_' + props.label" 
+        [name]="'formly_disable_select_' + props.label"
+        [id]="'formly_disable_select_' + props.label"
         [required]="!!props.required"
-        [formControl]="formControl" 
+        [formControl]="formControl"
         [formlyAttributes]="field"
       >
-        <ng-container *ngFor="let option of selectOptions$ | async; let i = index">
-          <option 
-            [ngValue]="option.value[props['valueProp']]"
-            [disabled]="!option.enabled"
-            [selected]="option.value[props['valueProp']] === modelValue"
+        @for (entry of selectOptions; track entry) {
+          <option
+            [ngValue]="entry.option[props['valueProp']]"
+            [disabled]="!entry.enabled"
+            [selected]="entry.option[props['valueProp']] === modelValue"
           >
-            {{option.value[props['labelProp']]}}
+            {{ entry.option[props["labelProp"]] }}
           </option>
-        </ng-container>
+        }
       </select>
-    </ng-container>
-  </ng-container>
+    }
+  } @else {
+    <ng-container [ngTemplateOutlet]="loading" />
+  }
 
-  <ng-container *ngIf="hasInvalidOptionSelected$ | async">
-      <div class="warning">
-          {{ props['warningMessage'] }}
-      </div>
-  </ng-container>
+  @if (hasInvalidOptionSelected$ | async) {
+    <div class="warning">
+      {{ props["warningMessage"] }}
+    </div>
+  }
 </div>
 
 <ng-template #loading><app-spinner></app-spinner></ng-template>

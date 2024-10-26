@@ -16,9 +16,12 @@
       [canDelete]="canDelete"
       [entries]="userGroupEntries"
       [createOptions]="{
-        valueProp: 'id',
-        labelProp: 'name',
-        options: groups ?? [],
+        kind: 'SELECT',
+        config: {
+          valueProp: 'id',
+          labelProp: 'name',
+          options: groups ?? [],
+        },
       }"
       [label]="'Permission-Groups'"
       (entryCreate)="addGroup.emit($event)"

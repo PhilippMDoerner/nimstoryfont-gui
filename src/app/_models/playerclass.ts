@@ -5,7 +5,7 @@ export interface PlayerClass {
 }
 
 export interface CharacterPlayerClassConnectionRaw {
-  pk: number;
+  pk?: number;
   player_class: number;
   character: number;
 }

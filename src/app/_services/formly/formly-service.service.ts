@@ -14,6 +14,7 @@ import {
   FormlyCustomStringSelectConfig as FormlyStaticStringSelectConfig,
   StaticOption,
 } from 'src/app/_models/formly';
+import { FormlySelectDisableFieldComponent } from 'src/design/organisms';
 import { capitalize } from 'src/utils/string';
 
 @Injectable({
@@ -56,12 +57,28 @@ export class FormlyService {
   ): FormlyFieldConfig {
     const isRequiredField = config.required ?? true;
 
-    const options$ = isRequiredField
-      ? this.addEmptyOption(config.options$, config)
-      : config.options$;
+    const disableableOptions$ = config.options$.pipe(
+      map((options) =>
+        options.map((option) => {
+          return {
+            enabled: !config.disabledExpression(option) as boolean,
+            option,
+          };
+        }),
+      ),
+      map((options) => {
+        if (isRequiredField) {
+          return options;
+        } else {
+          return [
+            { enabled: true, option: this.createEmptyOption(config) },
+            ...options,
+          ];
+        }
+      }),
+    );
 
     const validators = this.getValidators(config);
-
     return {
       key: config.key,
       type: 'select-disable',
@@ -72,19 +89,18 @@ export class FormlyService {
         label: config.label ?? capitalize(config.key),
         labelProp: config.labelProp,
         valueProp: config.valueProp ?? 'pk',
-        options: options$,
+        options: disableableOptions$,
         required: config.required ?? true,
-        disabledExpression: config.disabledExpression,
-        tooltipMessage: config.tooltipMessage,
         warningMessage: config.warningMessage,
         additionalProperties: {
+          tooltipMessage: config.tooltipMessage ?? 'WHAT',
           showWrapperLabel: config.showWrapperLabel ?? true,
         },
       },
       validators: {
         validation: validators,
       },
-    };
+    } satisfies FormlyFieldConfig;
   }
 
   buildStaticSelectConfig(config: FormlyStaticSelectConfig): FormlyFieldConfig {
@@ -352,9 +368,11 @@ export class FormlyService {
 
   private createEmptyOption(config: FormlyOverviewSelectConfig) {
     const emptyOption: any = {};
-    emptyOption[config.labelProp] = '------';
+    emptyOption[config.labelProp] =
+      FormlySelectDisableFieldComponent.EMPTY_OPTION_LABEL;
     const valueProp: string = config.valueProp ?? config.key;
-    emptyOption[valueProp] = null;
+    emptyOption[valueProp] =
+      FormlySelectDisableFieldComponent.EMPTY_OPTION_VALUE;
     return emptyOption;
   }
 }

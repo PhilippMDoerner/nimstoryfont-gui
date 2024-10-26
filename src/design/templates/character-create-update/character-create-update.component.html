@@ -1,9 +1,7 @@
 <app-page-container>
   <article class="container create-update">
     <h1 class="create-update__heading heading">
-      <span class="heading__text">
-        {{ state() === "CREATE" ? "Create new Character" : "Update Character" }}
-      </span>
+      <span class="heading__text"> {{ heading() }} </span>
 
       <!-- Heading -->
       <div class="heading__edit-cancel">
@@ -16,20 +14,17 @@
     </h1>
 
     <!-- Form -->
-    <ng-container [ngSwitch]="state">
-      <ng-container
-        *ngSwitchCase="'CREATE'"
-        [ngTemplateOutlet]="createForm"
-      ></ng-container>
-      <ng-container
-        *ngSwitchCase="'UPDATE'"
-        [ngTemplateOutlet]="updateForm"
-      ></ng-container>
-      <ng-container
-        *ngSwitchCase="'OUTDATED_UPDATE'"
-        [ngTemplateOutlet]="outdatedUpdateForm"
-      ></ng-container>
-    </ng-container>
+    @switch (state()) {
+      @case ("CREATE") {
+        <ng-container [ngTemplateOutlet]="createForm" />
+      }
+      @case ("UPDATE") {
+        <ng-container [ngTemplateOutlet]="updateForm" />
+      }
+      @case ("OUTDATED_UPDATE") {
+        <ng-container [ngTemplateOutlet]="outdatedUpdateForm" />
+      }
+    }
   </article>
 </app-page-container>
 
@@ -48,17 +43,20 @@
     <div class="form__player-classes">
       <h4 class="form__heading">{{ userModel().name }}'s Classes</h4>
 
-      <app-separator class="form__heading-separator"></app-separator>
+      <app-separator class="form__heading-separator" />
 
       <!-- Add-Class-Badge -->
       <h6>
         <app-badge-list
           [label]="'Class'"
-          [entries]="characterClasses"
+          [entries]="characterClasses()"
           [createOptions]="{
-            options: classOptions(),
-            valueProp: 'pk',
-            labelProp: 'name',
+            kind: 'SELECT',
+            config: {
+              options: classOptions(),
+              valueProp: 'pk',
+              labelProp: 'name',
+            },
           }"
           [canCreate]="true"
           [canDelete]="true"
@@ -71,22 +69,20 @@
     <!-- Memberships -->
     <div class="form__memberships">
       <!-- Form -->
-      <ng-container [ngSwitch]="membershipFormState">
-        <ng-container
-          *ngSwitchCase="'CREATE'"
-          [ngTemplateOutlet]="createMembershipForm"
-        ></ng-container>
-        <ng-container
-          *ngSwitchCase="'DISPLAY'"
-          [ngTemplateOutlet]="displayMembershipForm"
-        ></ng-container>
-      </ng-container>
+      @switch (membershipFormState()) {
+        @case ("DISPLAY") {
+          <ng-container [ngTemplateOutlet]="displayMembershipForm" />
+        }
+        @case ("CREATE") {
+          <ng-container [ngTemplateOutlet]="createMembershipForm" />
+        }
+      }
     </div>
 
     <div class="form__character-data">
       <h4 class="form__heading">Character Data</h4>
 
-      <app-separator class="form__heading-separator"></app-separator>
+      <app-separator class="form__heading-separator" />
 
       <app-form
         [model]="userModel()"
@@ -101,13 +97,13 @@
 <ng-template #createMembershipForm>
   <h4 class="form__heading">Create Organization Membership</h4>
 
-  <app-separator class="form__heading-separator"></app-separator>
+  <app-separator class="form__heading-separator" />
 
   <app-form
-    [model]="organizationModel"
-    [fields]="organizationFormlyFields"
+    [model]="organizationModel()"
+    [fields]="organizationFormlyFields()"
     (formlySubmit)="createMembership($event)"
-    (formlyCancel)="setMembershipFormState('DISPLAY')"
+    (formlyCancel)="membershipFormState.set('DISPLAY')"
   ></app-form>
 </ng-template>
 
@@ -116,12 +112,12 @@
     {{ userModel().name }}'s Organization Memberships
   </h4>
 
-  <app-separator class="form__heading-separator"></app-separator>
+  <app-separator class="form__heading-separator" />
 
   <h6>
     <app-badge-list
       [label]="'Membership'"
-      [entries]="characterOrganizations"
+      [entries]="characterOrganizations()"
       [canCreate]="false"
       [canDelete]="true"
       (entryCreate)="addOrganizationMembership.emit($event)"
@@ -131,7 +127,8 @@
       [text]="'Add Membership'"
       [type]="'PRIMARY'"
       [icon]="'plus'"
-      (click)="setMembershipFormState('CREATE')"
+      [clickable]="true"
+      (badgeClick)="membershipFormState.set('CREATE')"
     ></app-badge>
   </h6>
 </ng-template>

@@ -8,7 +8,9 @@ import {
   Output,
   Signal,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { map } from 'rxjs';
 import { Campaign, WikiStatistics } from 'src/app/_models/campaign';
 import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { CampaignRole } from 'src/app/_models/token';
@@ -41,7 +43,7 @@ export class CampaignAdminComponent implements OnChanges {
 
   updateUrl!: string;
   homeUrl!: string;
-
+  users$ = toObservable(this.users).pipe(map((x) => x ?? []));
   memberModel!: Partial<User>;
   showMemberAddForm: boolean = false;
   memberTooltip: string = `Allows creating, reading, updating and deleting articles in this campaign. Also makes the person a possible "author" for diaryentries.`;
@@ -51,7 +53,7 @@ export class CampaignAdminComponent implements OnChanges {
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
-      options$: this.users() ?? [],
+      options$: this.users$,
       disabledExpression: (selectOption: User) =>
         this.isInGroup(selectOption, this.campaign.member_group_name),
       tooltipMessage:
@@ -70,7 +72,7 @@ export class CampaignAdminComponent implements OnChanges {
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
-      options$: this.users() ?? [],
+      options$: this.users$,
       disabledExpression: (selectOption: User) =>
         this.isInGroup(selectOption, this.campaign.admin_group_name),
       tooltipMessage:
@@ -88,7 +90,7 @@ export class CampaignAdminComponent implements OnChanges {
       labelProp: 'username',
       sortProp: 'username',
       label: 'User',
-      options$: this.users() ?? [],
+      options$: this.users$,
       disabledExpression: (selectOption: User) => {
         const isAdmin = this.isInGroup(
           selectOption,

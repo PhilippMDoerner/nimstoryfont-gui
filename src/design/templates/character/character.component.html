@@ -87,9 +87,12 @@
         [label]="'Organizations'"
         [entries]="organizationMemberships()"
         [createOptions]="{
-          options: campaignOrganizations(),
-          labelProp: 'name',
-          valueProp: 'pk',
+          kind: 'SELECT',
+          config: {
+            options: joinableOrganizations(),
+            labelProp: 'name',
+            valueProp: 'pk',
+          },
         }"
         (entryCreate)="onMembershipCreate($event)"
         (entryDelete)="organizationMembershipDelete.emit($event)"

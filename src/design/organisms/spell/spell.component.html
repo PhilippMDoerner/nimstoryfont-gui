@@ -20,9 +20,9 @@
         ></ng-container>
       </ng-container>
     </span>
-    
+
     <ng-container *ngIf="canUpdate">
-      <app-edit-toggle 
+      <app-edit-toggle
         *ngIf="canUpdate"
         [buttonType]="'DARK'"
         [toggled]="state !== 'DISPLAY'"
@@ -30,7 +30,7 @@
       ></app-edit-toggle>
     </ng-container>
   </h4>
-  
+
   <ng-container [ngSwitch]="state">
     <ng-container
       *ngSwitchCase="'DISPLAY'"
@@ -61,11 +61,11 @@
     <div class="row spell">
       <!-- Spell Level -->
       <div class="col-md-3 col-6 spell__entry">
-        <strong class="spell__heading">
-          SPELL LEVEL
-        </strong>
+        <strong class="spell__heading"> SPELL LEVEL </strong>
         <div class="spell__body">
-          <ng-container *ngIf="spell?.spell_level != null; else inputPlaceholder">
+          <ng-container
+            *ngIf="spell?.spell_level != null; else inputPlaceholder"
+          >
             {{ spell?.spell_level }}
           </ng-container>
         </div>
@@ -73,11 +73,11 @@
 
       <!-- Casting Time -->
       <div class="col-md-3 col-6 spell__entry">
-        <strong class="spell__heading">
-          CASTING TIME
-        </strong>
+        <strong class="spell__heading"> CASTING TIME </strong>
         <div class="spell__body">
-          <ng-container *ngIf="spell?.casting_time != null; else inputPlaceholder">
+          <ng-container
+            *ngIf="spell?.casting_time != null; else inputPlaceholder"
+          >
             {{ spell?.casting_time }}
           </ng-container>
         </div>
@@ -85,9 +85,7 @@
 
       <!-- Range/Area -->
       <div class="col-md-3 col-6 spell__entry">
-        <strong class="spell__heading">
-          RANGE/AREA
-        </strong>
+        <strong class="spell__heading"> RANGE/AREA </strong>
         <div class="spell__body">
           <ng-container *ngIf="spell?.range != null; else inputPlaceholder">
             {{ spell?.range }}
@@ -97,11 +95,11 @@
 
       <!-- Components -->
       <div class="col-md-3 col-6 spell__entry">
-        <strong class="spell__heading">
-          COMPONENTS
-        </strong>
+        <strong class="spell__heading"> COMPONENTS </strong>
         <div class="spell__body">
-          <ng-container *ngIf="spell?.components != null; else inputPlaceholder">
+          <ng-container
+            *ngIf="spell?.components != null; else inputPlaceholder"
+          >
             {{ spell?.components }}
           </ng-container>
         </div>
@@ -109,9 +107,7 @@
 
       <!-- Duration -->
       <div class="col-md-3 col-6 spell__entry">
-        <strong class="spell__heading">
-          DURATION
-        </strong>
+        <strong class="spell__heading"> DURATION </strong>
         <div class="spell__body">
           <ng-container *ngIf="spell?.duration != null; else inputPlaceholder">
             {{ spell?.duration }}
@@ -131,11 +127,11 @@
 
       <!-- Attack/Save -->
       <div class="col-md-3 col-6 spell__entry">
-        <strong class="spell__heading">
-          ATTACK/SAVE
-        </strong>
+        <strong class="spell__heading"> ATTACK/SAVE </strong>
         <div class="spell__body">
-          <ng-container *ngIf="spell?.saving_throw != null; else inputPlaceholder">
+          <ng-container
+            *ngIf="spell?.saving_throw != null; else inputPlaceholder"
+          >
             {{ spell?.saving_throw }}
           </ng-container>
         </div>
@@ -146,7 +142,7 @@
         <strong class="spell__heading">EFFECT</strong>
         <div class="spell__body">
           <ng-container *ngIf="spell?.damage != null; else inputPlaceholder">
-            {{ spell?.damage}}
+            {{ spell?.damage }}
           </ng-container>
         </div>
       </div>
@@ -160,14 +156,17 @@
       </div>
     </div>
   </div>
-  
+
   <app-separator></app-separator>
-  
+
   <app-badge-list
     [createOptions]="{
-      options: playerClasses,
-      labelProp: 'name',
-      valueProp: 'pk',
+      kind: 'SELECT',
+      config: {
+        options: playerClasses,
+        labelProp: 'name',
+        valueProp: 'pk',
+      },
     }"
     [entries]="playerClassConnections"
     [canCreate]="canCreate"
@@ -176,7 +175,7 @@
     (entryDelete)="connectionDelete.emit($event)"
     (entryCreate)="onConnectionCreate($event)"
   ></app-badge-list>
-  
+
   <!-- Delete Toggler -->
   <ng-container *ngIf="canDelete">
     <app-confirmation-toggle-button
@@ -189,33 +188,29 @@
   </ng-container>
 </ng-template>
 
-<ng-template #updateHeading>
-  Update '{{spell?.name}}'
-</ng-template>
+<ng-template #updateHeading> Update '{{ spell?.name }}' </ng-template>
 
 <ng-template #updateBody>
-  <app-form 
-    [model]="userModel" 
+  <app-form
+    [model]="userModel"
     [fields]="formlyFields"
     [cancelButtonType]="cancelButtonType"
     [submitButtonType]="submitButtonType"
-    (formlySubmit)="onSpellUpdate($event)" 
+    (formlySubmit)="onSpellUpdate($event)"
     (formlyCancel)="changeState('DISPLAY', undefined)"
   ></app-form>
 </ng-template>
 
-<ng-template #createHeading>
-  Create new Spell
-</ng-template>
+<ng-template #createHeading> Create new Spell </ng-template>
 
 <ng-template #createBody>
   <ng-container *ngIf="canCreate">
-    <app-form 
-      [model]="userModel" 
-      [fields]="formlyFields" 
+    <app-form
+      [model]="userModel"
+      [fields]="formlyFields"
       [cancelButtonType]="cancelButtonType"
       [submitButtonType]="submitButtonType"
-      (formlySubmit)="onSpellCreate($event)" 
+      (formlySubmit)="onSpellCreate($event)"
       (formlyCancel)="onSpellCreateCancel()"
     ></app-form>
   </ng-container>
@@ -229,11 +224,9 @@
     [displayVertically]="true"
     (formlySubmit)="onSpellUpdate($event)"
     (formlyCancel)="changeState('DISPLAY', undefined)"
-  ></app-compare-form>    
+  ></app-compare-form>
 </ng-template>
 
 <ng-template #inputPlaceholder>
-  <div class="placeholder">
-    Placeholder
-  </div>
+  <div class="placeholder">Placeholder</div>
 </ng-template>

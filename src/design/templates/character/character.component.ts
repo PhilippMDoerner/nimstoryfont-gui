@@ -104,6 +104,14 @@ export class CharacterComponent {
         this.toBadgeListEntry(org),
       ) ?? [],
   );
+  joinableOrganizations = computed(() => {
+    const joinedOrgIds = this.organizationMemberships().map(
+      (membership) => membership.badgeValue.organization_id,
+    );
+    return this.campaignOrganizations().filter(
+      (org) => org.pk && !joinedOrgIds.includes(org.pk),
+    );
+  });
   characterItems = computed<ListEntry[]>(
     () => this.character().items?.map((item) => this.toListEntry(item)) ?? [],
   );

@@ -10,6 +10,16 @@ import { BadgeListEntry, BadgeListSelectOptions } from '../_models/badge-list';
 
 type CreateBadgeKind = 'LINK' | 'SELECT' | 'NONE';
 
+type LinkCreateOptions = { kind: 'LINK'; link: string };
+type BadgeCreateOptions<T> = {
+  kind: 'SELECT';
+  config: BadgeListSelectOptions<T>;
+};
+type CreateOptions<T> =
+  | BadgeCreateOptions<T>
+  | LinkCreateOptions
+  | { kind: 'NONE' };
+
 @Component({
   selector: 'app-badge-list',
   templateUrl: './badge-list.component.html',
@@ -17,7 +27,7 @@ type CreateBadgeKind = 'LINK' | 'SELECT' | 'NONE';
 })
 export class BadgeListComponent<T, O> {
   entries = input.required<BadgeListEntry<T>[]>();
-  createOptions = input<BadgeListSelectOptions<O> | string>();
+  createOptions = input<CreateOptions<O>>();
   label = input('Entry');
   canCreate = input(false);
   canDelete = input(false);
@@ -27,40 +37,27 @@ export class BadgeListComponent<T, O> {
   @Output() entryDelete: EventEmitter<T> = new EventEmitter();
   @Output() entryCreate: EventEmitter<O> = new EventEmitter();
 
-  createKind = computed(() => this.toCreateKind(this.createOptions()));
+  createKind = computed(() => this.createOptions()?.kind);
   createLink = computed(() =>
-    this.createKind() === 'LINK' ? (this.createOptions() as string) : undefined,
+    this.createKind() === 'LINK'
+      ? (this.createOptions() as LinkCreateOptions).link
+      : undefined,
   );
   options = computed(() =>
     this.createKind() === 'SELECT'
-      ? (this.createOptions() as BadgeListSelectOptions<O>).options
+      ? (this.createOptions() as BadgeCreateOptions<O>).config.options
       : undefined,
   );
   optionLabelProp = computed(() =>
     this.createKind() === 'SELECT'
-      ? (this.createOptions() as BadgeListSelectOptions<O>).labelProp
+      ? (this.createOptions() as BadgeCreateOptions<O>).config.labelProp
       : undefined,
   );
   optionValueProp = computed(() =>
     this.createKind() === 'SELECT'
-      ? (this.createOptions() as BadgeListSelectOptions<O>).valueProp
+      ? (this.createOptions() as BadgeCreateOptions<O>).config.valueProp
       : undefined,
   );
-
-  private toCreateKind(
-    createOptions: BadgeListSelectOptions<O> | string | undefined,
-  ): CreateBadgeKind {
-    if (createOptions == undefined) {
-      return 'NONE';
-    }
-
-    const isCreateByLink = typeof createOptions === 'string';
-    if (isCreateByLink) {
-      return 'LINK';
-    }
-
-    return 'SELECT';
-  }
 
   onEntryDelete(entry: BadgeListEntry<T>) {
     if (!this.canDelete()) {

@@ -1,12 +1,13 @@
 <form class="form" [formGroup]="form" [enctype]="enctype">
   <formly-form
     [form]="form"
-    [fields]="usedFields"
+    [fields]="usedFields()"
     [model]="model"
     [options]="{}"
+    (keyup.enter)="onSubmit(undefined)"
   ></formly-form>
 
-  <ng-container *ngIf="!disabled && enableSubmitButtons">
+  @if (!disabled() && enableSubmitButtons) {
     <div class="form__button-container">
       <!-- Cancel Button -->
       <app-button
@@ -22,7 +23,7 @@
         *ngIf="form.valid; then activeSubmitButton; else inactiveSubmitButton"
       ></ng-container>
     </div>
-  </ng-container>
+  }
 </form>
 
 <ng-template #activeSubmitButton>

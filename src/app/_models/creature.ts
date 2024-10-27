@@ -9,6 +9,5 @@ export interface Creature extends ArticleObject {
 
 export interface CreatureRaw {
   name: string;
-  description: string;
   campaign: number;
 }

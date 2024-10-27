@@ -41,7 +41,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Creatures'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + creature.name + '?'"
+      [deleteMessage]="'Delete ' + creature().name + '?'"
       (delete)="creatureDelete.emit(creature())"
     ></app-article-footer>
   </article>

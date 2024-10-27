@@ -11,6 +11,8 @@ import { CharacterPageComponent } from './pages/character-page/character-page.co
 import { CharacterStore } from './pages/character-page/character-page.store';
 import { CreaturePageComponent } from './pages/creature-page/creature-page.component';
 import { CreaturePageStore } from './pages/creature-page/creature-page.store';
+import { CreatureUpdateCreateComponent } from './pages/creature-update-create-page/creature-update-create-page.component';
+import { CreatureUpdateCreateStore } from './pages/creature-update-create-page/creature-update-create-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 
@@ -147,9 +149,16 @@ const innerCampaignRoutes: Route[] = [
     ],
   },
   // Creature Routes
+
   {
     path: 'creature',
     children: [
+      {
+        path: 'create',
+        component: CreatureUpdateCreateComponent,
+        data: { name: 'creature-create', requiredMinimumRole: 'member' },
+        resolve: {},
+      },
       {
         path: ':name',
         component: CreaturePageComponent,
@@ -157,6 +166,17 @@ const innerCampaignRoutes: Route[] = [
         resolve: {
           loadCreature: (route: ActivatedRouteSnapshot) =>
             inject(CreaturePageStore).loadCreature(route.params['name']),
+        },
+      },
+      {
+        path: ':name/update',
+        component: CreatureUpdateCreateComponent,
+        data: { name: 'creature-update', requiredMinimumRole: 'member' },
+        resolve: {
+          loadCreature: (route: ActivatedRouteSnapshot) =>
+            inject(CreatureUpdateCreateStore).loadCreature(
+              route.params['name'],
+            ),
         },
       },
     ],

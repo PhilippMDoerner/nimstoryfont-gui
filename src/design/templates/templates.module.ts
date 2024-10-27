@@ -27,8 +27,6 @@ import { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 import { SiteAdminComponent } from './site-admin/site-admin.component';
 import { SpellsTemplateComponent } from './spells-template/spells-template.component';
 
-
-
 @NgModule({
   declarations: [
     MapComponent,
@@ -56,11 +54,7 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     SiteAdminComponent,
     LoginComponent,
   ],
-  imports: [
-    CommonModule,
-    OrganismsModule,
-    FormlyModule,
-  ],
+  imports: [CommonModule, OrganismsModule, FormlyModule],
   exports: [
     MapComponent,
     CharacterComponent,
@@ -87,6 +81,6 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     SiteAdminComponent,
     OrganismsModule,
     LoginComponent,
-  ]
+  ],
 })
-export class TemplatesModule { }
+export class TemplatesModule {}

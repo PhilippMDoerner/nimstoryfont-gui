@@ -46,6 +46,7 @@ export class CharacterUpdatePageComponent {
       return 'UPDATE';
     }
   });
+
   userModel = computed(() => {
     switch (this.state()) {
       case 'CREATE':

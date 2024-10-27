@@ -21,4 +21,3 @@ export { SearchComponent } from './search/search.component';
 export { SessionaudioComponent } from './sessionaudio/sessionaudio.component';
 export { SiteAdminComponent } from './site-admin/site-admin.component';
 export { SpellsTemplateComponent } from './spells-template/spells-template.component';
-

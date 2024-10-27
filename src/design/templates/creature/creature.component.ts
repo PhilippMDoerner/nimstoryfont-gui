@@ -37,7 +37,7 @@ export class CreatureComponent {
   updateUrl = computed(() =>
     this.routingService.getRoutePath('creature-update', {
       campaign: this.campaignName(),
-      name: this.creature.name,
+      name: this.creature().name,
     }),
   );
 

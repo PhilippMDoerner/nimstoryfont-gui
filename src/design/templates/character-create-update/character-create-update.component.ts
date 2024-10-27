@@ -89,9 +89,6 @@ export class CharacterCreateUpdateComponent {
       required: false,
       options$: this.lastVisitedPlaceOptions$,
     }),
-    this.formlyService.buildEditorConfig({
-      key: 'description',
-    }),
   ]);
 
   organizationModel = signal<Partial<OrganizationMembership>>({});

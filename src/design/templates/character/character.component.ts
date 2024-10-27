@@ -3,6 +3,7 @@ import {
   computed,
   EventEmitter,
   input,
+  output,
   Output,
 } from '@angular/core';
 import {
@@ -59,6 +60,7 @@ export class CharacterComponent {
     new EventEmitter();
   @Output() refreshQuote = new EventEmitter<void>();
   @Output() characterDelete = new EventEmitter<CharacterDetails>();
+  characterUpdate = output<CharacterDetails>();
   @Output() encounterDelete = new EventEmitter<CharacterEncounter>();
   @Output() encounterUpdate = new EventEmitter<CharacterEncounter>();
   @Output()
@@ -142,6 +144,10 @@ export class CharacterComponent {
     this.organizationMembershipCreate.emit(
       newMembership as CharacterOrganizationMembership,
     );
+  }
+
+  onDescriptionUpdate(description: string): void {
+    this.characterUpdate.emit({ ...this.character(), description });
   }
 
   private toBadgeListEntry(

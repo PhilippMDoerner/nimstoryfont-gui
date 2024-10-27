@@ -1,34 +1,37 @@
-.character{
-  &__edit-container{
+.character {
+  &__edit-container {
     width: 100%;
     display: flex;
     justify-content: flex-end;
   }
-  
-  &__heading{
+
+  &__heading {
     text-align: center;
   }
-  
-  &__subheading{
+
+  &__subheading {
     margin-bottom: var(--spacer-3);
     text-align: center;
   }
-  
-  &__images{
+
+  &__images {
     margin-bottom: var(--spacer-3);
   }
-  
-  &__quote{
+
+  &__quote {
     margin-bottom: var(--spacer-5);
   }
-  
-  &__description{
+
+  &__organizations {
+    margin-bottom: var(--spacer-3);
+  }
+
+  &__description {
+    width: 100%;
     margin-bottom: var(--spacer-5);
   }
-  
-  &__items{
+
+  &__items {
     margin-bottom: var(--spacer-5);
   }
-  
-  
 }

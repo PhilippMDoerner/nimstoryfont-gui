@@ -2,13 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormlyModule } from '@ngx-formly/core';
 import { OrganismsModule } from '../organisms';
+import { EditableTextComponent } from '../organisms/editable-text/editable-text.component';
 import { CampaignAdminComponent } from './campaign-admin/campaign-admin.component';
 import { CampaignOverviewComponent } from './campaign-overview/campaign-overview.component';
 import { CharacterCreateUpdateComponent } from './character-create-update/character-create-update.component';
 import { CharacterComponent } from './character/character.component';
 import { ConfigTablesComponent } from './config-tables/config-tables.component';
 import { CreateUpdateComponent } from './create-update/create-update.component';
-import { CreatureComponent } from './creature/creature.component';
 import { DiaryentryComponent } from './diaryentry/diaryentry.component';
 import { GeneralOverviewComponent } from './general-overview/general-overview.component';
 import { HomeComponent } from './home/home.component';
@@ -31,7 +31,6 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
   declarations: [
     MapComponent,
     CharacterComponent,
-    CreatureComponent,
     DiaryentryComponent,
     ItemComponent,
     LocationTemplateComponent,
@@ -54,11 +53,10 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     SiteAdminComponent,
     LoginComponent,
   ],
-  imports: [CommonModule, OrganismsModule, FormlyModule],
+  imports: [CommonModule, OrganismsModule, FormlyModule, EditableTextComponent],
   exports: [
     MapComponent,
     CharacterComponent,
-    CreatureComponent,
     DiaryentryComponent,
     ItemComponent,
     LocationTemplateComponent,

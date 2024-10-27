@@ -99,10 +99,13 @@
       ></app-badge-list>
     </div>
 
-    <div class="character__description">
-      <h4>Description</h4>
-      <app-html-text [text]="character().description"></app-html-text>
-    </div>
+    <app-editable-text
+      class="character__description"
+      [heading]="'Description'"
+      [placeholder]="'Add a description for ' + character().name"
+      [text]="character().description"
+      (update)="onDescriptionUpdate($event)"
+    ></app-editable-text>
 
     <div class="character__items">
       <app-list

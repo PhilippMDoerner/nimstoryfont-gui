@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { tapResponse } from '@ngrx/operators';
 import {
   patchState,
   signalStore,
@@ -8,7 +9,16 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { distinctUntilChanged, map, shareReplay, switchMap, take } from 'rxjs';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import {
+  distinctUntilChanged,
+  map,
+  pipe,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import {
   CharacterDetails,
   CharacterEncounter,
@@ -26,12 +36,12 @@ import { OrganizationService } from 'src/app/_services/article/organization.serv
 import { QuoteConnectionService } from 'src/app/_services/article/quote-connection.service';
 import { QuoteService } from 'src/app/_services/article/quote.service';
 import { SessionService } from 'src/app/_services/article/session.service';
+import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
 import { findByProp, removeByProp, replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withImages } from 'src/utils/store/withImages';
 import { withQueries } from 'src/utils/store/withQueries';
-
 export interface CharacterPageState {
   encounterServerModel: Encounter | undefined;
   characterQuote: Quote | undefined;
@@ -142,6 +152,7 @@ export const CharacterStore = signalStore(
     const encounterService = inject(EncounterService);
     const quoteConnectionService = inject(QuoteConnectionService);
     const encounterConnectionService = inject(EncounterConnectionService);
+    const warningsService = inject(WarningsService);
 
     return {
       deleteCharacter: () => {
@@ -152,6 +163,18 @@ export const CharacterStore = signalStore(
           .pipe(take(1))
           .subscribe(() => patchState(state, { character: undefined }));
       },
+      updateCharacter: rxMethod<CharacterDetails>(
+        pipe(
+          tap((character) => patchState(state, { character })),
+          switchMap((character) =>
+            characterService.update(character?.pk!, character),
+          ),
+          tapResponse({
+            next: () => patchState(state, { characterQueryState: 'success' }),
+            error: warningsService.showWarning,
+          }),
+        ),
+      ),
       createQuote(quote: QuoteRaw) {
         quoteService
           .create(quote)

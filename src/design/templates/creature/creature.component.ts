@@ -3,16 +3,21 @@ import {
   computed,
   EventEmitter,
   input,
+  output,
   Output,
 } from '@angular/core';
 import { Creature } from 'src/app/_models/creature';
 import { Image } from 'src/app/_models/image';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { OrganismsModule } from 'src/design/organisms';
+import { EditableTextComponent } from 'src/design/organisms/editable-text/editable-text.component';
 
 @Component({
   selector: 'app-creature',
   templateUrl: './creature.component.html',
   styleUrls: ['./creature.component.scss'],
+  standalone: true,
+  imports: [OrganismsModule, EditableTextComponent],
 })
 export class CreatureComponent {
   creature = input.required<Creature>();
@@ -22,6 +27,7 @@ export class CreatureComponent {
   canDelete = input(false);
   imageServerModel = input<Image>();
 
+  creatureUpdate = output<Creature>();
   @Output() creatureDelete: EventEmitter<Creature> = new EventEmitter();
   @Output() createImage: EventEmitter<Image> = new EventEmitter();
   @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
@@ -40,6 +46,10 @@ export class CreatureComponent {
       name: this.creature().name,
     }),
   );
+
+  onDescriptionUpdate(description: string): void {
+    this.creatureUpdate.emit({ ...this.creature(), description });
+  }
 
   constructor(private routingService: RoutingService) {}
 }

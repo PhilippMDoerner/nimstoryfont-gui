@@ -16,7 +16,9 @@
     border-top-right-radius: unset;
     border-bottom-right-radius: unset;
     padding-right: var(--inner-badge-padding);
-    &:focus {
+    &:focus,
+    &:focus-within,
+    &:hover {
       outline: solid 3px var(--bs-link-hover-color);
     }
   }
@@ -28,7 +30,9 @@
     padding-right: var(--inner-badge-padding);
     border-left: 1.5px solid var(--bs-white);
 
-    &:focus {
+    &:focus,
+    &:focus-within,
+    &:hover {
       outline: solid 3px var(--bs-link-hover-color);
     }
   }

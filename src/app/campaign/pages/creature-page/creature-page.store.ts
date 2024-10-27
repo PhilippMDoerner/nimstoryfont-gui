@@ -93,6 +93,21 @@ export const CreaturePageStore = signalStore(
           }),
         ),
       ),
+      updateCreature: rxMethod<Creature>(
+        pipe(
+          tap((creature) => patchState(store, { creature })),
+          switchMap((creature) =>
+            creatureService.update(creature.pk!, creature),
+          ),
+          tapResponse({
+            next: () =>
+              patchState(store, {
+                creatureQueryState: 'success',
+              }),
+            error: warningService.showWarning,
+          }),
+        ),
+      ),
     };
   }),
 );

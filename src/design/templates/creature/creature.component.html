@@ -31,10 +31,13 @@
     </div>
 
     <!-- Description -->
-    <div class="creature__description">
-      <h4>Description</h4>
-      <app-html-text [text]="creature().description"></app-html-text>
-    </div>
+    <app-editable-text
+      class="creature__description"
+      [heading]="'Description'"
+      [placeholder]="'Add a description for ' + creature().name"
+      [text]="creature().description"
+      (update)="onDescriptionUpdate($event)"
+    ></app-editable-text>
 
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer

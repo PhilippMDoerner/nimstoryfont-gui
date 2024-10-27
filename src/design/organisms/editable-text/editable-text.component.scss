@@ -1,0 +1,33 @@
+:host {
+  display: inline-block;
+}
+
+.heading {
+  margin-bottom: var(--spacer-2);
+}
+
+.field {
+  text-align: unset;
+  border-radius: var(--bs-border-radius);
+
+  &--display {
+    min-height: 1rem;
+    width: 100%;
+
+    &:focus,
+    &:hover {
+      color: unset;
+      background-color: var(--bs-secondary);
+    }
+  }
+
+  &--hidden {
+    display: none;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacer-3);
+  }
+}

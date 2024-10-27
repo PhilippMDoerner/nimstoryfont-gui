@@ -6,6 +6,7 @@ export { EncounterComponent } from './encounter/encounter.component';
 export { FilterListComponent } from './filter-list/filter-list.component';
 export { FormlyDatepickerFieldComponent } from './formly-datepicker-field/formly-datepicker-field.component';
 export { FormlyEditorFieldComponent } from './formly-editor-field/formly-editor-field.component';
+export { TINYMCE_SETTINGS } from './formly-editor-field/formly-editor-field.constants';
 export { FormlySelectDisableFieldComponent } from './formly-select-disable/formly-select-disable-field.component';
 export { IconCardListComponent } from './icon-card-list/icon-card-list.component';
 export { ImageCarouselCardComponent } from './image-carousel-card/image-carousel-card.component';

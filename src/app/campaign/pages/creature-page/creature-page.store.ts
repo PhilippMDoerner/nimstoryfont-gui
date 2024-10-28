@@ -100,8 +100,9 @@ export const CreaturePageStore = signalStore(
             creatureService.update(creature.pk!, creature),
           ),
           tapResponse({
-            next: () =>
+            next: (creature) =>
               patchState(store, {
+                creature,
                 creatureQueryState: 'success',
               }),
             error: warningService.showWarning,

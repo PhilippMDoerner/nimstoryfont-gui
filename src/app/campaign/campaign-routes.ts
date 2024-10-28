@@ -15,8 +15,10 @@ import { CreatureUpdateCreateComponent } from './pages/creature-update-create-pa
 import { CreatureUpdateCreateStore } from './pages/creature-update-create-page/creature-update-create-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ItemPageComponent } from './pages/item-page/item-page.component';
+import { ItemPageStore } from './pages/item-page/item-page.store';
 
-const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
+const overviewRoutes: CampaignOverviewRoute[] = [
   {
     path: 'character',
     component: GeneralOverviewPageComponent,
@@ -79,7 +81,7 @@ const innerCampaignOverviewRoutes: CampaignOverviewRoute[] = [
   },
 ];
 
-const innerCampaignRoutes: Route[] = [
+const detailRoutes: Route[] = [
   //Campaign Admin Routes
   {
     path: `admin`,
@@ -149,7 +151,6 @@ const innerCampaignRoutes: Route[] = [
     ],
   },
   // Creature Routes
-
   {
     path: 'creature',
     children: [
@@ -181,6 +182,37 @@ const innerCampaignRoutes: Route[] = [
       },
     ],
   },
+  // Item Routes
+  {
+    path: 'item',
+    children: [
+      // {
+      //   path: 'create',
+      //   component: ItemUpdateCreateComponent,
+      //   data: { name: 'item-create', requiredMinimumRole: 'member' },
+      //   resolve: {},
+      // },
+      {
+        path: ':name',
+        component: ItemPageComponent,
+        data: { name: 'item', requiredMinimumRole: 'guest' },
+        resolve: {
+          loadItem: (route: ActivatedRouteSnapshot) =>
+            inject(ItemPageStore).loadItem(route.params['name']),
+        },
+      },
+      // {
+      //   path: ':name/update',
+      //   component: ItemUpdateCreateComponent,
+      //   data: { name: 'item-update', requiredMinimumRole: 'member' },
+      //   resolve: {
+      //     loadItem: (route: ActivatedRouteSnapshot) =>
+      //       inject(ItemUpdateCreateStore).loadItem(route.params['name']),
+      //   },
+      // },
+    ],
+  },
+
   // // Location Routes
   // {
   //   path: 'location/:parent_name/:name',
@@ -242,7 +274,7 @@ const innerCampaignRoutes: Route[] = [
 export const campaignRoutes = [
   {
     path: '',
-    children: [...innerCampaignOverviewRoutes, ...innerCampaignRoutes],
+    children: [...overviewRoutes, ...detailRoutes],
     canActivate: [campaignGuard],
   },
 ];

@@ -3,9 +3,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
+  ElementRef,
   input,
   output,
   signal,
+  viewChild,
 } from '@angular/core';
 import { TINYMCE_SETTINGS } from '../formly-editor-field/formly-editor-field.constants';
 import { OrganismsModule } from '../organisms.module';
@@ -32,6 +34,8 @@ export class EditableTextComponent {
   state = signal<State>('DISPLAY');
   textModel = '';
 
+  editorField = viewChild<ElementRef>('editor');
+
   constructor() {
     effect(() => {
       const hasServerModel = this.serverModel() != undefined;
@@ -46,6 +50,7 @@ export class EditableTextComponent {
   startEdit() {
     this.state.set('UPDATE');
     this.textModel = this.text();
+    this.focusField();
   }
 
   finishEdit() {
@@ -56,5 +61,9 @@ export class EditableTextComponent {
   cancelEdit() {
     this.textModel = this.text();
     this.state.set('DISPLAY');
+  }
+
+  private focusField() {
+    setTimeout(() => (this.editorField() as any)._editor.focus(), 100);
   }
 }

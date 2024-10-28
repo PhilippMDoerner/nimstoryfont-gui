@@ -1,66 +1,62 @@
 <app-page-container>
   <article class="container">
-    <ng-container *ngIf="canUpdate">
+    @if (canUpdate()) {
       <div class="item__edit-container">
-        <a [routerLink]="updateUrl">
-          <app-button
-            [icon]="'pencil'"
-            [type]="'SECONDARY'"
-          ></app-button>
+        <a [routerLink]="updateUrl()">
+          <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
         </a>
       </div>
-    </ng-container>
-  
-      <!-- Heading -->
-      <div class="row">
-        <h1 class="col-12 item__heading"> 
-          {{ item.name }} 
-        </h1>
-        
-        <ng-container *ngIf="item.owner_details">
-          <p class="text-center col mb-5"> 
-              Owned by: 
-              <strong>
-                  <a [routerLink]="ownerUrl">
-                      {{ item.owner_details.name }}
-                  </a>
-              </strong>
-          </p>
-      </ng-container>
+    }
+
+    <!-- Heading -->
+    <div class="row">
+      <h1 class="col-12 item__heading">
+        {{ item().name }}
+      </h1>
+
+      @if (hasOwner()) {
+        <p class="text-center col mb-5">
+          Owned by:
+          <strong>
+            <a [routerLink]="ownerUrl()">
+              {{ item().owner_details!.name }}
+            </a>
+          </strong>
+        </p>
+      }
     </div>
-  
-  
-  
+
     <!-- Image Gallery -->
     <div class="item__images">
       <app-image-carousel-card
-        [images]="item.images ?? []"
-        [serverUrl]="serverUrl"
-        [serverModel]="imageServerModel"
-        [canUpdate]="canUpdate"
-        [canCreate]="canCreate"
-        [canDelete]="canDelete"
+        [images]="item().images ?? []"
+        [serverUrl]="serverUrl()"
+        [serverModel]="imageServerModel()"
+        [canUpdate]="canUpdate()"
+        [canCreate]="canCreate()"
+        [canDelete]="canDelete()"
         (createImage)="createImage.emit($event)"
         (deleteImage)="deleteImage.emit($event)"
         (updateImage)="updateImage.emit($event)"
       ></app-image-carousel-card>
     </div>
-  
+
     <!-- Description -->
-    <div class="item__description">
-      <h4> Description </h4>
-      <app-html-text
-        [text]="item.description"
-      ></app-html-text>
-    </div>
-  
+    <app-editable-text
+      class="item__description"
+      [heading]="'Description'"
+      [placeholder]="'Add a description for ' + item().name"
+      [text]="item().description"
+      (update)="onDescriptionUpdate($event)"
+    ></app-editable-text>
+
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer
-      [buttonLink]="overviewUrl"
+      [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Items'"
-      [showDelete]="canDelete"
+      [showDelete]="canDelete()"
       [deleteMessage]="'Delete ' + item.name + '?'"
-      (delete)="itemDelete.emit(item)"
+      (delete)="itemDelete.emit(item())"
     ></app-article-footer>
   </article>
 </app-page-container>

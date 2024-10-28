@@ -20,6 +20,8 @@
   (submit)="finishEdit()"
 >
   <editor
+    #editor
+    id="editor"
     [init]="settings"
     name="textEditField"
     [(ngModel)]="textModel"

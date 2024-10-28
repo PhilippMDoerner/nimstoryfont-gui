@@ -4,20 +4,20 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
 import { pipe, switchMap, tap } from 'rxjs';
 import {
-  getKeys,
-  Query,
-  QueryMap,
-  QueryState,
+  Request,
+  RequestMap,
+  RequestState,
   UnionToIntersection,
-} from './types';
+} from '../factory-types';
+import { getKeys } from './types';
 
 /**
  * Creates an object with a bunch of methods based on an input name
  */
 type NewMethods<Name extends string, Q> =
-  Q extends Query<void, any>
+  Q extends Request<void, any>
     ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<void>>>
-    : Q extends Query<infer Params, any>
+    : Q extends Request<infer Params, any>
       ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<Params>>>
       : never;
 
@@ -25,7 +25,7 @@ type NewMethods<Name extends string, Q> =
  * Type describing a gigantic object that contains `NewProperties` for each key inside the Queries-object.
  * So { x: NewMethods<x>, y: NewMethods<y>, z: NewMethods<z>... }
  **/
-type AllNewMethodsObject<Queries extends QueryMap> = {
+type AllNewMethodsObject<Queries extends RequestMap> = {
   [Key in keyof Queries & string]: NewMethods<
     Key,
     UnionToIntersection<Queries[Key]>
@@ -36,17 +36,17 @@ type AllNewMethodsObject<Queries extends QueryMap> = {
  * Type union of all methods from AllNewMethodsObject
  * Essentially `NewMethods<x> | NewMethods<y> | NewMethods<z>...`
  */
-type NewMethodUnion<Queries extends QueryMap> =
+type NewMethodUnion<Queries extends RequestMap> =
   AllNewMethodsObject<Queries>[keyof AllNewMethodsObject<Queries>];
 
 /**
  * An intersection type of all new methods. Thus any instance of this type
  * must have all the fields that were derived via `NewMethods` for all keys in `Queries`.
- */ export type AllNewMethods<Queries extends QueryMap> = UnionToIntersection<
+ */ export type AllNewMethods<Queries extends RequestMap> = UnionToIntersection<
   NewMethodUnion<Queries>
 >;
 
-export function withQueryMethods<Queries extends QueryMap>(queries: Queries) {
+export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
   return signalStoreFeature(
     withMethods((store) => {
       const queryLoadFunctions = Object.keys(queries)
@@ -57,7 +57,7 @@ export function withQueryMethods<Queries extends QueryMap>(queries: Queries) {
               pipe(
                 tap(() =>
                   patchState(store, {
-                    [keys.queryStateField]: 'loading' satisfies QueryState,
+                    [keys.queryStateField]: 'loading' satisfies RequestState,
                   }),
                 ),
                 switchMap((params) => queries[keys.name](params)),
@@ -65,12 +65,12 @@ export function withQueryMethods<Queries extends QueryMap>(queries: Queries) {
                   next: (val) =>
                     patchState(store, {
                       [keys.dataField]: val,
-                      [keys.queryStateField]: 'success' satisfies QueryState,
+                      [keys.queryStateField]: 'success' satisfies RequestState,
                     }),
                   error: (err) =>
                     patchState(store, {
                       [keys.errorField]: err,
-                      [keys.queryStateField]: 'error' satisfies QueryState,
+                      [keys.queryStateField]: 'error' satisfies RequestState,
                     }),
                 }),
               ),

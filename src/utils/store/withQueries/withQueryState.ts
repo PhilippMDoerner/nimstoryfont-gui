@@ -1,28 +1,28 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { signalStoreFeature, withState } from '@ngrx/signals';
 import {
-  getKeys,
-  Query,
-  QueryMap,
-  QueryState,
+  Request,
+  RequestMap,
+  RequestState,
   UnionToIntersection,
-} from './types';
+} from '../factory-types';
+import { getKeys } from './types';
 
 /**
  * Creates an object with a bunch of properties based on an input name
  */
 type NewProperties<Name extends string, Q> =
-  Q extends Query<infer Params, infer Response>
+  Q extends Request<infer Params, infer Response>
     ? Record<Uncapitalize<Name>, Response | undefined> &
         Record<`${Name}Error`, HttpErrorResponse> &
-        Record<`${Uncapitalize<Name>}QueryState`, QueryState>
+        Record<`${Uncapitalize<Name>}QueryState`, RequestState>
     : never;
 
 /**
  * Type describing a gigantic object that contains `NewProperties` for each key inside the Queries-object.
  * So { x: NewProperties<x>, y: NewPropeties<y>, z: NewProperties<z>... }
  **/
-type AllNewPropertiesObject<Queries extends QueryMap> = {
+type AllNewPropertiesObject<Queries extends RequestMap> = {
   [Key in keyof Queries & string]: NewProperties<
     Key,
     UnionToIntersection<Queries[Key]>
@@ -33,36 +33,36 @@ type AllNewPropertiesObject<Queries extends QueryMap> = {
  * Type union of all properties from AllNewPropertiesObject
  * Essentially `NewProperties<x> | NewProperties<y> | NewProperties<z>...`
  */
-type NewPropertiesUnion<Queries extends QueryMap> =
+type NewPropertiesUnion<Queries extends RequestMap> =
   AllNewPropertiesObject<Queries>[keyof AllNewPropertiesObject<Queries>];
 
 /**
  * An intersection type of all new properties. Thus any instance of this type
  * must have all the fields that were derived via `NewProperties` for all keys in `Queries`.
  */
-export type AllNewProperties<Queries extends QueryMap> = UnionToIntersection<
+export type AllNewProperties<Queries extends RequestMap> = UnionToIntersection<
   NewPropertiesUnion<Queries>
 >;
 
-export function withQueriesState<Queries extends QueryMap>(queries: Queries) {
+export function withQueriesState<Queries extends RequestMap>(queries: Queries) {
   return signalStoreFeature(
     withState(() => {
-      const queryStates = Object.keys(queries)
+      const RequestStates = Object.keys(queries)
         .map((queryName) => getKeys(queryName))
         .map((keys) => {
           const x = {
             [keys.dataField]: undefined,
             [keys.errorField]: undefined,
-            [keys.queryStateField]: 'init' satisfies QueryState,
+            [keys.queryStateField]: 'init' satisfies RequestState,
           };
           return x;
         });
 
-      const queryStateSignals = queryStates.reduce(
-        (acc, queryState) => ({ ...acc, ...queryState }),
+      const RequestStateSignals = RequestStates.reduce(
+        (acc, RequestState) => ({ ...acc, ...RequestState }),
         {},
       ) as AllNewProperties<Queries> & {};
-      return queryStateSignals;
+      return RequestStateSignals;
     }),
   );
 }

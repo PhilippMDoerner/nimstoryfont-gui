@@ -5,14 +5,12 @@ import {
   SignalStoreFeatureResult,
   StateSignals,
 } from '@ngrx/signals/src/signal-store-models';
-import { QueryMap } from './types';
+import { RequestMap } from '../factory-types';
 import { AllNewMethods, withQueryMethods } from './withQueryMethods';
 import { AllNewProperties, withQueriesState } from './withQueryState';
 
-export { Query, QueryMap } from './types';
-
 // The types below are useless as `AllNewMethods` and `AllNewProperties` inside them get evaluated to unknown
-export type QueriesFeatureResult<Queries extends QueryMap> = {
+export type QueriesFeatureResult<Queries extends RequestMap> = {
   computed: {};
   methods: MethodsDictionary & AllNewMethods<Queries>;
   state: {} & AllNewProperties<Queries>;
@@ -27,7 +25,7 @@ export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
 
 export function withQueries<
   Input extends SignalStoreFeatureResult,
-  Queries extends QueryMap,
+  Queries extends RequestMap,
 >(
   queriesFactory: (store: InnerStore<Input>) => Queries,
 ): SignalStoreFeature<Input, QueriesFeatureResult<Queries>> {

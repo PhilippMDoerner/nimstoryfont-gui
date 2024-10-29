@@ -7,6 +7,7 @@
 @if (character != null) {
   <app-character
     [character]="character"
+    [characterServerModel]="store.characterServerModel()"
     [characterQuote]="characterQuote"
     [campaignCharacters]="campaignCharacters() ?? []"
     [campaignOrganizations]="campaignOrganizations() ?? []"
@@ -21,6 +22,7 @@
     [canCreate]="hasWritePermission$()"
     [canDelete]="hasWritePermission$()"
     (characterDelete)="onCharacterDelete()"
+    (characterUpdate)="onCharacterUpdate($event)"
     (createImage)="onCreateImage($event)"
     (deleteImage)="onDeleteImage($event)"
     (updateImage)="onUpdateImage($event)"

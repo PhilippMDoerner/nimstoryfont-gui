@@ -18,6 +18,7 @@ import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withImages } from 'src/utils/store/withImages';
 import { withQueries } from 'src/utils/store/withQueries';
+import { withUpdates } from 'src/utils/store/withUpdates';
 
 interface CreatureState {
   imageServerModel?: Image;
@@ -48,6 +49,13 @@ export const CreaturePageStore = signalStore(
             creatureService.readByParam(campaignName, { name }),
           ),
         ),
+    };
+  }),
+  withUpdates(() => {
+    const creatureService = inject(CreatureService);
+    return {
+      creature: (data: Creature) =>
+        creatureService.patch(data.pk as number, data),
     };
   }),
   withImages('creature', {
@@ -87,22 +95,6 @@ export const CreaturePageStore = signalStore(
             next: () =>
               patchState(store, {
                 creature: undefined,
-                creatureQueryState: 'success',
-              }),
-            error: warningService.showWarning,
-          }),
-        ),
-      ),
-      updateCreature: rxMethod<Creature>(
-        pipe(
-          tap((creature) => patchState(store, { creature })),
-          switchMap((creature) =>
-            creatureService.update(creature.pk!, creature),
-          ),
-          tapResponse({
-            next: (creature) =>
-              patchState(store, {
-                creature,
                 creatureQueryState: 'success',
               }),
             error: warningService.showWarning,

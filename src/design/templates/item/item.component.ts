@@ -17,6 +17,7 @@ import { RoutingService } from 'src/app/_services/routing.service';
 })
 export class ItemComponent {
   item = input.required<Item>();
+  itemServerModel = input.required<Item | undefined>();
   serverUrl = input.required<string>();
   canUpdate = input(false);
   canCreate = input(false);
@@ -54,6 +55,13 @@ export class ItemComponent {
   constructor(private routingService: RoutingService) {}
 
   onDescriptionUpdate(description: string): void {
-    this.itemUpdate.emit({ ...this.item(), description });
+    const isUpdatedAfterBeingOutdated = this.itemServerModel() !== undefined;
+    const itemToUpdate = isUpdatedAfterBeingOutdated
+      ? this.itemServerModel()
+      : this.item();
+
+    if (itemToUpdate) {
+      this.itemUpdate.emit({ ...itemToUpdate, description });
+    }
   }
 }

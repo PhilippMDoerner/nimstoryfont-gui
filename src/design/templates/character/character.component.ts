@@ -28,6 +28,7 @@ import { BadgeListEntry, ListEntry } from '../../molecules';
 })
 export class CharacterComponent {
   character = input.required<CharacterDetails>();
+  characterServerModel = input<CharacterDetails>();
   characterQuote = input<Quote>();
   campaignCharacters = input.required<OverviewItem[]>();
   campaignOrganizations = input.required<OverviewItem[]>();
@@ -147,7 +148,15 @@ export class CharacterComponent {
   }
 
   onDescriptionUpdate(description: string): void {
-    this.characterUpdate.emit({ ...this.character(), description });
+    const isUpdatedAfterBeingOutdated =
+      this.characterServerModel() !== undefined;
+    const characterToUpate = isUpdatedAfterBeingOutdated
+      ? this.characterServerModel()
+      : this.character();
+
+    if (characterToUpate) {
+      this.characterUpdate.emit({ ...characterToUpate, description });
+    }
   }
 
   private toBadgeListEntry(

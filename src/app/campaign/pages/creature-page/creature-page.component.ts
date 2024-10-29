@@ -26,7 +26,7 @@ export class CreaturePageComponent {
   private routingService = inject(RoutingService);
 
   constructor() {
-    this.routeToOverviewOnMissingCreature();
+    this.routeToOverviewOnMissingArticle();
   }
 
   deleteCreature(creature: Creature) {
@@ -36,7 +36,7 @@ export class CreaturePageComponent {
     });
   }
 
-  private routeToOverviewOnMissingCreature() {
+  private routeToOverviewOnMissingArticle() {
     effect(() => {
       const creatureDoesNotExist = this.store.creatureError()?.status === 404;
       if (creatureDoesNotExist) {

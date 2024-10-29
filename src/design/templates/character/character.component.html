@@ -104,6 +104,7 @@
       [heading]="'Description'"
       [placeholder]="'Add a description for ' + character().name"
       [text]="character().description"
+      [serverModel]="characterServerModel()?.description"
       (update)="onDescriptionUpdate($event)"
     ></app-editable-text>
 

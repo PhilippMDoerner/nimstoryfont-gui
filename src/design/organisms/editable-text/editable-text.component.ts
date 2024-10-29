@@ -37,14 +37,16 @@ export class EditableTextComponent {
   editorField = viewChild<ElementRef>('editor');
 
   constructor() {
-    effect(() => {
-      const hasServerModel = this.serverModel() != undefined;
-      const isInUpdateState = this.state() === 'UPDATE';
+    effect(
+      () => {
+        const hasUpdateFailed = this.serverModel() != undefined;
 
-      if (hasServerModel && isInUpdateState) {
-        this.state.set('OUTDATED_UPDATE');
-      }
-    });
+        if (hasUpdateFailed) {
+          this.state.set('OUTDATED_UPDATE');
+        }
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   startEdit() {

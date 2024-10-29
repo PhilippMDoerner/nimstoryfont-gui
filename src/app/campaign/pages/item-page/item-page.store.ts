@@ -18,6 +18,7 @@ import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withImages } from 'src/utils/store/withImages';
 import { withQueries } from 'src/utils/store/withQueries';
+import { withUpdates } from 'src/utils/store/withUpdates';
 
 interface ItemState {}
 
@@ -98,6 +99,12 @@ export const ItemPageStore = signalStore(
           }),
         ),
       ),
+    };
+  }),
+  withUpdates(() => {
+    const itemService = inject(ItemService);
+    return {
+      item: (update: Item) => itemService.update(update.pk!, update),
     };
   }),
 );

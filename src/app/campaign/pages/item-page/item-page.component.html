@@ -4,6 +4,7 @@
   <app-item
     [serverUrl]="serverUrl"
     [item]="item"
+    [itemServerModel]="store.itemServerModel()"
     [imageServerModel]="store.imageServerModel()"
     [canCreate]="store.hasWritePermission()"
     [canDelete]="store.hasWritePermission()"

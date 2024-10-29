@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+} from '@angular/core';
 import { Item } from 'src/app/_models/item';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -20,6 +25,10 @@ export class ItemPageComponent {
   store = inject(ItemPageStore);
   routingService = inject(RoutingService);
 
+  constructor() {
+    this.routeToOverviewOnMissingArticle();
+  }
+
   onItemDelete() {
     this.store.deleteItem(this.store.item()!.pk!);
     this.routingService.routeToPath('item-overview', {
@@ -29,5 +38,16 @@ export class ItemPageComponent {
 
   onItemUpdate(newItem: Item) {
     this.store.updateItem(newItem);
+  }
+
+  private routeToOverviewOnMissingArticle() {
+    effect(() => {
+      const characterDoesNotExist = this.store.itemError()?.status === 404;
+      if (characterDoesNotExist) {
+        this.routingService.routeToPath('item-overview', {
+          campaign: this.globalStore.campaignName(),
+        });
+      }
+    });
   }
 }

@@ -36,6 +36,7 @@
       [heading]="'Description'"
       [placeholder]="'Add a description for ' + creature().name"
       [text]="creature().description"
+      [serverModel]="creatureServerModel()?.description"
       (update)="onDescriptionUpdate($event)"
     ></app-editable-text>
 

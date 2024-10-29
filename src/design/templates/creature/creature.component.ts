@@ -21,6 +21,7 @@ import { EditableTextComponent } from 'src/design/organisms/editable-text/editab
 })
 export class CreatureComponent {
   creature = input.required<Creature>();
+  creatureServerModel = input.required<Creature | undefined>();
   serverUrl = input.required<string>();
   canUpdate = input(false);
   canCreate = input(false);
@@ -48,7 +49,15 @@ export class CreatureComponent {
   );
 
   onDescriptionUpdate(description: string): void {
-    this.creatureUpdate.emit({ ...this.creature(), description });
+    const isUpdatedAfterBeingOutdated =
+      this.creatureServerModel() !== undefined;
+    const creatureToUpdate = isUpdatedAfterBeingOutdated
+      ? this.creatureServerModel()
+      : this.creature();
+
+    if (creatureToUpdate) {
+      this.creatureUpdate.emit({ ...creatureToUpdate, description });
+    }
   }
 
   constructor(private routingService: RoutingService) {}

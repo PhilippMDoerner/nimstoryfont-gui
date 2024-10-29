@@ -1,6 +1,9 @@
 import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, effect, inject } from '@angular/core';
-import { CharacterEncounter } from 'src/app/_models/character';
+import {
+  CharacterDetails,
+  CharacterEncounter,
+} from 'src/app/_models/character';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
 import { Quote, QuoteConnection } from 'src/app/_models/quote';
@@ -97,6 +100,10 @@ export class CharacterPageComponent {
 
   onDeleteEncounterConnection(connection: EncounterConnection) {
     this.store.deleteEncounterConnection(connection);
+  }
+
+  onCharacterUpdate(char: CharacterDetails) {
+    this.store.updateCharacter(char);
   }
 
   private routeToOverviewOnMissingCharacter() {

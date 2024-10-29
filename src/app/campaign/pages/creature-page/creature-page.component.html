@@ -7,6 +7,7 @@
     [canUpdate]="store.hasWritePermission()"
     [serverUrl]="serverUrl"
     [creature]="creature"
+    [creatureServerModel]="store.creatureServerModel()"
     [imageServerModel]="store.imageServerModel()"
     (createImage)="store.createImage($event, creature.pk!)"
     (updateImage)="store.updateImage($event)"

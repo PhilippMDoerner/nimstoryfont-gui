@@ -55,6 +55,7 @@ export class FormComponent<T> {
     if (!isValidForm) {
       return;
     }
+    console.log('onInnerSubmit', this.model);
 
     this.formlySubmit.emit(this.model as NonNullable<T>);
   }

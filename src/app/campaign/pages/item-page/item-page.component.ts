@@ -4,6 +4,8 @@ import {
   effect,
   inject,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { filter, take } from 'rxjs';
 import { Item } from 'src/app/_models/item';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -25,15 +27,25 @@ export class ItemPageComponent {
   store = inject(ItemPageStore);
   routingService = inject(RoutingService);
 
+  itemDeleteState$ = toObservable(this.store.itemDeleteState);
+  item$ = toObservable(this.store.item);
+
   constructor() {
     this.routeToOverviewOnMissingArticle();
   }
 
   onItemDelete() {
     this.store.deleteItem(this.store.item()!.pk!);
-    this.routingService.routeToPath('item-overview', {
-      campaign: this.globalStore.campaignName(),
-    });
+    this.itemDeleteState$
+      .pipe(
+        filter((state) => state === 'success'),
+        take(1),
+      )
+      .subscribe(() => {
+        this.routingService.routeToPath('item-overview', {
+          campaign: this.globalStore.campaignName(),
+        });
+      });
   }
 
   onItemUpdate(newItem: Item) {

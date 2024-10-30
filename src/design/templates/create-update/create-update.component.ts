@@ -7,12 +7,12 @@ import { CreateUpdateState } from '../_models/create-update-states';
   templateUrl: './create-update.component.html',
   styleUrls: ['./create-update.component.scss'],
 })
-export class CreateUpdateComponent<T> {
+export class CreateUpdateComponent<T, O> {
   heading = input.required<string>();
   state = input.required<CreateUpdateState>();
-  userModel = input<Partial<T>>();
+  userModel = input<Partial<T> | O>();
   formlyFields = input.required<FormlyFieldConfig[]>();
-  serverModel = input.required<T>();
+  serverModel = input.required<T | O>();
 
   create = output<NonNullable<T>>();
   update = output<NonNullable<T>>();
@@ -20,7 +20,7 @@ export class CreateUpdateComponent<T> {
 
   onSubmit(submittedData: Partial<T>): void {
     if (submittedData == null) return;
-
+    console.log('onSubmit', submittedData);
     switch (this.state()) {
       case 'CREATE':
         this.create.emit(submittedData as NonNullable<T>);

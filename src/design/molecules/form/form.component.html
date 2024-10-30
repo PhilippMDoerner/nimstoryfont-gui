@@ -1,10 +1,14 @@
-<form class="form" [formGroup]="form" [enctype]="enctype">
+<form
+  class="form"
+  [formGroup]="form"
+  [enctype]="enctype"
+  (submit)="onSubmit(undefined)"
+>
   <formly-form
     [form]="form"
     [fields]="usedFields()"
     [model]="model"
     [options]="{}"
-    (keyup.enter)="onSubmit(undefined)"
   ></formly-form>
 
   @if (!disabled() && enableSubmitButtons) {
@@ -33,7 +37,6 @@
     [text]="'Submit'"
     [icon]="submitIcon"
     [isSubmitButton]="true"
-    (click)="onSubmit(undefined)"
   ></app-button>
 </ng-template>
 

@@ -16,13 +16,18 @@ import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
 import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
+import { RequestState } from 'src/utils/store/factory-types';
 import { withImages } from 'src/utils/store/withImages';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-interface ItemState {}
+interface ItemState {
+  itemDeleteState: RequestState;
+}
 
-const initialState: ItemState = {};
+const initialState: ItemState = {
+  itemDeleteState: 'init',
+};
 
 export const ItemPageStore = signalStore(
   { providedIn: 'root' },
@@ -77,24 +82,34 @@ export const ItemPageStore = signalStore(
     const itemService = inject(ItemService);
     const warningService = inject(WarningsService);
     return {
-      deleteItem: rxMethod<number>(
-        pipe(
-          tap(() => patchState(state, { itemQueryState: 'loading' })),
-          switchMap((pk) => itemService.delete(pk)),
-          tapResponse({
-            next: () =>
-              patchState(state, { item: undefined, itemQueryState: 'success' }),
-            error: warningService.showWarning,
-          }),
-        ),
-      ),
+      deleteItem: (pk: number) => {
+        patchState(state, { itemDeleteState: 'loading', itemError: undefined });
+        itemService.delete(pk).subscribe({
+          next: () =>
+            patchState(state, {
+              item: undefined,
+              itemDeleteState: 'success',
+              itemError: undefined,
+            }),
+          error: warningService.showWarning,
+        });
+      },
       updateItem: rxMethod<Item>(
         pipe(
-          tap(() => patchState(state, { itemQueryState: 'loading' })),
+          tap(() =>
+            patchState(state, {
+              itemQueryState: 'loading',
+              itemError: undefined,
+            }),
+          ),
           switchMap((item) => itemService.update(item.pk!, item)),
           tapResponse({
             next: (item) =>
-              patchState(state, { item, itemQueryState: 'success' }),
+              patchState(state, {
+                item,
+                itemQueryState: 'success',
+                itemError: undefined,
+              }),
             error: warningService.showWarning,
           }),
         ),

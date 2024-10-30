@@ -57,6 +57,7 @@ export function withUpdateMethods<Requests extends RequestMap>(
             [keys.updateMethod]: (params: any) => {
               patchState(store, {
                 [keys.requestStateField]: 'loading' satisfies RequestState,
+                [keys.errorField]: undefined,
               });
               requests[keys.name](params)
                 .pipe(take(1))

@@ -15,6 +15,8 @@ import { CreatureUpdateCreateComponent } from './pages/creature-update-create-pa
 import { CreatureUpdateCreateStore } from './pages/creature-update-create-page/creature-update-create-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { ItemCreateUpdatePageComponent } from './pages/item-create-update-page/item-create-update-page.component';
+import { ItemCreateUpdateStore } from './pages/item-create-update-page/item-create-update-page.store';
 import { ItemPageComponent } from './pages/item-page/item-page.component';
 import { ItemPageStore } from './pages/item-page/item-page.store';
 
@@ -186,12 +188,16 @@ const detailRoutes: Route[] = [
   {
     path: 'item',
     children: [
-      // {
-      //   path: 'create',
-      //   component: ItemUpdateCreateComponent,
-      //   data: { name: 'item-create', requiredMinimumRole: 'member' },
-      //   resolve: {},
-      // },
+      {
+        path: 'create',
+        component: ItemCreateUpdatePageComponent,
+        data: { name: 'item-create', requiredMinimumRole: 'member' },
+        resolve: {
+          reset: () => inject(ItemCreateUpdateStore).reset(),
+          loadCharacters: () =>
+            inject(ItemCreateUpdateStore).loadCampaignCharacters(),
+        },
+      },
       {
         path: ':name',
         component: ItemPageComponent,
@@ -201,15 +207,17 @@ const detailRoutes: Route[] = [
             inject(ItemPageStore).loadItem(route.params['name']),
         },
       },
-      // {
-      //   path: ':name/update',
-      //   component: ItemUpdateCreateComponent,
-      //   data: { name: 'item-update', requiredMinimumRole: 'member' },
-      //   resolve: {
-      //     loadItem: (route: ActivatedRouteSnapshot) =>
-      //       inject(ItemUpdateCreateStore).loadItem(route.params['name']),
-      //   },
-      // },
+      {
+        path: ':name/update',
+        component: ItemCreateUpdatePageComponent,
+        data: { name: 'item-update', requiredMinimumRole: 'member' },
+        resolve: {
+          loadItem: (route: ActivatedRouteSnapshot) =>
+            inject(ItemCreateUpdateStore).loadItem(route.params['name']),
+          loadCharacters: () =>
+            inject(ItemCreateUpdateStore).loadCampaignCharacters(),
+        },
+      },
     ],
   },
 

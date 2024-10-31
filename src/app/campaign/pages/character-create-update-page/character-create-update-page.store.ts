@@ -77,6 +77,13 @@ export const CharacterCreateUpdateStore = signalStore(
     const organizationMembershipService = inject(OrganizationMembershipService);
     const warningService = inject(WarningsService);
     return {
+      reset: () =>
+        patchState(store, {
+          character: undefined,
+          characterError: undefined,
+          characterQueryState: 'init',
+          serverModel: undefined,
+        }),
       updateCharacter: rxMethod<CharacterDetails>(
         pipe(
           tap(() => patchState(store, { characterQueryState: 'loading' })),

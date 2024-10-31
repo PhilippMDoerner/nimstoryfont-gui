@@ -87,6 +87,16 @@ export const CreaturePageStore = signalStore(
     const warningService = inject(WarningsService);
     const creatureService = inject(CreatureService);
     return {
+      reset: () =>
+        patchState(store, {
+          imageServerModel: undefined,
+          creature: undefined,
+          creatureError: undefined,
+          creatureQueryState: 'init',
+          creatureServerModel: undefined,
+          creatureUpdateError: undefined,
+          creatureUpdateState: 'init',
+        }),
       deleteCreature: rxMethod<Creature>(
         pipe(
           tap(() => patchState(store, { creatureQueryState: 'loading' })),

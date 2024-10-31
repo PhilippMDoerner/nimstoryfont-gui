@@ -45,6 +45,14 @@ export const CreatureUpdateCreateStore = signalStore(
     const creatureService = inject(CreatureService);
 
     return {
+      reset: () => {
+        patchState(store, {
+          creature: undefined,
+          creatureError: undefined,
+          creatureQueryState: 'init',
+          serverModel: undefined,
+        });
+      },
       updateCreature: rxMethod<Creature>(
         pipe(
           tap(() =>

@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
+import { onExitReset } from '../_guards/onExitReset';
 import { CampaignOverviewRoute } from '../_models/route';
 import { characterResolver } from '../_resolvers/character.resolver';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
@@ -118,6 +119,7 @@ const detailRoutes: Route[] = [
           loadClasses: () =>
             inject(CharacterCreateUpdateStore).loadPlayerClasses(),
         },
+        canDeactivate: [onExitReset(CharacterCreateUpdateStore)],
       },
       {
         path: ':name',
@@ -132,6 +134,7 @@ const detailRoutes: Route[] = [
           loadSessions: () => inject(CharacterStore).loadCampaignSessions(),
           loadLocations: () => inject(CharacterStore).loadCampaignLocations(),
         },
+        canDeactivate: [onExitReset(CharacterStore)],
       },
       {
         path: ':name/update',
@@ -149,6 +152,7 @@ const detailRoutes: Route[] = [
           loadClasses: () =>
             inject(CharacterCreateUpdateStore).loadPlayerClasses(),
         },
+        canDeactivate: [onExitReset(CharacterCreateUpdateStore)],
       },
     ],
   },
@@ -161,6 +165,7 @@ const detailRoutes: Route[] = [
         component: CreatureUpdateCreateComponent,
         data: { name: 'creature-create', requiredMinimumRole: 'member' },
         resolve: {},
+        canDeactivate: [onExitReset(CreatureUpdateCreateStore)],
       },
       {
         path: ':name',
@@ -170,6 +175,7 @@ const detailRoutes: Route[] = [
           loadCreature: (route: ActivatedRouteSnapshot) =>
             inject(CreaturePageStore).loadCreature(route.params['name']),
         },
+        canDeactivate: [onExitReset(CreaturePageStore)],
       },
       {
         path: ':name/update',
@@ -181,6 +187,7 @@ const detailRoutes: Route[] = [
               route.params['name'],
             ),
         },
+        canDeactivate: [onExitReset(CreatureUpdateCreateStore)],
       },
     ],
   },
@@ -197,6 +204,7 @@ const detailRoutes: Route[] = [
           loadCharacters: () =>
             inject(ItemCreateUpdateStore).loadCampaignCharacters(),
         },
+        canDeactivate: [onExitReset(ItemCreateUpdateStore)],
       },
       {
         path: ':name',
@@ -207,6 +215,7 @@ const detailRoutes: Route[] = [
           loadItem: (route: ActivatedRouteSnapshot) =>
             inject(ItemPageStore).loadItem(route.params['name']),
         },
+        canDeactivate: [onExitReset(ItemPageStore)],
       },
       {
         path: ':name/update',
@@ -218,6 +227,7 @@ const detailRoutes: Route[] = [
           loadCharacters: () =>
             inject(ItemCreateUpdateStore).loadCampaignCharacters(),
         },
+        canDeactivate: [onExitReset(ItemCreateUpdateStore)],
       },
     ],
   },

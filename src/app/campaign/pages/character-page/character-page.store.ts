@@ -151,6 +151,22 @@ export const CharacterStore = signalStore(
     const encounterConnectionService = inject(EncounterConnectionService);
 
     return {
+      reset: () => {
+        patchState(state, {
+          character: undefined,
+          characterError: undefined,
+          characterQueryState: 'init',
+          characterQuote: undefined,
+          characterQuoteError: undefined,
+          characterQuoteQueryState: 'init',
+          characterServerModel: undefined,
+          characterUpdateError: undefined,
+          characterUpdateState: 'init',
+          encounterServerModel: undefined,
+          imageServerModel: undefined,
+          quoteServerModel: undefined,
+        });
+      },
       deleteCharacter: () => {
         const characterPk = state.character()?.pk;
         if (characterPk == null) return;

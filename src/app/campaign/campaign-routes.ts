@@ -203,6 +203,7 @@ const detailRoutes: Route[] = [
         component: ItemPageComponent,
         data: { name: 'item', requiredMinimumRole: 'guest' },
         resolve: {
+          reset: () => inject(ItemPageStore).reset(),
           loadItem: (route: ActivatedRouteSnapshot) =>
             inject(ItemPageStore).loadItem(route.params['name']),
         },

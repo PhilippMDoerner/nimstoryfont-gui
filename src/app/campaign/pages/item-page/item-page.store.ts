@@ -82,6 +82,14 @@ export const ItemPageStore = signalStore(
     const itemService = inject(ItemService);
     const warningService = inject(WarningsService);
     return {
+      reset: () =>
+        patchState(state, {
+          item: undefined,
+          imageServerModel: undefined,
+          itemError: undefined,
+          itemDeleteState: 'init',
+          itemQueryState: 'init',
+        }),
       deleteItem: (pk: number) => {
         patchState(state, { itemDeleteState: 'loading', itemError: undefined });
         itemService.delete(pk).subscribe({

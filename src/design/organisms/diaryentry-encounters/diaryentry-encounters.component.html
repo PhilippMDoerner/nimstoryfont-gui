@@ -131,7 +131,7 @@
         (connectionCreate)="connectionCreate.emit($event)"
         (encounterDelete)="onEncounterDelete(context.index)"
         (encounterUpdate)="encounterUpdate.emit($event)"
-        (encounterCreate)="encounterCreate.emit($event)"
+        (encounterCreate)="onEncounterCreate($event)"
         (encounterCreateCancel)="onEncounterCreateCancel(context.index)"
       ></app-encounter>
       @if (canUpdate() && context.entry.encounter.pk != null) {

@@ -152,6 +152,15 @@ export class DiaryentryEncountersComponent {
     this.store.removeEncounter(encounterToDelete as Encounter);
   }
 
+  onEncounterCreate(encounter: EncounterRaw) {
+    const newEncounter = {
+      ...encounter,
+      order_index: nextOrderIndex(encounter),
+    };
+    this.encounterCreate.emit(newEncounter);
+    this.store.removeEmptyEncounterForCreation(encounter);
+  }
+
   /**
    * Determines the order index the encounter should have based on the place where it is supposed to be inserted into
    * @param {number} encounterIndex - The index on this.encounters after which the new encounter shall be inserted.

@@ -1,76 +1,78 @@
-.diaryentry{
-  &__edit-row{
+.diaryentry {
+  padding: 0;
+
+  &__edit-row {
     width: 100%;
     margin-bottom: var(--spacer-3);
   }
-  
-  &__heading{
+
+  &__heading {
     text-align: center;
   }
-  
-  &__subheading{
+
+  &__subheading {
     margin-bottom: var(--spacer-3);
     text-align: center;
   }
-  
-  &__images{
+
+  &__images {
     margin-bottom: var(--spacer-3);
   }
-  
-  &__quote{
+
+  &__quote {
     margin-bottom: var(--spacer-5);
   }
-  
-  &__description{
+
+  &__description {
     margin-bottom: var(--spacer-5);
   }
-  
-  &__items{
+
+  &__items {
     margin-bottom: var(--spacer-5);
   }
-  
-  &__nav-buttons{
+
+  &__nav-buttons {
     margin-bottom: var(--spacer-3);
   }
 }
 
-.nav-buttons{
+.nav-buttons {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
-  &__button-container{
+
+  &__button-container {
     display: flex;
   }
-  
-  &__button{
+
+  &__button {
     width: 100%;
     display: flex;
-    
-    &--left{
+
+    &--left {
       justify-content: flex-start;
     }
-    
-    &--right{
+
+    &--right {
       justify-content: flex-end;
     }
   }
 }
 
-.edit-row{
+.edit-row {
   display: flex;
   justify-content: flex-end;
-  
-  &__edit-container{
+
+  &__edit-container {
     width: fit-content;
     display: flex;
-    flex-direction: column;  
+    flex-direction: column;
     align-items: flex-end;
   }
 }
 
-.edit-container{
-  &__button{
+.edit-container {
+  &__button {
     margin-top: var(--spacer-1);
     margin-bottom: var(--spacer-1);
   }

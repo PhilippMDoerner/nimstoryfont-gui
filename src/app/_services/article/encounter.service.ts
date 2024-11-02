@@ -1,11 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import {
-  Encounter,
-  EncounterObject,
-  EncounterRaw,
-} from 'src/app/_models/encounter';
+import { Encounter, EncounterRaw } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
 import { BaseService } from '../base.service';
 import { RoutingService } from '../routing.service';
@@ -42,7 +38,7 @@ export class EncounterService extends BaseService<EncounterRaw, Encounter> {
     campaign: string,
     encounter1_pk: number,
     encounter2_pk: number,
-  ): Observable<Encounter[]> {
+  ): Observable<[Encounter, Encounter]> {
     const url = `${this.baseUrl}/${campaign}/orderswap/`;
     const requestBody = {
       encounter1: encounter1_pk,
@@ -50,8 +46,16 @@ export class EncounterService extends BaseService<EncounterRaw, Encounter> {
     };
 
     return this.http
-      .patch<any[]>(url, requestBody)
-      .pipe(map((entries) => entries.map((entry) => this.parseEntity(entry))));
+      .patch<[Encounter, Encounter]>(url, requestBody)
+      .pipe(
+        map(
+          (entries) =>
+            entries.map((entry) => this.parseEntity(entry)) as [
+              Encounter,
+              Encounter,
+            ],
+        ),
+      );
   }
 
   cutInsertEncounter(
@@ -72,10 +76,11 @@ export class EncounterService extends BaseService<EncounterRaw, Encounter> {
   }
 
   override parseEntity(data: any): Encounter {
-    return new EncounterObject({
+    return {
       ...data,
+      pk: data.id ?? data.pk,
       getAbsoluteRouterUrl: this.generateUrlCallback(data),
-    });
+    };
   }
 
   override parseOverviewEntity(data: any): OverviewItem {

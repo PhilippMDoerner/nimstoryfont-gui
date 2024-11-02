@@ -1,5 +1,7 @@
 .badge-button {
   border-radius: var(--bs-border-radius);
+  display: flex;
+
   &:focus,
   &:focus-within,
   &:hover {

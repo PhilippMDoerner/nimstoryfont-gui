@@ -14,6 +14,8 @@ import { CreaturePageComponent } from './pages/creature-page/creature-page.compo
 import { CreaturePageStore } from './pages/creature-page/creature-page.store';
 import { CreatureUpdateCreateComponent } from './pages/creature-update-create-page/creature-update-create-page.component';
 import { CreatureUpdateCreateStore } from './pages/creature-update-create-page/creature-update-create-page.store';
+import { DiaryentryPageComponent } from './pages/diaryentry-page/diaryentry-page.component';
+import { DiaryentryPageStore } from './pages/diaryentry-page/diaryentry-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { ItemCreateUpdatePageComponent } from './pages/item-create-update-page/item-create-update-page.component';
@@ -231,7 +233,30 @@ const detailRoutes: Route[] = [
       },
     ],
   },
-
+  // Diaryentry Routes
+  {
+    path: 'diaryentry',
+    children: [
+      {
+        path: ':campaign/:sessionNumber/:isMainSession/:authorName',
+        component: DiaryentryPageComponent,
+        data: { name: 'diaryentry', requiredMinimumRole: 'guest' },
+        canDeactivate: [onExitReset(DiaryentryPageStore)],
+        resolve: {
+          loadDiaryentry: (route: ActivatedRouteSnapshot) =>
+            inject(DiaryentryPageStore).loadDiaryentry({
+              sessionNumber: route.params['sessionNumber'],
+              isMainSession: route.params['isMainSession'],
+              name: route.params['authorName'],
+            }),
+          loadCharacters: () =>
+            inject(DiaryentryPageStore).loadCampaignCharacters(),
+          loadLocations: () =>
+            inject(DiaryentryPageStore).loadCampaignLocations(),
+        },
+      },
+    ],
+  },
   // // Location Routes
   // {
   //   path: 'location/:parent_name/:name',

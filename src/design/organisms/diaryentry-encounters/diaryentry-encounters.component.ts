@@ -1,41 +1,40 @@
 import {
   Component,
-  ElementRef,
+  computed,
   EventEmitter,
+  inject,
   Input,
-  OnChanges,
-  OnInit,
+  output,
   Output,
+  signal,
 } from '@angular/core';
-import { animateElement } from 'src/app/_functions/animate';
 import {
   Encounter,
   EncounterConnection,
-  EncounterObject,
   EncounterRaw,
+  getShiftedOrderIndex,
+  nextOrderIndex,
+  priorOrderIndex,
 } from 'src/app/_models/encounter';
-import { OverviewItem } from 'src/app/_models/overview';
+import { DiaryentryPageStore } from 'src/app/campaign/pages/diaryentry-page/diaryentry-page.store';
 
 type ListState = 'READ' | 'EDIT';
-interface DiaryEntryEncounter {
-  encounter: Encounter;
-  isUpdating: boolean;
-}
 
 @Component({
   selector: 'app-diaryentry-encounters',
   templateUrl: './diaryentry-encounters.component.html',
   styleUrls: ['./diaryentry-encounters.component.scss'],
 })
-export class DiaryentryEncountersComponent implements OnInit, OnChanges {
-  @Input() diaryEntryPk!: number;
-  @Input() encounters!: Encounter[];
-  @Input() campaignCharacters!: OverviewItem[];
-  @Input() campaignLocations!: OverviewItem[];
-  @Input() encounterServerModel?: Encounter;
-  @Input() canUpdate: boolean = false;
-  @Input() canDelete: boolean = false;
-  @Input() canCreate: boolean = false;
+export class DiaryentryEncountersComponent {
+  store = inject(DiaryentryPageStore);
+
+  diaryEntryPk = computed(() => this.store.diaryentry()?.pk);
+  campaignCharacters = this.store.campaignCharacters;
+  campaignLocations = this.store.campaignLocations;
+  encounterServerModel = this.store.encounterServerModel;
+  canUpdate = this.store.hasWritePermission;
+  canDelete = this.store.hasWritePermission;
+  canCreate = this.store.hasWritePermission;
   @Input() state: ListState = 'READ';
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
@@ -51,179 +50,106 @@ export class DiaryentryEncountersComponent implements OnInit, OnChanges {
   }> = new EventEmitter();
   @Output() encounterSwap: EventEmitter<{ enc1: Encounter; enc2: Encounter }> =
     new EventEmitter();
+  addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
-  isUpdatingAnything: boolean = false;
-  isUpdatingGlobally: boolean = false;
-  cutEncounterIndex?: number;
-  diaryEntryEncounters!: DiaryEntryEncounter[];
-
-  constructor(private elementRef: ElementRef) {}
-
-  ngOnInit(): void {
-    this.setDiaryEntryEncounters();
-  }
-
-  ngOnChanges(): void {
-    this.isUpdatingAnything = false;
-    this.isUpdatingGlobally = false;
-    this.setDiaryEntryEncounters();
-  }
-
-  setDiaryEntryEncounters() {
-    this.diaryEntryEncounters = this.encounters.map((encounter) => ({
-      encounter,
-      isUpdating: false,
-    }));
-
-    this.sortEncounters();
-  }
-
-  changeState(newState: ListState) {
-    this.state = newState;
-  }
+  encountersToAdd = signal<EncounterRaw[]>([]);
+  isUpdatingGlobally = this.store.isUpdatingGlobally;
+  isUpdatingAnything = this.store.isUpdatingAnyEncounters;
+  cutEncounterIndex = signal<number | undefined>(undefined);
+  diaryEntryEncounters = this.store.diaryEntryEncounters;
 
   addEmptyEncounterAtIndex(listIndex: number) {
     const newOrderIndex: number = this.getOrderIndexForNewEncounter(listIndex);
-
     //Create and add Encounter
-    const newEncounter: Partial<Encounter> = new EncounterObject({
-      diaryentry: this.diaryEntryPk,
+    const newEncounter: EncounterRaw = {
+      diaryentry: this.diaryEntryPk() as number,
       title: 'New Encounter',
       order_index: newOrderIndex,
-      encounterConnections: [],
-    });
+      description: '',
+    };
 
-    const isNewFirstEncounter: boolean = listIndex < 0;
-    const insertionIndex: number = isNewFirstEncounter ? 0 : listIndex + 1;
-
-    this.insertEncounter(newEncounter as Encounter, insertionIndex);
+    this.store.addEmptyEncounterForCreation(newEncounter);
   }
 
-  async onInsertExcisedEncounter(insertionIndex: number) {
-    if (this.cutEncounterIndex == null) {
+  onInsertExcisedEncounter(insertionIndex: number) {
+    const cutEncounterIndex = this.cutEncounterIndex();
+    if (cutEncounterIndex == null) {
       return;
     }
 
-    const cutPositions = [this.cutEncounterIndex, this.cutEncounterIndex - 1];
+    const cutPositions = [cutEncounterIndex, cutEncounterIndex - 1];
     const isInsertingIntoCutPosition = cutPositions.includes(insertionIndex);
     if (isInsertingIntoCutPosition) {
       return;
     }
 
-    const isInsertingAtLastPosition = insertionIndex > this.encounters.length;
+    const isInsertingAtLastPosition =
+      insertionIndex > this.diaryEntryEncounters().length;
     let newOrderIndex: number;
     if (isInsertingAtLastPosition) {
-      const lastEncounter = this.encounters[this.encounters.length - 1];
-      newOrderIndex = lastEncounter.nextOrderIndex();
+      const lastEncounter = this.diaryEntryEncounters()[
+        this.diaryEntryEncounters().length - 1
+      ].encounter as Encounter;
+      newOrderIndex = nextOrderIndex(lastEncounter);
     } else {
-      const encounterBeforeInsertion: Encounter =
-        this.encounters[insertionIndex];
+      const encounterBeforeInsertion: Encounter = this.diaryEntryEncounters()[
+        insertionIndex
+      ].encounter as Encounter;
       newOrderIndex = encounterBeforeInsertion.order_index;
     }
 
-    const encounterToInsert: Encounter =
-      this.encounters[this.cutEncounterIndex];
-    this.isUpdatingAnything = true;
-    this.isUpdatingGlobally = true;
-    this.encounterCutInsert.emit({
-      encounter: encounterToInsert,
-      newOrderIndex,
-    });
+    const encounterToInsert: Encounter = this.diaryEntryEncounters()[
+      cutEncounterIndex
+    ].encounter as Encounter;
+    this.store.cutInsertEncounter(encounterToInsert, newOrderIndex);
   }
 
   onExcisionClick(encounterIndex: number) {
-    const isAlreadyCuttingEncounter = this.cutEncounterIndex != null;
-    const isCuttingThisEncounter = this.cutEncounterIndex === encounterIndex;
+    const isAlreadyCuttingEncounter = this.cutEncounterIndex() != null;
+    const isCuttingThisEncounter = this.cutEncounterIndex() === encounterIndex;
 
     if (isAlreadyCuttingEncounter && isCuttingThisEncounter) {
-      this.cutEncounterIndex = undefined;
+      this.cutEncounterIndex.set(undefined);
     } else if (!isAlreadyCuttingEncounter) {
-      this.cutEncounterIndex = encounterIndex;
+      this.cutEncounterIndex.set(encounterIndex);
     }
   }
 
   onEncounterOrderIncrease(encounterIndex: number): void {
-    const isLastEncounter = encounterIndex === this.encounters.length - 1;
+    const isLastEncounter =
+      encounterIndex === this.diaryEntryEncounters().length - 1;
     if (isLastEncounter) return; //encounter is already last, can't increase more
 
-    const nextEncounterIndex = encounterIndex + 1;
+    const encounter = this.diaryEntryEncounters()[encounterIndex]
+      .encounter as Encounter;
+    const nextEncounter = this.nextRealEncounter(encounterIndex + 1);
+    if (!nextEncounter) return;
 
-    this.swapEncounters(encounterIndex, nextEncounterIndex);
+    this.store.swapEncounters(encounter.pk, nextEncounter.pk);
   }
 
   onEncounterOrderDecrease(encounterIndex: number): void {
     const isFirstEncounter = encounterIndex === 0;
     if (isFirstEncounter) return; //encounter is already first, can't decrease more
 
-    const priorEncounterIndex = encounterIndex - 1;
+    const encounter = this.diaryEntryEncounters()[encounterIndex]
+      .encounter as Encounter;
+    const priorEncounter = this.priorRealEncounter(encounterIndex - 1);
+    if (!priorEncounter) return;
 
-    this.swapEncounters(encounterIndex, priorEncounterIndex);
+    this.store.swapEncounters(encounter.pk, priorEncounter.pk);
   }
 
   onEncounterCreateCancel(encounterIndex: number) {
-    this.removeEncounter(encounterIndex);
+    const createEncounterToRemove =
+      this.diaryEntryEncounters()[encounterIndex].encounter;
+    this.store.removeEmptyEncounterForCreation(createEncounterToRemove);
   }
 
   onEncounterDelete(encounterIndex: number) {
-    const encounterToDelete = this.encounters[encounterIndex];
-    this.encounterDelete.emit(encounterToDelete);
-    this.removeEncounter(encounterIndex);
-  }
-
-  async swapEncounters(
-    encounterIndex1: number,
-    encounterIndex2: number,
-  ): Promise<void> {
-    this.isUpdatingAnything = true;
-
-    // Hide Encounters during Update
-    this.diaryEntryEncounters[encounterIndex1].isUpdating = true;
-    this.diaryEntryEncounters[encounterIndex2].isUpdating = true;
-
-    // Swap order indices of both encounters
-    const encounter1: Encounter =
-      this.diaryEntryEncounters[encounterIndex1].encounter;
-    const encounter2: Encounter =
-      this.diaryEntryEncounters[encounterIndex2].encounter;
-
-    this.encounterSwap.emit({ enc1: encounter1, enc2: encounter2 });
-  }
-
-  private sortEncounters() {
-    this.diaryEntryEncounters.sort(
-      (encounter1: DiaryEntryEncounter, encounter2: DiaryEntryEncounter) => {
-        const order_index1: number = encounter1.encounter.order_index;
-        const order_index2: number = encounter2.encounter.order_index;
-
-        if (order_index1 == null && order_index2 == null) {
-          return 0;
-        } else if (order_index1 == null) {
-          return 1;
-        } else if (order_index2 == null) {
-          return -1;
-        } else {
-          return order_index1 - order_index2;
-        }
-      },
-    );
-  }
-
-  private insertEncounter(encounter: Encounter, insertionIndex: number): void {
-    const entriesToDelete: number = 0;
-    this.encounters.splice(insertionIndex, entriesToDelete, encounter);
-    this.ngOnChanges();
-  }
-
-  private removeEncounter(removalIndex: number) {
-    const cardElements: HTMLElement[] =
-      this.elementRef.nativeElement.querySelectorAll('app-card');
-    const cardElement: HTMLElement = cardElements[removalIndex];
-
-    animateElement(cardElement, 'zoomOut').then(() => {
-      const entriesToDelete: number = 1;
-      this.encounters.splice(removalIndex, entriesToDelete);
-      this.ngOnChanges();
-    });
+    const encounterToDelete =
+      this.diaryEntryEncounters()[encounterIndex].encounter;
+    this.store.removeEncounter(encounterToDelete as Encounter);
   }
 
   /**
@@ -233,23 +159,48 @@ export class DiaryentryEncountersComponent implements OnInit, OnChanges {
    */
   private getOrderIndexForNewEncounter(insertionIndex: number): number {
     const isNewFirstEncounter: boolean = insertionIndex < 0;
-    const isNewFirstEncounterInEmptyDiaryentry: boolean =
-      this.encounters.length === 0;
+    const isEmptyDiaryEntry: boolean = this.store.realEncounters().length === 0;
     const isNewFirstEncounterInFullDiaryentry: boolean =
-      isNewFirstEncounter && !isNewFirstEncounterInEmptyDiaryentry;
+      isNewFirstEncounter && !isEmptyDiaryEntry;
 
-    let newOrderIndex: number;
-    if (isNewFirstEncounterInEmptyDiaryentry) {
-      newOrderIndex = 0;
+    const isLastEncounterInFullDiaryentry =
+      insertionIndex >= this.store.realEncounters().length &&
+      !isEmptyDiaryEntry;
+
+    if (isEmptyDiaryEntry) {
+      return 0;
     } else if (isNewFirstEncounterInFullDiaryentry) {
-      const firstEncounter: Encounter = this.encounters[0];
-      newOrderIndex = firstEncounter.priorOrderIndex();
+      const firstEncounter: Encounter = this.store.realEncounters()[0];
+      return priorOrderIndex(firstEncounter);
+    } else if (isLastEncounterInFullDiaryentry) {
+      const lastEncounter: Encounter =
+        this.store.realEncounters()[this.store.realEncounters().length - 1];
+      return nextOrderIndex(lastEncounter);
     } else {
       //is new encounter after some other encounter
-      const priorEncounter: Encounter = this.encounters[insertionIndex];
-      newOrderIndex = priorEncounter.getShiftedOrderIndex();
+      const priorEncounter = this.diaryEntryEncounters()[insertionIndex];
+      return getShiftedOrderIndex(priorEncounter.encounter);
     }
+  }
 
-    return newOrderIndex;
+  private isRealEncounter(encounter: Encounter | EncounterRaw): boolean {
+    return 'pk' in encounter;
+  }
+
+  private nextRealEncounter(encounterIndex: number): Encounter | undefined {
+    const realEncountersAfterIndex = this.diaryEntryEncounters()
+      .slice(encounterIndex)
+      .filter((encounter) => this.isRealEncounter(encounter.encounter));
+
+    return realEncountersAfterIndex[0]?.encounter as Encounter | undefined;
+  }
+
+  private priorRealEncounter(encounterIndex: number): Encounter | undefined {
+    const realEncountersBeforeIndex = this.diaryEntryEncounters()
+      .slice(0, encounterIndex + 1)
+      .reverse()
+      .filter((encounter) => this.isRealEncounter(encounter.encounter));
+
+    return realEncountersBeforeIndex[0]?.encounter as Encounter | undefined;
   }
 }

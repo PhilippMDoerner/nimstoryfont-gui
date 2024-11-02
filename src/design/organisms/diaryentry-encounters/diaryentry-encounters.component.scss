@@ -1,61 +1,72 @@
-.list{
+@import "/src/screens.scss";
+
+.list {
   padding-left: var(--spacer-0);
   padding-right: var(--spacer-0);
-  
-  &__buttons{
+
+  &__buttons {
+    padding: 0;
     margin-bottom: var(--spacer-2);
   }
 }
 
-.buttons{
+.buttons {
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  &__button{
+
+  &__button {
     display: flex;
-    &--left{
+    &--left {
       justify-content: flex-end;
     }
-    
-    &--right{
+
+    &--right {
       justify-content: flex-start;
     }
   }
 }
 
-.encounter-card{
+.repeated-unit {
+  padding: 0;
+
+  @include media-breakpoint-up(md) {
+    padding: unset;
+  }
+}
+
+.encounter-card {
   display: flex;
   justify-content: center;
   --card-flex-direction: row;
   --card-padding: var(--spacer-3);
-  
-  &__encounter{
+
+  &__encounter {
     flex: 1;
   }
-  
-  &__side-buttons{
+
+  &__side-buttons {
     height: 100%;
   }
 }
 
-.side-buttons{
+.side-buttons {
   display: flex;
   flex-direction: column;
   margin-left: var(--spacer-1);
-  
-  &__button{    
-    &--edit{
+
+  &__button {
+    &--edit {
       margin-bottom: var(--spacer-4);
     }
-    
-    &--arrow{
+
+    &--arrow {
       padding: var(--spacer-1) var(--spacer-0);
     }
   }
 }
 
-app-spinner{
+app-spinner {
   display: flex;
   flex-direction: column;
   align-items: center;

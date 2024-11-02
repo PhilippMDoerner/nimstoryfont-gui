@@ -3,6 +3,9 @@ export const replaceItem = <T>(list: T[], item: T, key: keyof T): T[] => {
   const itemIndex = newList.findIndex(
     (listItem) => listItem[key] === item[key],
   );
+
+  if (itemIndex === -1) throw 'Failed to find item in list';
+
   newList[itemIndex] = item;
   return newList;
 };
@@ -27,4 +30,20 @@ export const removeByProp = <T>(
   value: T[keyof T],
 ): T[] => {
   return list.filter((item) => item[prop] !== value);
+};
+
+/** Adds a list of entries to list in a manner where for each individual insertion it takes the indices of the initial list for reference */
+export const insertEntries = <T>(
+  list: T[],
+  entries: { entry: T; index: number }[],
+) => {
+  const newList = [...list];
+  entries.sort((a, b) => (a.index > b.index ? 1 : -1)); //Sort to highest index first
+  const highestIndex = entries[0].index;
+  if (highestIndex > list.length) {
+    throw 'Invalid list length';
+  }
+  entries.forEach((entry) => {
+    newList.splice(entry.index, 0, entry.entry);
+  });
 };

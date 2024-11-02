@@ -16,6 +16,7 @@ import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry } from 'src/design/molecules';
 import { sortByProp } from 'src/utils/array';
+import { filterNil } from 'src/utils/rxjs-operators';
 import {
   Encounter,
   EncounterConnection,
@@ -57,7 +58,7 @@ export class EncounterComponent implements OnInit {
   });
   campaignName = computed(() => this.encounter()?.campaign_details?.name);
 
-  locations$ = toObservable(this.locations);
+  locations$ = toObservable(this.locations).pipe(filterNil());
   formlyFields = computed<FormlyFieldConfig[]>(() => [
     this.formlyService.buildInputConfig({
       key: 'title',
@@ -101,7 +102,10 @@ export class EncounterComponent implements OnInit {
   }
 
   onEncounterCreate(encounter: Partial<EncounterRaw> | Encounter) {
-    this.encounterCreate.emit(encounter as EncounterRaw);
+    this.encounterCreate.emit({
+      ...this.encounter(),
+      ...encounter,
+    } as EncounterRaw);
     this.changeState('DISPLAY', encounter);
   }
 

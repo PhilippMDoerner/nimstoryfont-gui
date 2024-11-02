@@ -14,6 +14,8 @@ import { CreaturePageComponent } from './pages/creature-page/creature-page.compo
 import { CreaturePageStore } from './pages/creature-page/creature-page.store';
 import { CreatureUpdateCreateComponent } from './pages/creature-update-create-page/creature-update-create-page.component';
 import { CreatureUpdateCreateStore } from './pages/creature-update-create-page/creature-update-create-page.store';
+import { DiaryentryCreateUpdatePageComponent } from './pages/diaryentry-create-update-page/diaryentry-create-update-page.component';
+import { DiaryEntryCreateUpdatePageStore } from './pages/diaryentry-create-update-page/diaryentry-create-update-page.store';
 import { DiaryentryPageComponent } from './pages/diaryentry-page/diaryentry-page.component';
 import { DiaryentryPageStore } from './pages/diaryentry-page/diaryentry-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
@@ -238,6 +240,18 @@ const detailRoutes: Route[] = [
     path: 'diaryentry',
     children: [
       {
+        path: ':campaign/create',
+        component: DiaryentryCreateUpdatePageComponent,
+        data: { name: 'diaryentry-create', requiredMinimumRole: 'member' },
+        canDeactivate: [onExitReset(DiaryentryPageStore)],
+        resolve: {
+          loadSessions: () =>
+            inject(DiaryEntryCreateUpdatePageStore).loadSessions(),
+          loadAuthors: () =>
+            inject(DiaryEntryCreateUpdatePageStore).loadAuthors(),
+        },
+      },
+      {
         path: ':campaign/:sessionNumber/:isMainSession/:authorName',
         component: DiaryentryPageComponent,
         data: { name: 'diaryentry', requiredMinimumRole: 'guest' },
@@ -253,6 +267,24 @@ const detailRoutes: Route[] = [
             inject(DiaryentryPageStore).loadCampaignCharacters(),
           loadLocations: () =>
             inject(DiaryentryPageStore).loadCampaignLocations(),
+        },
+      },
+      {
+        path: ':campaign/:sessionNumber/:isMainSession/:authorName/update',
+        component: DiaryentryCreateUpdatePageComponent,
+        data: { name: 'diaryentry-update', requiredMinimumRole: 'member' },
+        canDeactivate: [onExitReset(DiaryentryPageStore)],
+        resolve: {
+          loadDiaryentry: (route: ActivatedRouteSnapshot) =>
+            inject(DiaryEntryCreateUpdatePageStore).loadDiaryentry({
+              sessionNumber: route.params['sessionNumber'],
+              isMainSession: route.params['isMainSession'],
+              name: route.params['authorName'],
+            }),
+          loadSessions: () =>
+            inject(DiaryEntryCreateUpdatePageStore).loadSessions(),
+          loadAuthors: () =>
+            inject(DiaryEntryCreateUpdatePageStore).loadAuthors(),
         },
       },
     ],

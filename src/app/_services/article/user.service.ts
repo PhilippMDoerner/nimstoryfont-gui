@@ -43,6 +43,6 @@ export class UserService extends BaseService<UserRaw, User> {
   }
 
   override parseOverviewEntity(data: any): OverviewItem {
-    throw 'Overview stuff is not implemented for Users';
+    return data;
   }
 }

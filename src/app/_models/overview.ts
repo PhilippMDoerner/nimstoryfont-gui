@@ -48,6 +48,9 @@ export interface OverviewItem extends ApiObject {
   //For Map-Type OverviewItems
   icon?: string;
 
+  //For Session-Type OverviewItems (Solely for diaryentry-create and update select statements)
+  author_ids?: number[];
+
   // For quests
   status?: QuestStatus;
   abstract?: string;

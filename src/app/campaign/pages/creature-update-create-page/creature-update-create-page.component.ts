@@ -104,9 +104,9 @@ export class CreatureUpdateCreateComponent {
       .subscribe(() => this.routeToCreature(creature as Creature));
   }
 
-  create(creature: CreatureRaw) {
+  create(creature: Partial<CreatureRaw>) {
     this.store.createCreature({
-      campaign: creature.campaign,
+      campaign: creature.campaign!,
       name: creature.name!,
     });
 

@@ -19,11 +19,11 @@
       >
         @for (entry of selectOptions; track entry) {
           <option
-            [ngValue]="entry.option[props['valueProp']]"
+            [ngValue]="entry.value[props['valueProp']]"
             [disabled]="!entry.enabled"
-            [selected]="entry.option[props['valueProp']] === modelValue"
+            [selected]="entry.value[props['valueProp']] === modelValue"
           >
-            {{ entry.option[props["labelProp"]] }}
+            {{ entry.value[props["labelProp"]] }}
           </option>
         }
       </select>

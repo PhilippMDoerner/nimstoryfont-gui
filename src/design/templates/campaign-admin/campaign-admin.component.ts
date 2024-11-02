@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Campaign, WikiStatistics } from 'src/app/_models/campaign';
 import { EmptySearchResponse } from 'src/app/_models/emptySearchResponse';
 import { CampaignRole } from 'src/app/_models/token';
@@ -54,8 +54,15 @@ export class CampaignAdminComponent implements OnChanges {
       sortProp: 'username',
       label: 'User',
       options$: this.users$,
-      disabledExpression: (selectOption: User) =>
-        this.isInGroup(selectOption, this.campaign.member_group_name),
+      disabledExpression: (selectOptions$: Observable<User[]>) => {
+        return selectOptions$.pipe(
+          map((selectOptions) =>
+            selectOptions.map((opt) =>
+              this.isInGroup(opt, this.campaign.member_group_name),
+            ),
+          ),
+        );
+      },
       tooltipMessage:
         'Members typically represent the individual player characters + the GM(s)',
       warningMessage:
@@ -73,8 +80,15 @@ export class CampaignAdminComponent implements OnChanges {
       sortProp: 'username',
       label: 'User',
       options$: this.users$,
-      disabledExpression: (selectOption: User) =>
-        this.isInGroup(selectOption, this.campaign.admin_group_name),
+      disabledExpression: (selectOptions$: Observable<User[]>) => {
+        return selectOptions$.pipe(
+          map((selectOptions) =>
+            selectOptions.map((opt) =>
+              this.isInGroup(opt, this.campaign.admin_group_name),
+            ),
+          ),
+        );
+      },
       tooltipMessage:
         'Keep in mind that being an admin only represents being the one administering this campaign, not being a member of it!',
       warningMessage: 'The user you selected is already admin of this campaign',
@@ -91,21 +105,28 @@ export class CampaignAdminComponent implements OnChanges {
       sortProp: 'username',
       label: 'User',
       options$: this.users$,
-      disabledExpression: (selectOption: User) => {
-        const isAdmin = this.isInGroup(
-          selectOption,
-          this.campaign.admin_group_name,
+      disabledExpression: (selectOptions$: Observable<User[]>) => {
+        return selectOptions$.pipe(
+          map((selectOptions) =>
+            selectOptions.map((opt) => {
+              const isAdmin = this.isInGroup(
+                opt,
+                this.campaign.admin_group_name,
+              );
+              const isMember = this.isInGroup(
+                opt,
+                this.campaign.member_group_name,
+              );
+              const isGuest = this.isInGroup(
+                opt,
+                this.campaign.guest_group_name,
+              );
+              return isAdmin || isMember || isGuest;
+            }),
+          ),
         );
-        const isMember = this.isInGroup(
-          selectOption,
-          this.campaign.member_group_name,
-        );
-        const isGuest = this.isInGroup(
-          selectOption,
-          this.campaign.guest_group_name,
-        );
-        return isAdmin || isMember || isGuest;
       },
+
       tooltipMessage:
         "Keep in mind that there's no point in being a guest when you're already a member or admin.",
       warningMessage: 'The user you selected is already guest of this campaign',

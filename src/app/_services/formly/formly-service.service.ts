@@ -52,28 +52,17 @@ export class FormlyService {
     };
   }
 
-  buildDisableSelectConfig(
-    config: FormlyOverviewDisabledSelectConfig,
+  buildDisableSelectConfig<T>(
+    config: FormlyOverviewDisabledSelectConfig<T>,
   ): FormlyFieldConfig {
     const isRequiredField = config.required ?? true;
 
-    const disableableOptions$ = config.options$.pipe(
-      map((options) =>
-        options.map((option) => {
-          return {
-            enabled: !config.disabledExpression(option) as boolean,
-            option,
-          };
-        }),
-      ),
+    const options$ = config.options$.pipe(
       map((options) => {
         if (isRequiredField) {
           return options;
         } else {
-          return [
-            { enabled: true, option: this.createEmptyOption(config) },
-            ...options,
-          ];
+          return [this.createEmptyOption(config), ...options];
         }
       }),
     );
@@ -89,10 +78,11 @@ export class FormlyService {
         label: config.label ?? capitalize(config.key),
         labelProp: config.labelProp,
         valueProp: config.valueProp ?? 'pk',
-        options: disableableOptions$,
+        options: options$,
         required: config.required ?? true,
         warningMessage: config.warningMessage,
         additionalProperties: {
+          disabledExpression: config.disabledExpression,
           tooltipMessage: config.tooltipMessage ?? 'WHAT',
           showWrapperLabel: config.showWrapperLabel ?? true,
         },

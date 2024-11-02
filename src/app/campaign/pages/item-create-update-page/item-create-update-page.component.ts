@@ -106,7 +106,7 @@ export class ItemCreateUpdatePageComponent {
     }
   }
 
-  update(item: ItemRaw) {
+  update(item: Item) {
     this.store.updateItem(item as Item);
 
     this.itemUpdateState$

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { map, Observable } from 'rxjs';
 import {
   CharacterDetails,
   CharacterOrganizationMembership,
@@ -104,8 +105,11 @@ export class CharacterCreateUpdateComponent {
       label: 'Organization',
       labelProp: 'name_full',
       campaign: this.campaignName(),
-      disabledExpression: (organization: Organization) =>
-        this.hasMembership(organization) ? true : null,
+      disabledExpression: (organizations$: Observable<Organization[]>) => {
+        return organizations$.pipe(
+          map((organizations) => organizations.map(this.hasMembership)),
+        );
+      },
       tooltipMessage: 'The organization or group this character is a member of',
       warningMessage: '',
       options$: this.organizationOptions$,

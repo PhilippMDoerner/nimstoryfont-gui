@@ -1,3 +1,5 @@
+import { AbstractControl } from '@angular/forms';
+import { FormlyTemplateOptions } from '@ngx-formly/core';
 import { Observable } from 'rxjs';
 import { ElementType } from '../../design/atoms';
 
@@ -29,9 +31,16 @@ export interface FormlyOverviewSelectConfig extends FormlyInterface {
   options$: Observable<any[]>;
 }
 
-export interface FormlyOverviewDisabledSelectConfig
+export type DisabledFunction<T> = (
+  options: Observable<T[]>,
+  formlyOptions: FormlyTemplateOptions,
+  model: any,
+  control: AbstractControl,
+) => Observable<boolean[]>;
+
+export interface FormlyOverviewDisabledSelectConfig<T>
   extends FormlyOverviewSelectConfig {
-  disabledExpression: (args: any) => boolean | null;
+  disabledExpression: DisabledFunction<T>;
   tooltipMessage: string;
   warningMessage: string;
 }

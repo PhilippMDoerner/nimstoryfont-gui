@@ -7,27 +7,27 @@ import { CreateUpdateState } from '../_models/create-update-states';
   templateUrl: './create-update.component.html',
   styleUrls: ['./create-update.component.scss'],
 })
-export class CreateUpdateComponent<T, O> {
+export class CreateUpdateComponent<Full, Raw> {
   heading = input.required<string>();
   state = input.required<CreateUpdateState>();
-  userModel = input<Partial<T> | O>();
+  userModel = input<Full | Partial<Raw>>();
   formlyFields = input.required<FormlyFieldConfig[]>();
-  serverModel = input.required<T | O>();
+  serverModel = input.required<Full | undefined>();
 
-  create = output<NonNullable<T>>();
-  update = output<NonNullable<T>>();
+  create = output<NonNullable<Partial<Raw>>>();
+  update = output<NonNullable<Full>>();
   cancel = output<void>();
 
-  onSubmit(submittedData: Partial<T>): void {
+  onSubmit(submittedData: Partial<Raw> | Full): void {
     if (submittedData == null) return;
     console.log('onSubmit', submittedData);
     switch (this.state()) {
       case 'CREATE':
-        this.create.emit(submittedData as NonNullable<T>);
+        this.create.emit(submittedData as NonNullable<Full>);
         break;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        this.update.emit(submittedData as NonNullable<T>);
+        this.update.emit(submittedData as NonNullable<Full>);
         break;
     }
   }

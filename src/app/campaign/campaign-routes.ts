@@ -240,7 +240,7 @@ const detailRoutes: Route[] = [
     path: 'diaryentry',
     children: [
       {
-        path: ':campaign/create',
+        path: 'create',
         component: DiaryentryCreateUpdatePageComponent,
         data: { name: 'diaryentry-create', requiredMinimumRole: 'member' },
         canDeactivate: [onExitReset(DiaryentryPageStore)],
@@ -252,7 +252,7 @@ const detailRoutes: Route[] = [
         },
       },
       {
-        path: ':campaign/:sessionNumber/:isMainSession/:authorName',
+        path: ':sessionNumber/:isMainSession/:authorName',
         component: DiaryentryPageComponent,
         data: { name: 'diaryentry', requiredMinimumRole: 'guest' },
         canDeactivate: [onExitReset(DiaryentryPageStore)],
@@ -270,7 +270,7 @@ const detailRoutes: Route[] = [
         },
       },
       {
-        path: ':campaign/:sessionNumber/:isMainSession/:authorName/update',
+        path: ':sessionNumber/:isMainSession/:authorName/update',
         component: DiaryentryCreateUpdatePageComponent,
         data: { name: 'diaryentry-update', requiredMinimumRole: 'member' },
         canDeactivate: [onExitReset(DiaryentryPageStore)],

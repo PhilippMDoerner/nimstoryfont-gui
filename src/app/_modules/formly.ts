@@ -21,7 +21,6 @@ import {
   requiredMessage,
   requiredValidator,
   sessionAlreadyHasAuthor,
-  sessionAuthorUniqueValidator,
   specialCharacterValidator,
   timeValidator,
 } from '../_services/formly/validators';
@@ -60,6 +59,5 @@ export const FORMLY_MODULE = FormlyModule.forRoot({
     integerValidator,
     specialCharacterValidator,
     fieldMatchValidator,
-    sessionAuthorUniqueValidator,
   ],
 });

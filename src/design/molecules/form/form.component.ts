@@ -6,10 +6,10 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup } from '@angular/forms';
-import { FormlyFieldProps } from '@ngx-formly/bootstrap/form-field';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { Observable } from 'rxjs';
+import { distinctUntilChanged, interval, map, startWith } from 'rxjs';
 import { ElementType, Icon } from '../../atoms';
 
 @Component({
@@ -32,13 +32,24 @@ export class FormComponent<T> {
   @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();
 
+  formErrors = toSignal(
+    interval(1000).pipe(
+      startWith([]),
+      map(() => this.form.errors),
+      distinctUntilChanged(),
+      map((errors) => {
+        if (errors == null) return [];
+
+        return Object.keys(errors).map(
+          (errorName) => errors[errorName].message as string,
+        );
+      }),
+      distinctUntilChanged(),
+    ),
+  );
+
   usedFields = computed<FormlyFieldConfig[]>(() => {
     return this.fields().map((field) => {
-      const isSelectFieldWithObservable =
-        field.props?.options instanceof Observable;
-      const newProps = isSelectFieldWithObservable
-        ? (field.props as FormlyFieldProps).options
-        : field.props;
       return {
         ...field,
         props: {

@@ -1,7 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { ValidatorOption } from '@ngx-formly/core/lib/models';
-import { lastValueFrom, Observable } from 'rxjs';
-import { OverviewItem } from 'src/app/_models/overview';
 /***
  * This is how Validators work:
  * 1) You have a validation function. That takes in a control:Formcontrol and returns ValidationErrors (when sync)
@@ -174,49 +172,4 @@ function passwordMatchValidation(
 export const fieldMatchValidator: ValidatorOption = {
   name: 'fieldMatch',
   validation: passwordMatchValidation,
-};
-
-/**
- * If you wish to manipulate this, you also have to manipulate in diaryentry-article-update "hasDiaryentryForAuthor"
- * TODO: Fix how this makes way too many calls to the sessions api endpoint for no reason
- */
-async function isSessionAuthorPairUniqueValidator(
-  control: any,
-): Promise<ValidationErrors> {
-  const { session: selectedSessionId, author: selectedAuthorId } =
-    control.value;
-  const sessionFieldConfig = control.controls.session._fields[0];
-
-  const selectFieldOptionsObs: Observable<OverviewItem[]> =
-    sessionFieldConfig.templateOptions.options;
-  const selectFieldOptions: OverviewItem[] =
-    (await lastValueFrom(selectFieldOptionsObs)) ?? [];
-  const selectedOption = selectFieldOptions.find(
-    (option: any) => option.pk === selectedSessionId,
-  );
-
-  if (selectedOption == null) {
-    throw 'WeirdError. You selected a session, its id got into the model and somehow that field is no longer among the options (?)';
-  }
-
-  const authorIdsWithDiaryentriesOnSession: number[] =
-    selectedOption.author_ids as number[];
-  const selectedAuthorAlreadyHasDiaryentryOnSession: boolean =
-    authorIdsWithDiaryentriesOnSession.includes(selectedAuthorId);
-  const isInitialValue: boolean = control.pristine; //True if this is an initial value, never changed by the user
-
-  if (selectedAuthorAlreadyHasDiaryentryOnSession && !isInitialValue) {
-    return {
-      passwordMatch: {
-        message:
-          'That account already has a diaryentry written for that session. Accounts can only have one Diaryentry per session',
-      },
-    };
-  }
-
-  return { passwordMatch: null };
-}
-export const sessionAuthorUniqueValidator: ValidatorOption = {
-  name: 'sessionAuthorPairUnique',
-  validation: isSessionAuthorPairUniqueValidator,
 };

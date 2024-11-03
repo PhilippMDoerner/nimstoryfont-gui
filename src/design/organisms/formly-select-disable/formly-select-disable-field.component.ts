@@ -28,15 +28,12 @@ export class FormlySelectDisableFieldComponent
   public static EMPTY_OPTION_VALUE = null;
 
   selectOptions$!: Observable<CanDisableOption[]>;
-  hasInvalidOptionSelected$!: Observable<boolean>;
-  isLoading$!: Observable<boolean>;
   modelValue: any;
 
   ngOnInit(): void {
     const templateOptions: FormlyTemplateOptions = this.props;
     const formControl: AbstractControl = this.formControl;
     const model = this.model;
-
     const options$ = this.props.options as Observable<any[]>;
     const areObservableOptions: boolean = options$ instanceof Observable;
     if (!areObservableOptions) {
@@ -63,22 +60,6 @@ export class FormlySelectDisableFieldComponent
         }));
       }),
     );
-
-    this.selectOptions$.pipe(
-      map((options) => {
-        const selectedOptionPk: number = this.model.session;
-        const selectedOption = options.find(
-          (option) => option.value.pk === selectedOptionPk,
-        );
-        const hasASelectedOption = selectedOption != null;
-        if (!hasASelectedOption) return false;
-
-        const isSelectedOptionDisabled = !selectedOption.enabled;
-        return isSelectedOptionDisabled;
-      }),
-    );
-
-    this.selectOptions$?.pipe(map((options) => options == null));
 
     this.setModelValue();
   }

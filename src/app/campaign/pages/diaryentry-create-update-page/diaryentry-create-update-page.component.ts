@@ -14,6 +14,7 @@ import {
   interval,
   map,
   Observable,
+  startWith,
 } from 'rxjs';
 import { DiaryEntry, DiaryEntryRaw } from 'src/app/_models/diaryentry';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -94,13 +95,16 @@ export class DiaryentryCreateUpdatePageComponent {
      * of the error message.
      */
     {
-      asyncValidators: {
-        validation: [
-          {
-            name: 'sessionAuthorPairUnique',
-            options: { errorPath: 'session' },
+      validators: {
+        canWriteDiaryentry: {
+          expression: (
+            control: AbstractControl<{ author: number; session: number }>,
+          ) => {
+            const { author: authorPk, session: sessionPk } = control.value;
+            return this.canSelectedAuthorAddDiaryentry(authorPk, sessionPk);
           },
-        ],
+          message: `Author already has written a Diaryentry`,
+        },
       },
       fieldGroup: [
         //Author
@@ -120,22 +124,25 @@ export class DiaryentryCreateUpdatePageComponent {
             options: Observable<OverviewItem[]>,
             _: FormlyTemplateOptions,
             control: AbstractControl,
-            model: any,
           ) => {
             const currentlySelectedAuthor$ = interval(1000).pipe(
               map(() => control.parent?.value.author),
+              startWith(control.parent?.value.author),
               distinctUntilChanged(),
             );
 
             const isOptionDisabled$ = combineLatest({
               options,
               selectedAuthor: currentlySelectedAuthor$,
-              userModel: this.userModel$,
             }).pipe(
-              map(({ options, selectedAuthor, userModel }) => {
+              map(({ options, selectedAuthor }) => {
                 console.log('Running');
-                return options.map((opt) =>
-                  this.disableSessionOption(opt, selectedAuthor, userModel),
+                return options.map(
+                  (opt) =>
+                    !this.canSelectedAuthorAddDiaryentry(
+                      selectedAuthor,
+                      opt.pk as number,
+                    ),
                 );
               }),
             );
@@ -157,15 +164,32 @@ export class DiaryentryCreateUpdatePageComponent {
     selectedAuthor: number,
     model: Partial<DiaryEntry> | undefined,
   ) {
+    if (selectedAuthor == null) return false;
+
     const isSelectedOption = model?.session === sessionOption.pk;
     if (isSelectedOption) return false;
 
-    const authorsWithDiaryentry = sessionOption.author_ids as number[];
-    if (selectedAuthor == null) return false;
+    const authorsWithDiaryentry = sessionOption.author_ids;
+    if (authorsWithDiaryentry == null) return false;
 
     const hasDiaryentryInSession =
       authorsWithDiaryentry.includes(selectedAuthor);
     return hasDiaryentryInSession;
+  }
+
+  canSelectedAuthorAddDiaryentry(authorPk: number, sessionPk: number) {
+    const session = this.store
+      .sessions()
+      ?.find((session) => session.pk === sessionPk);
+    if (!session) return true;
+
+    const authorsWithDiaryentryInSession = session.author_ids;
+    if (authorsWithDiaryentryInSession == null) return true;
+
+    if (authorsWithDiaryentryInSession.includes(authorPk)) {
+      return false;
+    }
+    return true;
   }
 
   create(diaryentry: Partial<DiaryEntryRaw>) {
@@ -177,7 +201,18 @@ export class DiaryentryCreateUpdatePageComponent {
   }
 
   cancel() {
-    this.routeToDiaryentry(this.store.diaryentry() as DiaryEntry);
+    const campaign = this.globalStore.campaignName();
+    switch (this.state()) {
+      case 'CREATE':
+        this.routingService.routeToPath('diaryentry-overview', {
+          campaign,
+        });
+        break;
+      case 'UPDATE':
+      case 'OUTDATED_UPDATE':
+        this.routeToDiaryentry(this.store.diaryentry() as DiaryEntry);
+        break;
+    }
   }
 
   private routeToDiaryentry(diaryentry: DiaryEntry) {

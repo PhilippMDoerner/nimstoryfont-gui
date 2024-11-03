@@ -6,37 +6,25 @@
     ></app-info-circle-tooltip>
   </label>
 
-  @if (!(isLoading$ | async)) {
-    @let selectOptions = selectOptions$ | async;
-    @if (selectOptions) {
-      <select
-        class="form-select"
-        [name]="'formly_disable_select_' + props.label"
-        [id]="'formly_disable_select_' + props.label"
-        [required]="!!props.required"
-        [formControl]="formControl"
-        [formlyAttributes]="field"
-      >
-        @for (entry of selectOptions; track entry) {
-          <option
-            [ngValue]="entry.value[props['valueProp']]"
-            [disabled]="!entry.enabled"
-            [selected]="entry.value[props['valueProp']] === modelValue"
-          >
-            {{ entry.value[props["labelProp"]] }}
-          </option>
-        }
-      </select>
-    }
-  } @else {
-    <ng-container [ngTemplateOutlet]="loading" />
-  }
-
-  @if (hasInvalidOptionSelected$ | async) {
-    <div class="warning">
-      {{ props["warningMessage"] }}
-    </div>
+  @let selectOptions = selectOptions$ | async;
+  @if (selectOptions) {
+    <select
+      class="form-select"
+      [name]="'formly_disable_select_' + props.label"
+      [id]="'formly_disable_select_' + props.label"
+      [required]="!!props.required"
+      [formControl]="formControl"
+      [formlyAttributes]="field"
+    >
+      @for (entry of selectOptions; track entry) {
+        <option
+          [ngValue]="entry.value[props['valueProp']]"
+          [disabled]="!entry.enabled"
+          [selected]="entry.value[props['valueProp']] === modelValue"
+        >
+          {{ entry.value[props["labelProp"]] }}
+        </option>
+      }
+    </select>
   }
 </div>
-
-<ng-template #loading><app-spinner></app-spinner></ng-template>

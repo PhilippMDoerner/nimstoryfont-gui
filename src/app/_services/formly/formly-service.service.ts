@@ -59,10 +59,10 @@ export class FormlyService {
 
     const options$ = config.options$.pipe(
       map((options) => {
+        return [this.createEmptyOption(config), ...options];
         if (isRequiredField) {
           return options;
         } else {
-          return [this.createEmptyOption(config), ...options];
         }
       }),
     );

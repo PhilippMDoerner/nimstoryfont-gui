@@ -1,1 +1,15 @@
-<p>location-page works!</p>
+@let location = store.location();
+@if (location) {
+  <app-location-template
+    [serverUrl]="serverUrl"
+    [location]="location"
+    [imageServerModel]="store.imageServerModel()"
+    [canCreate]="store.hasWritePermission()"
+    [canUpdate]="store.hasWritePermission()"
+    [canDelete]="store.hasWritePermission()"
+    (createImage)="store.createImage($event, location.pk!)"
+    (updateImage)="store.updateImage($event)"
+    (deleteImage)="store.deleteImage($event.pk!)"
+    (locationDelete)="store.deleteLocation($event)"
+  ></app-location-template>
+}

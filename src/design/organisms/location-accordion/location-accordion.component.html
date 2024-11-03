@@ -2,9 +2,8 @@
   Locations of Interest
 
   <ng-container *ngIf="canCreate">
-    <a [routerLink]="createUrl">
+    <a class="create-button" [routerLink]="createUrl">
       <app-button
-        class="create-button"
         [type]="'PRIMARY'"
         [size]="'SMALL'"
         [icon]="'plus'"

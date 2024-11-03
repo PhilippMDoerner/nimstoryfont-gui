@@ -24,6 +24,8 @@ import { ItemCreateUpdatePageComponent } from './pages/item-create-update-page/i
 import { ItemCreateUpdateStore } from './pages/item-create-update-page/item-create-update-page.store';
 import { ItemPageComponent } from './pages/item-page/item-page.component';
 import { ItemPageStore } from './pages/item-page/item-page.store';
+import { LocationPageComponent } from './pages/location-page/location-page.component';
+import { LocationPageStore } from './pages/location-page/location-page.store';
 
 const overviewRoutes: CampaignOverviewRoute[] = [
   {
@@ -285,6 +287,26 @@ const detailRoutes: Route[] = [
             inject(DiaryEntryCreateUpdatePageStore).loadSessions(),
           loadAuthors: () =>
             inject(DiaryEntryCreateUpdatePageStore).loadAuthors(),
+        },
+      },
+    ],
+  },
+  {
+    path: 'location',
+    children: [
+      {
+        path: ':parent_name/:name',
+        component: LocationPageComponent,
+        data: { name: 'location', requiredMinimumRole: 'guest' },
+        canDeactivate: [onExitReset(LocationPageStore)],
+        resolve: {
+          campaignCharacters: () =>
+            inject(LocationPageStore).loadCampaignCharacters(),
+          location: (route: ActivatedRouteSnapshot) =>
+            inject(LocationPageStore).loadLocation({
+              name: route.params['name'],
+              parentLocationName: route.params['parent_name'],
+            }),
         },
       },
     ],

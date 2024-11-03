@@ -81,7 +81,7 @@ export class DiaryentryCreateUpdatePageComponent {
         } as Partial<DiaryEntryRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.diaryentry() as DiaryEntry;
+        return { ...this.store.diaryentry() } as DiaryEntry;
     }
   });
   userModel$ = toObservable(this.userModel);
@@ -101,7 +101,13 @@ export class DiaryentryCreateUpdatePageComponent {
             control: AbstractControl<{ author: number; session: number }>,
           ) => {
             const { author: authorPk, session: sessionPk } = control.value;
-            return this.canSelectedAuthorAddDiaryentry(authorPk, sessionPk);
+
+            const x = this.canSelectedAuthorAddDiaryentry(
+              authorPk,
+              sessionPk,
+              this.store.diaryentry()?.session as number,
+            );
+            return x;
           },
           message: `Author already has written a Diaryentry`,
         },
@@ -142,6 +148,7 @@ export class DiaryentryCreateUpdatePageComponent {
                     !this.canSelectedAuthorAddDiaryentry(
                       selectedAuthor,
                       opt.pk as number,
+                      this.store.diaryentry()?.session as number,
                     ),
                 );
               }),
@@ -177,7 +184,13 @@ export class DiaryentryCreateUpdatePageComponent {
     return hasDiaryentryInSession;
   }
 
-  canSelectedAuthorAddDiaryentry(authorPk: number, sessionPk: number) {
+  canSelectedAuthorAddDiaryentry(
+    authorPk: number,
+    sessionPk: number,
+    selectedSessionPk: number,
+  ) {
+    if (sessionPk === selectedSessionPk) return true;
+
     const session = this.store
       .sessions()
       ?.find((session) => session.pk === sessionPk);

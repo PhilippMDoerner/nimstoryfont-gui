@@ -1,8 +1,18 @@
 export const TINYMCE_SETTINGS = {
   plugins: [
-    'advlist autolink lists link image charmap anchor',
-    'searchreplace visualblocks fullscreen media',
-    'table paste help wordcount',
+    'advlist',
+    'autolink',
+    'lists',
+    'link',
+    'image',
+    'charmap',
+    'anchor',
+    'searchreplace',
+    'visualblocks',
+    'media',
+    'table',
+    'help',
+    'wordcount',
   ],
   toolbar: [
     'undo redo | formatselect | bold italic underline strikethrough subscript superscript link unlink blockquote | backcolor forecolor hilitecolor fontsizeselect |',

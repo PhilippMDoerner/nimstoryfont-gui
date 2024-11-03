@@ -20,7 +20,8 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": {
-              "base": "dist/nimstoryfont-gui"
+              "base": "dist/nimstoryfont-gui",
+              "browser": ""
             },
             "index": "src/index.html",
             "polyfills": [
@@ -52,7 +53,9 @@
               "node_modules/plyr/dist/plyr.css",
               "node_modules/leaflet/dist/leaflet.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/tinymce/tinymce.min.js"
+            ],
             "allowedCommonJsDependencies": [
               "leaflet"
             ],
@@ -69,7 +72,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "2mb"
+                  "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",

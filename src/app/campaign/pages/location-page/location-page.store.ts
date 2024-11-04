@@ -11,15 +11,23 @@ import { shareReplay, switchMap, take } from 'rxjs';
 import { Location } from 'src/app/_models/location';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { LocationService } from 'src/app/_services/article/location.service';
+import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
 import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
+import { RequestState } from 'src/utils/store/factory-types';
+import { handleError } from 'src/utils/store/toServerModel';
 import { withImages } from 'src/utils/store/withImages';
 import { withQueries } from 'src/utils/store/withQueries';
+import { withUpdates } from 'src/utils/store/withUpdates';
 
-type LocationPageState = {};
+type LocationPageState = {
+  locationDeleteState: RequestState;
+};
 
-const initialState: LocationPageState = {};
+const initialState: LocationPageState = {
+  locationDeleteState: 'init',
+};
 
 export const LocationPageStore = signalStore(
   { providedIn: 'root' },
@@ -56,6 +64,13 @@ export const LocationPageStore = signalStore(
         ),
     };
   }),
+  withUpdates(() => {
+    const locationService = inject(LocationService);
+    return {
+      location: (location: Location) =>
+        locationService.update(location.pk as number, location),
+    };
+  }),
   withImages('location', {
     onCreateSuccess: (store, image) => {
       const updatedLocation: Location = {
@@ -83,7 +98,7 @@ export const LocationPageStore = signalStore(
   }),
   withMethods((store) => {
     const locationService = inject(LocationService);
-
+    const warningService = inject(WarningsService);
     return {
       reset: () =>
         patchState(store, {
@@ -91,8 +106,21 @@ export const LocationPageStore = signalStore(
           locationError: undefined,
           locationQueryState: 'init',
         }),
-      deleteLocation: (location: Location) =>
-        locationService.delete(location.pk as number),
+      deleteLocation: (locationPk: number) => {
+        patchState(store, {
+          locationDeleteState: 'loading',
+          locationError: undefined,
+        });
+        locationService.delete(locationPk).subscribe({
+          next: () =>
+            patchState(store, {
+              location: undefined,
+              locationDeleteState: 'success',
+              locationError: undefined,
+            }),
+          error: (err) => handleError(store, err, warningService),
+        });
+      },
     };
   }),
 );

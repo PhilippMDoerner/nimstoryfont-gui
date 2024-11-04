@@ -3,6 +3,7 @@
   <app-location-template
     [serverUrl]="serverUrl"
     [location]="location"
+    [locationServerModel]="store.locationServerModel()"
     [imageServerModel]="store.imageServerModel()"
     [canCreate]="store.hasWritePermission()"
     [canUpdate]="store.hasWritePermission()"
@@ -10,6 +11,7 @@
     (createImage)="store.createImage($event, location.pk!)"
     (updateImage)="store.updateImage($event)"
     (deleteImage)="store.deleteImage($event.pk!)"
-    (locationDelete)="store.deleteLocation($event)"
+    (locationDelete)="onLocationDelete($event)"
+    (locationUpdate)="store.updateLocation($event)"
   ></app-location-template>
 }

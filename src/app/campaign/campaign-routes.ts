@@ -24,6 +24,8 @@ import { ItemCreateUpdatePageComponent } from './pages/item-create-update-page/i
 import { ItemCreateUpdateStore } from './pages/item-create-update-page/item-create-update-page.store';
 import { ItemPageComponent } from './pages/item-page/item-page.component';
 import { ItemPageStore } from './pages/item-page/item-page.store';
+import { LocationCreateUpdatePageComponent } from './pages/location-create-update-page/location-create-update-page.component';
+import { LocationCreateUpdateStore } from './pages/location-create-update-page/location-create-update-page.store';
 import { LocationPageComponent } from './pages/location-page/location-page.component';
 import { LocationPageStore } from './pages/location-page/location-page.store';
 
@@ -245,7 +247,7 @@ const detailRoutes: Route[] = [
         path: 'create',
         component: DiaryentryCreateUpdatePageComponent,
         data: { name: 'diaryentry-create', requiredMinimumRole: 'member' },
-        canDeactivate: [onExitReset(DiaryentryPageStore)],
+        canDeactivate: [onExitReset(DiaryEntryCreateUpdatePageStore)],
         resolve: {
           loadSessions: () =>
             inject(DiaryEntryCreateUpdatePageStore).loadSessions(),
@@ -275,7 +277,7 @@ const detailRoutes: Route[] = [
         path: ':sessionNumber/:isMainSession/:authorName/update',
         component: DiaryentryCreateUpdatePageComponent,
         data: { name: 'diaryentry-update', requiredMinimumRole: 'member' },
-        canDeactivate: [onExitReset(DiaryentryPageStore)],
+        canDeactivate: [onExitReset(DiaryEntryCreateUpdatePageStore)],
         resolve: {
           loadDiaryentry: (route: ActivatedRouteSnapshot) =>
             inject(DiaryEntryCreateUpdatePageStore).loadDiaryentry({
@@ -291,9 +293,20 @@ const detailRoutes: Route[] = [
       },
     ],
   },
+  // Location Routes
   {
     path: 'location',
     children: [
+      {
+        path: 'create',
+        component: LocationCreateUpdatePageComponent,
+        data: { name: 'location-create', requiredMinimumRole: 'member' },
+        canDeactivate: [onExitReset(LocationCreateUpdateStore)],
+        resolve: {
+          loadLocations: () =>
+            inject(LocationCreateUpdateStore).loadCampaignLocations(),
+        },
+      },
       {
         path: ':parent_name/:name',
         component: LocationPageComponent,
@@ -309,15 +322,23 @@ const detailRoutes: Route[] = [
             }),
         },
       },
+      {
+        path: ':parent_name/:name/update',
+        component: LocationCreateUpdatePageComponent,
+        data: { name: 'location-update', requiredMinimumRole: 'member' },
+        canDeactivate: [onExitReset(LocationCreateUpdateStore)],
+        resolve: {
+          loadLocations: () =>
+            inject(LocationCreateUpdateStore).loadCampaignLocations(),
+          loadLocation: (route: ActivatedRouteSnapshot) =>
+            inject(LocationCreateUpdateStore).loadLocation({
+              name: route.params['name'],
+              parentLocationName: route.params['parent_name'],
+            }),
+        },
+      },
     ],
   },
-  // // Location Routes
-  // {
-  //   path: 'location/:parent_name/:name',
-  //   component: LocationPageComponent,
-  //   data: { name: 'location', requiredMinimumRole: 'guest' },
-  //   resolve: {},
-  // },
   // // Organization Routes
   // {
   //   path: 'organization/:name',

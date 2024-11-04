@@ -1,9 +1,10 @@
 import {
   Component,
   EventEmitter,
-  Input,
+  input,
   OnChanges,
   OnInit,
+  output,
   Output,
 } from '@angular/core';
 import { Image } from 'src/app/_models/image';
@@ -22,17 +23,19 @@ interface ParentLocation {
   styleUrls: ['./location-template.component.scss'],
 })
 export class LocationTemplateComponent implements OnInit, OnChanges {
-  @Input() location!: Location;
-  @Input() serverUrl!: string;
-  @Input() imageServerModel?: Image;
-  @Input() canUpdate: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() canDelete: boolean = false;
+  location = input.required<Location>();
+  locationServerModel = input.required<Location | undefined>();
+  serverUrl = input.required<string>();
+  imageServerModel = input.required<Image | undefined>();
+  canUpdate = input.required<boolean>();
+  canCreate = input.required<boolean>();
+  canDelete = input.required<boolean>();
 
   @Output() createImage: EventEmitter<Image> = new EventEmitter();
   @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
   @Output() updateImage: EventEmitter<Image> = new EventEmitter();
   @Output() locationDelete: EventEmitter<Location> = new EventEmitter();
+  locationUpdate = output<Location>();
 
   overviewUrl!: string;
   updateUrl!: string;
@@ -44,15 +47,15 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
   constructor(private routingService: RoutingService) {}
 
   ngOnInit(): void {
-    const campaignName = this.location.campaign_details?.name;
+    const campaignName = this.location().campaign_details?.name;
 
     this.overviewUrl = this.routingService.getRoutePath('location-overview', {
       campaign: campaignName,
     });
 
     this.markerCreateUrl = this.routingService.getRoutePath('marker-create', {
-      parent_location_name: this.location.parent_location_details?.name,
-      location_name: this.location.name,
+      parent_location_name: this.location().parent_location_details?.name,
+      location_name: this.location().name,
       campaign: campaignName,
     });
 
@@ -70,25 +73,37 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
   }
 
   routeToCharacterCreation(): void {
-    const campaignName = this.location.campaign_details?.name;
+    const campaignName = this.location().campaign_details?.name;
     this.routingService.routeToPath('character-create', {
       campaign: campaignName,
     });
   }
 
+  onDescriptionUpdate(description: string): void {
+    const isUpdatedAfterBeingOutdated =
+      this.locationServerModel() !== undefined;
+    const locationToUpdate = isUpdatedAfterBeingOutdated
+      ? this.locationServerModel()
+      : this.location();
+
+    if (locationToUpdate) {
+      this.locationUpdate.emit({ ...locationToUpdate, description });
+    }
+  }
+
   private setUrls(): void {
-    const campaignName = this.location.campaign_details?.name;
+    const campaignName = this.location().campaign_details?.name;
     this.updateUrl = this.routingService.getRoutePath('location-update', {
-      name: this.location.name,
-      parent_name: this.location.parent_location,
+      name: this.location().name,
+      parent_name: this.location().parent_location,
       campaign: campaignName,
     });
   }
 
   private setLocationCharacters(): void {
-    const campaignName = this.location.campaign_details?.name;
+    const campaignName = this.location().campaign_details?.name;
     this.locationCharacters =
-      this.location.characters?.map((character) => ({
+      this.location().characters?.map((character) => ({
         label: character.name,
         link: this.routingService.getRoutePath('character', {
           campaign: campaignName,
@@ -98,14 +113,14 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
   }
 
   private setMarkerEntries(): void {
-    const campaignName = this.location.campaign_details?.name;
+    const campaignName = this.location().campaign_details?.name;
     this.markerEntries =
-      this.location.marker_details?.map((marker) => ({
+      this.location().marker_details?.map((marker) => ({
         text: marker.map,
         link: this.routingService.getRoutePath('marker', {
           parent_location_name:
-            this.location.parent_location_details?.name ?? 'None',
-          location_name: this.location.name,
+            this.location().parent_location_details?.name ?? 'None',
+          location_name: this.location().name,
           map_name: marker.map,
           campaign: campaignName,
         }),
@@ -114,7 +129,7 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
   }
 
   private setParentLocations(): void {
-    const parentNames = this.location.parent_location_list;
+    const parentNames = this.location().parent_location_list;
     this.parentLocations =
       parentNames?.map((parent) => ({
         label: parent,
@@ -129,7 +144,7 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
     const index: number = locationList.indexOf(locationName);
     const parentLocationName: string =
       index === 0 ? 'None' : locationList[index - 1];
-    const campaignName = this.location.campaign_details?.name;
+    const campaignName = this.location().campaign_details?.name;
     const locationUrl: string = this.routingService.getRoutePath('location', {
       parent_name: parentLocationName,
       name: locationName,

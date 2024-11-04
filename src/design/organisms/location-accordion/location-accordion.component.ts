@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, input, Input, OnChanges, OnInit } from '@angular/core';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { Location } from '../../../app/_models/location';
 
@@ -15,6 +15,7 @@ interface AccordiongEntry {
 export class LocationAccordionComponent implements OnInit, OnChanges {
   @Input() locations!: Location[];
   @Input() canCreate: boolean = false;
+  campaignName = input.required<string>();
 
   accordionEntries: AccordiongEntry[] = [];
   createUrl!: string;
@@ -23,7 +24,9 @@ export class LocationAccordionComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.setAccordionEntries();
-    this.createUrl = this.routingService.getRoutePath('location-create');
+    this.createUrl = this.routingService.getRoutePath('location-create', {
+      campaign: this.campaignName(),
+    });
   }
 
   ngOnChanges(): void {

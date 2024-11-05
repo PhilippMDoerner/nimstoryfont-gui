@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { shareReplay, switchMap } from 'rxjs';
+import { shareReplay, switchMap, take } from 'rxjs';
 import { Item, ItemRaw } from 'src/app/_models/item';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { ItemService } from 'src/app/_services/article/item.service';
@@ -34,12 +34,14 @@ export const ItemCreateUpdateStore = signalStore(
     return {
       item: (name: string) =>
         campaignName$.pipe(
+          take(1),
           switchMap((campaignName) =>
             itemService.readByParam(campaignName, { name }),
           ),
         ),
       campaignCharacters: () =>
         campaignName$.pipe(
+          take(1),
           switchMap((campaignName) =>
             characterService.campaignList(campaignName),
           ),

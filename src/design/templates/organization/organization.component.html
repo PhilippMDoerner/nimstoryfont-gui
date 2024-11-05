@@ -4,7 +4,7 @@
       <div class="organization__edit-container">
         <a [routerLink]="updateUrl()">
           <app-button
-            [title]="'Edit ' + organization.name"
+            [title]="'Edit ' + organization().name"
             [icon]="'pencil'"
             [type]="'SECONDARY'"
           ></app-button>
@@ -86,7 +86,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Organizations'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + organization.name + '?'"
+      [deleteMessage]="'Delete ' + organization().name + '?'"
       (delete)="organizationDelete.emit(organization())"
     ></app-article-footer>
   </article>

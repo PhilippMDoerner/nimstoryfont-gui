@@ -41,7 +41,7 @@ export class OrganizationComponent {
     const campaignName = this.organization().campaign_details?.name;
     return this.routingService.getRoutePath('organization-update', {
       campaign: campaignName,
-      name: this.organization.name,
+      name: this.organization().name,
     });
   });
 

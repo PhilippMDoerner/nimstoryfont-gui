@@ -1,7 +1,6 @@
 <app-sidebar
   #sidebar
   class="sidebar"
-  [@sidebarSlideInOut]="campaign ? 'visible' : 'hidden'"
   [class.sidebar--mobile-visible]="showSidebar"
   [campaign]="campaign"
   [hasCampaignAdminPrivileges]="hasCampaignAdminPrivileges"

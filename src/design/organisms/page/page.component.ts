@@ -8,13 +8,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Campaign } from 'src/app/_models/campaign';
-import { sidebarSlideInOut } from 'src/design/animations/slideInOut';
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
-  animations: [sidebarSlideInOut],
 })
 export class PageComponent {
   @Input() serverUrl!: string;

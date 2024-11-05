@@ -25,6 +25,7 @@
   <!-- Create Image Button -->
   <ng-container *ngIf="canCreate">
     <app-button
+      title="Create Image"
       class="mx-2"
       [type]="'PRIMARY'"
       [size]="'SMALL'"
@@ -36,6 +37,7 @@
   <!-- Update Image button -->
   <ng-container *ngIf="images.length > 0 && canUpdate">
     <app-button
+      title="Update Image"
       class="mx-2"
       [type]="'SECONDARY'"
       [size]="'SMALL'"
@@ -47,6 +49,7 @@
   <!-- Delete Image Button -->
   <ng-container *ngIf="images.length > 1 && canDelete">
     <app-button
+      title="Delete Image"
       class="mx-2"
       [type]="'DANGER'"
       [size]="'SMALL'"

@@ -4,43 +4,44 @@
       <div class="organization__edit-container">
         <a [routerLink]="updateUrl">
           <app-button
+            [title]="'Edit ' + organization.name"
             [icon]="'pencil'"
             [type]="'SECONDARY'"
           ></app-button>
         </a>
       </div>
     </ng-container>
-  
+
     <!-- Heading -->
     <div class="row">
-      <h1 class="col-12 organization__heading"> 
-        {{ organization.name }} 
+      <h1 class="col-12 organization__heading">
+        {{ organization.name }}
       </h1>
       <!-- Leader-Subheading -->
-      <div class="col-12 organization__subheading"> 
-          Leader: 
-          <ng-container *ngIf="organization.leader; else Unknown">
-              <strong>
-                  <a class="ms-1" [routerLink]="leaderUrl">
-                      {{ organization.leader }}
-                  </a>
-              </strong>
-          </ng-container>
+      <div class="col-12 organization__subheading">
+        Leader:
+        <ng-container *ngIf="organization.leader; else Unknown">
+          <strong>
+            <a class="ms-1" [routerLink]="leaderUrl">
+              {{ organization.leader }}
+            </a>
+          </strong>
+        </ng-container>
       </div>
-  
+
       <!-- Headquarters Subheading -->
-      <div class="col-12 organization__subheading"> 
-          Headquarters:
-          <ng-container *ngIf="organization.headquarter_details; else Unknown">
-              <strong>    
-                  <a class="ms-1" [routerLink]="headquarterUrl">
-                      {{ organization.headquarter_details.name_full }}
-                  </a>
-              </strong>
-          </ng-container>
+      <div class="col-12 organization__subheading">
+        Headquarters:
+        <ng-container *ngIf="organization.headquarter_details; else Unknown">
+          <strong>
+            <a class="ms-1" [routerLink]="headquarterUrl">
+              {{ organization.headquarter_details.name_full }}
+            </a>
+          </strong>
+        </ng-container>
       </div>
     </div>
-  
+
     <!-- Image Gallery -->
     <div class="organization__images">
       <app-image-carousel-card
@@ -55,15 +56,13 @@
         (updateImage)="updateImage.emit($event)"
       ></app-image-carousel-card>
     </div>
-  
+
     <!-- Description -->
     <div class="organization__description">
-      <h4> Description </h4>
-      <app-html-text
-        [text]="organization.description"
-      ></app-html-text>
+      <h4>Description</h4>
+      <app-html-text [text]="organization.description"></app-html-text>
     </div>
-  
+
     <!-- Members -->
     <div class="organization__members">
       <app-list
@@ -74,7 +73,7 @@
         (create)="routeToCharacterCreation()"
       ></app-list>
     </div>
-  
+
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer
       [buttonLink]="overviewUrl"

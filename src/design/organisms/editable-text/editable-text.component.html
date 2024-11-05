@@ -3,6 +3,14 @@
 @if (headingVal) {
   <h4 class="heading">
     <app-html-text [text]="headingVal" />
+    <button class="heading__edit-button" (click)="toggleEdit()">
+      <h6 class="heading__edit-text">
+        (
+        {{ editButtonText() }}
+        <app-icon [icon]="'edit'"></app-icon>
+        )
+      </h6>
+    </button>
   </h4>
 }
 

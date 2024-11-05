@@ -3,7 +3,11 @@
     <ng-container *ngIf="canUpdate">
       <div class="location__edit-container">
         <a [routerLink]="updateUrl">
-          <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
+          <app-button
+            [title]="'Edit ' + location().name"
+            [icon]="'pencil'"
+            [type]="'SECONDARY'"
+          ></app-button>
         </a>
       </div>
     </ng-container>

@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   ElementRef,
   input,
@@ -27,12 +28,20 @@ export class EditableTextComponent {
   placeholder = input.required<string>();
   serverModel = input<string>();
   heading = input<string>();
-
   update = output<string>();
 
   settings = TINYMCE_SETTINGS;
   state = signal<State>('DISPLAY');
   textModel = '';
+  editButtonText = computed(() => {
+    switch (this.state()) {
+      case 'DISPLAY':
+        return 'edit';
+      case 'UPDATE':
+      case 'OUTDATED_UPDATE':
+        return 'cancel';
+    }
+  });
 
   editorField = viewChild<ElementRef>('editor');
 
@@ -47,6 +56,14 @@ export class EditableTextComponent {
       },
       { allowSignalWrites: true },
     );
+  }
+
+  toggleEdit() {
+    if (this.state() === 'UPDATE') {
+      this.cancelEdit();
+    } else {
+      this.startEdit();
+    }
   }
 
   startEdit() {

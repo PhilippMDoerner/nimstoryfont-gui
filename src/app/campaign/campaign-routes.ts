@@ -28,6 +28,8 @@ import { LocationCreateUpdatePageComponent } from './pages/location-create-updat
 import { LocationCreateUpdateStore } from './pages/location-create-update-page/location-create-update-page.store';
 import { LocationPageComponent } from './pages/location-page/location-page.component';
 import { LocationPageStore } from './pages/location-page/location-page.store';
+import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
+import { OrganizationStore } from './pages/organization-page/organization-page.store';
 
 const overviewRoutes: CampaignOverviewRoute[] = [
   {
@@ -339,13 +341,35 @@ const detailRoutes: Route[] = [
       },
     ],
   },
-  // // Organization Routes
-  // {
-  //   path: 'organization/:name',
-  //   component: OrganizationPageComponent,
-  //   data: { name: 'organization', requiredMinimumRole: 'guest' },
-  //   resolve: {},
-  // },
+  // Organization Routes
+  {
+    path: 'organization',
+    children: [
+      // {
+      //   path: 'create',
+      //   component: OrganizationCreateUpdatePageComponent,
+      //   data: { name: 'organization-create', requiredMinimumRole: 'member' },
+      //   resolve: {},
+      //   canDeactivate: [onExitReset(OrganizationCreateUpdateStore)],
+      // },
+      {
+        path: ':name',
+        component: OrganizationPageComponent,
+        data: { name: 'organization', requiredMinimumRole: 'guest' },
+        resolve: {
+          organization: (route: ActivatedRouteSnapshot) =>
+            inject(OrganizationStore).loadOrganization(route.params['name']),
+        },
+      },
+      // {
+      //   path: ':name/update',
+      //   component: OrganizationCreateUpdatePageComponent,
+      //   data: { name: 'organization-update', requiredMinimumRole: 'member' },
+      //   resolve: {},
+      //   canDeactivate: [onExitReset(OrganizationCreateUpdateStore)],
+      // },
+    ],
+  },
   // // Quote Routes
   // {
   //   path: 'quotes/:name',

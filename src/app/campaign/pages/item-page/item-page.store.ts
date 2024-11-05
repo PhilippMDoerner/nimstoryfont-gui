@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
@@ -17,6 +18,7 @@ import { GlobalStore } from 'src/app/global.store';
 import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
+import { handleError } from 'src/utils/store/toServerModel';
 import { withImages } from 'src/utils/store/withImages';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
@@ -99,7 +101,8 @@ export const ItemPageStore = signalStore(
               itemDeleteState: 'success',
               itemError: undefined,
             }),
-          error: warningService.showWarning,
+          error: (err: HttpErrorResponse) =>
+            handleError(state, err, warningService),
         });
       },
       updateItem: rxMethod<Item>(

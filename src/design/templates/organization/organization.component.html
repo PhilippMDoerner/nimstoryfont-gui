@@ -1,8 +1,8 @@
 <app-page-container>
   <article class="container">
-    <ng-container *ngIf="canUpdate">
+    @if (canUpdate()) {
       <div class="organization__edit-container">
-        <a [routerLink]="updateUrl">
+        <a [routerLink]="updateUrl()">
           <app-button
             [title]="'Edit ' + organization.name"
             [icon]="'pencil'"
@@ -10,47 +10,51 @@
           ></app-button>
         </a>
       </div>
-    </ng-container>
+    }
 
     <!-- Heading -->
     <div class="row">
       <h1 class="col-12 organization__heading">
-        {{ organization.name }}
+        {{ organization().name }}
       </h1>
       <!-- Leader-Subheading -->
       <div class="col-12 organization__subheading">
         Leader:
-        <ng-container *ngIf="organization.leader; else Unknown">
+        @if (organization().leader) {
           <strong>
-            <a class="ms-1" [routerLink]="leaderUrl">
-              {{ organization.leader }}
+            <a class="ms-1" [routerLink]="leaderUrl()">
+              {{ organization().leader }}
             </a>
           </strong>
-        </ng-container>
+        } @else {
+          <ng-container *ngTemplateOutlet="Unknown" />
+        }
       </div>
 
       <!-- Headquarters Subheading -->
       <div class="col-12 organization__subheading">
         Headquarters:
-        <ng-container *ngIf="organization.headquarter_details; else Unknown">
+        @if (organization().headquarter_details) {
           <strong>
-            <a class="ms-1" [routerLink]="headquarterUrl">
-              {{ organization.headquarter_details.name_full }}
+            <a class="ms-1" [routerLink]="headquarterUrl()">
+              {{ organization().headquarter_details?.name_full }}
             </a>
           </strong>
-        </ng-container>
+        } @else {
+          <ng-container *ngTemplateOutlet="Unknown" />
+        }
       </div>
     </div>
 
     <!-- Image Gallery -->
     <div class="organization__images">
       <app-image-carousel-card
-        [images]="organization.images ?? []"
-        [serverUrl]="serverUrl"
-        [serverModel]="imageServerModel"
-        [canUpdate]="canUpdate"
-        [canCreate]="canCreate"
-        [canDelete]="canDelete"
+        [images]="organization().images ?? []"
+        [serverUrl]="serverUrl()"
+        [serverModel]="imageServerModel()"
+        [canUpdate]="canUpdate()"
+        [canCreate]="canCreate()"
+        [canDelete]="canDelete()"
         (createImage)="createImage.emit($event)"
         (deleteImage)="deleteImage.emit($event)"
         (updateImage)="updateImage.emit($event)"
@@ -58,29 +62,32 @@
     </div>
 
     <!-- Description -->
-    <div class="organization__description">
-      <h4>Description</h4>
-      <app-html-text [text]="organization.description"></app-html-text>
-    </div>
+    <app-editable-text
+      class="organization__description"
+      [heading]="'Description'"
+      [placeholder]="'Add a description for ' + organization().name"
+      [text]="organization().description"
+      (update)="onDescriptionUpdate($event)"
+    ></app-editable-text>
 
     <!-- Members -->
     <div class="organization__members">
       <app-list
         [heading]="'Members'"
-        [entries]="organizationMembers"
-        [enableCreate]="canCreate"
-        [emptyListText]="'You know no member of ' + organization.name"
+        [entries]="organizationMembers()"
+        [enableCreate]="canCreate()"
+        [emptyListText]="'You know no member of ' + organization().name"
         (create)="routeToCharacterCreation()"
       ></app-list>
     </div>
 
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer
-      [buttonLink]="overviewUrl"
+      [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Organizations'"
-      [showDelete]="canDelete"
+      [showDelete]="canDelete()"
       [deleteMessage]="'Delete ' + organization.name + '?'"
-      (delete)="organizationDelete.emit(organization)"
+      (delete)="organizationDelete.emit(organization())"
     ></app-article-footer>
   </article>
 </app-page-container>

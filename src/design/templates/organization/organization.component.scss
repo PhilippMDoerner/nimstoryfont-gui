@@ -1,34 +1,35 @@
-.organization{
-  &__edit-container{
+.organization {
+  &__edit-container {
     width: 100%;
     display: flex;
     justify-content: flex-end;
   }
-  
-  &__heading{
+
+  &__heading {
     text-align: center;
   }
-  
-  &__subheading{
+
+  &__subheading {
     text-align: center;
   }
-  
-  &__members{
+
+  &__members {
     margin-bottom: var(--spacer-5);
   }
-  
-  &__images{
+
+  &__images {
     margin-top: var(--spacer-3);
     margin-bottom: var(--spacer-3);
   }
-  
-  &__description{
+
+  &__description {
+    width: 100%;
     margin-bottom: var(--spacer-5);
   }
 }
 
-.subheading{
-  &__icon{
+.subheading {
+  &__icon {
     margin-left: var(--spacer-1);
     margin-right: var(--spacer-1);
   }

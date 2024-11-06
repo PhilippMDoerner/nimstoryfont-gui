@@ -67,6 +67,7 @@
       [heading]="'Description'"
       [placeholder]="'Add a description for ' + organization().name"
       [text]="organization().description"
+      [canUpdate]="canUpdate()"
       (update)="onDescriptionUpdate($event)"
     ></app-editable-text>
 

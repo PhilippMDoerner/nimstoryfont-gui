@@ -32,6 +32,8 @@ import { OrganizationCreateUpdatePageComponent } from './pages/organization-crea
 import { OrganizationCreateUpdatePageStore } from './pages/organization-create-update-page/organization-create-update-page.store';
 import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
 import { OrganizationStore } from './pages/organization-page/organization-page.store';
+import { QuestPageComponent } from './pages/quest-page/quest-page.component';
+import { QuestPageStore } from './pages/quest-page/quest-page.store';
 import { QuestsOverviewPageComponent } from './pages/quests-overview-page/quests-overview-page.component';
 import { QuestOverviewPageStore } from './pages/quests-overview-page/quests-overview-page.store';
 
@@ -394,6 +396,15 @@ const detailRoutes: Route[] = [
         data: { name: 'quest-overview', requiredMinimumRole: 'guest' },
         resolve: {
           quests: () => inject(QuestOverviewPageStore).loadCampaignQuests(),
+        },
+      },
+      {
+        path: ':name',
+        component: QuestPageComponent,
+        data: { name: 'quest', requiredMinimumRole: 'guest' },
+        resolve: {
+          quest: (route: ActivatedRouteSnapshot) =>
+            inject(QuestPageStore).loadQuest(route.params['name']),
         },
       },
     ],

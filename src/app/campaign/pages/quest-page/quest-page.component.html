@@ -1,0 +1,10 @@
+@let quest = store.quest();
+
+@if (quest) {
+  <app-quest
+    [canDelete]="store.hasWritePermission()"
+    [canUpdate]="false && store.hasWritePermission()"
+    [quest]="quest"
+    [questServerModel]="store.questServerModel()"
+  ></app-quest>
+}

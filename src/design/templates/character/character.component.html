@@ -109,6 +109,7 @@
       [placeholder]="'Add a description for ' + character().name"
       [text]="character().description"
       [serverModel]="characterServerModel()?.description"
+      [canUpdate]="canUpdate()"
       (update)="onDescriptionUpdate($event)"
     ></app-editable-text>
 

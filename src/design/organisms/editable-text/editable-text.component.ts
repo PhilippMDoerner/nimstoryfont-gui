@@ -26,6 +26,7 @@ type State = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
 export class EditableTextComponent {
   text = input.required<string>();
   placeholder = input.required<string>();
+  canUpdate = input.required<boolean>();
   serverModel = input<string>();
   heading = input<string>();
   update = output<string>();

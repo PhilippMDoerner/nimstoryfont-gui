@@ -1,72 +1,70 @@
 <app-page-container>
   <article class="container quest">
-    <ng-container *ngIf="canUpdate">
+    @if (canUpdate()) {
       <div class="quest__edit-container">
-        <a [routerLink]="updateUrl">
-          <app-button
-            [icon]="'pencil'"
-            [type]="'SECONDARY'"
-          ></app-button>
+        <a [routerLink]="updateUrl()">
+          <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
         </a>
       </div>
-    </ng-container>
-  
+    }
+
     <!-- Heading -->
     <div class="row">
-      <h1 class="col-12 quest__heading"> 
-        {{ quest.name }} 
+      <h1 class="col-12 quest__heading">
+        {{ quest().name }}
       </h1>
     </div>
-  
-    <div class="row quest__data-row"> 
-        <!-- Quest Status -->
-        <span class="col-5">Status:</span>
-        <span class="col-7">{{ quest.status }}</span>     
-  
-        <!-- Quest Start -->
-        <div class="col-5">Start - End:</div>
-        <div class="col-7">
-            {{ quest.start_session_details?.name }} - 
-            <ng-container *ngIf="quest.end_session_details; else Ongoing"> 
-                {{ quest.end_session_details.name }} 
-            </ng-container>
-        </div>
-        
-        <!-- Quest Giver -->
-        <span class="col-5">Quest Giver:</span>
-        <span class="col-7">
-            <ng-container *ngIf="quest.giver_details; else NoQuestGiver">
-                <a [routerLink]="questGiverUrl">
-                    {{ quest.giver_details.name }}
-                </a>
-            </ng-container>
-        </span>
+
+    <div class="row quest__data-row">
+      <!-- Quest Status -->
+      <span class="col-5">Status:</span>
+      <span class="col-7">{{ quest().status }}</span>
+
+      <!-- Quest Start -->
+      <div class="col-5">Start - End:</div>
+      <div class="col-7">
+        {{ quest().start_session_details?.name }} -
+        @if (quest().end_session_details) {
+          {{ quest().end_session_details?.name }}
+        } @else {
+          <ng-container *ngTemplateOutlet="Ongoing" />
+        }
+      </div>
+
+      <!-- Quest Giver -->
+      <span class="col-5">Quest Giver:</span>
+      <span class="col-7">
+        @if (quest().giver_details) {
+          <a [routerLink]="questGiverUrl()">
+            {{ quest().giver_details?.name }}
+          </a>
+        } @else {
+          <ng-container *ngTemplateOutlet="NoQuestGiver" />
+        }
+      </span>
     </div>
-  
+
     <!-- Description -->
-    <div class="quest__description">
-      <h4> Description </h4>
-      <app-html-text
-        [text]="quest.description"
-      ></app-html-text>
-    </div>
-  
+    <app-editable-text
+      class="quest__description"
+      [heading]="'Description'"
+      [placeholder]="'Add a description for ' + quest().name"
+      [text]="quest().description"
+      [canUpdate]="canUpdate()"
+      (update)="onDescriptionUpdate($event)"
+    ></app-editable-text>
+
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer
-      [buttonLink]="overviewUrl"
+      [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Quest Overview'"
-      [showDelete]="canDelete"
+      [showDelete]="canDelete()"
       [deleteMessage]="'Delete Quest?'"
-      (delete)="questDelete.emit(quest)"
+      (delete)="questDelete.emit(quest())"
     ></app-article-footer>
   </article>
 </app-page-container>
 
+<ng-template #Ongoing> Ongoing </ng-template>
 
-<ng-template #Ongoing>
-  Ongoing
-</ng-template>
-
-<ng-template #NoQuestGiver>
-  None
-</ng-template>
+<ng-template #NoQuestGiver> None </ng-template>

@@ -1,19 +1,20 @@
-.quest{
-  &__edit-container{
+.quest {
+  &__edit-container {
     width: 100%;
     display: flex;
     justify-content: flex-end;
   }
-  
-  &__heading{
+
+  &__heading {
     text-align: center;
   }
-  
-  &__data-row{
+
+  &__data-row {
     margin-bottom: var(--spacer-5);
   }
-  
-  &__description{
+
+  &__description {
+    width: 100%;
     margin-bottom: var(--spacer-5);
   }
 }

@@ -32,6 +32,8 @@ import { OrganizationCreateUpdatePageComponent } from './pages/organization-crea
 import { OrganizationCreateUpdatePageStore } from './pages/organization-create-update-page/organization-create-update-page.store';
 import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
 import { OrganizationStore } from './pages/organization-page/organization-page.store';
+import { QuestCreateUpdatePageComponent } from './pages/quest-create-update-page/quest-create-update-page.component';
+import { QuestCreateUpdatePageStore } from './pages/quest-create-update-page/quest-create-update-page.store';
 import { QuestPageComponent } from './pages/quest-page/quest-page.component';
 import { QuestPageStore } from './pages/quest-page/quest-page.store';
 import { QuestsOverviewPageComponent } from './pages/quests-overview-page/quests-overview-page.component';
@@ -381,7 +383,7 @@ const detailRoutes: Route[] = [
           locations: () =>
             inject(OrganizationCreateUpdatePageStore).loadCampaignLocations(),
         },
-        // canDeactivate: [onExitReset(OrganizationCreateUpdatePageStore)],
+        canDeactivate: [onExitReset(OrganizationCreateUpdatePageStore)],
       },
     ],
   },
@@ -399,6 +401,22 @@ const detailRoutes: Route[] = [
         },
       },
       {
+        path: 'create',
+        component: QuestCreateUpdatePageComponent,
+        data: { name: 'quest-create', requiredMinimumRole: 'member' },
+        resolve: {
+          questGivers: () =>
+            inject(QuestCreateUpdatePageStore).loadQuestGivers(),
+          questTakers: () =>
+            inject(QuestCreateUpdatePageStore).loadQuestTakers(),
+          questStates: () =>
+            inject(QuestCreateUpdatePageStore).loadQuestStates(),
+          campaignSessions: () =>
+            inject(QuestCreateUpdatePageStore).loadCampaignSessions(),
+        },
+        canDeactivate: [onExitReset(QuestCreateUpdatePageStore)],
+      },
+      {
         path: ':name',
         component: QuestPageComponent,
         data: { name: 'quest', requiredMinimumRole: 'guest' },
@@ -406,6 +424,24 @@ const detailRoutes: Route[] = [
           quest: (route: ActivatedRouteSnapshot) =>
             inject(QuestPageStore).loadQuest(route.params['name']),
         },
+      },
+      {
+        path: ':name/update',
+        component: QuestCreateUpdatePageComponent,
+        data: { name: 'quest-update', requiredMinimumRole: 'member' },
+        resolve: {
+          questGivers: () =>
+            inject(QuestCreateUpdatePageStore).loadQuestGivers(),
+          questTakers: () =>
+            inject(QuestCreateUpdatePageStore).loadQuestTakers(),
+          questStates: () =>
+            inject(QuestCreateUpdatePageStore).loadQuestStates(),
+          campaignSessions: () =>
+            inject(QuestCreateUpdatePageStore).loadCampaignSessions(),
+          quest: (route: ActivatedRouteSnapshot) =>
+            inject(QuestCreateUpdatePageStore).loadQuest(route.params['name']),
+        },
+        canDeactivate: [onExitReset(QuestCreateUpdatePageStore)],
       },
     ],
   },

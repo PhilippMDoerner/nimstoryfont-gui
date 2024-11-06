@@ -21,7 +21,7 @@ export class QuestService extends BaseService<QuestRaw, Quest> {
   }
 
   getQuestStates(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.baseUrl}/states`);
+    return this.http.get<string[]>(`${this.baseUrl}states`);
   }
 
   getQuestTakers(campaign: string): Observable<OverviewItem[]> {

@@ -75,7 +75,6 @@ export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
                       [keys.queryStateField]: 'error' satisfies RequestState,
                     }),
                 }),
-                tap((val) => console.log('QUERY ', val, keys.dataField)),
               ),
             ),
           };

@@ -32,12 +32,13 @@ import { OrganizationCreateUpdatePageComponent } from './pages/organization-crea
 import { OrganizationCreateUpdatePageStore } from './pages/organization-create-update-page/organization-create-update-page.store';
 import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
 import { OrganizationStore } from './pages/organization-page/organization-page.store';
+import { QuestsOverviewPageComponent } from './pages/quests-overview-page/quests-overview-page.component';
+import { QuestOverviewPageStore } from './pages/quests-overview-page/quests-overview-page.store';
 
 const overviewRoutes: CampaignOverviewRoute[] = [
   {
     path: 'character',
     component: GeneralOverviewPageComponent,
-    canActivate: [campaignGuard],
     data: {
       name: 'character-overview',
       requiredMinimumRole: 'guest',
@@ -47,7 +48,6 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   {
     path: 'creature',
     component: GeneralOverviewPageComponent,
-    canActivate: [campaignGuard],
     data: {
       name: 'creature-overview',
       requiredMinimumRole: 'guest',
@@ -57,7 +57,6 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   {
     path: 'diaryentry',
     component: GeneralOverviewPageComponent,
-    canActivate: [campaignGuard],
     data: {
       name: 'diaryentry-overview',
       requiredMinimumRole: 'guest',
@@ -67,7 +66,6 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   {
     path: 'item',
     component: GeneralOverviewPageComponent,
-    canActivate: [campaignGuard],
     data: {
       name: 'item-overview',
       requiredMinimumRole: 'guest',
@@ -77,7 +75,6 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   {
     path: 'location',
     component: GeneralOverviewPageComponent,
-    canActivate: [campaignGuard],
     data: {
       name: 'location-overview',
       requiredMinimumRole: 'guest',
@@ -87,7 +84,6 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   {
     path: 'organization',
     component: GeneralOverviewPageComponent,
-    canActivate: [campaignGuard],
     data: {
       name: 'organization-overview',
       requiredMinimumRole: 'guest',
@@ -384,6 +380,21 @@ const detailRoutes: Route[] = [
             inject(OrganizationCreateUpdatePageStore).loadCampaignLocations(),
         },
         // canDeactivate: [onExitReset(OrganizationCreateUpdatePageStore)],
+      },
+    ],
+  },
+  // Quest Routes
+  {
+    path: 'quest',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: QuestsOverviewPageComponent,
+        data: { name: 'quest-overview', requiredMinimumRole: 'guest' },
+        resolve: {
+          quests: () => inject(QuestOverviewPageStore).loadCampaignQuests(),
+        },
       },
     ],
   },

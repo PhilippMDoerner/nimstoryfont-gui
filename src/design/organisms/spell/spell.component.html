@@ -63,11 +63,7 @@
       <div class="col-md-3 col-6 spell__entry">
         <strong class="spell__heading"> SPELL LEVEL </strong>
         <div class="spell__body">
-          <ng-container
-            *ngIf="spell?.spell_level != null; else inputPlaceholder"
-          >
-            {{ spell?.spell_level }}
-          </ng-container>
+          {{ spell?.spell_level }}
         </div>
       </div>
 
@@ -75,11 +71,7 @@
       <div class="col-md-3 col-6 spell__entry">
         <strong class="spell__heading"> CASTING TIME </strong>
         <div class="spell__body">
-          <ng-container
-            *ngIf="spell?.casting_time != null; else inputPlaceholder"
-          >
-            {{ spell?.casting_time }}
-          </ng-container>
+          {{ spell?.casting_time }}
         </div>
       </div>
 
@@ -87,9 +79,7 @@
       <div class="col-md-3 col-6 spell__entry">
         <strong class="spell__heading"> RANGE/AREA </strong>
         <div class="spell__body">
-          <ng-container *ngIf="spell?.range != null; else inputPlaceholder">
-            {{ spell?.range }}
-          </ng-container>
+          {{ spell?.range }}
         </div>
       </div>
 
@@ -97,11 +87,7 @@
       <div class="col-md-3 col-6 spell__entry">
         <strong class="spell__heading"> COMPONENTS </strong>
         <div class="spell__body">
-          <ng-container
-            *ngIf="spell?.components != null; else inputPlaceholder"
-          >
-            {{ spell?.components }}
-          </ng-container>
+          {{ spell?.components }}
         </div>
       </div>
 
@@ -109,9 +95,7 @@
       <div class="col-md-3 col-6 spell__entry">
         <strong class="spell__heading"> DURATION </strong>
         <div class="spell__body">
-          <ng-container *ngIf="spell?.duration != null; else inputPlaceholder">
-            {{ spell?.duration }}
-          </ng-container>
+          {{ spell?.duration }}
         </div>
       </div>
 
@@ -119,9 +103,7 @@
       <div class="col-md-3 col-6 spell__entry">
         <strong class="spell__heading">SCHOOL</strong>
         <div class="spell__body">
-          <ng-container *ngIf="spell?.school != null; else inputPlaceholder">
-            {{ spell?.school }}
-          </ng-container>
+          {{ spell?.school }}
         </div>
       </div>
 
@@ -129,11 +111,7 @@
       <div class="col-md-3 col-6 spell__entry">
         <strong class="spell__heading"> ATTACK/SAVE </strong>
         <div class="spell__body">
-          <ng-container
-            *ngIf="spell?.saving_throw != null; else inputPlaceholder"
-          >
-            {{ spell?.saving_throw }}
-          </ng-container>
+          {{ spell?.saving_throw }}
         </div>
       </div>
 
@@ -141,9 +119,7 @@
       <div class="col-md-3 col-6 spell__entry">
         <strong class="spell__heading">EFFECT</strong>
         <div class="spell__body">
-          <ng-container *ngIf="spell?.damage != null; else inputPlaceholder">
-            {{ spell?.damage }}
-          </ng-container>
+          {{ spell?.damage }}
         </div>
       </div>
 
@@ -225,8 +201,4 @@
     (formlySubmit)="onSpellUpdate($event)"
     (formlyCancel)="changeState('DISPLAY', undefined)"
   ></app-compare-form>
-</ng-template>
-
-<ng-template #inputPlaceholder>
-  <div class="placeholder">Placeholder</div>
 </ng-template>

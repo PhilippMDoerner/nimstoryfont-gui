@@ -3,7 +3,7 @@
     <h1 class="heading">
       Spells
 
-      <ng-container *ngFor="let name of selectedClassNames; let i = index">
+      @for (name of selectedClassNames(); track name) {
         <app-badge
           class="heading__player-class-badge"
           [text]="name"
@@ -11,16 +11,16 @@
           [type]="'DARK'"
           (click)="onClassRemove(name)"
         ></app-badge>
-      </ng-container>
+      }
     </h1>
 
     <app-spells
-      [spells]="filteredSpells"
-      [serverModel]="serverModel"
-      [canCreate]="canCreate"
-      [canUpdate]="canUpdate"
-      [canDelete]="canDelete"
-      [playerClasses]="playerClasses"
+      [spells]="filteredSpells()"
+      [serverModel]="serverModel()"
+      [canCreate]="canCreate()"
+      [canUpdate]="canUpdate()"
+      [canDelete]="canDelete()"
+      [playerClasses]="playerClasses()"
       (spellDelete)="spellDelete.emit($event)"
       (spellCreate)="spellCreate.emit($event)"
       (spellUpdate)="spellUpdate.emit($event)"
@@ -30,7 +30,7 @@
     ></app-spells>
 
     <div class="container">
-      <a class="row back-link" [routerLink]="homeUrl">
+      <a class="row back-link" [routerLink]="homeUrl()">
         <app-button
           [type]="'SECONDARY'"
           [text]="'Back to Frontpage'"

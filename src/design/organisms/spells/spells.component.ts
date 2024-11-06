@@ -81,6 +81,11 @@ export class SpellsComponent implements OnInit, OnChanges {
     this.spellCards.unshift(newSpellCard);
   }
 
+  onSpellClassClick(event: MouseEvent, connection: SpellPlayerClassConnection) {
+    event.preventDefault();
+    this.spellClassClick.emit(connection.player_class_details);
+  }
+
   private setSpellCards() {
     this.spellCards = this.spells.map((spell) => ({
       spell: spell,

@@ -13,3 +13,10 @@ export function handleError(
     warningService.showWarning(err);
   }
 }
+
+export function toServerModel<T>(err: HttpErrorResponse): T | undefined {
+  if (err.status === 409) {
+    return err.error;
+  }
+  return undefined;
+}

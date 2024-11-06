@@ -38,6 +38,8 @@ import { QuestPageComponent } from './pages/quest-page/quest-page.component';
 import { QuestPageStore } from './pages/quest-page/quest-page.store';
 import { QuestsOverviewPageComponent } from './pages/quests-overview-page/quests-overview-page.component';
 import { QuestOverviewPageStore } from './pages/quests-overview-page/quests-overview-page.store';
+import { SpellsPageComponent } from './pages/spells-page/spells-page.component';
+import { SpellsPageStore } from './pages/spells-page/spells-page.store';
 
 const overviewRoutes: CampaignOverviewRoute[] = [
   {
@@ -444,6 +446,17 @@ const detailRoutes: Route[] = [
         canDeactivate: [onExitReset(QuestCreateUpdatePageStore)],
       },
     ],
+  },
+  // Spells
+  {
+    path: 'spells',
+    component: SpellsPageComponent,
+    data: { name: 'spells', requiredMinimumRole: 'guest' },
+    resolve: {
+      playerClasses: () => inject(SpellsPageStore).loadPlayerClasses(),
+      spells: () => inject(SpellsPageStore).loadSpells(),
+    },
+    canDeactivate: [onExitReset(SpellsPageStore)],
   },
   // // Quote Routes
   // {

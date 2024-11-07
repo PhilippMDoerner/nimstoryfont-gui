@@ -10,9 +10,16 @@ export const replaceItem = <T>(list: T[], item: T, key: keyof T): T[] => {
   return newList;
 };
 
-export const sortByProp = <T>(list: T[], prop: keyof T): T[] => {
+export const sortByProp = <T>(
+  list: T[],
+  prop: keyof T,
+  sortDirection: 'asc' | 'desc' = 'asc',
+): T[] => {
   const newList = [...list];
-  newList.sort((a, b) => (a[prop] > b[prop] ? 1 : -1));
+  newList.sort((a, b) => {
+    const sortValue = a[prop] > b[prop] ? 1 : -1;
+    return sortDirection === 'desc' ? -1 * sortValue : sortValue;
+  });
   return newList;
 };
 

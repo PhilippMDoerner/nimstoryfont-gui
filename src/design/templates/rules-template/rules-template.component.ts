@@ -30,6 +30,6 @@ export class RulesTemplateComponent {
   routingService = inject(RoutingService);
 
   homeUrl = computed(() =>
-    this.routingService.getRoutePath('home', { campaign: this.campaignName }),
+    this.routingService.getRoutePath('home', { campaign: this.campaignName() }),
   );
 }

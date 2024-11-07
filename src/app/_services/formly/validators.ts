@@ -104,6 +104,8 @@ export const iconValidator: ValidatorOption = {
 function isIntegerValidation(
   control: AbstractControl,
 ): ValidationErrors | null {
+  if (control.value == null) return null;
+
   const isInteger =
     typeof control.value === 'number' && Number.isInteger(control.value);
   return isInteger ? null : { notInteger: !isInteger };

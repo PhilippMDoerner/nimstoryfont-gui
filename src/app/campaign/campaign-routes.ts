@@ -40,6 +40,8 @@ import { QuestsOverviewPageComponent } from './pages/quests-overview-page/quests
 import { QuestOverviewPageStore } from './pages/quests-overview-page/quests-overview-page.store';
 import { RulesPageComponent } from './pages/rules-page/rules-page.component';
 import { RulesPageStore } from './pages/rules-page/rules-page.store';
+import { SessionsPageComponent } from './pages/sessions-page/sessions-page.component';
+import { SessionsPageStore } from './pages/sessions-page/sessions-page.store';
 import { SpellsPageComponent } from './pages/spells-page/spells-page.component';
 import { SpellsPageStore } from './pages/spells-page/spells-page.store';
 
@@ -469,6 +471,16 @@ const detailRoutes: Route[] = [
       rules: () => inject(RulesPageStore).loadRules(),
     },
     canDeactivate: [onExitReset(RulesPageStore)],
+  },
+  // Sessions
+  {
+    path: 'sessions',
+    component: SessionsPageComponent,
+    data: { name: 'sessions', requiredMinimumRole: 'guest' },
+    resolve: {
+      sessions: () => inject(SessionsPageStore).loadSessions(),
+    },
+    canDeactivate: [onExitReset(SessionsPageStore)],
   },
   // // Quote Routes
   // {

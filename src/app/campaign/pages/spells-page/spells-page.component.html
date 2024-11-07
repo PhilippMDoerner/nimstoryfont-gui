@@ -1,8 +1,10 @@
 @let campaignName = globalStore.campaignName();
 @let spells = store.spells();
+@let campaignId = globalStore.currentCampaign()?.pk;
 
-@if (spells && campaignName) {
+@if (spells && campaignName && campaignId) {
   <app-spells-template
+    [campaignId]="campaignId"
     [campaignName]="campaignName"
     [spells]="spells"
     [playerClasses]="store.playerClasses() ?? []"

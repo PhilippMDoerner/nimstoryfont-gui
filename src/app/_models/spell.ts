@@ -2,6 +2,7 @@ import { ArticleObject } from './article';
 import { PlayerClass } from './playerclass';
 
 export interface SpellRaw {
+  campaign: number;
   spell_level: number;
   casting_time: string;
   range: string;

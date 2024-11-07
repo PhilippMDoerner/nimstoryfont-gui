@@ -155,8 +155,7 @@ export const SpellsPageStore = signalStore(
       addPlayerClassConnection: (connection: SpellPlayerClassConnection) => {
         connectionService.create(connection).subscribe({
           next: (newConnection) => {
-            const updateSpellPk = newConnection.player_class_details
-              ?.pk as number;
+            const updateSpellPk = newConnection.spell;
             const spellToUpdate = store
               .spells()
               ?.find((spell) => spell.pk === updateSpellPk);
@@ -182,7 +181,7 @@ export const SpellsPageStore = signalStore(
       removePlayerClassConnection: (connection: SpellPlayerClassConnection) => {
         connectionService.delete(connection.pk as number).subscribe({
           next: () => {
-            const updateSpellPk = connection.player_class_details?.pk as number;
+            const updateSpellPk = connection.spell;
             const spellToUpdate = store
               .spells()
               ?.find((spell) => spell.pk === updateSpellPk);

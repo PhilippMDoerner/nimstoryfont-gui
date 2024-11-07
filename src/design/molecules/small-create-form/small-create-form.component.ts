@@ -3,42 +3,41 @@ import {
   computed,
   EventEmitter,
   input,
-  Input,
   Output,
+  signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ElementType } from '../../atoms';
 
 type State = 'DISPLAY' | 'CREATE';
-
+export type DisableableOption<T> = { value: T; disabled: boolean };
 @Component({
   selector: 'app-small-create-form',
   templateUrl: './small-create-form.component.html',
   styleUrls: ['./small-create-form.component.scss'],
 })
 export class SmallCreateFormComponent<T> {
-  @Input() options!: T[];
+  options = input.required<T[]>();
   labelProp = input.required<keyof T>();
-  @Input() badgeText: string = 'Add Entry';
-  @Input() valueProp!: keyof T;
-  @Input() submitButtonType: ElementType = 'PRIMARY';
-  @Input() cancelButtonType: ElementType = 'SECONDARY';
-  @Input() isDisabledFunction: Function = (_: any) => false;
+  badgeText = input<string>('Add Entry');
+  valueProp = input.required<keyof T>();
+  submitButtonType = input<ElementType>('PRIMARY');
+  cancelButtonType = input<ElementType>('SECONDARY');
 
   @Output() create: EventEmitter<T> = new EventEmitter();
 
   selectFieldName = computed(() => `select-' + ${String(this.labelProp())}`);
   form = new FormGroup({});
   userModel: Partial<T> = {};
-  state: State = 'DISPLAY';
+  state = signal<State>('DISPLAY');
 
   changeState(newState: State) {
-    this.state = newState;
+    this.state.set(newState);
   }
 
   onChange(event: any) {
     const selectedIndex = event.srcElement.value;
-    this.userModel = this.options[selectedIndex];
+    this.userModel = this.options()[selectedIndex];
   }
 
   onCancel() {
@@ -49,7 +48,7 @@ export class SmallCreateFormComponent<T> {
   onSubmit() {
     this.changeState('DISPLAY');
 
-    const hasValue = this.userModel[this.valueProp] != null;
+    const hasValue = this.userModel[this.valueProp()] != null;
     if (hasValue) {
       this.create.emit(this.userModel as T);
     }

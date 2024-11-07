@@ -1,58 +1,49 @@
-<ng-container *ngIf="spell || state === 'CREATE'">
+@if (spell() || state() === "CREATE") {
   <h4 class="card__heading heading">
     <span>
-      <ng-container [ngSwitch]="state">
-        <ng-container
-          *ngSwitchCase="'DISPLAY'"
-          [ngTemplateOutlet]="displayHeading"
-        ></ng-container>
-        <ng-container
-          *ngSwitchCase="'UPDATE'"
-          [ngTemplateOutlet]="updateHeading"
-        ></ng-container>
-        <ng-container
-          *ngSwitchCase="'CREATE'"
-          [ngTemplateOutlet]="createHeading"
-        ></ng-container>
-        <ng-container
-          *ngSwitchCase="'OUTDATEDUPDATE'"
-          [ngTemplateOutlet]="updateHeading"
-        ></ng-container>
-      </ng-container>
+      @switch (state()) {
+        @case ("DISPLAY") {
+          <ng-container [ngTemplateOutlet]="displayHeading" />
+        }
+        @case ("UPDATE") {
+          <ng-container [ngTemplateOutlet]="updateHeading" />
+        }
+        @case ("CREATE") {
+          <ng-container [ngTemplateOutlet]="createHeading" />
+        }
+        @case ("OUTDATED_UPDATE") {
+          <ng-container [ngTemplateOutlet]="updateHeading" />
+        }
+      }
     </span>
 
-    <ng-container *ngIf="canUpdate">
+    @if (canUpdate() || canCreate()) {
       <app-edit-toggle
-        *ngIf="canUpdate"
         [buttonType]="'DARK'"
-        [toggled]="state !== 'DISPLAY'"
+        [toggled]="state() !== 'DISPLAY'"
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
-    </ng-container>
+    }
   </h4>
 
-  <ng-container [ngSwitch]="state">
-    <ng-container
-      *ngSwitchCase="'DISPLAY'"
-      [ngTemplateOutlet]="displayBody"
-    ></ng-container>
-    <ng-container
-      *ngSwitchCase="'UPDATE'"
-      [ngTemplateOutlet]="updateBody"
-    ></ng-container>
-    <ng-container
-      *ngSwitchCase="'CREATE'"
-      [ngTemplateOutlet]="createBody"
-    ></ng-container>
-    <ng-container
-      *ngSwitchCase="'OUTDATEDUPDATE'"
-      [ngTemplateOutlet]="outdatedUpdateBody"
-    ></ng-container>
-  </ng-container>
-</ng-container>
+  @switch (state()) {
+    @case ("DISPLAY") {
+      <ng-container [ngTemplateOutlet]="displayBody" />
+    }
+    @case ("UPDATE") {
+      <ng-container [ngTemplateOutlet]="updateBody" />
+    }
+    @case ("OUTDATED_UPDATE") {
+      <ng-container [ngTemplateOutlet]="outdatedUpdateBody" />
+    }
+    @case ("CREATE") {
+      <ng-container [ngTemplateOutlet]="createBody" />
+    }
+  }
+}
 
 <ng-template #displayHeading>
-  {{ spell?.name }}
+  {{ spell()?.name }}
 </ng-template>
 
 <ng-template #displayBody>
@@ -60,66 +51,66 @@
   <div class="container">
     <div class="row spell">
       <!-- Spell Level -->
-      <div class="col-md-3 col-6 spell__entry">
+      <div class="col-lg-3 col-6 spell__entry">
         <strong class="spell__heading"> SPELL LEVEL </strong>
         <div class="spell__body">
-          {{ spell?.spell_level }}
+          {{ spell()?.spell_level }}
         </div>
       </div>
 
       <!-- Casting Time -->
-      <div class="col-md-3 col-6 spell__entry">
+      <div class="col-lg-3 col-6 spell__entry">
         <strong class="spell__heading"> CASTING TIME </strong>
         <div class="spell__body">
-          {{ spell?.casting_time }}
+          {{ spell()?.casting_time }}
         </div>
       </div>
 
       <!-- Range/Area -->
-      <div class="col-md-3 col-6 spell__entry">
+      <div class="col-lg-3 col-6 spell__entry">
         <strong class="spell__heading"> RANGE/AREA </strong>
         <div class="spell__body">
-          {{ spell?.range }}
+          {{ spell()?.range }}
         </div>
       </div>
 
       <!-- Components -->
-      <div class="col-md-3 col-6 spell__entry">
+      <div class="col-lg-3 col-6 spell__entry">
         <strong class="spell__heading"> COMPONENTS </strong>
         <div class="spell__body">
-          {{ spell?.components }}
+          {{ spell()?.components }}
         </div>
       </div>
 
       <!-- Duration -->
-      <div class="col-md-3 col-6 spell__entry">
+      <div class="col-lg-3 col-6 spell__entry">
         <strong class="spell__heading"> DURATION </strong>
         <div class="spell__body">
-          {{ spell?.duration }}
+          {{ spell()?.duration }}
         </div>
       </div>
 
       <!-- School -->
-      <div class="col-md-3 col-6 spell__entry">
+      <div class="col-lg-3 col-6 spell__entry">
         <strong class="spell__heading">SCHOOL</strong>
         <div class="spell__body">
-          {{ spell?.school }}
+          {{ spell()?.school }}
         </div>
       </div>
 
       <!-- Attack/Save -->
-      <div class="col-md-3 col-6 spell__entry">
+      <div class="col-lg-3 col-6 spell__entry">
         <strong class="spell__heading"> ATTACK/SAVE </strong>
         <div class="spell__body">
-          {{ spell?.saving_throw }}
+          {{ spell()?.saving_throw }}
         </div>
       </div>
 
       <!-- Damage/Effect -->
-      <div class="col-md-3 col-6 spell__entry">
+      <div class="col-lg-3 col-6 spell__entry">
         <strong class="spell__heading">EFFECT</strong>
         <div class="spell__body">
-          {{ spell?.damage }}
+          {{ spell()?.damage }}
         </div>
       </div>
 
@@ -127,7 +118,7 @@
       <div class="col-12 spell__entry">
         <strong class="spell__heading">DESCRIPTION</strong>
         <div class="spell__body">
-          <app-html-text [text]="spell?.description ?? ''"></app-html-text>
+          <app-html-text [text]="spell()?.description ?? ''"></app-html-text>
         </div>
       </div>
     </div>
@@ -139,21 +130,21 @@
     [createOptions]="{
       kind: 'SELECT',
       config: {
-        options: playerClasses,
+        options: playerClassOptions(),
         labelProp: 'name',
         valueProp: 'pk',
       },
     }"
-    [entries]="playerClassConnections"
-    [canCreate]="canCreate"
-    [canDelete]="canDelete"
+    [entries]="playerClassConnections()"
+    [canCreate]="canCreate()"
+    [canDelete]="canDelete()"
     [label]="'Classes'"
     (entryDelete)="connectionDelete.emit($event)"
     (entryCreate)="onConnectionCreate($event)"
   ></app-badge-list>
 
   <!-- Delete Toggler -->
-  <ng-container *ngIf="canDelete">
+  <ng-container *ngIf="canDelete()">
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
       [toggleType]="'DANGER'"
@@ -164,14 +155,14 @@
   </ng-container>
 </ng-template>
 
-<ng-template #updateHeading> Update '{{ spell?.name }}' </ng-template>
+<ng-template #updateHeading> Update '{{ spell()?.name }}' </ng-template>
 
 <ng-template #updateBody>
   <app-form
-    [model]="userModel"
+    [model]="userModel()"
     [fields]="formlyFields"
-    [cancelButtonType]="cancelButtonType"
-    [submitButtonType]="submitButtonType"
+    [cancelButtonType]="cancelButtonType()"
+    [submitButtonType]="submitButtonType()"
     (formlySubmit)="onSpellUpdate($event)"
     (formlyCancel)="changeState('DISPLAY', undefined)"
   ></app-form>
@@ -182,10 +173,10 @@
 <ng-template #createBody>
   <ng-container *ngIf="canCreate">
     <app-form
-      [model]="userModel"
+      [model]="userModel()"
       [fields]="formlyFields"
-      [cancelButtonType]="cancelButtonType"
-      [submitButtonType]="submitButtonType"
+      [cancelButtonType]="cancelButtonType()"
+      [submitButtonType]="submitButtonType()"
       (formlySubmit)="onSpellCreate($event)"
       (formlyCancel)="onSpellCreateCancel()"
     ></app-form>
@@ -195,8 +186,8 @@
 <ng-template #outdatedUpdateBody>
   <app-compare-form
     [fields]="formlyFields"
-    [modelFromUser]="userModel"
-    [modelFromServer]="serverModel"
+    [modelFromUser]="userModel()"
+    [modelFromServer]="serverModel()"
     [displayVertically]="true"
     (formlySubmit)="onSpellUpdate($event)"
     (formlyCancel)="changeState('DISPLAY', undefined)"

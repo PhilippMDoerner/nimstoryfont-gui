@@ -7,7 +7,11 @@ import {
   signal,
 } from '@angular/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
-import { Spell, SpellPlayerClassConnection } from 'src/app/_models/spell';
+import {
+  Spell,
+  SpellPlayerClassConnection,
+  SpellRaw,
+} from 'src/app/_models/spell';
 import { RoutingService } from 'src/app/_services/routing.service';
 
 @Component({
@@ -17,6 +21,7 @@ import { RoutingService } from 'src/app/_services/routing.service';
 })
 export class SpellsTemplateComponent {
   campaignName = input.required<string>();
+  campaignId = input.required<number>();
   spells = input.required<Spell[]>();
   playerClasses = input.required<PlayerClass[]>();
   canUpdate = input.required<boolean>();
@@ -26,7 +31,7 @@ export class SpellsTemplateComponent {
 
   @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
   @Output() spellUpdate: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();
+  @Output() spellCreate: EventEmitter<SpellRaw> = new EventEmitter();
   @Output() connectionDelete: EventEmitter<SpellPlayerClassConnection> =
     new EventEmitter();
   @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> =

@@ -1,5 +1,5 @@
-@if (options && options.length > 0) {
-  @switch (state) {
+@if (options() && options().length > 0) {
+  @switch (state()) {
     @case ("DISPLAY") {
       <ng-container [ngTemplateOutlet]="displayState" />
     }
@@ -14,7 +14,7 @@
     class="display-form"
     [type]="'PRIMARY'"
     [icon]="'plus'"
-    [text]="badgeText"
+    [text]="badgeText()"
     [clickable]="true"
     (badgeClick)="changeState('CREATE')"
   ></app-badge>
@@ -30,13 +30,12 @@
       (change)="onChange($event)"
     >
       <option [value]="undefined">-----</option>
-      @for (option of options; track option) {
+      @for (option of options(); track option) {
         <option
           [value]="$index"
           [attr.selected]="
-            option[valueProp] === userModel[valueProp] ? true : null
+            option[valueProp()] === userModel[valueProp()] ? true : null
           "
-          [attr.disabled]="isDisabledFunction(option) ? true : null"
         >
           {{ option[labelProp()] }}
         </option>
@@ -46,7 +45,7 @@
     <!-- Cancel Button -->
     <app-button
       class="mx-2"
-      [type]="cancelButtonType"
+      [type]="cancelButtonType()"
       [size]="'SMALL'"
       [icon]="'times'"
       (click)="onCancel()"
@@ -54,7 +53,7 @@
 
     <!-- Submit Button -->
     <app-button
-      [type]="submitButtonType"
+      [type]="submitButtonType()"
       [size]="'SMALL'"
       [icon]="'check'"
       [isSubmitButton]="true"

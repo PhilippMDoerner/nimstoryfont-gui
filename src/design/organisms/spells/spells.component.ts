@@ -1,15 +1,21 @@
 import {
   Component,
-  ElementRef,
+  computed,
   EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
+  input,
   Output,
+  signal,
 } from '@angular/core';
-import { animateElement } from 'src/app/_functions/animate';
 import { PlayerClass } from 'src/app/_models/playerclass';
-import { Spell, SpellPlayerClassConnection } from 'src/app/_models/spell';
+import {
+  Spell,
+  SpellPlayerClassConnection,
+  SpellRaw,
+} from 'src/app/_models/spell';
+import {
+  slideOutFromBottom,
+  slideUpFromBottom,
+} from 'src/design/animations/slideDown';
 import { BadgeListEntry } from 'src/design/molecules';
 
 interface SpellCard {
@@ -22,63 +28,50 @@ interface SpellCard {
   selector: 'app-spells',
   templateUrl: './spells.component.html',
   styleUrls: ['./spells.component.scss'],
+  animations: [slideUpFromBottom, slideOutFromBottom],
 })
-export class SpellsComponent implements OnInit, OnChanges {
+export class SpellsComponent {
   DEFAULT_TITLE = 'New Article Item';
-
-  @Input() spells!: Spell[];
-  @Input() playerClasses!: PlayerClass[];
-  @Input() canUpdate: boolean = false;
-  @Input() canDelete: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() serverModel?: Spell;
+  campaignId = input.required<number>();
+  spells = input.required<Spell[]>();
+  playerClasses = input.required<PlayerClass[]>();
+  canUpdate = input.required<boolean>();
+  canDelete = input.required<boolean>();
+  canCreate = input.required<boolean>();
+  serverModel = input.required<Spell | undefined>();
 
   @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
   @Output() spellUpdate: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();
+  @Output() spellCreate: EventEmitter<SpellRaw> = new EventEmitter();
   @Output() connectionDelete: EventEmitter<SpellPlayerClassConnection> =
     new EventEmitter();
   @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> =
     new EventEmitter();
   @Output() spellClassClick: EventEmitter<PlayerClass> = new EventEmitter();
 
-  spellCards!: SpellCard[];
+  isCreatingSpell = signal(false);
+  createSpellData = computed(() => ({ name: this.DEFAULT_TITLE }) as Spell);
 
-  constructor(private elementRef: ElementRef) {}
+  spellCards = computed<SpellCard[]>(() => {
+    const spells = this.spells().map((spell) => ({
+      spell: spell,
+      isOpen: false,
+      classes: this.parsePlayerClasses(spell.player_class_connections),
+    }));
 
-  ngOnInit(): void {
-    this.setSpellCards();
-  }
-
-  ngOnChanges(): void {
-    this.setSpellCards();
-  }
+    return spells;
+  });
 
   onSpellDelete(spellToDelete: Spell, deleteIndex: number) {
     this.spellDelete.emit(spellToDelete);
-    this.removeSpell(deleteIndex);
   }
 
-  removeSpell(removalIndex: number) {
-    const panelElements: HTMLElement[] =
-      this.elementRef.nativeElement.querySelectorAll('app-collapsible-panel');
-    const panelElement: HTMLElement = panelElements[removalIndex];
-
-    animateElement(panelElement, 'zoomOut').then(() => {
-      const entriesToDelete: number = 1;
-      this.spells.splice(removalIndex, entriesToDelete);
-      this.ngOnChanges();
-    });
+  cancelSpellCreation() {
+    this.isCreatingSpell.set(false);
   }
 
   addSpell() {
-    const newSpell: Spell = { name: this.DEFAULT_TITLE } as Spell;
-    const newSpellCard: SpellCard = {
-      spell: newSpell,
-      isOpen: true,
-      classes: [],
-    };
-    this.spellCards.unshift(newSpellCard);
+    this.isCreatingSpell.set(true);
   }
 
   onSpellClassClick(event: MouseEvent, connection: SpellPlayerClassConnection) {
@@ -86,12 +79,14 @@ export class SpellsComponent implements OnInit, OnChanges {
     this.spellClassClick.emit(connection.player_class_details);
   }
 
-  private setSpellCards() {
-    this.spellCards = this.spells.map((spell) => ({
-      spell: spell,
-      isOpen: false,
-      classes: this.parsePlayerClasses(spell.player_class_connections),
-    }));
+  onSpellCreate(spell: Partial<SpellRaw>) {
+    const newSpell: SpellRaw = {
+      ...spell,
+      campaign: this.campaignId(),
+    } as SpellRaw;
+
+    this.spellCreate.emit(newSpell);
+    this.isCreatingSpell.set(false);
   }
 
   private parsePlayerClasses(

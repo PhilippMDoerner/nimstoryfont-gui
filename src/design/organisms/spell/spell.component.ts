@@ -1,16 +1,18 @@
 import {
   Component,
+  computed,
   EventEmitter,
-  Input,
-  OnChanges,
+  input,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { BadgeListEntry } from 'src/design/molecules';
 import {
+  Spell,
   SPELL_CASTING_TIME,
   SPELL_COMPONENTS,
   SPELL_DURATION,
@@ -18,7 +20,6 @@ import {
   SPELL_RANGES,
   SPELL_SAVES,
   SPELL_SCHOOLS,
-  Spell,
   SpellPlayerClassConnection,
 } from '../../../app/_models/spell';
 import { ElementType } from '../../atoms';
@@ -30,15 +31,15 @@ type SpellState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
   templateUrl: './spell.component.html',
   styleUrls: ['./spell.component.scss'],
 })
-export class SpellComponent implements OnInit, OnChanges {
-  @Input() spell?: Spell;
-  @Input() playerClasses!: PlayerClass[];
-  @Input() canUpdate: boolean = false;
-  @Input() canDelete: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() serverModel?: Spell;
-  @Input() cancelButtonType: ElementType = 'SECONDARY';
-  @Input() submitButtonType: ElementType = 'PRIMARY';
+export class SpellComponent implements OnInit {
+  spell = input.required<Spell | undefined>();
+  playerClasses = input.required<PlayerClass[]>();
+  canUpdate = input.required<boolean>();
+  canDelete = input.required<boolean>();
+  canCreate = input.required<boolean>();
+  serverModel = input.required<Spell | undefined>();
+  cancelButtonType = input<ElementType>('SECONDARY');
+  submitButtonType = input<ElementType>('PRIMARY');
 
   @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
   @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();
@@ -49,19 +50,43 @@ export class SpellComponent implements OnInit, OnChanges {
   @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> =
     new EventEmitter();
 
-  userModel?: Spell;
-  state: SpellState = 'DISPLAY';
-  playerClassConnections!: BadgeListEntry<SpellPlayerClassConnection>[];
+  userModel = signal<Spell | undefined>(undefined);
+  state = signal<SpellState>('DISPLAY');
+  playerClassConnections = computed<
+    BadgeListEntry<SpellPlayerClassConnection>[]
+  >(() => {
+    const classConnections: SpellPlayerClassConnection[] =
+      this.spell()?.player_class_connections ?? [];
+    return classConnections.map((con) => {
+      return {
+        badgeValue: con,
+        text: con.player_class_details?.name as string,
+        link: undefined as any as string,
+      };
+    });
+  });
+
+  playerClassOptions = computed<PlayerClass[]>(() => {
+    const playerClassInSpell = new Set(
+      this.playerClassConnections().map((con) => con.badgeValue.player_class),
+    );
+    return this.playerClasses().filter(
+      (playerClass) =>
+        playerClass.pk && !playerClassInSpell.has(playerClass.pk),
+    );
+  });
 
   formlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildCheckboxConfig({
       key: 'concentration',
       label: 'Concentration',
       defaultValue: false,
+      required: false,
     }),
     this.formlyService.buildCheckboxConfig({
       key: 'ritual',
       defaultValue: false,
+      required: false,
     }),
     this.formlyService.buildInputConfig({
       key: 'name',
@@ -106,75 +131,58 @@ export class SpellComponent implements OnInit, OnChanges {
       required: false,
       inputKind: 'STRING',
     }),
-    this.formlyService.buildEditorConfig({ key: 'description' }),
+    this.formlyService.buildEditorConfig({
+      key: 'description',
+      required: false,
+    }),
   ];
 
   constructor(private formlyService: FormlyService) {}
 
   ngOnInit(): void {
-    const isInCreateScenario = this.spell?.pk == null && this.canCreate;
+    const isInCreateScenario = this.spell()?.pk == null && this.canCreate();
     if (isInCreateScenario) {
       this.changeState('CREATE', {} as Spell);
     }
-
-    this.setPlayerClassConnections();
-  }
-
-  ngOnChanges(): void {
-    this.setPlayerClassConnections();
-  }
-
-  setPlayerClassConnections(): void {
-    const classConnections: SpellPlayerClassConnection[] =
-      this.spell?.player_class_connections ?? [];
-    this.playerClassConnections = classConnections.map((con) => {
-      return {
-        badgeValue: con,
-        text: con.player_class_details?.name as string,
-        link: undefined as any as string,
-      };
-    });
   }
 
   onToggle(toggled: boolean) {
-    const isInCreateScenario = this.state === 'CREATE';
+    const isInCreateScenario = this.state() === 'CREATE';
     if (isInCreateScenario) {
       this.onSpellCreateCancel();
       return;
     }
 
-    const isInDisplayState = this.state === 'DISPLAY';
+    const isInDisplayState = this.state() === 'DISPLAY';
     const nextState = isInDisplayState ? 'UPDATE' : 'DISPLAY';
     const nextModel: Spell | undefined = toggled
-      ? ({ ...this.spell } as Spell)
+      ? ({ ...this.spell() } as Spell)
       : undefined;
     this.changeState(nextState, nextModel);
   }
 
   changeState(newState: SpellState, newModel: Spell | undefined) {
-    this.state = newState;
-    this.userModel = { ...newModel } as Spell;
+    this.state.set(newState);
+    this.userModel.set({ ...newModel } as Spell);
   }
 
   onSpellCreate(spell?: Spell) {
     this.spellCreate.emit(spell as Spell);
-    this.spell = spell;
     this.changeState('DISPLAY', undefined);
   }
 
   onSpellDelete() {
-    this.spellDelete.emit(this.spell);
+    this.spellDelete.emit(this.spell());
   }
 
   onSpellUpdate(spell?: Spell) {
     this.spellUpdate.emit(spell as Spell);
-    this.spell = spell;
     this.changeState('DISPLAY', undefined);
   }
 
   onConnectionCreate(selectedClass: PlayerClass) {
     const connection: SpellPlayerClassConnection = {
-      spell: this.spell?.pk as number,
+      spell: this.spell()?.pk as number,
       player_class: selectedClass.pk as number,
     };
     this.connectionCreate.emit(connection);

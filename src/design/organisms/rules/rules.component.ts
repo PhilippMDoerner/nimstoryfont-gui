@@ -1,70 +1,69 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { animateElement } from 'src/app/_functions/animate';
-import { Rule } from 'src/app/_models/rule';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  input,
+  Output,
+  signal,
+} from '@angular/core';
+import { Rule, RuleRaw } from 'src/app/_models/rule';
+import {
+  slideOutFromBottom,
+  slideUpFromBottom,
+} from 'src/design/animations/slideDown';
 
-interface RuleCard{
-  rule: Rule,
-  isOpen: boolean,
+interface RuleCard {
+  rule: Rule;
+  isOpen: boolean;
 }
 
 @Component({
   selector: 'app-rules',
   templateUrl: './rules.component.html',
-  styleUrls: ['./rules.component.scss']
+  styleUrls: ['./rules.component.scss'],
+  animations: [slideOutFromBottom, slideUpFromBottom],
 })
-export class RulesComponent implements OnInit, OnChanges{
-  DEFAULT_TITLE = "New Article Item";
+export class RulesComponent {
+  DEFAULT_TITLE = 'New Rule';
 
-  @Input() rules!: Rule[];
-  @Input() canUpdate: boolean = false;
-  @Input() canDelete: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() serverModel?: Rule;
-  
+  campaignId = input.required<number>();
+  rules = input.required<Rule[]>();
+  canUpdate = input.required<boolean>();
+  canDelete = input.required<boolean>();
+  canCreate = input.required<boolean>();
+  serverModel = input.required<Rule | undefined>();
+
   @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
   @Output() ruleUpdate: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleCreate: EventEmitter<Rule> = new EventEmitter();
-  
-  ruleCards!: RuleCard[];
-  
-  constructor(
-    private elementRef: ElementRef
-  ){}
-  
-  ngOnInit(): void {
-    this.setRuleCards();
-  }
-  
-  ngOnChanges(): void {
-    this.setRuleCards();
-  }
-  
-  onRuleDelete(ruleToDelete: Rule, deleteIndex: number){
+  @Output() ruleCreate: EventEmitter<RuleRaw> = new EventEmitter();
+
+  isCreatingRule = signal(false);
+  createRuleData = computed(
+    () =>
+      ({
+        name: this.DEFAULT_TITLE,
+        campaign: this.campaignId(),
+      }) as Rule,
+  );
+
+  ruleCards = computed<RuleCard[]>(() =>
+    this.rules().map((rule) => ({ rule: rule, isOpen: false })),
+  );
+
+  onRuleDelete(ruleToDelete: Rule) {
     this.ruleDelete.emit(ruleToDelete);
-    this.removeRule(deleteIndex);
   }
-  
-  removeRule(removalIndex: number){
-    const panelElements: HTMLElement[] = this.elementRef.nativeElement.querySelectorAll('app-collapsible-panel');
-    const panelElement: HTMLElement = panelElements[removalIndex];
-    
-    animateElement(panelElement, 'zoomOut')
-      .then(() => {
-        const entriesToDelete: number = 1;
-        this.rules.splice(removalIndex, entriesToDelete);
-        this.ngOnChanges();
-      });
+
+  onRuleCreate(rule: Partial<RuleRaw>) {
+    this.ruleCreate.emit({ ...rule, campaign: this.campaignId() } as RuleRaw);
+    this.isCreatingRule.set(false);
   }
-  
-  addRule(){
-    const newRule: Rule = {name: this.DEFAULT_TITLE} as Rule;
-    const newRuleCard: RuleCard = {rule: newRule, isOpen: true};
-    this.ruleCards.unshift(newRuleCard);
+
+  cancelRuleCreation() {
+    this.isCreatingRule.set(false);
   }
-  
-  private setRuleCards(){
-    this.ruleCards = this.rules.map(
-      rule => ({rule: rule, isOpen: false})
-    );
+
+  addRule() {
+    this.isCreatingRule.set(true);
   }
 }

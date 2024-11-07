@@ -50,7 +50,9 @@ export class SpellsComponent {
   @Output() spellClassClick: EventEmitter<PlayerClass> = new EventEmitter();
 
   isCreatingSpell = signal(false);
-  createSpellData = computed(() => ({ name: this.DEFAULT_TITLE }) as Spell);
+  createSpellData = computed(
+    () => ({ name: this.DEFAULT_TITLE, campaign: this.campaignId() }) as Spell,
+  );
 
   spellCards = computed<SpellCard[]>(() => {
     const spells = this.spells().map((spell) => ({
@@ -80,12 +82,7 @@ export class SpellsComponent {
   }
 
   onSpellCreate(spell: Partial<SpellRaw>) {
-    const newSpell: SpellRaw = {
-      ...spell,
-      campaign: this.campaignId(),
-    } as SpellRaw;
-
-    this.spellCreate.emit(newSpell);
+    this.spellCreate.emit(spell as SpellRaw);
     this.isCreatingSpell.set(false);
   }
 

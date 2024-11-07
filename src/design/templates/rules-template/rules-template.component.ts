@@ -1,34 +1,35 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Rule } from 'src/app/_models/rule';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  inject,
+  input,
+  Output,
+} from '@angular/core';
+import { Rule, RuleRaw } from 'src/app/_models/rule';
 import { RoutingService } from 'src/app/_services/routing.service';
 
 @Component({
   selector: 'app-rules-template',
   templateUrl: './rules-template.component.html',
-  styleUrls: ['./rules-template.component.scss']
+  styleUrls: ['./rules-template.component.scss'],
 })
-export class RulesTemplateComponent implements OnInit{
-  @Input() campaignName!: string;
-  @Input() rules!: Rule[];
-  @Input() canUpdate: boolean = false;
-  @Input() canDelete: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() serverModel?: Rule;
-  
+export class RulesTemplateComponent {
+  campaignName = input.required<string>();
+  campaignId = input.required<number>();
+  rules = input.required<Rule[]>();
+  canUpdate = input.required<boolean>();
+  canDelete = input.required<boolean>();
+  canCreate = input.required<boolean>();
+  serverModel = input.required<Rule | undefined>();
+
   @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
   @Output() ruleUpdate: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleCreate: EventEmitter<Rule> = new EventEmitter();
-  
-  homeUrl!: string;
-  
-  constructor(
-    private routingService: RoutingService,
-  ){}
-  
-  ngOnInit(): void {
-    this.homeUrl = this.routingService.getRoutePath(
-      'home',
-      {campaign: this.campaignName}
-    );
-  }
+  @Output() ruleCreate: EventEmitter<RuleRaw> = new EventEmitter();
+
+  routingService = inject(RoutingService);
+
+  homeUrl = computed(() =>
+    this.routingService.getRoutePath('home', { campaign: this.campaignName }),
+  );
 }

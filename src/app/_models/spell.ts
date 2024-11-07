@@ -3,6 +3,7 @@ import { PlayerClass } from './playerclass';
 
 export interface SpellRaw {
   campaign: number;
+  name: string;
   spell_level: number;
   casting_time: string;
   range: string;

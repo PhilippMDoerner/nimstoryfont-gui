@@ -1,22 +1,21 @@
 <app-page-container>
   <article>
-    <h1 class="heading"> 
-      Rules
-    </h1>
-    
+    <h1 class="heading">Rules</h1>
+
     <app-rules
-      [rules]="rules"
-      [serverModel]="serverModel"
-      [canCreate]="canCreate"
-      [canUpdate]="canUpdate"
-      [canDelete]="canDelete"
+      [rules]="rules()"
+      [serverModel]="serverModel()"
+      [campaignId]="campaignId()"
+      [canCreate]="canCreate()"
+      [canUpdate]="canUpdate()"
+      [canDelete]="canDelete()"
       (ruleDelete)="ruleDelete.emit($event)"
       (ruleCreate)="ruleCreate.emit($event)"
       (ruleUpdate)="ruleUpdate.emit($event)"
     ></app-rules>
-    
+
     <div class="container">
-      <a class="row back-link" [routerLink]="homeUrl">
+      <a class="row back-link" [routerLink]="homeUrl()">
         <app-button
           [type]="'SECONDARY'"
           [text]="'Back to Frontpage'"

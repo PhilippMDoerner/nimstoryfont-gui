@@ -1,5 +1,5 @@
-<div class="container list">  
-  <ng-container *ngIf="canCreate">
+<div class="container list">
+  @if (canCreate()) {
     <div class="row list__button">
       <app-button
         [type]="'PRIMARY'"
@@ -8,41 +8,56 @@
         (click)="addRule()"
       ></app-button>
     </div>
-  </ng-container>
+  }
 
   <div class="row">
-    <ng-container *ngFor="let card of ruleCards; let i = index">
-      <div class="list__rule-card rule-card">
-        <app-collapsible-panel 
-          [isOpen]="card.isOpen"
-          [ngClass]="{
-            'animate__animated animate__zoomIn': card.rule.pk == null
-          }"
-        > 
+    @if (isCreatingRule()) {
+      <div class="list__rule-card rule-card" [@slideUpFromBottom]>
+        <app-collapsible-panel [isOpen]="true">
+          <span heading>
+            {{ createRuleData().name }}
+          </span>
+
+          <app-rule
+            body
+            class="rule-card__rule"
+            [rule]="createRuleData()"
+            [serverModel]="undefined"
+            [canUpdate]="false"
+            [canDelete]="false"
+            [canCreate]="canCreate()"
+            [cancelButtonType]="'DARK'"
+            (ruleCreate)="onRuleCreate($event)"
+            (ruleCreateCancel)="cancelRuleCreation()"
+          ></app-rule>
+        </app-collapsible-panel>
+      </div>
+    }
+    @for (card of ruleCards(); track card.rule.pk) {
+      <div class="list__rule-card rule-card" [@slideOutFromBottom]>
+        <app-collapsible-panel [isOpen]="card.isOpen">
           <span heading>
             {{ card.rule.name }}
           </span>
-        
+
           <app-rule
             body
             class="rule-card__rule"
             [rule]="card.rule"
-            [serverModel]="serverModel"
-            [canUpdate]="canUpdate"
-            [canDelete]="canDelete"
-            [canCreate]="canCreate"
+            [serverModel]="serverModel()"
+            [canUpdate]="canUpdate()"
+            [canDelete]="canDelete()"
+            [canCreate]="canCreate()"
             [cancelButtonType]="'DARK'"
-            (ruleDelete)="onRuleDelete($event, i)"
-            (ruleCreate)="ruleCreate.emit($event)"
+            (ruleDelete)="onRuleDelete($event)"
             (ruleUpdate)="ruleUpdate.emit($event)"
-            (ruleCreateCancel)="removeRule(i)"
+            (ruleCreateCancel)="cancelRuleCreation()"
           ></app-rule>
         </app-collapsible-panel>
       </div>
-    </ng-container>
+    }
   </div>
 </div>
-
 
 <!-- Loading Spinner -->
 <ng-template #loading><app-spinner></app-spinner></ng-template>

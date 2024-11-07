@@ -1,7 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  input,
+  OnInit,
+  Output,
+  signal,
+} from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { Rule } from '../../../app/_models/rule';
+import { Rule, RuleRaw } from '../../../app/_models/rule';
 import { ElementType } from '../../atoms';
 
 type RuleState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
@@ -12,21 +19,21 @@ type RuleState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
   styleUrls: ['./rule.component.scss'],
 })
 export class RuleComponent implements OnInit {
-  @Input() rule?: Rule;
-  @Input() canUpdate: boolean = false;
-  @Input() canDelete: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() serverModel?: Rule;
-  @Input() cancelButtonType: ElementType = 'SECONDARY';
-  @Input() submitButtonType: ElementType = 'PRIMARY';
+  rule = input.required<Rule | undefined>();
+  canUpdate = input.required<boolean>();
+  canDelete = input.required<boolean>();
+  canCreate = input.required<boolean>();
+  serverModel = input.required<Rule | undefined>();
+  cancelButtonType = input<ElementType>('SECONDARY');
+  submitButtonType = input<ElementType>('PRIMARY');
 
   @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleCreate: EventEmitter<Rule> = new EventEmitter();
+  @Output() ruleCreate: EventEmitter<RuleRaw> = new EventEmitter();
   @Output() ruleUpdate: EventEmitter<Rule> = new EventEmitter();
   @Output() ruleCreateCancel: EventEmitter<null> = new EventEmitter();
 
-  userModel?: Partial<Rule>;
-  state!: RuleState;
+  userModel = signal<Rule | undefined>(undefined);
+  state = signal<RuleState>('DISPLAY');
 
   formlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
@@ -41,7 +48,7 @@ export class RuleComponent implements OnInit {
   constructor(private formlyService: FormlyService) {}
 
   ngOnInit(): void {
-    const isInCreateScenario = this.rule?.pk == null && this.canCreate;
+    const isInCreateScenario = this.rule()?.pk == null && this.canCreate;
     if (isInCreateScenario) {
       this.changeState('CREATE', {} as Rule);
       return;
@@ -51,38 +58,36 @@ export class RuleComponent implements OnInit {
   }
 
   onToggle(toggled: boolean) {
-    const isInCreateScenario = this.state === 'CREATE';
+    const isInCreateScenario = this.state() === 'CREATE';
     if (isInCreateScenario) {
       this.onRuleCreateCancel();
       return;
     }
 
-    const isInDisplayState = this.state === 'DISPLAY';
+    const isInDisplayState = this.state() === 'DISPLAY';
     const nextState = isInDisplayState ? 'UPDATE' : 'DISPLAY';
     const nextModel: Rule | undefined = toggled
-      ? ({ ...this.rule } as Rule)
+      ? ({ ...this.rule() } as Rule)
       : undefined;
     this.changeState(nextState, nextModel);
   }
 
   changeState(newState: RuleState, newModel: Rule | undefined) {
-    this.state = newState;
-    this.userModel = { ...newModel } as Rule;
+    this.state.set(newState);
+    this.userModel.set({ ...newModel } as Rule);
   }
 
-  onRuleCreate(rule?: Partial<Rule>) {
-    this.ruleCreate.emit(rule as Rule);
-    this.rule = rule as Rule;
+  onRuleCreate(rule?: Partial<RuleRaw>) {
+    this.ruleCreate.emit(rule as RuleRaw);
     this.changeState('DISPLAY', undefined);
   }
 
   onRuleDelete() {
-    this.ruleDelete.emit(this.rule);
+    this.ruleDelete.emit(this.rule());
   }
 
   onRuleUpdate(rule?: Partial<Rule>) {
     this.ruleUpdate.emit(rule as Rule);
-    this.rule = rule as Rule;
     this.changeState('DISPLAY', undefined);
   }
 

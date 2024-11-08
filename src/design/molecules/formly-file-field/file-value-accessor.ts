@@ -1,4 +1,4 @@
-import { Directive, OnInit } from '@angular/core';
+import { Directive } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Directive({
@@ -13,18 +13,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
   ],
 })
 // https://github.com/angular/angular/issues/7341
-export class FileValueAccessor implements ControlValueAccessor, OnInit {
-  ngOnInit(): void {
-    console.log('DIRECTIVE APPLIED');
-  }
-
+export class FileValueAccessor implements ControlValueAccessor {
   value: any;
-  onChange = (_: any) => {
-    console.log('Accessor on change');
-  };
-  onTouched = () => {
-    console.log('Accessor on touch');
-  };
+  onChange = (_: any) => {};
+  onTouched = () => {};
 
   writeValue(value: any) {}
   registerOnChange(fn: any) {

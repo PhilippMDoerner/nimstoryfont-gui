@@ -93,7 +93,8 @@ export const dateValidator: ValidatorOption = {
 
 function iconValidation(control: AbstractControl): ValidationErrors | null {
   const hasFaPrefix = /fa-/.test(control.value);
-  const isValidIcon = hasFaPrefix;
+  const hasFasPrefix = /fas-/.test(control.value);
+  const isValidIcon = hasFaPrefix || hasFasPrefix;
   return isValidIcon ? null : { faPrefix: isValidIcon };
 }
 export const iconValidator: ValidatorOption = {

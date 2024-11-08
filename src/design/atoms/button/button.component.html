@@ -1,11 +1,11 @@
-<button 
-  class="btn" 
+<button
+  class="btn"
   [disabled]="disabled"
   [type]="isSubmitButton ? 'submit' : 'button'"
   [ngClass]="{
     'btn-primary': type === 'PRIMARY' && !outline,
-    'btn-secondary': type === 'SECONDARY'  && !outline,
-    'btn-dark': type === 'DARK'  && !outline,
+    'btn-secondary': type === 'SECONDARY' && !outline,
+    'btn-dark': type === 'DARK' && !outline,
     'btn-danger': type === 'DANGER' && !outline,
     'btn-warning': type === 'WARNING' && !outline,
     'btn-light': type === 'LIGHT' && !outline,
@@ -17,7 +17,7 @@
     'btn-outline-warning': type === 'WARNING' && outline,
     'btn-outline-light': type === 'LIGHT' && outline,
     'btn-outline-info': type === 'INFO' && outline,
-    
+
     'btn-sm': size === 'SMALL',
     'btn-lg': size === 'LARGE',
     'btn-disabled': disabled,
@@ -26,5 +26,5 @@
   <ng-container *ngIf="icon">
     <app-icon [class.btn__icon]="text" [icon]="icon"></app-icon>
   </ng-container>
-  {{text}}
+  {{ text }}
 </button>

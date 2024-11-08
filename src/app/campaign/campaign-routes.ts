@@ -28,6 +28,8 @@ import { LocationCreateUpdatePageComponent } from './pages/location-create-updat
 import { LocationCreateUpdateStore } from './pages/location-create-update-page/location-create-update-page.store';
 import { LocationPageComponent } from './pages/location-page/location-page.component';
 import { LocationPageStore } from './pages/location-page/location-page.store';
+import { MapCreateUpdatePageComponent } from './pages/map-create-update-page/map-create-update-page.component';
+import { MapCreateUpdateStore } from './pages/map-create-update-page/map-create-update-page.store';
 import { MapPageComponent } from './pages/map-page/map-page.component';
 import { MapPageStore } from './pages/map-page/map-page.store';
 import { OrganizationCreateUpdatePageComponent } from './pages/organization-create-update-page/organization-create-update-page.component';
@@ -496,6 +498,12 @@ const detailRoutes: Route[] = [
     path: 'map',
     children: [
       {
+        path: 'create',
+        component: MapCreateUpdatePageComponent,
+        data: { name: 'map-create', requiredMinimumRole: 'member' },
+        canDeactivate: [onExitReset(MapPageStore)],
+      },
+      {
         path: 'default',
         component: MapPageComponent,
         data: { name: 'default-map', requiredMinimumRole: 'guest' },
@@ -516,24 +524,19 @@ const detailRoutes: Route[] = [
         },
         canDeactivate: [onExitReset(MapPageStore)],
       },
+      {
+        path: ':name/update',
+        component: MapCreateUpdatePageComponent,
+        data: { name: 'map-update', requiredMinimumRole: 'member' },
+        resolve: {
+          map: (route: ActivatedRouteSnapshot) =>
+            inject(MapCreateUpdateStore).loadMap(route.params['name']),
+        },
+        canDeactivate: [onExitReset(MapPageStore)],
+      },
     ],
   },
-  // {
-  //   path: `map/default`,
-  //   component: MapPageComponent,
-  //   data: { name: 'default-map', requiredMinimumRole: 'guest' },
-  //   resolve: {
-  //     mapDefaultResolver,
-  //   },
-  // },
-  // {
-  //   path: `map/:name`,
-  //   component: MapPageComponent,
-  //   data: { name: 'map', requiredMinimumRole: 'guest' },
-  //   resolve: {
-  //     mapResolver,
-  //   },
-  // },
+
   // {
   // 	path: `map/:name/update`,
   // 	component: MapUpdateComponent,

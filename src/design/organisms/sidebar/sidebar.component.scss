@@ -8,47 +8,46 @@ a {
   --brand-height: 3rem;
 }
 
+.sidebar {
+  background-color: var(--bs-gray-dark);
+  overflow-y: auto;
+  overflow-x: hidden; //Necessary because when sidebar folds out, x scrollbar appears
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+  width: inherit;
+  max-width: inherit;
 
-.sidebar{
-    background-color: var(--bs-gray-dark);
-    overflow-y: auto;
-    overflow-x: hidden; //Necessary because when sidebar folds out, x scrollbar appears
-    display: flex;
-    flex-direction: column;
-    height: inherit;
-    width: inherit;
-    max-width: inherit;
-    
-    &__brand{
-      list-style-type: none;
-      margin: 0;
-      padding: 0;  
+  &__brand {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__entries {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+  }
+
+  &__entry {
+    :hover {
+      color: var(--entry-hover-color);
+      background-color: var(--entry-hover-bg-color);
     }
-    
-    &__entries{
-      list-style-type: none;
-      margin: 0;
-      padding: 0;  
-      flex: 1;
-    }
-    
-    &__entry{
-      :hover{
-        color: var(--entry-hover-color);
-        background-color: var(--entry-hover-bg-color);
-      }
-    }
-    
-    &__footer{
-      list-style-type: none;
-      margin: 0;
-      padding: 0;  
-      border-top: 4px inset;
-    }
+  }
+
+  &__footer {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-top: 4px inset;
+  }
 }
 
-.entry{
-  &__link{
+.entry {
+  &__link {
     display: flex;
     align-items: center;
     padding-left: var(--spacer-3);
@@ -58,8 +57,8 @@ a {
     font-size: large;
     cursor: pointer;
   }
-  
-  &__icon{
+
+  &__icon {
     width: var(--spacer-5);
     display: flex;
     align-items: center;
@@ -67,20 +66,20 @@ a {
   }
 }
 
-.brand{
+.brand {
   display: flex;
   height: var(--brand-height);
   font-size: 1.5rem;
-  
-  &__back{
-    :hover{
+
+  &__back {
+    :hover {
       color: var(--entry-hover-color);
       background-color: var(--entry-hover-bg-color);
       height: var(--brand-height);
     }
   }
-  
-  &__back-link{
+
+  &__back-link {
     font-size: 32px;
     height: 100%;
     font-weight: bold;
@@ -89,33 +88,33 @@ a {
     padding-left: var(--spacer-3);
     border-right: solid 2px var(--bs-white);
   }
-  
-  &__back-icon{
+
+  &__back-icon {
     display: flex;
     align-items: center;
   }
-  
+
   &__home {
     height: var(--brand-height);
     flex: 1;
     max-width: 80%;
-    
-    :hover{
-      color: var(--entry-hover-color)!important;
+
+    :hover {
+      color: var(--entry-hover-color) !important;
       background-color: var(--entry-hover-bg-color);
     }
   }
-  
-  &__home-link{
+
+  &__home-link {
     padding-left: var(--spacer-2);
     color: inherit;
-    font-size: 24px; 
+    font-size: 24px;
     display: flex;
     align-items: center;
     height: 100%;
   }
-  
-  &__home-link-text{
+
+  &__home-link-text {
     display: flex;
     width: 100%;
     align-items: center;
@@ -123,22 +122,22 @@ a {
     color: inherit;
     margin: var(--spacer-0);
   }
-  
-  &__home-link-text-text{
+
+  &__home-link-text-text {
     margin-left: var(--spacer-2);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  
-  &__icon{
+
+  &__icon {
     height: 32px;
     width: 32px;
+    border-radius: 50%;
   }
-
 }
 
-.footer{
+.footer {
   display: flex;
   flex-direction: column;
   margin-bottom: var(--spacer-3);

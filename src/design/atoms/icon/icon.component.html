@@ -1,7 +1,7 @@
-<div 
+<div
   [ngClass]="{
-    'fas': iconType === 'SOLID',
-    'fa': iconType === 'REGULAR'
+    fas: iconType() === 'SOLID',
+    fa: iconType() === 'REGULAR',
   }"
-  class="fa-{{icon}}"
+  class="fa-{{ icon() }}"
 ></div>

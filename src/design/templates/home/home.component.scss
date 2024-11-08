@@ -1,28 +1,31 @@
-.home{
-  &__heading-ontainer{
+.home {
+  &__heading-ontainer {
     margin-bottom: var(--spacer-1);
   }
 }
 
-.heading-container{
+.heading-container {
   display: flex;
   flex-direction: column;
   text-align: center;
-  
-  &__heading{
+
+  &__heading {
     margin-bottom: var(--spacer-1);
   }
-  
-  &__subheading{
+
+  &__subheading {
     font-weight: bold;
   }
-  
-  &__icon{
+
+  &__icon {
     align-self: center;
+    width: 128px;
+    height: 128px;
+    border-radius: 50%;
   }
 }
 
-.loading__spinner{
+.loading__spinner {
   width: 100%;
   display: flex;
   justify-content: center;

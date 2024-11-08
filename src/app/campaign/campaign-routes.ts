@@ -28,6 +28,8 @@ import { LocationCreateUpdatePageComponent } from './pages/location-create-updat
 import { LocationCreateUpdateStore } from './pages/location-create-update-page/location-create-update-page.store';
 import { LocationPageComponent } from './pages/location-page/location-page.component';
 import { LocationPageStore } from './pages/location-page/location-page.store';
+import { MapPageComponent } from './pages/map-page/map-page.component';
+import { MapPageStore } from './pages/map-page/map-page.store';
 import { OrganizationCreateUpdatePageComponent } from './pages/organization-create-update-page/organization-create-update-page.component';
 import { OrganizationCreateUpdatePageStore } from './pages/organization-create-update-page/organization-create-update-page.store';
 import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
@@ -490,15 +492,32 @@ const detailRoutes: Route[] = [
   //   resolve: {},
   // },
   // Map Routes
-  // {
-  // 	path: `map/create`,
-  // 	component: MapUpdateComponent,
-  // 	data:{ name: "map-create", requiredRole: CampaignRole.MEMBER},
-  // 	resolve: {
-  // 		campaign: CampaignResolver,
-  // 		modelData: MapUpdateResolver,
-  // 	}
-  // },
+  {
+    path: 'map',
+    children: [
+      {
+        path: 'default',
+        component: MapPageComponent,
+        data: { name: 'default-map', requiredMinimumRole: 'guest' },
+        resolve: {
+          maps: () => inject(MapPageStore).loadCampaignMaps(),
+          map: () => inject(MapPageStore).loadDefaultMap(),
+        },
+        canDeactivate: [onExitReset(MapPageStore)],
+      },
+      {
+        path: ':name',
+        component: MapPageComponent,
+        data: { name: 'map', requiredMinimumRole: 'guest' },
+        resolve: {
+          maps: () => inject(MapPageStore).loadCampaignMaps(),
+          map: (route: ActivatedRouteSnapshot) =>
+            inject(MapPageStore).loadMap(route.params['name']),
+        },
+        canDeactivate: [onExitReset(MapPageStore)],
+      },
+    ],
+  },
   // {
   //   path: `map/default`,
   //   component: MapPageComponent,

@@ -1,52 +1,30 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
-import { ExtendedMap } from 'src/app/_models/map';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
-import { MapService } from 'src/app/_services/article/map.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
-import { TokenService } from 'src/app/_services/utils/token.service';
+import { GlobalStore } from 'src/app/global.store';
 import { environment } from 'src/environments/environment';
+import { TemplatesModule } from '../../../../design/templates/templates.module';
+import { MapPageStore } from './map-page.store';
 
 @Component({
   selector: 'app-map-page',
   templateUrl: './map-page.component.html',
   styleUrls: ['./map-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [TemplatesModule],
 })
-export class MapPageComponent implements OnInit {
-  canCreate$!: Observable<boolean>;
-  canDelete$!: Observable<boolean>;
-  canUpdate$!: Observable<boolean>;
-  map$: Observable<ExtendedMap | undefined> = this.mapService.read.data$;
-  mapChoices$: Observable<OverviewItem[] | undefined> =
-    this.mapService.campaignList.data$;
-
+export class MapPageComponent {
   serverUrl = environment.backendDomain;
-
-  constructor(
-    private tokenService: TokenService,
-    private paramsService: GlobalUrlParamsService,
-    private mapService: MapService,
-    private routingService: RoutingService,
-  ) {}
-
-  ngOnInit(): void {
-    const campaignName$ = this.paramsService.campaignNameParam$;
-    const hasMemberPermissions$: Observable<boolean> = campaignName$.pipe(
-      switchMap((name) => this.tokenService.isCampaignMember(name as string)),
-    );
-
-    this.canCreate$ = hasMemberPermissions$;
-    this.canDelete$ = hasMemberPermissions$;
-    this.canUpdate$ = hasMemberPermissions$;
-  }
-
-  mapDelete(map: ExtendedMap): void {
-    this.mapService.delete(map.pk as number);
-  }
+  store = inject(MapPageStore);
+  globalStore = inject(GlobalStore);
+  routingService = inject(RoutingService);
 
   mapChange(map: OverviewItem): void {
     const mapName = map.name;
-    this.routingService.routeToPath('map', { name: mapName });
+    this.routingService.routeToPath('map', {
+      campaign: this.globalStore.campaignName(),
+      name: mapName,
+    });
   }
 }

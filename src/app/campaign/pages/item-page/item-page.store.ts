@@ -46,11 +46,11 @@ export const ItemPageStore = signalStore(
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
       filterNil(),
       shareReplay(1),
-      take(1),
     );
     return {
       item: (name: string) =>
         campaignName$.pipe(
+          take(1),
           switchMap((campaignName) =>
             itemService.readByParam(campaignName, { name }),
           ),

@@ -1,12 +1,14 @@
-<ng-container *ngIf="map$ | async as map">
+@let map = store.map();
+
+@if (map) {
   <app-map
-    [mapChoices]="(mapChoices$ | async) ?? []"
+    [mapChoices]="store.campaignMaps() ?? []"
     [map]="map"
     [serverUrl]="serverUrl"
-    [canUpdate]="!!(canUpdate$ | async)"
-    [canCreate]="!!(canCreate$ | async)"
-    [canDelete]="!!(canDelete$ | async)"
-    (mapDelete)="mapDelete($event)"
+    [canUpdate]="store.hasWritePermission()"
+    [canCreate]="store.hasWritePermission()"
+    [canDelete]="store.hasWritePermission()"
+    (mapDelete)="store.deleteMap($event.pk!)"
     (mapChange)="mapChange($event)"
   ></app-map>
-</ng-container>
+}

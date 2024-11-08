@@ -1,37 +1,39 @@
-.map{
-  &__edit-container{
+.map {
+  &__edit-container {
     width: 100%;
     display: flex;
     justify-content: flex-end;
   }
-  
-  &__no-map{
+
+  &__no-map {
     justify-content: center;
     display: flex;
     align-items: center;
     flex-direction: column;
     margin-top: var(--spacer-5);
   }
-  
-  &__map{
+
+  &__map {
     margin-top: var(--spacer-3);
     margin-bottom: var(--spacer-3);
   }
-  
-  &__create{
+
+  &__create {
     width: fit-content;
     display: inline-block;
   }
 }
 
-.heading{
+.heading {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   margin-bottom: var(--spacer-5);
-  
-  &__select{
+
+  &__select {
     margin-left: var(--spacer-3);
     font-weight: bold;
+    font-size: 20px;
   }
 }

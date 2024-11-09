@@ -1,37 +1,49 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  input,
+  Output,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
-import { ElementSize, ElementType, Icon } from '../../atoms';
-
+import { ButtonComponent, ElementSize, ElementType, Icon } from '../../atoms';
 
 @Component({
   selector: 'app-confirmation-toggle-button',
   templateUrl: './confirmation-toggle-button.component.html',
-  styleUrls: ['./confirmation-toggle-button.component.scss']
+  styleUrls: ['./confirmation-toggle-button.component.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ButtonComponent, NgTemplateOutlet],
 })
 export class ConfirmationToggleButtonComponent {
-  @Input() confirmationQuestion!: string;
-  @Input() icon?: Icon;
-  @Input() text?: string;
-  @Input() toggleType: ElementType = 'DANGER';
-  @Input() toggleSize: ElementSize = 'MEDIUM';
-  @Input() cancelButtonType: ElementType = 'SECONDARY';
-  
-  @Output() confirm: EventEmitter<null> = new EventEmitter();
-  
-  @ViewChild("toggleElement") toggleElement!: ElementRef;
+  confirmationQuestion = input.required<string>();
+  icon = input<Icon>();
+  text = input<string>();
+  toggleType = input<ElementType>('DANGER');
+  toggleSize = input<ElementSize>('MEDIUM');
+  cancelButtonType = input<ElementType>('SECONDARY');
 
-  isActive: boolean = false;
-  
-  toggle(){
-    this.isActive = !this.isActive;
-    animateElement( this.toggleElement.nativeElement , 'flipInY');
+  @Output() confirm: EventEmitter<null> = new EventEmitter();
+
+  @ViewChild('toggleElement') toggleElement!: ElementRef;
+
+  isActive = signal(false);
+
+  toggle() {
+    this.isActive.set(!this.isActive());
+    animateElement(this.toggleElement.nativeElement, 'flipInY');
   }
-  
-  emitConfirmation(){
-    if(!this.isActive){
+
+  emitConfirmation() {
+    if (!this.isActive) {
       return;
     }
-    
+
     this.confirm.emit();
     this.toggle();
   }

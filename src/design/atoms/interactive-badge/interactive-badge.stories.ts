@@ -1,7 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { IconComponent } from '../icon/icon.component';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { InteractiveBadgeComponent } from './interactive-badge.component';
 
 export default {
@@ -10,7 +9,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [RouterTestingModule],
-      declarations: [IconComponent],
     }),
   ],
   args: {

@@ -1,32 +1,34 @@
 <div #toggleElement>
-  <ng-container *ngIf="isActive; then activeToggle; else inactiveToggle"></ng-container>
+  <ng-container
+    *ngTemplateOutlet="isActive() ? activeToggle : inactiveToggle"
+  />
 </div>
 
 <ng-template #inactiveToggle>
-  <app-button 
+  <app-button
     class="confirmation-toggle"
-    (click)="toggle()" 
-    [type]="toggleType"
-    [icon]="icon"
-    [size]="toggleSize"
-    [text]="text"
+    (click)="toggle()"
+    [type]="toggleType()"
+    [icon]="icon()"
+    [size]="toggleSize()"
+    [text]="text()"
     [outline]="true"
   ></app-button>
 </ng-template>
 
 <ng-template #activeToggle>
-  <div class="confirmation confirmation--{{toggleType}}">
-    <div class="confirmation__question"> 
-      <strong>{{confirmationQuestion}}</strong> 
-    </div>  
+  <div class="confirmation confirmation--{{ toggleType() }}">
+    <div class="confirmation__question">
+      <strong>{{ confirmationQuestion() }}</strong>
+    </div>
     <div class="confirmation__buttons">
-      <app-button 
-        [type]="toggleType" 
+      <app-button
+        [type]="toggleType()"
         [text]="'Yes'"
         (click)="emitConfirmation()"
       ></app-button>
-      <app-button 
-        [type]="cancelButtonType" 
+      <app-button
+        [type]="cancelButtonType()"
         [text]="'No'"
         (click)="toggle()"
       ></app-button>

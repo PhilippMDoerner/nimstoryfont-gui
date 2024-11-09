@@ -1,19 +1,28 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  input,
+  Output,
+} from '@angular/core';
 
 @Component({
   selector: 'app-choice-select',
   templateUrl: './choice-select.component.html',
-  styleUrls: ['./choice-select.component.scss']
+  styleUrls: ['./choice-select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [],
 })
 export class ChoiceSelectComponent {
-  @Input() choices!: any[];
-  @Input() labelProp!: string;
-  @Input() selectedLabelValue?: string;
-  
+  choices = input.required<any[]>();
+  labelProp = input.required<string>();
+  selectedLabelValue = input.required<string | undefined>();
+
   @Output() choiceSelect: EventEmitter<any> = new EventEmitter();
-  
-  onChange(event: any){
+
+  onChange(event: any) {
     const selectedChoiceIndex: number = parseInt(event.target?.value);
-    this.choiceSelect.emit(this.choices[selectedChoiceIndex]);
+    this.choiceSelect.emit(this.choices()[selectedChoiceIndex]);
   }
 }

@@ -1,8 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
-import { ConfirmationToggleButtonComponent } from '../confirmation-toggle-button/confirmation-toggle-button.component';
 import { ArticleFooterComponent } from './article-footer.component';
 
 export default {
@@ -10,8 +8,7 @@ export default {
   component: ArticleFooterComponent,
   decorators: [
     moduleMetadata({
-      imports: [AtomsModule, RouterTestingModule],
-      declarations: [ConfirmationToggleButtonComponent],
+      imports: [RouterTestingModule],
     }),
   ],
   args: {

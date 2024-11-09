@@ -1,18 +1,12 @@
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { CardComponent } from "./card.component";
+import { Meta, StoryFn } from '@storybook/angular';
+import { CardComponent } from './card.component';
 
 export default {
-  title: "DesignSystem/Atoms/CardComponent",
+  title: 'DesignSystem/Atoms/CardComponent',
   component: CardComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [],
-      declarations: [],
-    }),
-  ],
   args: {
-    text: "<h1> BadgeText </h1>",
-    bgColor: "var(--bs-card-bg)",
+    text: '<h1> BadgeText </h1>',
+    bgColor: 'var(--bs-card-bg)',
   },
 } as Meta<CardComponent>;
 
@@ -31,5 +25,5 @@ Default.args = {};
 
 export const Red = Template.bind({});
 Red.args = {
-  bgColor: "red",
+  bgColor: 'red',
 };

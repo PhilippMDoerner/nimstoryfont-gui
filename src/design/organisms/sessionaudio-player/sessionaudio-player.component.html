@@ -1,6 +1,9 @@
 <div class="container timestamp">
   <div class="timestamp__image">
-    <img class="mw-100" [src]="'/assets/default_images/audio_pic_default.webp'"/>
+    <img
+      class="mw-100"
+      [src]="'/assets/default_images/audio_pic_default.webp'"
+    />
   </div>
   <app-player
     [serverUrl]="serverUrl"
@@ -11,11 +14,11 @@
 
   <ng-container *ngIf="canCreate">
     <ng-container [ngSwitch]="timestampState">
-      <ng-container 
+      <ng-container
         *ngSwitchCase="'DISPLAY'"
         [ngTemplateOutlet]="timestampDisplay"
       ></ng-container>
-      <ng-container 
+      <ng-container
         *ngSwitchCase="'CREATE'"
         [ngTemplateOutlet]="timestampCreate"
       ></ng-container>
@@ -51,7 +54,7 @@
 
 <ng-template #timestampCreate>
   <app-card>
-    <h5 class="timestamp__create-form"> Create Timestamp </h5>
+    <h5 class="timestamp__create-form">Create Timestamp</h5>
     <app-form
       [model]="timestampModel"
       [fields]="timestampFields"

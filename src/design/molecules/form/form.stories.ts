@@ -24,7 +24,6 @@ import {
   requiredMessage,
   requiredValidator,
   sessionAlreadyHasAuthor,
-  sessionAuthorUniqueValidator,
   specialCharacterValidator,
   timeValidator,
 } from 'src/app/_services/formly/validators';
@@ -368,7 +367,6 @@ export default {
             integerValidator,
             specialCharacterValidator,
             fieldMatchValidator,
-            sessionAuthorUniqueValidator,
           ],
         }),
         FormlyBootstrapModule,

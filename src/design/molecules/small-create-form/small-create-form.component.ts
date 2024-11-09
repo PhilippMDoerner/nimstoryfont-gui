@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -7,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ElementType } from '../../atoms';
+import { BadgeComponent, ButtonComponent, ElementType } from '../../atoms';
 
 type State = 'DISPLAY' | 'CREATE';
 export type DisableableOption<T> = { value: T; disabled: boolean };
@@ -15,6 +16,8 @@ export type DisableableOption<T> = { value: T; disabled: boolean };
   selector: 'app-small-create-form',
   templateUrl: './small-create-form.component.html',
   styleUrls: ['./small-create-form.component.scss'],
+  standalone: true,
+  imports: [BadgeComponent, NgTemplateOutlet, ButtonComponent],
 })
 export class SmallCreateFormComponent<T> {
   options = input.required<T[]>();

@@ -1,26 +1,16 @@
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { IconComponent } from "../icon/icon.component";
-import { InfoCircleTooltipComponent } from "./info-circle-tooltip.component";
+import { Meta, StoryFn } from '@storybook/angular';
+import { InfoCircleTooltipComponent } from './info-circle-tooltip.component';
 
 export default {
-  title: "DesignSystem/Atoms/InfoCircleTooltipComponent",
+  title: 'DesignSystem/Atoms/InfoCircleTooltipComponent',
   component: InfoCircleTooltipComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [NgbModule],
-      declarations: [IconComponent],
-    }),
-  ],
   args: {
-    text: "SomeText",
-    tooltip: "Tooltip text beautiful",
+    text: 'SomeText',
+    tooltip: 'Tooltip text beautiful',
   },
 } as Meta<InfoCircleTooltipComponent>;
 
-const Template: StoryFn<InfoCircleTooltipComponent> = (
-  args: InfoCircleTooltipComponent,
-) => ({
+const Template: StoryFn<InfoCircleTooltipComponent> = (args: any) => ({
   props: {
     ...args,
   },

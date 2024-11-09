@@ -1,25 +1,22 @@
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { AtomsModule } from "../../atoms";
-import { CollapsiblePanelComponent } from "./collapsible-panel.component";
+import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { ButtonComponent } from '../../atoms';
+import { CollapsiblePanelComponent } from './collapsible-panel.component';
 
 export default {
-  title: "DesignSystem/Molecules/CollapsiblePanelComponent",
+  title: 'DesignSystem/Molecules/CollapsiblePanelComponent',
   component: CollapsiblePanelComponent,
   decorators: [
     moduleMetadata({
-      imports: [AtomsModule],
-      declarations: [],
+      imports: [ButtonComponent],
     }),
   ],
   args: {
     isOpen: false,
-    heading: "Some Heading",
+    heading: 'Some Heading',
   },
 } as Meta<CollapsiblePanelComponent>;
 
-const Template: StoryFn<CollapsiblePanelComponent> = (
-  args: CollapsiblePanelComponent,
-) => ({
+const Template: StoryFn<CollapsiblePanelComponent> = (args: any) => ({
   props: {
     ...args,
   },

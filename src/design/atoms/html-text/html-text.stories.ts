@@ -1,6 +1,5 @@
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { SafeHtmlPipe } from "../_pipes/safeHtml";
-import { HtmlTextComponent } from "./html-text.component";
+import { Meta, StoryFn } from '@storybook/angular';
+import { HtmlTextComponent } from './html-text.component';
 
 const htmlDummyText = `
 <div class="content note-editor notes">
@@ -24,20 +23,15 @@ const htmlDummyText = `
 `;
 
 export default {
-  title: "DesignSystem/Atoms/HtmlTextComponent",
+  title: 'DesignSystem/Atoms/HtmlTextComponent',
   component: HtmlTextComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [],
-      declarations: [SafeHtmlPipe],
-    }),
-  ],
+
   args: {
     text: htmlDummyText,
   },
 } as Meta<HtmlTextComponent>;
 
-const Template: StoryFn<HtmlTextComponent> = (args: HtmlTextComponent) => ({
+const Template: StoryFn<HtmlTextComponent> = (args: any) => ({
   props: {
     ...args,
   },
@@ -53,10 +47,10 @@ NoText.args = {
 
 export const EmptyText = Template.bind({});
 EmptyText.args = {
-  text: "",
+  text: '',
 };
 
 export const NoHtml = Template.bind({});
 NoHtml.args = {
-  text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda eveniet commodi, aspernatur ipsum non, a adipisci tempora quo quis, temporibus nihil. Cumque nostrum ab, repellat ducimus recusandae dolor. Recusandae, sint!",
+  text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda eveniet commodi, aspernatur ipsum non, a adipisci tempora quo quis, temporibus nihil. Cumque nostrum ab, repellat ducimus recusandae dolor. Recusandae, sint!',
 };

@@ -1,16 +1,14 @@
-<div 
+<div
   class="alert"
   [ngClass]="{
-    'alert-primary': type === 'PRIMARY',
-    'alert-secondary': type === 'SECONDARY',
-    'alert-dark': type === 'DARK',
-    'alert-danger': type === 'DANGER',
-    'alert-warning': type === 'WARNING',
-    'alert-info': type === 'INFO',
-    'alert-light': type === 'LIGHT',
+    'alert-primary': type() === 'PRIMARY',
+    'alert-secondary': type() === 'SECONDARY',
+    'alert-dark': type() === 'DARK',
+    'alert-danger': type() === 'DANGER',
+    'alert-warning': type() === 'WARNING',
+    'alert-info': type() === 'INFO',
+    'alert-light': type() === 'LIGHT',
   }"
 >
-  <ng-content>
-    
-  </ng-content>
+  <ng-content> </ng-content>
 </div>

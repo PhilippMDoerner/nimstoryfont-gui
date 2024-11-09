@@ -1,14 +1,15 @@
-<strong placement="top"
+<strong
+  placement="top"
   [ngbTooltip]="tooltipContent"
   [tooltipClass]="'my-tooltip'"
   class="pointer"
-> 
-  {{text}} 
+>
+  {{ text() }}
   <app-icon class="mx-1" [icon]="'info-circle'"></app-icon>
 </strong>
 
 <ng-template #tooltipContent>
   <div class="alert alert-info m-0 p-0">
-    {{ tooltip }}
+    {{ tooltip() }}
   </div>
 </ng-template>

@@ -1,56 +1,57 @@
 <div class="badge-container">
-  @if (textLink) {
+  @if (textLink()) {
     <a
-      [routerLink]="textLink"
+      [routerLink]="textLink()"
       class="badge"
       [ngClass]="{
-        'badge--part1': icon,
-        'bg-primary': type === 'PRIMARY',
-        'bg-secondary': type === 'SECONDARY',
-        'bg-dark': type === 'DARK',
-        'bg-danger': type === 'DANGER',
-        'bg-warning': type === 'WARNING',
-        'bg-info': type === 'INFO',
-        'bg-light': type === 'LIGHT',
+        'badge--part1': icon(),
+        'bg-primary': type() === 'PRIMARY',
+        'bg-secondary': type() === 'SECONDARY',
+        'bg-dark': type() === 'DARK',
+        'bg-danger': type() === 'DANGER',
+        'bg-warning': type() === 'WARNING',
+        'bg-info': type() === 'INFO',
+        'bg-light': type() === 'LIGHT',
       }"
     >
-      {{ text }}
+      {{ text() }}
     </a>
   } @else {
     <button
       (click)="labelClick.emit()"
       class="badge"
       [ngClass]="{
-        'badge--part1': icon,
-        'bg-primary': type === 'PRIMARY',
-        'bg-secondary': type === 'SECONDARY',
-        'bg-dark': type === 'DARK',
-        'bg-danger': type === 'DANGER',
-        'bg-warning': type === 'WARNING',
-        'bg-info': type === 'INFO',
-        'bg-light': type === 'LIGHT',
+        'badge--part1': icon(),
+        'bg-primary': type() === 'PRIMARY',
+        'bg-secondary': type() === 'SECONDARY',
+        'bg-dark': type() === 'DARK',
+        'bg-danger': type() === 'DANGER',
+        'bg-warning': type() === 'WARNING',
+        'bg-info': type() === 'INFO',
+        'bg-light': type() === 'LIGHT',
       }"
     >
-      {{ text }}
+      {{ text() }}
     </button>
   }
 
-  @if (icon) {
+  @let iconVal = icon();
+  @if (iconVal) {
     <button
       (click)="iconClick.emit()"
       tabindex=""
       class="badge badge--part2"
       [ngClass]="{
-        'bg-primary': iconType === 'PRIMARY',
-        'bg-secondary': iconType === 'SECONDARY',
-        'bg-dark': iconType === 'DARK',
-        'bg-danger': iconType === 'DANGER',
-        'bg-warning': iconType === 'WARNING',
-        'bg-info': iconType === 'INFO',
-        'bg-light': iconType === 'LIGHT',
+        'bg-primary': iconTypeVal() === 'PRIMARY',
+        'bg-secondary': iconTypeVal() === 'SECONDARY',
+        'bg-dark': iconTypeVal() === 'DARK',
+        'bg-danger': iconTypeVal() === 'DANGER',
+        'bg-warning': iconTypeVal() === 'WARNING',
+        'bg-info': iconTypeVal() === 'INFO',
+        'bg-light': iconTypeVal() === 'LIGHT',
       }"
     >
-      <app-icon [icon]="icon" />
+      <app-icon [icon]="iconVal" />
     </button>
   }
 </div>

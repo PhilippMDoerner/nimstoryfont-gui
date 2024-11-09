@@ -1,6 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
+import { Meta, StoryFn } from '@storybook/angular';
 import { SmallCreateFormComponent } from './small-create-form.component';
 
 const dummyOptions: any[] = [
@@ -24,11 +23,6 @@ const dummyOptions: any[] = [
 export default {
   title: 'DesignSystem/Molecules/SmallCreateFormComponent',
   component: SmallCreateFormComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AtomsModule],
-    }),
-  ],
   args: {
     options: dummyOptions,
     labelProp: 'myLabel',
@@ -37,9 +31,9 @@ export default {
     submitButtonType: 'PRIMARY',
     cancelButtonType: 'SECONDARY',
   },
-} as Meta<SmallCreateFormComponent>;
+} as Meta<SmallCreateFormComponent<any>>;
 
-const Template: StoryFn<SmallCreateFormComponent> = (args) => ({
+const Template: StoryFn<SmallCreateFormComponent<any>> = (args) => ({
   props: {
     ...args,
     create: action('create'),
@@ -62,4 +56,4 @@ UndefinedOptions.args = {
 export const DisabledOptions = Template.bind({});
 DisabledOptions.args = {
   isDisabledFunction: (opt: any) => opt.myValue > 5,
-};
+} as any;

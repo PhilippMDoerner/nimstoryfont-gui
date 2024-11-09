@@ -1,11 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { NgClass } from '@angular/common';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ElementType } from '../_models/button';
 
 @Component({
   selector: 'app-alert',
   templateUrl: './alert.component.html',
-  styleUrls: ['./alert.component.scss']
+  styleUrls: ['./alert.component.scss'],
+  imports: [NgClass],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent {
-  @Input() type!: ElementType;
+  type = input.required<ElementType>();
 }

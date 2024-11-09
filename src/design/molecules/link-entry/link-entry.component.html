@@ -1,29 +1,27 @@
-<div 
-  class="row linkentry"
-  [class.linkentry--delete]="state === 'DELETE'"
->
-  <ng-container *ngIf="state === 'DISPLAY'; then displayRow; else deleteRow"></ng-container>
+<div class="row linkentry" [class.linkentry--delete]="state() === 'DELETE'">
+  <ng-container
+    *ngTemplateOutlet="state() === 'DISPLAY' ? displayRow : deleteRow"
+  />
 </div>
-
 
 <ng-template #displayRow>
   <!-- Entry Linktext -->
-  <a 
-    (click)="linkClick.emit(entry.value)"
-    class="col-{{columnSizes[0]}} linkentry__link"
-  > 
-      {{entry.linkText}} 
-  </a>    
+  <a
+    (click)="linkClick.emit(entry().value)"
+    class="col-{{ _columnSizes()[0] }} linkentry__link"
+  >
+    {{ entry().linkText }}
+  </a>
 
   <!-- Entry Name -->
-  <div class="col-{{columnSizes[1]}} linkentry__label">
-    {{entry.label}}
+  <div class="col-{{ _columnSizes()[1] }} linkentry__label">
+    {{ entry().label }}
   </div>
 
   <!-- Delete Entry -->
-  <div class="col-{{columnSizes[2]}} linkentry__delete">
-    <ng-container *ngIf="canDelete">
-      <app-button 
+  <div class="col-{{ _columnSizes()[2] }} linkentry__delete">
+    @if (canDelete()) {
+      <app-button
         class="linkentry__delete-button"
         (click)="changeState('DELETE')"
         [size]="'SMALL'"
@@ -31,21 +29,21 @@
         [type]="'DANGER'"
         [outline]="true"
       ></app-button>
-    </ng-container>
+    }
   </div>
 </ng-template>
 
 <ng-template #deleteRow>
   <div class="linkentry__box box">
-    <span class="ms-2"> 
-      {{deleteMessage}} 
-    </span> 
+    <span class="ms-2">
+      {{ deleteMessage() }}
+    </span>
     <app-button
       class="box__button"
       [type]="'DANGER'"
       [size]="'SMALL'"
       [text]="'Delete'"
-      (click)="delete.emit(entry.value)"
+      (click)="delete.emit(entry().value)"
     ></app-button>
     <app-button
       class="box__button"

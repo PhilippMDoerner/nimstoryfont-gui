@@ -1,16 +1,11 @@
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
 import { LinkEntryComponent } from './link-entry.component';
 
 export default {
   title: 'DesignSystem/Molecules/LinkEntryComponent',
   component: LinkEntryComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AtomsModule],
-    }),
-  ],
+  decorators: [moduleMetadata({})],
   args: {
     canDelete: true,
     columnSizes: [3, 8, 1],

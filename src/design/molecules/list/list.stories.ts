@@ -1,7 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
 import { ListEntry } from '../_models/list';
 import { ListComponent } from './list.component';
 
@@ -93,7 +92,7 @@ export default {
   component: ListComponent,
   decorators: [
     moduleMetadata({
-      imports: [AtomsModule, RouterTestingModule],
+      imports: [RouterTestingModule],
     }),
   ],
   args: {

@@ -14,7 +14,7 @@ export const dummyCampaigns: CampaignOverview[] = [
     is_deactivated: false,
     has_audio_recording_permission: true,
     icon: '/media/campaign_icons/favicon-128x128.png',
-    default_map_id: 1,
+    default_map: 1,
     default_map_details: {
       icon: 'map',
       image: 'pic05_sMT2d6M.jpg',
@@ -34,7 +34,7 @@ export const dummyCampaigns: CampaignOverview[] = [
     is_deactivated: false,
     has_audio_recording_permission: false,
     icon: '/media/campaign_icons/icon.png',
-    default_map_id: undefined,
+    default_map: undefined,
     default_map_details: undefined,
     duration: {
       start_date: '2022-01-15T00:00:00.000000Z',
@@ -86,7 +86,7 @@ export const dummyCampaign: Campaign = {
   pk: 1,
   background_image: '/assets/default_images/audio_pic_default.webp',
   icon: 'https://www.aldrune.com/media/campaign_icons/favicon-128x128.png',
-  default_map_id: 123,
+  default_map: 123,
   default_map_details: {
     id: 123,
     name: 'Default Map',

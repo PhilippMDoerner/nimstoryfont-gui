@@ -1,8 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
@@ -24,18 +21,15 @@ import {
   requiredMessage,
   requiredValidator,
   sessionAlreadyHasAuthor,
-  sessionAuthorUniqueValidator,
   specialCharacterValidator,
   timeValidator,
 } from 'src/app/_services/formly/validators';
 import * as all from 'tinymce/tinymce';
-import { AtomsModule } from '../../atoms';
 import {
   FormlyDatepickerFieldComponent,
   FormlyEditorFieldComponent,
   FormlySelectDisableFieldComponent,
 } from '../../organisms';
-import { FormComponent } from '../form/form.component';
 import { FormlyFileFieldComponent } from '../formly-file-field/formly-file-field.component';
 import { CompareFormComponent } from './compare-form.component';
 
@@ -335,19 +329,14 @@ export default {
   decorators: [
     moduleMetadata({
       declarations: [
-        FormComponent,
         FormlyFileFieldComponent,
         FormlyEditorFieldComponent,
         FormlySelectDisableFieldComponent,
         FormlyDatepickerFieldComponent,
       ],
       imports: [
-        AtomsModule,
         BrowserModule,
         CommonModule,
-        ReactiveFormsModule,
-        FormsModule,
-        NgbModule,
         EditorModule,
         FormlyModule.forRoot({
           types: [
@@ -383,10 +372,8 @@ export default {
             integerValidator,
             specialCharacterValidator,
             fieldMatchValidator,
-            sessionAuthorUniqueValidator,
           ],
         }),
-        FormlyBootstrapModule,
       ],
     }),
   ],

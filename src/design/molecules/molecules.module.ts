@@ -26,28 +26,27 @@ import { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.componen
 import { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
 
 @NgModule({
-  declarations: [
-    ArticleFooterComponent,
-    BadgeListComponent,
-    ChoiceSelectComponent,
-    CollapsiblePanelComponent,
-    CompareFormComponent,
+  declarations: [FileValueAccessor],
+  imports: [
+    SidebarLegendComponent,
+    SearchFieldComponent,
     ConfirmationModalComponent,
-    ConfirmationToggleButtonComponent,
     EditToggleComponent,
-    FormComponent,
-    FileValueAccessor,
     FormlyFileFieldComponent,
     IconCardComponent,
     ImageCardComponent,
+    LinkEntryComponent,
     ListComponent,
     PageBackgroundComponent,
-    SearchFieldComponent,
-    SidebarLegendComponent,
+
+    BadgeListComponent,
     SmallCreateFormComponent,
-    LinkEntryComponent,
-  ],
-  imports: [
+    ChoiceSelectComponent,
+    CollapsiblePanelComponent,
+    CompareFormComponent,
+    FormComponent,
+    ConfirmationToggleButtonComponent,
+    ArticleFooterComponent,
     AtomsModule,
     CommonModule,
     EditorModule,

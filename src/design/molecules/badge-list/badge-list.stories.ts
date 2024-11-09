@@ -1,9 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
 import { BadgeListEntry } from '../_models/badge-list';
-import { SmallCreateFormComponent } from '../small-create-form/small-create-form.component';
 import { BadgeListComponent } from './badge-list.component';
 
 const dummyOptions: any[] = [
@@ -24,7 +22,7 @@ const dummyOptions: any[] = [
   { myLabel: 'The value of power', myValue: 666 },
 ];
 
-const dummyBadgeList: BadgeListEntry[] = [
+const dummyBadgeList: BadgeListEntry<{ count: number; color: string }>[] = [
   {
     text: 'Badge 1',
     link: 'https://example.com/badge1',
@@ -72,26 +70,28 @@ export default {
   component: BadgeListComponent,
   decorators: [
     moduleMetadata({
-      imports: [AtomsModule, RouterTestingModule],
-      declarations: [SmallCreateFormComponent],
+      imports: [RouterTestingModule],
     }),
   ],
   args: {
     entries: dummyBadgeList,
     createOptions: {
-      options: dummyOptions,
-      labelProp: 'myLabel',
-      valueProp: 'myValue',
+      kind: 'SELECT',
+      config: {
+        options: dummyOptions,
+        labelProp: 'myLabel',
+        valueProp: 'myValue',
+      },
     },
     label: 'Character',
     canCreate: true,
     canDelete: true,
     submitButtonType: 'PRIMARY',
     cancelButtonType: 'SECONDARY',
-  },
-} as Meta<BadgeListComponent>;
+  } as any,
+} as Meta<BadgeListComponent<any, any>>;
 
-const Template: StoryFn<BadgeListComponent> = (args) => ({
+const Template: StoryFn<BadgeListComponent<any, any>> = (args: any) => ({
   props: {
     ...args,
     entryDelete: action('entryDelete'),
@@ -105,7 +105,7 @@ Default.args = {};
 export const LinkCreate = Template.bind({});
 LinkCreate.args = {
   createOptions: '/link/to/create/page',
-};
+} as any;
 
 export const NoCreate = Template.bind({});
 NoCreate.args = {

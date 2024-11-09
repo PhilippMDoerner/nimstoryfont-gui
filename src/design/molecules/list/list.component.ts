@@ -1,24 +1,28 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from 'src/design/atoms';
 import { ListEntry } from '../_models/list';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss']
+  styleUrls: ['./list.component.scss'],
+  standalone: true,
+  imports: [ButtonComponent, RouterLink],
 })
 export class ListComponent {
-  @Input() heading!: string;
-  @Input() entries!: ListEntry[];
-  @Input() enableCreate: boolean = false;
-  @Input() emptyListText: string = "No entries yet";
-  
+  heading = input.required<string>();
+  entries = input.required<ListEntry[]>();
+  enableCreate = input(false);
+  emptyListText = input('No entries yet');
+
   @Output() create: EventEmitter<null> = new EventEmitter();
-  
-  onCreateButtonClick(){
-    if(!this.enableCreate){
+
+  onCreateButtonClick() {
+    if (!this.enableCreate()) {
       return;
     }
-    
+
     this.create.emit();
   }
 }

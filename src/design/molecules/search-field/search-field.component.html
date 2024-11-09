@@ -1,23 +1,22 @@
 <div class="search" id="search-area">
   <form class="search__form" (submit)="startSearch()">
-      <div class="d-flex search__bar">
-          <input 
-            class="search__input" 
-            type="search" 
-            name="search" 
-            title="search"
-            id="search"
-            [(ngModel)]="searchString" 
-            [placeholder]="placeholder" 
-            aria-label="Search"
-          >
-          
-          <app-button
-            class="search__button"
-            [type]="'PRIMARY'"
-            [icon]="'search'"
-          ></app-button>
-      </div>
+    <div class="d-flex search__bar">
+      <input
+        class="search__input"
+        type="search"
+        name="search"
+        title="search"
+        id="search"
+        [(ngModel)]="searchString"
+        [placeholder]="placeholder()"
+        aria-label="Search"
+      />
 
+      <app-button
+        class="search__button"
+        [type]="'PRIMARY'"
+        [icon]="'search'"
+      ></app-button>
+    </div>
   </form>
 </div>

@@ -1,6 +1,5 @@
-import { CommonModule } from '@angular/common';
 import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn } from '@storybook/angular';
 import { ChoiceSelectComponent } from './choice-select.component';
 
 const dummyEntries = [
@@ -109,15 +108,10 @@ const dummyEntries = [
 export default {
   title: 'DesignSystem/Molecules/ChoiceSelectComponent',
   component: ChoiceSelectComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [CommonModule],
-      declarations: [],
-    }),
-  ],
   args: {
     choices: dummyEntries,
     labelProp: 'label',
+    selectedLabelValue: undefined,
   },
 } as Meta<ChoiceSelectComponent>;
 

@@ -1,33 +1,44 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   EventEmitter,
   input,
-  Input,
   Output,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { distinctUntilChanged, interval, map, startWith } from 'rxjs';
-import { ElementType, Icon } from '../../atoms';
+import { ButtonComponent, ElementType, Icon } from '../../atoms';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    ButtonComponent,
+    FormlyModule,
+    NgbTooltip,
+    FormlyBootstrapModule,
+    ReactiveFormsModule,
+  ],
 })
 export class FormComponent<T> {
   form = new FormGroup({});
 
-  @Input() model!: T;
+  model = input.required<T>();
   fields = input.required<FormlyFieldConfig[]>();
-  @Input() enctype: string = 'application/x-www-form-urlencoded'; //Default form enctype in HTML5
-  @Input() enableSubmitButtons: boolean = true;
+  enctype = input('application/x-www-form-urlencoded'); //Default form enctype in HTML5
+  enableSubmitButtons = input(true);
   disabled = input(false);
-  @Input() submitButtonType: ElementType = 'PRIMARY';
-  @Input() cancelButtonType: ElementType = 'SECONDARY';
-  @Input() submitIcon?: Icon;
+  submitButtonType = input<ElementType>('PRIMARY');
+  cancelButtonType = input<ElementType>('SECONDARY');
+  submitIcon = input<Icon>();
 
   @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();
@@ -67,7 +78,7 @@ export class FormComponent<T> {
       return;
     }
 
-    this.formlySubmit.emit(this.model as NonNullable<T>);
+    this.formlySubmit.emit(this.model() as NonNullable<T>);
   }
 
   onCancel(): void {

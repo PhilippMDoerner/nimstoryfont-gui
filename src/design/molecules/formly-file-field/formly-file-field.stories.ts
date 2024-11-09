@@ -1,17 +1,15 @@
-import { FormGroup, ReactiveFormsModule } from "@angular/forms";
-import { FormlyBootstrapModule } from "@ngx-formly/bootstrap";
-import { FormlyFieldConfig, FormlyModule } from "@ngx-formly/core";
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import {
   Meta,
   StoryFn,
   componentWrapperDecorator,
   moduleMetadata,
-} from "@storybook/angular";
-import { AtomsModule } from "../../atoms";
-import { FormlyFileFieldComponent } from "./formly-file-field.component";
+} from '@storybook/angular';
+import { FormlyFileFieldComponent } from './formly-file-field.component';
 
 export default {
-  title: "DesignSystem/Molecules/FormlyFileFieldComponent",
+  title: 'DesignSystem/Molecules/FormlyFileFieldComponent',
   component: FormlyFileFieldComponent,
   args: {
     form: new FormGroup({}),
@@ -19,27 +17,24 @@ export default {
     options: {},
     fields: [
       {
-        key: "file",
-        type: "file",
+        key: 'file',
+        type: 'file',
         props: {
-          buttonType: "SECONDARY",
+          buttonType: 'SECONDARY',
         },
       } as FormlyFieldConfig,
     ],
   },
   decorators: [
     moduleMetadata({
-      declarations: [FormlyFileFieldComponent],
       imports: [
-        AtomsModule,
         ReactiveFormsModule,
-        FormlyBootstrapModule,
         FormlyModule.forRoot({
           types: [
             {
-              name: "file",
+              name: 'file',
               component: FormlyFileFieldComponent,
-              wrappers: ["form-field"],
+              wrappers: ['form-field'],
             },
           ],
         }),
@@ -78,10 +73,10 @@ const PrimaryTemplate: StoryFn<FormlyFileFieldComponent> = (
     ...args,
     fields: [
       {
-        key: "file",
-        type: "file",
+        key: 'file',
+        type: 'file',
         props: {
-          buttonType: "PRIMARY",
+          buttonType: 'PRIMARY',
         },
       },
     ],

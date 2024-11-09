@@ -43,30 +43,6 @@ export interface Encounter extends ArticleObject {
   getAbsoluteRouterUrl: () => string;
 }
 
-export class EncounterObject implements Encounter {
-  orderIndexIncrement: number = 10;
-
-  pk!: number;
-  description!: string;
-  encounterConnections?: EncounterConnection[];
-  location!: number;
-  location_details?: {
-    name: string;
-    pk: number;
-    name_full: string;
-    parent_location_name: string;
-  };
-  title!: string;
-  diaryentry!: number;
-  diaryentry_details?: {
-    author_name: string;
-    is_main_session: 0 | 1;
-    session_number: number;
-  };
-  order_index!: number;
-  getAbsoluteRouterUrl!: () => string;
-}
-
 const ORDER_INDEX_INCREMENT = 10;
 export function hasShiftedOrderIndex(
   encounter: Encounter | EncounterRaw,

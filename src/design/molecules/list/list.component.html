@@ -1,35 +1,33 @@
 <div class="list">
   <!-- Heading -->
   <div class="list__heading">
-    <h4>{{ heading }}</h4>
-    <ng-container *ngIf="enableCreate">
+    <h4>{{ heading() }}</h4>
+    @if (enableCreate()) {
       <app-button
         class="ms-3"
-        [title]="'Create ' + heading"
+        [title]="'Create ' + heading()"
         [type]="'PRIMARY'"
         [size]="'SMALL'"
         [icon]="'plus'"
         (click)="onCreateButtonClick()"
       ></app-button>
-    </ng-container>
+    }
   </div>
 
   <!-- List -->
-  <ng-container *ngIf="entries && entries.length > 0; else emptyPlaceholder">
+  @if (entries() && entries().length > 0) {
     <ul class="list__list">
-      <ng-container *ngFor="let entry of entries; let index = index">
+      @for (entry of entries(); track $index) {
         <li class="list__entry">
           <a [routerLink]="entry.link">
             {{ entry.label }}
           </a>
         </li>
-      </ng-container>
+      }
     </ul>
-  </ng-container>
+  } @else {
+    <div>
+      {{ emptyListText() }}
+    </div>
+  }
 </div>
-
-<ng-template #emptyPlaceholder>
-  <div>
-    {{ emptyListText }}
-  </div>
-</ng-template>

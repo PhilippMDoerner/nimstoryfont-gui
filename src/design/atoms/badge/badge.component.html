@@ -10,18 +10,19 @@
   <div
     class="badge"
     [ngClass]="{
-      'bg-primary': type === 'PRIMARY',
-      'bg-secondary': type === 'SECONDARY',
-      'bg-dark': type === 'DARK',
-      'bg-danger': type === 'DANGER',
-      'bg-warning': type === 'WARNING',
-      'bg-light': type === 'LIGHT',
-      'bg-info': type === 'INFO',
+      'bg-primary': type() === 'PRIMARY',
+      'bg-secondary': type() === 'SECONDARY',
+      'bg-dark': type() === 'DARK',
+      'bg-danger': type() === 'DANGER',
+      'bg-warning': type() === 'WARNING',
+      'bg-light': type() === 'LIGHT',
+      'bg-info': type() === 'INFO',
     }"
   >
-    @if (icon) {
-      <app-icon [icon]="icon"></app-icon>
+    @let iconVal = icon();
+    @if (iconVal) {
+      <app-icon [icon]="iconVal"></app-icon>
     }
-    {{ text }}
+    {{ text() }}
   </div>
 </ng-template>

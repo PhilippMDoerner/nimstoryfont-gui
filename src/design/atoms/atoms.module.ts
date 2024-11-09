@@ -16,31 +16,28 @@ import { InteractiveBadgeComponent } from './interactive-badge/interactive-badge
 import { SeparatorComponent } from './separator/separator.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 
-
 @NgModule({
-  declarations: [
-    AlertComponent,
-    ArrowButtonComponent,
-    BadgeComponent,
-    ButtonComponent,
+  declarations: [],
+  imports: [
+    SpinnerComponent,
     CardComponent,
-    GroupByFirstLetterPipe,
-    GroupByPipe,
-    HtmlTextComponent,
-    IconComponent,
+    SafeHtmlPipe,
     InfoCircleTooltipComponent,
     InteractiveBadgeComponent,
-    SafeHtmlPipe,
     SeparatorComponent,
-    SpinnerComponent,
-  ],
-  imports: [
+    GroupByFirstLetterPipe,
+    GroupByPipe,
     CommonModule,
     NgbModule,
     RouterModule,
+    AlertComponent,
+    ArrowButtonComponent,
+    IconComponent,
+    BadgeComponent,
+    ButtonComponent,
+    HtmlTextComponent,
   ],
   exports: [
-    AlertComponent,
     ArrowButtonComponent,
     BadgeComponent,
     ButtonComponent,
@@ -56,6 +53,7 @@ import { SpinnerComponent } from './spinner/spinner.component';
     SafeHtmlPipe,
     SeparatorComponent,
     SpinnerComponent,
-  ]
+    AlertComponent,
+  ],
 })
-export class AtomsModule { }
+export class AtomsModule {}

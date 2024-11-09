@@ -13,15 +13,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 1,
     name_full: 'Gandalf the Grey',
     player_character: true,
-    images: [
-      {
-        pk: 1,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Gandalf portrait',
-        character_article: 1,
-        article_type: 'Character',
-      },
-    ],
+    images: ['/assets/default_images/background_default.webp'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -30,15 +22,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 2,
     name_full: 'Frodo Baggins',
     player_character: true,
-    images: [
-      {
-        pk: 1,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Gandalf portrait',
-        character_article: 2,
-        article_type: 'Character',
-      },
-    ],
+    images: ['/assets/default_images/background_default.webp'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -47,15 +31,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 3,
     name_full: 'Gimli son of Glóin',
     player_character: false,
-    images: [
-      {
-        pk: 3,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Gandalf portrait',
-        character_article: 3,
-        article_type: 'Character',
-      },
-    ],
+    images: ['/assets/default_images/background_default.webp'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -64,15 +40,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 4,
     name_full: 'Legolas Greenleaf',
     player_character: false,
-    images: [
-      {
-        pk: 2,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Legolas portrait',
-        character_article: 4,
-        article_type: 'Character',
-      },
-    ],
+    images: ['/assets/default_images/background_default.webp'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -81,15 +49,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 5,
     name_full: 'Bilbo Baggins',
     player_character: false,
-    images: [
-      {
-        pk: 1,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Gandalf portrait',
-        character_article: 5,
-        article_type: 'Character',
-      },
-    ],
+    images: ['/assets/default_images/background_default.webp'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -98,15 +58,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 6,
     name_full: 'Aragorn son of Arathorn',
     player_character: false,
-    images: [
-      {
-        pk: 3,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Aragorn portrait',
-        character_article: 6,
-        article_type: 'Character',
-      },
-    ],
+    images: ['/assets/default_images/background_default.webp'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -127,15 +79,7 @@ const dummyCharacters: OverviewItem[] = [
       'Sif is a skilled warrior known for her lightning-fast strikes and agility. She is fiercely loyal to her friends and will stop at nothing to protect them.',
     update_datetime: '2022-03-15T10:30:00.000Z',
     player_character: true,
-    images: [
-      {
-        pk: 3,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Sif portrait',
-        character_article: 18,
-        article_type: 'Character',
-      },
-    ],
+    images: ['/assets/default_images/background_default.webp'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -148,20 +92,8 @@ const dummyCharacters: OverviewItem[] = [
     update_datetime: '2022-02-23T14:15:00.000Z',
     player_character: true,
     images: [
-      {
-        pk: 3,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Sif portrait',
-        character_article: 18,
-        article_type: 'Character',
-      },
-      {
-        pk: 3,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Sif portrait',
-        character_article: 18,
-        article_type: 'Character',
-      },
+      '/assets/default_images/background_default.webp',
+      '/assets/default_images/background_default.webp',
     ],
   },
   {
@@ -174,15 +106,7 @@ const dummyCharacters: OverviewItem[] = [
       'Lirien is an elven archer, renowned for her skill with the bow. She is fiercely independent and often clashes with authority figures.',
     update_datetime: '2022-03-20T08:45:00.000Z',
     player_character: true,
-    images: [
-      {
-        pk: 44,
-        image: '/assets/default_images/background_default.webp',
-        name: 'Lirien 1',
-        character_article: 20,
-        article_type: 'Character',
-      },
-    ],
+    images: ['/assets/default_images/background_default.webp'],
   },
 ];
 

@@ -1,24 +1,17 @@
-import { Meta, StoryFn, moduleMetadata } from "@storybook/angular";
-import { IconComponent } from "../icon/icon.component";
-import { BadgeComponent } from "./badge.component";
+import { Meta, StoryFn } from '@storybook/angular';
+import { BadgeComponent } from './badge.component';
 
 export default {
-  title: "DesignSystem/Atoms/BadgeComponent",
+  title: 'DesignSystem/Atoms/BadgeComponent',
   component: BadgeComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [],
-      declarations: [IconComponent],
-    }),
-  ],
   args: {
-    text: "BadgeText",
-    type: "PRIMARY",
+    text: 'BadgeText',
+    type: 'PRIMARY',
     icon: undefined,
   },
 } as Meta<BadgeComponent>;
 
-const Template: StoryFn<BadgeComponent> = (args: BadgeComponent) => ({
+const Template: StoryFn<BadgeComponent> = (args: any) => ({
   props: {
     ...args,
   },
@@ -29,35 +22,35 @@ Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type: "SECONDARY",
+  type: 'SECONDARY',
 };
 
 export const Dark = Template.bind({});
 Dark.args = {
-  type: "DARK",
+  type: 'DARK',
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
-  type: "WARNING",
+  type: 'WARNING',
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type: "DANGER",
+  type: 'DANGER',
 };
 
 export const Light = Template.bind({});
 Light.args = {
-  type: "LIGHT",
+  type: 'LIGHT',
 };
 
 export const Info = Template.bind({});
 Info.args = {
-  type: "INFO",
+  type: 'INFO',
 };
 
 export const WithIcon = Template.bind({});
 WithIcon.args = {
-  icon: "times",
+  icon: 'times',
 };

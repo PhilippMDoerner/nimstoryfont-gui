@@ -2,7 +2,10 @@
   cursor: pointer;
   display: flex;
 
-  &:focus {
+  &:focus,
+  &:focus-within,
+  &:focus-visible,
+  &:hover {
     outline: var(--focus-outline);
   }
 }

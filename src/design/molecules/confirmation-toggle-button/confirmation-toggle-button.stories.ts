@@ -1,17 +1,11 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
+import { Meta, StoryFn } from '@storybook/angular';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button.component';
 
 export default {
   title: 'DesignSystem/Molecules/ConfirmationToggleButtonComponent',
   component: ConfirmationToggleButtonComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AtomsModule, BrowserModule],
-    }),
-  ],
+
   args: {
     confirmationQuestion: 'Are you sure?',
     toggleType: 'DANGER',

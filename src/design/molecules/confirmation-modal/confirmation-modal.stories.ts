@@ -1,4 +1,3 @@
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { action } from '@storybook/addon-actions';
 import {
   Meta,
@@ -6,7 +5,7 @@ import {
   componentWrapperDecorator,
   moduleMetadata,
 } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
+import { ButtonComponent } from 'src/design/atoms';
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 
 export default {
@@ -14,8 +13,7 @@ export default {
   component: ConfirmationModalComponent,
   decorators: [
     moduleMetadata({
-      imports: [AtomsModule, NgbModule],
-      declarations: [],
+      imports: [ButtonComponent],
     }),
     componentWrapperDecorator(
       () => `
@@ -57,9 +55,9 @@ export default {
     confirmValue: 'Confirm value to emit',
     submitIcon: 'plus',
   },
-} as Meta<ConfirmationModalComponent>;
+} as Meta<ConfirmationModalComponent<any>>;
 
-const Template: StoryFn<ConfirmationModalComponent> = (args) => ({
+const Template: StoryFn<ConfirmationModalComponent<any>> = (args) => ({
   props: {
     ...args,
     modalClose: action('modalClose'),

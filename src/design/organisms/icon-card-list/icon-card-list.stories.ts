@@ -48,7 +48,7 @@ const dummyArticles: IconCardEntry[] = [
   },
   {
     entryType: 'LOCATION',
-    icon: 'map-marker-alt',
+    icon: 'location-dot',
     link: 'https://example.com/locations/890',
     title: 'The Forbidden Forest',
     subText: 'Home of the Treants',
@@ -64,7 +64,7 @@ const dummyArticles: IconCardEntry[] = [
   },
   {
     entryType: 'MARKER_TYPE',
-    icon: 'map-marker',
+    icon: 'location-dot',
     link: 'https://example.com/markers/4567',
     title: 'City',
     subText: 'Capital of the Kingdom',
@@ -72,7 +72,7 @@ const dummyArticles: IconCardEntry[] = [
   },
   {
     entryType: 'MARKER_TYPE_TYPE',
-    icon: 'map-marker',
+    icon: 'location-dot',
     link: 'https://example.com/markers/4567',
     title: 'City',
     subText: 'Capital of the Kingdom',
@@ -80,7 +80,7 @@ const dummyArticles: IconCardEntry[] = [
   },
   {
     entryType: 'ORGANIZATION',
-    icon: 'users',
+    icon: 'user',
     link: 'https://example.com/organizations/123',
     title: 'The Order of the Silver Hand',
     subText: 'Defenders of the Realm',

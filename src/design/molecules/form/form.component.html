@@ -1,13 +1,13 @@
 <form
   class="form"
   [formGroup]="form"
-  [enctype]="enctype"
+  [enctype]="enctype()"
   (submit)="onSubmit(undefined)"
 >
   <formly-form
     [form]="form"
     [fields]="usedFields()"
-    [model]="model"
+    [model]="model()"
     [options]="{}"
   ></formly-form>
 
@@ -20,12 +20,12 @@
     </div>
   }
 
-  @if (!disabled() && enableSubmitButtons) {
+  @if (!disabled() && enableSubmitButtons()) {
     <div class="form__button-container">
       <!-- Cancel Button -->
       <app-button
         class="form__button"
-        [type]="cancelButtonType"
+        [type]="cancelButtonType()"
         [icon]="'times'"
         [text]="'Cancel'"
         (click)="onCancel()"
@@ -33,8 +33,10 @@
 
       <!-- Submit Button -->
       <ng-container
-        *ngIf="form.valid; then activeSubmitButton; else inactiveSubmitButton"
-      ></ng-container>
+        *ngTemplateOutlet="
+          form.valid ? activeSubmitButton : inactiveSubmitButton
+        "
+      />
     </div>
   }
 </form>
@@ -42,9 +44,9 @@
 <ng-template #activeSubmitButton>
   <app-button
     class="form__button"
-    [type]="submitButtonType"
+    [type]="submitButtonType()"
     [text]="'Submit'"
-    [icon]="submitIcon"
+    [icon]="submitIcon()"
     [isSubmitButton]="true"
   ></app-button>
 </ng-template>

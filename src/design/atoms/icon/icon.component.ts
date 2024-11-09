@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -13,9 +14,12 @@ type IconType = 'SOLID' | 'REGULAR';
   templateUrl: './icon.component.html',
   styleUrls: ['./icon.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgClass],
+  standalone: true,
 })
 export class IconComponent {
   icon = input.required<Icon>();
+
   iconType = computed<IconType>(() => {
     const isSolidIcon = ALL_SOLID_ICONS.includes(this.icon() as any);
     return isSolidIcon ? 'SOLID' : 'REGULAR';

@@ -1,13 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-image-card',
   templateUrl: './image-card.component.html',
-  styleUrls: ['./image-card.component.scss']
+  styleUrls: ['./image-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [],
 })
 export class ImageCardComponent {
-  @Input() serverUrl!: string;
-  @Input() imageUrl!: string;
-  @Input() text!: string;
-  @Input() alt?: string;
+  serverUrl = input.required<string>();
+  imageUrl = input.required<string>();
+  text = input.required<string>();
+  alt = input<string>();
 }

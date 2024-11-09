@@ -16,7 +16,7 @@ import {
 import { MoleculesModule } from 'src/design/molecules';
 import * as all from 'tinymce/tinymce';
 import { FormlyEditorFieldComponent } from '..';
-import { Encounter, EncounterObject } from '../../../app/_models/encounter';
+import { Encounter } from '../../../app/_models/encounter';
 import { AtomsModule } from '../../atoms';
 import { EncounterComponent } from '../encounter/encounter.component';
 import { DiaryentryEncountersComponent } from './diaryentry-encounters.component';
@@ -291,7 +291,7 @@ const dummyEncounters: Encounter[] = [
     },
     getAbsoluteRouterUrl: () => '/encounters/2/',
   },
-].map((encounter) => new EncounterObject(encounter as Partial<Encounter>));
+];
 
 const dummyCharacters: OverviewItem[] = [
   {
@@ -301,21 +301,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 1,
     name_full: 'Gandalf the Grey',
     player_character: true,
-    images: [
-      {
-        pk: 1,
-        image: 'http://example.com/gandalf.jpg',
-        name: 'Gandalf portrait',
-        character_article: 1,
-        creature_article: undefined,
-        encounter_article: undefined,
-        item_article: undefined,
-        location_article: undefined,
-        organization_article: undefined,
-        article_type: 'Character',
-        imageFile: undefined,
-      },
-    ],
+    images: ['https://example.com/images/lirien1.jpg'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -342,21 +328,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 4,
     name_full: 'Legolas Greenleaf',
     player_character: false,
-    images: [
-      {
-        pk: 2,
-        image: 'http://example.com/legolas.jpg',
-        name: 'Legolas portrait',
-        character_article: 4,
-        creature_article: undefined,
-        encounter_article: undefined,
-        item_article: undefined,
-        location_article: undefined,
-        organization_article: undefined,
-        article_type: 'Character',
-        imageFile: undefined,
-      },
-    ],
+    images: ['https://example.com/images/lirien1.jpg'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -374,21 +346,7 @@ const dummyCharacters: OverviewItem[] = [
     pk: 6,
     name_full: 'Aragorn son of Arathorn',
     player_character: false,
-    images: [
-      {
-        pk: 3,
-        image: 'http://example.com/aragorn.jpg',
-        name: 'Aragorn portrait',
-        character_article: 6,
-        creature_article: undefined,
-        encounter_article: undefined,
-        item_article: undefined,
-        location_article: undefined,
-        organization_article: undefined,
-        article_type: 'Character',
-        imageFile: undefined,
-      },
-    ],
+    images: ['https://example.com/images/lirien1.jpg'],
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -422,32 +380,8 @@ const dummyCharacters: OverviewItem[] = [
     update_datetime: '2022-02-23T14:15:00.000Z',
     player_character: true,
     images: [
-      {
-        pk: 42,
-        image: 'https://example.com/images/gorin1.jpg',
-        name: 'Gorin 1',
-        character_article: 19,
-        creature_article: undefined,
-        encounter_article: undefined,
-        item_article: undefined,
-        location_article: undefined,
-        organization_article: undefined,
-        article_type: 'Character',
-        imageFile: undefined,
-      },
-      {
-        pk: 43,
-        image: 'https://example.com/images/gorin2.jpg',
-        name: 'Gorin 2',
-        character_article: 19,
-        creature_article: undefined,
-        encounter_article: undefined,
-        item_article: undefined,
-        location_article: undefined,
-        organization_article: undefined,
-        article_type: 'Character',
-        imageFile: undefined,
-      },
+      'https://example.com/images/lirien1.jpg',
+      'https://example.com/images/lirien1.jpg',
     ],
   },
   {
@@ -460,21 +394,7 @@ const dummyCharacters: OverviewItem[] = [
       'Lirien is an elven archer, renowned for her skill with the bow. She is fiercely independent and often clashes with authority figures.',
     update_datetime: '2022-03-20T08:45:00.000Z',
     player_character: true,
-    images: [
-      {
-        pk: 44,
-        image: 'https://example.com/images/lirien1.jpg',
-        name: 'Lirien 1',
-        character_article: 20,
-        creature_article: undefined,
-        encounter_article: undefined,
-        item_article: undefined,
-        location_article: undefined,
-        organization_article: undefined,
-        article_type: 'Character',
-        imageFile: undefined,
-      },
-    ],
+    images: ['https://example.com/images/lirien1.jpg'],
   },
 ];
 
@@ -511,8 +431,9 @@ export default {
     canCreate: true,
     canUpdate: true,
     canDelete: true,
+
     state: 'READ',
-  },
+  } as any,
 } as Meta<DiaryentryEncountersComponent>;
 
 const Template: StoryFn<DiaryentryEncountersComponent> = (args) => ({
@@ -535,9 +456,9 @@ NoPermissions.args = {
   canUpdate: false,
   canCreate: false,
   canDelete: false,
-};
+} as any;
 
 export const NoEncounters = Template.bind({});
 NoEncounters.args = {
   encounters: [],
-};
+} as any;

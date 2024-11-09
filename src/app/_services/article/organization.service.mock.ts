@@ -148,7 +148,7 @@ export const dummyOrganizations: OverviewItem[] = [
 }));
 
 export class OrganizationServiceMock implements Partial<OrganizationService> {
-  loadCampaignList(campaign: string): Observable<OverviewItem[]> {
+  campaignList(campaign: string): Observable<OverviewItem[]> {
     return of(dummyOrganizations);
   }
 }

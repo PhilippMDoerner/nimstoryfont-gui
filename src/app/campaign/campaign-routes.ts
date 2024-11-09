@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
 import { onExitReset } from '../_guards/onExitReset';
 import { CampaignOverviewRoute } from '../_models/route';
-import { characterResolver } from '../_resolvers/character.resolver';
 import { CampaignAdminPageComponent } from './pages/campaign-admin-page/campaign-admin-page.component';
 import { CampaignUpdatePageComponent } from './pages/campaign-update-page/campaign-update-page.component';
 import { CharacterUpdatePageComponent } from './pages/character-create-update-page/character-create-update-page.component';
@@ -149,7 +148,8 @@ const detailRoutes: Route[] = [
         data: { name: 'character', requiredMinimumRole: 'guest' },
         resolve: {
           loadCharacters: () => inject(CharacterStore).loadCampaignCharacters(),
-          loadCharacter: characterResolver,
+          loadCharacter: (route: ActivatedRouteSnapshot) =>
+            inject(CharacterStore).loadCharacter(route.params['name']),
           loadOrganizations: () =>
             inject(CharacterStore).loadCampaignOrganizations(),
           loadEncounters: () => inject(CharacterStore).loadCampaignEncounters(),

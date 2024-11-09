@@ -1,10 +1,12 @@
 <div class="footer">
-  <ng-container [ngTemplateOutlet]="buttonLink ? linkButton : nonLinkButton" />
+  <ng-container
+    [ngTemplateOutlet]="buttonLink() ? linkButton : nonLinkButton"
+  />
 
-  @if (showDelete) {
+  @if (showDelete()) {
     <app-confirmation-toggle-button
       [toggleType]="'DANGER'"
-      [confirmationQuestion]="deleteMessage"
+      [confirmationQuestion]="deleteMessage()"
       [icon]="'trash'"
       (confirm)="delete.emit()"
     ></app-confirmation-toggle-button>
@@ -12,15 +14,15 @@
 </div>
 
 <ng-template #linkButton>
-  <a [routerLink]="buttonLink" (click)="buttonClick.emit()" [tabIndex]="-1">
-    <app-button [type]="'SECONDARY'" [text]="buttonLabel"></app-button>
+  <a [routerLink]="buttonLink()" (click)="buttonClick.emit()" [tabIndex]="-1">
+    <app-button [type]="'SECONDARY'" [text]="buttonLabel()"></app-button>
   </a>
 </ng-template>
 
 <ng-template #nonLinkButton>
   <app-button
     [type]="'SECONDARY'"
-    [text]="buttonLabel"
+    [text]="buttonLabel()"
     (click)="buttonClick.emit()"
   ></app-button>
 </ng-template>

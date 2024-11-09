@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FieldType, FieldTypeConfig } from '@ngx-formly/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import { FileFieldKind } from 'src/app/_models/formly';
-import { ElementType } from '../../atoms';
+import { ButtonComponent, ElementType } from '../../atoms';
 
 // WARNING: DO NOT USE IN FORMS THAT UPDATE
 // THIS FIELD DOES NOT TOLERATE RECEIVING EXISTING VALUES
@@ -9,6 +11,13 @@ import { ElementType } from '../../atoms';
   selector: 'app-formly-file-field',
   templateUrl: './formly-file-field.component.html',
   styleUrls: ['./formly-file-field.component.scss'],
+  standalone: true,
+  imports: [
+    ButtonComponent,
+    FormlyModule,
+    FormlyBootstrapModule,
+    ReactiveFormsModule,
+  ],
 })
 export class FormlyFileFieldComponent
   extends FieldType<FieldTypeConfig>

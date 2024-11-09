@@ -19,7 +19,6 @@ import {
   requiredMessage,
   requiredValidator,
   sessionAlreadyHasAuthor,
-  sessionAuthorUniqueValidator,
   specialCharacterValidator,
   timeValidator,
 } from '../../../app/_services/formly/validators';
@@ -276,7 +275,7 @@ const isInGroup = (selectOption: any, groupName: string): boolean => {
   }
 
   const isMember = groupsOfUser.some(
-    (group) => group.name.toLowerCase() === groupName
+    (group) => group.name.toLowerCase() === groupName,
   );
   return isMember;
 };
@@ -343,7 +342,6 @@ export default {
             integerValidator,
             specialCharacterValidator,
             fieldMatchValidator,
-            sessionAuthorUniqueValidator,
           ],
         }),
       ],
@@ -357,9 +355,9 @@ export default {
     userModel: {},
     serverModel: undefined,
   },
-} as Meta<CreateUpdateComponent<any>>;
+} as Meta<CreateUpdateComponent<any, any>>;
 
-const Template: StoryFn<CreateUpdateComponent<any>> = (args) => ({
+const Template: StoryFn<CreateUpdateComponent<any, any>> = (args) => ({
   props: {
     ...args,
     create: action('create'),

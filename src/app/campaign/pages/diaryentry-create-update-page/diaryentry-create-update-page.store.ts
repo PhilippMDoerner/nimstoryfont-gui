@@ -7,8 +7,8 @@ import { DiaryEntry, DiaryEntryRaw } from 'src/app/_models/diaryentry';
 import { DiaryentryService } from 'src/app/_services/article/diaryentry.service';
 import { SessionService } from 'src/app/_services/article/session.service';
 import { UserService } from 'src/app/_services/article/user.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { handleError } from 'src/utils/store/toServerModel';
 import { withQueries } from 'src/utils/store/withQueries';
@@ -70,7 +70,7 @@ export const DiaryEntryCreateUpdatePageStore = signalStore(
   }),
   withMethods((store) => {
     const diaryentryService = inject(DiaryentryService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     return {
       reset: () => {
         patchState(store, {
@@ -97,7 +97,7 @@ export const DiaryEntryCreateUpdatePageStore = signalStore(
                 diaryentryQueryState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              handleError(store, err, warningService),
+              handleError(store, err, toastService),
           });
       },
     };

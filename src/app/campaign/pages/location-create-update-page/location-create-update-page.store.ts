@@ -4,8 +4,8 @@ import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { shareReplay, switchMap } from 'rxjs';
 import { Location, LocationRaw } from 'src/app/_models/location';
 import { LocationService } from 'src/app/_services/article/location.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { handleError } from 'src/utils/store/toServerModel';
@@ -54,7 +54,7 @@ export const LocationCreateUpdateStore = signalStore(
   }),
   withMethods((store) => {
     const locationService = inject(LocationService);
-    const warningsService = inject(WarningsService);
+    const toastService = inject(ToastService);
     return {
       reset: () =>
         patchState(store, {
@@ -75,7 +75,7 @@ export const LocationCreateUpdateStore = signalStore(
               location: newLocation,
               createState: 'success',
             }),
-          error: (err) => handleError(store, err, warningsService),
+          error: (err) => handleError(store, err, toastService),
         });
       },
     };

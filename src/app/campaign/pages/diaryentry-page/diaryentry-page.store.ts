@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { computed, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
@@ -15,13 +16,14 @@ import {
   EncounterConnection,
   EncounterRaw,
 } from 'src/app/_models/encounter';
+import { errorToast } from 'src/app/_models/toast';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { DiaryentryService } from 'src/app/_services/article/diaryentry.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
 import { EncounterService } from 'src/app/_services/article/encounter.service';
 import { LocationService } from 'src/app/_services/article/location.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem, sortByProp } from 'src/utils/array';
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -114,7 +116,7 @@ export const DiaryentryPageStore = signalStore(
     };
   }),
   withMethods((store) => {
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     const diaryentryService = inject(DiaryentryService);
     const encounterConnectionService = inject(EncounterConnectionService);
     const encounterService = inject(EncounterService);
@@ -181,7 +183,8 @@ export const DiaryentryPageStore = signalStore(
                   .filter((enc) => enc.order_index !== encounter.order_index),
               });
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       removeEncounter: (encounter: Encounter) => {
@@ -200,7 +203,8 @@ export const DiaryentryPageStore = signalStore(
                   ) ?? [];
               updateEncounterList(newEncounterList);
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       updateEncounter: (encounter: Encounter) => {
@@ -219,7 +223,8 @@ export const DiaryentryPageStore = signalStore(
               );
               updateEncounterList(newEncounterList);
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       swapEncounters: (encounter1Pk: number, encounter2Pk: number) => {
@@ -254,7 +259,8 @@ export const DiaryentryPageStore = signalStore(
               updateEncounterList(newEncounterList2);
               patchState(store, { isUpdatingGlobally: false });
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       cutInsertEncounter: (encounter: Encounter, newOrderIndex: number) => {
@@ -277,7 +283,8 @@ export const DiaryentryPageStore = signalStore(
               updateEncounterList(newEncounterList);
               patchState(store, { isUpdatingGlobally: false });
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       addEncounterConnection: (connection: EncounterConnection) =>
@@ -304,7 +311,8 @@ export const DiaryentryPageStore = signalStore(
               );
               updateEncounterList(newEncounterList);
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           }),
       removeEncounterConnection: (connection: EncounterConnection) => {
         encounterConnectionService
@@ -341,7 +349,8 @@ export const DiaryentryPageStore = signalStore(
                 diaryentryError: undefined,
                 diaryEntryDeleteState: 'success',
               }),
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
     };

@@ -11,8 +11,8 @@ import {
 import { shareReplay, switchMap } from 'rxjs';
 import { Organization } from 'src/app/_models/organization';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
@@ -83,7 +83,7 @@ export const OrganizationStore = signalStore(
   withState(initialState),
   withMethods((state) => {
     const organizationService = inject(OrganizationService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
 
     return {
       reset: () =>
@@ -104,7 +104,7 @@ export const OrganizationStore = signalStore(
             });
           },
           error: (err: HttpErrorResponse) =>
-            handleError(state, err, warningService),
+            handleError(state, err, toastService),
         });
       },
     };

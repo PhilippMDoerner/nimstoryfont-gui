@@ -10,9 +10,10 @@ import {
 } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { Rule, RuleRaw } from 'src/app/_models/rule';
+import { errorToast } from 'src/app/_models/toast';
 import { RuleService } from 'src/app/_services/article/rule.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem, sortByProp } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
@@ -61,7 +62,7 @@ export const RulesPageStore = signalStore(
   }),
   withMethods((store) => {
     const ruleService = inject(RuleService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
 
     return {
       reset: () =>
@@ -93,7 +94,8 @@ export const RulesPageStore = signalStore(
                 rules: newRules,
               });
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       updateRule: (rule: Rule) => {
@@ -123,7 +125,7 @@ export const RulesPageStore = signalStore(
                   ruleServerModel: err.error,
                 });
               } else {
-                warningService.showWarning(err);
+                toastService.addToast(errorToast(err));
               }
             },
           });
@@ -143,7 +145,8 @@ export const RulesPageStore = signalStore(
                 rules: store.rules()?.filter((rule) => rule.pk !== rulePk),
               });
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
     };

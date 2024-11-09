@@ -11,8 +11,8 @@ import {
 import { shareReplay, switchMap, take } from 'rxjs';
 import { Quest } from 'src/app/_models/quest';
 import { QuestService } from 'src/app/_services/article/quest.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { handleError } from 'src/utils/store/toServerModel';
@@ -63,7 +63,7 @@ export const QuestPageStore = signalStore(
   }),
   withMethods((state) => {
     const questService = inject(QuestService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     return {
       deleteQuest: (pk: number) => {
         patchState(state, {
@@ -78,7 +78,7 @@ export const QuestPageStore = signalStore(
               questError: undefined,
             }),
           error: (err: HttpErrorResponse) =>
-            handleError(state, err, warningService),
+            handleError(state, err, toastService),
         });
       },
     };

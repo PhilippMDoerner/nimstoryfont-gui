@@ -7,8 +7,8 @@ import { Quest, QuestRaw } from 'src/app/_models/quest';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { QuestService } from 'src/app/_services/article/quest.service';
 import { SessionService } from 'src/app/_services/article/session.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { handleError } from 'src/utils/store/toServerModel';
@@ -72,7 +72,7 @@ export const QuestCreateUpdatePageStore = signalStore(
     };
   }),
   withMethods((store) => {
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     const questService = inject(QuestService);
     return {
       createQuest: (quest: QuestRaw) => {
@@ -92,7 +92,7 @@ export const QuestCreateUpdatePageStore = signalStore(
                 createState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              handleError(store, err, warningService),
+              handleError(store, err, toastService),
           });
       },
       reset: () =>

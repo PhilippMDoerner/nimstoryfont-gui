@@ -1,12 +1,14 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { Item, ItemRaw } from 'src/app/_models/item';
+import { errorToast } from 'src/app/_models/toast';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { ItemService } from 'src/app/_services/article/item.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
@@ -56,7 +58,7 @@ export const ItemCreateUpdateStore = signalStore(
   }),
   withMethods((store) => {
     const itemService = inject(ItemService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     return {
       reset: () =>
         patchState(store, {
@@ -73,7 +75,8 @@ export const ItemCreateUpdateStore = signalStore(
         itemService.create(item).subscribe({
           next: (newItem) =>
             patchState(store, { item: newItem, createState: 'success' }),
-          error: warningService.showWarning,
+          error: (err: HttpErrorResponse) =>
+            toastService.addToast(errorToast(err)),
         });
       },
     };

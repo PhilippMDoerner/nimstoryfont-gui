@@ -7,8 +7,8 @@ import { Organization, OrganizationRaw } from 'src/app/_models/organization';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { handleError } from 'src/utils/store/toServerModel';
@@ -70,7 +70,7 @@ export const OrganizationCreateUpdatePageStore = signalStore(
     effect(() => console.log('Value', store.organization()));
 
     const organizationService = inject(OrganizationService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     return {
       reset: () =>
         patchState(store, {
@@ -97,7 +97,7 @@ export const OrganizationCreateUpdatePageStore = signalStore(
               organizationServerModel: undefined,
             }),
           error: (err: HttpErrorResponse) =>
-            handleError(store, err, warningService),
+            handleError(store, err, toastService),
         });
       },
     };

@@ -14,11 +14,12 @@ import {
   SpellPlayerClassConnection,
   SpellRaw,
 } from 'src/app/_models/spell';
+import { errorToast } from 'src/app/_models/toast';
 import { PlayerClassService } from 'src/app/_services/article/player-class.service';
 import { SpellPlayerClassConnectionService } from 'src/app/_services/article/spell-player-class-connection.service';
 import { SpellService } from 'src/app/_services/article/spell.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem, sortByProp } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
@@ -67,7 +68,7 @@ export const SpellsPageStore = signalStore(
     };
   }),
   withMethods((store) => {
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     const spellService = inject(SpellService);
     const connectionService = inject(SpellPlayerClassConnectionService);
 
@@ -110,7 +111,7 @@ export const SpellsPageStore = signalStore(
                   spellServerModel: err.error,
                 });
               } else {
-                warningService.showWarning(err);
+                toastService.addToast(errorToast(err));
               }
             },
           });
@@ -130,7 +131,8 @@ export const SpellsPageStore = signalStore(
                 deleteSpellState: 'success',
                 spells: store.spells()?.filter((spell) => spell.pk !== spellPk),
               }),
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       createSpell: (spell: SpellRaw) => {
@@ -149,7 +151,8 @@ export const SpellsPageStore = signalStore(
               spells: newSpells,
             });
           },
-          error: warningService.showWarning,
+          error: (err: HttpErrorResponse) =>
+            toastService.addToast(errorToast(err)),
         });
       },
       addPlayerClassConnection: (connection: SpellPlayerClassConnection) => {
@@ -175,7 +178,8 @@ export const SpellsPageStore = signalStore(
             );
             patchState(store, { spells: newSpells });
           },
-          error: warningService.showWarning,
+          error: (err: HttpErrorResponse) =>
+            toastService.addToast(errorToast(err)),
         });
       },
       removePlayerClassConnection: (connection: SpellPlayerClassConnection) => {

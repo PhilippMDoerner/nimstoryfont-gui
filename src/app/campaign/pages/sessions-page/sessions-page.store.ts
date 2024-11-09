@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
@@ -9,9 +10,10 @@ import {
 } from '@ngrx/signals';
 import { map, shareReplay, switchMap, take } from 'rxjs';
 import { Session, SessionRaw } from 'src/app/_models/session';
+import { errorToast } from 'src/app/_models/toast';
 import { SessionService } from 'src/app/_services/article/session.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem, sortByProp } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
@@ -65,7 +67,7 @@ export const SessionsPageStore = signalStore(
   }),
   withMethods((store) => {
     const sessionService = inject(SessionService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
 
     return {
       reset: () =>
@@ -105,7 +107,8 @@ export const SessionsPageStore = signalStore(
                   sessionServerModel: error.error,
                 });
               } else {
-                warningService.showWarning(error);
+                (err: HttpErrorResponse) =>
+                  toastService.addToast(errorToast(err));
               }
             },
           });
@@ -127,7 +130,8 @@ export const SessionsPageStore = signalStore(
                   .sessions()
                   ?.filter((session) => session.pk !== sessionPk),
               }),
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       createSession(session: SessionRaw) {
@@ -143,7 +147,8 @@ export const SessionsPageStore = signalStore(
               sessions: sortSessions(newSessions),
             });
           },
-          error: warningService.showWarning,
+          error: (err: HttpErrorResponse) =>
+            toastService.addToast(errorToast(err)),
         });
       },
     };

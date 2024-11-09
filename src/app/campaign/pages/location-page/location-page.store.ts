@@ -11,8 +11,8 @@ import { shareReplay, switchMap, take } from 'rxjs';
 import { Location } from 'src/app/_models/location';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { LocationService } from 'src/app/_services/article/location.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
@@ -98,7 +98,8 @@ export const LocationPageStore = signalStore(
   }),
   withMethods((store) => {
     const locationService = inject(LocationService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
+
     return {
       reset: () =>
         patchState(store, {
@@ -118,7 +119,7 @@ export const LocationPageStore = signalStore(
               locationDeleteState: 'success',
               locationError: undefined,
             }),
-          error: (err) => handleError(store, err, warningService),
+          error: (err) => handleError(store, err, toastService),
         });
       },
     };

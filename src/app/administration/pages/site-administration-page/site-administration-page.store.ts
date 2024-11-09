@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { take } from 'rxjs';
@@ -8,12 +9,13 @@ import {
   CampaignRaw,
   WikiStatistics,
 } from 'src/app/_models/campaign';
+import { errorToast } from 'src/app/_models/toast';
 import { User, UserRaw } from 'src/app/_models/user';
 import { GroupService } from 'src/app/_services/article/group.service';
 import { UserService } from 'src/app/_services/article/user.service';
 import { AdminService } from 'src/app/_services/utils/admin.service';
 import { CampaignService } from 'src/app/_services/utils/campaign.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem } from 'src/utils/array';
 
 export type SiteAdministrationPageState = {
@@ -37,7 +39,7 @@ export const SiteAdministrationPageStore = signalStore(
     const groupService = inject(GroupService);
     const campaignService = inject(CampaignService);
     const adminService = inject(AdminService);
-    const warningsService = inject(WarningsService);
+    const toastService = inject(ToastService);
 
     return {
       loadUsers: () => {
@@ -140,7 +142,8 @@ export const SiteAdministrationPageStore = signalStore(
               a.click();
               URL.revokeObjectURL(blobAsFileUrl);
             },
-            error: (error) => warningsService.showWarning(error),
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           });
       },
       createUser: (user: User): void => {

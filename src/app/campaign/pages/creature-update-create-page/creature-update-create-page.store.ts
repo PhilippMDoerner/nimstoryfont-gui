@@ -7,8 +7,8 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, shareReplay, switchMap, tap } from 'rxjs';
 import { Creature, CreatureRaw } from 'src/app/_models/creature';
 import { CreatureService } from 'src/app/_services/article/creature.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { handleError } from 'src/utils/store/toServerModel';
 import { withQueries } from 'src/utils/store/withQueries';
@@ -41,7 +41,7 @@ export const CreatureUpdateCreateStore = signalStore(
     };
   }),
   withMethods((store) => {
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     const creatureService = inject(CreatureService);
 
     return {
@@ -69,7 +69,7 @@ export const CreatureUpdateCreateStore = signalStore(
                 creatureQueryState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              handleError(store, err, warningService),
+              handleError(store, err, toastService),
           }),
         ),
       ),
@@ -84,7 +84,7 @@ export const CreatureUpdateCreateStore = signalStore(
                 creatureQueryState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              handleError(store, err, warningService),
+              handleError(store, err, toastService),
           }),
         ),
       ),

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
@@ -11,9 +12,10 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, shareReplay, switchMap, tap } from 'rxjs';
 import { Creature } from 'src/app/_models/creature';
 import { Image } from 'src/app/_models/image';
+import { errorToast } from 'src/app/_models/toast';
 import { CreatureService } from 'src/app/_services/article/creature.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withImages } from 'src/utils/store/withImages';
@@ -84,7 +86,7 @@ export const CreaturePageStore = signalStore(
     },
   }),
   withMethods((store) => {
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     const creatureService = inject(CreatureService);
     return {
       reset: () =>
@@ -107,7 +109,8 @@ export const CreaturePageStore = signalStore(
                 creature: undefined,
                 creatureQueryState: 'success',
               }),
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           }),
         ),
       ),

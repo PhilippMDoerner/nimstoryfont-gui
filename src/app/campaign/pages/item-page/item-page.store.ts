@@ -12,9 +12,10 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, shareReplay, switchMap, take, tap } from 'rxjs';
 import { Item } from 'src/app/_models/item';
+import { errorToast } from 'src/app/_models/toast';
 import { ItemService } from 'src/app/_services/article/item.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
@@ -82,7 +83,7 @@ export const ItemPageStore = signalStore(
   }),
   withMethods((state) => {
     const itemService = inject(ItemService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     return {
       reset: () =>
         patchState(state, {
@@ -102,7 +103,7 @@ export const ItemPageStore = signalStore(
               itemError: undefined,
             }),
           error: (err: HttpErrorResponse) =>
-            handleError(state, err, warningService),
+            handleError(state, err, toastService),
         });
       },
       updateItem: rxMethod<Item>(
@@ -121,7 +122,8 @@ export const ItemPageStore = signalStore(
                 itemQueryState: 'success',
                 itemError: undefined,
               }),
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           }),
         ),
       ),

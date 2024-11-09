@@ -10,8 +10,9 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { Image, ImageType } from 'src/app/_models/image';
+import { errorToast } from 'src/app/_models/toast';
 import { ImageUploadService } from 'src/app/_services/article/image-upload.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { InnerStore } from './withQueries';
 
 function addArticleId(
@@ -62,7 +63,7 @@ export function withImages<Input extends SignalStoreFeatureResult>(
   return signalStoreFeature(
     withState(initialState),
     withMethods((state) => {
-      const warningService = inject(WarningsService);
+      const toastService = inject(ToastService);
       const imageService = inject(ImageUploadService);
 
       return {
@@ -74,7 +75,7 @@ export function withImages<Input extends SignalStoreFeatureResult>(
             .subscribe({
               next: (newImage) =>
                 callbacks.onCreateSuccess(state as InnerStore<Input>, newImage),
-              error: warningService.showWarning,
+              error: (err) => toastService.addToast(errorToast(err)),
             });
         },
         deleteImage: (imgPk: number) => {
@@ -84,7 +85,7 @@ export function withImages<Input extends SignalStoreFeatureResult>(
             .subscribe({
               next: () =>
                 callbacks.onDeleteSuccess(state as InnerStore<Input>, imgPk),
-              error: warningService.showWarning,
+              error: (err) => toastService.addToast(errorToast(err)),
             });
         },
         updateImage: (img: Image) => {
@@ -92,7 +93,7 @@ export function withImages<Input extends SignalStoreFeatureResult>(
             next: (newImg) =>
               callbacks.onUpdateSuccess(state as InnerStore<Input>, newImg),
             error: (err: HttpErrorResponse) => {
-              warningService.showWarning(err);
+              toastService.addToast(errorToast(err));
 
               if (err.status !== 409) return;
               const serverModel: Image = err.error;

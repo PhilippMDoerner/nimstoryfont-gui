@@ -4,15 +4,15 @@ import { filter, take } from 'rxjs';
 import { Location } from 'src/app/_models/location';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
+import { LocationTemplateComponent } from 'src/design/templates';
 import { environment } from 'src/environments/environment';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { LocationPageStore } from './location-page.store';
 
 @Component({
   selector: 'app-location-page',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TemplatesModule],
+  imports: [LocationTemplateComponent],
   templateUrl: './location-page.component.html',
   styleUrl: './location-page.component.scss',
 })

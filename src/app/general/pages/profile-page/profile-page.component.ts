@@ -4,15 +4,16 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
 import { GlobalStore } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
-import { ProfilePageStore } from './profile-page.store';
 import { ProfileComponent } from '../../../../design/templates/profile/profile.component';
+import { ProfilePageStore } from './profile-page.store';
 
 @Component({
-    selector: 'app-profile-page',
-    templateUrl: './profile-page.component.html',
-    styleUrls: ['./profile-page.component.scss'],
-    standalone: true,
-    imports: [ProfileComponent],
+  selector: 'app-profile-page',
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss'],
+  standalone: true,
+  providers: [ProfilePageStore],
+  imports: [ProfileComponent],
 })
 export class ProfilePageComponent {
   globalStore = inject(GlobalStore);

@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -17,7 +18,13 @@ import { ImageGridComponent } from 'src/design/organisms';
   templateUrl: './campaign-overview.component.html',
   styleUrls: ['./campaign-overview.component.scss'],
   standalone: true,
-  imports: [ButtonComponent, RouterLink, ImageGridComponent, SpinnerComponent],
+  imports: [
+    NgTemplateOutlet,
+    ButtonComponent,
+    RouterLink,
+    ImageGridComponent,
+    SpinnerComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CampaignOverviewComponent {

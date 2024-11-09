@@ -1,13 +1,12 @@
-import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { CampaignAdminComponent } from 'src/design/templates';
 import { environment } from 'src/environments/environment';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { CampaignAdminPageStore } from './campaign-admin-page.store';
 
 @Component({
   selector: 'app-campaign-admin-page',
   standalone: true,
-  imports: [TemplatesModule, AsyncPipe, JsonPipe],
+  imports: [CampaignAdminComponent],
   providers: [CampaignAdminPageStore],
   templateUrl: './campaign-admin-page.component.html',
   styleUrl: './campaign-admin-page.component.scss',

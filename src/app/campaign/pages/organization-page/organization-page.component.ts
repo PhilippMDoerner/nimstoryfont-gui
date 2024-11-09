@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GlobalStore } from 'src/app/global.store';
+import { OrganizationComponent } from 'src/design/templates';
 import { environment } from 'src/environments/environment';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { OrganizationStore } from './organization-page.store';
 
 @Component({
   selector: 'app-organization-page',
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [OrganizationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './organization-page.component.html',
   styleUrl: './organization-page.component.scss',

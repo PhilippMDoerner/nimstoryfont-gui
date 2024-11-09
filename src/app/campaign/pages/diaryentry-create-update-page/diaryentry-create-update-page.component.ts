@@ -22,15 +22,15 @@ import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { sessionAlreadyHasAuthor } from 'src/app/_services/formly/validators';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
+import { CreateUpdateComponent } from 'src/design/templates';
 import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
 import { filterNil } from 'src/utils/rxjs-operators';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { DiaryEntryCreateUpdatePageStore } from './diaryentry-create-update-page.store';
 
 @Component({
   selector: 'app-diaryentry-create-update-page',
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [CreateUpdateComponent],
   templateUrl: './diaryentry-create-update-page.component.html',
   styleUrl: './diaryentry-create-update-page.component.scss',
   changeDetection: ChangeDetectionStrategy.Default,

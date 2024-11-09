@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
+import { MapComponent } from 'src/design/templates';
 import { environment } from 'src/environments/environment';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { MapPageStore } from './map-page.store';
 
 @Component({
@@ -12,7 +12,7 @@ import { MapPageStore } from './map-page.store';
   styleUrls: ['./map-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [MapComponent],
 })
 export class MapPageComponent {
   serverUrl = environment.backendDomain;

@@ -12,15 +12,15 @@ import { Item, ItemRaw } from 'src/app/_models/item';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
+import { CreateUpdateComponent } from 'src/design/templates';
 import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
 import { filterNil } from 'src/utils/rxjs-operators';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { ItemCreateUpdateStore } from './item-create-update-page.store';
 
 @Component({
   selector: 'app-item-create-update-page',
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [CreateUpdateComponent],
   templateUrl: './item-create-update-page.component.html',
   styleUrl: './item-create-update-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

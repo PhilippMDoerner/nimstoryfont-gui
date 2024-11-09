@@ -13,6 +13,7 @@ import { ConfigAdministrationPageStore } from './config-administration-page.stor
   templateUrl: './config-administration-page.component.html',
   styleUrls: ['./config-administration-page.component.scss'],
   standalone: true,
+  providers: [ConfigAdministrationPageStore],
   imports: [ConfigTablesComponent],
 })
 export class ConfigAdministrationPageComponent {

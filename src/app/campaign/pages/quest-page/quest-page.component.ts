@@ -9,13 +9,13 @@ import { filter, take } from 'rxjs';
 import { Quest } from 'src/app/_models/quest';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
+import { QuestComponent } from 'src/design/templates';
 import { QuestPageStore } from './quest-page.store';
 
 @Component({
   selector: 'app-quest-page',
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [QuestComponent],
   templateUrl: './quest-page.component.html',
   styleUrl: './quest-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

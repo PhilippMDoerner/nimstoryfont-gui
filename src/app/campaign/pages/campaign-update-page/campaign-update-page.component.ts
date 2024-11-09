@@ -1,4 +1,3 @@
-import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Campaign, CampaignRaw } from 'src/app/_models/campaign';
@@ -12,7 +11,7 @@ import { CampaignUpdatePageStore } from './campaign-update-page.store';
 @Component({
   selector: 'app-campaign-update-page',
   standalone: true,
-  imports: [CampaignUpdateComponent, AsyncPipe, JsonPipe],
+  imports: [CampaignUpdateComponent],
   providers: [CampaignUpdatePageStore],
   templateUrl: './campaign-update-page.component.html',
   styleUrl: './campaign-update-page.component.scss',

@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GlobalStore } from 'src/app/global.store';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
+import { QuestOverviewComponent } from 'src/design/templates';
 import { QuestOverviewPageStore } from './quests-overview-page.store';
 
 @Component({
   selector: 'app-quests-overview-page',
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [QuestOverviewComponent],
   templateUrl: './quests-overview-page.component.html',
   styleUrl: './quests-overview-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

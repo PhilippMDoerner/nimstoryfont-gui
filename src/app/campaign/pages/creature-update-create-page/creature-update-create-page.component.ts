@@ -11,14 +11,14 @@ import { Creature, CreatureRaw } from 'src/app/_models/creature';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
+import { CreateUpdateComponent } from 'src/design/templates';
 import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { CreatureUpdateCreateStore } from './creature-update-create-page.store';
 
 @Component({
   selector: 'app-creature-update-create',
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [CreateUpdateComponent],
   templateUrl: './creature-update-create-page.component.html',
   styleUrl: './creature-update-create-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

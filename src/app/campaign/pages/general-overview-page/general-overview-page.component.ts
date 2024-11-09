@@ -11,15 +11,15 @@ import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
 import { BaseService } from 'src/app/_services/base.service';
 import { GlobalStore } from 'src/app/global.store';
+import { GeneralOverviewComponent } from 'src/design/templates';
 import { GeneralOverviewType } from 'src/design/templates/_models/generalOverviewType';
 import { environment } from 'src/environments/environment';
 import { filterNil } from 'src/utils/rxjs-operators';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 
 @Component({
   selector: 'app-general-overview-page',
   standalone: true,
-  imports: [TemplatesModule, AsyncPipe],
+  imports: [GeneralOverviewComponent, AsyncPipe],
   templateUrl: './general-overview-page.component.html',
   styleUrl: './general-overview-page.component.scss',
 })

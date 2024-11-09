@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GlobalStore } from 'src/app/global.store';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
+import { SpellsTemplateComponent } from 'src/design/templates';
 import { SpellsPageStore } from './spells-page.store';
 
 @Component({
   selector: 'app-spells-page',
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [SpellsTemplateComponent],
   templateUrl: './spells-page.component.html',
   styleUrl: './spells-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

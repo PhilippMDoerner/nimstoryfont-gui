@@ -9,14 +9,14 @@ import { filter, take } from 'rxjs';
 import { Item } from 'src/app/_models/item';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ItemComponent } from 'src/design/templates';
 import { environment } from 'src/environments/environment';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { ItemPageStore } from './item-page.store';
 
 @Component({
   selector: 'app-item-page',
   standalone: true,
-  imports: [TemplatesModule],
+  imports: [ItemComponent],
   templateUrl: './item-page.component.html',
   styleUrl: './item-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

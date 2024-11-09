@@ -1,4 +1,3 @@
-import { AsyncPipe, JsonPipe } from '@angular/common';
 import { Component, effect, inject } from '@angular/core';
 import {
   CharacterDetails,
@@ -9,14 +8,14 @@ import { Image } from 'src/app/_models/image';
 import { Quote, QuoteConnection } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
+import { CharacterComponent } from 'src/design/templates';
 import { environment } from 'src/environments/environment';
-import { TemplatesModule } from '../../../../design/templates/templates.module';
 import { CharacterStore } from './character-page.store';
 
 @Component({
   selector: 'app-character-page',
   standalone: true,
-  imports: [TemplatesModule, AsyncPipe, JsonPipe],
+  imports: [CharacterComponent],
   templateUrl: './character-page.component.html',
   styleUrl: './character-page.component.scss',
 })

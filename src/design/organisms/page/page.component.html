@@ -1,11 +1,13 @@
-<app-sidebar
-  #sidebar
-  class="sidebar"
-  [class.sidebar--mobile-visible]="showSidebar"
-  [campaign]="campaign"
-  [hasCampaignAdminPrivileges]="hasCampaignAdminPrivileges"
-  (logout)="logout.emit()"
-></app-sidebar>
+@if (campaign) {
+  <app-sidebar
+    #sidebar
+    class="sidebar"
+    [class.sidebar--mobile-visible]="showSidebar"
+    [campaign]="campaign"
+    [hasCampaignAdminPrivileges]="hasCampaignAdminPrivileges"
+    (logout)="logout.emit()"
+  ></app-sidebar>
+}
 
 <div class="page" [class.page--shift-right]="showSidebar" #content>
   <div class="page__content" (scroll)="onPageScroll($event)" #innerContent>

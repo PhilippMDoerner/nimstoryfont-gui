@@ -1,19 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { LeafletControlLayersConfig } from '@asymmetrik/ngx-leaflet';
+import { Component, computed, input } from '@angular/core';
+import {
+  LeafletControlLayersConfig,
+  LeafletModule,
+} from '@asymmetrik/ngx-leaflet';
 import {
   CRS,
   DivIcon,
+  divIcon,
   ImageOverlay,
+  imageOverlay,
   LatLngBoundsExpression,
   Layer,
   LayerGroup,
+  layerGroup,
   LeafletMouseEvent,
   Map,
   MapOptions,
   Marker,
-  divIcon,
-  imageOverlay,
-  layerGroup,
   marker,
   popup,
 } from 'leaflet';
@@ -27,50 +30,53 @@ type TextColor = 'black' | 'white';
   selector: 'app-ngx-leaflet-map',
   templateUrl: './ngx-leaflet-map.component.html',
   styleUrls: ['./ngx-leaflet-map.component.scss'],
+  standalone: true,
+  imports: [LeafletModule],
 })
-export class NgxLeafletMapComponent implements OnInit {
+export class NgxLeafletMapComponent {
   private BRIGHT_BG_COLORS: string[] = ['beige', 'lightgreen'];
   private MAP_BOUNDS: LatLngBoundsExpression = [
     [200, 140],
     [800, 1160],
   ];
-  @Input() mapData!: ExtendedMap;
-  @Input() serverUrl!: string;
+  mapData = input.required<ExtendedMap>();
+  serverUrl = input.required<string>();
 
   leafletMap!: Map;
-  options!: MapOptions;
-  layers!: Layer[];
-  layersControl!: LeafletControlLayersConfig;
+  options: MapOptions = {
+    minZoom: -1,
+    maxZoom: 2,
+    crs: CRS.Simple,
+  };
+  layers = computed<Layer[]>(() =>
+    this.initLayers(this.serverUrl(), this.mapData()),
+  );
+  layersControl = computed<LeafletControlLayersConfig>(() => ({
+    baseLayers: {},
+    overlays: {
+      ...this.markerLayers(),
+    },
+    options: {
+      collapsed: false,
+    },
+  }));
 
-  markerLayers!: { [key: string]: LayerGroup }; //Needed so I can add these layers to both leafletMap and layersControls
+  markerLayers = computed<{ [key: string]: LayerGroup }>(() =>
+    this.toMarkerLayers(this.mapData()),
+  ); //Needed so I can add these layers to both leafletMap and layersControls
   mouseLatitude!: number;
   mouseLongitude!: number;
   hideCoordinatesState: boolean = true;
 
   constructor(private routingService: RoutingService) {}
 
-  ngOnInit(): void {
-    this.options = this.initOptions();
-    this.markerLayers = this.initMarkerLayers(this.mapData);
-    this.layersControl = this.initLayersControl();
-    this.layers = this.initLayers(this.serverUrl, this.mapData);
-  }
-
   onMapReady(map: Map) {
     this.leafletMap = map;
     this.leafletMap.fitBounds(this.MAP_BOUNDS);
 
-    for (const layerName in this.markerLayers) {
-      this.markerLayers[layerName].addTo(this.leafletMap);
+    for (const layerName in this.markerLayers()) {
+      this.markerLayers()[layerName].addTo(this.leafletMap);
     }
-  }
-
-  private initOptions(): MapOptions {
-    return {
-      minZoom: -1,
-      maxZoom: 2,
-      crs: CRS.Simple,
-    };
   }
 
   private initLayers(serverUrl: string, map: ExtendedMap): ImageOverlay[] {
@@ -80,19 +86,7 @@ export class NgxLeafletMapComponent implements OnInit {
     return [mapImageLayer];
   }
 
-  private initLayersControl(): LeafletControlLayersConfig {
-    return {
-      baseLayers: {},
-      overlays: {
-        ...this.markerLayers,
-      },
-      options: {
-        collapsed: false,
-      },
-    } as LeafletControlLayersConfig;
-  }
-
-  private initMarkerLayers(map: ExtendedMap) {
+  private toMarkerLayers(map: ExtendedMap) {
     const layers: { [key: string]: LayerGroup } = {};
 
     const hasMarkers = map.markers && map.markers.length > 0;
@@ -183,7 +177,7 @@ export class NgxLeafletMapComponent implements OnInit {
 
   private makeLocationHeading(marker: MapMarker): string {
     const location_url = this.routingService.getRoutePath('location', {
-      campaign: this.mapData.campaign_details?.name,
+      campaign: this.mapData().campaign_details?.name,
       parent_name: marker.location_details?.parent_location_name,
       name: marker.location_details?.name,
     });
@@ -226,7 +220,7 @@ export class NgxLeafletMapComponent implements OnInit {
       const sublocationUrl = this.routingService.getRoutePath('location', {
         parent_name: location.name,
         name: sublocationName,
-        campaign: this.mapData.campaign_details?.name,
+        campaign: this.mapData().campaign_details?.name,
       });
       sublocationList += `<li><a href="${sublocationUrl}"> ${sublocationName}</a></li>`;
     }
@@ -267,8 +261,8 @@ export class NgxLeafletMapComponent implements OnInit {
       {
         latitude: latitude,
         longitude: longitude,
-        map_name: this.mapData.name,
-        campaign: this.mapData.campaign_details?.name,
+        map_name: this.mapData().name,
+        campaign: this.mapData().campaign_details?.name,
       },
     );
 
@@ -277,8 +271,8 @@ export class NgxLeafletMapComponent implements OnInit {
       {
         latitude: latitude,
         longitude: longitude,
-        map_name: this.mapData.name,
-        campaign: this.mapData.campaign_details?.name,
+        map_name: this.mapData().name,
+        campaign: this.mapData().campaign_details?.name,
       },
     );
 

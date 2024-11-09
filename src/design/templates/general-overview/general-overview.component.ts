@@ -25,7 +25,7 @@ export class GeneralOverviewComponent implements OnInit, OnChanges {
   @Input() campaignName!: string;
   @Input() canCreate: boolean = false;
 
-  displayEntries!: FilterListEntry[];
+  displayEntries!: FilterListEntry<any>[];
   playerCharacters?: OverviewItem[];
   homeUrl!: string;
   overviewTypeName!: string;

@@ -1,29 +1,29 @@
-<ng-container *ngIf="images && images.length > 0; else defaultImage">
+@if (images() && images().length > 0) {
   <ngb-carousel
     #imageCarousel
     [interval]="0"
-    [showNavigationArrows]="images.length > 1"
-    [showNavigationIndicators]="images.length > 1"
-    [activeId]="'imageIndex-' + currentSlideIndex"
+    [showNavigationArrows]="images().length > 1"
+    [showNavigationIndicators]="images().length > 1"
+    [activeId]="'imageIndex-' + currentSlideIndex()"
     (slide)="onSlide($event)"
     (slid)="onSlideEnd($event)"
   >
-    <ng-template
-      ngbSlide
-      *ngFor="let image of images; let i = index"
-      [id]="'imageIndex-' + i"
-    >
-      <div class="image-container" [title]="image.name">
-        <img [src]="serverUrl + image.image" [alt]="'Image ' + i" />
-      </div>
-    </ng-template>
+    @for (image of images(); track image.pk) {
+      <ng-template ngbSlide [id]="'imageIndex-' + $index">
+        <div class="image-container" [title]="image.name">
+          <img [src]="serverUrl() + image.image" [alt]="'Image ' + $index" />
+        </div>
+      </ng-template>
+    }
   </ngb-carousel>
-</ng-container>
+} @else {
+  <ng-container *ngTemplateOutlet="defaultImage"></ng-container>
+}
 
 <!-- Image Edit/Delete/Create Buttons -->
 <div class="edit-image-buttons">
   <!-- Create Image Button -->
-  <ng-container *ngIf="canCreate">
+  @if (canCreate()) {
     <app-button
       title="Create Image"
       class="mx-2"
@@ -32,10 +32,10 @@
       [icon]="'plus-square'"
       (click)="onImageCreate()"
     ></app-button>
-  </ng-container>
+  }
 
   <!-- Update Image button -->
-  <ng-container *ngIf="images.length > 0 && canUpdate">
+  @if (images().length > 0 && canUpdate()) {
     <app-button
       title="Update Image"
       class="mx-2"
@@ -44,10 +44,10 @@
       [icon]="'pencil'"
       (click)="onImageUpdate()"
     ></app-button>
-  </ng-container>
+  }
 
   <!-- Delete Image Button -->
-  <ng-container *ngIf="images.length > 1 && canDelete">
+  @if (images().length > 1 && canDelete()) {
     <app-button
       title="Delete Image"
       class="mx-2"
@@ -56,7 +56,7 @@
       [icon]="'trash'"
       (click)="onImageDelete()"
     ></app-button>
-  </ng-container>
+  }
 </div>
 
 <ng-template #defaultImage>

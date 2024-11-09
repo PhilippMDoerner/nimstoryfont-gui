@@ -7,12 +7,12 @@
 
       <app-icon
         class="card__heading-icon"
-        [icon]="_isOpen ? 'chevron-up' : 'chevron-down'"
+        [icon]="_isOpen() ? 'chevron-up' : 'chevron-down'"
       ></app-icon>
     </h5>
   </button>
 
-  <div class="card__body" [ngbCollapse]="!_isOpen">
+  <div class="card__body" [ngbCollapse]="!_isOpen()">
     <app-separator></app-separator>
     <ng-content select="[body]"></ng-content>
   </div>

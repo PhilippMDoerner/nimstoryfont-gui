@@ -1,55 +1,64 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  signal,
+} from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { GroupByFirstLetterPipe } from 'src/design/atoms';
+import { GroupByPipe } from 'src/design/atoms/_pipes/groupObjects';
 import { FilterListEntry } from '../_model/filterListEntry';
 
-type GroupMode = "PROPERTY" | "LETTER"
+type GroupMode = 'PROPERTY' | 'LETTER';
 
 @Component({
   selector: 'app-filter-list',
   templateUrl: './filter-list.component.html',
-  styleUrls: ['./filter-list.component.scss']
+  styleUrls: ['./filter-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    GroupByFirstLetterPipe,
+    NgClass,
+    GroupByPipe,
+    RouterLink,
+    NgTemplateOutlet,
+  ],
 })
-export class FilterListComponent implements OnInit{
-  @Input() entries!: FilterListEntry[];
-  @Input() labelProp!: string;
-  @Input() heading!: string;
-  @Input() groupProp?: string;
-  @Input() forceSingleLine: boolean = false;
-  
-  @ViewChild('filterInputElement') filterInputElement!: ElementRef;
-  
-  displayEntries!: FilterListEntry[];
-  mode: GroupMode = 'LETTER';
-  
-  constructor(
-    private routing: Router,
-  ){}
-  
-  ngOnInit(): void {
-    this.mode = this.groupProp ? 'PROPERTY' : 'LETTER';
-    this.displayEntries = this.entries;
-  }
-  
-  updateDisplayEntries(){
-    const filterValue = this.filterInputElement.nativeElement.value;
-    if(filterValue == null || filterValue === ""){
-      this.displayEntries = this.entries;
-    }
-    
-    const displayEntries = this.entries.filter(
-      entry => entry[this.labelProp].toLowerCase().includes(filterValue),
-    );
-    
-    this.displayEntries = displayEntries;
-  }
+export class FilterListComponent<T> {
+  entries = input.required<FilterListEntry<T>[]>();
+  labelProp = input.required<Exclude<keyof T, symbol | number>>();
+  heading = input.required<string>();
+  groupProp = input<string>();
+  forceSingleLine = input(false);
 
-  openFirstArticle(){
-    const hasEntry = this.displayEntries.length > 0;
-    if(!hasEntry){
+  filterValue = signal<string | undefined>(undefined);
+
+  displayEntries = computed<FilterListEntry<T>[]>(() => {
+    const filterValue = this.filterValue();
+    if (filterValue == null || filterValue === '') {
+      return this.entries();
+    }
+
+    return this.entries().filter((entry) => {
+      const entryLabel = entry[this.labelProp()] as string;
+      return entryLabel.toLowerCase().includes(filterValue);
+    });
+  });
+  mode = computed<GroupMode>(() => (this.groupProp() ? 'PROPERTY' : 'LETTER'));
+
+  constructor(private routing: Router) {}
+
+  openFirstArticle(event: SubmitEvent) {
+    event.preventDefault();
+    const hasEntry = this.displayEntries().length > 0;
+    if (!hasEntry) {
       return;
     }
-    
-    const entry = this.displayEntries[0];
+
+    const entry = this.displayEntries()[0];
     this.routing.navigateByUrl(entry.link);
   }
 }

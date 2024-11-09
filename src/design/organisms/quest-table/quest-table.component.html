@@ -9,11 +9,11 @@
       [(ngModel)]="state"
       (change)="filterQuests()"
     >
-      <ng-container *ngFor="let state of DISPLAY_STATES">
+      @for (state of DISPLAY_STATES; track state) {
         <option [value]="state">
           {{ state }}
         </option>
-      </ng-container>
+      }
     </select>
   </div>
 
@@ -38,9 +38,7 @@
 
       <!-- Table Body -->
       <tbody [id]="questTaker + '-quests'">
-        <ng-container
-          *ngFor="let quest of displayQuests; let questIndex = index"
-        >
+        @for (quest of displayQuests; track $index) {
           <tr>
             <!-- Quest Name Column -->
             <td class="table__element">
@@ -55,7 +53,7 @@
             </td>
 
             <!-- Quest Status -->
-            <ng-container *ngIf="quest.status; else emptyColumn">
+            @if (quest.status) {
               <td
                 class="table__element--status table-{{
                   STATE_TABLE_TYPE_MAPPING[quest.status]
@@ -63,9 +61,11 @@
               >
                 <app-icon [icon]="STATE_ICON_MAPPING[quest.status]"></app-icon>
               </td>
-            </ng-container>
+            } @else {
+              <ng-container *ngTemplateOutlet="emptyColumn" />
+            }
           </tr>
-        </ng-container>
+        }
       </tbody>
     </table>
   </div>

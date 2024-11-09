@@ -5,6 +5,7 @@
     [location]="location"
     [locationServerModel]="store.locationServerModel()"
     [imageServerModel]="store.imageServerModel()"
+    [campaignCharacters]="store.campaignCharacters() ?? []"
     [canCreate]="store.hasWritePermission()"
     [canUpdate]="store.hasWritePermission()"
     [canDelete]="store.hasWritePermission()"

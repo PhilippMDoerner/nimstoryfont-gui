@@ -2,16 +2,20 @@
   <label [for]="to['name']" class="form-label">
     <strong>
       {{ to.label }}
-      <ng-container *ngIf="to.required"> * </ng-container>
+      @if (to.required) {
+        *
+      }
     </strong>
   </label>
 
   <div class="input-group" [class.disabled]="!!props.disabled">
     <input
       class="form-control"
-      placeholder="yyyy-mm-dd"
-      type="text"
+      [required]="!!to.required"
+      placeholder="yyyy/mm/dd"
       [name]="to['name']"
+      maxLength="10"
+      minlength="10"
       [formControl]="formControl"
       [formlyAttributes]="field"
       ngbDatepicker

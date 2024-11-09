@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgClass } from '@angular/common';
+import {
+  Component,
+  computed,
+  EventEmitter,
+  input,
+  Output,
+} from '@angular/core';
 
 type ColumnCount = 1 | 2 | 3;
 
@@ -6,40 +13,42 @@ type ColumnCount = 1 | 2 | 3;
   selector: 'app-image-grid',
   templateUrl: './image-grid.component.html',
   styleUrls: ['./image-grid.component.scss'],
+  standalone: true,
+  imports: [NgClass],
 })
-export class ImageGridComponent implements OnInit {
+export class ImageGridComponent<T> {
   EMPTY_IMAGE_URL: string = '';
 
-  @Input() entries!: any[];
-  @Input() serverUrl!: string;
-  @Input() imageProp!: string;
-  @Input() labelProp!: string;
+  entries = input.required<T[]>();
+  serverUrl = input.required<string>();
+  imageProp = input.required<keyof T>();
+  labelProp = input.required<keyof T>();
 
   @Output() entryClick: EventEmitter<any> = new EventEmitter();
 
-  entryGrid!: any[][];
-  columnCount: ColumnCount = 1;
-
-  ngOnInit(): void {
-    this.setColumnCount();
-    this.entryGrid = this.chunk(this.entries, this.columnCount);
-  }
-
-  chunk(input: any[], size: number) {
-    return input.reduce((arr, item, idx) => {
-      return idx % size === 0
-        ? [...arr, [item]]
-        : [...arr.slice(0, -1), [...arr.slice(-1)[0], item]];
-    }, []);
-  }
-
-  setColumnCount(): void {
-    if (this.entries.length === 1) {
-      this.columnCount = 1;
-    } else if (this.entries.length === 2 || this.entries.length === 4) {
-      this.columnCount = 2;
-    } else {
-      this.columnCount = 3;
+  entryGrid = computed<T[][]>(() =>
+    this.chunk(this.entries(), this.columnCount()),
+  );
+  columnCount = computed(() => {
+    switch (this.entries().length) {
+      case 1:
+        return 1;
+      case 2:
+      case 4:
+        return 2;
+      default:
+        return 3;
     }
+  });
+
+  chunk(input: T[], size: number): T[][] {
+    return input.reduce((gridAccumultor, item, idx) => {
+      return idx % size === 0
+        ? [...gridAccumultor, [item]]
+        : [
+            ...gridAccumultor.slice(0, -1),
+            [...gridAccumultor.slice(-1)[0], item],
+          ];
+    }, [] as T[][]);
   }
 }

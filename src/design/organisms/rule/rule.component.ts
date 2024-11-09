@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -8,8 +9,14 @@ import {
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
+import {
+  CompareFormComponent,
+  ConfirmationToggleButtonComponent,
+  EditToggleComponent,
+  FormComponent,
+} from 'src/design/molecules';
 import { Rule, RuleRaw } from '../../../app/_models/rule';
-import { ElementType } from '../../atoms';
+import { ElementType, HtmlTextComponent } from '../../atoms';
 
 type RuleState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
 
@@ -17,6 +24,15 @@ type RuleState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
   selector: 'app-rule',
   templateUrl: './rule.component.html',
   styleUrls: ['./rule.component.scss'],
+  standalone: true,
+  imports: [
+    NgTemplateOutlet,
+    EditToggleComponent,
+    HtmlTextComponent,
+    ConfirmationToggleButtonComponent,
+    FormComponent,
+    CompareFormComponent,
+  ],
 })
 export class RuleComponent implements OnInit {
   rule = input.required<Rule | undefined>();

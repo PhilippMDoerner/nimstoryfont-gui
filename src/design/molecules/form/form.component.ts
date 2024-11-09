@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,6 +27,7 @@ import { ButtonComponent, ElementType, Icon } from '../../atoms';
     NgbTooltip,
     FormlyBootstrapModule,
     ReactiveFormsModule,
+    NgTemplateOutlet,
   ],
 })
 export class FormComponent<T> {

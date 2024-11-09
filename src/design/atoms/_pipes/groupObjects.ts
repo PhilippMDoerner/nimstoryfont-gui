@@ -12,9 +12,10 @@ export class GroupByFirstLetterPipe implements PipeTransform {
       return accumulator;
     };
     const groupedObj = itemArray.reduce(callback, {});
-    return Object.keys(groupedObj)
+    const result = Object.keys(groupedObj)
       .map((key) => ({ key, value: groupedObj[key] }))
       .sort((a, b) => (a.key > b.key ? 1 : -1));
+    return result;
   }
 }
 

@@ -1,6 +1,4 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
@@ -12,11 +10,9 @@ import {
   requiredMessage,
   requiredValidator,
 } from 'src/app/_services/formly/validators';
-import { MoleculesModule } from 'src/design/molecules';
 import * as all from 'tinymce/tinymce';
 import { FormlyEditorFieldComponent } from '..';
 import { Encounter, EncounterConnection } from '../../../app/_models/encounter';
-import { AtomsModule } from '../../atoms';
 import { EncounterComponent } from './encounter.component';
 
 const x = all;
@@ -262,13 +258,8 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        AtomsModule,
-        MoleculesModule,
-        NgbModule,
         EditorModule,
         RouterTestingModule,
-        FormsModule,
-        ReactiveFormsModule,
         FormlyModule.forRoot({
           types: [
             { name: 'text-editor', component: FormlyEditorFieldComponent },

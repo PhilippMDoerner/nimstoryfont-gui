@@ -1,6 +1,9 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { OverviewItem } from 'src/app/_models/overview';
-import { Icon } from 'src/design/atoms';
+import { Icon, IconComponent } from 'src/design/atoms';
 
 type DisplayState =
   | 'Default'
@@ -15,6 +18,8 @@ type TableType = 'success' | 'warning' | 'danger';
   selector: 'app-quest-table',
   templateUrl: './quest-table.component.html',
   styleUrls: ['./quest-table.component.scss'],
+  standalone: true,
+  imports: [FormsModule, RouterLink, IconComponent, NgTemplateOutlet],
 })
 export class QuestTableComponent implements OnInit, OnChanges {
   DISPLAY_STATES: DisplayState[] = [

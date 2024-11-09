@@ -1,4 +1,6 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   EventEmitter,
@@ -14,7 +16,15 @@ import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { BadgeListEntry } from 'src/design/molecules';
+import { HtmlTextComponent, SeparatorComponent } from 'src/design/atoms';
+import {
+  BadgeListComponent,
+  BadgeListEntry,
+  CompareFormComponent,
+  ConfirmationToggleButtonComponent,
+  EditToggleComponent,
+  FormComponent,
+} from 'src/design/molecules';
 import { sortByProp } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import {
@@ -29,6 +39,18 @@ type EncounterState = 'DISPLAY' | 'UPDATE' | 'OUTDATEDUPDATE' | 'CREATE';
   selector: 'app-encounter',
   templateUrl: './encounter.component.html',
   styleUrls: ['./encounter.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    NgTemplateOutlet,
+    EditToggleComponent,
+    HtmlTextComponent,
+    SeparatorComponent,
+    BadgeListComponent,
+    ConfirmationToggleButtonComponent,
+    FormComponent,
+    CompareFormComponent,
+  ],
 })
 export class EncounterComponent implements OnInit {
   characters = input.required<OverviewItem[]>();

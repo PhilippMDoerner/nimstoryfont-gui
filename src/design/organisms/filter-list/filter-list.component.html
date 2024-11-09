@@ -1,85 +1,92 @@
 <div class="container">
-  <form 
-    class="row filter" 
-    autocomplete="off" 
-    (submit)="openFirstArticle()"
+  <form
+    class="row filter"
+    autocomplete="off"
+    (submit)="openFirstArticle($event)"
   >
     <input
       class="filter__input"
       type="text"
-      placeholder="Search for {{ heading }}..."
+      placeholder="Search for {{ heading() }}..."
       #filterInputElement
-      (keyDown)="updateDisplayEntries()"
-      (input)="updateDisplayEntries()"
-    >    
+      (keyDown)="filterValue.set(filterInputElement.value)"
+      (input)="filterValue.set(filterInputElement.value)"
+    />
   </form>
-  
+
   <div class="row">
-    <ng-container *ngIf="mode === 'LETTER'; then letterList; else propertyList"></ng-container>
+    <ng-container
+      *ngTemplateOutlet="mode() === 'LETTER' ? letterList : propertyList"
+    ></ng-container>
   </div>
 </div>
 
-
 <ng-template #letterList>
-  <ng-container *ngFor="let itemLetterEntries of displayEntries | groupByFirstLetter: labelProp">
-    <div 
-      class="letter-list" 
+  @for (
+    itemLetterEntries of displayEntries() | groupByFirstLetter: labelProp();
+    track $index
+  ) {
+    <div
+      class="letter-list"
       [ngClass]="{
-        'col-sm-6 col-lg-4': (!filterInputElement.value && !forceSingleLine), 
-        'col-12': (filterInputElement.value || forceSingleLine)
+        'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine(),
+        'col-12': filterInputElement.value || forceSingleLine,
       }"
     >
       <!-- Letter Heading -->
-      <ng-container *ngIf="filterInputElement.value.length === 0">
-        <h5 class="letter-list__heading"> 
-          {{ itemLetterEntries.key }} 
-        </h5>            
-      </ng-container>
+      @if (filterInputElement.value.length === 0) {
+        <h5 class="letter-list__heading">
+          {{ itemLetterEntries.key }}
+        </h5>
+      }
 
       <!-- Article List -->
       <ul class="letter-list__list">
-        <ng-container *ngFor="let item of itemLetterEntries.value">
+        @for (item of itemLetterEntries.value; track $index) {
           <li>
             <a [routerLink]="item.link">
-              {{ item[labelProp] }}
+              {{ item[labelProp()] }}
             </a>
           </li>
-        </ng-container>
+        }
       </ul>
     </div>
-  </ng-container>
+  }
 </ng-template>
 
 <ng-template #propertyList>
-  <ng-container *ngIf="groupProp">
-    
-    <ng-container *ngFor="let itemLetterEntries of displayEntries | groupBy: groupProp : 'session_details.session_number'">
-      <div 
-        class="letter-list" 
+  @let groupPropVal = groupProp();
+  @if (groupPropVal) {
+    @for (
+      itemLetterEntries of displayEntries()
+        | groupBy: groupPropVal : "session_details.session_number";
+      track $index
+    ) {
+      <div
+        class="letter-list"
         [ngClass]="{
-          'col-sm-6 col-lg-4': (!filterInputElement.value && !forceSingleLine), 
-          'col-12': (filterInputElement.value || forceSingleLine)
+          'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine,
+          'col-12': filterInputElement.value || forceSingleLine,
         }"
       >
         <!-- Letter Heading -->
-        <ng-container *ngIf="filterInputElement.value.length === 0">
-          <h5 class="letter-list__heading"> 
-            {{ itemLetterEntries.key }} 
-          </h5>            
-        </ng-container>
-  
+        @if (filterInputElement.value.length === 0) {
+          <h5 class="letter-list__heading">
+            {{ itemLetterEntries.key }}
+          </h5>
+        }
+
         <!-- Article List -->
         <ul class="letter-list__list">
-          <ng-container *ngFor="let item of itemLetterEntries.value">
+          @for (item of itemLetterEntries.value; track $index) {
             <li>
               <a [routerLink]="item.link">
-                {{ item[labelProp] }}
+                {{ item[labelProp()] }}
               </a>
             </li>
-          </ng-container>
+          }
         </ul>
       </div>
-    </ng-container>
-    
-  </ng-container>
+    }
+  }
 </ng-template>

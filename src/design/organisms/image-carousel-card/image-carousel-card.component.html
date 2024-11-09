@@ -1,21 +1,17 @@
-<ng-container [ngSwitch]="state">
-  <ng-container
-    *ngSwitchCase="'DISPLAY'"
-    [ngTemplateOutlet]="displayState"
-  ></ng-container>
-  <ng-container
-    *ngSwitchCase="'UPDATE'"
-    [ngTemplateOutlet]="updateState"
-  ></ng-container>
-  <ng-container
-    *ngSwitchCase="'CREATE'"
-    [ngTemplateOutlet]="createState"
-  ></ng-container>
-  <ng-container
-    *ngSwitchCase="'DELETE'"
-    [ngTemplateOutlet]="deleteState"
-  ></ng-container>
-</ng-container>
+@switch (state) {
+  @case ("DISPLAY") {
+    <ng-container *ngTemplateOutlet="displayState" />
+  }
+  @case ("UPDATE") {
+    <ng-container *ngTemplateOutlet="updateState" />
+  }
+  @case ("CREATE") {
+    <ng-container *ngTemplateOutlet="createState" />
+  }
+  @case ("DELETE") {
+    <ng-container *ngTemplateOutlet="deleteState" />
+  }
+}
 
 <ng-template #displayState>
   <app-image-carousel
@@ -37,7 +33,9 @@
     <h5 class="form-card__heading">
       <app-icon [icon]="'pencil'"></app-icon>
       Updating:
-      <app-spinner *ngIf="isLoading"></app-spinner>
+      @if (isLoading) {
+        <app-spinner />
+      }
     </h5>
 
     <div class="form-card__image-container">
@@ -64,9 +62,11 @@
 <ng-template #createState>
   <div class="card form-card">
     <h5 class="form-card__heading">
-      <app-icon [icon]="'plus-square'"></app-icon>
+      <app-icon [icon]="'plus-square'" />
       Upload new image
-      <app-spinner *ngIf="isLoading"></app-spinner>
+      @if (isLoading) {
+        <app-spinner />
+      }
     </h5>
 
     <app-form
@@ -84,9 +84,11 @@
 <ng-template #deleteState>
   <div class="card form-card">
     <h5 class="form-card__heading">
-      <app-icon [icon]="'trash'"></app-icon>
+      <app-icon [icon]="'trash'" />
       Deleting:
-      <app-spinner *ngIf="isLoading"></app-spinner>
+      @if (isLoading) {
+        <app-spinner />
+      }
     </h5>
 
     <div class="form-card__image-container">

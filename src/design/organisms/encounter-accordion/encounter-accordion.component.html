@@ -1,15 +1,15 @@
 <div class="encounter-list mb-5 mt-3">
   <div ngbAccordion [closeOthers]="true" [animation]="true">
-    @for (encounter of encounters(); track $index) {
+    @for (encounter of encounters(); track encounter.pk) {
       <div ngbAccordionItem [id]="'static-' + $index">
-        <div ngbAccordionHeader>
+        <header ngbAccordionHeader>
           <button ngbAccordionButton class="panel-title">
             <strong
               class="encounter-title"
               [innerHTML]="encounter.name"
             ></strong>
           </button>
-        </div>
+        </header>
 
         <div ngbAccordionCollapse>
           <div ngbAccordionBody>

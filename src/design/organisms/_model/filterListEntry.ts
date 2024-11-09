@@ -1,4 +1,1 @@
-export interface FilterListEntry{
-  link: string;
-  [key: string]: any;
-}
+export type FilterListEntry<T> = T & Record<'link', string>;

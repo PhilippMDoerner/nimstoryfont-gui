@@ -1,9 +1,15 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { FieldType } from '@ngx-formly/bootstrap/form-field';
-import { FieldTypeConfig, FormlyTemplateOptions } from '@ngx-formly/core';
+import {
+  FieldTypeConfig,
+  FormlyModule,
+  FormlyTemplateOptions,
+} from '@ngx-formly/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { DisabledFunction } from 'src/app/_models/formly';
+import { InfoCircleTooltipComponent } from 'src/design/atoms';
 
 interface CanDisableOption {
   enabled: boolean;
@@ -19,6 +25,13 @@ let counter = 0;
   selector: 'app-formly-select-disable',
   templateUrl: './formly-select-disable-field.component.html',
   styleUrls: ['./formly-select-disable-field.component.scss'],
+  standalone: true,
+  imports: [
+    InfoCircleTooltipComponent,
+    ReactiveFormsModule,
+    FormlyModule,
+    AsyncPipe,
+  ],
 })
 export class FormlySelectDisableFieldComponent
   extends FieldType<FieldTypeConfig>

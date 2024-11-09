@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -13,9 +14,19 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { BadgeListEntry } from 'src/design/molecules';
+import {
+  ButtonComponent,
+  CardComponent,
+  HtmlTextComponent,
+} from 'src/design/atoms';
+import {
+  BadgeListEntry,
+  CompareFormComponent,
+  FormComponent,
+} from 'src/design/molecules';
 import { CharacterDetails } from '../../../app/_models/character';
 import { Quote, QuoteConnection } from '../../../app/_models/quote';
+import { QuoteComponent } from '../quote/quote.component';
 
 type QuoteState =
   | 'CREATE'
@@ -28,6 +39,16 @@ type QuoteState =
   selector: 'app-quote-field',
   templateUrl: './quote-field.component.html',
   styleUrls: ['./quote-field.component.scss'],
+  standalone: true,
+  imports: [
+    NgTemplateOutlet,
+    QuoteComponent,
+    CardComponent,
+    FormComponent,
+    CompareFormComponent,
+    HtmlTextComponent,
+    ButtonComponent,
+  ],
 })
 export class QuoteFieldComponent implements OnInit, OnChanges {
   @Input() quote?: Quote;

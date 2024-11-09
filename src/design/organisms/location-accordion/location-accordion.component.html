@@ -1,8 +1,8 @@
 <h4>
   Locations of Interest
 
-  <ng-container *ngIf="canCreate">
-    <a class="create-button" [routerLink]="createUrl">
+  @if (canCreate()) {
+    <a class="create-button" [routerLink]="createUrl()">
       <app-button
         title="Create Location"
         [type]="'PRIMARY'"
@@ -10,29 +10,30 @@
         [icon]="'plus'"
       ></app-button>
     </a>
-  </ng-container>
+  }
 </h4>
 
 <div ngbAccordion [closeOthers]="true">
-  <div
-    ngbAccordionItem
-    [id]="'static-' + i"
-    *ngFor="let entry of accordionEntries; let i = index"
-  >
-    <!-- Header -->
-    <div ngbAccordionHeader class="button-container">
-      <button ngbAccordionButton>
-        <a class="location-title" [routerLink]="entry.link">
-          {{ entry.value.name }}
-        </a>
-      </button>
-    </div>
+  @for (entry of accordionEntries(); track entry.value.pk) {
+    <div ngbAccordionItem [id]="'static-' + $index">
+      <!-- Header -->
+      <div ngbAccordionHeader class="button-container">
+        <button ngbAccordionButton>
+          <a class="location-title" [routerLink]="entry.link">
+            {{ entry.value.name }}
+          </a>
+        </button>
+      </div>
 
-    <!-- Body -->
-    <div ngbAccordionCollapse>
-      <div ngbAccordionBody>
-        <app-location [location]="entry.value"></app-location>
+      <!-- Body -->
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <app-location
+            [location]="entry.value"
+            [campaignCharacters]="campaignCharacters()"
+          />
+        </div>
       </div>
     </div>
-  </div>
+  }
 </div>

@@ -9,8 +9,15 @@ import {
 } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ElementType, Icon } from 'src/design/atoms';
-import { BadgeListEntry } from 'src/design/molecules';
+import {
+  ButtonComponent,
+  ElementType,
+  HtmlTextComponent,
+  Icon,
+  SeparatorComponent,
+  SpinnerComponent,
+} from 'src/design/atoms';
+import { BadgeListComponent, BadgeListEntry } from 'src/design/molecules';
 import { copyToClipboard } from 'src/utils/clipboard';
 import { CharacterDetails } from '../../../app/_models/character';
 import { Quote, QuoteConnection } from '../../../app/_models/quote';
@@ -35,6 +42,14 @@ type QuoteControl = {
   selector: 'app-quote',
   templateUrl: './quote.component.html',
   styleUrls: ['./quote.component.scss'],
+  standalone: true,
+  imports: [
+    HtmlTextComponent,
+    BadgeListComponent,
+    SeparatorComponent,
+    ButtonComponent,
+    SpinnerComponent,
+  ],
 })
 export class QuoteComponent implements OnChanges {
   quote = input<Quote>();

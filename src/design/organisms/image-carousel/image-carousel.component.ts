@@ -1,19 +1,30 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  input,
+  Output,
+} from '@angular/core';
+import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import { ButtonComponent } from 'src/design/atoms';
 import { Image } from '../../../app/_models/image';
 
 @Component({
   selector: 'app-image-carousel',
   templateUrl: './image-carousel.component.html',
   styleUrls: ['./image-carousel.component.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgbCarouselModule, ButtonComponent, NgTemplateOutlet],
 })
 export class ImageCarouselComponent {
-  @Input() images!: Image[];
-  @Input() serverUrl!: string;
-  @Input() canDelete: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() canUpdate: boolean = false;
-  @Input({ required: true }) currentSlideIndex!: number;
+  images = input.required<Image[]>();
+  serverUrl = input.required<string>();
+  canDelete = input<boolean>(false);
+  canCreate = input<boolean>(false);
+  canUpdate = input<boolean>(false);
+  currentSlideIndex = input.required<number>();
 
   @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
   @Output() createImage: EventEmitter<null> = new EventEmitter();
@@ -35,11 +46,11 @@ export class ImageCarouselComponent {
   }
 
   onSlideEnd(event: NgbSlideEvent) {
-    this.slide.emit({ event, index: this.currentSlideIndex });
+    this.slide.emit({ event, index: this.currentSlideIndex() });
   }
 
   onImageCreate() {
-    if (!this.canCreate) {
+    if (!this.canCreate()) {
       return;
     }
 
@@ -47,20 +58,20 @@ export class ImageCarouselComponent {
   }
 
   onImageUpdate() {
-    if (!this.canUpdate) {
+    if (!this.canUpdate()) {
       return;
     }
 
-    const image = this.images[this.currentSlideIndex];
+    const image = this.images()[this.currentSlideIndex()];
     this.updateImage.emit(image);
   }
 
   onImageDelete() {
-    if (!this.canDelete) {
+    if (!this.canDelete()) {
       return;
     }
 
-    const image = this.images[this.currentSlideIndex];
+    const image = this.images()[this.currentSlideIndex()];
     this.deleteImage.emit(image);
   }
 }

@@ -1,43 +1,49 @@
 <div class="container-fluid">
-  <ng-container *ngIf="entries != null; else loading">
-    <ng-container *ngIf="entries.length > 0; else noEntries">
-        <div class="row image-grid">
-          <ng-container *ngFor="let entry of entries">
-            <a 
-              class="image-grid__entry entry"
-              [style.background-image]="'url(' + serverUrl + entry[imageProp] + ')'"
-              (click)="entryClick.emit(entry)"
-              [ngClass]="{
-                'col-lg-12': columnCount === 1,
-                'col-sm-6': columnCount === 2,
-                'col-md-6 col-lg-4': columnCount === 3,
-              }"
-            >
-              <div class="entry__overlay">
-                <h4 class="entry__heading">{{ entry[labelProp] }}</h4>
-              </div>
-            </a>
-          </ng-container>
-        </div>
-    </ng-container>
-  </ng-container>
+  @if (entries() != null) {
+    @if (entries().length > 0) {
+      <div class="row image-grid">
+        @for (entry of entries(); track $index) {
+          <a
+            class="image-grid__entry entry"
+            [style.background-image]="
+              'url(' + serverUrl() + entry[imageProp()] + ')'
+            "
+            (click)="entryClick.emit(entry)"
+            [ngClass]="{
+              'col-lg-12': columnCount() === 1,
+              'col-sm-6': columnCount() === 2,
+              'col-md-6 col-lg-4': columnCount() === 3,
+            }"
+          >
+            <div class="entry__overlay">
+              <h4 class="entry__heading">{{ entry[labelProp()] }}</h4>
+            </div>
+          </a>
+        }
+      </div>
+    } @else {
+      <ng-container *ngTemplateOutlet="noEntries" />
+    }
+  } @else {
+    <ng-container *ngTemplateOutlet="loading" />
+  }
 </div>
 
-<ng-template #loading>
-  
-</ng-template>
+<ng-template #loading> </ng-template>
 
 <ng-template #noEntries>
-<div class="w-100 h-100 position-relative d-flex justify-content-center">
-  <img class="w-100 h-100" [src]="serverUrl + EMPTY_IMAGE_URL" alt="Image of a red dragon frame">
-  <div class="position-absolute frame-text">
-    <h4 class="mb-1">
-      You have not yet been invited into any campaign.
-    </h4>
-    <div>
-      Please inform your DM or the person within your group administrating the webserver 
-      to add you to the required permission group.
+  <div class="w-100 h-100 position-relative d-flex justify-content-center">
+    <img
+      class="w-100 h-100"
+      [src]="serverUrl() + EMPTY_IMAGE_URL"
+      alt="Image of a red dragon frame"
+    />
+    <div class="position-absolute frame-text">
+      <h4 class="mb-1">You have not yet been invited into any campaign.</h4>
+      <div>
+        Please inform your DM or the person within your group administrating the
+        webserver to add you to the required permission group.
+      </div>
     </div>
   </div>
-</div>
 </ng-template>

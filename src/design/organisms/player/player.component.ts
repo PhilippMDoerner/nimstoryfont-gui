@@ -14,6 +14,8 @@ type HotKey = 'Space' | 'Enter' | 'KeyM' | 'ArrowRight' | 'ArrowLeft';
   selector: 'app-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
+  standalone: true,
+  imports: [],
 })
 export class PlayerComponent implements OnInit, OnChanges {
   private SEEK_TIME = 5;

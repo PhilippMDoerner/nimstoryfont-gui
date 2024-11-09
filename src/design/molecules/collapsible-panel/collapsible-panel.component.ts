@@ -3,6 +3,8 @@ import {
   Component,
   effect,
   input,
+  OnInit,
+  signal,
 } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { IconComponent, SeparatorComponent } from 'src/design/atoms';
@@ -15,14 +17,19 @@ import { IconComponent, SeparatorComponent } from 'src/design/atoms';
   standalone: true,
   imports: [SeparatorComponent, IconComponent, NgbCollapse],
 })
-export class CollapsiblePanelComponent {
+export class CollapsiblePanelComponent implements OnInit {
   isOpen = input(false);
-  _isOpen = false;
+  _isOpen = signal(false);
 
   constructor() {
-    effect(() => (this._isOpen = this.isOpen()));
+    effect(() => this._isOpen.set(this.isOpen()), { allowSignalWrites: true });
   }
+
+  ngOnInit(): void {
+    this._isOpen.set(this.isOpen());
+  }
+
   togglePanel() {
-    this._isOpen = !this._isOpen;
+    this._isOpen.set(!this._isOpen());
   }
 }

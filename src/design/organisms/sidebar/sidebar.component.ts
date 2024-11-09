@@ -6,8 +6,10 @@ import {
   Output,
   Signal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Campaign } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { IconComponent } from 'src/design/atoms';
 import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 
@@ -15,6 +17,8 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
+  standalone: true,
+  imports: [RouterLink, IconComponent],
 })
 export class SidebarComponent {
   campaign = input<Campaign | undefined>(undefined);

@@ -1,7 +1,7 @@
 <div class="container list">
   @if (!isUpdatingGlobally()) {
     <!-- Insert new first Encounter -->
-    @if (state === "EDIT") {
+    @if (state() === "EDIT") {
       <div class="row">
         <div class="list__buttons buttons">
           @if (canCreate()) {
@@ -40,7 +40,7 @@
       @for (entryEncounter of diaryEntryEncounters(); track entryEncounter) {
         <!-- Encounter -->
         <div class="repeated-unit">
-          @switch (state) {
+          @switch (state()) {
             @case ("READ") {
               <ng-container
                 *ngTemplateOutlet="
@@ -62,7 +62,7 @@
           }
 
           <!-- Insert new Encounter -->
-          @if (state === "EDIT") {
+          @if (state() === "EDIT") {
             <div class="list__buttons buttons">
               @if (canCreate()) {
                 <app-button

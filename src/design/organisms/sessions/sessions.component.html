@@ -12,7 +12,11 @@
 
   <div class="row">
     @if (isCreatingSession()) {
-      <div class="list__session-card session-card" [@slideUpFromBottom]>
+      <div
+        id="potato"
+        class="list__session-card session-card"
+        [@slideUpFromBottom]
+      >
         <app-collapsible-panel [isOpen]="true">
           <span heading>
             {{ createSessionData().name }}

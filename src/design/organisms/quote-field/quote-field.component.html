@@ -36,7 +36,7 @@
     <!-- Heading -->
     <h5 class="form-card__heading">Updating Quote {{ quote?.pk }}</h5>
 
-    <ng-container *ngIf="canUpdate && state === 'UPDATE'">
+    @if (canUpdate && state === "UPDATE") {
       <app-form
         class="form-card__form"
         [model]="userModel"
@@ -45,9 +45,9 @@
         (formlySubmit)="onSubmit()"
         (formlyCancel)="onCancel()"
       ></app-form>
-    </ng-container>
+    }
 
-    <ng-container *ngIf="state === 'UPDATE_OUTDATED'">
+    @if (state === "UPDATE_OUTDATED") {
       <app-compare-form
         [fields]="formlyFields()"
         [modelFromUser]="userModel"
@@ -56,7 +56,7 @@
         (updateSubmit)="onSubmit()"
         (cancel)="changeState('DISPLAY', undefined)"
       ></app-compare-form>
-    </ng-container>
+    }
   </app-card>
 </ng-template>
 
@@ -92,13 +92,13 @@
       ></app-html-text>
 
       <div class="quote__description">
-        <ng-container *ngIf="quote?.description">
+        @if (quote?.description) {
           <app-html-text [text]="'- ' + quote?.description"></app-html-text>
-        </ng-container>
+        }
 
-        <ng-container *ngIf="!quote?.description">
+        @if (!quote?.description) {
           - {{ character.name }}
-        </ng-container>
+        }
       </div>
     </blockquote>
 

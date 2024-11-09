@@ -120,7 +120,7 @@
     [fields]="formlyFields"
     [cancelButtonType]="'DARK'"
     (formlySubmit)="onSubmit()"
-    (formlyCancel)="changeState('DISPLAY', undefined)"
+    (formlyCancel)="onCreateCancel()"
   ></app-form>
 </ng-template>
 

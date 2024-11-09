@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { Image } from 'src/app/_models/image';
 import { Location } from 'src/app/_models/location';
+import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry, ListEntry } from '../../molecules';
 
@@ -24,6 +25,7 @@ interface ParentLocation {
 })
 export class LocationTemplateComponent implements OnInit, OnChanges {
   location = input.required<Location>();
+  campaignCharacters = input.required<OverviewItem[]>();
   locationServerModel = input.required<Location | undefined>();
   serverUrl = input.required<string>();
   imageServerModel = input.required<Image | undefined>();

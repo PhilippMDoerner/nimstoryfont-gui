@@ -1,12 +1,23 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  input,
+  Output,
+} from '@angular/core';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Encounter, EncounterConnection } from '../../../app/_models/encounter';
+import { EncounterComponent } from '../encounter/encounter.component';
 
 @Component({
   selector: 'app-encounter-accordion',
   templateUrl: './encounter-accordion.component.html',
   styleUrls: ['./encounter-accordion.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [NgbAccordionModule, EncounterComponent],
 })
 export class EncounterAccordionComponent {
   encounters = input.required<(Encounter | CharacterEncounter)[]>();

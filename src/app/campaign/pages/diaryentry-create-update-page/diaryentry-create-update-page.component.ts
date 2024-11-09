@@ -142,7 +142,6 @@ export class DiaryentryCreateUpdatePageComponent {
               selectedAuthor: currentlySelectedAuthor$,
             }).pipe(
               map(({ options, selectedAuthor }) => {
-                console.log('Running');
                 return options.map(
                   (opt) =>
                     !this.canSelectedAuthorAddDiaryentry(

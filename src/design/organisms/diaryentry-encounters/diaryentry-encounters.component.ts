@@ -1,9 +1,10 @@
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
   EventEmitter,
   inject,
-  Input,
+  input,
   output,
   Output,
   signal,
@@ -17,6 +18,14 @@ import {
   priorOrderIndex,
 } from 'src/app/_models/encounter';
 import { DiaryentryPageStore } from 'src/app/campaign/pages/diaryentry-page/diaryentry-page.store';
+import {
+  ArrowButtonComponent,
+  ButtonComponent,
+  CardComponent,
+  HtmlTextComponent,
+  SpinnerComponent,
+} from 'src/design/atoms';
+import { EncounterComponent } from '../encounter/encounter.component';
 
 type ListState = 'READ' | 'EDIT';
 
@@ -24,6 +33,17 @@ type ListState = 'READ' | 'EDIT';
   selector: 'app-diaryentry-encounters',
   templateUrl: './diaryentry-encounters.component.html',
   styleUrls: ['./diaryentry-encounters.component.scss'],
+  standalone: true,
+  imports: [
+    ButtonComponent,
+    CardComponent,
+    HtmlTextComponent,
+    NgClass,
+    EncounterComponent,
+    ArrowButtonComponent,
+    SpinnerComponent,
+    NgTemplateOutlet,
+  ],
 })
 export class DiaryentryEncountersComponent {
   store = inject(DiaryentryPageStore);
@@ -35,7 +55,7 @@ export class DiaryentryEncountersComponent {
   canUpdate = this.store.hasWritePermission;
   canDelete = this.store.hasWritePermission;
   canCreate = this.store.hasWritePermission;
-  @Input() state: ListState = 'READ';
+  state = input<ListState>('READ');
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();

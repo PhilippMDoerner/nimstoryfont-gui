@@ -7,12 +7,17 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { Campaign } from 'src/app/_models/campaign';
+import { PageBackgroundComponent } from 'src/design/molecules';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
+  standalone: true,
+  imports: [SidebarComponent, PageBackgroundComponent, RouterOutlet],
 })
 export class PageComponent {
   @Input() serverUrl!: string;

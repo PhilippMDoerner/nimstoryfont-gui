@@ -1,6 +1,16 @@
-import { Component, input, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ButtonComponent } from 'src/design/atoms';
 import { Location } from '../../../app/_models/location';
+import { LocationComponent } from '../location/location.component';
 
 interface AccordiongEntry {
   value: Location;
@@ -11,30 +21,18 @@ interface AccordiongEntry {
   selector: 'app-location-accordion',
   templateUrl: './location-accordion.component.html',
   styleUrls: ['./location-accordion.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [ButtonComponent, RouterLink, NgbAccordionModule, LocationComponent],
 })
-export class LocationAccordionComponent implements OnInit, OnChanges {
-  @Input() locations!: Location[];
-  @Input() canCreate: boolean = false;
+export class LocationAccordionComponent {
+  locations = input.required<Location[]>();
+  campaignCharacters = input.required<OverviewItem[]>();
+  canCreate = input(false);
   campaignName = input.required<string>();
 
-  accordionEntries: AccordiongEntry[] = [];
-  createUrl!: string;
-
-  constructor(private routingService: RoutingService) {}
-
-  ngOnInit(): void {
-    this.setAccordionEntries();
-    this.createUrl = this.routingService.getRoutePath('location-create', {
-      campaign: this.campaignName(),
-    });
-  }
-
-  ngOnChanges(): void {
-    this.setAccordionEntries();
-  }
-
-  setAccordionEntries() {
-    this.accordionEntries = this.locations.map((loc) => {
+  accordionEntries = computed<AccordiongEntry[]>(() => {
+    return this.locations().map((loc) => {
       const parentLocationName = loc.parent_location_details?.name;
       const campaignName = loc.campaign_details?.name;
       const link = this.routingService.getRoutePath('location', {
@@ -48,5 +46,12 @@ export class LocationAccordionComponent implements OnInit, OnChanges {
         link,
       };
     });
-  }
+  });
+  createUrl = computed(() =>
+    this.routingService.getRoutePath('location-create', {
+      campaign: this.campaignName(),
+    }),
+  );
+
+  constructor(private routingService: RoutingService) {}
 }

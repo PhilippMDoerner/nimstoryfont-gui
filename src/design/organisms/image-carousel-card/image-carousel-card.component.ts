@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -9,7 +10,14 @@ import {
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
+import {
+  ButtonComponent,
+  IconComponent,
+  SpinnerComponent,
+} from 'src/design/atoms';
+import { FormComponent } from 'src/design/molecules';
 import { Image } from '../../../app/_models/image';
+import { ImageCarouselComponent } from '../image-carousel/image-carousel.component';
 
 type State = 'DISPLAY' | 'DELETE' | 'UPDATE' | 'UPDATE_OUTDATED' | 'CREATE';
 
@@ -17,6 +25,15 @@ type State = 'DISPLAY' | 'DELETE' | 'UPDATE' | 'UPDATE_OUTDATED' | 'CREATE';
   selector: 'app-image-carousel-card',
   templateUrl: './image-carousel-card.component.html',
   styleUrls: ['./image-carousel-card.component.scss'],
+  standalone: true,
+  imports: [
+    ImageCarouselComponent,
+    SpinnerComponent,
+    IconComponent,
+    FormComponent,
+    ButtonComponent,
+    NgTemplateOutlet,
+  ],
 })
 export class ImageCarouselCardComponent implements OnInit, OnChanges {
   @Input() images!: Image[];

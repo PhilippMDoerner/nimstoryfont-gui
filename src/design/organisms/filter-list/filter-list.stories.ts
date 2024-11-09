@@ -1,6 +1,5 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { MoleculesModule } from 'src/design/molecules';
 import { FilterListComponent } from './filter-list.component';
 
 const dummyEntries = [
@@ -117,12 +116,12 @@ export default {
   decorators: [
     moduleMetadata({
       declarations: [],
-      imports: [MoleculesModule, RouterTestingModule],
+      imports: [RouterTestingModule],
     }),
   ],
-} as Meta<FilterListComponent>;
+} as Meta<FilterListComponent<any>>;
 
-const Template: StoryFn<FilterListComponent> = (args) => ({
+const Template: StoryFn<FilterListComponent<any>> = (args) => ({
   props: {
     ...args,
   },

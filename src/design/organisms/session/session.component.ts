@@ -4,6 +4,7 @@ import {
   EventEmitter,
   input,
   OnInit,
+  output,
   Output,
   signal,
 } from '@angular/core';
@@ -35,6 +36,7 @@ export class SessionComponent implements OnInit {
   @Output() sessionDelete: EventEmitter<Session> = new EventEmitter();
   @Output() sessionCreate: EventEmitter<Session> = new EventEmitter();
   @Output() sessionUpdate: EventEmitter<Session> = new EventEmitter();
+  sessionCreateCancel = output<void>();
 
   state = signal<SessionState>('DISPLAY');
   sessionAudioUrl = computed(() =>
@@ -107,6 +109,11 @@ export class SessionComponent implements OnInit {
   onSessionDelete() {
     this.state.set('DISPLAY');
     this.sessionDelete.emit(this.session());
+  }
+
+  onCreateCancel() {
+    this.changeState('DISPLAY', undefined);
+    this.sessionCreateCancel.emit();
   }
 
   onSubmit() {

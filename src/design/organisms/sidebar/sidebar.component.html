@@ -1,4 +1,4 @@
-<ng-container *ngIf="campaign()">
+@if (campaign()) {
   <nav class="sidebar">
     <!-- Brand -->
     <div class="sidebar__brand brand">
@@ -28,7 +28,7 @@
 
     <ul class="sidebar__entries">
       <!-- Admin Section -->
-      <ng-container *ngIf="hasCampaignAdminPrivileges">
+      @if (hasCampaignAdminPrivileges()) {
         <li
           class="sidebar__entry entry"
           [class.disabled-entry]="campaign() == null"
@@ -38,7 +38,7 @@
             <span class="entry__text"> Campaign Admin </span>
           </a>
         </li>
-      </ng-container>
+      }
 
       <!-- Campaign Overview Entries -->
       @for (entry of sidebarEntries(); track $index) {
@@ -73,7 +73,7 @@
       </li>
     </ul>
   </nav>
-</ng-container>
+}
 
 <ng-template #nonCampaignBrand>
   <ul class="brand-line d-flex">

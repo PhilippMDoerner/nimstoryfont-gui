@@ -1,4 +1,4 @@
-<ng-container *ngIf="!isLoadingQuote(); else loading">
+@if (!isLoadingQuote()) {
   <div class="field">
     @let quoteVal = quote();
     @if (quoteVal) {
@@ -56,7 +56,7 @@
       }
     </div>
   </div>
-</ng-container>
+}
 
 <ng-template #loading>
   <app-spinner></app-spinner>

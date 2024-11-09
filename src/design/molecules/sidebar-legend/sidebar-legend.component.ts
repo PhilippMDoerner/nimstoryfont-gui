@@ -6,7 +6,7 @@ import {
   input,
   Output,
 } from '@angular/core';
-import { IconComponent } from 'src/design/atoms';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import {
   DEFAULT_SEARCH_PREFERENCES,
   SidebarOption,

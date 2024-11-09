@@ -13,7 +13,9 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { distinctUntilChanged, interval, map, startWith } from 'rxjs';
-import { ButtonComponent, ElementType, Icon } from '../../atoms';
+import { ElementType } from 'src/design/atoms/_models/button';
+import { Icon } from 'src/design/atoms/_models/icon';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
   selector: 'app-form',

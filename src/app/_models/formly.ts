@@ -1,7 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 import { FormlyTemplateOptions } from '@ngx-formly/core';
 import { Observable } from 'rxjs';
-import { ElementType } from '../../design/atoms';
+import { ElementType } from 'src/design/atoms/_models/button';
 
 export interface FormlyPasswordInterface {
   label?: string;

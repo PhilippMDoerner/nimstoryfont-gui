@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { PermissionGroup } from 'src/app/_models/auth';
 import { User } from 'src/app/_models/user';
-import { IconComponent } from 'src/design/atoms';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import {
   BadgeListComponent,
   BadgeListEntry,

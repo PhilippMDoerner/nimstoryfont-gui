@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
-import { PageComponent } from 'src/design/organisms';
+import { PageComponent } from 'src/design/organisms/page/page.component';
 import { ToastOverlayComponent } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { addTokenInterceptor } from './_interceptors/tokenInterceptor';
 import { FORMLY_MODULE } from './_modules/formly';

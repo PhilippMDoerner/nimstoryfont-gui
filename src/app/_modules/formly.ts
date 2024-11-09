@@ -1,10 +1,9 @@
 import { FormlyModule } from '@ngx-formly/core';
 import { FormlyFileFieldComponent } from '../../design/molecules';
-import {
-  FormlyDatepickerFieldComponent,
-  FormlyEditorFieldComponent,
-  FormlySelectDisableFieldComponent,
-} from '../../design/organisms';
+
+import { FormlyDatepickerFieldComponent } from 'src/design/organisms/formly-datepicker-field/formly-datepicker-field.component';
+import { FormlyEditorFieldComponent } from 'src/design/organisms/formly-editor-field/formly-editor-field.component';
+import { FormlySelectDisableFieldComponent } from 'src/design/organisms/formly-select-disable/formly-select-disable-field.component';
 import {
   dateMessage,
   dateValidator,

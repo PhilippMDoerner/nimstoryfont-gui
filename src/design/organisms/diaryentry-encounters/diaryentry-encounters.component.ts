@@ -18,13 +18,12 @@ import {
   priorOrderIndex,
 } from 'src/app/_models/encounter';
 import { DiaryentryPageStore } from 'src/app/campaign/pages/diaryentry-page/diaryentry-page.store';
-import {
-  ArrowButtonComponent,
-  ButtonComponent,
-  CardComponent,
-  HtmlTextComponent,
-  SpinnerComponent,
-} from 'src/design/atoms';
+
+import { ArrowButtonComponent } from 'src/design/atoms/arrow-button/arrow-button.component';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { CardComponent } from 'src/design/atoms/card/card.component';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
+import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
 import { EncounterComponent } from '../encounter/encounter.component';
 
 type ListState = 'READ' | 'EDIT';

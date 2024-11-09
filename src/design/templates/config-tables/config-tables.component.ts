@@ -1,3 +1,4 @@
+import { KeyValuePipe } from '@angular/common';
 import {
   Component,
   computed,
@@ -5,20 +6,19 @@ import {
   input,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { Icon } from 'src/design/atoms';
-import { ConfigTableData, ConfigTableKind } from '../_models/config-table';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { RouterLink } from '@angular/router';
+import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from '../../atoms/button/button.component';
+import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
-import { KeyValuePipe } from '@angular/common';
 import { ConfirmationToggleButtonComponent } from '../../molecules/confirmation-toggle-button/confirmation-toggle-button.component';
-import { CardComponent } from '../../atoms/card/card.component';
 import { FormComponent } from '../../molecules/form/form.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { ConfigTableData, ConfigTableKind } from '../_models/config-table';
 
 interface ConfigTable {
   name: string;
@@ -31,11 +31,11 @@ interface ConfigTable {
 }
 
 @Component({
-    selector: 'app-config-tables',
-    templateUrl: './config-tables.component.html',
-    styleUrls: ['./config-tables.component.scss'],
-    standalone: true,
-    imports: [
+  selector: 'app-config-tables',
+  templateUrl: './config-tables.component.html',
+  styleUrls: ['./config-tables.component.scss'],
+  standalone: true,
+  imports: [
     PageContainerComponent,
     RouterLink,
     ButtonComponent,
@@ -44,8 +44,8 @@ interface ConfigTable {
     ConfirmationToggleButtonComponent,
     CardComponent,
     FormComponent,
-    KeyValuePipe
-],
+    KeyValuePipe,
+  ],
 })
 export class ConfigTablesComponent {
   tableData = input.required<ConfigTableData>();

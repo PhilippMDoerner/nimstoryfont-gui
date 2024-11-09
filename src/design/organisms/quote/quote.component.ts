@@ -9,14 +9,13 @@ import {
 } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import {
-  ButtonComponent,
-  ElementType,
-  HtmlTextComponent,
-  Icon,
-  SeparatorComponent,
-  SpinnerComponent,
-} from 'src/design/atoms';
+
+import { ElementType } from 'src/design/atoms/_models/button';
+import { Icon } from 'src/design/atoms/_models/icon';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
+import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
+import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
 import { BadgeListComponent, BadgeListEntry } from 'src/design/molecules';
 import { copyToClipboard } from 'src/utils/clipboard';
 import { CharacterDetails } from '../../../app/_models/character';

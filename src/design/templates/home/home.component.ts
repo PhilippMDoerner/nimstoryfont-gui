@@ -9,27 +9,27 @@ import {
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { ArticleKind, OverviewItem } from 'src/app/_models/overview';
 import { ellipsize } from 'src/utils/string';
-import { Icon } from '../../atoms';
-import { IconCardEntry } from '../../organisms';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
+import { Icon } from 'src/design/atoms/_models/icon';
+import { IconCardEntry } from 'src/design/organisms/_model/icon-card-list';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
+import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-list.component';
-import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss'],
-    standalone: true,
-    imports: [
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  standalone: true,
+  imports: [
     PageContainerComponent,
     HtmlTextComponent,
     SearchFieldComponent,
     IconCardListComponent,
-    SpinnerComponent
-],
+    SpinnerComponent,
+  ],
 })
 export class HomeComponent implements OnChanges {
   PAGE_BOTTOM_MIN_DISTANCE_FOR_PAGE_LOAD = 400;
@@ -69,7 +69,7 @@ export class HomeComponent implements OnChanges {
       return;
     }
     this.articleEntries = this.articles.map((article) =>
-      this.toIconCardEntry(article)
+      this.toIconCardEntry(article),
     );
   }
 

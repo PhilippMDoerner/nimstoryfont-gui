@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ButtonComponent } from 'src/design/atoms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
   selector: 'app-search-field',

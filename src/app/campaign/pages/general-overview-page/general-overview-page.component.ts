@@ -11,8 +11,8 @@ import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
 import { BaseService } from 'src/app/_services/base.service';
 import { GlobalStore } from 'src/app/global.store';
-import { GeneralOverviewComponent } from 'src/design/templates';
 import { GeneralOverviewType } from 'src/design/templates/_models/generalOverviewType';
+import { GeneralOverviewComponent } from 'src/design/templates/general-overview/general-overview.component';
 import { environment } from 'src/environments/environment';
 import { filterNil } from 'src/utils/rxjs-operators';
 

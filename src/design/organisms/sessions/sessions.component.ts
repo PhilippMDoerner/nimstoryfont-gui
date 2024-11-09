@@ -12,7 +12,10 @@ import {
   slideOutFromBottom,
   slideUpFromBottom,
 } from 'src/design/animations/slideDown';
-import { OrganismsModule } from '../organisms.module';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
+import { CollapsiblePanelComponent } from 'src/design/molecules';
+import { SessionComponent } from '../session/session.component';
 
 interface SessionCard {
   session: Session;
@@ -22,7 +25,12 @@ interface SessionCard {
 @Component({
   selector: 'app-sessions',
   standalone: true,
-  imports: [OrganismsModule],
+  imports: [
+    ButtonComponent,
+    CollapsiblePanelComponent,
+    SessionComponent,
+    SpinnerComponent,
+  ],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

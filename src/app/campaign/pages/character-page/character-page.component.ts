@@ -8,7 +8,7 @@ import { Image } from 'src/app/_models/image';
 import { Quote, QuoteConnection } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
-import { CharacterComponent } from 'src/design/templates';
+import { CharacterComponent } from 'src/design/templates/character/character.component';
 import { environment } from 'src/environments/environment';
 import { CharacterStore } from './character-page.store';
 

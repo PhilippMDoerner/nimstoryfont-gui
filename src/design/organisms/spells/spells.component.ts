@@ -17,11 +17,10 @@ import {
   slideOutFromBottom,
   slideUpFromBottom,
 } from 'src/design/animations/slideDown';
-import {
-  BadgeComponent,
-  ButtonComponent,
-  SpinnerComponent,
-} from 'src/design/atoms';
+
+import { BadgeComponent } from 'src/design/atoms/badge/badge.component';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
 import {
   BadgeListEntry,
   CollapsiblePanelComponent,

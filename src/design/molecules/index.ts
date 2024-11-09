@@ -1,7 +1,10 @@
-export { BadgeListEntry, BadgeListSelectOptions } from "./_models/badge-list";
-export { ListEntry } from "./_models/list";
-export { DEFAULT_SEARCH_PREFERENCES, SidebarOption } from "./_models/search-preferences";
-export { ToggleState } from "./_models/toggle";
+export { BadgeListEntry, BadgeListSelectOptions } from './_models/badge-list';
+export { ListEntry } from './_models/list';
+export {
+  DEFAULT_SEARCH_PREFERENCES,
+  SidebarOption,
+} from './_models/search-preferences';
+export { ToggleState } from './_models/toggle';
 export { ArticleFooterComponent } from './article-footer/article-footer.component';
 export { BadgeListComponent } from './badge-list/badge-list.component';
 export { ChoiceSelectComponent } from './choice-select/choice-select.component';
@@ -15,9 +18,7 @@ export { FormlyFileFieldComponent } from './formly-file-field/formly-file-field.
 export { IconCardComponent } from './icon-card/icon-card.component';
 export { ImageCardComponent } from './image-card/image-card.component';
 export { ListComponent } from './list/list.component';
-export { MoleculesModule } from "./molecules.module";
 export { PageBackgroundComponent } from './page-background/page-background.component';
 export { SearchFieldComponent } from './search-field/search-field.component';
 export { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';
 export { SmallCreateFormComponent } from './small-create-form/small-create-form.component';
-

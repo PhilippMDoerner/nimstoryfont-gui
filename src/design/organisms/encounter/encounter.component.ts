@@ -16,7 +16,8 @@ import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { HtmlTextComponent, SeparatorComponent } from 'src/design/atoms';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
+import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 import {
   BadgeListComponent,
   BadgeListEntry,

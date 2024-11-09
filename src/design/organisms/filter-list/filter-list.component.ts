@@ -7,8 +7,10 @@ import {
   signal,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { GroupByFirstLetterPipe } from 'src/design/atoms';
-import { GroupByPipe } from 'src/design/atoms/_pipes/groupObjects';
+import {
+  GroupByFirstLetterPipe,
+  GroupByPipe,
+} from 'src/design/atoms/_pipes/groupObjects';
 import { FilterListEntry } from '../_model/filterListEntry';
 
 type GroupMode = 'PROPERTY' | 'LETTER';

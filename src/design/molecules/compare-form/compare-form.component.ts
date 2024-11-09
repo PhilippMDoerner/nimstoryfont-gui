@@ -7,13 +7,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import {
-  AlertComponent,
-  IconComponent,
-  SeparatorComponent,
-} from 'src/design/atoms';
+import { AlertComponent } from 'src/design/atoms/alert/alert.component';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
+import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 import { FormComponent } from '../form/form.component';
-
 @Component({
   selector: 'app-compare-form',
   templateUrl: './compare-form.component.html',

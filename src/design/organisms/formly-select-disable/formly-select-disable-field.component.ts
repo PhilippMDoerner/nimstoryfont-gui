@@ -9,7 +9,7 @@ import {
 } from '@ngx-formly/core';
 import { Observable, combineLatest, map } from 'rxjs';
 import { DisabledFunction } from 'src/app/_models/formly';
-import { InfoCircleTooltipComponent } from 'src/design/atoms';
+import { InfoCircleTooltipComponent } from 'src/design/atoms/info-circle-tooltip/info-circle-tooltip.component';
 
 interface CanDisableOption {
   enabled: boolean;

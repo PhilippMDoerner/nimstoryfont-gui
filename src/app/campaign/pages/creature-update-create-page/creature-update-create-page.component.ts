@@ -11,8 +11,8 @@ import { Creature, CreatureRaw } from 'src/app/_models/creature';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
-import { CreateUpdateComponent } from 'src/design/templates';
 import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
+import { CreateUpdateComponent } from 'src/design/templates/create-update/create-update.component';
 import { CreatureUpdateCreateStore } from './creature-update-create-page.store';
 
 @Component({

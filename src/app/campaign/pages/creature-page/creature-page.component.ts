@@ -7,7 +7,7 @@ import {
 import { Creature } from 'src/app/_models/creature';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
-import { CreatureComponent } from 'src/design/templates';
+import { CreatureComponent } from 'src/design/templates/creature/creature.component';
 import { environment } from 'src/environments/environment';
 import { CreaturePageStore } from './creature-page.store';
 

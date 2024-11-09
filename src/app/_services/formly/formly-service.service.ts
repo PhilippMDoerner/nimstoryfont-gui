@@ -14,7 +14,7 @@ import {
   FormlyCustomStringSelectConfig as FormlyStaticStringSelectConfig,
   StaticOption,
 } from 'src/app/_models/formly';
-import { FormlySelectDisableFieldComponent } from 'src/design/organisms';
+import { FormlySelectDisableFieldComponent } from 'src/design/organisms/formly-select-disable/formly-select-disable-field.component';
 import { capitalize } from 'src/utils/string';
 
 @Injectable({

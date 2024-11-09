@@ -8,7 +8,7 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { ButtonComponent } from 'src/design/atoms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { LinkEntry } from '../_models/link-entry';
 type State = 'DISPLAY' | 'DELETE';
 

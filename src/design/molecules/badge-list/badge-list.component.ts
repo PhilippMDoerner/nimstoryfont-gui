@@ -8,11 +8,10 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import {
-  BadgeComponent,
-  ElementType,
-  InteractiveBadgeComponent,
-} from '../../atoms';
+
+import { ElementType } from 'src/design/atoms/_models/button';
+import { BadgeComponent } from 'src/design/atoms/badge/badge.component';
+import { InteractiveBadgeComponent } from 'src/design/atoms/interactive-badge/interactive-badge.component';
 import { BadgeListEntry, BadgeListSelectOptions } from '../_models/badge-list';
 import { SmallCreateFormComponent } from '../small-create-form/small-create-form.component';
 

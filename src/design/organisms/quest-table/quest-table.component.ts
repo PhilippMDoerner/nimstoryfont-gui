@@ -3,7 +3,8 @@ import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { OverviewItem } from 'src/app/_models/overview';
-import { Icon, IconComponent } from 'src/design/atoms';
+import { Icon } from 'src/design/atoms/_models/icon';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
 
 type DisplayState =
   | 'Default'

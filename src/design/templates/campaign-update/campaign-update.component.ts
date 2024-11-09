@@ -1,18 +1,15 @@
-import { JsonPipe } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Campaign } from 'src/app/_models/campaign';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { AtomsModule } from 'src/design/atoms';
-import { OrganismsModule } from 'src/design/organisms';
 import { CreateUpdateState } from '../_models/create-update-states';
-import { TemplatesModule } from '../templates.module';
+import { CreateUpdateComponent } from '../create-update/create-update.component';
 
 @Component({
   selector: 'app-campaign-update',
   standalone: true,
-  imports: [AtomsModule, OrganismsModule, TemplatesModule, JsonPipe],
+  imports: [CreateUpdateComponent],
   templateUrl: './campaign-update.component.html',
   styleUrl: './campaign-update.component.scss',
 })

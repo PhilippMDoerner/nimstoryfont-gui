@@ -10,7 +10,7 @@ import {
 import { RouterLink } from '@angular/router';
 import { Campaign } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { IconComponent } from 'src/design/atoms';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 

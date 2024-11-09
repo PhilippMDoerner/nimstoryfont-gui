@@ -14,11 +14,10 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import {
-  ButtonComponent,
-  CardComponent,
-  HtmlTextComponent,
-} from 'src/design/atoms';
+
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { CardComponent } from 'src/design/atoms/card/card.component';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
 import {
   BadgeListEntry,
   CompareFormComponent,

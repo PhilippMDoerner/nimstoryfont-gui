@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
-import { ButtonComponent } from 'src/design/atoms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { Image } from '../../../app/_models/image';
 
 @Component({

@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ElementSize, ElementType, Icon } from 'src/design/atoms';
+import { ElementSize, ElementType } from 'src/design/atoms/_models/button';
+import { Icon } from 'src/design/atoms/_models/icon';
 import { copyToClipboard } from 'src/utils/clipboard';
 import { capitalize } from 'src/utils/string';
 

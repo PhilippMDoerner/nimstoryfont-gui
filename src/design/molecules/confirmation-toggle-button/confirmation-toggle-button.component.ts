@@ -10,7 +10,9 @@ import {
   ViewChild,
 } from '@angular/core';
 import { animateElement } from 'src/app/_functions/animate';
-import { ButtonComponent, ElementSize, ElementType, Icon } from '../../atoms';
+import { ElementSize, ElementType } from 'src/design/atoms/_models/button';
+import { Icon } from 'src/design/atoms/_models/icon';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
   selector: 'app-confirmation-toggle-button',

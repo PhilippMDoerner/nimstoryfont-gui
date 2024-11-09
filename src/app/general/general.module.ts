@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { TemplatesModule } from 'src/design/templates/templates.module';
 import { CampaignOverviewPageComponent } from '../campaign';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { LoginPageStore } from './pages/login-page/login-page.store';
@@ -8,9 +7,12 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { ProfilePageStore } from './pages/profile-page/profile-page.store';
 
 @NgModule({
-    imports: [CommonModule, TemplatesModule, LoginPageComponent,
-        ProfilePageComponent,
-        CampaignOverviewPageComponent],
-    providers: [LoginPageStore, ProfilePageStore],
+  imports: [
+    CommonModule,
+    LoginPageComponent,
+    ProfilePageComponent,
+    CampaignOverviewPageComponent,
+  ],
+  providers: [LoginPageStore, ProfilePageStore],
 })
 export class GeneralModule {}

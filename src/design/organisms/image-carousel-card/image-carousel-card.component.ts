@@ -10,11 +10,10 @@ import {
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import {
-  ButtonComponent,
-  IconComponent,
-  SpinnerComponent,
-} from 'src/design/atoms';
+
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
+import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
 import { FormComponent } from 'src/design/molecules';
 import { Image } from '../../../app/_models/image';
 import { ImageCarouselComponent } from '../image-carousel/image-carousel.component';

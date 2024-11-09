@@ -7,7 +7,8 @@ import {
 } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { HtmlTextComponent, SeparatorComponent } from 'src/design/atoms';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
+import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 import { BadgeListComponent, BadgeListEntry } from 'src/design/molecules';
 import { Location, LocationCharacter } from '../../../app/_models/location';
 

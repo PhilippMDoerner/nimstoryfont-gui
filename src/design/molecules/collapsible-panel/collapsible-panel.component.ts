@@ -7,7 +7,8 @@ import {
   signal,
 } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { IconComponent, SeparatorComponent } from 'src/design/atoms';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
+import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 
 @Component({
   selector: 'app-collapsible-panel',

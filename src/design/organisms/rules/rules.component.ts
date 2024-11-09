@@ -12,7 +12,8 @@ import {
   slideOutFromBottom,
   slideUpFromBottom,
 } from 'src/design/animations/slideDown';
-import { ButtonComponent, SpinnerComponent } from 'src/design/atoms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
 import { CollapsiblePanelComponent } from 'src/design/molecules';
 import { RuleComponent } from '../rule/rule.component';
 

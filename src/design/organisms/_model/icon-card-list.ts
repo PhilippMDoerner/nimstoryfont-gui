@@ -1,7 +1,7 @@
-import { ArticleKind } from "src/app/_models/overview";
-import { Icon } from "../../atoms";
+import { ArticleKind } from 'src/app/_models/overview';
+import { Icon } from 'src/design/atoms/_models/icon';
 
-export interface IconCardEntry{
+export interface IconCardEntry {
   entryType: ArticleKind;
   icon: Icon;
   link: string;

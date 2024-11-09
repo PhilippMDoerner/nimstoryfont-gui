@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GlobalStore } from 'src/app/global.store';
-import { DiaryentryComponent } from 'src/design/templates';
+import { DiaryentryComponent } from 'src/design/templates/diaryentry/diaryentry.component';
 import { DiaryentryPageStore } from './diaryentry-page.store';
 
 @Component({

@@ -6,7 +6,8 @@ import {
   input,
   Output,
 } from '@angular/core';
-import { ButtonComponent, ElementType } from '../../atoms';
+import { ElementType } from 'src/design/atoms/_models/button';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
   selector: 'app-edit-toggle',

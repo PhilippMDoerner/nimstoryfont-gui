@@ -19,19 +19,18 @@ import { CampaignRole } from 'src/app/_models/token';
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import {
-  ButtonComponent,
-  CardComponent,
-  HtmlTextComponent,
-  IconComponent,
-  InfoCircleTooltipComponent,
-} from 'src/design/atoms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { CardComponent } from 'src/design/atoms/card/card.component';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
+import { InfoCircleTooltipComponent } from 'src/design/atoms/info-circle-tooltip/info-circle-tooltip.component';
+
 import {
   ArticleFooterComponent,
   ConfirmationToggleButtonComponent,
   FormComponent,
 } from 'src/design/molecules';
-import { PageContainerComponent } from 'src/design/organisms';
+import { PageContainerComponent } from 'src/design/organisms/page-container/page-container.component';
 
 @Component({
   selector: 'app-campaign-admin',

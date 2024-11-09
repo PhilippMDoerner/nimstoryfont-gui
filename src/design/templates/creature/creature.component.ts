@@ -6,18 +6,29 @@ import {
   output,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Creature } from 'src/app/_models/creature';
 import { Image } from 'src/app/_models/image';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { OrganismsModule } from 'src/design/organisms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { ArticleFooterComponent } from 'src/design/molecules';
 import { EditableTextComponent } from 'src/design/organisms/editable-text/editable-text.component';
+import { ImageCarouselCardComponent } from 'src/design/organisms/image-carousel-card/image-carousel-card.component';
+import { PageContainerComponent } from 'src/design/organisms/page-container/page-container.component';
 
 @Component({
   selector: 'app-creature',
   templateUrl: './creature.component.html',
   styleUrls: ['./creature.component.scss'],
   standalone: true,
-  imports: [OrganismsModule, EditableTextComponent],
+  imports: [
+    EditableTextComponent,
+    PageContainerComponent,
+    ButtonComponent,
+    RouterLink,
+    ImageCarouselCardComponent,
+    ArticleFooterComponent,
+  ],
 })
 export class CreatureComponent {
   creature = input.required<Creature>();

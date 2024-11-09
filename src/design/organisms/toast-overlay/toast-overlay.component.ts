@@ -10,8 +10,9 @@ import {
 import { NgbToast, NgbToastHeader } from '@ng-bootstrap/ng-bootstrap';
 import { ToastConfig } from 'src/app/_models/toast';
 import { slideRight } from 'src/design/animations/slideDown';
-import { Icon } from 'src/design/atoms';
-import { AtomsModule } from '../../atoms/atoms.module';
+import { Icon } from 'src/design/atoms/_models/icon';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
@@ -36,7 +37,14 @@ export class ToastService {
 @Component({
   selector: 'app-toast-overlay',
   standalone: true,
-  imports: [NgbToast, NgbToastHeader, AtomsModule, NgTemplateOutlet, NgStyle],
+  imports: [
+    NgbToast,
+    NgbToastHeader,
+    ButtonComponent,
+    IconComponent,
+    NgTemplateOutlet,
+    NgStyle,
+  ],
   animations: [slideRight],
   templateUrl: './toast-overlay.component.html',
   styleUrl: './toast-overlay.component.scss',

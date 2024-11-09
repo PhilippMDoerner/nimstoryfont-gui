@@ -1,6 +1,6 @@
 import { Component, EventEmitter, input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ButtonComponent } from 'src/design/atoms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { ListEntry } from '../_models/list';
 
 @Component({

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
-import { MapComponent } from 'src/design/templates';
+import { MapComponent } from 'src/design/templates/map/map.component';
 import { environment } from 'src/environments/environment';
 import { MapPageStore } from './map-page.store';
 

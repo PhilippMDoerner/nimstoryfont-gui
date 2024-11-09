@@ -10,8 +10,8 @@ import { filter, skip, take } from 'rxjs';
 import { CharacterDetails, CharacterRaw } from 'src/app/_models/character';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
-import { CharacterCreateUpdateComponent } from 'src/design/templates';
 import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
+import { CharacterCreateUpdateComponent } from 'src/design/templates/character-create-update/character-create-update.component';
 import { CharacterCreateUpdateStore } from './character-create-update-page.store';
 
 @Component({

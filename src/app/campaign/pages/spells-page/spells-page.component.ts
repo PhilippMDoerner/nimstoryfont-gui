@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GlobalStore } from 'src/app/global.store';
-import { SpellsTemplateComponent } from 'src/design/templates';
+import { SpellsTemplateComponent } from 'src/design/templates/spells-template/spells-template.component';
 import { SpellsPageStore } from './spells-page.store';
 
 @Component({

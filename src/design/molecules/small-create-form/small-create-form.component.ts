@@ -8,7 +8,9 @@ import {
   signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BadgeComponent, ButtonComponent, ElementType } from '../../atoms';
+import { ElementType } from 'src/design/atoms/_models/button';
+import { BadgeComponent } from 'src/design/atoms/badge/badge.component';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 type State = 'DISPLAY' | 'CREATE';
 export type DisableableOption<T> = { value: T; disabled: boolean };

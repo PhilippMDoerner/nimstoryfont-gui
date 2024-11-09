@@ -4,7 +4,7 @@ import { filter, take } from 'rxjs';
 import { Location } from 'src/app/_models/location';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
-import { LocationTemplateComponent } from 'src/design/templates';
+import { LocationTemplateComponent } from 'src/design/templates/location-template/location-template.component';
 import { environment } from 'src/environments/environment';
 import { LocationPageStore } from './location-page.store';
 

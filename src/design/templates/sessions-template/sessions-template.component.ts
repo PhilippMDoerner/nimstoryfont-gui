@@ -7,15 +7,22 @@ import {
   input,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Session, SessionRaw } from 'src/app/_models/session';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { OrganismsModule } from 'src/design/organisms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { PageContainerComponent } from 'src/design/organisms/page-container/page-container.component';
 import { SessionsComponent } from 'src/design/organisms/sessions/sessions.component';
 
 @Component({
   selector: 'app-sessions-template',
   standalone: true,
-  imports: [SessionsComponent, OrganismsModule],
+  imports: [
+    SessionsComponent,
+    PageContainerComponent,
+    ButtonComponent,
+    RouterLink,
+  ],
   templateUrl: './sessions-template.component.html',
   styleUrl: './sessions-template.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

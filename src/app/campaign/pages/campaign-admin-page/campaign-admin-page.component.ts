@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { CampaignAdminComponent } from 'src/design/templates';
+import { CampaignAdminComponent } from 'src/design/templates/campaign-admin/campaign-admin.component';
 import { environment } from 'src/environments/environment';
 import { CampaignAdminPageStore } from './campaign-admin-page.store';
 

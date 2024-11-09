@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GlobalStore } from 'src/app/global.store';
-import { RulesTemplateComponent } from 'src/design/templates';
+import { RulesTemplateComponent } from 'src/design/templates/rules-template/rules-template.component';
 import { RulesPageStore } from './rules-page.store';
 
 @Component({

@@ -7,7 +7,9 @@ import {
   Output,
 } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ButtonComponent, ElementType, Icon } from '../../atoms';
+import { ElementType } from 'src/design/atoms/_models/button';
+import { Icon } from 'src/design/atoms/_models/icon';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
   selector: 'app-confirmation-modal',

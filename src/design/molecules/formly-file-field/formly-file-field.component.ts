@@ -3,7 +3,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import { FileFieldKind } from 'src/app/_models/formly';
-import { ButtonComponent, ElementType } from '../../atoms';
+import { ElementType } from 'src/design/atoms/_models/button';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 // WARNING: DO NOT USE IN FORMS THAT UPDATE
 // THIS FIELD DOES NOT TOLERATE RECEIVING EXISTING VALUES

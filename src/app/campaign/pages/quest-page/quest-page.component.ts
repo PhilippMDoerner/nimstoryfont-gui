@@ -9,7 +9,7 @@ import { filter, take } from 'rxjs';
 import { Quest } from 'src/app/_models/quest';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
-import { QuestComponent } from 'src/design/templates';
+import { QuestComponent } from 'src/design/templates/quest/quest.component';
 import { QuestPageStore } from './quest-page.store';
 
 @Component({

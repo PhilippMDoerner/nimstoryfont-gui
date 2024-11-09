@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GlobalStore } from 'src/app/global.store';
-import { QuestOverviewComponent } from 'src/design/templates';
+import { QuestOverviewComponent } from 'src/design/templates/quest-overview/quest-overview.component';
 import { QuestOverviewPageStore } from './quests-overview-page.store';
 
 @Component({

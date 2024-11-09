@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { GlobalStore } from 'src/app/global.store';
-import { OrganizationComponent } from 'src/design/templates';
+import { OrganizationComponent } from 'src/design/templates/organization/organization.component';
 import { environment } from 'src/environments/environment';
 import { OrganizationStore } from './organization-page.store';
 

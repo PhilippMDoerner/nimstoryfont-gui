@@ -15,7 +15,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Session, SessionDiaryEntry } from 'src/app/_models/session';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { IconComponent } from 'src/design/atoms';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import {
   CompareFormComponent,
   ConfirmationToggleButtonComponent,

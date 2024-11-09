@@ -10,8 +10,9 @@ import {
 import { RouterLink } from '@angular/router';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent, SpinnerComponent } from 'src/design/atoms';
-import { ImageGridComponent } from 'src/design/organisms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
+import { ImageGridComponent } from 'src/design/organisms/image-grid/image-grid.component';
 
 @Component({
   selector: 'app-campaign-overview',

@@ -10,15 +10,31 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { EditorComponent } from '@tinymce/tinymce-angular';
+
+import { AlertComponent } from 'src/design/atoms/alert/alert.component';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
+import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 import { TINYMCE_SETTINGS } from '../formly-editor-field/formly-editor-field.constants';
-import { OrganismsModule } from '../organisms.module';
 
 type State = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
 
 @Component({
   selector: 'app-editable-text',
   standalone: true,
-  imports: [OrganismsModule, NgTemplateOutlet],
+  imports: [
+    NgTemplateOutlet,
+    HtmlTextComponent,
+    IconComponent,
+    EditorComponent,
+    FormsModule,
+    AlertComponent,
+    SeparatorComponent,
+    ButtonComponent,
+  ],
   templateUrl: './editable-text.component.html',
   styleUrl: './editable-text.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

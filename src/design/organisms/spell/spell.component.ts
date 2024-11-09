@@ -12,6 +12,9 @@ import {
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
+import { ElementType } from 'src/design/atoms/_models/button';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
+import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 import {
   BadgeListComponent,
   BadgeListEntry,
@@ -31,11 +34,6 @@ import {
   SPELL_SCHOOLS,
   SpellPlayerClassConnection,
 } from '../../../app/_models/spell';
-import {
-  ElementType,
-  HtmlTextComponent,
-  SeparatorComponent,
-} from '../../atoms';
 
 type SpellState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
 

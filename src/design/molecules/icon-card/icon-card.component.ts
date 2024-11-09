@@ -1,6 +1,7 @@
 import { DatePipe, TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { Icon, IconComponent } from '../../atoms';
+import { Icon } from 'src/design/atoms/_models/icon';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
 
 @Component({
   selector: 'app-icon-card',

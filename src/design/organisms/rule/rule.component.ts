@@ -9,6 +9,8 @@ import {
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
+import { ElementType } from 'src/design/atoms/_models/button';
+import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
 import {
   CompareFormComponent,
   ConfirmationToggleButtonComponent,
@@ -16,7 +18,6 @@ import {
   FormComponent,
 } from 'src/design/molecules';
 import { Rule, RuleRaw } from '../../../app/_models/rule';
-import { ElementType, HtmlTextComponent } from '../../atoms';
 
 type RuleState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
 

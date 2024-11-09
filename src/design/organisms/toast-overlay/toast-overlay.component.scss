@@ -1,0 +1,40 @@
+.toast {
+  position: fixed;
+  bottom: 10%;
+  right: 10%;
+
+  &__heading {
+    flex: 1;
+  }
+
+  &__body {
+  }
+}
+
+.heading {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: var(--spacer-1);
+  font-weight: bold;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+
+  &--warning,
+  &--success,
+  &--info,
+  &--light {
+    color: var(--bs-black);
+  }
+
+  &--secondary,
+  &--dark {
+    color: var(--bs-white);
+  }
+
+  &__text {
+  }
+}

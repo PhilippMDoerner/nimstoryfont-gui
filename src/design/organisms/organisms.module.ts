@@ -32,6 +32,7 @@ import { SessionaudioPlayerComponent } from './sessionaudio-player/sessionaudio-
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { SpellComponent } from './spell/spell.component';
 import { SpellsComponent } from './spells/spells.component';
+import { ToastOverlayComponent } from './toast-overlay/toast-overlay.component';
 import { UserRowComponent } from './user-row/user-row.component';
 
 @NgModule({
@@ -67,7 +68,13 @@ import { UserRowComponent } from './user-row/user-row.component';
     SessionaudioCardComponent,
     UserRowComponent,
   ],
-  imports: [CommonModule, FormlyModule, MoleculesModule, LeafletModule],
+  imports: [
+    CommonModule,
+    FormlyModule,
+    MoleculesModule,
+    LeafletModule,
+    ToastOverlayComponent,
+  ],
   exports: [
     FilterListComponent,
     FormlyDatepickerFieldComponent,
@@ -100,6 +107,7 @@ import { UserRowComponent } from './user-row/user-row.component';
     SessionComponent,
     SessionaudioCardComponent,
     UserRowComponent,
+    ToastOverlayComponent,
   ],
 })
 export class OrganismsModule {}

@@ -17,7 +17,7 @@ type IconType = 'SOLID' | 'REGULAR';
 export class IconComponent {
   icon = input.required<Icon>();
   iconType = computed<IconType>(() => {
-    const isSolidIcon = ALL_SOLID_ICONS.includes(this.icon());
+    const isSolidIcon = ALL_SOLID_ICONS.includes(this.icon() as any);
     return isSolidIcon ? 'SOLID' : 'REGULAR';
   });
 }

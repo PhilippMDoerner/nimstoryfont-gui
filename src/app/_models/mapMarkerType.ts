@@ -1,7 +1,9 @@
+import { Icon } from 'src/design/atoms';
+
 export interface MapMarkerTypeRaw {
   name: string;
   is_text_marker: boolean;
-  icon: string;
+  icon: Icon;
   color: string;
   fontawesome_type: 'fas' | 'fa';
 }
@@ -9,7 +11,7 @@ export interface MapMarkerTypeRaw {
 export interface MapMarkerType {
   name: string;
   is_text_marker: boolean;
-  icon: string;
+  icon: Icon;
   color: string;
   id: number;
   fontawesome_type: 'fas' | 'fa';

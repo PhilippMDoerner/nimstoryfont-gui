@@ -31,3 +31,21 @@ export const slideUpFromBottom = trigger('slideUpFromBottom', [
 export const slideOutFromBottom = trigger('slideOutFromBottom', [
   transition(':leave', [activeStyle, animate('500ms', inactiveStyle)]),
 ]);
+
+const inactiveSlideRightStyle = style({
+  transform: 'translateX(100%)',
+});
+const activeSlideRightStyle = style({
+  transform: 'translateX(0%)',
+});
+
+export const slideRight = trigger('slideRight', [
+  transition(':enter', [
+    inactiveSlideRightStyle,
+    animate('500ms', activeSlideRightStyle),
+  ]),
+  transition(':leave', [
+    activeSlideRightStyle,
+    animate('500ms', inactiveSlideRightStyle),
+  ]),
+]);

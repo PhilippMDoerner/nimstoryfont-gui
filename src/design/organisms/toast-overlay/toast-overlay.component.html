@@ -1,0 +1,38 @@
+@let toast = currentToast();
+
+@if (toast) {
+  <ngb-toast
+    [@slideRight]
+    class="toast bg-{{ toast.type.toLowerCase() }}"
+    [autohide]="!!toast.dismissMs && toast.dismissMs > 0"
+    (hidden)="dismissCurrentToast()"
+    (shown)="toast.onShow ? toast.onShow() : undefined"
+  >
+    <ng-template ngbToastHeader>
+      <header class="toast__heading heading">
+        @let headerIcon = icon();
+        @if (headerIcon) {
+          <app-icon class="heading__icon" [icon]="headerIcon"></app-icon>
+        }
+        {{ toast.header.text }}
+      </header>
+    </ng-template>
+
+    <div class="toast__body body body--{{ toast.type.toLowerCase() }}">
+      <span class="body__text">
+        {{ toast.body.text }}
+      </span>
+
+      @let buttonConfigs = toast.body.buttons;
+      @for (buttonConfig of buttonConfigs; track $index) {
+        <app-button
+          [text]="buttonConfig.label"
+          [icon]="buttonConfig.icon"
+          [size]="buttonConfig.size ?? 'SMALL'"
+          [type]="buttonConfig.type ?? 'PRIMARY'"
+          (click)="buttonConfig.onClick(dismissCurrentToast.bind(this))"
+        ></app-button>
+      }
+    </div>
+  </ngb-toast>
+}

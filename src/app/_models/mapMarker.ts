@@ -1,3 +1,4 @@
+import { Icon } from 'src/design/atoms';
 import { ApiObject } from './article';
 import { MapMarkerType } from './mapMarkerType';
 
@@ -12,7 +13,7 @@ export interface MapMarkerRaw {
 
 export interface MapMarker extends ApiObject {
   color?: string;
-  icon?: string;
+  icon?: Icon;
   latitude: number;
   longitude: number;
   map: number;

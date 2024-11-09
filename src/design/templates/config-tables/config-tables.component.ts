@@ -8,13 +8,14 @@ import {
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { Icon } from 'src/design/atoms';
 import { ConfigTableData, ConfigTableKind } from '../_models/config-table';
 
 interface ConfigTable {
   name: string;
   kind: ConfigTableKind;
   entries?: any[];
-  icon: string;
+  icon: Icon;
   model: unknown;
   formFields: FormlyFieldConfig[];
   showForm: boolean;

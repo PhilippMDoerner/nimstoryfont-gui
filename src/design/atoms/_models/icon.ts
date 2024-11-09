@@ -36,7 +36,7 @@ export const ALL_REGULAR_ICONS = [
   'chevron-right',
   'hammer',
   'upload',
-]
+] as const;
 
 type typedRegularIcons = typeof ALL_REGULAR_ICONS;
 export type RegularIcon = typedRegularIcons[number]; // this compiles to 'comments' | 'magic'...
@@ -47,23 +47,37 @@ export const ALL_SOLID_ICONS = [
   'compass',
   'sitemap',
   'question-circle',
+  'file-import',
   'hand-sparkles',
   'calendar-alt',
   'globe-americas',
   'dragon',
   'sign-out-alt',
   'user-cog',
+  'pen',
   'desktop',
+  'hourglass-half',
   'download',
   'redo-alt',
   'cog',
   'cut',
+  'info',
   'file',
+  'circle-exclamation',
+  'arrow-left-long',
+  'arrow-right-long',
+  'arrow-up-long',
+  'arrow-down-long',
   'copy',
   'clipboard',
   'up-long',
   'down-long',
-]
+  'tag',
+  'square-check',
+  'triangle-exclamation',
+  'right-from-bracket',
+  'users-gear',
+] as const;
 
 type typedSolidIcons = typeof ALL_SOLID_ICONS;
 export type SolidIcon = typedSolidIcons[number]; // this compiles to 'male' | 'book-open'...

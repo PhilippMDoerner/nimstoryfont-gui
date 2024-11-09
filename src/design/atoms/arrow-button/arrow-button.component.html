@@ -1,10 +1,10 @@
-<button 
-  class="btn" 
+<button
+  class="btn"
   [disabled]="disabled"
   [ngClass]="{
     'btn-primary': type === 'PRIMARY' && !outline,
-    'btn-secondary': type === 'SECONDARY'  && !outline,
-    'btn-dark': type === 'DARK'  && !outline,
+    'btn-secondary': type === 'SECONDARY' && !outline,
+    'btn-dark': type === 'DARK' && !outline,
     'btn-danger': type === 'DANGER' && !outline,
     'btn-warning': type === 'WARNING' && !outline,
     'btn-light': type === 'LIGHT' && !outline,
@@ -16,12 +16,9 @@
     'btn-outline-warning': type === 'WARNING' && outline,
     'btn-outline-light': type === 'LIGHT' && outline,
     'btn-outline-info': type === 'INFO' && outline,
-    
+
     'btn-disabled': disabled,
   }"
 >
-  <app-icon 
-    class="btn-icon"
-    [icon]="icon + '-long'"
-  ></app-icon>
+  <app-icon class="btn-icon" [icon]="iconName()"></app-icon>
 </button>

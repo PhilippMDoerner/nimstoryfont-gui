@@ -46,8 +46,6 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     CreateUpdateComponent,
     CharacterCreateUpdateComponent,
     ProfileComponent,
-    CampaignOverviewComponent,
-    CampaignAdminComponent,
     ConfigTablesComponent,
     SiteAdminComponent,
     LoginComponent,
@@ -55,10 +53,12 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
 
   imports: [
     CommonModule,
+    CampaignOverviewComponent,
     OrganismsModule,
     FormlyModule,
     EditableTextComponent,
     SessionaudioComponent,
+    CampaignAdminComponent,
   ],
   exports: [
     MapComponent,

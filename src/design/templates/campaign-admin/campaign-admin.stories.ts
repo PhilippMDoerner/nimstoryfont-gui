@@ -12,10 +12,7 @@ import {
   dummyCampaign,
   dummyStatistics,
 } from 'src/app/_services/utils/campaign.mock.service';
-import {
-  FormlySelectDisableFieldComponent,
-  OrganismsModule,
-} from '../../organisms';
+import { FormlySelectDisableFieldComponent } from '../../organisms';
 import { CampaignAdminComponent } from './campaign-admin.component';
 
 export default {
@@ -24,7 +21,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        OrganismsModule,
         RouterTestingModule,
         FormlyModule.forRoot({
           types: [
@@ -37,7 +33,6 @@ export default {
           validators: [requiredValidator, dateValidator],
         }),
       ],
-      declarations: [],
     }),
   ],
   args: {

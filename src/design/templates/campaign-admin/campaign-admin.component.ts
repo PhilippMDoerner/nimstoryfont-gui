@@ -1,3 +1,4 @@
+import { KeyValuePipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -9,6 +10,7 @@ import {
   Signal,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { map, Observable } from 'rxjs';
 import { Campaign, WikiStatistics } from 'src/app/_models/campaign';
@@ -17,11 +19,39 @@ import { CampaignRole } from 'src/app/_models/token';
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import {
+  ButtonComponent,
+  CardComponent,
+  HtmlTextComponent,
+  IconComponent,
+  InfoCircleTooltipComponent,
+} from 'src/design/atoms';
+import {
+  ArticleFooterComponent,
+  ConfirmationToggleButtonComponent,
+  FormComponent,
+} from 'src/design/molecules';
+import { PageContainerComponent } from 'src/design/organisms';
 
 @Component({
   selector: 'app-campaign-admin',
   templateUrl: './campaign-admin.component.html',
   styleUrls: ['./campaign-admin.component.scss'],
+  standalone: true,
+  imports: [
+    PageContainerComponent,
+    ButtonComponent,
+    RouterLink,
+    KeyValuePipe,
+    IconComponent,
+    CardComponent,
+    HtmlTextComponent,
+    InfoCircleTooltipComponent,
+    ConfirmationToggleButtonComponent,
+    FormComponent,
+    ArticleFooterComponent,
+    NgTemplateOutlet,
+  ],
 })
 export class CampaignAdminComponent implements OnChanges {
   @Input() campaign!: Campaign;

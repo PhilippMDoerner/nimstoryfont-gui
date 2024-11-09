@@ -69,7 +69,7 @@
           ></app-info-circle-tooltip>
         </h3>
 
-        <ng-container *ngFor="let user of campaign.admins">
+        @for (user of campaign.admins; track user.pk) {
           <div class="user-group__user">
             {{ user.username }}
 
@@ -81,11 +81,11 @@
               (confirm)="removeAdmin.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
-        </ng-container>
+        }
 
         <!-- Form -->
         <div class="user-group__add-user">
-          <ng-container *ngIf="showAdminAddForm; else addAdminButton">
+          @if (showAdminAddForm) {
             <app-form
               [model]="adminModel"
               [fields]="adminFormlyFields()"
@@ -93,7 +93,9 @@
               (formlySubmit)="onAddUser('admin', adminModel)"
               (formlyCancel)="changeState('admin', false)"
             ></app-form>
-          </ng-container>
+          } @else {
+            <ng-container *ngTemplateOutlet="addAdminButton" />
+          }
         </div>
       </app-card>
 
@@ -105,7 +107,7 @@
           ></app-info-circle-tooltip>
         </h3>
 
-        <ng-container *ngFor="let user of campaign.members">
+        @for (user of campaign.members; track user.pk) {
           <div class="user-group__user">
             {{ user.username }}
 
@@ -117,11 +119,11 @@
               (confirm)="removeMember.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
-        </ng-container>
+        }
 
         <!-- Form -->
         <div class="user-group__add-user">
-          <ng-container *ngIf="showMemberAddForm; else addMemberButton">
+          @if (showMemberAddForm) {
             <app-form
               [model]="memberModel"
               [fields]="memberFormlyFields()"
@@ -129,7 +131,9 @@
               (formlySubmit)="onAddUser('member', memberModel)"
               (formlyCancel)="changeState('member', false)"
             ></app-form>
-          </ng-container>
+          } @else {
+            <ng-container *ngTemplateOutlet="addMemberButton" />
+          }
         </div>
       </app-card>
 
@@ -141,7 +145,7 @@
           ></app-info-circle-tooltip>
         </h3>
 
-        <ng-container *ngFor="let user of campaign.guests">
+        @for (user of campaign.guests; track user.pk) {
           <div class="user-group__user">
             {{ user.username }}
 
@@ -153,11 +157,11 @@
               (confirm)="removeGuest.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
-        </ng-container>
+        }
 
         <!-- Form -->
         <div class="user-group__add-user">
-          <ng-container *ngIf="showGuestAddForm; else addGuestButton">
+          @if (showGuestAddForm) {
             <app-form
               [model]="guestModel"
               [fields]="guestFormlyFields()"
@@ -165,7 +169,9 @@
               (formlySubmit)="onAddUser('guest', guestModel)"
               (formlyCancel)="changeState('guest', false)"
             ></app-form>
-          </ng-container>
+          } @else {
+            <ng-container *ngTemplateOutlet="addGuestButton" />
+          }
         </div>
       </app-card>
     </div>
@@ -177,10 +183,12 @@
     </h1>
 
     <div class="container mb-5">
-      <div class="row" *ngFor="let statistic of campaignStatistics | keyvalue">
-        <div class="col-6 col-md-3">{{ statistic.key }}</div>
-        <div class="col-6 col-md-3">{{ statistic.value }}</div>
-      </div>
+      @for (statistic of campaignStatistics | keyvalue; track $index) {
+        <div class="row">
+          <div class="col-6 col-md-3">{{ statistic.key }}</div>
+          <div class="col-6 col-md-3">{{ statistic.value }}</div>
+        </div>
+      }
     </div>
 
     <!-- EmptySearchResponses -->
@@ -197,24 +205,27 @@
     <div class="row mb-5">
       <div class="col-12 mb-3">
         <app-card class="campaign__user-group user-group">
-          <div
-            *ngFor="let emptyResponse of campaign.emptySearchResponses"
-            class="mb-3"
-          >
-            {{ emptyResponse.text }}
+          @for (
+            emptyResponse of campaign.emptySearchResponses;
+            track emptyResponse.id
+          ) {
+            <div class="mb-3">
+              {{ emptyResponse.text }}
 
-            <app-confirmation-toggle-button
-              class="user-group__remove-button"
-              [icon]="'trash'"
-              [toggleSize]="'SMALL'"
-              [confirmationQuestion]="'Remove response?'"
-              (confirm)="removeEmptySearchResponse.emit(emptyResponse)"
-            ></app-confirmation-toggle-button>
-          </div>
+              <app-confirmation-toggle-button
+                class="user-group__remove-button"
+                [icon]="'trash'"
+                [toggleSize]="'SMALL'"
+                [confirmationQuestion]="'Remove response?'"
+                (confirm)="removeEmptySearchResponse.emit(emptyResponse)"
+              ></app-confirmation-toggle-button>
+            </div>
+          }
 
           <div class="user-group__add-user">
             <!-- Form -->
-            <ng-container *ngIf="showResponseForm; else addResponseButton">
+
+            @if (showResponseForm) {
               <app-form
                 [model]="responseModel"
                 [fields]="responseFormlyFields"
@@ -222,7 +233,9 @@
                 (formlySubmit)="onAddResponse(responseModel)"
                 (formlyCancel)="showResponseForm = false"
               ></app-form>
-            </ng-container>
+            } @else {
+              <ng-container *ngTemplateOutlet="addResponseButton" />
+            }
           </div>
         </app-card>
       </div>

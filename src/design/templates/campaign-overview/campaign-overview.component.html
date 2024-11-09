@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row campaign__heading heading">
     <div class="heading__buttons">
-      <a [routerLink]="profileUrl" class="heading__button">
+      <a [routerLink]="profileUrl()" class="heading__button">
         <app-button
           [type]="'SECONDARY'"
           [icon]="'user-circle'"
@@ -17,8 +17,8 @@
         ></app-button>
       </a>
 
-      <ng-container *ngIf="isGlobalAdmin">
-        <a [routerLink]="generalAdminUrl" class="heading__button">
+      @if (isGlobalAdmin()) {
+        <a [routerLink]="generalAdminUrl()" class="heading__button">
           <app-button
             [type]="'INFO'"
             [icon]="'user-cog'"
@@ -26,39 +26,44 @@
           ></app-button>
         </a>
 
-        <a [routerLink]="configTableUrl" class="heading__button">
+        <a [routerLink]="configTableUrl()" class="heading__button">
           <app-button
             [type]="'INFO'"
             [icon]="'table'"
             [text]="'Config Tables'"
           ></app-button>
         </a>
-      </ng-container>
+      }
     </div>
 
+    @let campaignsVal = campaigns();
     <h3 class="heading__text">
-      <ng-container
-        *ngIf="campaigns && campaigns.length > 0; else noCampaignHeading"
-      >
+      @if (campaignsVal && campaignsVal.length > 0) {
         Choose Your Campaign
-      </ng-container>
-      <app-spinner *ngIf="campaigns == null"></app-spinner>
+      } @else {
+        <ng-container *ngTemplateOutlet="noCampaignHeading" />
+      }
+      @if (campaigns == null) {
+        <app-spinner></app-spinner>
+      }
     </h3>
   </div>
 
   <div class="body">
-    <ng-container *ngIf="campaigns != null">
-      <ng-container *ngIf="campaigns.length > 0; else noCampaign">
+    @if (campaignsVal != null) {
+      @if (campaignsVal.length > 0) {
         <app-image-grid
           class="body__images"
-          [entries]="campaigns"
+          [entries]="campaignsVal"
           [imageProp]="'background_image'"
-          [serverUrl]="serverUrl"
+          [serverUrl]="serverUrl()"
           [labelProp]="'name'"
           (entryClick)="onCampaignClick($event)"
         ></app-image-grid>
-      </ng-container>
-    </ng-container>
+      } @else {
+        <ng-container *ngTemplateOutlet="noCampaign" />
+      }
+    }
   </div>
 </div>
 

@@ -12,7 +12,7 @@ import { ellipsize } from 'src/utils/string';
 import { Icon } from '../../atoms';
 import { IconCardEntry } from '../../organisms';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { NgIf } from '@angular/common';
+
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-list.component';
@@ -24,13 +24,12 @@ import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
     styleUrls: ['./home.component.scss'],
     standalone: true,
     imports: [
-        PageContainerComponent,
-        NgIf,
-        HtmlTextComponent,
-        SearchFieldComponent,
-        IconCardListComponent,
-        SpinnerComponent,
-    ],
+    PageContainerComponent,
+    HtmlTextComponent,
+    SearchFieldComponent,
+    IconCardListComponent,
+    SpinnerComponent
+],
 })
 export class HomeComponent implements OnChanges {
   PAGE_BOTTOM_MIN_DISTANCE_FOR_PAGE_LOAD = 400;

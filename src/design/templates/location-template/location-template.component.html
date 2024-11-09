@@ -1,6 +1,6 @@
 <app-page-container>
   <article class="container">
-    <ng-container *ngIf="canUpdate">
+    @if (canUpdate()) {
       <div class="location__edit-container">
         <a [routerLink]="updateUrl">
           <app-button
@@ -10,7 +10,7 @@
           ></app-button>
         </a>
       </div>
-    </ng-container>
+    }
 
     <!-- Heading -->
     <div class="row">
@@ -19,11 +19,13 @@
       </h1>
 
       <!-- String indicating all parent_locations -->
-      <ng-container *ngIf="location().parent_location_list?.length ?? 0 > 0">
+      @if (location().parent_location_list?.length ?? 0 > 0) {
         <h5 class="col-12 location__subheading subheading">
-          <ng-container
-            *ngFor="let parentLocation of parentLocations; let i = index"
-          >
+          @for (
+            parentLocation of parentLocations;
+            track parentLocation;
+            let i = $index
+          ) {
             <a [routerLink]="parentLocation.link">
               {{ parentLocation.label }}
             </a>
@@ -31,10 +33,10 @@
               class="subheading__icon"
               [icon]="'arrow-right'"
             ></app-icon>
-          </ng-container>
+          }
           {{ location().name }}
         </h5>
-      </ng-container>
+      }
     </div>
 
     <!-- Image Gallery -->

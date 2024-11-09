@@ -100,7 +100,7 @@
   <h3>Player Characters</h3>
 
   <div class="row">
-    <ng-container *ngFor="let playerCharacter of playerCharacters">
+    @for (playerCharacter of playerCharacters; track playerCharacter.name) {
       <div
         class="col-lg-3 col-md-4 col-sm-6 col-12 overview__player-card player-card"
       >
@@ -108,7 +108,7 @@
           [routerLink]="playerCharacter.getAbsoluteRouterUrl()"
           class="player-card__link"
         >
-          <ng-container *ngIf="playerCharacter.images">
+          @if (playerCharacter.images) {
             <app-image-card
               class="player-card__card"
               [serverUrl]="serverUrl"
@@ -119,10 +119,10 @@
               "
               [text]="playerCharacter.name_full"
             ></app-image-card>
-          </ng-container>
+          }
         </a>
       </div>
-    </ng-container>
+    }
   </div>
 </ng-template>
 

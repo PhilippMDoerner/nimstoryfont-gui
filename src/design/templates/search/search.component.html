@@ -4,21 +4,26 @@
     <div class="row search__heading">
       <h1 class="col-12">Search Results</h1>
     </div>
-  
+
     <app-sidebar-legend
       [interactable]="true"
       (sidebarChange)="onCategorySelect($event)"
     ></app-sidebar-legend>
-    
+
     <!-- Article List -->
     <div class="row search__results">
-      <ng-container *ngIf="foundArticles.length > 0 else noSearchResults">
-        <ng-container *ngFor="let article of filteredArticles">
+      @if (foundArticles.length > 0) {
+        @for (article of filteredArticles; track article) {
           <app-search-hit [article]="article"></app-search-hit>
-        </ng-container>
-      </ng-container>
+        }
+      } @else {
+        <div class="search__empty-results">
+          <h4>We couldn't find any hits for '{{ searchString }}'</h4>
+          <i> {{ emptySearchSubtitle }}</i>
+        </div>
+      }
     </div>
-  
+
     <!-- Footer -->
     <div class="row">
       <a [routerLink]="homeUrl" class="search__home">
@@ -31,9 +36,3 @@
   </article>
 </app-page-container>
 
-<ng-template #noSearchResults>
-  <div class="search__empty-results">
-      <h4>We couldn't find any hits for '{{ searchString }}'</h4>
-      <i> {{ emptySearchSubtitle }}</i>
-  </div>
-</ng-template>

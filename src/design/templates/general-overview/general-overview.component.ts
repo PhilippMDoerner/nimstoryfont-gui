@@ -4,7 +4,7 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { FilterListEntry } from '../../organisms/_model/filterListEntry';
 import { GeneralOverviewType } from '../_models/generalOverviewType';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { NgTemplateOutlet, NgFor, NgIf, TitleCasePipe } from '@angular/common';
+import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { ImageCardComponent } from '../../molecules/image-card/image-card.component';
@@ -16,16 +16,14 @@ import { FilterListComponent } from '../../organisms/filter-list/filter-list.com
     styleUrls: ['./general-overview.component.scss'],
     standalone: true,
     imports: [
-        PageContainerComponent,
-        NgTemplateOutlet,
-        RouterLink,
-        ButtonComponent,
-        NgFor,
-        NgIf,
-        ImageCardComponent,
-        FilterListComponent,
-        TitleCasePipe,
-    ],
+    PageContainerComponent,
+    NgTemplateOutlet,
+    RouterLink,
+    ButtonComponent,
+    ImageCardComponent,
+    FilterListComponent,
+    TitleCasePipe
+],
 })
 export class GeneralOverviewComponent implements OnInit, OnChanges {
   OVERVIEW_IMAGE_MAP: { [key in GeneralOverviewType]: string } = {

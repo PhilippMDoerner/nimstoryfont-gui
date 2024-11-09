@@ -19,20 +19,23 @@
     </div>
 
     <!-- Form -->
-    <ng-container [ngSwitch]="state()">
-      <ng-container
-        *ngSwitchCase="'CREATE'"
-        [ngTemplateOutlet]="createUpdateForm"
-      ></ng-container>
-      <ng-container
-        *ngSwitchCase="'UPDATE'"
-        [ngTemplateOutlet]="createUpdateForm"
-      ></ng-container>
-      <ng-container
-        *ngSwitchCase="'OUTDATED_UPDATE'"
-        [ngTemplateOutlet]="outdatedUpdateForm"
-      ></ng-container>
-    </ng-container>
+    @switch (state()) {
+      @case ('CREATE') {
+        <ng-container
+          [ngTemplateOutlet]="createUpdateForm"
+        ></ng-container>
+      }
+      @case ('UPDATE') {
+        <ng-container
+          [ngTemplateOutlet]="createUpdateForm"
+        ></ng-container>
+      }
+      @case ('OUTDATED_UPDATE') {
+        <ng-container
+          [ngTemplateOutlet]="outdatedUpdateForm"
+        ></ng-container>
+      }
+    }
   </div>
 </app-page-container>
 

@@ -3,7 +3,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { CreateUpdateState } from '../_models/create-update-states';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
-import { NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import { FormComponent } from '../../molecules/form/form.component';
 import { CompareFormComponent } from '../../molecules/compare-form/compare-form.component';
 
@@ -13,14 +13,12 @@ import { CompareFormComponent } from '../../molecules/compare-form/compare-form.
     styleUrls: ['./create-update.component.scss'],
     standalone: true,
     imports: [
-        PageContainerComponent,
-        ButtonComponent,
-        NgSwitch,
-        NgSwitchCase,
-        NgTemplateOutlet,
-        FormComponent,
-        CompareFormComponent,
-    ],
+    PageContainerComponent,
+    ButtonComponent,
+    NgTemplateOutlet,
+    FormComponent,
+    CompareFormComponent
+],
 })
 export class CreateUpdateComponent<Full, Raw> {
   heading = input.required<string>();

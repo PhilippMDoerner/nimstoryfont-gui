@@ -1,12 +1,12 @@
 <app-page-container>
   <article class="container marker">
-    <ng-container *ngIf="canUpdate">
+    @if (canUpdate) {
       <div class="marker__edit-container">
         <a [routerLink]="updateUrl">
           <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
         </a>
       </div>
-    </ng-container>
+    }
 
     <div class="row marker__heading heading">
       <h1 class="col-12 heading__main">
@@ -43,15 +43,14 @@
       <strong class="col-6 col-sm-3">Icon: </strong>
 
       <span class="col-6 col-sm-5">
-        <ng-container *ngIf="marker.icon">
+        @if (marker.icon) {
           {{ marker.icon }}
           ( <app-icon [icon]="marker.icon"></app-icon> )
-        </ng-container>
-        <ng-container *ngIf="!marker.icon">
+        } @else {
           {{ marker.type_details?.icon }}
           ( <app-icon [icon]="marker.type_details?.icon!"></app-icon> )
           <span class="hint"> (from marker type) </span>
-        </ng-container>
+        }
       </span>
     </div>
 
@@ -61,13 +60,12 @@
       <strong class="col-6 col-sm-3">Color: </strong>
 
       <span class="col-sm-5 col-6">
-        <ng-container *ngIf="marker.color">
+        @if (marker.color) {
           {{ marker.color }}
-        </ng-container>
-        <ng-container *ngIf="!marker.color">
+        } @else {
           {{ marker.type_details?.color }}
           <span class="hint"> (from marker type) </span>
-        </ng-container>
+        }
       </span>
     </div>
 

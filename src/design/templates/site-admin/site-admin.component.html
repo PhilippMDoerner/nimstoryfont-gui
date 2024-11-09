@@ -38,7 +38,7 @@
       <app-separator class="site-admin__separator"></app-separator>
 
       <!-- New Table Entry -->
-      <ng-container *ngIf="userState === 'CREATE'">
+      @if (userState === "CREATE") {
         <app-card class="my-2">
           <h4>Adding new User</h4>
           <!-- Form -->
@@ -50,7 +50,7 @@
             (formlyCancel)="setUserState('DISPLAY')"
           ></app-form>
         </app-card>
-      </ng-container>
+      }
 
       <!-- Table -->
       @if (userState === "DISPLAY") {
@@ -103,10 +103,10 @@
           ></app-button>
 
           <!-- Clear Tokens -->
-          <!-- <div class="btn btn-danger border-white"> 
-              <span class="fa fa-trash"></span>
-              Clear > 7 day old Tokens 
-          </div> -->
+          <!-- <div class="btn btn-danger border-white">
+          <span class="fa fa-trash"></span>
+          Clear > 7 day old Tokens
+        </div> -->
         </div>
       </div>
 
@@ -115,12 +115,12 @@
       <!-- Section Body -->
       <!-- Statistics -->
       <div class="mb-5">
-        <ng-container *ngFor="let statistic of statistics | keyvalue">
+        @for (statistic of statistics | keyvalue; track statistic.key) {
           <div class="row">
             <div class="col-6 col-md-3">{{ statistic.key }}</div>
             <div class="col-6 col-md-3">{{ statistic.value }}</div>
           </div>
-        </ng-container>
+        }
       </div>
     </div>
 
@@ -131,11 +131,11 @@
         <h3 class="heading__text">
           <app-icon [icon]="'dragon'"></app-icon>
           Campaigns
-          <ng-container *ngIf="campaignState === 'WAIT_WHILE_CREATING'">
+          @if (campaignState === "WAIT_WHILE_CREATING") {
             <app-spinner
               class="heading__text heading__text--loading"
             ></app-spinner>
-          </ng-container>
+          }
         </h3>
 
         <!-- Heading Buttons -->
@@ -161,9 +161,9 @@
       <app-separator class="site-admin__separator"></app-separator>
 
       <!-- Section Body -->
-      <ng-container *ngIf="campaignState === 'DISPLAY'">
+      @if (campaignState === "DISPLAY") {
         <div class="campaign-section__body body">
-          <ng-container *ngFor="let campaign of campaigns">
+          @for (campaign of campaigns; track campaign.pk) {
             <div class="row mb-4">
               <div class="col-sm-3">
                 <img
@@ -183,12 +183,12 @@
                 {{ campaign.guests?.length ?? 0 }} Guests
               </div>
             </div>
-          </ng-container>
+          }
         </div>
-      </ng-container>
+      }
 
       <!-- New Campaign Entry -->
-      <ng-container *ngIf="campaignState === 'CREATE'">
+      @if (campaignState === "CREATE") {
         <app-card class="my-2">
           <h4>Adding new Campaign</h4>
           <!-- Form -->
@@ -200,7 +200,7 @@
             (formlyCancel)="setCampaignState('DISPLAY')"
           ></app-form>
         </app-card>
-      </ng-container>
+      }
     </div>
 
     <a class="site-admin__return-button" [routerLink]="campaignOverviewUrl">

@@ -1,3 +1,4 @@
+import { KeyValuePipe, TitleCasePipe } from '@angular/common';
 import {
   Component,
   EventEmitter,
@@ -6,6 +7,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PermissionGroup } from 'src/app/_models/auth';
 import {
@@ -16,42 +18,38 @@ import {
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
+import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
-import { NgIf, NgFor, TitleCasePipe, KeyValuePipe } from '@angular/common';
-import { CardComponent } from '../../atoms/card/card.component';
-import { FormComponent } from '../../molecules/form/form.component';
-import { CollapsiblePanelComponent } from '../../molecules/collapsible-panel/collapsible-panel.component';
-import { UserRowComponent } from '../../organisms/user-row/user-row.component';
 import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
+import { CollapsiblePanelComponent } from '../../molecules/collapsible-panel/collapsible-panel.component';
+import { FormComponent } from '../../molecules/form/form.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { UserRowComponent } from '../../organisms/user-row/user-row.component';
 
 type UserState = 'CREATE' | 'DISPLAY';
 type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
 
 @Component({
-    selector: 'app-site-admin',
-    templateUrl: './site-admin.component.html',
-    styleUrls: ['./site-admin.component.scss'],
-    standalone: true,
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        IconComponent,
-        SeparatorComponent,
-        NgIf,
-        CardComponent,
-        FormComponent,
-        CollapsiblePanelComponent,
-        UserRowComponent,
-        NgFor,
-        SpinnerComponent,
-        TitleCasePipe,
-        KeyValuePipe,
-    ],
+  selector: 'app-site-admin',
+  templateUrl: './site-admin.component.html',
+  styleUrls: ['./site-admin.component.scss'],
+  standalone: true,
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    IconComponent,
+    SeparatorComponent,
+    CardComponent,
+    FormComponent,
+    CollapsiblePanelComponent,
+    UserRowComponent,
+    SpinnerComponent,
+    TitleCasePipe,
+    KeyValuePipe,
+  ],
 })
 export class SiteAdminComponent implements OnInit, OnChanges {
   @Input() users?: User[];

@@ -32,19 +32,17 @@
     <app-separator></app-separator>
 
     <!-- Profile -->
-    <ng-container *ngIf="!showProfileEditForm; else profileForm">
+    @if (!showProfileEditForm) {
       <div class="row profile__data">
         <h3>Profile Data</h3>
         <div class="col-4">Username</div>
         <div class="col-8">{{ user.username }}</div>
-
         <div class="col-4">Email</div>
         <div class="col-8">{{ user.email }}</div>
       </div>
-
       <div class="row profile__memberships">
         <h3>Campaign Memberships</h3>
-        <ng-container *ngFor="let membership of memberships; let i = index">
+        @for (membership of memberships; track membership; let i = $index) {
           <div>
             <ng-container
               *ngTemplateOutlet="
@@ -53,12 +51,22 @@
               "
             ></ng-container>
           </div>
-        </ng-container>
+        }
       </div>
-    </ng-container>
+    } @else {
+      <app-card>
+        <app-form
+          [model]="profileModel"
+          [fields]="profileFields"
+          [cancelButtonType]="'DARK'"
+          (formlyCancel)="toggleProfileEditState()"
+          (formlySubmit)="submitProfileUpdate()"
+        ></app-form>
+      </app-card>
+    }
 
     <!-- Password Form -->
-    <ng-container *ngIf="showPasswordEditForm">
+    @if (showPasswordEditForm) {
       <app-card>
         <app-form
           [model]="passwordModel"
@@ -68,7 +76,7 @@
           (formlySubmit)="updatePassword()"
         ></app-form>
       </app-card>
-    </ng-container>
+    }
 
     <div class="mt-5 row justify-content-between">
       <div class="col-md-3">
@@ -82,7 +90,7 @@
         </a>
       </div>
 
-      <ng-container *ngIf="canDeleteProfile">
+      @if (canDeleteProfile) {
         <div class="col-md-3">
           <app-confirmation-toggle-button
             [toggleType]="'DANGER'"
@@ -91,22 +99,11 @@
             (confirm)="profileDelete.emit(user)"
           ></app-confirmation-toggle-button>
         </div>
-      </ng-container>
+      }
     </div>
   </article>
 </app-page-container>
 
-<ng-template #profileForm>
-  <app-card>
-    <app-form
-      [model]="profileModel"
-      [fields]="profileFields"
-      [cancelButtonType]="'DARK'"
-      (formlyCancel)="toggleProfileEditState()"
-      (formlySubmit)="submitProfileUpdate()"
-    ></app-form>
-  </app-card>
-</ng-template>
 
 <ng-template #displayCampaignForm let-context>
   <div class="row">
@@ -128,21 +125,21 @@
     <div class="col-md-8">
       <strong
         >Permanently leave '{{
-          context.membership.campaignName | titlecase
+        context.membership.campaignName | titlecase
         }}'?</strong
-      >
-    </div>
-    <app-button
-      class="col-md-2"
-      [type]="'DANGER'"
-      [text]="'Yes'"
-      (click)="campaignLeave.emit(context.membership)"
-    ></app-button>
-    <app-button
-      class="col-md-2"
-      [type]="'DARK'"
-      [text]="'No'"
-      (click)="toggleLeaveCampaignState(context.membership)"
-    ></app-button>
-  </app-alert>
-</ng-template>
+        >
+      </div>
+      <app-button
+        class="col-md-2"
+        [type]="'DANGER'"
+        [text]="'Yes'"
+        (click)="campaignLeave.emit(context.membership)"
+      ></app-button>
+      <app-button
+        class="col-md-2"
+        [type]="'DARK'"
+        [text]="'No'"
+        (click)="toggleLeaveCampaignState(context.membership)"
+      ></app-button>
+    </app-alert>
+  </ng-template>

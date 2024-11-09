@@ -13,7 +13,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry, ListEntry } from '../../molecules';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { NgIf, NgFor } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
@@ -35,19 +35,17 @@ interface ParentLocation {
     styleUrls: ['./location-template.component.scss'],
     standalone: true,
     imports: [
-        PageContainerComponent,
-        NgIf,
-        RouterLink,
-        ButtonComponent,
-        NgFor,
-        IconComponent,
-        ImageCarouselCardComponent,
-        BadgeListComponent,
-        EditableTextComponent,
-        ListComponent,
-        LocationAccordionComponent,
-        ArticleFooterComponent,
-    ],
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    IconComponent,
+    ImageCarouselCardComponent,
+    BadgeListComponent,
+    EditableTextComponent,
+    ListComponent,
+    LocationAccordionComponent,
+    ArticleFooterComponent
+],
 })
 export class LocationTemplateComponent implements OnInit, OnChanges {
   location = input.required<Location>();

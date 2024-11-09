@@ -45,26 +45,26 @@
 
         <!-- Section Body -->
 
-        <ng-container *ngIf="!table.showForm">
-          <ng-container *ngIf="table.entries?.length === 0">
+        @if (!table.showForm) {
+          @if (table.entries?.length === 0) {
             Load entries to see them
-          </ng-container>
-
+          }
           <div class="section__table-container">
             <!-- Table -->
-            <ng-container *ngIf="table.entries && table.entries.length > 0">
+            @if (table.entries && table.entries.length > 0) {
               <table class="table table-dark table-striped">
                 <!-- Table heading -->
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <ng-container
-                      *ngFor="let property of table.entries[0] | keyvalue"
-                    >
+                    @for (
+                      property of table.entries[0] | keyvalue;
+                      track property.key
+                    ) {
                       <th scope="col" class="text-uppercase">
                         {{ property.key }}
                       </th>
-                    </ng-container>
+                    }
                   </tr>
                 </thead>
                 <!-- Table body -->
@@ -72,9 +72,11 @@
                   @for (entry of table.entries; track entry.pk) {
                     <tr>
                       <th scope="row">{{ entry.id }} {{ entry.pk }}</th>
-                      <td *ngFor="let property of entry | keyvalue">
-                        {{ property.value }}
-                      </td>
+                      @for (property of entry | keyvalue; track property.key) {
+                        <td>
+                          {{ property.value }}
+                        </td>
+                      }
                       <td>
                         <app-confirmation-toggle-button
                           [toggleType]="'DANGER'"
@@ -90,11 +92,11 @@
                   }
                 </tbody>
               </table>
-            </ng-container>
+            }
           </div>
-        </ng-container>
+        }
 
-        <ng-container *ngIf="table.showForm">
+        @if (table.showForm) {
           <app-card>
             <h4>Adding new {{ table.name }}</h4>
             <!-- Form -->
@@ -106,7 +108,7 @@
               (formlyCancel)="table.showForm = !table.showForm"
             ></app-form>
           </app-card>
-        </ng-container>
+        }
       </div>
     }
 

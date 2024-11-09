@@ -63,6 +63,7 @@ export const ALL_SOLID_ICONS = [
   'cut',
   'info',
   'file',
+  'xmark',
   'circle-exclamation',
   'arrow-left-long',
   'arrow-right-long',

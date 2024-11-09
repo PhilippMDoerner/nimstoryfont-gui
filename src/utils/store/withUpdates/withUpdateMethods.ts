@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
 import { take } from 'rxjs';
+import { errorToast } from 'src/app/_models/toast';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import {
   Request,
   RequestMap,
@@ -50,6 +53,8 @@ export function withUpdateMethods<Requests extends RequestMap>(
 ) {
   return signalStoreFeature(
     withMethods((store) => {
+      const toastService = inject(ToastService);
+
       const requestLoadFunctions = Object.keys(requests)
         .map((requestName) => getKeys(requestName))
         .map((keys) => {
@@ -71,6 +76,9 @@ export function withUpdateMethods<Requests extends RequestMap>(
                     }),
                   error: (err: HttpErrorResponse) => {
                     const isOutdatedUpdateError = err.status === 409;
+                    if (!isOutdatedUpdateError) {
+                      toastService.addToast(errorToast(err));
+                    }
                     const serverModel = isOutdatedUpdateError
                       ? err.error
                       : undefined;

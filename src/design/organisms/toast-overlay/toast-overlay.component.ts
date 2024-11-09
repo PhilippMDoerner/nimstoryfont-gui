@@ -1,3 +1,4 @@
+import { NgStyle, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,39 +8,19 @@ import {
   signal,
 } from '@angular/core';
 import { NgbToast, NgbToastHeader } from '@ng-bootstrap/ng-bootstrap';
+import { ToastConfig } from 'src/app/_models/toast';
 import { slideRight } from 'src/design/animations/slideDown';
-import { ElementSize, ElementType, Icon } from 'src/design/atoms';
+import { Icon } from 'src/design/atoms';
 import { AtomsModule } from '../../atoms/atoms.module';
-
-export type ToastConfig = {
-  type: ElementType | 'SUCCESS';
-  header: {
-    icon?: Icon;
-    text: string;
-  };
-  body: {
-    text: string;
-    buttons?: {
-      label: string;
-      icon?: Icon;
-      size?: ElementSize;
-      type?: ElementType;
-      onClick: (dismiss: () => void) => void;
-    }[];
-  };
-  dismissMs?: number;
-  onHide?: () => void;
-  onShow?: () => void;
-};
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
   private toasts = signal<ToastConfig[]>([]);
   currentToast = computed<ToastConfig | undefined>(() => this.toasts()[0]);
 
-  public addToast(newToast: ToastConfig, important = false) {
+  public addToast(newToast: ToastConfig) {
     const toasts = this.toasts();
-    if (important) {
+    if (newToast.important) {
       this.toasts.set([newToast, ...toasts]);
     } else {
       this.toasts.set([...toasts, newToast]);
@@ -55,7 +36,7 @@ export class ToastService {
 @Component({
   selector: 'app-toast-overlay',
   standalone: true,
-  imports: [NgbToast, NgbToastHeader, AtomsModule],
+  imports: [NgbToast, NgbToastHeader, AtomsModule, NgTemplateOutlet, NgStyle],
   animations: [slideRight],
   templateUrl: './toast-overlay.component.html',
   styleUrl: './toast-overlay.component.scss',
@@ -69,7 +50,7 @@ export class ToastOverlayComponent {
     const currentToast = this.currentToast();
     if (!currentToast) return undefined;
 
-    const explicitIcon = currentToast.header.icon;
+    const explicitIcon = currentToast.header?.icon;
     if (explicitIcon != null) return explicitIcon;
 
     switch (currentToast.type) {
@@ -78,7 +59,7 @@ export class ToastOverlayComponent {
       case 'WARNING':
         return 'circle-exclamation';
       case 'INFO':
-        return 'info';
+        return 'info-circle';
       case 'SUCCESS':
         return 'check';
       default:

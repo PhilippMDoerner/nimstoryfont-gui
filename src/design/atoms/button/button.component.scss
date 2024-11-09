@@ -1,21 +1,21 @@
-@import '/src/screens.scss';
+@import "/src/screens.scss";
 
-.btn{
+.btn {
   width: 100%;
-  
-  @include media-breakpoint-up(sm){
+
+  @include media-breakpoint-up(sm) {
     width: fit-content;
   }
-  
-  &__icon{
+
+  &__icon {
     margin-right: var(--spacer-1);
   }
-  
-  &-disabled{
+
+  &-disabled {
     cursor: not-allowed;
   }
-  
-  &-lg{
+
+  &-lg {
     font-weight: bold;
   }
 }

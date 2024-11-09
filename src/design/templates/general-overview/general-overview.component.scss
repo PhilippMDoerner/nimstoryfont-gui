@@ -15,6 +15,9 @@
 
   &__home {
     margin-top: var(--spacer-4);
+    padding-left: var(--spacer-0);
+    padding-right: var(--spacer-0);
+    width: fit-content;
   }
 
   &__image {

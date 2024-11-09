@@ -1,8 +1,12 @@
+import { HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
 import { pipe, switchMap, tap } from 'rxjs';
+import { errorToast } from 'src/app/_models/toast';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import {
   Request,
   RequestMap,
@@ -49,6 +53,8 @@ type NewMethodUnion<Queries extends RequestMap> =
 export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
   return signalStoreFeature(
     withMethods((store) => {
+      const toastService = inject(ToastService);
+
       const queryLoadFunctions = Object.keys(queries)
         .map((queryName) => getKeys(queryName))
         .map((keys) => {
@@ -69,11 +75,13 @@ export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
                       [keys.dataField]: val,
                       [keys.queryStateField]: 'success' satisfies RequestState,
                     }),
-                  error: (err) =>
+                  error: (err: HttpErrorResponse) => {
+                    toastService.addToast(errorToast(err));
                     patchState(store, {
                       [keys.errorField]: err,
                       [keys.queryStateField]: 'error' satisfies RequestState,
-                    }),
+                    });
+                  },
                 }),
               ),
             ),

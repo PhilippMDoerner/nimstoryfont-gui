@@ -41,7 +41,7 @@
     border-radius: var(--bs-border-radius);
     &:focus,
     &:hover {
-      outline: solid 3px var(--bs-link-hover-color);
+      outline: var(--focus-outline);
     }
   }
 }

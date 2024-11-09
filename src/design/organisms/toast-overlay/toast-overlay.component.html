@@ -1,38 +1,77 @@
 @let toast = currentToast();
-
-@if (toast) {
-  <ngb-toast
-    [@slideRight]
-    class="toast bg-{{ toast.type.toLowerCase() }}"
-    [autohide]="!!toast.dismissMs && toast.dismissMs > 0"
-    (hidden)="dismissCurrentToast()"
-    (shown)="toast.onShow ? toast.onShow() : undefined"
+@let onToastClick = toast?.onToastClick;
+@if (toast && onToastClick) {
+  <button
+    class="button-container"
+    (click)="onToastClick(dismissCurrentToast.bind(this))"
   >
-    <ng-template ngbToastHeader>
-      <header class="toast__heading heading">
-        @let headerIcon = icon();
-        @if (headerIcon) {
-          <app-icon class="heading__icon" [icon]="headerIcon"></app-icon>
-        }
-        {{ toast.header.text }}
-      </header>
-    </ng-template>
-
-    <div class="toast__body body body--{{ toast.type.toLowerCase() }}">
-      <span class="body__text">
-        {{ toast.body.text }}
-      </span>
-
-      @let buttonConfigs = toast.body.buttons;
-      @for (buttonConfig of buttonConfigs; track $index) {
-        <app-button
-          [text]="buttonConfig.label"
-          [icon]="buttonConfig.icon"
-          [size]="buttonConfig.size ?? 'SMALL'"
-          [type]="buttonConfig.type ?? 'PRIMARY'"
-          (click)="buttonConfig.onClick(dismissCurrentToast.bind(this))"
-        ></app-button>
-      }
-    </div>
-  </ngb-toast>
+    <ng-container *ngTemplateOutlet="toastOverlay" />
+  </button>
+} @else if (toast) {
+  <ng-container *ngTemplateOutlet="toastOverlay" />
 }
+
+<ng-template #toastOverlay>
+  @if (toast) {
+    <ngb-toast
+      [tabindex]="!!onToastClick ? -1 : 0"
+      [@slideRight]
+      class="toast toast--{{ toast.type.toLowerCase() }} bg-{{
+        toast.type.toLowerCase()
+      }}"
+      [style]="toast.styles"
+      [autohide]="!!toast.dismissMs && toast.dismissMs > 0"
+      [ariaLive]="toast.important ? 'alert' : 'polite'"
+      [animation]="true"
+      (hidden)="dismissCurrentToast()"
+      (shown)="toast.onShow ? toast.onShow() : undefined"
+    >
+      @if (toast.header) {
+        <header
+          class="toast__heading heading heading--{{ toast.type.toLowerCase() }}"
+          style="background-color: var(--bs-{{ toast.type.toLowerCase() }});"
+        >
+          <span class="heading__text">
+            @let headerIcon = icon();
+            @if (headerIcon) {
+              <app-icon class="heading__icon" [icon]="headerIcon"></app-icon>
+            }
+            {{ toast.header.text }}
+          </span>
+          <button class="heading__close-button" (click)="dismissCurrentToast()">
+            <app-icon [icon]="'xmark'" />
+          </button>
+        </header>
+      }
+
+      <div
+        class="toast__body body"
+        [class.toast__body--no-header]="!toast.header"
+      >
+        <span class="body__text">
+          {{ toast.body.text }}
+          @let bodyIcon = toast.body.icon;
+          @if (bodyIcon) {
+            <app-icon class="body__icon" [icon]="bodyIcon" />
+          }
+        </span>
+
+        @let buttonConfigs = toast.body.buttons;
+        @if (buttonConfigs) {
+          <div class="body__button-container">
+            @for (buttonConfig of buttonConfigs; track $index) {
+              <app-button
+                class="body__button"
+                [text]="buttonConfig.label"
+                [icon]="buttonConfig.icon"
+                [size]="buttonConfig.size ?? 'SMALL'"
+                [type]="buttonConfig.type ?? 'PRIMARY'"
+                (click)="buttonConfig.onClick(dismissCurrentToast.bind(this))"
+              ></app-button>
+            }
+          </div>
+        }
+      </div>
+    </ngb-toast>
+  }
+</ng-template>

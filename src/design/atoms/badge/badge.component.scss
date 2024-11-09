@@ -5,7 +5,7 @@
   &:focus,
   &:focus-within,
   &:hover {
-    outline: solid 3px var(--bs-link-hover-color);
+    outline: var(--focus-outline);
 
     .badge {
       color: inherit;

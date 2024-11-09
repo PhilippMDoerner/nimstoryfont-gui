@@ -23,24 +23,6 @@ export class AppComponent {
     this.globalStore.isCampaignAdmin(this.globalStore.campaignName()),
   );
 
-  constructor() {
-    this.toastService.addToast({
-      type: 'INFO',
-      header: { text: 'Application started!' },
-      body: {
-        text: 'New toast text on boot',
-        buttons: [
-          {
-            label: 'Click me',
-            onClick: (dismiss) => dismiss(),
-          },
-        ],
-      },
-      onHide: () => console.log('Hidden CB'),
-      onShow: () => console.log('Show CB'),
-    });
-  }
-
   logout(): void {
     this.globalStore.logout();
   }

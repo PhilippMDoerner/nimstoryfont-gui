@@ -11,17 +11,17 @@ import {
   OrganizationMembership,
 } from 'src/app/_models/character';
 import { CharacterPlayerClassConnectionRaw } from 'src/app/_models/playerclass';
+import { errorToast } from 'src/app/_models/toast';
 import { CharacterPlayerClassConnectionService } from 'src/app/_services/article/character-player-class-connection.service';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationMembershipService } from 'src/app/_services/article/organization-membership.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
 import { PlayerClassService } from 'src/app/_services/article/player-class.service';
-import { WarningsService } from 'src/app/_services/utils/warnings.service';
 import { GlobalStore } from 'src/app/global.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { sortByProp } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
-import { handleError } from 'src/utils/store/toServerModel';
 import { withQueries } from 'src/utils/store/withQueries';
 export interface CharacterCreateUpdateState {
   serverModel: CharacterDetails | undefined;
@@ -75,7 +75,7 @@ export const CharacterCreateUpdateStore = signalStore(
       CharacterPlayerClassConnectionService,
     );
     const organizationMembershipService = inject(OrganizationMembershipService);
-    const warningService = inject(WarningsService);
+    const toastService = inject(ToastService);
     return {
       reset: () =>
         patchState(store, {
@@ -95,7 +95,7 @@ export const CharacterCreateUpdateStore = signalStore(
                 characterQueryState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              handleError(store, err, warningService),
+              toastService.addToast(errorToast(err)),
           }),
         ),
       ),
@@ -115,7 +115,7 @@ export const CharacterCreateUpdateStore = signalStore(
                 characterQueryState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              handleError(store, err, warningService),
+              toastService.addToast(errorToast(err)),
           }),
         ),
       ),
@@ -139,7 +139,8 @@ export const CharacterCreateUpdateStore = signalStore(
               } as CharacterDetails;
               patchState(store, { character: newCharacter });
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           }),
         ),
       ),
@@ -162,7 +163,8 @@ export const CharacterCreateUpdateStore = signalStore(
               } as CharacterDetails;
               patchState(store, { character: newCharacter });
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           }),
         ),
       ),
@@ -173,7 +175,8 @@ export const CharacterCreateUpdateStore = signalStore(
           ),
           tapResponse({
             next: (character) => patchState(store, { character }),
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           }),
         ),
       ),
@@ -196,7 +199,8 @@ export const CharacterCreateUpdateStore = signalStore(
               };
               patchState(store, { character: newCharacter });
             },
-            error: warningService.showWarning,
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(errorToast(err)),
           }),
         ),
       ),

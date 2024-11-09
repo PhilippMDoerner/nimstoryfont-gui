@@ -1,5 +1,5 @@
 <app-page-container>
-  <article class="container overview">
+  <article class="overview">
     <!-- Heading -->
     @if (overviewTypeName) {
       <div>
@@ -101,9 +101,7 @@
 
   <div class="row">
     @for (playerCharacter of playerCharacters; track playerCharacter.name) {
-      <div
-        class="col-lg-3 col-md-4 col-sm-6 col-12 overview__player-card player-card"
-      >
+      <div class="col-lg-3 col-md-4 col-6 overview__player-card player-card">
         <a
           [routerLink]="playerCharacter.getAbsoluteRouterUrl()"
           class="player-card__link"
@@ -112,7 +110,9 @@
             <app-image-card
               class="player-card__card"
               [serverUrl]="serverUrl"
-              [imageUrl]="playerCharacter.images[0]"
+              [imageUrl]="
+                playerCharacter.images[0] ?? '/' + defaultPlayerCharacterImage
+              "
               [alt]="
                 'An image displaying the player character ' +
                 playerCharacter.name

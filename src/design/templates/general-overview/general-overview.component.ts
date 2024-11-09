@@ -1,29 +1,29 @@
+import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { FilterListEntry } from '../../organisms/_model/filterListEntry';
-import { GeneralOverviewType } from '../_models/generalOverviewType';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { ImageCardComponent } from '../../molecules/image-card/image-card.component';
+import { FilterListEntry } from '../../organisms/_model/filterListEntry';
 import { FilterListComponent } from '../../organisms/filter-list/filter-list.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { GeneralOverviewType } from '../_models/generalOverviewType';
 
 @Component({
-    selector: 'app-general-overview',
-    templateUrl: './general-overview.component.html',
-    styleUrls: ['./general-overview.component.scss'],
-    standalone: true,
-    imports: [
+  selector: 'app-general-overview',
+  templateUrl: './general-overview.component.html',
+  styleUrls: ['./general-overview.component.scss'],
+  standalone: true,
+  imports: [
     PageContainerComponent,
     NgTemplateOutlet,
     RouterLink,
     ButtonComponent,
     ImageCardComponent,
     FilterListComponent,
-    TitleCasePipe
-],
+    TitleCasePipe,
+  ],
 })
 export class GeneralOverviewComponent implements OnInit, OnChanges {
   OVERVIEW_IMAGE_MAP: { [key in GeneralOverviewType]: string } = {
@@ -41,6 +41,8 @@ export class GeneralOverviewComponent implements OnInit, OnChanges {
   @Input() campaignName!: string;
   @Input() canCreate: boolean = false;
 
+  defaultPlayerCharacterImage: string =
+    'assets/default_images/icon_default.webp';
   displayEntries!: FilterListEntry<any>[];
   playerCharacters?: OverviewItem[];
   homeUrl!: string;

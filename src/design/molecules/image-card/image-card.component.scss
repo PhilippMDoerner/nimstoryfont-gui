@@ -1,3 +1,28 @@
+:host {
+  position: relative;
+  display: block;
+
+  &:has(:hover) {
+    height: 13rem;
+    .card {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      transform: scale(1.3);
+      transition: transform 0.2s ease-in-out;
+      z-index: 3;
+      box-shadow:
+        0 0 0 5px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(0, 0, 0, 0.6),
+        0 10px 20px rgba(0, 0, 0, 0.8);
+
+      .card-img-top {
+        max-height: unset;
+      }
+    }
+  }
+}
+
 .card {
   &-body {
     padding: var(--spacer-3);

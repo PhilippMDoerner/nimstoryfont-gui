@@ -24,13 +24,32 @@ import {
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { BadgeListEntry } from '../../molecules';
 import { CreateUpdateState } from '../_models/create-update-states';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { ButtonComponent } from '../../atoms/button/button.component';
+import { NgTemplateOutlet } from '@angular/common';
+import { FormComponent } from '../../molecules/form/form.component';
+import { SeparatorComponent } from '../../atoms/separator/separator.component';
+import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
+import { BadgeComponent } from '../../atoms/badge/badge.component';
+import { CompareFormComponent } from '../../molecules/compare-form/compare-form.component';
 
 type MembershipFormState = 'CREATE' | 'DISPLAY';
 
 @Component({
-  selector: 'app-character-create-update',
-  templateUrl: './character-create-update.component.html',
-  styleUrls: ['./character-create-update.component.scss'],
+    selector: 'app-character-create-update',
+    templateUrl: './character-create-update.component.html',
+    styleUrls: ['./character-create-update.component.scss'],
+    standalone: true,
+    imports: [
+        PageContainerComponent,
+        ButtonComponent,
+        NgTemplateOutlet,
+        FormComponent,
+        SeparatorComponent,
+        BadgeListComponent,
+        BadgeComponent,
+        CompareFormComponent,
+    ],
 })
 export class CharacterCreateUpdateComponent {
   state = input.required<CreateUpdateState>();

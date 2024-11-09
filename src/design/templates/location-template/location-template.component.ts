@@ -12,6 +12,17 @@ import { Location } from 'src/app/_models/location';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry, ListEntry } from '../../molecules';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { NgIf, NgFor } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
+import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
+import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
+import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
+import { ListComponent } from '../../molecules/list/list.component';
+import { LocationAccordionComponent } from '../../organisms/location-accordion/location-accordion.component';
+import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 
 interface ParentLocation {
   link: string;
@@ -19,9 +30,24 @@ interface ParentLocation {
 }
 
 @Component({
-  selector: 'app-location-template',
-  templateUrl: './location-template.component.html',
-  styleUrls: ['./location-template.component.scss'],
+    selector: 'app-location-template',
+    templateUrl: './location-template.component.html',
+    styleUrls: ['./location-template.component.scss'],
+    standalone: true,
+    imports: [
+        PageContainerComponent,
+        NgIf,
+        RouterLink,
+        ButtonComponent,
+        NgFor,
+        IconComponent,
+        ImageCarouselCardComponent,
+        BadgeListComponent,
+        EditableTextComponent,
+        ListComponent,
+        LocationAccordionComponent,
+        ArticleFooterComponent,
+    ],
 })
 export class LocationTemplateComponent implements OnInit, OnChanges {
   location = input.required<Location>();

@@ -2,11 +2,19 @@ import { Component, Input, OnInit } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SidebarOption } from '../../molecules';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { SidebarLegendComponent } from '../../molecules/sidebar-legend/sidebar-legend.component';
+import { NgIf, NgFor } from '@angular/common';
+import { SearchHitComponent } from '../../organisms/search-hit/search-hit.component';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss']
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    standalone: true,
+    imports: [PageContainerComponent, SidebarLegendComponent, NgIf, NgFor, SearchHitComponent, RouterLink, ButtonComponent]
 })
 export class SearchComponent implements OnInit{
   @Input() foundArticles!: OverviewItem[];

@@ -7,11 +7,8 @@ import { SiteAdministrationPageComponent } from './pages/site-administration-pag
 import { SiteAdministrationPageStore } from './pages/site-administration-page/site-administration-page.store';
 
 @NgModule({
-  declarations: [
-    ConfigAdministrationPageComponent,
-    SiteAdministrationPageComponent,
-  ],
-  imports: [CommonModule, TemplatesModule],
-  providers: [SiteAdministrationPageStore, ConfigAdministrationPageStore],
+    imports: [CommonModule, TemplatesModule, ConfigAdministrationPageComponent,
+        SiteAdministrationPageComponent],
+    providers: [SiteAdministrationPageStore, ConfigAdministrationPageStore],
 })
 export class AdministrationModule {}

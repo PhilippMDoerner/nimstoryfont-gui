@@ -3,6 +3,16 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { CampaignMembership } from '../_models/campaign-membership';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
+import { ButtonComponent } from '../../atoms/button/button.component';
+import { SeparatorComponent } from '../../atoms/separator/separator.component';
+import { NgIf, NgFor, NgTemplateOutlet, TitleCasePipe } from '@angular/common';
+import { CardComponent } from '../../atoms/card/card.component';
+import { FormComponent } from '../../molecules/form/form.component';
+import { RouterLink } from '@angular/router';
+import { ConfirmationToggleButtonComponent } from '../../molecules/confirmation-toggle-button/confirmation-toggle-button.component';
+import { AlertComponent } from '../../atoms/alert/alert.component';
 
 export interface PasswordModel {
   password: string;
@@ -10,9 +20,25 @@ export interface PasswordModel {
 }
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    standalone: true,
+    imports: [
+        PageContainerComponent,
+        IconComponent,
+        ButtonComponent,
+        SeparatorComponent,
+        NgIf,
+        NgFor,
+        NgTemplateOutlet,
+        CardComponent,
+        FormComponent,
+        RouterLink,
+        ConfirmationToggleButtonComponent,
+        AlertComponent,
+        TitleCasePipe,
+    ],
 })
 export class ProfileComponent {
   @Input() user!: User;

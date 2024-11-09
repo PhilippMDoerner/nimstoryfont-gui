@@ -8,8 +8,8 @@ describe('GeneralOverviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GeneralOverviewComponent ]
-    })
+    imports: [GeneralOverviewComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(GeneralOverviewComponent);

@@ -6,12 +6,23 @@ import {
 } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
+import { QuestTableComponent } from '../../organisms/quest-table/quest-table.component';
 
 @Component({
-  selector: 'app-quest-overview',
-  templateUrl: './quest-overview.component.html',
-  styleUrls: ['./quest-overview.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-quest-overview',
+    templateUrl: './quest-overview.component.html',
+    styleUrls: ['./quest-overview.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        QuestTableComponent,
+    ],
 })
 export class QuestOverviewComponent {
   quests = input.required<OverviewItem[]>();

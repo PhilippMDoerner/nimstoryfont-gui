@@ -8,8 +8,8 @@ describe('MarkerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MarkerComponent ]
-    })
+    imports: [MarkerComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(MarkerComponent);

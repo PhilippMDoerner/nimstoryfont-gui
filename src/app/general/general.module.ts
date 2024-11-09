@@ -8,12 +8,9 @@ import { ProfilePageComponent } from './pages/profile-page/profile-page.componen
 import { ProfilePageStore } from './pages/profile-page/profile-page.store';
 
 @NgModule({
-  declarations: [
-    LoginPageComponent,
-    ProfilePageComponent,
-    CampaignOverviewPageComponent,
-  ],
-  imports: [CommonModule, TemplatesModule],
-  providers: [LoginPageStore, ProfilePageStore],
+    imports: [CommonModule, TemplatesModule, LoginPageComponent,
+        ProfilePageComponent,
+        CampaignOverviewPageComponent],
+    providers: [LoginPageStore, ProfilePageStore],
 })
 export class GeneralModule {}

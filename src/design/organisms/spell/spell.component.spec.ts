@@ -8,8 +8,8 @@ describe('SpellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SpellComponent ]
-    })
+    imports: [SpellComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(SpellComponent);

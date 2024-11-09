@@ -20,11 +20,36 @@ import { CharacterPlayerClassConnectionDetail } from 'src/app/_models/playerclas
 import { Quote, QuoteConnection } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { BadgeListEntry, ListEntry } from '../../molecules';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
+import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
+import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.component';
+import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
+import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
+import { ListComponent } from '../../molecules/list/list.component';
+import { InfoCircleTooltipComponent } from '../../atoms/info-circle-tooltip/info-circle-tooltip.component';
+import { EncounterAccordionComponent } from '../../organisms/encounter-accordion/encounter-accordion.component';
+import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 
 @Component({
-  selector: 'app-character',
-  templateUrl: './character.component.html',
-  styleUrls: ['./character.component.scss'],
+    selector: 'app-character',
+    templateUrl: './character.component.html',
+    styleUrls: ['./character.component.scss'],
+    standalone: true,
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        ImageCarouselCardComponent,
+        QuoteFieldComponent,
+        BadgeListComponent,
+        EditableTextComponent,
+        ListComponent,
+        InfoCircleTooltipComponent,
+        EncounterAccordionComponent,
+        ArticleFooterComponent,
+    ],
 })
 export class CharacterComponent {
   character = input.required<CharacterDetails>();

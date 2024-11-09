@@ -8,8 +8,8 @@ describe('LocationTemplateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LocationTemplateComponent ]
-    })
+    imports: [LocationTemplateComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(LocationTemplateComponent);

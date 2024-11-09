@@ -5,11 +5,7 @@ import { HomePageComponent } from './pages/home-page/home-page.component';
 import { HomePageStore } from './pages/home-page/home-page.store';
 
 @NgModule({
-  declarations: [
-    HomePageComponent,
-    // MapPageComponent
-  ],
-  imports: [CommonModule, TemplatesModule],
-  providers: [HomePageStore],
+    imports: [CommonModule, TemplatesModule, HomePageComponent],
+    providers: [HomePageStore],
 })
 export class CampaignModule {}

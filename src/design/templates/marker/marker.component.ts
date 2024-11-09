@@ -1,11 +1,19 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MapMarker } from 'src/app/_models/mapMarker';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { NgIf } from '@angular/common';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
+import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 
 @Component({
-  selector: 'app-marker',
-  templateUrl: './marker.component.html',
-  styleUrls: ['./marker.component.scss']
+    selector: 'app-marker',
+    templateUrl: './marker.component.html',
+    styleUrls: ['./marker.component.scss'],
+    standalone: true,
+    imports: [PageContainerComponent, NgIf, RouterLink, ButtonComponent, IconComponent, ArticleFooterComponent]
 })
 export class MarkerComponent implements OnInit, OnChanges{
   @Input() marker!: MapMarker; 

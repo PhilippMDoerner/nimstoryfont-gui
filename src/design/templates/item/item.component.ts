@@ -9,11 +9,26 @@ import {
 import { Image } from 'src/app/_models/image';
 import { Item } from 'src/app/_models/item';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
+import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
+import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
+import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 
 @Component({
-  selector: 'app-item',
-  templateUrl: './item.component.html',
-  styleUrls: ['./item.component.scss'],
+    selector: 'app-item',
+    templateUrl: './item.component.html',
+    styleUrls: ['./item.component.scss'],
+    standalone: true,
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        ImageCarouselCardComponent,
+        EditableTextComponent,
+        ArticleFooterComponent,
+    ],
 })
 export class ItemComponent {
   item = input.required<Item>();

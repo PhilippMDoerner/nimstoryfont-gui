@@ -1,17 +1,22 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormGroup, FormsModule } from '@angular/forms';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { animateElement } from 'src/app/_functions/animate';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { NgIf } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button/button.component';
 
 type LoginViewState = 'LOGIN' | 'PASSWORD_RESET';
 type LoginMessageMap = {[key in SpecialLoginState]: string};
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    standalone: true,
+    imports: [PageContainerComponent, NgIf, FormsModule, FormlyModule, ButtonComponent]
 })
 export class LoginComponent {
   @Input() loginState?: SpecialLoginState;

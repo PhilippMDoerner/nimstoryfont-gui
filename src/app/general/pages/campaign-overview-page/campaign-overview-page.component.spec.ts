@@ -8,8 +8,8 @@ describe('CampaignOverviewPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CampaignOverviewPageComponent ]
-    })
+    imports: [CampaignOverviewPageComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(CampaignOverviewPageComponent);

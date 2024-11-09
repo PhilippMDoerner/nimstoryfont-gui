@@ -13,11 +13,24 @@ import {
   SpellRaw,
 } from 'src/app/_models/spell';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { BadgeComponent } from '../../atoms/badge/badge.component';
+import { SpellsComponent } from '../../organisms/spells/spells.component';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
 
 @Component({
-  selector: 'app-spells-template',
-  templateUrl: './spells-template.component.html',
-  styleUrls: ['./spells-template.component.scss'],
+    selector: 'app-spells-template',
+    templateUrl: './spells-template.component.html',
+    styleUrls: ['./spells-template.component.scss'],
+    standalone: true,
+    imports: [
+        PageContainerComponent,
+        BadgeComponent,
+        SpellsComponent,
+        RouterLink,
+        ButtonComponent,
+    ],
 })
 export class SpellsTemplateComponent {
   campaignName = input.required<string>();

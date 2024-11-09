@@ -6,11 +6,15 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { MailService } from 'src/app/_services/utils/mail.service';
 import { GlobalStore } from 'src/app/global.store';
 import { LoginPageStore } from './login-page.store';
+import { LoginComponent } from '../../../../design/templates/login/login.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss'],
+    selector: 'app-login-page',
+    templateUrl: './login-page.component.html',
+    styleUrls: ['./login-page.component.scss'],
+    standalone: true,
+    imports: [LoginComponent, AsyncPipe],
 })
 export class LoginPageComponent {
   public readonly globalStore = inject(GlobalStore);

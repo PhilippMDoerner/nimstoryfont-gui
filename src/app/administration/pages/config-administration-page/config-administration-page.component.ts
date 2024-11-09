@@ -1,18 +1,19 @@
 import { Component, computed, inject } from '@angular/core';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
-import { MarkerTypeService } from 'src/app/_services/article/marker-type.service';
-import { PlayerClassService } from 'src/app/_services/article/player-class.service';
 import {
   ConfigTableData,
   ConfigTableKind,
 } from 'src/design/templates/_models/config-table';
+import { ConfigTablesComponent } from '../../../../design/templates/config-tables/config-tables.component';
 import { ConfigAdministrationPageStore } from './config-administration-page.store';
 
 @Component({
   selector: 'app-config-administration-page',
   templateUrl: './config-administration-page.component.html',
   styleUrls: ['./config-administration-page.component.scss'],
+  standalone: true,
+  imports: [ConfigTablesComponent],
 })
 export class ConfigAdministrationPageComponent {
   store = inject(ConfigAdministrationPageStore);
@@ -28,11 +29,6 @@ export class ConfigAdministrationPageComponent {
   playerClassesLoaded = computed(
     () => this.store.playerClassLoadState() === 'done',
   );
-
-  constructor(
-    private markerTypeService: MarkerTypeService,
-    private playerClassService: PlayerClassService,
-  ) {}
 
   loadTableEntries(table: ConfigTableKind): void {
     switch (table) {

@@ -8,11 +8,22 @@ import {
 } from '@angular/core';
 import { Rule, RuleRaw } from 'src/app/_models/rule';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { RulesComponent } from '../../organisms/rules/rules.component';
+import { RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
 
 @Component({
-  selector: 'app-rules-template',
-  templateUrl: './rules-template.component.html',
-  styleUrls: ['./rules-template.component.scss'],
+    selector: 'app-rules-template',
+    templateUrl: './rules-template.component.html',
+    styleUrls: ['./rules-template.component.scss'],
+    standalone: true,
+    imports: [
+        PageContainerComponent,
+        RulesComponent,
+        RouterLink,
+        ButtonComponent,
+    ],
 })
 export class RulesTemplateComponent {
   campaignName = input.required<string>();

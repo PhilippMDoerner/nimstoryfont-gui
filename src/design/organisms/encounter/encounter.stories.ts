@@ -268,7 +268,6 @@ export default {
           validators: [requiredValidator, integerValidator],
         }),
       ],
-      declarations: [FormlyEditorFieldComponent],
     }),
   ],
   args: {

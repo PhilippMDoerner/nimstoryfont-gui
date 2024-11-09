@@ -36,19 +36,16 @@ import { ToastOverlayComponent } from './toast-overlay/toast-overlay.component';
 import { UserRowComponent } from './user-row/user-row.component';
 
 @NgModule({
-  declarations: [
+  imports: [
+    UserRowComponent,
+    SpellsComponent,
+    SessionaudioCardComponent,
+    SpellComponent,
     SessionaudioPlayerComponent,
     RulesComponent,
-    SpellComponent,
-    SpellsComponent,
     SearchHitComponent,
     SessionComponent,
-    SessionaudioCardComponent,
-    UserRowComponent,
-  ],
-  imports: [
     RuleComponent,
-
     QuoteFieldComponent,
     QuoteComponent,
     QuestTableComponent,

@@ -1,4 +1,6 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   EventEmitter,
@@ -10,7 +12,14 @@ import {
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { BadgeListEntry } from 'src/design/molecules';
+import {
+  BadgeListComponent,
+  BadgeListEntry,
+  CompareFormComponent,
+  ConfirmationToggleButtonComponent,
+  EditToggleComponent,
+  FormComponent,
+} from 'src/design/molecules';
 import {
   Spell,
   SPELL_CASTING_TIME,
@@ -22,7 +31,11 @@ import {
   SPELL_SCHOOLS,
   SpellPlayerClassConnection,
 } from '../../../app/_models/spell';
-import { ElementType } from '../../atoms';
+import {
+  ElementType,
+  HtmlTextComponent,
+  SeparatorComponent,
+} from '../../atoms';
 
 type SpellState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
 
@@ -30,6 +43,18 @@ type SpellState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
   selector: 'app-spell',
   templateUrl: './spell.component.html',
   styleUrls: ['./spell.component.scss'],
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    NgTemplateOutlet,
+    EditToggleComponent,
+    HtmlTextComponent,
+    SeparatorComponent,
+    BadgeListComponent,
+    ConfirmationToggleButtonComponent,
+    FormComponent,
+    CompareFormComponent,
+  ],
 })
 export class SpellComponent implements OnInit {
   spell = input.required<Spell | undefined>();

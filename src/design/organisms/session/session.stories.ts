@@ -2,7 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { FormlyDatepickerFieldComponent, OrganismsModule } from '..';
+import { FormlyDatepickerFieldComponent } from '..';
 import { Session } from '../../../app/_models/session';
 import {
   dateMessage,
@@ -49,7 +49,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        OrganismsModule,
         RouterTestingModule,
         FormlyModule.forRoot({
           types: [
@@ -59,7 +58,6 @@ export default {
           validators: [requiredValidator, dateValidator, integerValidator],
         }),
       ],
-      declarations: [],
     }),
   ],
   args: {

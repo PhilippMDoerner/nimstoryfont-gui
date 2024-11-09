@@ -1,21 +1,16 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { EditorModule } from '@tinymce/tinymce-angular';
+import { Location } from 'src/app/_models/location';
+import { dummyOverviewCharacters } from 'src/app/_services/article/character-service.mock';
 import {
   integerValidator,
   notIntegerMessage,
   requiredMessage,
   requiredValidator,
 } from 'src/app/_services/formly/validators';
-import { MoleculesModule } from 'src/design/molecules';
 import { FormlyEditorFieldComponent } from '..';
-import { Location } from '../../../app/_models/location';
-import { AtomsModule } from '../../atoms';
-import { LocationComponent } from '../location/location.component';
 import { LocationAccordionComponent } from './location-accordion.component';
 
 const dummyLocations: Location[] = [
@@ -172,13 +167,7 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        AtomsModule,
-        MoleculesModule,
-        NgbModule,
-        EditorModule,
         RouterTestingModule,
-        FormsModule,
-        ReactiveFormsModule,
         FormlyModule.forRoot({
           types: [
             { name: 'text-editor', component: FormlyEditorFieldComponent },
@@ -187,11 +176,11 @@ export default {
           validators: [requiredValidator, integerValidator],
         }),
       ],
-      declarations: [FormlyEditorFieldComponent, LocationComponent],
     }),
   ],
   args: {
     locations: dummyLocations,
+    campaignCharacters: dummyOverviewCharacters,
     canCreate: true,
   },
 } as Meta<LocationAccordionComponent>;

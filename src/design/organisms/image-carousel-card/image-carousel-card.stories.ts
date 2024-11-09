@@ -1,20 +1,7 @@
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import {
-  dateMessage,
-  dateValidator,
-  fieldMatchValidator,
-  fieldsDontMatchMessage,
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-} from 'src/app/_services/formly/validators';
-import { MoleculesModule } from 'src/design/molecules';
-import { FormlyFileFieldComponent } from 'src/design/molecules/formly-file-field/formly-file-field.component';
+import { FORMLY_MODULE } from 'src/app/_modules/formly';
 import { Image } from '../../../app/_models/image';
-import { ImageCarouselComponent } from '../image-carousel/image-carousel.component';
 import { ImageCarouselCardComponent } from './image-carousel-card.component';
 
 const dummyImages: Image[] = [
@@ -73,31 +60,7 @@ export default {
   component: ImageCarouselCardComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        MoleculesModule,
-        FormlyModule.forRoot({
-          types: [
-            {
-              name: 'file',
-              component: FormlyFileFieldComponent,
-              wrappers: ['form-field'],
-            },
-          ],
-          validationMessages: [
-            requiredMessage,
-            dateMessage,
-            notIntegerMessage,
-            fieldsDontMatchMessage,
-          ],
-          validators: [
-            requiredValidator,
-            dateValidator,
-            integerValidator,
-            fieldMatchValidator,
-          ],
-        }),
-      ],
-      declarations: [ImageCarouselComponent],
+      imports: [FORMLY_MODULE],
     }),
   ],
   args: {

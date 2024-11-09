@@ -12,21 +12,19 @@
     [playTime]="currentTime"
   ></app-player>
 
-  <ng-container *ngIf="canCreate">
-    <ng-container [ngSwitch]="timestampState">
-      <ng-container
-        *ngSwitchCase="'DISPLAY'"
-        [ngTemplateOutlet]="timestampDisplay"
-      ></ng-container>
-      <ng-container
-        *ngSwitchCase="'CREATE'"
-        [ngTemplateOutlet]="timestampCreate"
-      ></ng-container>
-    </ng-container>
-  </ng-container>
+  @if (canCreate) {
+    @switch (timestampState) {
+      @case ("DISPLAY") {
+        <ng-container *ngTemplateOutlet="timestampDisplay" />
+      }
+      @case ("CREATE") {
+        <ng-container *ngTemplateOutlet="timestampCreate" />
+      }
+    }
+  }
 
   <div class="timestamp__list list">
-    <ng-container *ngFor="let entry of timestampEntries">
+    @for (entry of timestampEntries; track entry.value.pk) {
       <app-link-entry
         class="list__timestamp"
         [canDelete]="canDelete"
@@ -36,7 +34,7 @@
         (delete)="deleteTimestamp.emit($event)"
         (linkClick)="onLinkClick($event)"
       ></app-link-entry>
-    </ng-container>
+    }
   </div>
 </div>
 

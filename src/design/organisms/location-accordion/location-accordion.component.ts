@@ -12,7 +12,7 @@ import { ButtonComponent } from 'src/design/atoms';
 import { Location } from '../../../app/_models/location';
 import { LocationComponent } from '../location/location.component';
 
-interface AccordiongEntry {
+interface AccordionEntry {
   value: Location;
   link: string;
 }
@@ -31,7 +31,7 @@ export class LocationAccordionComponent {
   canCreate = input(false);
   campaignName = input.required<string>();
 
-  accordionEntries = computed<AccordiongEntry[]>(() => {
+  accordionEntries = computed<AccordionEntry[]>(() => {
     return this.locations().map((loc) => {
       const parentLocationName = loc.parent_location_details?.name;
       const campaignName = loc.campaign_details?.name;

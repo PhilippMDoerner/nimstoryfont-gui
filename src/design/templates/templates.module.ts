@@ -36,7 +36,6 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     LocationTemplateComponent,
     OrganizationComponent,
     QuestComponent,
-    SessionaudioComponent,
     SpellsTemplateComponent,
     RulesTemplateComponent,
     MarkerComponent,
@@ -53,7 +52,14 @@ import { SpellsTemplateComponent } from './spells-template/spells-template.compo
     SiteAdminComponent,
     LoginComponent,
   ],
-  imports: [CommonModule, OrganismsModule, FormlyModule, EditableTextComponent],
+
+  imports: [
+    CommonModule,
+    OrganismsModule,
+    FormlyModule,
+    EditableTextComponent,
+    SessionaudioComponent,
+  ],
   exports: [
     MapComponent,
     CharacterComponent,

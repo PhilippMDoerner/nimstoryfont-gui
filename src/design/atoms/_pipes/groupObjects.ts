@@ -1,8 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'groupByFirstLetter', standalone: true })
-export class GroupByFirstLetterPipe implements PipeTransform {
-  transform(itemArray: Array<any>, field: string): any {
+export class GroupByFirstLetterPipe<T> implements PipeTransform {
+  transform(
+    itemArray: Array<T>,
+    field: keyof T,
+  ): { key: string; value: T[] }[] {
     const callback = (accumulator: any, item: any) => {
       const groupedFieldValue: string = item[field];
       const firstLetter: string = groupedFieldValue[0];
@@ -20,11 +23,11 @@ export class GroupByFirstLetterPipe implements PipeTransform {
 }
 
 @Pipe({ name: 'groupBy', standalone: true })
-export class GroupByPipe implements PipeTransform {
+export class GroupByPipe<T> implements PipeTransform {
   transform(
-    itemArray: Array<any>,
-    groupProp: string,
-    subSortProp: string,
+    itemArray: Array<T>,
+    groupProp: Exclude<keyof T, number | symbol>,
+    subSortProp: Exclude<keyof T, number | symbol>,
     reverse: boolean = false,
   ): any {
     const callback = (accumulator: any, item: any) => {
@@ -63,7 +66,10 @@ export class GroupByPipe implements PipeTransform {
     return reverse ? sortedGroupArray.reverse() : sortedGroupArray;
   }
 
-  private sortGroup(group: any[], sortProperty: string): any[] {
+  private sortGroup<T>(
+    group: T[],
+    sortProperty: Exclude<keyof T, number | symbol>,
+  ): T[] {
     return group.sort((val1: any, val2: any) => {
       let sortValue1 = this.getFieldValue(sortProperty, val1);
       const isStringProperty = typeof sortValue1 === 'string';
@@ -83,7 +89,7 @@ export class GroupByPipe implements PipeTransform {
    * Essentially evaluates an expression "item.field1.field2.field3" with fieldPath being "field1.field2.field3".
    * It iterates over the individual fields and goes through them one by one, returns the last field value.
    */
-  getFieldValue(fieldPath: string, item: object): any {
+  getFieldValue<T>(fieldPath: string, item: T): any {
     /**Returns the field of a given item, even if it is nested within it */
     const keys: string[] = fieldPath.split('.');
 

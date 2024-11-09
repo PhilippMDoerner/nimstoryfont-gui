@@ -1,11 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { EditorModule } from '@tinymce/tinymce-angular';
 import { Spell } from 'src/app/_models/spell';
 import { dummyClasses } from 'src/app/_services/article/player-class.service.mock';
 import {
@@ -16,11 +13,8 @@ import {
   requiredValidator,
   specialCharacterValidator,
 } from 'src/app/_services/formly/validators';
-import { MoleculesModule } from 'src/design/molecules';
 import * as all from 'tinymce/tinymce';
 import { FormlyEditorFieldComponent } from '..';
-import { AtomsModule } from '../../atoms';
-import { SpellComponent } from '../spell/spell.component';
 import { SpellsComponent } from './spells.component';
 
 const x = all;
@@ -73,14 +67,8 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        CommonModule,
-        AtomsModule,
-        MoleculesModule,
-        NgbModule,
-        EditorModule,
+        BrowserAnimationsModule,
         RouterTestingModule,
-        FormsModule,
-        ReactiveFormsModule,
         FormlyModule.forRoot({
           types: [
             { name: 'text-editor', component: FormlyEditorFieldComponent },
@@ -97,7 +85,6 @@ export default {
           ],
         }),
       ],
-      declarations: [FormlyEditorFieldComponent, SpellComponent],
     }),
   ],
   args: {

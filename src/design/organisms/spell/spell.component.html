@@ -144,7 +144,7 @@
   ></app-badge-list>
 
   <!-- Delete Toggler -->
-  <ng-container *ngIf="canDelete()">
+  @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
       [toggleType]="'DANGER'"
@@ -152,7 +152,7 @@
       [icon]="'trash'"
       (confirm)="onSpellDelete()"
     ></app-confirmation-toggle-button>
-  </ng-container>
+  }
 </ng-template>
 
 <ng-template #updateHeading> Update '{{ spell()?.name }}' </ng-template>
@@ -171,7 +171,7 @@
 <ng-template #createHeading> Create new Spell </ng-template>
 
 <ng-template #createBody>
-  <ng-container *ngIf="canCreate">
+  @if (canCreate()) {
     <app-form
       [model]="userModel()"
       [fields]="formlyFields"
@@ -180,7 +180,7 @@
       (formlySubmit)="onSpellCreate($event)"
       (formlyCancel)="onSpellCreateCancel()"
     ></app-form>
-  </ng-container>
+  }
 </ng-template>
 
 <ng-template #outdatedUpdateBody>

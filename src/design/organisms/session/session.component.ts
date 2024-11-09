@@ -1,4 +1,6 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   EventEmitter,
@@ -8,10 +10,18 @@ import {
   Output,
   signal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Session, SessionDiaryEntry } from 'src/app/_models/session';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { IconComponent } from 'src/design/atoms';
+import {
+  CompareFormComponent,
+  ConfirmationToggleButtonComponent,
+  EditToggleComponent,
+  FormComponent,
+} from 'src/design/molecules';
 
 type SessionState = 'CREATE' | 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
 
@@ -25,6 +35,17 @@ interface DiaryEntry {
   selector: 'app-session',
   templateUrl: './session.component.html',
   styleUrls: ['./session.component.scss'],
+  standalone: true,
+  imports: [
+    NgTemplateOutlet,
+    EditToggleComponent,
+    IconComponent,
+    RouterLink,
+    ConfirmationToggleButtonComponent,
+    FormComponent,
+    CompareFormComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SessionComponent implements OnInit {
   session = input.required<Session>();
@@ -95,7 +116,7 @@ export class SessionComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const isInCreateScenario = this.session().pk == null && this.canCreate();
+    const isInCreateScenario = this.session()?.pk == null && this.canCreate();
     if (isInCreateScenario) {
       this.changeState('CREATE', {} as Session);
     }

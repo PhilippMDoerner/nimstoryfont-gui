@@ -3,10 +3,7 @@ import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import {
-  FormlyFileFieldComponent,
-  MoleculesModule,
-} from 'src/design/molecules';
+import { FormlyFileFieldComponent } from 'src/design/molecules';
 import {
   FormlyDatepickerFieldComponent,
   FormlyEditorFieldComponent,
@@ -33,7 +30,6 @@ import {
   specialCharacterValidator,
   timeValidator,
 } from '../../../app/_services/formly/validators';
-import { QuoteComponent } from '../quote/quote.component';
 import { QuoteFieldComponent } from './quote-field.component';
 
 const dummyQuote: Quote = {
@@ -321,7 +317,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        MoleculesModule,
         RouterTestingModule,
         FormlyModule.forRoot({
           types: [
@@ -360,7 +355,6 @@ export default {
           ],
         }),
       ],
-      declarations: [QuoteComponent],
     }),
   ],
   args: {

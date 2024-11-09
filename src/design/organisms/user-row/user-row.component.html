@@ -2,25 +2,25 @@
   <h3 class="row user-card__row user-card__row--heading">
     <div class="col-12">
       <app-icon [icon]="'user'"></app-icon>
-      {{ user.username | titlecase }}
-      <ng-container *ngIf="!user.is_active">
+      {{ user().username | titlecase }}
+      @if (user().is_active) {
         <span title="Deleted/Deactivated"> (†) </span>
-      </ng-container>
+      }
     </div>
   </h3>
 
   <div class="row user-card__row">
     <app-badge-list
       class="col-12"
-      [canCreate]="canCreate"
-      [canDelete]="canDelete"
-      [entries]="userGroupEntries"
+      [canCreate]="canCreate()"
+      [canDelete]="canDelete()"
+      [entries]="userGroupEntries()"
       [createOptions]="{
         kind: 'SELECT',
         config: {
           valueProp: 'id',
           labelProp: 'name',
-          options: groups ?? [],
+          options: groups() ?? [],
         },
       }"
       [label]="'Permission-Groups'"
@@ -34,16 +34,16 @@
       <app-icon [icon]="'envelope-o'"></app-icon>
       Email:
     </div>
-    <div class="col-8">{{ user.email ?? "Not Provided" }}</div>
+    <div class="col-8">{{ user().email ?? "Not Provided" }}</div>
   </div>
 
-  <ng-container *ngIf="user.is_active">
+  @if (user().is_active) {
     <app-confirmation-toggle-button
       class="col-12 user-card__row user-card__row--delete"
       [confirmationQuestion]="'Delete user ?'"
       [icon]="'trash'"
       [cancelButtonType]="'DARK'"
-      (confirm)="deleteUser.emit(user)"
+      (confirm)="deleteUser.emit(user())"
     ></app-confirmation-toggle-button>
-  </ng-container>
+  }
 </div>

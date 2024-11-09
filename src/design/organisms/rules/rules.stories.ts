@@ -1,11 +1,8 @@
-import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { EditorModule } from '@tinymce/tinymce-angular';
 import { Rule } from 'src/app/_models/rule';
 import {
   hasSpecialCharactersMessage,
@@ -15,11 +12,8 @@ import {
   requiredValidator,
   specialCharacterValidator,
 } from 'src/app/_services/formly/validators';
-import { MoleculesModule } from 'src/design/molecules';
 import * as all from 'tinymce/tinymce';
 import { FormlyEditorFieldComponent } from '..';
-import { AtomsModule } from '../../atoms';
-import { RuleComponent } from '../rule/rule.component';
 import { RulesComponent } from './rules.component';
 
 const x = all;
@@ -47,14 +41,9 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        CommonModule,
-        AtomsModule,
-        MoleculesModule,
-        NgbModule,
-        EditorModule,
-        RouterTestingModule,
         FormsModule,
         ReactiveFormsModule,
+        BrowserAnimationsModule,
         FormlyModule.forRoot({
           types: [
             { name: 'text-editor', component: FormlyEditorFieldComponent },
@@ -71,7 +60,6 @@ export default {
           ],
         }),
       ],
-      declarations: [FormlyEditorFieldComponent, RuleComponent],
     }),
   ],
   args: {

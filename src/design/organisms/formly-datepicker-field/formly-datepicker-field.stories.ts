@@ -7,7 +7,6 @@ import {
   componentWrapperDecorator,
   moduleMetadata,
 } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
 import { FormlyDatepickerFieldComponent } from './formly-datepicker-field.component';
 
 export default {
@@ -26,9 +25,7 @@ export default {
   },
   decorators: [
     moduleMetadata({
-      declarations: [FormlyDatepickerFieldComponent],
       imports: [
-        AtomsModule,
         ReactiveFormsModule,
         FormlyBootstrapModule,
         FormlyModule.forRoot({

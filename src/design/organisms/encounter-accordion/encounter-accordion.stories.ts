@@ -13,7 +13,6 @@ import {
 import * as all from 'tinymce/tinymce';
 import { FormlyEditorFieldComponent } from '..';
 import { Encounter } from '../../../app/_models/encounter';
-import { EncounterComponent } from '../encounter/encounter.component';
 import { EncounterAccordionComponent } from './encounter-accordion.component';
 
 const x = all;
@@ -409,7 +408,6 @@ export default {
           validators: [requiredValidator, integerValidator],
         }),
       ],
-      declarations: [FormlyEditorFieldComponent, EncounterComponent],
     }),
   ],
   args: {

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   EventEmitter,
@@ -19,6 +20,7 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   styleUrls: ['./sidebar.component.scss'],
   standalone: true,
   imports: [RouterLink, IconComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
   campaign = input<Campaign | undefined>(undefined);

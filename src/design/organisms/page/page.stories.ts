@@ -1,9 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
-import { MoleculesModule } from 'src/design/molecules';
-import { PageContainerComponent } from '../page-container/page-container.component';
-import { SidebarComponent } from '../sidebar/sidebar.component';
 import { PageComponent } from './page.component';
 
 const dummyUserData = {
@@ -32,8 +29,7 @@ export default {
   component: PageComponent,
   decorators: [
     moduleMetadata({
-      imports: [MoleculesModule, RouterTestingModule],
-      declarations: [SidebarComponent, PageContainerComponent],
+      imports: [RouterTestingModule],
     }),
   ],
   parameters: {

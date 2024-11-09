@@ -18,7 +18,6 @@ import * as all from 'tinymce/tinymce';
 import { FormlyEditorFieldComponent } from '..';
 import { Encounter } from '../../../app/_models/encounter';
 import { AtomsModule } from '../../atoms';
-import { EncounterComponent } from '../encounter/encounter.component';
 import { DiaryentryEncountersComponent } from './diaryentry-encounters.component';
 
 const x = all;
@@ -420,7 +419,6 @@ export default {
           validators: [requiredValidator, integerValidator],
         }),
       ],
-      declarations: [FormlyEditorFieldComponent, EncounterComponent],
     }),
   ],
   args: {

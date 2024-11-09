@@ -1,12 +1,11 @@
 import { forwardRef } from '@angular/core';
 import {
   FormGroup,
+  FormsModule,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import {
   Meta,
   StoryFn,
@@ -14,14 +13,14 @@ import {
   moduleMetadata,
 } from '@storybook/angular';
 import { of } from 'rxjs';
+import { User } from 'src/app/_models/user';
 import {
   requiredMessage,
   requiredValidator,
 } from 'src/app/_services/formly/validators';
-import { AtomsModule } from '../../atoms';
 import { FormlySelectDisableFieldComponent } from './formly-select-disable-field.component';
 
-const dummyData = [
+const dummyData: User[] = [
   {
     username: 'john_doe',
     password: 'password123',
@@ -241,7 +240,7 @@ const dummyData = [
   },
 ];
 
-const dummyConfig = {
+const dummyConfig: FormlyFieldConfig = {
   key: 'username',
   type: 'select-disable',
   props: {
@@ -249,11 +248,14 @@ const dummyConfig = {
     labelProp: 'username',
     valueProp: 'username',
     options: of(dummyData),
-    disabledExpression: (selectOption: any) =>
-      isInGroup(selectOption, 'group a'),
-    tooltipMessage:
-      'Members typically represent the individual player characters + the GM(s)',
     warningMessage: 'The user you selected is already member of this campaign',
+    additionalProperties: {
+      disabledExpression: (selectOption: any) =>
+        isInGroup(selectOption, 'group a'),
+      tooltipMessage:
+        'Members typically represent the individual player characters + the GM(s)',
+      showWrapperLabel: true,
+    },
   },
 };
 
@@ -277,16 +279,13 @@ export default {
     form: new FormGroup({}),
     model: {},
     options: {},
-    fields: [],
+    fields: [dummyConfig],
   },
   decorators: [
     moduleMetadata({
-      declarations: [FormlySelectDisableFieldComponent],
       imports: [
-        AtomsModule,
-        NgbModule,
         ReactiveFormsModule,
-        FormlyBootstrapModule,
+        FormsModule,
         FormlyModule.forRoot({
           types: [
             {

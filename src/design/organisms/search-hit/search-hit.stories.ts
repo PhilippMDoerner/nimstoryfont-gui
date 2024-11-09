@@ -162,7 +162,7 @@ export default {
   },
 } as Meta<SearchHitComponent>;
 
-const Template: StoryFn<SearchHitComponent> = (args: SearchHitComponent) => ({
+const Template: StoryFn<SearchHitComponent> = (args) => ({
   props: {
     ...args,
   },

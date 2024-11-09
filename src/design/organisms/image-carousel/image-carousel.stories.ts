@@ -1,8 +1,6 @@
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { Meta, StoryFn } from '@storybook/angular';
 import { Image } from '../../../app/_models/image';
-import { AtomsModule } from '../../atoms';
 import { ImageCarouselComponent } from './image-carousel.component';
 
 const dummyImages: Image[] = [
@@ -59,18 +57,13 @@ const dummyImages: Image[] = [
 export default {
   title: 'DesignSystem/Organisms/ImageCarouselComponent',
   component: ImageCarouselComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AtomsModule, NgbModule],
-      declarations: [],
-    }),
-  ],
   args: {
     images: dummyImages,
     serverUrl: 'https://images.dog.ceo',
     canCreate: true,
     canUpdate: true,
     canDelete: true,
+    currentSlideIndex: 0,
   },
 } as Meta<ImageCarouselComponent>;
 

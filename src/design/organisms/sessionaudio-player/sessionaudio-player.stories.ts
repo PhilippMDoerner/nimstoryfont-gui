@@ -10,8 +10,6 @@ import {
   requiredValidator,
   timeValidator,
 } from 'src/app/_services/formly/validators';
-import { MoleculesModule } from '../../molecules';
-import { PlayerComponent } from '../player/player.component';
 import { SessionaudioPlayerComponent } from './sessionaudio-player.component';
 
 const dummyTimestamps: Timestamp[] = [
@@ -52,7 +50,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        MoleculesModule,
         FormlyModule.forRoot({
           validationMessages: [
             requiredMessage,
@@ -62,7 +59,6 @@ export default {
           validators: [requiredValidator, integerValidator, timeValidator],
         }),
       ],
-      declarations: [PlayerComponent],
     }),
   ],
   args: {

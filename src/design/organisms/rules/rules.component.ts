@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   EventEmitter,
@@ -11,6 +12,9 @@ import {
   slideOutFromBottom,
   slideUpFromBottom,
 } from 'src/design/animations/slideDown';
+import { ButtonComponent, SpinnerComponent } from 'src/design/atoms';
+import { CollapsiblePanelComponent } from 'src/design/molecules';
+import { RuleComponent } from '../rule/rule.component';
 
 interface RuleCard {
   rule: Rule;
@@ -22,6 +26,14 @@ interface RuleCard {
   templateUrl: './rules.component.html',
   styleUrls: ['./rules.component.scss'],
   animations: [slideOutFromBottom, slideUpFromBottom],
+  standalone: true,
+  imports: [
+    ButtonComponent,
+    CollapsiblePanelComponent,
+    RuleComponent,
+    SpinnerComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RulesComponent {
   DEFAULT_TITLE = 'New Rule';

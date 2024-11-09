@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   EventEmitter,
@@ -16,7 +17,16 @@ import {
   slideOutFromBottom,
   slideUpFromBottom,
 } from 'src/design/animations/slideDown';
-import { BadgeListEntry } from 'src/design/molecules';
+import {
+  BadgeComponent,
+  ButtonComponent,
+  SpinnerComponent,
+} from 'src/design/atoms';
+import {
+  BadgeListEntry,
+  CollapsiblePanelComponent,
+} from 'src/design/molecules';
+import { SpellComponent } from '../spell/spell.component';
 
 interface SpellCard {
   spell: Spell;
@@ -29,6 +39,15 @@ interface SpellCard {
   templateUrl: './spells.component.html',
   styleUrls: ['./spells.component.scss'],
   animations: [slideUpFromBottom, slideOutFromBottom],
+  standalone: true,
+  imports: [
+    ButtonComponent,
+    CollapsiblePanelComponent,
+    SpellComponent,
+    BadgeComponent,
+    SpinnerComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpellsComponent {
   DEFAULT_TITLE = 'New Article Item';

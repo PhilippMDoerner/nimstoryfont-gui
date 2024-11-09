@@ -94,9 +94,9 @@ export default {
       imports: [MoleculesModule, RouterTestingModule],
     }),
   ],
-} as Meta<ImageGridComponent>;
+} as Meta<ImageGridComponent<any>>;
 
-const Template: StoryFn<ImageGridComponent> = (args) => ({
+const Template: StoryFn<ImageGridComponent<any>> = (args) => ({
   props: {
     ...args,
     entryClick: action('entryClick'),

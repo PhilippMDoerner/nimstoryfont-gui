@@ -1,10 +1,54 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Route, Router, Routes } from '@angular/router';
 import { log } from 'src/utils/logging';
+import { camelToSnake, snakeToCamel } from 'src/utils/string';
 
 interface RouteNode {
   fullPath: string;
   route: Route;
+}
+
+function getProperty<T extends object, O>(obj: T, key: string): O | undefined {
+  if (key in obj) {
+    return obj[key as keyof T] as O;
+  }
+
+  const snakeCaseKey = camelToSnake(key);
+  if (snakeCaseKey in obj) {
+    return obj[snakeCaseKey as keyof T] as O;
+  }
+
+  const camelCaseKey = snakeToCamel(key);
+  if (camelCaseKey in obj) {
+    return obj[camelCaseKey as keyof T] as O;
+  }
+
+  return undefined;
+}
+
+function getCorrectKey<T extends object>(
+  obj: T,
+  key: string,
+): keyof T | undefined {
+  if (key in obj) {
+    return key as keyof T;
+  }
+
+  const snakeCaseKey = camelToSnake(key);
+  if (snakeCaseKey in obj) {
+    return snakeCaseKey as keyof T;
+  }
+
+  const camelCaseKey = snakeToCamel(key);
+  if (camelCaseKey in obj) {
+    return camelCaseKey as keyof T;
+  }
+
+  return undefined;
+}
+
+function hasProperty<T extends object>(obj: T, key: string): boolean {
+  return key in obj || camelToSnake(key) in obj || snakeToCamel(key) in obj;
 }
 
 @Injectable({
@@ -32,16 +76,21 @@ export class RoutingService {
       const variableNames: string[] =
         this.getPathVariableNames(variableRoutePath);
       for (let variableName of variableNames) {
-        if (!params.hasOwnProperty(variableName)) {
-          throw `Tried to create path for route ${routeName} but lacked parameter ${variableName}`;
+        const propertyKey = getCorrectKey(params, variableName);
+        if (propertyKey == null) {
+          const e = new Error(
+            `Tried to create path for route '${routeName}' but lacked parameter '${variableName}' `,
+          );
+          console.error(e, 'Provided Params: ', params);
+          continue;
         }
 
-        if (params[variableName] === null) {
-          params[variableName] = this.NONE_STRING;
+        if (params[propertyKey] === null) {
+          params[propertyKey] = this.NONE_STRING;
         }
         variableRoutePath = variableRoutePath.replace(
           `:${variableName}`,
-          params[variableName],
+          params[propertyKey],
         );
       }
     }

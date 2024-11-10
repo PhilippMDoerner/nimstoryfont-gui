@@ -63,6 +63,12 @@ export class GeneralOverviewComponent implements OnInit, OnChanges {
     this.setEntries();
   }
 
+  toImageUrl(playerCharacter: OverviewItem): string {
+    return (
+      playerCharacter?.images?.[0] ?? '/' + this.defaultPlayerCharacterImage
+    );
+  }
+
   private setEntries(): void {
     switch (this.overviewType) {
       case 'CHARACTER':

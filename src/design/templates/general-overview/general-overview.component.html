@@ -110,9 +110,7 @@
             <app-image-card
               class="player-card__card"
               [serverUrl]="serverUrl"
-              [imageUrl]="
-                playerCharacter.images[0] ?? '/' + defaultPlayerCharacterImage
-              "
+              [imageUrl]="toImageUrl(playerCharacter)"
               [alt]="
                 'An image displaying the player character ' +
                 playerCharacter.name

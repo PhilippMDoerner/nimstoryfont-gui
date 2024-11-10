@@ -1,1 +1,31 @@
-<p>quote-overview-page works!</p>
+@let quotes = store.quotes();
+@let character = store.character();
+@let campaignId = globalStore.currentCampaign()?.pk;
+@if (quotes && character && campaignId != null) {
+  <app-page-container>
+    <article>
+      <h1 class="heading">Quotes of {{ character.name }}</h1>
+      <app-quotes
+        [quotes]="quotes"
+        [campaignCharacters]="store.campaignCharacters() ?? []"
+        [campaignSessions]="store.campaignSessions() ?? []"
+        [campaignId]="campaignId"
+        [canCreate]="store.hasWritePermission()"
+        [canUpdate]="store.hasWritePermission()"
+        [canDelete]="store.hasWritePermission()"
+        [character]="character"
+        [serverModel]="store.quoteServerModel()"
+        [quoteControlsBlacklist]="['LIST', 'REFRESH']"
+      />
+      <div class="container mt-3">
+        <a class="row back-link" [routerLink]="homeUrl()">
+          <app-button
+            class="back-link__button"
+            [type]="'SECONDARY'"
+            [text]="'Back to Frontpage'"
+          ></app-button>
+        </a>
+      </div>
+    </article>
+  </app-page-container>
+}

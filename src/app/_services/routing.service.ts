@@ -1,54 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute, Route, Router, Routes } from '@angular/router';
 import { log } from 'src/utils/logging';
-import { camelToSnake, snakeToCamel } from 'src/utils/string';
+import { getCorrectKey } from 'src/utils/object';
 
 interface RouteNode {
   fullPath: string;
   route: Route;
-}
-
-function getProperty<T extends object, O>(obj: T, key: string): O | undefined {
-  if (key in obj) {
-    return obj[key as keyof T] as O;
-  }
-
-  const snakeCaseKey = camelToSnake(key);
-  if (snakeCaseKey in obj) {
-    return obj[snakeCaseKey as keyof T] as O;
-  }
-
-  const camelCaseKey = snakeToCamel(key);
-  if (camelCaseKey in obj) {
-    return obj[camelCaseKey as keyof T] as O;
-  }
-
-  return undefined;
-}
-
-function getCorrectKey<T extends object>(
-  obj: T,
-  key: string,
-): keyof T | undefined {
-  if (key in obj) {
-    return key as keyof T;
-  }
-
-  const snakeCaseKey = camelToSnake(key);
-  if (snakeCaseKey in obj) {
-    return snakeCaseKey as keyof T;
-  }
-
-  const camelCaseKey = snakeToCamel(key);
-  if (camelCaseKey in obj) {
-    return camelCaseKey as keyof T;
-  }
-
-  return undefined;
-}
-
-function hasProperty<T extends object>(obj: T, key: string): boolean {
-  return key in obj || camelToSnake(key) in obj || snakeToCamel(key) in obj;
 }
 
 @Injectable({

@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { FORMLY_MODULE } from 'src/app/_modules/formly';
+import { FORMLY_CHILD_MODULE } from 'src/app/_modules/formly';
 import { Image } from '../../../app/_models/image';
 import { ImageCarouselCardComponent } from './image-carousel-card.component';
 
@@ -60,7 +60,7 @@ export default {
   component: ImageCarouselCardComponent,
   decorators: [
     moduleMetadata({
-      imports: [FORMLY_MODULE],
+      imports: [FORMLY_CHILD_MODULE],
     }),
   ],
   args: {

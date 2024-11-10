@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { FORMLY_MODULE } from 'src/app/_modules/formly';
+import { FORMLY_CHILD_MODULE } from 'src/app/_modules/formly';
 import { dummyMaps } from 'src/app/_services/article/map.service.mock';
 import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
 import { CampaignUpdateComponent } from './campaign-update.component';
@@ -10,7 +10,7 @@ export default {
 
   decorators: [
     moduleMetadata({
-      imports: [FORMLY_MODULE],
+      imports: [FORMLY_CHILD_MODULE],
     }),
   ],
   args: {

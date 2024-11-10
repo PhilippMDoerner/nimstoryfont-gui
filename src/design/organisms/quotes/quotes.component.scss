@@ -1,0 +1,32 @@
+.list {
+  &__button-row {
+    margin-bottom: var(--spacer-3);
+  }
+
+  &__quote-card {
+    margin: 0;
+  }
+
+  &__row {
+    gap: var(--spacer-5);
+  }
+
+  &__session-quotes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-3);
+  }
+
+  &__quote {
+    background-color: var(--bs-gray-900);
+    border-radius: var(--bs-border-radius);
+    padding: var(--spacer-3);
+  }
+}
+
+.button-row {
+  &__button {
+    padding: 0;
+    width: fit-content;
+  }
+}

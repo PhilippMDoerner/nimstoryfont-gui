@@ -10,6 +10,7 @@ import {
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 
+import { RouterLink } from '@angular/router';
 import { ElementType } from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
@@ -28,13 +29,29 @@ type QuoteState =
   | 'DISPLAY'
   | 'UPDATE_OUTDATED';
 
+export type QuoteControlKind =
+  | 'REFRESH'
+  | 'DELETE'
+  | 'CREATE'
+  | 'UPDATE'
+  | 'LIST'
+  | 'COPY';
 type QuoteControl = {
+  controlKind: QuoteControlKind;
   isVisible: boolean;
   title: string;
   type: ElementType;
   label?: string;
   icon: Icon;
-  onClick: () => void;
+  config:
+    | {
+        kind: 'LINK';
+        link: string;
+      }
+    | {
+        kind: 'CLICK';
+        onClick: () => void;
+      };
 };
 
 @Component({
@@ -47,11 +64,16 @@ type QuoteControl = {
     BadgeListComponent,
     SeparatorComponent,
     ButtonComponent,
+    RouterLink,
     SpinnerComponent,
   ],
 })
 export class QuoteComponent implements OnChanges {
   quote = input<Quote>();
+  quoteControlsBlacklist = input<QuoteControlKind[]>([]);
+  _quoteControlsBlacklist = computed(
+    () => new Set(this.quoteControlsBlacklist()),
+  );
   character = input.required<CharacterDetails>();
   campaignCharacters = input.required<OverviewItem[]>();
   canCreate = input(false);
@@ -65,7 +87,7 @@ export class QuoteComponent implements OnChanges {
     new EventEmitter();
   @Output() connectionCreate: EventEmitter<QuoteConnection> =
     new EventEmitter();
-  @Output() refreshQuote: EventEmitter<null> = new EventEmitter();
+  @Output() refreshQuote: EventEmitter<void> = new EventEmitter();
 
   state: QuoteState = 'DISPLAY';
   badgeEntries = computed<BadgeListEntry<QuoteConnection>[]>(() =>
@@ -82,55 +104,80 @@ export class QuoteComponent implements OnChanges {
 
   private _quoteControlls = computed<QuoteControl[]>(() => [
     {
+      controlKind: 'REFRESH',
       isVisible: !!this.quote(),
       title: 'Load new quote',
       type: 'INFO',
       icon: 'refresh',
-      onClick: () => this.getNextRandomQuote(),
+      config: {
+        kind: 'CLICK',
+        onClick: () => this.getNextRandomQuote(),
+      },
     },
     {
+      controlKind: 'UPDATE',
       isVisible: !!this.quote() && this.canUpdate(),
       title: 'Edit Quote',
       type: 'SECONDARY',
       icon: 'pencil',
-      onClick: () => this.quoteUpdate.emit(this.quote()),
+      config: {
+        kind: 'CLICK',
+        onClick: () => this.quoteUpdate.emit(this.quote()),
+      },
     },
     {
+      controlKind: 'CREATE',
       isVisible: this.canCreate(),
       title: 'Create Quote',
       label: this.quote() ? undefined : 'Create Quote',
       type: 'PRIMARY',
       icon: 'plus',
-      onClick: () => this.quoteCreate.emit(),
+      config: {
+        kind: 'CLICK',
+        onClick: () => this.quoteCreate.emit(),
+      },
     },
     {
+      controlKind: 'DELETE',
       isVisible: !!this.quote() && this.canDelete(),
       title: 'Delete Quote',
       type: 'DANGER',
       icon: 'trash',
-      onClick: () => this.quoteDelete.emit(this.quote()),
+      config: {
+        kind: 'CLICK',
+        onClick: () => this.quoteDelete.emit(this.quote()),
+      },
     },
     {
+      controlKind: 'COPY',
       isVisible: !!this.quote(),
       title: 'Copy Quote to Clipboard',
       type: 'DARK',
       icon: 'copy',
-      onClick: () => this.copyQuoteToClipboard(),
+      config: {
+        kind: 'CLICK',
+        onClick: () => this.copyQuoteToClipboard(),
+      },
     },
     {
+      controlKind: 'LIST',
       isVisible: !!this.quote(),
       title: 'See all quotes',
       type: 'SECONDARY',
       icon: 'th-list',
-      onClick: () =>
-        this.routingService.routeToPath('quote-overview', {
+      config: {
+        kind: 'LINK',
+        link: this.routingService.getRoutePath('quote-overview', {
           name: this.character().name,
           campaign: this.campaignName(),
         }),
+      },
     },
   ]);
   quoteControlls = computed(() =>
-    this._quoteControlls().filter((ctrl) => ctrl.isVisible),
+    this._quoteControlls()
+      .filter((ctrl) => ctrl.isVisible)
+      .filter((ctrl) => !this._quoteControlsBlacklist().has(ctrl.controlKind)),
   );
 
   constructor(private routingService: RoutingService) {}

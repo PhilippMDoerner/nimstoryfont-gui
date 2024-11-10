@@ -1,0 +1,59 @@
+<div class="container list">
+  @if (canCreate()) {
+    <div class="row list__button-row">
+      <app-button
+        class="button-row__button"
+        [type]="'PRIMARY'"
+        [text]="'Add quote'"
+        [icon]="'plus'"
+      ></app-button>
+    </div>
+  }
+
+  <div class="row list__row">
+    @if (isCreatingQuote()) {
+      <app-quote
+        class="list__quote"
+        [quote]="createQuoteData()"
+        [quoteControlsBlacklist]="[
+          'CREATE',
+          'DELETE',
+          'UPDATE',
+          'COPY',
+          'REFRESH',
+        ]"
+        [campaignCharacters]="campaignCharacters()"
+        [character]="character()"
+        [canUpdate]="false"
+        [canDelete]="false"
+        [canCreate]="canCreate()"
+      ></app-quote>
+    }
+    @for (
+      sessionQuotes of quotes()
+        | groupBy
+          : "session_details.session_number"
+          : "session_details.session_number";
+      track $index
+    ) {
+      <div class="list__session-quotes">
+        <h3 class="m-0">Quotes of Session #{{ sessionQuotes.key }}</h3>
+        @for (quote of sessionQuotes.value; track quote.pk) {
+          <app-quote
+            class="list__quote"
+            [quote]="quote"
+            [quoteControlsBlacklist]="quoteControlsBlacklist()"
+            [campaignCharacters]="campaignCharacters()"
+            [character]="character()"
+            [canUpdate]="canUpdate()"
+            [canDelete]="canDelete()"
+            [canCreate]="canCreate()"
+          ></app-quote>
+        }
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<ng-template #loading><app-spinner></app-spinner></ng-template>

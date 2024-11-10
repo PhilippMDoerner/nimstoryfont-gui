@@ -14,3 +14,11 @@ export function ellipsize(x: string, length: number): string {
 
   return `${x.slice(0, length - 3)}...`;
 }
+
+export function camelToSnake(str: string): string {
+  return str.replace(/([A-Z])/g, '_$1').toLowerCase();
+}
+
+export function snakeToCamel(str: string): string {
+  return str.replace(/_([a-z])/g, (match, group) => group.toUpperCase());
+}

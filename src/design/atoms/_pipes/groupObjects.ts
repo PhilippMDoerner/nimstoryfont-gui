@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { getNestedProperty } from 'src/utils/object';
 
 @Pipe({ name: 'groupByFirstLetter', standalone: true })
 export class GroupByFirstLetterPipe<T> implements PipeTransform {
@@ -34,7 +35,7 @@ export class GroupByPipe<T> implements PipeTransform {
       //grouped Field Value = The content of the field by which you're grouping.
       //item = The value being grouped
       //Accumulator = Object with groupedFieldValue as key and an array of items associated with that Field as value
-      const groupedFieldValue = this.getFieldValue(groupProp, item);
+      const groupedFieldValue = getNestedProperty(item, groupProp);
 
       const hasGroupAlready = accumulator.hasOwnProperty(groupedFieldValue);
       if (hasGroupAlready) {
@@ -68,36 +69,20 @@ export class GroupByPipe<T> implements PipeTransform {
 
   private sortGroup<T>(
     group: T[],
-    sortProperty: Exclude<keyof T, number | symbol>,
+    propertyPath: Exclude<keyof T, number | symbol>,
   ): T[] {
     return group.sort((val1: any, val2: any) => {
-      let sortValue1 = this.getFieldValue(sortProperty, val1);
+      let sortValue1 = getNestedProperty(val1, propertyPath);
       const isStringProperty = typeof sortValue1 === 'string';
       if (isStringProperty) {
         sortValue1 = sortValue1.toLowerCase();
       }
 
-      let sortValue2 = this.getFieldValue(sortProperty, val2);
+      let sortValue2 = getNestedProperty(val2, propertyPath);
       if (isStringProperty) {
         sortValue2 = sortValue2.toLowerCase();
       }
       return sortValue1 < sortValue2 ? 1 : -1;
     });
-  }
-
-  /**
-   * Essentially evaluates an expression "item.field1.field2.field3" with fieldPath being "field1.field2.field3".
-   * It iterates over the individual fields and goes through them one by one, returns the last field value.
-   */
-  getFieldValue<T>(fieldPath: string, item: T): any {
-    /**Returns the field of a given item, even if it is nested within it */
-    const keys: string[] = fieldPath.split('.');
-
-    let currentValue: any = item;
-    for (let key of keys) {
-      currentValue = currentValue[key];
-    }
-
-    return currentValue;
   }
 }

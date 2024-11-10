@@ -1,20 +1,22 @@
+import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FormlyModule } from '@ngx-formly/core';
 import { map, Observable } from 'rxjs';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { MailService } from 'src/app/_services/utils/mail.service';
 import { GlobalStore } from 'src/app/global.store';
-import { LoginPageStore } from './login-page.store';
 import { LoginComponent } from '../../../../design/templates/login/login.component';
-import { AsyncPipe } from '@angular/common';
+import { LoginPageStore } from './login-page.store';
 
 @Component({
-    selector: 'app-login-page',
-    templateUrl: './login-page.component.html',
-    styleUrls: ['./login-page.component.scss'],
-    standalone: true,
-    imports: [LoginComponent, AsyncPipe],
+  selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.scss'],
+  standalone: true,
+  imports: [LoginComponent, AsyncPipe, FormlyModule],
+  providers: [LoginPageStore],
 })
 export class LoginPageComponent {
   public readonly globalStore = inject(GlobalStore);

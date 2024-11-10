@@ -41,6 +41,8 @@ import { QuestPageComponent } from './pages/quest-page/quest-page.component';
 import { QuestPageStore } from './pages/quest-page/quest-page.store';
 import { QuestsOverviewPageComponent } from './pages/quests-overview-page/quests-overview-page.component';
 import { QuestOverviewPageStore } from './pages/quests-overview-page/quests-overview-page.store';
+import { QuoteOverviewPageComponent } from './pages/quote-overview-page/quote-overview-page.component';
+import { QuoteOverviewPageStore } from './pages/quote-overview-page/quote-overview-page.store';
 import { RulesPageComponent } from './pages/rules-page/rules-page.component';
 import { RulesPageStore } from './pages/rules-page/rules-page.store';
 import { SessionsPageComponent } from './pages/sessions-page/sessions-page.component';
@@ -486,14 +488,22 @@ const detailRoutes: Route[] = [
     },
     canDeactivate: [onExitReset(SessionsPageStore)],
   },
-  // // Quote Routes
-  // {
-  //   path: 'quotes/:name',
-  //   component: QuoteOverviewPageComponent,
-  //   data: { name: 'quote-overview', requiredMinimumRole: 'guest' },
-  //   resolve: {},
-  // },
-  // Map Routes
+  // Quotes
+  {
+    path: 'quotes/:name',
+    component: QuoteOverviewPageComponent,
+    data: { name: 'quote-overview', requiredMinimumRole: 'guest' },
+    providers: [QuoteOverviewPageStore],
+    resolve: {
+      quotes: (route: ActivatedRouteSnapshot) =>
+        inject(QuoteOverviewPageStore).loadQuotes(route.params['name']),
+      characters: () => inject(QuoteOverviewPageStore).loadCampaignCharacters(),
+      sessions: () => inject(QuoteOverviewPageStore).loadCampaignSessions(),
+      character: (route: ActivatedRouteSnapshot) =>
+        inject(QuoteOverviewPageStore).loadCharacter(route.params['name']),
+    },
+    canDeactivate: [onExitReset(QuoteOverviewPageStore)],
+  },
   {
     path: 'map',
     children: [

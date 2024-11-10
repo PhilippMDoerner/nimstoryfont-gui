@@ -45,14 +45,29 @@
     <!-- Quote Refresh/Create/Edit/Delete Icons -->
     <div class="field__controls">
       @for (control of quoteControlls(); track $index) {
-        <app-button
-          class="field__control"
-          [title]="control.title"
-          [type]="control.type"
-          [text]="control.label"
-          [icon]="control.icon"
-          (click)="control.onClick()"
-        ></app-button>
+        @switch (control.config.kind) {
+          @case ("CLICK") {
+            <app-button
+              class="field__control"
+              [title]="control.title"
+              [type]="control.type"
+              [text]="control.label"
+              [icon]="control.icon"
+              (click)="control.config.onClick()"
+            ></app-button>
+          }
+          @case ("LINK") {
+            <a [routerLink]="control.config.link">
+              <app-button
+                class="field__control"
+                [title]="control.title"
+                [type]="control.type"
+                [text]="control.label"
+                [icon]="control.icon"
+              ></app-button>
+            </a>
+          }
+        }
       }
     </div>
   </div>

@@ -77,7 +77,7 @@ export class HomeComponent implements OnChanges {
     return {
       entryType: article.article_type.toUpperCase() as ArticleKind,
       icon: this.ARTICLE_ICON_MAP[article.article_type],
-      link: '', //article.getAbsoluteRouterUrl(), //TODO: Enable links again when routes for these have been added
+      link: article.getAbsoluteRouterUrl(),
       title: ellipsize(article.name, 40),
       subText: article.article_type.toLowerCase(),
       updateDatetime: article.update_datetime as string,

@@ -100,15 +100,14 @@ export const SessionsPageStore = signalStore(
                 sessions: sortSessions(newSessions),
               });
             },
-            error: (error) => {
-              if (error.status === 409) {
+            error: (err) => {
+              if (err.status === 409) {
                 patchState(store, {
                   updateSessionState: 'error',
-                  sessionServerModel: error.error,
+                  sessionServerModel: err.error,
                 });
               } else {
-                (err: HttpErrorResponse) =>
-                  toastService.addToast(errorToast(err));
+                toastService.addToast(errorToast(err));
               }
             },
           });

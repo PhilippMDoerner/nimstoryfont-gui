@@ -501,6 +501,7 @@ const detailRoutes: Route[] = [
       sessions: () => inject(QuoteOverviewPageStore).loadCampaignSessions(),
       character: (route: ActivatedRouteSnapshot) =>
         inject(QuoteOverviewPageStore).loadCharacter(route.params['name']),
+      encounters: () => inject(QuoteOverviewPageStore).loadCampaignEncounters(),
     },
     canDeactivate: [onExitReset(QuoteOverviewPageStore)],
   },

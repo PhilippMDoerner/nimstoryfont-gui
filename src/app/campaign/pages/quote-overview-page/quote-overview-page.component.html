@@ -7,15 +7,22 @@
       <h1 class="heading">Quotes of {{ character.name }}</h1>
       <app-quotes
         [quotes]="quotes"
+        [quoteServerModel]="store.quoteServerModel()"
+        [character]="character"
         [campaignCharacters]="store.campaignCharacters() ?? []"
         [campaignSessions]="store.campaignSessions() ?? []"
+        [campaignEncounters]="store.campaignEncounters() ?? []"
         [campaignId]="campaignId"
         [canCreate]="store.hasWritePermission()"
         [canUpdate]="store.hasWritePermission()"
         [canDelete]="store.hasWritePermission()"
-        [character]="character"
         [serverModel]="store.quoteServerModel()"
         [quoteControlsBlacklist]="['LIST', 'REFRESH']"
+        (quoteCreate)="store.createQuote($event)"
+        (quoteUpdate)="store.updateQuote($event)"
+        (quoteDelete)="store.deleteQuote($event.pk)"
+        (connectionCreate)="store.createQuoteConnection($event)"
+        (connectionDelete)="store.deleteQuoteConnection($event)"
       />
       <div class="container mt-3">
         <a class="row back-link" [routerLink]="homeUrl()">

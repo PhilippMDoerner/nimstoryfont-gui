@@ -9,9 +9,11 @@ import {
   withState,
 } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
-import { Quote, QuoteRaw } from 'src/app/_models/quote';
+import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { errorToast } from 'src/app/_models/toast';
 import { CharacterService } from 'src/app/_services/article/character.service';
+import { EncounterService } from 'src/app/_services/article/encounter.service';
+import { QuoteConnectionService } from 'src/app/_services/article/quote-connection.service';
 import { QuoteService } from 'src/app/_services/article/quote.service';
 import { SessionService } from 'src/app/_services/article/session.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -59,6 +61,7 @@ export const QuoteOverviewPageStore = signalStore(
     const quoteService = inject(QuoteService);
     const characterService = inject(CharacterService);
     const sessionService = inject(SessionService);
+    const encounterService = inject(EncounterService);
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
       filterNil(),
       shareReplay(1),
@@ -92,12 +95,19 @@ export const QuoteOverviewPageStore = signalStore(
             sessionService.campaignList(campaignName),
           ),
         ),
+      campaignEncounters: () =>
+        campaignName$.pipe(
+          take(1),
+          switchMap((campaignName) =>
+            encounterService.campaignList(campaignName),
+          ),
+        ),
     };
   }),
   withMethods((store) => {
     const quoteService = inject(QuoteService);
     const toastService = inject(ToastService);
-    console.log(store);
+    const quoteConnectionService = inject(QuoteConnectionService);
     return {
       reset: () =>
         patchState(store, {
@@ -177,6 +187,44 @@ export const QuoteOverviewPageStore = signalStore(
           error: (err: HttpErrorResponse) =>
             toastService.addToast(errorToast(err)),
         });
+      },
+      createQuoteConnection(connection: QuoteConnection) {
+        quoteConnectionService
+          .create(connection)
+          .pipe(take(1))
+          .subscribe((newConnection) => {
+            const quote = store
+              .quotes()
+              ?.find((item) => item.pk === newConnection.quote);
+            if (!quote) return;
+
+            const newQuote = {
+              ...quote,
+              connections: [...(quote?.connections ?? []), newConnection],
+            };
+            const newQuotes = replaceItem(store.quotes() ?? [], newQuote, 'pk');
+            patchState(store, { quotes: newQuotes });
+          });
+      },
+      deleteQuoteConnection(connection: QuoteConnection) {
+        quoteConnectionService
+          .delete(connection.pk as number)
+          .pipe(take(1))
+          .subscribe(() => {
+            const quote = store
+              .quotes()
+              ?.find((item) => item.pk === connection.quote);
+            if (!quote) return;
+
+            const newQuote = {
+              ...quote,
+              connections: quote.connections?.filter(
+                (con) => con.pk === connection.pk,
+              ),
+            };
+            const newQuotes = replaceItem(store.quotes() ?? [], newQuote, 'pk');
+            patchState(store, { quotes: newQuotes });
+          });
       },
     };
   }),

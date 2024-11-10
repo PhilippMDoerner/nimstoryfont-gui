@@ -1,4 +1,4 @@
-@switch (state) {
+@switch (state()) {
   @case ("DISPLAY") {
     <ng-container [ngTemplateOutlet]="display" />
   }
@@ -15,15 +15,16 @@
 
 <ng-template #display>
   <app-quote
-    [quote]="quote"
-    [character]="character"
-    [campaignCharacters]="campaignCharacters"
-    [canCreate]="canCreate"
-    [canUpdate]="canUpdate"
-    [canDelete]="canDelete"
+    [quote]="quote()"
+    [character]="character()"
+    [campaignCharacters]="campaignCharacters()"
+    [canCreate]="canCreate()"
+    [canUpdate]="canUpdate()"
+    [canDelete]="canDelete()"
+    [quoteControlsBlacklist]="quoteControlsBlacklist()"
     (quoteCreate)="changeState('CREATE', undefined)"
-    (quoteDelete)="changeState('DELETE', quote)"
-    (quoteUpdate)="changeState('UPDATE', quote)"
+    (quoteDelete)="changeState('DELETE', quote())"
+    (quoteUpdate)="changeState('UPDATE', quote())"
     (connectionCreate)="connectionCreate.emit($event)"
     (connectionDelete)="connectionDelete.emit($event)"
     (refreshQuote)="refreshQuote.emit()"
@@ -34,12 +35,12 @@
 <ng-template #update>
   <app-card class="form-card">
     <!-- Heading -->
-    <h5 class="form-card__heading">Updating Quote {{ quote?.pk }}</h5>
+    <h3 class="form-card__heading">Updating Quote {{ quote()?.pk }}</h3>
 
-    @if (canUpdate && state === "UPDATE") {
+    @if (canUpdate() && state() === "UPDATE") {
       <app-form
         class="form-card__form"
-        [model]="userModel"
+        [model]="userModel()"
         [fields]="formlyFields()"
         [cancelButtonType]="'DARK'"
         (formlySubmit)="onSubmit()"
@@ -47,11 +48,11 @@
       ></app-form>
     }
 
-    @if (state === "UPDATE_OUTDATED") {
+    @if (state() === "UPDATE_OUTDATED") {
       <app-compare-form
         [fields]="formlyFields()"
-        [modelFromUser]="userModel"
-        [modelFromServer]="serverModel"
+        [modelFromUser]="userModel()"
+        [modelFromServer]="serverModel()"
         [displayVertically]="true"
         (updateSubmit)="onSubmit()"
         (cancel)="changeState('DISPLAY', undefined)"
@@ -65,7 +66,7 @@
   <app-card class="form-card">
     <!-- Heading -->
     <h5 class="form-card__heading">
-      Create Quote for <b>{{ character.name }}</b>
+      Create Quote for <b>{{ character().name }}</b>
     </h5>
 
     <!-- Form -->
@@ -88,16 +89,16 @@
     <blockquote class="form-card__quote quote">
       <app-html-text
         class="quote__content"
-        [text]="quote?.quote ?? ''"
+        [text]="quote()?.quote ?? ''"
       ></app-html-text>
 
       <div class="quote__description">
-        @if (quote?.description) {
-          <app-html-text [text]="'- ' + quote?.description"></app-html-text>
+        @if (quote()?.description) {
+          <app-html-text [text]="'- ' + quote()?.description"></app-html-text>
         }
 
-        @if (!quote?.description) {
-          - {{ character.name }}
+        @if (!quote()?.description) {
+          - {{ character().name }}
         }
       </div>
     </blockquote>

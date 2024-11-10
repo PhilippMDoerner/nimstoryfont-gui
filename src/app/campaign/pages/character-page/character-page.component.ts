@@ -5,7 +5,7 @@ import {
 } from 'src/app/_models/character';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
-import { Quote, QuoteConnection } from 'src/app/_models/quote';
+import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
 import { CharacterComponent } from 'src/design/templates/character/character.component';
@@ -60,7 +60,7 @@ export class CharacterPageComponent {
     this.store.updateImage(img);
   }
 
-  onCreateQuote(quote: Quote) {
+  onCreateQuote(quote: QuoteRaw) {
     this.store.createQuote(quote);
   }
 

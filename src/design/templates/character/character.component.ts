@@ -6,6 +6,7 @@ import {
   output,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   CharacterDetails,
   CharacterEncounter,
@@ -17,39 +18,38 @@ import { Encounter } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
 import { OverviewItem } from 'src/app/_models/overview';
 import { CharacterPlayerClassConnectionDetail } from 'src/app/_models/playerclass';
-import { Quote, QuoteConnection } from 'src/app/_models/quote';
+import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { BadgeListEntry, ListEntry } from '../../molecules';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
-import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
-import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.component';
-import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
-import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
-import { ListComponent } from '../../molecules/list/list.component';
 import { InfoCircleTooltipComponent } from '../../atoms/info-circle-tooltip/info-circle-tooltip.component';
-import { EncounterAccordionComponent } from '../../organisms/encounter-accordion/encounter-accordion.component';
+import { BadgeListEntry, ListEntry } from '../../molecules';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
+import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
+import { ListComponent } from '../../molecules/list/list.component';
+import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
+import { EncounterAccordionComponent } from '../../organisms/encounter-accordion/encounter-accordion.component';
+import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.component';
 
 @Component({
-    selector: 'app-character',
-    templateUrl: './character.component.html',
-    styleUrls: ['./character.component.scss'],
-    standalone: true,
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        ImageCarouselCardComponent,
-        QuoteFieldComponent,
-        BadgeListComponent,
-        EditableTextComponent,
-        ListComponent,
-        InfoCircleTooltipComponent,
-        EncounterAccordionComponent,
-        ArticleFooterComponent,
-    ],
+  selector: 'app-character',
+  templateUrl: './character.component.html',
+  styleUrls: ['./character.component.scss'],
+  standalone: true,
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    ImageCarouselCardComponent,
+    QuoteFieldComponent,
+    BadgeListComponent,
+    EditableTextComponent,
+    ListComponent,
+    InfoCircleTooltipComponent,
+    EncounterAccordionComponent,
+    ArticleFooterComponent,
+  ],
 })
 export class CharacterComponent {
   character = input.required<CharacterDetails>();
@@ -72,7 +72,7 @@ export class CharacterComponent {
   @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
   @Output() updateImage: EventEmitter<Image> = new EventEmitter();
   @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
-  @Output() quoteCreate: EventEmitter<Quote> = new EventEmitter();
+  @Output() quoteCreate: EventEmitter<QuoteRaw> = new EventEmitter();
   @Output() quoteUpdate: EventEmitter<Quote> = new EventEmitter();
   @Output() quoteConnectionDelete: EventEmitter<QuoteConnection> =
     new EventEmitter();

@@ -12,7 +12,7 @@
 
   <div class="row list__row">
     @if (isCreatingQuote()) {
-      <app-quote
+      <app-quote-field
         class="list__quote"
         [quote]="createQuoteData()"
         [quoteControlsBlacklist]="[
@@ -23,11 +23,15 @@
           'REFRESH',
         ]"
         [campaignCharacters]="campaignCharacters()"
+        [serverModel]="undefined"
+        [sessions]="campaignSessions()"
+        [encounters]="campaignEncounters()"
         [character]="character()"
         [canUpdate]="false"
         [canDelete]="false"
         [canCreate]="canCreate()"
-      ></app-quote>
+        (quoteCreate)="quoteCreate.emit($event)"
+      ></app-quote-field>
     }
     @for (
       sessionQuotes of quotes()
@@ -39,16 +43,23 @@
       <div class="list__session-quotes">
         <h3 class="m-0">Quotes of Session #{{ sessionQuotes.key }}</h3>
         @for (quote of sessionQuotes.value; track quote.pk) {
-          <app-quote
+          <app-quote-field
             class="list__quote"
             [quote]="quote"
+            [serverModel]="quoteServerModel()"
             [quoteControlsBlacklist]="quoteControlsBlacklist()"
             [campaignCharacters]="campaignCharacters()"
+            [sessions]="campaignSessions()"
+            [encounters]="campaignEncounters()"
             [character]="character()"
             [canUpdate]="canUpdate()"
             [canDelete]="canDelete()"
             [canCreate]="canCreate()"
-          ></app-quote>
+            (quoteDelete)="quoteDelete.emit($event)"
+            (quoteUpdate)="quoteUpdate.emit($event)"
+            (connectionCreate)="connectionCreate.emit($event)"
+            (connectionDelete)="connectionDelete.emit($event)"
+          ></app-quote-field>
         }
       </div>
     }

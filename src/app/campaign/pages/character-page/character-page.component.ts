@@ -27,6 +27,7 @@ export class CharacterPageComponent {
   serverUrl = environment.backendDomain;
   character$ = this.store.character;
   campaignCharacters = this.store.campaignCharacters;
+  campaignNPCCharacters = this.store.campaignNPCCharacters;
   campaignSessions = this.store.campaignSessions;
   campaignEncounters = this.store.campaignEncounters;
   campaignOrganizations = this.store.campaignOrganizations;

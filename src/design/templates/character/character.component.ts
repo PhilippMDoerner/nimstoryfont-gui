@@ -55,6 +55,7 @@ export class CharacterComponent {
   character = input.required<CharacterDetails>();
   characterServerModel = input<CharacterDetails>();
   characterQuote = input<Quote>();
+  campaignNPCCharacters = input.required<OverviewItem[]>();
   campaignCharacters = input.required<OverviewItem[]>();
   campaignOrganizations = input.required<OverviewItem[]>();
   campaignLocations = input.required<OverviewItem[]>();

@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OverviewItem } from 'src/app/_models/overview';
+import { SearchableArticleKind } from 'src/app/_models/search';
 import { environment } from 'src/environments/environment';
 import { RoutingService } from '../routing.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RecentlyUpdatedService {
+export class ArticleService {
   apiUrl: string = environment.apiUrl;
 
   recentlyUpdatedUrl: string = `${this.apiUrl}/recentupdates`;
@@ -74,6 +75,28 @@ export class RecentlyUpdatedService {
         return searchResponse;
       }),
     );
+  }
+
+  searchArticlesKind(
+    campaign: string,
+    searchTerm: string,
+    articleKind: SearchableArticleKind,
+  ) {
+    return this.http
+      .get<
+        OverviewItem[]
+      >(`${this.searchUrl}/${campaign}/${articleKind}/${searchTerm}`)
+      .pipe(
+        map((response) =>
+          response.map((item) => this.parseOverviewEntity(item)),
+        ),
+      );
+  }
+
+  readArticle(articleId: number, articleKind: SearchableArticleKind) {
+    return this.http
+      .get<OverviewItem>(`${this.searchUrl}/single/${articleKind}/${articleId}`)
+      .pipe(map((resp) => this.parseOverviewEntity(resp)));
   }
 
   parseOverviewEntity(data: any): OverviewItem {

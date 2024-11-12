@@ -13,6 +13,7 @@
   position: fixed;
   bottom: 10%;
   right: 10%;
+  width: fit-content;
 
   --negated-toast-padding: calc(var(--bs-toast-padding-x) * -1);
   --toast-padding-x: var(--bs-toast-padding-x);

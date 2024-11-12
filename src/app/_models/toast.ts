@@ -24,7 +24,7 @@ export type ToastConfig = {
     icon?: Icon;
     buttons?: ToastButton[];
   };
-  dismissMs?: 3000;
+  dismissMs?: 1500 | 3000 | 5000;
   onHide?: () => void;
   onShow?: () => void;
   onToastClick?: (dismiss: () => void) => void;

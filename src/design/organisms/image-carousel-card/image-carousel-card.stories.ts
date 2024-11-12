@@ -1,6 +1,6 @@
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { FORMLY_CHILD_MODULE } from 'src/app/_modules/formly';
+import { FORMLY_CHILD_MODULE } from 'src/app/_modules/formly_constants';
 import { Image } from '../../../app/_models/image';
 import { ImageCarouselCardComponent } from './image-carousel-card.component';
 

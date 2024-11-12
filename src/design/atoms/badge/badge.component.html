@@ -9,6 +9,7 @@
 <ng-template #content>
   <div
     class="badge"
+    [title]="text()"
     [ngClass]="{
       'bg-primary': type() === 'PRIMARY',
       'bg-secondary': type() === 'SECONDARY',

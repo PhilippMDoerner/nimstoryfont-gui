@@ -21,6 +21,7 @@
       }}"
       [style]="toast.styles"
       [autohide]="!!toast.dismissMs && toast.dismissMs > 0"
+      [delay]="toast.dismissMs ? toast.dismissMs : 0"
       [ariaLive]="toast.important ? 'alert' : 'polite'"
       [animation]="true"
       (hidden)="dismissCurrentToast()"

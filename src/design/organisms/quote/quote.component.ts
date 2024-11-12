@@ -21,6 +21,7 @@ import { BadgeListComponent, BadgeListEntry } from 'src/design/molecules';
 import { copyToClipboard } from 'src/utils/clipboard';
 import { CharacterDetails } from '../../../app/_models/character';
 import { Quote, QuoteConnection } from '../../../app/_models/quote';
+import { ToastService } from '../toast-overlay/toast-overlay.component';
 
 type QuoteState =
   | 'CREATE'
@@ -180,7 +181,10 @@ export class QuoteComponent implements OnChanges {
       .filter((ctrl) => !this._quoteControlsBlacklist().has(ctrl.controlKind)),
   );
 
-  constructor(private routingService: RoutingService) {}
+  constructor(
+    private routingService: RoutingService,
+    private toastService: ToastService,
+  ) {}
 
   ngOnChanges(): void {
     this.isLoadingQuote.set(false);
@@ -243,5 +247,15 @@ export class QuoteComponent implements OnChanges {
     const descriptionSuffix = `- ${quote.description} `;
     const text = `${modifiedQuote}\n>${descriptionSuffix}`;
     copyToClipboard(text);
+
+    this.toastService.addToast({
+      dismissMs: 1500,
+      type: 'SUCCESS',
+      onToastClick: (dismiss) => dismiss(),
+      body: {
+        text: 'Copied quote to clipboard',
+        icon: 'check',
+      },
+    });
   }
 }

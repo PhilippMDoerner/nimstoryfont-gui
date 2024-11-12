@@ -6,7 +6,7 @@ import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { PageComponent } from 'src/design/organisms/page/page.component';
 import { ToastOverlayComponent } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { addTokenInterceptor } from './_interceptors/tokenInterceptor';
-import { FORMLY_MODULE } from './_modules/formly';
+import { FORMLY_MODULE } from './_modules/formly_constants';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { GlobalStore } from './global.store';

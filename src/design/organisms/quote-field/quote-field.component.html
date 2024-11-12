@@ -43,7 +43,7 @@
         [model]="userModel()"
         [fields]="formlyFields()"
         [cancelButtonType]="'DARK'"
-        (formlySubmit)="onSubmit()"
+        (formlySubmit)="onSubmit($event)"
         (formlyCancel)="onCancel()"
       ></app-form>
     }
@@ -54,7 +54,7 @@
         [modelFromUser]="userModel()"
         [modelFromServer]="serverModel()"
         [displayVertically]="true"
-        (updateSubmit)="onSubmit()"
+        (formlySubmit)="onSubmit($event)"
         (cancel)="changeState('DISPLAY', undefined)"
       ></app-compare-form>
     }
@@ -72,10 +72,10 @@
     <!-- Form -->
     <app-form
       class="form-card__form"
-      [model]="userModel"
+      [model]="userModel()"
       [fields]="formlyFields()"
       [cancelButtonType]="'DARK'"
-      (formlySubmit)="onSubmit()"
+      (formlySubmit)="onSubmit($event)"
       (formlyCancel)="onCancel()"
     ></app-form>
   </app-card>
@@ -116,7 +116,7 @@
         [type]="'DANGER'"
         [icon]="'trash'"
         [text]="'Yes'"
-        (click)="onSubmit()"
+        (click)="onDelete()"
       ></app-button>
     </div>
   </app-card>

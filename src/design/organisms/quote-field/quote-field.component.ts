@@ -15,6 +15,7 @@ import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 
 import { take } from 'rxjs';
+import { ArticleService } from 'src/app/_services/article/article.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { CardComponent } from 'src/design/atoms/card/card.component';
 import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
@@ -104,13 +105,24 @@ export class QuoteFieldComponent {
         labelProp: 'name_full',
         valueProp: 'pk',
       }),
-      this.formlyService.buildOverviewSelectConfig({
+      this.formlyService.buildAutocompleteConfig<OverviewItem>({
         key: 'encounter',
         required: false,
-        options$: this.encounters$,
-        campaign: this.campaignName(),
-        labelProp: 'name_full',
-        valueProp: 'pk',
+        loadOptions: (searchTerm) =>
+          this.articleService.searchArticlesKind(
+            this.campaignName(),
+            searchTerm,
+            'encounter',
+          ),
+        optionKeyProp: 'pk',
+        optionLabelProp: 'name',
+        optionValueProp: 'pk',
+        initialValue$: this.quote()?.encounter
+          ? this.articleService.readArticle(
+              this.quote()?.encounter as number,
+              'encounter',
+            )
+          : undefined,
       }),
       this.formlyService.buildEditorConfig({ key: 'quote', required: true }),
     ];
@@ -119,28 +131,33 @@ export class QuoteFieldComponent {
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
+    private articleService: ArticleService,
   ) {
     toObservable(this.quote)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.isLoadingQuote.set(false));
   }
 
-  onSubmit(): void {
+  onSubmit(event: Partial<QuoteRaw> | Quote): void {
     switch (this.state()) {
-      case 'DELETE':
-        this.quoteDelete.emit(this.quote());
-        break;
       case 'UPDATE':
       case 'UPDATE_OUTDATED':
-        this.quoteUpdate.emit(this.userModel() as Quote);
+        this.quoteUpdate.emit(event as Quote);
         break;
       case 'CREATE':
-        this.quoteCreate.emit(this.userModel() as QuoteRaw);
+        this.quoteCreate.emit(event as QuoteRaw);
         break;
       default:
-        throw `ImageCarouselCard - Submitted form while in state '${this.state()}', which is not possible.`;
+        throw new Error(
+          `QuoteField - Submitted form while in state '${this.state()}', which is not possible.`,
+        );
     }
 
+    this.changeState('DISPLAY', {} as QuoteRaw);
+  }
+
+  onDelete() {
+    this.quoteDelete.emit(this.quote());
     this.changeState('DISPLAY', {} as QuoteRaw);
   }
 

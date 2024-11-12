@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'app-spinner',
@@ -8,4 +8,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   imports: [],
   standalone: true,
 })
-export class SpinnerComponent {}
+export class SpinnerComponent {
+  @HostBinding('class.spinner-border') spinnerBorder = true;
+}

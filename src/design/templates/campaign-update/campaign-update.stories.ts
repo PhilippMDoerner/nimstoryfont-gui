@@ -1,5 +1,5 @@
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
-import { FORMLY_CHILD_MODULE } from 'src/app/_modules/formly';
+import { FORMLY_CHILD_MODULE } from 'src/app/_modules/formly_constants';
 import { dummyMaps } from 'src/app/_services/article/map.service.mock';
 import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
 import { CampaignUpdateComponent } from './campaign-update.component';

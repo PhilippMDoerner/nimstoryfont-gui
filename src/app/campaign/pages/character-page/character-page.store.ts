@@ -76,12 +76,19 @@ export const CharacterStore = signalStore(
             characterService.readByParam(campaign, { name }),
           ),
         ),
-      campaignCharacters: () =>
+      campaignNPCCharacters: () =>
         campaignName$.pipe(
           switchMap((campaignName) =>
             characterService.getNonPlayerCharacters(campaignName),
           ),
         ),
+      campaignCharacters: () =>
+        campaignName$.pipe(
+          switchMap((campaignName) =>
+            characterService.campaignList(campaignName),
+          ),
+        ),
+
       campaignSessions: () =>
         campaignName$.pipe(
           switchMap((campaignName) =>
@@ -143,6 +150,44 @@ export const CharacterStore = signalStore(
     };
   }),
   withMethods((state) => {
+    const quoteConnectionService = inject(QuoteConnectionService);
+
+    return {
+      createQuoteConnection(connection: QuoteConnection) {
+        quoteConnectionService
+          .create(connection)
+          .pipe(take(1))
+          .subscribe((newConnection) => {
+            const oldQuote = state.characterQuote();
+            const newQuote = {
+              ...oldQuote,
+              connections: [...(oldQuote?.connections ?? []), newConnection],
+            } as Quote;
+            patchState(state, { characterQuote: newQuote });
+          });
+      },
+      deleteQuoteConnection(connectionPk: number) {
+        quoteConnectionService
+          .delete(connectionPk)
+          .pipe(take(1))
+          .subscribe(() => {
+            const oldQuote = state.characterQuote();
+            if (oldQuote == null) return;
+            const newQuote = {
+              ...oldQuote,
+              connections: [
+                ...(oldQuote.connections?.filter(
+                  (con) => con.pk !== connectionPk,
+                ) ?? []),
+              ],
+            };
+
+            patchState(state, { characterQuote: newQuote });
+          });
+      },
+    };
+  }),
+  withMethods((state) => {
     const characterService = inject(CharacterService);
     const membershipService = inject(OrganizationMembershipService);
     const quoteService = inject(QuoteService);
@@ -175,14 +220,6 @@ export const CharacterStore = signalStore(
           .pipe(take(1))
           .subscribe(() => patchState(state, { character: undefined }));
       },
-      createQuote(quote: QuoteRaw) {
-        quoteService
-          .create(quote)
-          .pipe(take(1))
-          .subscribe((newQuote) =>
-            patchState(state, { characterQuote: newQuote }),
-          );
-      },
       updateQuote(quote: Quote) {
         quoteService
           .update(quote.pk, quote)
@@ -199,27 +236,17 @@ export const CharacterStore = signalStore(
             patchState(state, { characterQuote: undefined });
           });
       },
-      createQuoteConnection(connection: QuoteConnection) {
-        quoteConnectionService
-          .create(connection)
+      createQuote(quote: QuoteRaw) {
+        quoteService
+          .create(quote)
           .pipe(take(1))
-          .subscribe((newConnection) => {
-            const newQuote = state.characterQuote();
-            newQuote?.connections?.push(newConnection);
+          .subscribe((newQuote) => {
             patchState(state, { characterQuote: newQuote });
-          });
-      },
-      deleteQuoteConnection(connectionPk: number) {
-        quoteConnectionService
-          .delete(connectionPk)
-          .pipe(take(1))
-          .subscribe(() => {
-            const newQuote = state.characterQuote();
-            if (newQuote == null) return;
-            newQuote.connections = newQuote.connections?.filter(
-              (connection) => connection.pk !== connectionPk,
-            );
-            patchState(state, { characterQuote: newQuote });
+            const newCon: QuoteConnection = {
+              character: state.character()?.pk as number,
+              quote: newQuote.pk,
+            };
+            state.createQuoteConnection(newCon);
           });
       },
       updateEncounter(encounter: Encounter) {

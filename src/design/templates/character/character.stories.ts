@@ -792,7 +792,7 @@ export default {
     canCreate: true,
     canUpdate: true,
     canDelete: true,
-    campaignCharacters: dummyCharacters,
+    campaignNPCCharacters: dummyCharacters,
     character: dummyCharacter,
     characterQuote: dummyQuote,
   },

@@ -1,4 +1,4 @@
-<div class="badge-container">
+<div class="badge-container" [title]="text()">
   @if (textLink()) {
     <a
       [routerLink]="textLink()"
@@ -20,6 +20,7 @@
     <button
       (click)="labelClick.emit()"
       class="badge"
+      tabindex="0"
       [ngClass]="{
         'badge--part1': icon(),
         'bg-primary': type() === 'PRIMARY',
@@ -30,6 +31,7 @@
         'bg-info': type() === 'INFO',
         'bg-light': type() === 'LIGHT',
       }"
+      [type]="'button'"
     >
       {{ text() }}
     </button>
@@ -50,6 +52,7 @@
         'bg-info': iconTypeVal() === 'INFO',
         'bg-light': iconTypeVal() === 'LIGHT',
       }"
+      [type]="'button'"
     >
       <app-icon [icon]="iconVal" />
     </button>

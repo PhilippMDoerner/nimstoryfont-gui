@@ -1,6 +1,7 @@
 import { ConfigOption, FormlyModule } from '@ngx-formly/core';
 import { FormlyFileFieldComponent } from '../../design/molecules';
 
+import { FormlyAutocompleteFieldComponent } from 'src/design/molecules/formly-autocomplete-field/formly-autocomplete-field.component';
 import { FormlyDatepickerFieldComponent } from 'src/design/organisms/formly-datepicker-field/formly-datepicker-field.component';
 import { FormlyEditorFieldComponent } from 'src/design/organisms/formly-editor-field/formly-editor-field.component';
 import { FormlySelectDisableFieldComponent } from 'src/design/organisms/formly-select-disable/formly-select-disable-field.component';
@@ -37,6 +38,10 @@ export const FORMLY_CONFIG: ConfigOption = {
       component: FormlySelectDisableFieldComponent,
     },
     { name: 'datepicker', component: FormlyDatepickerFieldComponent },
+    {
+      name: 'autocomplete',
+      component: FormlyAutocompleteFieldComponent,
+    },
   ],
   validationMessages: [
     invalidTimeMessage,

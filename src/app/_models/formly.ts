@@ -1,5 +1,5 @@
 import { AbstractControl } from '@angular/forms';
-import { FormlyTemplateOptions } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { Observable } from 'rxjs';
 import { ElementType } from 'src/design/atoms/_models/button';
 
@@ -82,3 +82,19 @@ export interface FormlyCheckboxConfig extends FormlyInterface {
 export interface FormlyDatepickerConfig extends FormlyInterface {}
 
 export interface FormlyCustomSessionSelect extends FormlyInterface {}
+
+export type LoadAutocompleteOptions<T> = (
+  searchTerm: string,
+  props: FormlyFieldConfig['props'],
+  formControl: AbstractControl,
+) => Observable<T[]>;
+
+export type CustomAutocompleteProps<T> = {
+  optionLabelProp: keyof T;
+  optionValueProp: keyof T;
+  optionKeyProp: keyof T;
+  loadOptions: LoadAutocompleteOptions<T>;
+  initialValue$?: Observable<T>;
+};
+export type FormlyAutocompleteConfig<T> = FormlyInterface &
+  CustomAutocompleteProps<T>;

@@ -11,16 +11,19 @@
   cursor: pointer;
   border-bottom: none;
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:focus,
+  &:focus-within,
+  &:hover {
+    outline: solid 3px var(--bs-link-hover-color);
+  }
 
   &--part1 {
     border-top-right-radius: unset;
     border-bottom-right-radius: unset;
     padding-right: var(--inner-badge-padding);
-    &:focus,
-    &:focus-within,
-    &:hover {
-      outline: solid 3px var(--bs-link-hover-color);
-    }
   }
 
   &--part2 {
@@ -29,12 +32,6 @@
     padding-left: var(--inner-badge-padding);
     padding-right: var(--inner-badge-padding);
     border-left: 1.5px solid var(--bs-white);
-
-    &:focus,
-    &:focus-within,
-    &:hover {
-      outline: solid 3px var(--bs-link-hover-color);
-    }
   }
 }
 

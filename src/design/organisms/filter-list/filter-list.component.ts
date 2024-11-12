@@ -39,7 +39,7 @@ export class FilterListComponent<T> {
   filterValue = signal<string | undefined>(undefined);
 
   displayEntries = computed<FilterListEntry<T>[]>(() => {
-    const filterValue = this.filterValue();
+    const filterValue = this.filterValue()?.toLowerCase();
     if (filterValue == null || filterValue === '') {
       return this.entries();
     }

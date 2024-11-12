@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Observable, map, of } from 'rxjs';
 import {
+  CustomAutocompleteProps,
+  FormlyAutocompleteConfig,
   FormlyCheckboxConfig,
   FormlyDatepickerConfig,
   FormlyFileConfig,
@@ -312,6 +314,34 @@ export class FormlyService {
         label: config.label ?? capitalize(config.key),
         required: config.required ?? true,
         disabled: config.disabled,
+      },
+      validators: {
+        validation: validators,
+      },
+    };
+  }
+
+  buildAutocompleteConfig<T>(
+    config: FormlyAutocompleteConfig<T>,
+  ): FormlyFieldConfig {
+    const validators = this.getValidators(config);
+
+    return {
+      key: config.key,
+      type: 'autocomplete',
+      className: config.className,
+      wrappers: [...(config.wrappers ?? []), 'form-field'],
+      props: {
+        label: config.label ?? capitalize(config.key),
+        required: config.required ?? true,
+        disabled: config.disabled,
+        additionalProperties: {
+          optionLabelProp: config.optionLabelProp,
+          optionValueProp: config.optionValueProp,
+          optionKeyProp: config.optionKeyProp,
+          loadOptions: config.loadOptions,
+          initialValue$: config.initialValue$,
+        } satisfies CustomAutocompleteProps<T>,
       },
       validators: {
         validation: validators,

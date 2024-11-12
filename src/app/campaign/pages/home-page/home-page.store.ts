@@ -9,7 +9,7 @@ import {
 } from '@ngrx/signals';
 import { switchMap, take, tap } from 'rxjs';
 import { OverviewItem } from 'src/app/_models/overview';
-import { RecentlyUpdatedService } from 'src/app/_services/article/recently-updated.service';
+import { ArticleService } from 'src/app/_services/article/article.service';
 import { GlobalStore } from 'src/app/global.store';
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -29,7 +29,7 @@ const initialState: HomePageState = {
 export const HomePageStore = signalStore(
   withState(initialState),
   withMethods((state) => {
-    const recentlyUpdatedService = inject(RecentlyUpdatedService);
+    const articleService = inject(ArticleService);
     const globalStore = inject(GlobalStore);
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
       filterNil(),
@@ -41,10 +41,7 @@ export const HomePageStore = signalStore(
             take(1),
             tap(() => patchState(state, { isLoading: true })),
             switchMap((campaign) =>
-              recentlyUpdatedService.getRecentlyUpdatedArticle(
-                campaign,
-                pageNumber,
-              ),
+              articleService.getRecentlyUpdatedArticle(campaign, pageNumber),
             ),
             take(1),
           )

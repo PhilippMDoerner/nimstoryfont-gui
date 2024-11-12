@@ -1,6 +1,6 @@
-<div class="container list">
+<div class="list">
   @if (canCreate()) {
-    <div class="row list__button-row">
+    <div class="list__button-row">
       <app-button
         class="button-row__button"
         [type]="'PRIMARY'"
@@ -10,7 +10,7 @@
     </div>
   }
 
-  <div class="row list__row">
+  <div class="list__row">
     @if (isCreatingQuote()) {
       <app-quote-field
         class="list__quote"

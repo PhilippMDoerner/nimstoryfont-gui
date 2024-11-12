@@ -31,9 +31,10 @@ export class QuoteOverviewPageComponent {
   globalStore = inject(GlobalStore);
 
   routingService = inject(RoutingService);
-  homeUrl = computed(() =>
-    this.routingService.getRoutePath('home', {
+  characterUrl = computed(() =>
+    this.routingService.getRoutePath('character', {
       campaign: this.globalStore.campaignName(),
+      name: this.store.character()?.name,
     }),
   );
 }

@@ -3,7 +3,7 @@
 @let campaignId = globalStore.currentCampaign()?.pk;
 @if (quotes && character && campaignId != null) {
   <app-page-container>
-    <article>
+    <article class="container">
       <h1 class="heading">Quotes of {{ character.name }}</h1>
       <app-quotes
         [quotes]="quotes"
@@ -24,12 +24,12 @@
         (connectionCreate)="store.createQuoteConnection($event)"
         (connectionDelete)="store.deleteQuoteConnection($event)"
       />
-      <div class="container mt-3">
-        <a class="row back-link" [routerLink]="homeUrl()">
+      <div class="mt-3">
+        <a class="back-link" [routerLink]="characterUrl()">
           <app-button
             class="back-link__button"
             [type]="'SECONDARY'"
-            [text]="'Back to Frontpage'"
+            [text]="'Back to ' + store.character()?.name"
           ></app-button>
         </a>
       </div>

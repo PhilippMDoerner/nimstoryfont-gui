@@ -1,6 +1,7 @@
-<audio #audioPlayer
+<audio
+  #audioPlayer
   (keydown)="triggerHotkeyAction($event)"
-  [src]="serverUrl + audioSource"
+  [src]="serverUrl + '/' + audioSource"
   [preload]="'metadata'"
   [controls]="false"
 ></audio>

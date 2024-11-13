@@ -65,21 +65,24 @@ export class SessionAudioService extends BaseService<
   }
 
   override parseEntity(data: any): SessionAudio {
+    const campaignName = data.session_details.campaign_details.name;
+
     return {
       ...data,
-      getAbsoluteRouterUrl: this.generateUrlCallback(data),
+      getAbsoluteRouterUrl: this.generateUrlCallback(data, campaignName),
     };
   }
 
   override parseOverviewEntity(data: any): OverviewItem {
+    const campaignName = data.campaign_details.name;
+
     return {
       ...data,
-      getAbsoluteRouterUrl: this.generateUrlCallback(data),
+      getAbsoluteRouterUrl: this.generateUrlCallback(data, campaignName),
     };
   }
 
-  private generateUrlCallback(data: any) {
-    const campaignName = data.campaign_details.name;
+  private generateUrlCallback(data: any, campaignName: string) {
     const isMainSession = data.session_details.is_main_session_int;
     const sessionNumber = data.session_details.session_number;
 

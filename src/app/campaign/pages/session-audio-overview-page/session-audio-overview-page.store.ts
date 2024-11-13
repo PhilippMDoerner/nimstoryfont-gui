@@ -1,6 +1,12 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { SessionAudioService } from 'src/app/_services/article/session-audio.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -13,6 +19,12 @@ const initialState: SessionAuddioOverviewPageState = {};
 
 export const SessionAudioOverviewPageStore = signalStore(
   withState(initialState),
+  withComputed(() => {
+    const globalStore = inject(GlobalStore);
+    return {
+      hasWritePermission: globalStore.hasRoleOrBetter('member'),
+    };
+  }),
   withQueries(() => {
     const globalStore = inject(GlobalStore);
     const sessionaudioService = inject(SessionAudioService);

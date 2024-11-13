@@ -1,0 +1,11 @@
+@let sessionaudio = store.sessionaudio();
+@if (sessionaudio) {
+  <app-sessionaudio
+    [canCreate]="store.hasWritePermission()"
+    [canDelete]="store.hasWritePermission()"
+    [canUpdate]="store.hasWritePermission()"
+    [serverUrl]="serverUrl"
+    [sessionaudio]="sessionaudio"
+    [timestamps]="store.timestamps()"
+  />
+}

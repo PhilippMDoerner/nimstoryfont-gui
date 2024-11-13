@@ -32,6 +32,11 @@ export type ToastConfig = {
 };
 
 export function errorToast(err: HttpErrorResponse): ToastConfig {
+  const isHttpErrorResponse = err.status?.constructor?.name === 'number';
+  if (!isHttpErrorResponse) {
+    throw err;
+  }
+
   const buttons: ToastButton[] =
     err.status === 500
       ? [

@@ -2,7 +2,7 @@
   <article class="overview">
     <h1 class="heading">Recordings</h1>
 
-    @if (true) {
+    @if (store.hasWritePermission()) {
       <a class="create-button" [routerLink]="createUrl()">
         <app-button [icon]="'plus'" [text]="'Add Recording'" />
       </a>

@@ -11,7 +11,8 @@ import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Timestamp } from 'src/app/_models/sessionAudio';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { ButtonComponent, CardComponent } from 'src/design/atoms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { CardComponent } from 'src/design/atoms/card/card.component';
 import { FormComponent } from 'src/design/molecules';
 import { LinkEntryComponent } from 'src/design/molecules/link-entry/link-entry.component';
 import { LinkEntry } from '../../molecules/_models/link-entry';
@@ -35,7 +36,7 @@ type TimestampState = 'CREATE' | 'DISPLAY';
 })
 export class SessionaudioPlayerComponent implements OnInit, OnChanges {
   @Input() sessionAudioPk!: number;
-  @Input() timestamps!: Timestamp[];
+  @Input() timestamps!: Timestamp[] | undefined;
   @Input() serverUrl!: string;
   @Input() audioSource!: string;
   @Input() downloadSource!: string;
@@ -104,16 +105,16 @@ export class SessionaudioPlayerComponent implements OnInit, OnChanges {
 
     this.createTimestamp.emit(newTimestamp);
     this.timestampState = 'DISPLAY';
-    this.timestamps.unshift(newTimestamp);
     this.ngOnChanges();
   }
 
   private setTimestampEntries(): void {
-    this.timestampEntries = this.timestamps.map((timestamp) => ({
-      value: timestamp,
-      label: timestamp.name,
-      linkText: this.timeToString(timestamp.time),
-    }));
+    this.timestampEntries =
+      this.timestamps?.map((timestamp) => ({
+        value: timestamp,
+        label: timestamp.name,
+        linkText: this.timeToString(timestamp.time),
+      })) ?? [];
   }
 
   private timeToString(seconds: number): string {

@@ -47,6 +47,8 @@ import { RulesPageComponent } from './pages/rules-page/rules-page.component';
 import { RulesPageStore } from './pages/rules-page/rules-page.store';
 import { SessionAudioOverviewPageComponent } from './pages/session-audio-overview-page/session-audio-overview-page.component';
 import { SessionAudioOverviewPageStore } from './pages/session-audio-overview-page/session-audio-overview-page.store';
+import { SessionaudioPageComponent } from './pages/sessionaudio-page/sessionaudio-page.component';
+import { SessionaudioPageStore } from './pages/sessionaudio-page/sessionaudio-page.store';
 import { SessionsPageComponent } from './pages/sessions-page/sessions-page.component';
 import { SessionsPageStore } from './pages/sessions-page/sessions-page.store';
 import { SpellsPageComponent } from './pages/spells-page/spells-page.component';
@@ -565,6 +567,24 @@ const detailRoutes: Route[] = [
             inject(SessionAudioOverviewPageStore).loadCampaignSessionAudios(),
         },
         canDeactivate: [onExitReset(SessionAudioOverviewPageStore)],
+      },
+      {
+        path: ':isMainSession/:sessionNumber',
+        component: SessionaudioPageComponent,
+        data: { name: 'sessionaudio', requiredMinimumRole: 'guest' },
+        providers: [SessionaudioPageStore],
+        resolve: {
+          sessionaudio: (route: ActivatedRouteSnapshot) =>
+            inject(SessionaudioPageStore).loadSessionaudio({
+              isMainSession: route.params['isMainSession'],
+              sessionNumber: route.params['sessionNumber'],
+            }),
+          timestamps: (route: ActivatedRouteSnapshot) =>
+            inject(SessionaudioPageStore).loadTimestamps({
+              isMainSession: route.params['isMainSession'],
+              sessionNumber: route.params['sessionNumber'],
+            }),
+        },
       },
     ],
   },

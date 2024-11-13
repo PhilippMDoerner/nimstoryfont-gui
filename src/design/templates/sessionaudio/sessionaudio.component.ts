@@ -9,12 +9,11 @@ import {
 import { RouterLink } from '@angular/router';
 import { SessionAudio, Timestamp } from 'src/app/_models/sessionAudio';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent, IconComponent } from 'src/design/atoms';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { ArticleFooterComponent } from 'src/design/molecules';
-import {
-  PageContainerComponent,
-  SessionaudioPlayerComponent,
-} from 'src/design/organisms';
+import { PageContainerComponent } from 'src/design/organisms/page-container/page-container.component';
+import { SessionaudioPlayerComponent } from 'src/design/organisms/sessionaudio-player/sessionaudio-player.component';
 
 @Component({
   selector: 'app-sessionaudio',
@@ -33,7 +32,7 @@ import {
 })
 export class SessionaudioComponent {
   sessionaudio = input.required<SessionAudio>();
-  timestamps = input.required<Timestamp[]>();
+  timestamps = input.required<Timestamp[] | undefined>();
   serverUrl = input.required<string>();
   canUpdate = input<boolean>(false);
   canCreate = input<boolean>(false);

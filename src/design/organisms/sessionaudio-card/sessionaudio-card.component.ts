@@ -23,7 +23,8 @@ export class SessionaudioCardComponent {
 
   sessionAudioUrl = computed(() => {
     const campaignName = this.sessionAudio().campaign_details?.name;
-    const isMainSession = this.sessionAudio().session_details?.is_main_session;
+    const isMainSession =
+      this.sessionAudio().session_details?.is_main_session_int;
     const sessionNumber = this.sessionAudio().session_details?.session_number;
     return this.routingService.getRoutePath('sessionaudio', {
       campaign: campaignName,

@@ -45,6 +45,8 @@ import { QuoteOverviewPageComponent } from './pages/quote-overview-page/quote-ov
 import { QuoteOverviewPageStore } from './pages/quote-overview-page/quote-overview-page.store';
 import { RulesPageComponent } from './pages/rules-page/rules-page.component';
 import { RulesPageStore } from './pages/rules-page/rules-page.store';
+import { SessionAudioOverviewPageComponent } from './pages/session-audio-overview-page/session-audio-overview-page.component';
+import { SessionAudioOverviewPageStore } from './pages/session-audio-overview-page/session-audio-overview-page.store';
 import { SessionsPageComponent } from './pages/sessions-page/sessions-page.component';
 import { SessionsPageStore } from './pages/sessions-page/sessions-page.store';
 import { SpellsPageComponent } from './pages/spells-page/spells-page.component';
@@ -505,6 +507,7 @@ const detailRoutes: Route[] = [
     },
     canDeactivate: [onExitReset(QuoteOverviewPageStore)],
   },
+  // Maps
   {
     path: 'map',
     children: [
@@ -547,7 +550,24 @@ const detailRoutes: Route[] = [
       },
     ],
   },
-
+  // SessionAudio
+  {
+    path: 'sessionaudio',
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        component: SessionAudioOverviewPageComponent,
+        data: { name: 'sessionaudio-overview', requiredMinimumRole: 'guest' },
+        providers: [SessionAudioOverviewPageStore],
+        resolve: {
+          sessionAudios: () =>
+            inject(SessionAudioOverviewPageStore).loadCampaignSessionAudios(),
+        },
+        canDeactivate: [onExitReset(SessionAudioOverviewPageStore)],
+      },
+    ],
+  },
   // {
   // 	path: `map/:name/update`,
   // 	component: MapUpdateComponent,

@@ -9,5 +9,6 @@
     [timestamps]="store.timestamps()"
     (createTimestamp)="store.createTimestamp($event)"
     (deleteTimestamp)="store.deleteTimestamp($event.pk!)"
+    (sessionaudioDelete)="store.deleteSessionaudio($event.pk!)"
   />
 }

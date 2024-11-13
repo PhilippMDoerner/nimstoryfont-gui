@@ -10,7 +10,7 @@ import {
 } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { Timestamp } from 'src/app/_models/sessionAudio';
-import { errorToast } from 'src/app/_models/toast';
+import { errorToast, successToast } from 'src/app/_models/toast';
 import { SessionAudioTimestampService } from 'src/app/_services/article/session-audio-timestamp.service';
 import { SessionAudioService } from 'src/app/_services/article/session-audio.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -23,11 +23,13 @@ import { withQueries } from 'src/utils/store/withQueries';
 type SessionaudioPageState = {
   createTimestampState: RequestState;
   deleteTimestampState: RequestState;
+  deleteSessionaudioState: RequestState;
 };
 
 const initialState: SessionaudioPageState = {
   createTimestampState: 'init',
   deleteTimestampState: 'init',
+  deleteSessionaudioState: 'init',
 };
 
 export const SessionaudioPageStore = signalStore(
@@ -84,6 +86,25 @@ export const SessionaudioPageStore = signalStore(
       shareReplay(1),
     );
     return {
+      deleteSessionaudio: (audioPk: number) => {
+        patchState(state, { deleteSessionaudioState: 'loading' });
+        sessionaudioService.delete(audioPk).subscribe({
+          next: () => {
+            toastService.addToast(successToast('Deleted recording!'));
+            patchState(state, {
+              deleteSessionaudioState: 'success',
+              sessionaudio: undefined,
+            });
+          },
+          error: (err: HttpErrorResponse) => {
+            toastService.addToast(errorToast(err));
+            patchState(state, {
+              deleteSessionaudioState: 'error',
+            });
+          },
+        });
+      },
+
       createTimestamp: (timestamp: Timestamp) => {
         patchState(state, { createTimestampState: 'loading' });
         timestampService

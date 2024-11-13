@@ -2,7 +2,6 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ElementSize, ElementType } from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { copyToClipboard } from 'src/utils/clipboard';
-import { capitalize } from 'src/utils/string';
 
 export type ToastButton = {
   label: string;
@@ -64,17 +63,14 @@ export function errorToast(err: HttpErrorResponse): ToastConfig {
   };
 }
 
-export function successToast(
-  itemName: string,
-  action: 'create' | 'update',
-): ToastConfig {
+export function successToast(msg: string): ToastConfig {
   return {
     type: 'SUCCESS',
     body: {
-      text: `${capitalize(action)} "${itemName}"!`,
+      text: msg,
       icon: 'check',
     },
-    // dismissMs: 3000,
+    dismissMs: 3000,
     onToastClick: (dismiss) => dismiss(),
     styles: { width: '200px' },
   };

@@ -24,6 +24,12 @@ body {
   cursor: pointer;
 }
 
+.my-tooltip {
+  border-color: #c6e2f5;
+  --bs-tooltip-bg: #d6eaf8;
+  --bs-tooltip-color: var(--bs-black);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .hover-highlight:hover {
     background-color: var(--highlight-gray);

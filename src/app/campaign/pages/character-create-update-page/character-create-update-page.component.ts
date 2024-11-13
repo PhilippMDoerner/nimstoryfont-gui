@@ -75,7 +75,17 @@ export class CharacterUpdatePageComponent {
   }
 
   onCancel() {
-    this.routeToCharacter(this.store.character()!);
+    switch (this.state()) {
+      case 'CREATE':
+        this.routingService.routeToPath('character-overview', {
+          campaign: this.globalStore.campaignName(),
+        });
+        break;
+      case 'UPDATE':
+      case 'OUTDATED_UPDATE':
+        this.routeToCharacter(this.store.character()!);
+        break;
+    }
   }
 
   onUpdateSubmit(newCharacter: CharacterDetails) {

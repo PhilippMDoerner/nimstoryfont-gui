@@ -2,7 +2,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   EventEmitter,
   input,
   Output,
@@ -22,16 +21,9 @@ type State = 'DISPLAY' | 'DELETE';
 })
 export class LinkEntryComponent<T> {
   entry = input.required<LinkEntry<T>>();
-  columnSizes = input<[number, number, number]>();
   canDelete = input(false);
   deleteMessage = input('Delete entry?');
 
-  _columnSizes = computed(() => {
-    const columnSizes = this.columnSizes();
-    if (columnSizes != null) return columnSizes;
-
-    return this.canDelete() ? [3, 8, 1] : [3, 9, 0];
-  });
   @Output() delete: EventEmitter<any> = new EventEmitter();
   @Output() linkClick: EventEmitter<any> = new EventEmitter();
 

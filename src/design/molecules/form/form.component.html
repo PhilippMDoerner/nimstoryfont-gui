@@ -22,6 +22,12 @@
 
   @if (!disabled() && enableSubmitButtons()) {
     <div class="form__button-container">
+      <!-- Submit Button -->
+      <ng-container
+        *ngTemplateOutlet="
+          form.valid ? activeSubmitButton : inactiveSubmitButton
+        "
+      />
       <!-- Cancel Button -->
       <app-button
         class="form__button"
@@ -30,13 +36,6 @@
         [text]="'Cancel'"
         (click)="onCancel()"
       ></app-button>
-
-      <!-- Submit Button -->
-      <ng-container
-        *ngTemplateOutlet="
-          form.valid ? activeSubmitButton : inactiveSubmitButton
-        "
-      />
     </div>
   }
 </form>

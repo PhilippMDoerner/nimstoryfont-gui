@@ -1,4 +1,4 @@
-<div class="row linkentry" [class.linkentry--delete]="state() === 'DELETE'">
+<div class="linkentry" [class.linkentry--delete]="state() === 'DELETE'">
   <ng-container
     *ngTemplateOutlet="state() === 'DISPLAY' ? displayRow : deleteRow"
   />
@@ -6,20 +6,17 @@
 
 <ng-template #displayRow>
   <!-- Entry Linktext -->
-  <a
-    (click)="linkClick.emit(entry().value)"
-    class="col-{{ _columnSizes()[0] }} linkentry__link"
-  >
+  <a (click)="linkClick.emit(entry().value)" class="linkentry__link">
     {{ entry().linkText }}
   </a>
 
   <!-- Entry Name -->
-  <div class="col-{{ _columnSizes()[1] }} linkentry__label">
+  <div class="linkentry__label">
     {{ entry().label }}
   </div>
 
   <!-- Delete Entry -->
-  <div class="col-{{ _columnSizes()[2] }} linkentry__delete">
+  <div class="linkentry__delete">
     @if (canDelete()) {
       <app-button
         class="linkentry__delete-button"

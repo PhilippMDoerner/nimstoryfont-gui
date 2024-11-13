@@ -3,7 +3,11 @@
     @if (canUpdate()) {
       <div class="diaryentry__edit-row edit-row">
         <div class="edit-row__edit-container edit-container">
-          <a class="edit-container__button" [routerLink]="updateUrl()">
+          <a
+            class="edit-container__button"
+            [routerLink]="updateUrl()"
+            tabindex="-1"
+          >
             <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
           </a>
           <app-button

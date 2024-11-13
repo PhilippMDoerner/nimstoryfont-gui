@@ -57,7 +57,7 @@
             ></app-button>
           }
           @case ("LINK") {
-            <a [routerLink]="control.config.link">
+            <a [routerLink]="control.config.link" tabindex="-1">
               <app-button
                 class="field__control"
                 [title]="control.title"

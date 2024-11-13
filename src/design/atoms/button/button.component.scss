@@ -1,5 +1,9 @@
 @import "/src/screens.scss";
 
+:host {
+  display: inline-block;
+}
+
 .btn {
   width: 100%;
 

@@ -1,11 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnChanges,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, effect, ElementRef, input, viewChild } from '@angular/core';
 import Plyr from 'plyr';
 
 type HotKey = 'Space' | 'Enter' | 'KeyM' | 'ArrowRight' | 'ArrowLeft';
@@ -17,52 +10,48 @@ type HotKey = 'Space' | 'Enter' | 'KeyM' | 'ArrowRight' | 'ArrowLeft';
   standalone: true,
   imports: [],
 })
-export class PlayerComponent implements OnInit, OnChanges {
+export class PlayerComponent {
   private SEEK_TIME = 5;
   private VOLUME_STEP = 0.05;
 
-  @Input() serverUrl!: string;
-  @Input() audioSource!: string;
-  @Input() downloadSource!: string;
-  @Input() playTime?: number;
+  serverUrl = input.required<string>();
+  audioSource = input.required<string>();
+  downloadSource = input.required<string>();
+  playTime = input.required<number | undefined>();
 
-  @ViewChild('audioPlayer', { static: true })
-  audioPlayer!: ElementRef<HTMLAudioElement>;
+  audioPlayer = viewChild<ElementRef<HTMLAudioElement>>('audioPlayer');
 
   private plyr!: Plyr;
 
-  ngOnInit() {
-    this.plyr = new Plyr(this.audioPlayer.nativeElement, {
-      controls: [
-        'play',
-        'progress',
-        'current-time',
-        'mute',
-        'volume',
-        'download',
-        'settings',
-      ],
-      invertTime: false,
-      seekTime: this.SEEK_TIME,
-      volume: 0,
+  constructor() {
+    effect(() => {
+      const playerElement = this.audioPlayer()?.nativeElement;
+      if (!playerElement) return;
+
+      this.plyr = new Plyr(playerElement, {
+        controls: [
+          'play',
+          'progress',
+          'current-time',
+          'mute',
+          'volume',
+          'download',
+          'settings',
+        ],
+        invertTime: false,
+        seekTime: this.SEEK_TIME,
+        volume: 0,
+      });
+    });
+    effect(() => {
+      (this.plyr as any).download = this.downloadSource();
     });
 
-    (this.plyr as any).download = this.downloadSource;
-    this.setPlayTime();
-  }
-
-  ngOnChanges() {
-    this.setPlayTime();
-  }
-
-  setPlayTime(): void {
-    if (this.playTime == null) {
-      return;
-    }
-    this.plyr.currentTime = this.playTime;
+    effect(() => this.setPlayTime(this.playTime()));
   }
 
   triggerHotkeyAction(keyPressEvent: KeyboardEvent) {
+    keyPressEvent.stopPropagation();
     const pressedKey: HotKey = keyPressEvent.code as HotKey;
     switch (pressedKey) {
       case 'Space':
@@ -83,6 +72,14 @@ export class PlayerComponent implements OnInit, OnChanges {
       default:
         break;
     }
+  }
+
+  private setPlayTime(time: number | undefined): void {
+    if (time == null) {
+      return;
+    }
+    console.log('Timechange');
+    this.plyr.currentTime = time;
   }
 
   private play(): void {

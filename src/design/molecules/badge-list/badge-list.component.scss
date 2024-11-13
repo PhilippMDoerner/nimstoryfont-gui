@@ -14,4 +14,12 @@
     gap: 12px;
     flex-wrap: wrap;
   }
+
+  &__create-badge {
+    display: flex;
+  }
+
+  &__create-link {
+    text-decoration: none;
+  }
 }

@@ -2,7 +2,7 @@
   <article class="container">
     @if (canUpdate()) {
       <div class="organization__edit-container">
-        <a [routerLink]="updateUrl()">
+        <a [routerLink]="updateUrl()" tabindex="-1">
           <app-button
             [title]="'Edit ' + organization().name"
             [icon]="'pencil'"

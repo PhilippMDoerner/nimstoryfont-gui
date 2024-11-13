@@ -86,16 +86,16 @@
 <ng-template #formButtons>
   <div class="field__buttons">
     <app-button
-      [icon]="'times'"
-      [text]="'Cancel'"
-      [type]="'SECONDARY'"
-      (click)="cancelEdit()"
-    ></app-button>
-    <app-button
       [icon]="'check'"
       [text]="'Submit'"
       [type]="'PRIMARY'"
       [isSubmitButton]="true"
+    ></app-button>
+    <app-button
+      [icon]="'times'"
+      [text]="'Cancel'"
+      [type]="'SECONDARY'"
+      (click)="cancelEdit()"
     ></app-button>
   </div>
 </ng-template>

@@ -1,11 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  computed,
   EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
+  input,
   Output,
+  signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -34,27 +34,34 @@ type TimestampState = 'CREATE' | 'DISPLAY';
     NgTemplateOutlet,
   ],
 })
-export class SessionaudioPlayerComponent implements OnInit, OnChanges {
-  @Input() sessionAudioPk!: number;
-  @Input() timestamps!: Timestamp[] | undefined;
-  @Input() serverUrl!: string;
-  @Input() audioSource!: string;
-  @Input() downloadSource!: string;
-  @Input() canDelete: boolean = false;
-  @Input() canCreate: boolean = false;
+export class SessionaudioPlayerComponent {
+  sessionAudioPk = input.required<number>();
+  timestamps = input.required<Timestamp[] | undefined>();
+  serverUrl = input.required<string>();
+  audioSource = input.required<string>();
+  downloadSource = input.required<string>();
+  canDelete = input.required<boolean>();
+  canCreate = input.required<boolean>();
 
   @Output() deleteTimestamp: EventEmitter<Timestamp> = new EventEmitter();
   @Output() createTimestamp: EventEmitter<Timestamp> = new EventEmitter();
 
-  timestampEntries!: LinkEntry<Timestamp>[];
-  timestampState: TimestampState = 'DISPLAY';
-  currentTime?: number;
+  timestampEntries = computed<LinkEntry<Timestamp>[] | undefined>(() => {
+    return this.timestamps()?.map((timestamp) => ({
+      value: timestamp,
+      label: timestamp.name,
+      linkText: this.timeToString(timestamp.time),
+    }));
+  });
+  timestampState = signal<TimestampState>('DISPLAY');
+  currentTime = signal<number | undefined>(0);
   timestampForm = new FormGroup({});
-  timestampFields: FormlyFieldConfig[] = [
+  timestampFields = computed<FormlyFieldConfig[]>(() => [
     this.formlyService.buildInputConfig({
       key: 'time',
       maxLength: 8,
       minLength: 8,
+      placeholder: 'hh:mm:ss',
       className: 'timestamp-input black-background px-0 col-lg-2 col-3',
       validators: ['time'],
       required: true,
@@ -67,54 +74,38 @@ export class SessionaudioPlayerComponent implements OnInit, OnChanges {
       required: true,
       inputKind: 'STRING',
     }),
-  ];
-  timestampModel: Partial<Timestamp> = {};
+  ]);
+  timestampModel = signal<
+    Exclude<Partial<Timestamp>, 'time'> & { time?: string }
+  >({});
 
   constructor(private formlyService: FormlyService) {}
 
-  ngOnInit(): void {
-    this.setTimestampEntries();
-  }
-
-  ngOnChanges(): void {
-    this.setTimestampEntries();
-  }
-
   changeTimestampState(newState: TimestampState) {
-    this.timestampState = newState;
+    this.timestampState.set(newState);
   }
 
   onLinkClick(timestamp: Timestamp) {
-    this.currentTime = timestamp.time;
+    this.currentTime.set(timestamp.time);
     // currentTime is set to undefined so that clicking the same
     // timestamp again resets the playtime on the player again
     // Must be done async as otherwise the two set operations get
     // optimized to solely setting "undefined" and no change events in
     // player-component get thrown.
-    setTimeout(() => (this.currentTime = undefined), 1);
+    setTimeout(() => this.currentTime.set(undefined), 1);
   }
 
-  onSubmit(timestamp: { name?: string; time?: number }): void {
+  onSubmit(timestamp: { name?: string; time?: string }): void {
     // const time: number = this.stringToTime(timestamp.time as string);
-
     const newTimestamp = {
       name: timestamp.name as string,
-      time: timestamp.time as number,
-      session_audio: this.sessionAudioPk,
+      time: this.stringToTime(timestamp.time as string),
+      session_audio: this.sessionAudioPk(),
     };
 
     this.createTimestamp.emit(newTimestamp);
-    this.timestampState = 'DISPLAY';
-    this.ngOnChanges();
-  }
-
-  private setTimestampEntries(): void {
-    this.timestampEntries =
-      this.timestamps?.map((timestamp) => ({
-        value: timestamp,
-        label: timestamp.name,
-        linkText: this.timeToString(timestamp.time),
-      })) ?? [];
+    this.timestampState.set('DISPLAY');
+    this.timestampModel.set({});
   }
 
   private timeToString(seconds: number): string {
@@ -125,9 +116,7 @@ export class SessionaudioPlayerComponent implements OnInit, OnChanges {
   }
 
   private stringToTime(timeString: string): number {
-    const hours: number = parseInt(timeString.substr(0, 2));
-    const minutes: number = parseInt(timeString.substr(3, 2));
-    const seconds: number = parseInt(timeString.substr(6, 2));
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
     return hours * 3600 + minutes * 60 + seconds;
   }
 }

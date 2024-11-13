@@ -7,9 +7,19 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  gap: var(--spacer-3);
 
   &__edit-text {
-    margin: var(--spacer-0) var(--spacer-0) var(--spacer-0) var(--spacer-3);
+    margin: var(--spacer-0);
+  }
+
+  &__edit-button {
+    &:focus,
+    &:focus-within,
+    &:hover {
+      border-radius: var(--bs-border-radius);
+      outline: var(--focus-outline);
+    }
   }
 }
 

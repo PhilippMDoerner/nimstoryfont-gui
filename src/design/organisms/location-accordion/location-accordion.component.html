@@ -2,7 +2,7 @@
   Locations of Interest
 
   @if (canCreate()) {
-    <a class="create-button" [routerLink]="createUrl()">
+    <a class="create-button" [routerLink]="createUrl()" tabindex="-1">
       <app-button
         title="Create Location"
         [type]="'PRIMARY'"

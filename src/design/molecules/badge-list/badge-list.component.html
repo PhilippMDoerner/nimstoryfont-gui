@@ -46,8 +46,14 @@
 </ng-template>
 
 <ng-template #linkCreate>
-  <a [routerLink]="createLink()" class="badge-list__create-form">
-    <app-badge [type]="'PRIMARY'" [icon]="'plus'" [text]="'Add ' + label()">
+  <a [routerLink]="createLink()" class="badge-list__create-link" tabindex="-1">
+    <app-badge
+      class="badge-list__create-badge"
+      [type]="'PRIMARY'"
+      [icon]="'plus'"
+      [text]="'Add ' + label()"
+      [clickable]="true"
+    >
     </app-badge>
   </a>
 </ng-template>

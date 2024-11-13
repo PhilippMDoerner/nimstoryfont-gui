@@ -42,22 +42,22 @@
       }
     </select>
 
-    <!-- Cancel Button -->
-    <app-button
-      class="mx-2"
-      [type]="cancelButtonType()"
-      [size]="'SMALL'"
-      [icon]="'times'"
-      (click)="onCancel()"
-    ></app-button>
-
     <!-- Submit Button -->
     <app-button
+      class="mx-2"
       [type]="submitButtonType()"
       [size]="'SMALL'"
       [icon]="'check'"
       [isSubmitButton]="true"
       (click)="onSubmit()"
+    ></app-button>
+
+    <!-- Cancel Button -->
+    <app-button
+      [type]="cancelButtonType()"
+      [size]="'SMALL'"
+      [icon]="'times'"
+      (click)="onCancel()"
     ></app-button>
   </form>
 </ng-template>

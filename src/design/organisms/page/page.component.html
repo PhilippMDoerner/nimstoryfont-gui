@@ -1,15 +1,32 @@
+@let campaign = globalStore.currentCampaign();
 @if (campaign) {
-  <app-sidebar
-    #sidebar
-    class="sidebar"
-    [class.sidebar--mobile-visible]="showSidebar"
-    [campaign]="campaign"
-    [hasCampaignAdminPrivileges]="hasCampaignAdminPrivileges"
-    (logout)="logout.emit()"
-  ></app-sidebar>
+  <div class="mobile">
+    <nav class="navbar bg-dark">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar"
+          aria-label="Toggle navigation"
+          (click)="openSidebar()"
+        >
+          <app-icon [icon]="'bars'" />
+        </button>
+        <strong class="navbar-brand">
+          {{ titleService.currentPageTitle() }}
+        </strong>
+      </div>
+    </nav>
+  </div>
+
+  <div class="desktop">
+    <ng-template *ngTemplateOutlet="sidebar" />
+  </div>
 }
 
-<div class="page" [class.page--shift-right]="showSidebar" #content>
+<div class="page" #content>
   <div class="page__content" (scroll)="onPageScroll($event)" #innerContent>
     <router-outlet #routerOutlet></router-outlet>
   </div>
@@ -18,6 +35,18 @@
     #background
     class="page__background"
     [imageUrl]="campaign?.background_image"
-    [serverUrl]="serverUrl"
+    [serverUrl]="serverUrl()"
   ></app-page-background>
 </div>
+
+<ng-template #sidebar>
+  <app-sidebar
+    #sidebarElement
+    class="sidebar"
+    [campaign]="campaign"
+    [hasCampaignAdminPrivileges]="hasCampaignAdminPrivileges()"
+    (logout)="logout.emit()"
+    (closeSidebar)="closeSidebar()"
+    (click)="closeSidebar()"
+  ></app-sidebar>
+</ng-template>

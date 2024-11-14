@@ -2,14 +2,23 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   EventEmitter,
+  inject,
   input,
+  output,
   Output,
   Signal,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { filter } from 'rxjs';
 import { Campaign } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { SwipeService } from 'src/app/_services/swipe.service';
+import { TitleService } from 'src/app/_services/utils/title.service';
+import { SWIPE_THRESHOLD } from 'src/app/app.constants';
 import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
@@ -20,13 +29,24 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   styleUrls: ['./sidebar.component.scss'],
   standalone: true,
   imports: [RouterLink, IconComponent],
+  providers: [NgbActiveOffcanvas],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
+  routingService = inject(RoutingService);
+  swipeService = inject(SwipeService);
+  titleService = inject(TitleService);
+  host = inject(ElementRef);
+  sidebarSwipesLeft$ = this.swipeService
+    .getSwipeEvents(this.host)
+    .pipe(filter((swipeDistance) => swipeDistance < SWIPE_THRESHOLD * -1));
+
   campaign = input<Campaign | undefined>(undefined);
   hasCampaignAdminPrivileges = input<boolean>(false);
+  activeOffcanvas = inject(NgbActiveOffcanvas);
 
   @Output() logout: EventEmitter<null> = new EventEmitter();
+  closeSidebar = output<void>();
 
   serverUrl = environment.backendDomain;
   sidebarEntries: Signal<ArticleMetaData[]> = computed(() =>
@@ -57,5 +77,10 @@ export class SidebarComponent {
     });
   });
   profileUrl = this.routingService.getRoutePath('direct-profile');
-  constructor(private routingService: RoutingService) {}
+
+  constructor() {
+    this.sidebarSwipesLeft$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.closeSidebar.emit());
+  }
 }

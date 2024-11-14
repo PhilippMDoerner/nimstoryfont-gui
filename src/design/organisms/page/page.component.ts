@@ -1,15 +1,25 @@
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
-  Input,
+  inject,
+  input,
   Output,
-  ViewChild,
+  signal,
+  TemplateRef,
+  viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
-import { Campaign } from 'src/app/_models/campaign';
+import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { filter } from 'rxjs';
+import { SwipeService } from 'src/app/_services/swipe.service';
+import { TitleService } from 'src/app/_services/utils/title.service';
+import { MOBILE_WIDTH, SWIPE_THRESHOLD } from 'src/app/app.constants';
+import { GlobalStore } from 'src/app/global.store';
 import { PageBackgroundComponent } from 'src/design/molecules';
+import { IconComponent } from '../../atoms/icon/icon.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 @Component({
@@ -17,80 +27,58 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
   templateUrl: './page.component.html',
   styleUrls: ['./page.component.scss'],
   standalone: true,
-  imports: [SidebarComponent, PageBackgroundComponent, RouterOutlet],
+  imports: [
+    SidebarComponent,
+    PageBackgroundComponent,
+    RouterOutlet,
+    AsyncPipe,
+    NgTemplateOutlet,
+    IconComponent,
+  ],
+  providers: [NgbOffcanvas],
 })
 export class PageComponent {
-  @Input() serverUrl!: string;
-  @Input() campaign?: Campaign;
-  @Input() hasCampaignAdminPrivileges!: boolean;
+  titleService = inject(TitleService);
+  globalStore = inject(GlobalStore);
+  sidebarService = inject(NgbOffcanvas);
+  serverUrl = input.required<string>();
+  swipeService = inject(SwipeService);
 
   @Output() logout: EventEmitter<void> = new EventEmitter();
+  host = inject(ElementRef);
+  contentElement = viewChild.required<ElementRef<HTMLDivElement>>('content');
+  innerContentElement =
+    viewChild.required<ElementRef<PageBackgroundComponent>>('innerContent');
+  sidebarTemplate = viewChild.required<TemplateRef<any>>('sidebar');
+  sidebarElement = viewChild<ElementRef<HTMLElement>>('sidebarElement');
 
-  @ViewChild('sidebar') sidebarElement!: ElementRef;
-  @ViewChild('content') contentElement!: ElementRef;
-  @ViewChild('innerContent') innerContentElement!: ElementRef;
+  pageSwipesRight$ = this.swipeService
+    .getSwipeEvents(this.host)
+    .pipe(filter((swipeDistance) => swipeDistance > SWIPE_THRESHOLD));
 
-  startX: number = 0;
-  currentX: number = 0;
-  threshold: number = 50;
-  sidebarWidth: number = 20 * 16;
-  showSidebar: boolean = false;
-  mobileWidth: number = 767; //medium screen size
+  hasCampaignAdminPrivileges = this.globalStore.hasRoleOrBetter('admin');
+  showSidebar = signal(this.isMobile() ? false : true);
 
-  @HostListener('touchstart', ['$event'])
-  onTouchStart(event: TouchEvent) {
-    if (!this.isMobile()) {
-      return;
-    }
-
-    this.startX = event.touches[0].clientX;
+  constructor() {
+    this.pageSwipesRight$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.openSidebar());
   }
 
-  @HostListener('touchmove', ['$event'])
-  onTouchMove(event: TouchEvent) {
-    if (!this.isMobile()) {
-      return;
-    }
+  closeSidebar() {
+    if (!this.isMobile()) return;
 
-    const currentX = event.touches[0].clientX;
-    const distanceX = currentX - this.startX;
-
-    if (distanceX > 0 && distanceX <= this.sidebarWidth) {
-      this.slideRightViaMargin(distanceX);
-    }
+    this.sidebarService.dismiss();
+    this.showSidebar.set(false);
   }
 
-  private slideRightViaMargin(newMargin: number) {
-    const element: HTMLElement = this.contentElement.nativeElement;
-    element.style.marginLeft = `${newMargin}px`;
-  }
-
-  private resetSlide() {
-    const element: HTMLElement = this.contentElement.nativeElement;
-    element.style.marginLeft = '';
-  }
-
-  @HostListener('touchend', ['$event'])
-  onTouchEnd(event: TouchEvent) {
-    if (!this.isMobile()) {
-      return;
-    }
-
-    const currentX = event.changedTouches[0].clientX;
-    const distanceX = currentX - this.startX;
-
-    if (distanceX > this.threshold) {
-      this.showSidebar = true;
-    } else if (distanceX <= this.threshold) {
-      this.showSidebar = false;
-    }
-
-    this.resetSlide();
-    this.startX = 0;
-  }
-
-  private isMobile() {
-    return screen.width <= this.mobileWidth;
+  openSidebar() {
+    if (!this.isMobile()) return;
+    console.log('Open sidebar');
+    this.sidebarService.open(this.sidebarTemplate(), {
+      ariaLabelledBy: 'offcanvas-basic-title',
+    });
+    this.showSidebar.set(true);
   }
 
   /**
@@ -104,13 +92,17 @@ export class PageComponent {
     this.dispatchCustomPageScrollEvent(event);
   }
 
+  private isMobile() {
+    return screen.width <= MOBILE_WIDTH;
+  }
+
   private dispatchCustomPageScrollEvent(event: Event): void {
     const pageScrollEvent: CustomEvent = new CustomEvent('page.scroll', {
       ...event,
       detail: {
-        pageElement: this.innerContentElement,
+        pageElement: this.innerContentElement().nativeElement,
       },
     });
-    window.dispatchEvent(pageScrollEvent);
+    this.globalStore.fireScrollEvent(pageScrollEvent);
   }
 }

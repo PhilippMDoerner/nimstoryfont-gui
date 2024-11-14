@@ -1,51 +1,57 @@
 @import "/src/screens.scss";
 
 :host {
-  --sb-width: 16rem;
-  --sb-width-neg: -16rem;
+  --sb-width: 18rem;
   --sb-margin: var(--sb-width);
 
-  // Absolutely position the general window on mobile and take up the entire screen and cut out any overflow
-  // Sidebar is placed underneath .page and only revealed by moving .page to the side.
-  position: absolute;
-  top: 0px;
-  left: 0px;
   height: 100vh;
   width: 100vw;
-  display: unset;
-  overflow: clip;
+  display: flex;
+  flex-direction: column;
 
   // On desktop, show both sidebar and page side by side, now absolute positioning
   @include media-breakpoint-up(md) {
-    position: unset;
     overflow: hidden;
-    display: flex;
+    flex-direction: row;
   }
 }
 
-.sidebar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -3;
-  height: 100vh;
-  max-width: 90vw;
-  width: var(--sb-width);
+.mobile {
+  width: 100%;
 
-  &--mobile-visible {
-    z-index: unset;
+  .navbar {
+    --bs-navbar-padding-y: var(--spacer-1);
+    --bs-navbar-color: var(--bs-white);
+    --bs-navbar-brand-color: var(--bs-white);
+    --bs-navbar-brand-hover-color: var(--bs-white);
+    --bs-navbar-hover-color: var(--bs-white);
+    --bs-navbar-active-color: var(--bs-white);
+
+    .navbar-brand {
+      flex: 1;
+      text-align: center;
+      margin-right: unset;
+    }
   }
 
-  // Desktop view show side-by-side with page
   @include media-breakpoint-up(md) {
-    position: unset;
-    z-index: unset;
+    display: none;
+  }
+}
+
+.desktop {
+  display: none;
+
+  .sidebar {
+    width: var(--sb-width);
+  }
+  @include media-breakpoint-up(md) {
+    display: unset;
   }
 }
 
 .page {
-  width: 100%;
-  height: 100%;
+  flex: 1;
   transition: margin-left 0.1s ease-out;
   position: relative;
 
@@ -54,25 +60,21 @@
     position: unset;
   }
 
-  &--shift-right {
-    margin-left: var(--sb-margin);
-  }
-
   &__content {
     padding: var(--spacer-0);
-    overflow-y: scroll;
     width: 100%;
     height: 100%;
+    overflow: auto;
   }
 
   &__background {
-    position: absolute;
+    position: fixed;
     transition: margin-left 0.1s ease-out;
     top: 0;
     left: 0;
     z-index: -2;
     width: 100%;
-    height: 100%;
+    height: 100vh;
 
     &--shift-right {
       margin-left: var(--sb-margin);

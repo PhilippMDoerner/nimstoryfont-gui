@@ -58,6 +58,7 @@ export const ALL_SOLID_ICONS = [
   'chess-rook',
   'hat-wizard',
   'gavel',
+  'bars',
   'tree',
   'diamond',
   'mountain',

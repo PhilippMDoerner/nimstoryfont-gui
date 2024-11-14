@@ -17,10 +17,19 @@ import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
 
+export type ContentScrollEvent = CustomEvent<
+  Event & { detail: { pageElement: HTMLDivElement } }
+>;
+export type ScreenSize = {
+  width: number;
+  height: number;
+};
+
 export type GlobalState = {
   userData: UserData | undefined;
   currentCampaign: CampaignOverview | undefined;
   campaigns: CampaignOverview[] | undefined;
+  contentScrollEvents: ContentScrollEvent | undefined;
 };
 
 function isTokenExpired(token: TokenData | undefined): boolean {
@@ -60,6 +69,7 @@ export function hasRoleOrBetter(
 }
 
 const initialAuthState: GlobalState = {
+  contentScrollEvents: undefined,
   userData: undefined,
   currentCampaign: undefined,
   campaigns: undefined,
@@ -69,7 +79,24 @@ export const GlobalStore = signalStore(
   withState(initialAuthState),
   withComputed((state) => {
     const tokenService = inject(TokenService);
+
+    const screenSize$ = new Observable<ScreenSize>((observer) => {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+          observer.next({
+            width: entry.contentRect.width,
+            height: entry.contentRect.height,
+          });
+        }
+      });
+
+      resizeObserver.observe(document.body);
+
+      return () => resizeObserver.disconnect();
+    });
+
     return {
+      screenSize: toSignal(screenSize$),
       campaignName: computed(() => state.currentCampaign()?.name),
       currentCampaignRole: computed(() => {
         const currentCampaign = state.currentCampaign();
@@ -156,6 +183,9 @@ export const GlobalStore = signalStore(
           if (currentRole == null) return false;
           return hasRoleOrBetter(currentRole, minimumRole);
         });
+      },
+      fireScrollEvent: (event: ContentScrollEvent) => {
+        patchState(state, { contentScrollEvents: event });
       },
     };
   }),

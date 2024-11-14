@@ -1,5 +1,5 @@
 import { TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IconCardComponent } from 'src/design/molecules';
 import { IconCardEntry } from '../_model/icon-card-list';
@@ -13,5 +13,5 @@ import { IconCardEntry } from '../_model/icon-card-list';
   imports: [IconCardComponent, RouterLink, TitleCasePipe],
 })
 export class IconCardListComponent {
-  @Input() articles!: IconCardEntry[];
+  articles = input.required<IconCardEntry[]>();
 }

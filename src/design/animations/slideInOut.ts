@@ -16,10 +16,15 @@ import {
 const inactiveStyle = style({
   transform: 'translateX(-100%)',
   opacity: 0,
+  'z-index': 0,
+  height: '100%',
+  width: '100%',
+  position: 'fixed',
 });
 const activeStyle = style({
   transform: 'translateX(0%)',
   opacity: 1,
+  'z-index': 3,
 });
 
 export const slideInOut = trigger('slideInOut', [

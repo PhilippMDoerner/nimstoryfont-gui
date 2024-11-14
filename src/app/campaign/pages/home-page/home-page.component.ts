@@ -11,23 +11,19 @@ import { HomePageStore } from './home-page.store';
   styleUrls: ['./home-page.component.scss'],
   standalone: true,
   imports: [HomeComponent],
-  providers: [HomePageStore],
 })
 export class HomePageComponent {
   globalStore = inject(GlobalStore);
-  homePageStore = inject(HomePageStore);
+  store = inject(HomePageStore);
+  routingService = inject(RoutingService);
 
   serverUrl = environment.backendDomain;
   campaignData = this.globalStore.currentCampaign;
   currentCampaignName = computed(
     () => this.globalStore.currentCampaign()?.name,
   );
-  recentlyUpdatedArticles = this.homePageStore.recentlyUpdatedArticles;
-  hasMoreArticles = this.homePageStore.canLoadMore;
-
-  constructor(private routingService: RoutingService) {
-    this.homePageStore.loadMoreArticles(0);
-  }
+  recentlyUpdatedArticles = this.store.recentlyUpdatedArticles;
+  hasMoreArticles = this.store.canLoadMore;
 
   search(searchTerm: string): void {
     if (searchTerm == null || searchTerm === '') {
@@ -43,7 +39,7 @@ export class HomePageComponent {
   }
 
   loadArticlePage(pageNumber: number): void {
-    this.homePageStore.loadMoreArticles(pageNumber);
+    this.store.loadMoreArticles(pageNumber);
   }
 
   private cleanSearchTerm(searchString: string): string {

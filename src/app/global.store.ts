@@ -1,4 +1,4 @@
-import { computed, effect, inject } from '@angular/core';
+import { computed, effect, ElementRef, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {
   patchState,
@@ -18,7 +18,7 @@ import { GlobalUrlParamsService } from './_services/utils/global-url-params.serv
 import { TokenService } from './_services/utils/token.service';
 
 export type ContentScrollEvent = CustomEvent<
-  Event & { detail: { pageElement: HTMLDivElement } }
+  Event & { pageElement: ElementRef<HTMLDivElement> }
 >;
 export type ScreenSize = {
   width: number;

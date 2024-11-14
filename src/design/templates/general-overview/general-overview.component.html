@@ -61,7 +61,7 @@
       </div>
     }
 
-    <div class="row">
+    <div>
       @switch (overviewType) {
         @case ("CHARACTER") {
           <ng-container [ngTemplateOutlet]="characterBody" />
@@ -76,7 +76,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="row">
+    <div class="mt-4">
       <a [routerLink]="homeUrl" class="overview__home">
         <app-button
           [type]="'SECONDARY'"

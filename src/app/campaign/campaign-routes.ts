@@ -19,6 +19,7 @@ import { DiaryentryPageComponent } from './pages/diaryentry-page/diaryentry-page
 import { DiaryentryPageStore } from './pages/diaryentry-page/diaryentry-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
+import { HomePageStore } from './pages/home-page/home-page.store';
 import { ItemCreateUpdatePageComponent } from './pages/item-create-update-page/item-create-update-page.component';
 import { ItemCreateUpdateStore } from './pages/item-create-update-page/item-create-update-page.store';
 import { ItemPageComponent } from './pages/item-page/item-page.component';
@@ -128,7 +129,10 @@ const detailRoutes: Route[] = [
     path: `home`,
     component: HomePageComponent,
     data: { name: 'home', requiredMinimumRole: 'guest' },
-    resolve: {},
+    providers: [HomePageStore],
+    resolve: {
+      articles: () => inject(HomePageStore).loadMoreArticles(0),
+    },
   },
   // Character Routes
   {

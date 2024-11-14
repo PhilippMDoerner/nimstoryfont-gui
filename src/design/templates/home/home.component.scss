@@ -1,6 +1,14 @@
 .home {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   &__heading-ontainer {
     margin-bottom: var(--spacer-1);
+  }
+
+  &__search-bar {
+    width: 100%;
   }
 }
 
@@ -26,7 +34,8 @@
 }
 
 .loading__spinner {
-  width: 100%;
+  width: 64px;
+  height: 64px;
   display: flex;
   justify-content: center;
   --thickness: 30px;

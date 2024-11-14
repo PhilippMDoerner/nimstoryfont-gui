@@ -16,7 +16,7 @@ import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
-import { MOBILE_WIDTH, SWIPE_THRESHOLD } from 'src/app/app.constants';
+import { MOBILE_WIDTH, SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { GlobalStore } from 'src/app/global.store';
 import { PageBackgroundComponent } from 'src/design/molecules';
 import { IconComponent } from '../../atoms/icon/icon.component';
@@ -54,7 +54,7 @@ export class PageComponent {
 
   pageSwipesRight$ = this.swipeService
     .getSwipeEvents(this.host)
-    .pipe(filter((swipeDistance) => swipeDistance > SWIPE_THRESHOLD));
+    .pipe(filter((swipeDistance) => swipeDistance > SWIPE_X_THRESHOLD));
 
   hasCampaignAdminPrivileges = this.globalStore.hasRoleOrBetter('admin');
   showSidebar = signal(this.isMobile() ? false : true);
@@ -100,7 +100,7 @@ export class PageComponent {
     const pageScrollEvent: CustomEvent = new CustomEvent('page.scroll', {
       ...event,
       detail: {
-        pageElement: this.innerContentElement().nativeElement,
+        pageElement: this.innerContentElement(),
       },
     });
     this.globalStore.fireScrollEvent(pageScrollEvent);

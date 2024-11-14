@@ -1,9 +1,10 @@
 import {
   Component,
+  computed,
+  effect,
   EventEmitter,
-  HostListener,
-  Input,
-  OnChanges,
+  inject,
+  input,
   Output,
 } from '@angular/core';
 import { CampaignOverview } from 'src/app/_models/campaign';
@@ -11,6 +12,7 @@ import { ArticleKind, OverviewItem } from 'src/app/_models/overview';
 import { ellipsize } from 'src/utils/string';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
+import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { IconCardEntry } from 'src/design/organisms/_model/icon-card-list';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
@@ -31,7 +33,8 @@ import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-
     SpinnerComponent,
   ],
 })
-export class HomeComponent implements OnChanges {
+export class HomeComponent {
+  globalStore = inject(GlobalStore);
   PAGE_BOTTOM_MIN_DISTANCE_FOR_PAGE_LOAD = 400;
   DEFAULT_ICON = '/assets/icons/icon-512x512.webp';
   ARTICLE_ICON_MAP: { [key: string]: Icon } = {
@@ -45,32 +48,33 @@ export class HomeComponent implements OnChanges {
     organization: 'sitemap',
     quest: 'question-circle',
     sessionaudio: 'file-audio-o',
-    rule: 'book',
+    rules: 'book',
     spell: 'hand-sparkles',
     session: 'calendar-alt',
   };
 
-  @Input() serverUrl!: string;
-  @Input() campaignData?: CampaignOverview;
-  @Input() articles?: OverviewItem[];
-  @Input() canLoadMore: boolean = true;
+  serverUrl = input.required<string>();
+  campaignData = input.required<CampaignOverview | undefined>();
+  articles = input.required<OverviewItem[] | undefined>();
+  isLoading = input.required<boolean>();
+  canLoadMore = input.required<boolean>();
 
   @Output() search: EventEmitter<string> = new EventEmitter();
   @Output() loadArticlePage: EventEmitter<number> = new EventEmitter();
 
-  articleEntries: IconCardEntry[] = [];
-  isLoading: boolean = false;
+  articleEntries = computed<IconCardEntry[]>(
+    () =>
+      this.articles()?.map((article) => this.toIconCardEntry(article)) ?? [],
+  );
   pageNumber: number = 0;
 
-  ngOnChanges(): void {
-    this.isLoading = false;
+  constructor() {
+    effect(() => {
+      const scrollEvent = this.globalStore.contentScrollEvents();
+      if (!scrollEvent) return;
 
-    if (this.articles == null) {
-      return;
-    }
-    this.articleEntries = this.articles.map((article) =>
-      this.toIconCardEntry(article),
-    );
+      this.onPageScroll(scrollEvent);
+    });
   }
 
   private toIconCardEntry(article: OverviewItem): IconCardEntry {
@@ -84,26 +88,25 @@ export class HomeComponent implements OnChanges {
     };
   }
 
-  @HostListener('window:page.scroll', ['$event'])
-  onPageScroll(event: CustomEvent) {
+  private onPageScroll(event: ContentScrollEvent) {
     if (this.isNearPageEnd(event)) {
+      console.log('nextload');
       this.triggerNextPageLoad();
     }
   }
 
   private triggerNextPageLoad(): void {
     const canLoadNextPage =
-      !this.isLoading && this.articles != null && this.canLoadMore;
+      !this.isLoading() && this.articles() != null && this.canLoadMore();
     if (!canLoadNextPage) {
       return;
     }
 
     this.pageNumber += 1;
-    this.isLoading = true;
     this.loadArticlePage.emit(this.pageNumber);
   }
 
-  private isNearPageEnd(pageScrollEvent: CustomEvent): boolean {
+  private isNearPageEnd(pageScrollEvent: ContentScrollEvent): boolean {
     const pageElement = pageScrollEvent.detail.pageElement.nativeElement;
     const totalPageHeight: number = pageElement.scrollHeight;
     const visiblePageHeight: number = pageElement.clientHeight;

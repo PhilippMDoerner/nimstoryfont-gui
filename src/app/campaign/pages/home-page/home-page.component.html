@@ -3,6 +3,7 @@
   [campaignData]="campaignData()"
   [articles]="recentlyUpdatedArticles()"
   [canLoadMore]="hasMoreArticles() === true"
+  [isLoading]="store.isLoading()"
   (search)="search($event)"
   (loadArticlePage)="loadArticlePage($event)"
 ></app-home>

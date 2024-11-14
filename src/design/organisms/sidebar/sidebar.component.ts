@@ -18,7 +18,7 @@ import { Campaign } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
-import { SWIPE_THRESHOLD } from 'src/app/app.constants';
+import { SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
@@ -39,7 +39,7 @@ export class SidebarComponent {
   host = inject(ElementRef);
   sidebarSwipesLeft$ = this.swipeService
     .getSwipeEvents(this.host)
-    .pipe(filter((swipeDistance) => swipeDistance < SWIPE_THRESHOLD * -1));
+    .pipe(filter((swipeDistance) => swipeDistance < SWIPE_X_THRESHOLD * -1));
 
   campaign = input<Campaign | undefined>(undefined);
   hasCampaignAdminPrivileges = input<boolean>(false);

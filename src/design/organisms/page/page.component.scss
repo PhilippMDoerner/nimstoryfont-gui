@@ -3,8 +3,10 @@
 :host {
   --sb-width: 18rem;
   --sb-margin: var(--sb-width);
+  --navbar-height: 52px;
 
-  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
   width: 100vw;
   display: flex;
   flex-direction: column;
@@ -54,10 +56,14 @@
   flex: 1;
   transition: margin-left 0.1s ease-out;
   position: relative;
+  max-height: calc(100mvh - var(--navbar-height));
+  overflow-y: auto;
 
   // Desktop view show side-by-side with page
   @include media-breakpoint-up(md) {
     position: unset;
+    height: 100%;
+    max-height: unset;
   }
 
   &__content {

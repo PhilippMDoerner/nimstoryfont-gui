@@ -10,7 +10,7 @@ import { Router, RouterLink } from '@angular/router';
 import {
   GroupByFirstLetterPipe,
   GroupByPipe,
-} from 'src/design/atoms/_pipes/groupObjects';
+} from 'src/design/atoms/_pipes/groupObjects.pipe';
 import { FilterListEntry } from '../_model/filterListEntry';
 
 type GroupMode = 'PROPERTY' | 'LETTER';

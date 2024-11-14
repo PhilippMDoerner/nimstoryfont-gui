@@ -9,7 +9,7 @@ import {
 import { CharacterDetails } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
-import { GroupByPipe } from 'src/design/atoms/_pipes/groupObjects';
+import { GroupByPipe } from 'src/design/atoms/_pipes/groupObjects.pipe';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
 import { CollapsiblePanelComponent } from 'src/design/molecules';

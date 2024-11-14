@@ -1,6 +1,6 @@
 import { computed, inject } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router, RoutesRecognized } from '@angular/router';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
 import {
   patchState,
   signalStore,
@@ -8,7 +8,7 @@ import {
   withHooks,
   withState,
 } from '@ngrx/signals';
-import { filter, pairwise } from 'rxjs';
+import { filter, map, pairwise } from 'rxjs';
 import { log } from 'src/utils/logging';
 
 export type NavigationState = {
@@ -28,7 +28,20 @@ const initialState: NavigationState = {
 export const NavigationStore = signalStore(
   withState(initialState),
   withComputed((state) => {
+    const router = inject(Router);
+    const currentRoute$ = router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+      map(() => router.routerState.snapshot.root),
+      map((route) => {
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        return route;
+      }),
+    );
+
     return {
+      currentRoute: toSignal(currentRoute$),
       priorUrl: computed(() => state.history().priorRoute?.url),
       currentUrl: computed(() => state.history().currentRoute?.url),
     };

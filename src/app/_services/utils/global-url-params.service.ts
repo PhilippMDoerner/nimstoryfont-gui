@@ -1,13 +1,10 @@
 import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { combineLatest, Observable, ReplaySubject, Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { map, skip, take } from 'rxjs/operators';
-import { CampaignOverview } from 'src/app/_models/campaign';
 import { debugLog } from 'src/utils/rxjs-operators';
 import { CampaignService } from '../utils/campaign.service';
-import { TitleService } from './title.service';
 
 @Injectable({
   providedIn: 'root',
@@ -26,40 +23,8 @@ export class GlobalUrlParamsService {
   constructor(
     private campaignService: CampaignService,
     private urlLocation: Location,
-    private myTitleService: TitleService,
   ) {
     this.currentRouteSnapshot$.subscribe();
-    this.syncPageTitleWithRouteData();
-  }
-
-  private syncPageTitleWithRouteData() {
-    this.currentRouteSnapshot$
-      .pipe(takeUntilDestroyed())
-      .subscribe((snapshot) => {
-        const routeParams = snapshot?.params;
-        const routeName = snapshot?.data['name'];
-        if (routeParams != null && routeName != null) {
-          this.myTitleService.updatePageTitle(routeParams, routeName);
-        }
-      });
-  }
-
-  private trackCurrentCampaign(
-    campaignSet$: Observable<CampaignOverview[] | undefined>,
-    campaignName$: Observable<string | undefined>,
-  ): Observable<CampaignOverview | undefined> {
-    return combineLatest({
-      campaigns: campaignSet$,
-      name: campaignName$,
-    }).pipe(
-      map(({ campaigns, name }) => {
-        if (name == null) return undefined;
-
-        return campaigns?.find(
-          (campaign) => campaign.name.toLowerCase() === name.toLowerCase(),
-        );
-      }),
-    );
   }
 
   /**

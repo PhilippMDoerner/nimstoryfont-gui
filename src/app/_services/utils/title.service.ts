@@ -18,10 +18,9 @@ export class TitleService {
   constructor() {
     effect(
       () => {
-        const { params, data } = this.navStore.currentRoute() ?? {};
-        const routeName = data?.['name'];
-        if (params && routeName) {
-          this.updatePageTitle(params, routeName);
+        const params = this.navStore.currentRoute()?.params;
+        if (params) {
+          this.updatePageTitle(params);
         }
       },
       { allowSignalWrites: true },
@@ -29,43 +28,15 @@ export class TitleService {
     effect(() => this.titleService.setTitle(this.currentPageTitle()));
   }
 
-  updatePageTitle(routeParams: Params, routeName: string): void {
-    const newPageTitle: string = this.createPageTitle(routeParams, routeName);
+  updatePageTitle(routeParams: Params): void {
+    const newPageTitle: string = this.createPageTitle(routeParams);
     this.currentPageTitle.set(newPageTitle);
   }
 
-  private createPageTitle(routeParams: Params, routeName: string): string {
+  private createPageTitle(routeParams: Params): string {
     const campaignName: string = routeParams['campaign'];
     if (campaignName == null) return this.defaultTitle;
 
-    const articleName = this.getArticleName(routeParams, routeName);
-
-    const nextPageTitle: string = `${campaignName} ${articleName}`;
-    return this.capitalizeFirstLetters(nextPageTitle);
-  }
-
-  private getArticleName(routeParams: Params, routeName: string): string {
-    const articleName: string = routeParams['name'];
-    if (articleName != null) return articleName;
-
-    const isDiaryentryRoute: boolean =
-      routeName.includes('diaryentry') && routeParams['sessionNumber'];
-    if (isDiaryentryRoute) return `Diaryentry ${routeParams['sessionNumber']}`;
-
-    const isSessionAudioRoute: boolean =
-      routeName.includes('sessionaudio') && routeParams['sessionNumber'];
-    if (isSessionAudioRoute) return `Recording ${routeParams['sessionNumber']}`;
-
-    return routeName
-      .split('-')
-      .map((str) => capitalize(str))
-      .join(' ');
-  }
-
-  private capitalizeFirstLetters(str: string) {
-    const firstLetterPattern = /^\w|\s\w/g;
-    return str
-      .toLowerCase()
-      .replace(firstLetterPattern, (letter: string) => letter.toUpperCase());
+    return capitalize(campaignName);
   }
 }

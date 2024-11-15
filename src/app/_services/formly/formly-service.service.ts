@@ -60,13 +60,7 @@ export class FormlyService {
     const isRequiredField = config.required ?? true;
 
     const options$ = config.options$.pipe(
-      map((options) => {
-        return [this.createEmptyOption(config), ...options];
-        if (isRequiredField) {
-          return options;
-        } else {
-        }
-      }),
+      map((options) => [this.createEmptyOption(config), ...options]),
     );
 
     const validators = this.getValidators(config);

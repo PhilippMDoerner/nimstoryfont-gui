@@ -15,6 +15,11 @@
           <app-icon [icon]="'bars'" />
         </button>
         <strong class="navbar-brand">
+          <img
+            class="navbar-brand-icon"
+            [src]="serverUrl() + globalStore.currentCampaign()?.icon"
+            alt="To Home Page"
+          />
           {{ titleService.currentPageTitle() }}
         </strong>
       </div>

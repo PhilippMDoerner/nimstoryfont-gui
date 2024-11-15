@@ -58,7 +58,7 @@ export class SearchComponent {
   constructor(private routingService: RoutingService) {}
 
   onCategorySelect(allCategories: SidebarOption[]) {
-    this.allCategories.set(allCategories);
+    this.allCategories.set([...allCategories]);
   }
 
   search(searchTerm: string): void {

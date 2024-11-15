@@ -32,6 +32,8 @@ import { MapCreateUpdatePageComponent } from './pages/map-create-update-page/map
 import { MapCreateUpdateStore } from './pages/map-create-update-page/map-create-update-page.store';
 import { MapPageComponent } from './pages/map-page/map-page.component';
 import { MapPageStore } from './pages/map-page/map-page.store';
+import { MarkerPageComponent } from './pages/marker-page/marker-page.component';
+import { MarkerPageStore } from './pages/marker-page/marker-page.store';
 import { OrganizationCreateUpdatePageComponent } from './pages/organization-create-update-page/organization-create-update-page.component';
 import { OrganizationCreateUpdatePageStore } from './pages/organization-create-update-page/organization-create-update-page.store';
 import { OrganizationPageComponent } from './pages/organization-page/organization-page.component';
@@ -574,6 +576,27 @@ const detailRoutes: Route[] = [
       },
     ],
   },
+  // Marker
+  {
+    path: 'marker',
+    children: [
+      {
+        path: ':parent_location_name/:location_name/:map_name',
+        data: { name: 'marker', requiredMinimumRole: 'guest' },
+        component: MarkerPageComponent,
+        providers: [MarkerPageStore],
+        canDeactivate: [onExitReset(MarkerPageStore)],
+        resolve: {
+          marker: (route: ActivatedRouteSnapshot) =>
+            inject(MarkerPageStore).loadMarker({
+              parentLocationName: route.params['parent_location_name'],
+              locationName: route.params['location_name'],
+              name: route.params['map_name'],
+            }),
+        },
+      },
+    ],
+  },
   // SessionAudio
   {
     path: 'sessionaudio',
@@ -637,15 +660,6 @@ const detailRoutes: Route[] = [
       },
     ],
   },
-  // {
-  // 	path: `map/:name/update`,
-  // 	component: MapUpdateComponent,
-  // 	data:{ name: "map-update", requiredRole: CampaignRole.MEMBER},
-  // 	resolve: {
-  // 		campaign: CampaignResolver,
-  // 		modelData: MapUpdateResolver,
-  // 	}
-  // },
 ];
 
 export const campaignRoutes = [

@@ -14,8 +14,8 @@
 
     <!-- Article List -->
     <div class="row search__results">
-      @if (foundArticles.length > 0) {
-        @for (article of filteredArticles(); track article) {
+      @if (foundArticles().length > 0) {
+        @for (article of filteredArticles(); track article.pk) {
           <app-search-hit [article]="article"></app-search-hit>
         }
       } @else {
@@ -28,7 +28,7 @@
 
     <!-- Footer -->
     <div class="row">
-      <a [routerLink]="homeUrl()" class="search__home">
+      <a [routerLink]="homeUrl()" class="search__home" tabindex="-1">
         <app-button
           [type]="'SECONDARY'"
           [text]="'Back To Frontpage'"

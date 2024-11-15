@@ -1,0 +1,8 @@
+@let marker = store.marker();
+@if (marker) {
+  <app-marker
+    [canDelete]="store.hasWritePermission()"
+    [canUpdate]="store.hasWritePermission()"
+    [marker]="marker"
+  ></app-marker>
+}

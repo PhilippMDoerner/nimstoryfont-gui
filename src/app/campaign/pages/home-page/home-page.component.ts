@@ -30,25 +30,13 @@ export class HomePageComponent {
       return;
     }
 
-    const cleanedSearch = this.cleanSearchTerm(searchTerm);
-
-    this.routingService.routeToPath('campaignSearch', {
+    this.routingService.routeToPath('search', {
       campaign: this.currentCampaignName(),
-      searchString: cleanedSearch,
+      searchString: searchTerm,
     });
   }
 
   loadArticlePage(pageNumber: number): void {
     this.store.loadMoreArticles(pageNumber);
-  }
-
-  private cleanSearchTerm(searchString: string): string {
-    const consecutiveWhitespacePattern = /\s\s+/g;
-    const nonNormalCharacterPattern = /[^a-zA-Z0-9']/g;
-
-    return searchString
-      .replace(nonNormalCharacterPattern, ' ')
-      .trim()
-      .replace(consecutiveWhitespacePattern, ' '); //Removes scenarios with more than 1 consecutive whitespace;
   }
 }

@@ -46,6 +46,8 @@ import { QuoteOverviewPageComponent } from './pages/quote-overview-page/quote-ov
 import { QuoteOverviewPageStore } from './pages/quote-overview-page/quote-overview-page.store';
 import { RulesPageComponent } from './pages/rules-page/rules-page.component';
 import { RulesPageStore } from './pages/rules-page/rules-page.store';
+import { SearchPageComponent } from './pages/search-page/search-page.component';
+import { SearchPageStore } from './pages/search-page/search-page.store';
 import { SessionAudioOverviewPageComponent } from './pages/session-audio-overview-page/session-audio-overview-page.component';
 import { SessionAudioOverviewPageStore } from './pages/session-audio-overview-page/session-audio-overview-page.store';
 import { SessionaudioCreateUpdatePageComponent } from './pages/sessionaudio-create-update-page/sessionaudio-create-update-page.component';
@@ -134,6 +136,20 @@ const detailRoutes: Route[] = [
     providers: [HomePageStore],
     resolve: {
       articles: () => inject(HomePageStore).loadMoreArticles(0),
+    },
+  },
+  // Search
+  {
+    path: 'search/:searchString',
+    component: SearchPageComponent,
+    data: { name: 'search', requiredMinimumRole: 'guest' },
+    providers: [SearchPageStore],
+    canDeactivate: [onExitReset(SearchPageStore)],
+    resolve: {
+      searchResults: (route: ActivatedRouteSnapshot) =>
+        inject(SearchPageStore).loadSearchArticles(
+          route.params['searchString'],
+        ),
     },
   },
   // Character Routes

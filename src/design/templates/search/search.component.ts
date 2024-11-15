@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SidebarOption } from '../../molecules';
@@ -7,6 +7,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
+import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { SearchHitComponent } from '../../organisms/search-hit/search-hit.component';
 
 @Component({
@@ -20,44 +21,54 @@ import { SearchHitComponent } from '../../organisms/search-hit/search-hit.compon
     SearchHitComponent,
     RouterLink,
     ButtonComponent,
+    SearchFieldComponent,
   ],
 })
-export class SearchComponent implements OnInit {
-  @Input() foundArticles!: OverviewItem[];
-  @Input() emptySearchSubtitle!: string;
-  @Input() searchString!: string;
-  @Input() campaignName!: string;
+export class SearchComponent {
+  foundArticles = input.required<OverviewItem[]>();
+  emptySearchSubtitle = input.required<string>();
+  searchString = input.required<string>();
+  campaignName = input.required<string>();
 
-  filteredArticles!: OverviewItem[];
-  homeUrl!: string;
-
-  constructor(private routingService: RoutingService) {}
-
-  ngOnInit(): void {
-    this.homeUrl = this.routingService.getRoutePath('home', {
-      campaign: this.campaignName,
-    });
-
-    this.filteredArticles = this.foundArticles;
-  }
-
-  onCategorySelect(allCategories: SidebarOption[]) {
-    const activeCategoryLabels: Set<string> = allCategories
+  private allCategories = signal<SidebarOption[]>([]);
+  private activeCategoryLabels = computed<Set<string>>(() => {
+    return this.allCategories()
       .filter((category) => category.active)
       .map((category) => category.label.toLowerCase())
       .reduce(
         (accumulatorSet, currentValue) => accumulatorSet.add(currentValue),
         new Set<string>(),
       );
+  });
 
-    const hasActiveCategories = activeCategoryLabels.size > 0;
-    if (!hasActiveCategories) {
-      this.filteredArticles = this.foundArticles;
+  filteredArticles = computed<OverviewItem[]>(() => {
+    const activeCategoryLabels = this.activeCategoryLabels();
+    if (activeCategoryLabels.size === 0) return this.foundArticles();
+
+    return this.foundArticles().filter((article) =>
+      activeCategoryLabels.has(article.article_type.toLowerCase()),
+    );
+  });
+  homeUrl = computed(() =>
+    this.routingService.getRoutePath('home', {
+      campaign: this.campaignName,
+    }),
+  );
+
+  constructor(private routingService: RoutingService) {}
+
+  onCategorySelect(allCategories: SidebarOption[]) {
+    this.allCategories.set(allCategories);
+  }
+
+  search(searchTerm: string): void {
+    if (searchTerm == null || searchTerm === '') {
       return;
     }
 
-    this.filteredArticles = this.foundArticles.filter((article) =>
-      activeCategoryLabels.has(article.article_type.toLowerCase()),
-    );
+    this.routingService.routeToPath('search', {
+      campaign: this.campaignName(),
+      searchString: searchTerm,
+    });
   }
 }

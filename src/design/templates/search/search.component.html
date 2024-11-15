@@ -10,23 +10,25 @@
       (sidebarChange)="onCategorySelect($event)"
     ></app-sidebar-legend>
 
+    <app-search-field (search)="search($event)"></app-search-field>
+
     <!-- Article List -->
     <div class="row search__results">
       @if (foundArticles.length > 0) {
-        @for (article of filteredArticles; track article) {
+        @for (article of filteredArticles(); track article) {
           <app-search-hit [article]="article"></app-search-hit>
         }
       } @else {
         <div class="search__empty-results">
-          <h4>We couldn't find any hits for '{{ searchString }}'</h4>
-          <i> {{ emptySearchSubtitle }}</i>
+          <h4>We couldn't find any hits for '{{ searchString() }}'</h4>
+          <i> {{ emptySearchSubtitle() }}</i>
         </div>
       }
     </div>
 
     <!-- Footer -->
     <div class="row">
-      <a [routerLink]="homeUrl" class="search__home">
+      <a [routerLink]="homeUrl()" class="search__home">
         <app-button
           [type]="'SECONDARY'"
           [text]="'Back To Frontpage'"
@@ -35,4 +37,3 @@
     </div>
   </article>
 </app-page-container>
-

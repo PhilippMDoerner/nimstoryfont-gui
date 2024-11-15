@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { Router } from '@angular/router';
 import {
   patchState,
   signalStore,
@@ -8,8 +10,12 @@ import {
   withState,
 } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
+import { errorToast } from 'src/app/_models/toast';
 import { MarkerService } from 'src/app/_services/article/marker.service';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
+import { NavigationStore } from 'src/app/navigation.store';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
 
@@ -47,6 +53,12 @@ export const MarkerPageStore = signalStore(
     };
   }),
   withMethods((store) => {
+    const routingService = inject(RoutingService);
+    const markerService = inject(MarkerService);
+    const navigationStore = inject(NavigationStore);
+    const router = inject(Router);
+    const toastService = inject(ToastService);
+    const globalStore = inject(GlobalStore);
     return {
       reset: () =>
         patchState(store, {
@@ -54,6 +66,21 @@ export const MarkerPageStore = signalStore(
           markerError: undefined,
           markerQueryState: 'init',
         }),
+      deleteMarker: (markerPk: number) => {
+        markerService.delete(markerPk).subscribe({
+          next: () => {
+            const fallback = routingService.getRoutePath('location', {
+              campaign: globalStore.campaignName(),
+              parent_name:
+                store.marker()?.location_details?.parent_location_name,
+              name: store.marker()?.location_details?.name,
+            });
+            router.navigateByUrl(navigationStore.priorUrl() ?? fallback);
+          },
+          error: (err: HttpErrorResponse) =>
+            toastService.addToast(errorToast(err)),
+        });
+      },
     };
   }),
 );

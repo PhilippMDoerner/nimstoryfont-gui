@@ -32,6 +32,8 @@ import { MapCreateUpdatePageComponent } from './pages/map-create-update-page/map
 import { MapCreateUpdateStore } from './pages/map-create-update-page/map-create-update-page.store';
 import { MapPageComponent } from './pages/map-page/map-page.component';
 import { MapPageStore } from './pages/map-page/map-page.store';
+import { MarkerCreateUpdatePageComponent } from './pages/marker-create-update-page/marker-create-update-page.component';
+import { MarkerCreateUpdateStore } from './pages/marker-create-update-page/marker-create-update-page.store';
 import { MarkerPageComponent } from './pages/marker-page/marker-page.component';
 import { MarkerPageStore } from './pages/marker-page/marker-page.store';
 import { OrganizationCreateUpdatePageComponent } from './pages/organization-create-update-page/organization-create-update-page.component';
@@ -581,12 +583,57 @@ const detailRoutes: Route[] = [
     path: 'marker',
     children: [
       {
+        path: ':parent_location_name/:location_name/create',
+        data: { name: 'marker-create', requiredMinimumRole: 'guest' },
+        component: MarkerCreateUpdatePageComponent,
+        providers: [MarkerCreateUpdateStore],
+        // canDeactivate: [onExitReset(MarkerCreateUpdateStore)],
+        resolve: {
+          maps: () => inject(MarkerCreateUpdateStore).loadCampaignMaps(),
+          locations: () =>
+            inject(MarkerCreateUpdateStore).loadCampaignLocations(),
+          markerTypes: () => inject(MarkerCreateUpdateStore).loadMarkerTypes(),
+        },
+      },
+      {
+        path: ':latitude/:longitude/:map_name/create',
+        data: { name: 'marker-map-create', requiredMinimumRole: 'guest' },
+        component: MarkerCreateUpdatePageComponent,
+        providers: [MarkerCreateUpdateStore, ActivatedRouteSnapshot],
+        // canDeactivate: [onExitReset(MarkerCreateUpdateStore)],
+        resolve: {
+          maps: () => inject(MarkerCreateUpdateStore).loadCampaignMaps(),
+          locations: () =>
+            inject(MarkerCreateUpdateStore).loadCampaignLocations(),
+          markerTypes: () => inject(MarkerCreateUpdateStore).loadMarkerTypes(),
+        },
+      },
+      {
         path: ':parent_location_name/:location_name/:map_name',
         data: { name: 'marker', requiredMinimumRole: 'guest' },
         component: MarkerPageComponent,
         providers: [MarkerPageStore],
         canDeactivate: [onExitReset(MarkerPageStore)],
         resolve: {
+          marker: (route: ActivatedRouteSnapshot) =>
+            inject(MarkerPageStore).loadMarker({
+              parentLocationName: route.params['parent_location_name'],
+              locationName: route.params['location_name'],
+              name: route.params['map_name'],
+            }),
+        },
+      },
+      {
+        path: ':parent_location_name/:location_name/:map_name/update',
+        data: { name: 'marker-update', requiredMinimumRole: 'guest' },
+        component: MarkerCreateUpdatePageComponent,
+        providers: [MarkerCreateUpdateStore, ActivatedRouteSnapshot],
+        // canDeactivate: [onExitReset(MarkerCreateUpdateStore)],
+        resolve: {
+          maps: () => inject(MarkerCreateUpdateStore).loadCampaignMaps(),
+          locations: () =>
+            inject(MarkerCreateUpdateStore).loadCampaignLocations(),
+          markerTypes: () => inject(MarkerCreateUpdateStore).loadMarkerTypes(),
           marker: (route: ActivatedRouteSnapshot) =>
             inject(MarkerPageStore).loadMarker({
               parentLocationName: route.params['parent_location_name'],

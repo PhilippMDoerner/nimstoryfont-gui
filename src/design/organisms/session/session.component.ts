@@ -63,7 +63,7 @@ export class SessionComponent implements OnInit {
   sessionAudioUrl = computed(() =>
     this.routingService.getRoutePath('sessionaudio', {
       campaign: this.session()?.campaign_details?.name as string,
-      isMainSession: this.session()?.is_main_session,
+      isMainSession: this.session()?.is_main_session_int,
       sessionNumber: this.session()?.session_number,
     }),
   );

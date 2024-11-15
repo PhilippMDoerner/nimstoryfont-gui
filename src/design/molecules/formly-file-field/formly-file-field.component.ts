@@ -39,13 +39,20 @@ export class FormlyFileFieldComponent
   }
 
   onFileSelect(event: any) {
+    const files = event.target.files;
+    const hasSelectedFile = files.length > 0;
+    if (!hasSelectedFile) return;
+    const file: File = files[0];
+    this.model[this.key as string] = file;
+
     const filePath: string = event.target.value;
     this.setModelValue(filePath);
   }
 
-  setModelValue(filePath: string): void {
+  private setModelValue(filePath: string): void {
     const isWindowsPath = filePath.includes('\\');
     const splitter = isWindowsPath ? '\\' : '/';
+
     this.selectedFileName = filePath?.split(splitter).pop();
   }
 

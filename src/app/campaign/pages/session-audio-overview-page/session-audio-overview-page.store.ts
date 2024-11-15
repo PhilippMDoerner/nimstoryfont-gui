@@ -45,7 +45,12 @@ export const SessionAudioOverviewPageStore = signalStore(
   }),
   withMethods((state) => {
     return {
-      reset: () => patchState(state, {}),
+      reset: () =>
+        patchState(state, {
+          campaignSessionAudios: undefined,
+          campaignSessionAudiosError: undefined,
+          campaignSessionAudiosQueryState: 'init',
+        }),
     };
   }),
 );

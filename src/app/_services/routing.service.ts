@@ -19,7 +19,10 @@ export class RoutingService {
     log(`${RoutingService.name}-routeNodes`, this.routeNodes);
   }
 
-  public routeToPath(routeName: string, params: any = {}): void {
+  public routeToPath(
+    routeName: string,
+    params?: { [key: string]: string | number | undefined },
+  ): void {
     const routePath: string = this.getRoutePath(routeName, params);
     const cleanedObjectUrl: string =
       this.replaceSpecialUnicodeCharacters(routePath);

@@ -51,7 +51,7 @@ export class SessionaudioComponent {
     }),
   );
   updateUrl = computed(() =>
-    this.routingService.getRoutePath('sessionaudio', {
+    this.routingService.getRoutePath('sessionaudio-update', {
       campaign: this.campaignName(),
       sessionNumber: this.sessionaudio().session_details?.session_number,
       isMainSession: this.sessionaudio().session_details?.is_main_session_int,

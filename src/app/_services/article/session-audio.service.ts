@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { convertSingleFileModelToFormData } from 'src/app/_functions/formDataConverter';
@@ -33,13 +33,13 @@ export class SessionAudioService extends BaseService<
       .pipe(map((entry) => this.parseEntity(entry)));
   }
 
-  uploadFile(fileName: string, file: File): Observable<any> {
+  uploadFile(fileName: string, file: File): Observable<HttpEvent<string>> {
     const headers = new HttpHeaders({
       'ngsw-bypass': 'true',
       'X-Progress-ID': fileName,
     });
 
-    return this.http.post<any>(`${this.UPLOAD_URL}/${fileName}`, file, {
+    return this.http.post<string>(`${this.UPLOAD_URL}/${fileName}`, file, {
       reportProgress: true,
       observe: 'events',
       headers: headers,

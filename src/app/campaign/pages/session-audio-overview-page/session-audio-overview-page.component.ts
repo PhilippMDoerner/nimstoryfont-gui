@@ -39,7 +39,7 @@ export class SessionAudioOverviewPageComponent {
   );
 
   createUrl = computed(() =>
-    this.routingService.getRoutePath('session-audio-create', {
+    this.routingService.getRoutePath('sessionaudio-create', {
       campaign: this.globalStore.campaignName(),
     }),
   );

@@ -48,6 +48,8 @@ import { RulesPageComponent } from './pages/rules-page/rules-page.component';
 import { RulesPageStore } from './pages/rules-page/rules-page.store';
 import { SessionAudioOverviewPageComponent } from './pages/session-audio-overview-page/session-audio-overview-page.component';
 import { SessionAudioOverviewPageStore } from './pages/session-audio-overview-page/session-audio-overview-page.store';
+import { SessionaudioCreateUpdatePageComponent } from './pages/sessionaudio-create-update-page/sessionaudio-create-update-page.component';
+import { SessionaudioCreateUpdatePageStore } from './pages/sessionaudio-create-update-page/sessionaudio-create-update-page.store';
 import { SessionaudioPageComponent } from './pages/sessionaudio-page/sessionaudio-page.component';
 import { SessionaudioPageStore } from './pages/sessionaudio-page/sessionaudio-page.store';
 import { SessionsPageComponent } from './pages/sessions-page/sessions-page.component';
@@ -573,6 +575,17 @@ const detailRoutes: Route[] = [
         canDeactivate: [onExitReset(SessionAudioOverviewPageStore)],
       },
       {
+        path: 'create',
+        component: SessionaudioCreateUpdatePageComponent,
+        data: { name: 'sessionaudio-create', requiredMinimumRole: 'member' },
+        providers: [SessionaudioCreateUpdatePageStore],
+        resolve: {
+          campaignSessions: () =>
+            inject(SessionaudioCreateUpdatePageStore).loadCampaignSessions(),
+        },
+        canDeactivate: [onExitReset(SessionaudioCreateUpdatePageStore)],
+      },
+      {
         path: ':isMainSession/:sessionNumber',
         component: SessionaudioPageComponent,
         data: { name: 'sessionaudio', requiredMinimumRole: 'guest' },
@@ -589,6 +602,22 @@ const detailRoutes: Route[] = [
               sessionNumber: route.params['sessionNumber'],
             }),
         },
+      },
+      {
+        path: ':isMainSession/:sessionNumber/update',
+        component: SessionaudioCreateUpdatePageComponent,
+        data: { name: 'sessionaudio-update', requiredMinimumRole: 'member' },
+        providers: [SessionaudioCreateUpdatePageStore],
+        resolve: {
+          campaignSessions: () =>
+            inject(SessionaudioCreateUpdatePageStore).loadCampaignSessions(),
+          sessionaudio: (route: ActivatedRouteSnapshot) =>
+            inject(SessionaudioCreateUpdatePageStore).loadSessionaudio({
+              isMainSession: route.params['isMainSession'],
+              sessionNumber: route.params['sessionNumber'],
+            }),
+        },
+        canDeactivate: [onExitReset(SessionaudioCreateUpdatePageStore)],
       },
     ],
   },

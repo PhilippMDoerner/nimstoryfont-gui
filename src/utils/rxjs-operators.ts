@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import {
+  delay,
   filter,
   map,
-  Observable,
+  of,
   OperatorFunction,
   pipe,
   skip,
@@ -74,17 +75,5 @@ export function mapServerModel<T>(): OperatorFunction<
 export function delayFalsy<T>(
   delayByMs: number = 1000,
 ): OperatorFunction<T | undefined, T | undefined> {
-  return pipe(
-    switchMap((value) => {
-      let timeout: ReturnType<typeof setTimeout>;
-      return new Observable<T | undefined>((observer) => {
-        if (value) {
-          clearTimeout(timeout);
-          observer.next(value);
-        } else {
-          timeout = setTimeout(() => observer.next(value), delayByMs);
-        }
-      });
-    }),
-  );
+  return pipe(switchMap((x) => of(x).pipe(delay(x ? 0 : delayByMs))));
 }

@@ -37,14 +37,19 @@
       </div>
     }
     @for (card of spellCards(); track card.spell.pk) {
-      <div class="list__spell-card spell-card" [@slideOutFromBottom]>
+      <div
+        class="list__spell-card spell-card"
+        [@slideOutFromBottom]
+        [id]="card.spell.name"
+        #spell
+      >
         <app-collapsible-panel [isOpen]="card.isOpen">
           <div heading class="spell-card__heading">
-            <span>
+            <span class="spell-card__heading-text">
               {{ card.spell.name ?? "" }}
             </span>
 
-            <span>
+            <span class="spell-card__classes">
               @for (
                 connection of card.spell.player_class_connections;
                 track connection.pk

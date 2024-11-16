@@ -2,10 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
   EventEmitter,
+  inject,
   input,
   Output,
   signal,
+  viewChildren,
 } from '@angular/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import {
@@ -18,6 +21,9 @@ import {
   slideUpFromBottom,
 } from 'src/design/animations/slideDown';
 
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { map, take } from 'rxjs';
 import { BadgeComponent } from 'src/design/atoms/badge/badge.component';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
@@ -25,6 +31,7 @@ import {
   BadgeListEntry,
   CollapsiblePanelComponent,
 } from 'src/design/molecules';
+import { filterNil } from 'src/utils/rxjs-operators';
 import { SpellComponent } from '../spell/spell.component';
 
 interface SpellCard {
@@ -67,6 +74,7 @@ export class SpellsComponent {
     new EventEmitter();
   @Output() spellClassClick: EventEmitter<PlayerClass> = new EventEmitter();
 
+  spellElements = viewChildren<ElementRef<HTMLDivElement>>('spell');
   isCreatingSpell = signal(false);
   createSpellData = computed(
     () => ({ name: this.DEFAULT_TITLE, campaign: this.campaignId() }) as Spell,
@@ -81,6 +89,13 @@ export class SpellsComponent {
 
     return spells;
   });
+
+  constructor() {
+    const spellNameParam = inject(ActivatedRoute).snapshot.params['name'];
+    if (spellNameParam) {
+      this.scrollToSpell(spellNameParam);
+    }
+  }
 
   onSpellDelete(spellToDelete: Spell, deleteIndex: number) {
     this.spellDelete.emit(spellToDelete);
@@ -111,5 +126,22 @@ export class SpellsComponent {
       text: entry.player_class_details?.name as string,
       badgeValue: undefined,
     }));
+  }
+
+  private scrollToSpell(spellName: string): void {
+    toObservable(this.spellElements)
+      .pipe(
+        takeUntilDestroyed(),
+        map((elements) =>
+          elements.find((el) => el.nativeElement.id === spellName),
+        ),
+        filterNil(),
+        take(1),
+      )
+      .subscribe((spellElement) => {
+        const element = (spellElement.nativeElement =
+          spellElement.nativeElement);
+        element.scrollIntoView({ behavior: 'instant' });
+      });
   }
 }

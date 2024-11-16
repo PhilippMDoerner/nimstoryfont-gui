@@ -171,11 +171,11 @@ export class ArticleService {
         break;
       case 'spell':
         params.name = data.name;
-        routeName = 'spells';
+        routeName = 'spell';
         break;
       case 'rules':
         params.name = data.name;
-        routeName = 'rules';
+        routeName = 'rule';
         break;
     }
 

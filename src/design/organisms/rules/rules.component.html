@@ -34,7 +34,12 @@
       </div>
     }
     @for (card of ruleCards(); track card.rule.pk) {
-      <div class="list__rule-card rule-card" [@slideOutFromBottom]>
+      <div
+        class="list__rule-card rule-card"
+        [@slideOutFromBottom]
+        [id]="card.rule.name"
+        #rule
+      >
         <app-collapsible-panel [isOpen]="card.isOpen">
           <span heading>
             {{ card.rule.name }}

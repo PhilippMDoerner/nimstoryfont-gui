@@ -503,23 +503,43 @@ const detailRoutes: Route[] = [
   // Spells
   {
     path: 'spells',
-    component: SpellsPageComponent,
-    data: { name: 'spells', requiredMinimumRole: 'guest' },
     resolve: {
       playerClasses: () => inject(SpellsPageStore).loadPlayerClasses(),
       spells: () => inject(SpellsPageStore).loadSpells(),
     },
     canDeactivate: [onExitReset(SpellsPageStore)],
+    children: [
+      {
+        path: '',
+        component: SpellsPageComponent,
+        data: { name: 'spells', requiredMinimumRole: 'guest' },
+      },
+      {
+        path: ':name',
+        component: SpellsPageComponent,
+        data: { name: 'spell', requiredMinimumRole: 'guest' },
+      },
+    ],
   },
   // Rules
   {
     path: 'rules',
-    component: RulesPageComponent,
-    data: { name: 'rules', requiredMinimumRole: 'guest' },
     resolve: {
       rules: () => inject(RulesPageStore).loadRules(),
     },
     canDeactivate: [onExitReset(RulesPageStore)],
+    children: [
+      {
+        path: '',
+        component: RulesPageComponent,
+        data: { name: 'rules', requiredMinimumRole: 'guest' },
+      },
+      {
+        path: ':name',
+        component: RulesPageComponent,
+        data: { name: 'rule', requiredMinimumRole: 'guest' },
+      },
+    ],
   },
   // Sessions
   {

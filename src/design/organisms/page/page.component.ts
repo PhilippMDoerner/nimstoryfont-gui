@@ -1,6 +1,7 @@
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  computed,
   ElementRef,
   EventEmitter,
   inject,
@@ -11,9 +12,10 @@ import {
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
 import { MOBILE_WIDTH, SWIPE_X_THRESHOLD } from 'src/app/app.constants';
@@ -33,6 +35,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
     RouterOutlet,
     AsyncPipe,
     NgTemplateOutlet,
+    RouterLink,
     IconComponent,
   ],
   providers: [NgbOffcanvas],
@@ -43,6 +46,7 @@ export class PageComponent {
   sidebarService = inject(NgbOffcanvas);
   serverUrl = input.required<string>();
   swipeService = inject(SwipeService);
+  routingService = inject(RoutingService);
 
   @Output() logout: EventEmitter<void> = new EventEmitter();
   host = inject(ElementRef);
@@ -58,6 +62,11 @@ export class PageComponent {
 
   hasCampaignAdminPrivileges = this.globalStore.hasRoleOrBetter('admin');
   showSidebar = signal(this.isMobile() ? false : true);
+  homeUrl = computed(() =>
+    this.routingService.getRoutePath('home', {
+      campaign: this.globalStore.campaignName(),
+    }),
+  );
 
   constructor() {
     this.pageSwipesRight$

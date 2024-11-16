@@ -28,6 +28,8 @@
     --bs-navbar-brand-hover-color: var(--bs-white);
     --bs-navbar-hover-color: var(--bs-white);
     --bs-navbar-active-color: var(--bs-white);
+    --bs-navbar-toggler-padding-x: var(--spacer-3);
+    --bs-navbar-toggler-padding-y: var(--spacer-2);
 
     .navbar-brand {
       flex: 1;

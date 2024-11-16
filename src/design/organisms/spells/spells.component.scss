@@ -1,24 +1,33 @@
-.list{
-  &__button{
+.list {
+  &__button {
     margin-bottom: var(--spacer-3);
-    
-    &--button{
+
+    &--button {
       width: fit-content;
     }
   }
 }
 
-.spell-card{
+.spell-card {
   margin-bottom: var(--spacer-3);
-  
-  &__heading{
+
+  &__heading {
+    flex: 1;
     display: flex;
     justify-content: space-between;
-    
   }
-  
-  &__class{
-    margin-left: var(--spacer-1);
-    margin-right: var(--spacer-1);
+
+  &__heading-text {
+    flex: 1;
+    text-align: start;
+  }
+
+  &__classes {
+    max-width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    flex-wrap: wrap;
+    gap: var(--spacer-1);
   }
 }

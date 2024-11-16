@@ -90,7 +90,6 @@ export class HomeComponent {
 
   private onPageScroll(event: ContentScrollEvent) {
     if (this.isNearPageEnd(event)) {
-      console.log('nextload');
       this.triggerNextPageLoad();
     }
   }

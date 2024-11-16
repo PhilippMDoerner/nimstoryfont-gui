@@ -2,5 +2,5 @@
   class="edit-toggle"
   [type]="buttonType()"
   (click)="onClick()"
-  [icon]="_toggled ? 'times' : 'pencil'"
+  [icon]="_toggled() ? 'times' : 'pencil'"
 ></app-button>

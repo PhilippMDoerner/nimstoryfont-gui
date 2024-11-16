@@ -120,7 +120,6 @@ export class ItemCreateUpdatePageComponent {
 
   create(item: Partial<ItemRaw>) {
     // TODO: Figure out why this gets called twice sometimes
-    console.log('create', item);
     this.store.createItem(item as ItemRaw);
     this.itemCreateState$
       .pipe(

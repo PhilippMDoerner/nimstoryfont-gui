@@ -1,24 +1,24 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { Component, input, output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { CreateUpdateState } from '../_models/create-update-states';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
-import { NgTemplateOutlet } from '@angular/common';
-import { FormComponent } from '../../molecules/form/form.component';
 import { CompareFormComponent } from '../../molecules/compare-form/compare-form.component';
+import { FormComponent } from '../../molecules/form/form.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { CreateUpdateState } from '../_models/create-update-states';
 
 @Component({
-    selector: 'app-create-update',
-    templateUrl: './create-update.component.html',
-    styleUrls: ['./create-update.component.scss'],
-    standalone: true,
-    imports: [
+  selector: 'app-create-update',
+  templateUrl: './create-update.component.html',
+  styleUrls: ['./create-update.component.scss'],
+  standalone: true,
+  imports: [
     PageContainerComponent,
     ButtonComponent,
     NgTemplateOutlet,
     FormComponent,
-    CompareFormComponent
-],
+    CompareFormComponent,
+  ],
 })
 export class CreateUpdateComponent<Full, Raw> {
   heading = input.required<string>();
@@ -33,7 +33,6 @@ export class CreateUpdateComponent<Full, Raw> {
 
   onSubmit(submittedData: Partial<Raw> | Full): void {
     if (submittedData == null) return;
-    console.log('onSubmit', submittedData);
     switch (this.state()) {
       case 'CREATE':
         this.create.emit(submittedData as NonNullable<Full>);

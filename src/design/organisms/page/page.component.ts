@@ -91,7 +91,6 @@ export class PageComponent {
 
   openSidebar() {
     if (!this.isMobile()) return;
-    console.log('Open sidebar');
     this.sidebarService.open(this.sidebarTemplate(), {
       ariaLabelledBy: 'offcanvas-basic-title',
     });

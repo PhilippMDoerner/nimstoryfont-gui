@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { effect, inject } from '@angular/core';
+import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
@@ -67,8 +67,6 @@ export const OrganizationCreateUpdatePageStore = signalStore(
     };
   }),
   withMethods((store) => {
-    effect(() => console.log('Value', store.organization()));
-
     const organizationService = inject(OrganizationService);
     const toastService = inject(ToastService);
     return {

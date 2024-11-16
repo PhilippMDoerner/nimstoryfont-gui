@@ -29,7 +29,6 @@ import {
   withLatestFrom,
 } from 'rxjs';
 import { CustomAutocompleteProps } from 'src/app/_models/formly';
-import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
 import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
@@ -107,7 +106,6 @@ export class FormlyAutocompleteFieldComponent<T>
     this.htmlBadgeClickEvents$,
     this.htmlBackspaceClearEvents$,
   ).pipe(
-    tap(() => console.log('CLEAR')),
     map(() => ({
       sourceEvent: null,
       inputValue: '',
@@ -187,13 +185,7 @@ export class FormlyAutocompleteFieldComponent<T>
         const currentlySelectedValue =
           currentlySelectedOption?.[this.customProps.optionValueProp];
         const hasFormValueChanged = newFormValue !== currentlySelectedValue;
-        console.log(
-          'New Form Value: ',
-          newFormValue,
-          'Currently selected value: ',
-          currentlySelectedValue,
-          currentlySelectedOption,
-        );
+
         if (hasFormValueChanged) {
           const formOption = options.find(
             (opt) => opt[this.customProps.optionValueProp] === newFormValue,
@@ -212,8 +204,6 @@ export class FormlyAutocompleteFieldComponent<T>
 
   private setupData() {
     this.customProps = this.props['additionalProperties'];
-    console.log(this.formControl, this.field);
-    console.log(FORMLY_MODULE);
 
     const selectFromInputEvents$ = combineLatest({
       options: this.options$,

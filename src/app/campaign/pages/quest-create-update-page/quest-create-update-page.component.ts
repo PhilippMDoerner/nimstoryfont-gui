@@ -167,8 +167,6 @@ export class QuestCreateUpdatePageComponent {
   }
 
   create(quest: Partial<QuestRaw>) {
-    // TODO: Figure out why this gets called twice sometimes
-    console.log('create', quest);
     this.store.createQuest(quest as QuestRaw);
     this.questCreateState$
       .pipe(

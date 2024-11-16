@@ -78,7 +78,6 @@ export class PlayerComponent {
     if (time == null) {
       return;
     }
-    console.log('Timechange');
     this.plyr.currentTime = time;
   }
 

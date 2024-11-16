@@ -63,7 +63,6 @@ export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
               pipe(
                 tap(() =>
                   patchState(store, {
-                    [keys.dataField]: undefined,
                     [keys.queryStateField]: 'loading' satisfies RequestState,
                     [keys.errorField]: undefined,
                   }),

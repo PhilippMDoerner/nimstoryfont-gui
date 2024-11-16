@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -5,33 +6,32 @@ import {
   input,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
+import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
+import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { ChoiceSelectComponent } from '../../molecules/choice-select/choice-select.component';
 import { NgxLeafletMapComponent } from '../../organisms/ngx-leaflet-map/ngx-leaflet-map.component';
-import { NgTemplateOutlet } from '@angular/common';
-import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
-import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 @Component({
-    selector: 'app-map',
-    templateUrl: './map.component.html',
-    styleUrls: ['./map.component.scss'],
-    standalone: true,
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        ChoiceSelectComponent,
-        NgxLeafletMapComponent,
-        NgTemplateOutlet,
-        ArticleFooterComponent,
-        SpinnerComponent,
-    ],
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
+  standalone: true,
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    ChoiceSelectComponent,
+    NgxLeafletMapComponent,
+    NgTemplateOutlet,
+    ArticleFooterComponent,
+    SpinnerComponent,
+  ],
 })
 export class MapComponent {
   mapChoices = input.required<OverviewItem[]>();

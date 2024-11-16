@@ -65,7 +65,6 @@ export const MapPageStore = signalStore(
     return {
       reset: () =>
         patchState(store, {
-          map: undefined,
           mapError: undefined,
           mapQueryState: 'init',
           mapDeleteState: 'init',

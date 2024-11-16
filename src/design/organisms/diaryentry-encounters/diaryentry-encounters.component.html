@@ -39,7 +39,11 @@
     <div class="row">
       @for (entryEncounter of diaryEntryEncounters(); track entryEncounter) {
         <!-- Encounter -->
-        <div class="repeated-unit">
+        <div
+          class="repeated-unit"
+          [id]="entryEncounter.encounter.title"
+          #encounter
+        >
           @switch (state()) {
             @case ("READ") {
               <ng-container
@@ -103,7 +107,9 @@
 </div>
 
 <ng-template #displayEncounter let-entryEncounter>
-  <h4>{{ entryEncounter.encounter?.title }}</h4>
+  <h4>
+    {{ entryEncounter.encounter?.title }}
+  </h4>
   <app-html-text [text]="entryEncounter.encounter.description"></app-html-text>
 </ng-template>
 

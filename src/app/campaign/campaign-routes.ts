@@ -303,8 +303,21 @@ const detailRoutes: Route[] = [
       },
       {
         path: ':sessionNumber/:isMainSession/:authorName',
-        component: DiaryentryPageComponent,
-        data: { name: 'diaryentry', requiredMinimumRole: 'guest' },
+        children: [
+          {
+            path: '',
+            component: DiaryentryPageComponent,
+            data: { name: 'diaryentry', requiredMinimumRole: 'guest' },
+          },
+          {
+            path: 'encounter/:encounterTitle',
+            component: DiaryentryPageComponent,
+            data: {
+              name: 'diaryentry-encounter',
+              requiredMinimumRole: 'guest',
+            },
+          },
+        ],
         canDeactivate: [onExitReset(DiaryentryPageStore)],
         resolve: {
           loadDiaryentry: (route: ActivatedRouteSnapshot) =>

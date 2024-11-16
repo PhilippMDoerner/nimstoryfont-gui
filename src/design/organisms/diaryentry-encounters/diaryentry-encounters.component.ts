@@ -2,12 +2,14 @@ import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
+  ElementRef,
   EventEmitter,
   inject,
   input,
   output,
   Output,
   signal,
+  viewChildren,
 } from '@angular/core';
 import {
   Encounter,
@@ -19,11 +21,15 @@ import {
 } from 'src/app/_models/encounter';
 import { DiaryentryPageStore } from 'src/app/campaign/pages/diaryentry-page/diaryentry-page.store';
 
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { map, take } from 'rxjs';
 import { ArrowButtonComponent } from 'src/design/atoms/arrow-button/arrow-button.component';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { CardComponent } from 'src/design/atoms/card/card.component';
 import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
 import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
+import { filterNil } from 'src/utils/rxjs-operators';
 import { EncounterComponent } from '../encounter/encounter.component';
 
 type ListState = 'READ' | 'EDIT';
@@ -46,6 +52,7 @@ type ListState = 'READ' | 'EDIT';
 })
 export class DiaryentryEncountersComponent {
   store = inject(DiaryentryPageStore);
+  route = inject(ActivatedRoute);
 
   diaryEntryPk = computed(() => this.store.diaryentry()?.pk);
   campaignCharacters = this.store.campaignCharacters;
@@ -55,6 +62,7 @@ export class DiaryentryEncountersComponent {
   canDelete = this.store.hasWritePermission;
   canCreate = this.store.hasWritePermission;
   state = input<ListState>('READ');
+  encounterElements = viewChildren<ElementRef<HTMLDivElement>>('encounter');
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();
@@ -76,6 +84,13 @@ export class DiaryentryEncountersComponent {
   isUpdatingAnything = this.store.isUpdatingAnyEncounters;
   cutEncounterIndex = signal<number | undefined>(undefined);
   diaryEntryEncounters = this.store.diaryEntryEncounters;
+
+  constructor() {
+    const encounterTitle = this.route.snapshot.params['encounterTitle'];
+    if (encounterTitle) {
+      this.scrollToEncounter(encounterTitle);
+    }
+  }
 
   addEmptyEncounterAtIndex(listIndex: number) {
     const newOrderIndex: number = this.getOrderIndexForNewEncounter(listIndex);
@@ -178,6 +193,21 @@ export class DiaryentryEncountersComponent {
     };
     this.encounterCreate.emit(newEncounter);
     this.store.removeEmptyEncounterForCreation(encounter);
+  }
+
+  private scrollToEncounter(encounterTitle: string): void {
+    toObservable(this.encounterElements)
+      .pipe(
+        takeUntilDestroyed(),
+        map((elements) =>
+          elements.find((el) => el.nativeElement.id === encounterTitle),
+        ),
+        filterNil(),
+        take(1),
+      )
+      .subscribe((encounterElement) =>
+        encounterElement.nativeElement.scrollIntoView({ behavior: 'instant' }),
+      );
   }
 
   /**

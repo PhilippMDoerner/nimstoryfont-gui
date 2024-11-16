@@ -29,6 +29,7 @@
 
 .repeated-unit {
   padding: 0;
+  scroll-margin-top: var(--spacer-5);
 
   @include media-breakpoint-up(md) {
     padding: unset;

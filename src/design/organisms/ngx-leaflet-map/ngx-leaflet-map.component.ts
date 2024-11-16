@@ -255,41 +255,30 @@ export class NgxLeafletMapComponent {
     return markerIcon;
   }
 
-  makeFreePopupContentHTML(longitude: number, latitude: number): string {
-    const markerMapCreateUrl: string = this.routingService.getRoutePath(
-      'marker-map-create',
-      {
+  private makeFreePopupContentHTML(
+    longitude: number,
+    latitude: number,
+  ): HTMLElement {
+    const routeToCreateMarkerPage = () =>
+      this.routingService.routeToPath('marker-map-create', {
         latitude: latitude,
         longitude: longitude,
         map_name: this.mapData().name,
         campaign: this.mapData().campaign_details?.name,
-      },
-    );
-
-    const locationMapCreateUrl: string = this.routingService.getRoutePath(
-      'location-map-create',
-      {
-        latitude: latitude,
-        longitude: longitude,
-        map_name: this.mapData().name,
-        campaign: this.mapData().campaign_details?.name,
-      },
-    );
-
-    const popupContentHTML: string = `
-      <div class="mb-2 pointer"> 
-        <a href="${markerMapCreateUrl}">
-          <i class="fa fa-map-marker"></i> Add Marker
-        </a>
-      </div>
-
-      <div class="pointer"> 
-        <a href="${locationMapCreateUrl}">
-          <i class="fa fa-home"></i> Add Marker and Location
-        </a>
+      });
+    const popUpElement = document.createElement('div');
+    popUpElement.innerHTML = `
+      <div class="mb-2 pointer">
+        <button id="add-marker" class="a rounded" tabindex="0">
+        <i class="fa fa-map-marker"></i> Add Marker
+        </button>
       </div>
     `;
 
-    return popupContentHTML;
+    popUpElement
+      .querySelector('#add-marker')
+      ?.addEventListener('click', routeToCreateMarkerPage);
+
+    return popUpElement;
   }
 }

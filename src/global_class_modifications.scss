@@ -21,9 +21,19 @@
   border-radius: var(--bs-border-radius);
 }
 
-a {
+a,
+.a {
   font-weight: bold;
   text-decoration-style: dashed;
+}
+
+.a {
+  &:focus,
+  &:focus-within,
+  &:hover,
+  &:focus-visible {
+    outline: var(--focus-outline);
+  }
 }
 
 button {

@@ -41,7 +41,7 @@
         --brand-height: calc(var(--navbar-height) - 6px);
         height: var(--brand-height);
         width: var(--brand-height);
-        border-radius: 50%;
+        border-radius: var(--bs-border-radius);
         margin-right: var(--spacer-2);
         margin-left: var(--spacer-2);
       }

@@ -1,20 +1,18 @@
-<div class="container">
-  <div class="row">
-    @for (article of articles(); track $index) {
-      <div class="entry col-6 col-lg-4 col-xl-3">
-        <a
-          class="entry__link"
-          [routerLink]="article.link"
-          [title]="article.entryType | titlecase"
-        >
-          <app-icon-card
-            [icon]="article.icon"
-            [title]="article.title"
-            [subText]="article.subText"
-            [updateDatetime]="article.updateDatetime"
-          ></app-icon-card>
-        </a>
-      </div>
-    }
-  </div>
+<div class="row">
+  @for (article of articles(); track $index) {
+    <div class="entry col-6 col-lg-4 col-xl-3">
+      <a
+        class="entry__link"
+        [routerLink]="article.link"
+        [title]="article.entryType | titlecase"
+      >
+        <app-icon-card
+          [icon]="article.icon"
+          [title]="article.title"
+          [subText]="article.subText"
+          [updateDatetime]="article.updateDatetime"
+        ></app-icon-card>
+      </a>
+    </div>
+  }
 </div>

@@ -1,14 +1,6 @@
 <div class="container">
-  <div class="row campaign__heading heading">
+  <div class="campaign__heading heading">
     <div class="heading__buttons">
-      <a [routerLink]="profileUrl()" class="heading__button">
-        <app-button
-          [type]="'SECONDARY'"
-          [icon]="'user-circle'"
-          [text]="'Profile'"
-        ></app-button>
-      </a>
-
       <a (click)="logout.emit()" class="heading__button">
         <app-button
           [type]="'SECONDARY'"

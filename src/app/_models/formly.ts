@@ -23,12 +23,13 @@ export interface FormlyInterface {
   showWrapperLabel?: boolean;
 }
 
-export interface FormlyOverviewSelectConfig extends FormlyInterface {
-  labelProp: string;
-  valueProp?: string;
-  sortProp?: string;
+export interface FormlyOverviewSelectConfig<T> extends FormlyInterface {
+  labelProp: keyof T;
+  valueProp?: keyof T;
+  sortProp?: keyof T;
+  sortDirection?: 'asc' | 'desc';
   campaign?: string;
-  options$: Observable<any[]>;
+  options$: Observable<T[]>;
 }
 
 export type DisabledFunction<T> = (
@@ -39,7 +40,7 @@ export type DisabledFunction<T> = (
 ) => Observable<boolean[]>;
 
 export interface FormlyOverviewDisabledSelectConfig<T>
-  extends FormlyOverviewSelectConfig {
+  extends FormlyOverviewSelectConfig<T> {
   disabledExpression: DisabledFunction<T>;
   tooltipMessage: string;
   warningMessage: string;

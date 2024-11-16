@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { filter, map, mergeMap, Observable, take } from 'rxjs';
+import { OverviewItem } from 'src/app/_models/overview';
 import { Session } from 'src/app/_models/session';
 import { SessionAudio, SessionAudioRaw } from 'src/app/_models/sessionAudio';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
@@ -102,7 +103,7 @@ export class SessionaudioCreateUpdatePageComponent {
       options$: this.sessions$,
       labelProp: 'name',
       campaign: this.globalStore.campaignName(),
-      disabledExpression: (selectOption$: Observable<SessionAudio[]>) => {
+      disabledExpression: (selectOption$: Observable<OverviewItem[]>) => {
         return selectOption$.pipe(
           map((options) => {
             return options.map((selectOption) => {
@@ -110,7 +111,10 @@ export class SessionaudioCreateUpdatePageComponent {
                 selectOption.pk ===
                 (this.userModel() as Partial<SessionAudio>)?.session_details
                   ?.pk;
-              return !!selectOption.has_recording && !isCurrentlySelectedOption;
+              return (
+                !!(selectOption as any).has_recording &&
+                !isCurrentlySelectedOption
+              );
             });
           }),
         );

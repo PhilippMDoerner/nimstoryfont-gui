@@ -112,8 +112,14 @@ export class MarkerCreateUpdatePageComponent {
       case 'CREATE':
         const location = this.getPreselectedLocation();
         const map = this.getPreselectedMap();
-        const longitude = this.params()?.['longitude'];
-        const latitude = this.params()?.['latitude'];
+        const longitudeParam = this.params()?.['longitude'] as
+          | number
+          | undefined;
+        const longitude = longitudeParam
+          ? Math.round(longitudeParam)
+          : undefined;
+        const latitudeParam = this.params()?.['latitude'] as number | undefined;
+        const latitude = latitudeParam ? Math.round(latitudeParam) : undefined;
 
         return {
           campaign: this.globalStore.currentCampaign()?.pk,

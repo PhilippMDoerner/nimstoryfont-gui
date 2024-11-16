@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -22,34 +23,33 @@ import {
   PlayerClass,
 } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { BadgeListEntry } from '../../molecules';
-import { CreateUpdateState } from '../_models/create-update-states';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { ButtonComponent } from '../../atoms/button/button.component';
-import { NgTemplateOutlet } from '@angular/common';
-import { FormComponent } from '../../molecules/form/form.component';
-import { SeparatorComponent } from '../../atoms/separator/separator.component';
-import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
+import { ButtonComponent } from '../../atoms/button/button.component';
+import { SeparatorComponent } from '../../atoms/separator/separator.component';
+import { BadgeListEntry } from '../../molecules';
+import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
 import { CompareFormComponent } from '../../molecules/compare-form/compare-form.component';
+import { FormComponent } from '../../molecules/form/form.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { CreateUpdateState } from '../_models/create-update-states';
 
 type MembershipFormState = 'CREATE' | 'DISPLAY';
 
 @Component({
-    selector: 'app-character-create-update',
-    templateUrl: './character-create-update.component.html',
-    styleUrls: ['./character-create-update.component.scss'],
-    standalone: true,
-    imports: [
-        PageContainerComponent,
-        ButtonComponent,
-        NgTemplateOutlet,
-        FormComponent,
-        SeparatorComponent,
-        BadgeListComponent,
-        BadgeComponent,
-        CompareFormComponent,
-    ],
+  selector: 'app-character-create-update',
+  templateUrl: './character-create-update.component.html',
+  styleUrls: ['./character-create-update.component.scss'],
+  standalone: true,
+  imports: [
+    PageContainerComponent,
+    ButtonComponent,
+    NgTemplateOutlet,
+    FormComponent,
+    SeparatorComponent,
+    BadgeListComponent,
+    BadgeComponent,
+    CompareFormComponent,
+  ],
 })
 export class CharacterCreateUpdateComponent {
   state = input.required<CreateUpdateState>();
@@ -124,7 +124,7 @@ export class CharacterCreateUpdateComponent {
       label: 'Organization',
       labelProp: 'name_full',
       campaign: this.campaignName(),
-      disabledExpression: (organizations$: Observable<Organization[]>) => {
+      disabledExpression: (organizations$: Observable<OverviewItem[]>) => {
         return organizations$.pipe(
           map((organizations) => organizations.map(this.hasMembership)),
         );
@@ -222,7 +222,7 @@ export class CharacterCreateUpdateComponent {
     }
   }
 
-  private hasMembership(organization: Organization): boolean {
+  private hasMembership(organization: Organization | OverviewItem): boolean {
     return (
       this.userModel().organizations?.some(
         (membership: CharacterOrganizationMembership) =>

@@ -599,7 +599,7 @@ const detailRoutes: Route[] = [
         path: ':latitude/:longitude/:map_name/create',
         data: { name: 'marker-map-create', requiredMinimumRole: 'guest' },
         component: MarkerCreateUpdatePageComponent,
-        providers: [MarkerCreateUpdateStore, ActivatedRouteSnapshot],
+        providers: [MarkerCreateUpdateStore],
         // canDeactivate: [onExitReset(MarkerCreateUpdateStore)],
         resolve: {
           maps: () => inject(MarkerCreateUpdateStore).loadCampaignMaps(),
@@ -627,7 +627,7 @@ const detailRoutes: Route[] = [
         path: ':parent_location_name/:location_name/:map_name/update',
         data: { name: 'marker-update', requiredMinimumRole: 'guest' },
         component: MarkerCreateUpdatePageComponent,
-        providers: [MarkerCreateUpdateStore, ActivatedRouteSnapshot],
+        providers: [MarkerCreateUpdateStore],
         // canDeactivate: [onExitReset(MarkerCreateUpdateStore)],
         resolve: {
           maps: () => inject(MarkerCreateUpdateStore).loadCampaignMaps(),

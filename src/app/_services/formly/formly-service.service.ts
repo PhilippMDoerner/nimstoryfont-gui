@@ -17,20 +17,22 @@ import {
   StaticOption,
 } from 'src/app/_models/formly';
 import { FormlySelectDisableFieldComponent } from 'src/design/organisms/formly-select-disable/formly-select-disable-field.component';
+import { sortByProp } from 'src/utils/array';
 import { capitalize } from 'src/utils/string';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FormlyService {
-  buildOverviewSelectConfig(
-    config: FormlyOverviewSelectConfig,
+  buildOverviewSelectConfig<T>(
+    config: FormlyOverviewSelectConfig<T>,
   ): FormlyFieldConfig {
     const isRequiredField = config.required ?? true;
 
     const options$ = isRequiredField
       ? config.options$
       : this.addEmptyOption(config.options$, config);
+    const sortedOptions$ = this.sortOptions(options$, config);
 
     const validators = this.getValidators(config);
 
@@ -44,7 +46,7 @@ export class FormlyService {
         label: config.label ?? capitalize(config.key),
         labelProp: config.labelProp,
         valueProp: config.valueProp ?? 'pk',
-        options: options$,
+        options: sortedOptions$,
         required: config.required ?? true,
         disabled: config.disabled,
       },
@@ -59,9 +61,10 @@ export class FormlyService {
   ): FormlyFieldConfig {
     const isRequiredField = config.required ?? true;
 
-    const options$ = config.options$.pipe(
-      map((options) => [this.createEmptyOption(config), ...options]),
-    );
+    const options$ = isRequiredField
+      ? config.options$
+      : this.addEmptyOption(config.options$, config);
+    const sortedOptions$ = this.sortOptions(options$, config);
 
     const validators = this.getValidators(config);
     return {
@@ -74,7 +77,7 @@ export class FormlyService {
         label: config.label ?? capitalize(config.key),
         labelProp: config.labelProp,
         valueProp: config.valueProp ?? 'pk',
-        options: options$,
+        options: sortedOptions$,
         required: config.required ?? true,
         warningMessage: config.warningMessage,
         additionalProperties: {
@@ -367,9 +370,9 @@ export class FormlyService {
     return validators;
   }
 
-  private addEmptyOption(
+  private addEmptyOption<T>(
     list: Observable<any[]> | any[],
-    config: FormlyOverviewSelectConfig,
+    config: FormlyOverviewSelectConfig<T>,
   ): Observable<any[]> {
     if (Array.isArray(list)) {
       return of([this.createEmptyOption(config), ...list]);
@@ -380,13 +383,25 @@ export class FormlyService {
     }
   }
 
-  private createEmptyOption(config: FormlyOverviewSelectConfig) {
+  private createEmptyOption<T>(config: FormlyOverviewSelectConfig<T>) {
     const emptyOption: any = {};
     emptyOption[config.labelProp] =
       FormlySelectDisableFieldComponent.EMPTY_OPTION_LABEL;
-    const valueProp: string = config.valueProp ?? config.key;
+    const valueProp = config.valueProp ?? config.key;
     emptyOption[valueProp] =
       FormlySelectDisableFieldComponent.EMPTY_OPTION_VALUE;
     return emptyOption;
+  }
+
+  private sortOptions<T>(
+    list$: Observable<T[]>,
+    config: FormlyOverviewSelectConfig<T>,
+  ): Observable<T[]> {
+    const { sortProp, sortDirection } = config;
+    if (!sortProp) return list$;
+
+    return list$.pipe(
+      map((list) => sortByProp(list, sortProp, sortDirection ?? 'asc')),
+    );
   }
 }

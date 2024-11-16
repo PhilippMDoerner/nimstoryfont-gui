@@ -50,6 +50,7 @@ export interface OverviewItem extends ApiObject {
 
   //For Session-Type OverviewItems (Solely for diaryentry-create and update select statements)
   author_ids?: number[];
+  session_number?: number;
 
   // For quests
   status?: QuestStatus;
@@ -59,6 +60,9 @@ export interface OverviewItem extends ApiObject {
     name_full: string;
     pk: number;
   };
+
+  // For User
+  username?: string;
 
   campaign_details?: { pk: number; name: string };
 }

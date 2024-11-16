@@ -93,7 +93,7 @@ export class PageComponent {
   }
 
   private isMobile() {
-    return screen.width <= MOBILE_WIDTH;
+    return window.innerWidth <= MOBILE_WIDTH;
   }
 
   private dispatchCustomPageScrollEvent(event: Event): void {

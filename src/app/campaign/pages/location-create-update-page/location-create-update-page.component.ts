@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { filter, map, Observable, skip, take } from 'rxjs';
 import { Location, LocationRaw } from 'src/app/_models/location';
+import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -81,18 +82,22 @@ export class LocationCreateUpdatePageComponent {
 
   formlyFields = computed<FormlyFieldConfig[]>(() => [
     this.formlyService.buildInputConfig({ key: 'name', inputKind: 'NAME' }),
-    this.formlyService.buildDisableSelectConfig({
+    this.formlyService.buildDisableSelectConfig<OverviewItem>({
       key: 'parent_location',
       label: 'Parent Location',
       options$: this.campaignLocations$,
       sortProp: 'name_full',
-      labelProp: 'name',
+      labelProp: 'name_full',
       campaign: this.globalStore.campaignName(),
       required: false,
-      disabledExpression: (locations$: Observable<Location[]>) => {
+      disabledExpression: (locations$: Observable<OverviewItem[]>) => {
         return locations$.pipe(
           map((locations) => {
             return locations.map((loc) => {
+              const isEmptyOption = loc.pk === undefined;
+              if (isEmptyOption) {
+                return false;
+              }
               switch (this.state()) {
                 case 'CREATE':
                   return this.isSameLocation(loc, this.userModel());

@@ -61,6 +61,7 @@ export const HomePageStore = signalStore(
             // error: (err) => patchState(state, { isLoading: false }),
           });
       },
+      reset: () => patchState(state, initialState),
     };
   }),
   withHooks((store) => {

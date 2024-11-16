@@ -141,6 +141,7 @@ const detailRoutes: Route[] = [
     resolve: {
       articles: () => inject(HomePageStore).loadMoreArticles(0),
     },
+    canDeactivate: [onExitReset(HomePageStore)],
   },
   // Search
   {

@@ -1,0 +1,4 @@
+:host {
+  position: fixed;
+  z-index: calc(var(--bs-offcanvas-zindex) + 1);
+}

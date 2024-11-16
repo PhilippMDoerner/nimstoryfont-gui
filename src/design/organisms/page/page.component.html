@@ -41,7 +41,7 @@
   <app-page-background
     #background
     class="page__background"
-    [imageUrl]="campaign?.background_image"
+    [imageUrl]="(campaignBackgroundImage$ | async) ?? undefined"
     [serverUrl]="serverUrl()"
   ></app-page-background>
 </div>

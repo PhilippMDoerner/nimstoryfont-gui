@@ -1,52 +1,35 @@
 import {
   animate,
-  query,
   state,
   style,
   transition,
   trigger,
 } from '@angular/animations';
 
-/**
- * Memo for me:
- * :enter The entering component
- * :leave the leaving component
- */
-
-const inactiveStyle = style({
+const out = style({
   transform: 'translateX(-100%)',
-  opacity: 0,
-  'z-index': 0,
-  height: '100%',
-  width: '100%',
-  position: 'fixed',
 });
-const activeStyle = style({
+const ins = style({
   transform: 'translateX(0%)',
-  opacity: 1,
-  'z-index': 3,
 });
-
 export const slideInOut = trigger('slideInOut', [
-  transition('* => *', [
-    query(':enter', [inactiveStyle], { optional: true }),
-    query(':leave', [animate('500ms', inactiveStyle)], { optional: true }),
-    query(':enter', [animate('500ms', activeStyle)], { optional: true }),
-  ]),
+  transition('void => *', [out, animate('1s ease-in-out', ins)]),
+  transition('* => void', [ins, animate('1s ease-in-out', out)]),
 ]);
 
-const hiddenSidebarStyle = style({
-  width: '0px',
-});
-const visibleSidebarStyle = style({
-  width: 'var(--sb-width)',
-});
-const hiddenState = state('hidden', hiddenSidebarStyle);
-const visibleState = state('visible', visibleSidebarStyle);
+type DisplayStyle = 'flex' | 'block' | 'inline' | 'inline-block';
+export type VisibilityAnimationState = 'show' | 'hide';
+const show = (displayState: string) =>
+  state('show', style({ display: displayState }));
+const hide = state('hide', style({ display: 'none' }));
 
-export const sidebarSlideInOut = trigger('sidebarSlideInOut', [
-  hiddenState,
-  visibleState,
-  transition('hidden => visible', [animate('650ms 400ms ease-in-out')]),
-  transition('visible => hidden', [animate('250ms ease-in-out')]),
-]);
+export const delayVisibility = (
+  displayState: DisplayStyle,
+  delay: number = 1000,
+) =>
+  trigger('delayVisibility', [
+    show(displayState),
+    hide,
+    transition('show => hide', [animate(`${delay}ms ease-in-out`)]),
+    transition('hide => show', [animate(`${delay}ms ease-in-out`)]),
+  ]);

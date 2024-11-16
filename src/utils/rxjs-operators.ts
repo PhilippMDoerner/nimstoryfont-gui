@@ -1,5 +1,15 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { filter, map, OperatorFunction, pipe, skip, take, tap } from 'rxjs';
+import {
+  filter,
+  map,
+  Observable,
+  OperatorFunction,
+  pipe,
+  skip,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { log } from './logging';
 
@@ -51,5 +61,30 @@ export function mapServerModel<T>(): OperatorFunction<
   return pipe(
     filter((error) => error.status === 401),
     map((error) => error.error as T | undefined),
+  );
+}
+
+/**
+ * Delays false-y values by the specified amount of time.
+ * truth-y values are emitted immediately.
+ * If a false-y value gets emitted while a truth-y value is being delayed, then that false-y value is cancelled.
+ * @param delayByMs - Amount of time in ms that a false-y value will be delayed by
+ * @returns
+ */
+export function delayFalsy<T>(
+  delayByMs: number = 1000,
+): OperatorFunction<T | undefined, T | undefined> {
+  return pipe(
+    switchMap((value) => {
+      let timeout: ReturnType<typeof setTimeout>;
+      return new Observable<T | undefined>((observer) => {
+        if (value) {
+          clearTimeout(timeout);
+          observer.next(value);
+        } else {
+          timeout = setTimeout(() => observer.next(value), delayByMs);
+        }
+      });
+    }),
   );
 }

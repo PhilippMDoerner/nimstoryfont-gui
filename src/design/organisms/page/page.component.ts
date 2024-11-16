@@ -11,16 +11,17 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { filter } from 'rxjs';
+import { filter, map } from 'rxjs';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
 import { MOBILE_WIDTH, SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { GlobalStore } from 'src/app/global.store';
 import { PageBackgroundComponent } from 'src/design/molecules';
+import { delayFalsy } from 'src/utils/rxjs-operators';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -66,6 +67,13 @@ export class PageComponent {
     this.routingService.getRoutePath('home', {
       campaign: this.globalStore.campaignName(),
     }),
+  );
+
+  campaignBackgroundImage$ = toObservable(
+    this.globalStore.currentCampaign,
+  ).pipe(
+    map((campaign) => campaign?.background_image),
+    delayFalsy(1000),
   );
 
   constructor() {

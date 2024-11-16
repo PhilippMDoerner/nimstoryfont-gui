@@ -16,9 +16,11 @@ import { animateElement } from 'src/app/_functions/animate';
   imports: [],
 })
 export class PageBackgroundComponent {
+  defaultImageUrl = '/assets/default_images/background_default.webp';
+
   imageUrl = input<string>();
   serverUrl = input.required<string>();
-  defaultImageUrl = '/assets/default_images/background_default.webp';
+
   currentImageUrl = computed(() => {
     const newPartialImageUrl = this.imageUrl() ?? this.defaultImageUrl;
     return `${this.serverUrl()}${newPartialImageUrl}`;

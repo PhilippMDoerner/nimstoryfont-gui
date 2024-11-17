@@ -5,6 +5,7 @@ import { importProvidersFrom } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
+import { errorInterceptor } from './app/_interceptors/errorInterceptor';
 import { addTokenInterceptor } from './app/_interceptors/tokenInterceptor';
 import { FORMLY_MODULE } from './app/_modules/formly_constants';
 import { AppRoutingModule } from './app/app-routing.module';
@@ -16,7 +17,9 @@ bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(BrowserModule, AppRoutingModule, FORMLY_MODULE),
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
-    provideHttpClient(withInterceptors([addTokenInterceptor])),
+    provideHttpClient(
+      withInterceptors([addTokenInterceptor, errorInterceptor]),
+    ),
     GlobalStore,
     NavigationStore,
     provideAnimations(),

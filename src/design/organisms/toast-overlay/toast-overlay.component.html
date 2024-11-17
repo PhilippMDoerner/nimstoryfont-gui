@@ -37,7 +37,10 @@
             @if (headerIcon) {
               <app-icon class="heading__icon" [icon]="headerIcon"></app-icon>
             }
-            {{ toast.header.text }}
+            <span
+              class="heading-text-container"
+              [innerHTML]="toast.header.text"
+            ></span>
           </span>
           <button class="heading__close-button" (click)="dismissCurrentToast()">
             <app-icon [icon]="'xmark'" />
@@ -50,7 +53,7 @@
         [class.toast__body--no-header]="!toast.header"
       >
         <span class="body__text">
-          {{ toast.body.text }}
+          <div class="body__text-container" [innerHTML]="toast.body.text"></div>
           @let bodyIcon = toast.body.icon;
           @if (bodyIcon) {
             <app-icon class="body__icon" [icon]="bodyIcon" />

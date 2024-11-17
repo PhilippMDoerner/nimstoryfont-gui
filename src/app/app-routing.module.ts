@@ -11,6 +11,7 @@ import { adminRoutes } from './administration/administration-routes';
 import { campaignRoutes } from './campaign/campaign-routes';
 import { generalRoutes } from './general/general-routes';
 import { CampaignOverviewPageComponent } from './general/pages/campaign-overview-page/campaign-overview-page.component';
+import { ErrorPageComponent } from './general/pages/error-page/error-page.component';
 
 const redirectRoutes: Routes = [
   //Redirect Routes
@@ -31,6 +32,19 @@ const redirectRoutes: Routes = [
     redirectTo: `${environment.frontendPrefix}/campaigns`,
     pathMatch: 'full',
     data: { name: 'no-campaigns' },
+  },
+];
+
+const errorRoutes: Routes = [
+  {
+    path: `error/:errorStatus`,
+    component: ErrorPageComponent,
+    data: { name: 'error' },
+  },
+  {
+    path: '**',
+    component: ErrorPageComponent,
+    data: { name: '404' },
   },
 ];
 
@@ -69,6 +83,7 @@ const routes: Routes = [
       },
     ],
   },
+  ...errorRoutes,
 ];
 
 @NgModule({

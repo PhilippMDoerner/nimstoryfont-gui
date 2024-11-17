@@ -8,19 +8,31 @@ import {
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
-import { filter, map, mergeMap, retry, take } from 'rxjs/operators';
+import { filter, map, mergeMap, retry, take, tap } from 'rxjs/operators';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
 import { log } from 'src/utils/logging';
-import { TokenService } from '../_services/utils/token.service';
+import { ToastConfig } from '../_models/toast';
 import { GlobalStore } from '../global.store';
 
-const MAX_RETRY_COUNT = 3;
+const logoutInfoToast: ToastConfig = {
+  type: 'INFO',
+  dismissMs: 3000,
+  header: {
+    text: 'Session expired',
+  },
+  body: {
+    text: 'You have been logged out',
+  },
+  onToastClick: (dismiss) => dismiss(),
+};
 
 export function addTokenInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
   const globalStore = inject(GlobalStore);
+  const toastService = inject(ToastService);
 
   if (!isApiUrlRequiringJWTToken(req.url)) {
     return next(req);
@@ -44,19 +56,16 @@ export function addTokenInterceptor(
         }
       },
     }),
+    tap({
+      error: (err: HttpErrorResponse) => {
+        if (err instanceof HttpErrorResponse && err.status === 401) {
+          toastService.addToast(logoutInfoToast);
+          globalStore.logout();
+        }
+      },
+    }),
   );
 }
-
-const createErrorCallback = (tokenService: TokenService) => {
-  return (error: any) => {
-    const isAuthError =
-      error instanceof HttpErrorResponse && error.status === 401;
-    if (isAuthError) {
-      // TODO: Show toast that user is no longer logged in due to HTTP error
-      tokenService.logout();
-    }
-  };
-};
 
 const isApiUrlRequiringJWTToken = (url: string) =>
   isApiUrl(url) && isUrlRequiringJWTToken(url);
@@ -72,10 +81,10 @@ const apiNonTokenURLEndings: string[] = [
 const isUrlRequiringJWTToken = (url: string) =>
   !apiNonTokenURLEndings.some((urlEnding) => url.endsWith(urlEnding));
 
-function addTokenToRequest(
+function addTokenToRequest<T>(
   token: string,
-  request: HttpRequest<any>,
-): HttpRequest<any> {
+  request: HttpRequest<T>,
+): HttpRequest<T> {
   const httpHeaders = new HttpHeaders().set('Authorization', `Bearer ${token}`);
   request = request.clone({ headers: httpHeaders });
   return request;

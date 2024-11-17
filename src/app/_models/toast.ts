@@ -31,7 +31,8 @@ export type ToastConfig = {
 };
 
 export function errorToast(err: HttpErrorResponse): ToastConfig {
-  const isHttpErrorResponse = err.status?.constructor?.name === 'number';
+  const isHttpErrorResponse =
+    err.status?.constructor?.name.toLowerCase() === 'number';
   if (!isHttpErrorResponse) {
     throw err;
   }
@@ -56,7 +57,10 @@ export function errorToast(err: HttpErrorResponse): ToastConfig {
   return {
     type: 'DANGER',
     body: {
-      text: getErrorBody(err),
+      text: `
+        <strong> Please copy the error and send it to the developer: </strong>  <br>
+        ${getErrorBody(err)}
+      `,
       buttons,
     },
     header: { text: getErrorHeading(err) },
@@ -84,7 +88,7 @@ function getErrorHeading(error: HttpErrorResponse): string {
     case 200:
       return 'The target URL for the requested action does not seem to exist';
     case 500:
-      return 'An error occurred on the server, unrelated to your input. Please copy the full error message and send it to the developer';
+      return `The server exploded somehow!`;
     default:
       return 'An error occurred';
   }

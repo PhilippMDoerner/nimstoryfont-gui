@@ -38,7 +38,9 @@ export function addTokenInterceptor(
     return next(req);
   }
 
-  return toObservable(globalStore.userData).pipe(
+  const userData$ = toObservable(globalStore.userData);
+
+  return userData$.pipe(
     take(1),
     map((data) => data?.accessToken.token),
     filter(Boolean),
@@ -51,6 +53,8 @@ export function addTokenInterceptor(
         switch (err.status) {
           case 401:
             return globalStore.refreshUserData();
+          case 502:
+            return userData$;
           default:
             throw err;
         }

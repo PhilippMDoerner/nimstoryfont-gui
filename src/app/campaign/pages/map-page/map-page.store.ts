@@ -63,12 +63,15 @@ export const MapPageStore = signalStore(
       filterNil(),
     );
     return {
-      reset: () =>
+      reset: () => {
         patchState(store, {
           mapError: undefined,
           mapQueryState: 'init',
           mapDeleteState: 'init',
-        }),
+          map: undefined,
+          campaignMaps: undefined,
+        });
+      },
       loadDefaultMap: () => {
         combineLatest({
           maps: maps$,

@@ -8,9 +8,9 @@ import {
   trackCampaignName,
 } from './_resolvers/campaign.resolver';
 import { adminRoutes } from './administration/administration-routes';
-import { CampaignOverviewPageComponent } from './campaign';
 import { campaignRoutes } from './campaign/campaign-routes';
 import { generalRoutes } from './general/general-routes';
+import { CampaignOverviewPageComponent } from './general/pages/campaign-overview-page/campaign-overview-page.component';
 
 const redirectRoutes: Routes = [
   //Redirect Routes

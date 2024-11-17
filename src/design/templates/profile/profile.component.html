@@ -3,7 +3,7 @@
     <!-- Section Heading -->
     <div class="row profile__heading heading">
       <h1 class="col-12 col-sm-6 heading__text">
-        <app-icon [icon]="'user-circle'"></app-icon>
+        <app-icon [icon]="'circle-user'"></app-icon>
         Profile
       </h1>
 
@@ -104,7 +104,6 @@
   </article>
 </app-page-container>
 
-
 <ng-template #displayCampaignForm let-context>
   <div class="row">
     <div class="col-5">{{ context.membership.campaignName | titlecase }}</div>
@@ -125,21 +124,21 @@
     <div class="col-md-8">
       <strong
         >Permanently leave '{{
-        context.membership.campaignName | titlecase
+          context.membership.campaignName | titlecase
         }}'?</strong
-        >
-      </div>
-      <app-button
-        class="col-md-2"
-        [type]="'DANGER'"
-        [text]="'Yes'"
-        (click)="campaignLeave.emit(context.membership)"
-      ></app-button>
-      <app-button
-        class="col-md-2"
-        [type]="'DARK'"
-        [text]="'No'"
-        (click)="toggleLeaveCampaignState(context.membership)"
-      ></app-button>
-    </app-alert>
-  </ng-template>
+      >
+    </div>
+    <app-button
+      class="col-md-2"
+      [type]="'DANGER'"
+      [text]="'Yes'"
+      (click)="campaignLeave.emit(context.membership)"
+    ></app-button>
+    <app-button
+      class="col-md-2"
+      [type]="'DARK'"
+      [text]="'No'"
+      (click)="toggleLeaveCampaignState(context.membership)"
+    ></app-button>
+  </app-alert>
+</ng-template>

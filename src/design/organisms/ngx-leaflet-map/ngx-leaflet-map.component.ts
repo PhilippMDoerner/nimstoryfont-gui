@@ -21,6 +21,7 @@ import {
   popup,
 } from 'leaflet';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { Icon, toIconKind } from 'src/design/atoms/_models/icon';
 import { ExtendedMap } from '../../../app/_models/map';
 import { MapMarker } from '../../../app/_models/mapMarker';
 
@@ -236,9 +237,7 @@ export class NgxLeafletMapComponent {
 
   private createDivIcon(mapMarker: MapMarker): DivIcon {
     const typeIcon = mapMarker.type_details?.icon;
-    const fontawesome_type: string | undefined =
-      mapMarker.type_details?.fontawesome_type;
-
+    const iconKind = toIconKind(typeIcon as Icon);
     const typeColor = mapMarker.type_details?.color;
     const customColor = mapMarker.color;
     const color = customColor ? customColor : typeColor;
@@ -247,7 +246,7 @@ export class NgxLeafletMapComponent {
       className: 'custom-div-icon',
       html: `
         <div style="background-color:${color};" class="marker-pin"></div>
-        <i class='d-flex justify-content-center ${fontawesome_type} fa-${typeIcon} awesome'></i>`,
+        <i class='d-flex justify-content-center ${iconKind} fa-${typeIcon}'></i>`,
       iconSize: [30, 42],
       iconAnchor: [15, 42],
     });

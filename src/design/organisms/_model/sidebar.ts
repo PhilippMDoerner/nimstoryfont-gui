@@ -76,7 +76,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
   },
   {
     title: 'Recordings',
-    iconClass: 'file-audio-o',
+    iconClass: 'file-audio',
     route: 'sessionaudio-overview',
     color: 'green',
     article_types: ['sessionaudio', 'recording'],

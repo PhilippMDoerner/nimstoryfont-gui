@@ -21,7 +21,8 @@
           "options": {
             "outputPath": {
               "base": "dist/nimstoryfont-gui",
-              "browser": ""
+              "browser": "",
+              "media": "assets"
             },
             "index": "src/index.html",
             "polyfills": [
@@ -47,10 +48,12 @@
             "styles": [
               "src/styles.scss",
               "node_modules/animate.css/animate.min.css",
-              "node_modules/font-awesome/css/font-awesome.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/plyr/dist/plyr.css",
-              "node_modules/leaflet/dist/leaflet.css"
+              "node_modules/leaflet/dist/leaflet.css",
+              "src/assets/icons/css/solid.min.css",
+              "src/assets/icons/css/regular.min.css",
+              "src/assets/icons/css/brands.min.css",
+              "src/assets/icons/css/fontawesome.min.css"
             ],
             "scripts": [
               "node_modules/tinymce/tinymce.min.js"

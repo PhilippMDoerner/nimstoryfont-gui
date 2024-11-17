@@ -63,13 +63,13 @@ export class ToastOverlayComponent {
 
     switch (currentToast.type) {
       case 'DANGER':
-        return 'triangle-exclamation';
+        return 'triangle-exclamation' satisfies Icon;
       case 'WARNING':
-        return 'circle-exclamation';
+        return 'circle-exclamation' satisfies Icon;
       case 'INFO':
-        return 'info-circle';
+        return 'info-circle' satisfies Icon;
       case 'SUCCESS':
-        return 'check';
+        return 'check' satisfies Icon;
       default:
         return undefined;
     }

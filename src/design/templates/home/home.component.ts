@@ -47,7 +47,7 @@ export class HomeComponent {
     map: 'map',
     organization: 'sitemap',
     quest: 'question-circle',
-    sessionaudio: 'file-audio-o',
+    sessionaudio: 'file-audio',
     rules: 'book',
     spell: 'hand-sparkles',
     session: 'calendar-alt',

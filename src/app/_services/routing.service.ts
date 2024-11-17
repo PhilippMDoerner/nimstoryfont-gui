@@ -23,6 +23,7 @@ export class RoutingService {
     routeName: string,
     params?: { [key: string]: string | number | undefined },
   ): void {
+    log(RoutingService.name, `Routing to ${routeName}`);
     const routePath: string = this.getRoutePath(routeName, params);
     const cleanedObjectUrl: string =
       this.replaceSpecialUnicodeCharacters(routePath);

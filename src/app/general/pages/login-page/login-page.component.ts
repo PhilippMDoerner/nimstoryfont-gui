@@ -2,7 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyModule } from '@ngx-formly/core';
-import { map, Observable } from 'rxjs';
+import { map, Observable, take } from 'rxjs';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { MailService } from 'src/app/_services/utils/mail.service';
@@ -33,9 +33,11 @@ export class LoginPageComponent {
     private route: ActivatedRoute,
   ) {}
 
-  async onLogin(loginData: Login): Promise<void> {
-    await this.globalStore.login(loginData);
-    this.routingService.routeToPath('campaign-overview');
+  onLogin(loginData: Login) {
+    this.globalStore
+      .login(loginData)
+      .pipe(take(1))
+      .subscribe(() => this.routingService.routeToPath('campaign-overview'));
   }
 
   onResetPassword(username: string): void {

@@ -1,5 +1,7 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { computed, effect, ElementRef, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { tapResponse } from '@ngrx/operators';
 import {
   patchState,
   signalStore,
@@ -8,7 +10,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { firstValueFrom, Observable, shareReplay, take } from 'rxjs';
+import { Observable, shareReplay, take } from 'rxjs';
 import { CampaignOverview } from './_models/campaign';
 import { Login } from './_models/login';
 import { CampaignRole, TokenData, UserData } from './_models/token';
@@ -129,9 +131,14 @@ export const GlobalStore = signalStore(
     const tokenService = inject(TokenService);
     const campaignService = inject(CampaignService);
     return {
-      login: async (loginData: Login) => {
-        const userData = await firstValueFrom(tokenService.login(loginData));
-        patchState(state, { userData: userData });
+      login: (loginData: Login) => {
+        return tokenService.login(loginData).pipe(
+          take(1),
+          tapResponse({
+            next: (userData) => patchState(state, { userData }),
+            error: (err: HttpErrorResponse) => console.error(err),
+          }),
+        );
       },
       refreshUserData: () => {
         const refresh$ = (
@@ -146,7 +153,12 @@ export const GlobalStore = signalStore(
       },
       logout: () => {
         tokenService.logout();
-        patchState(state, { userData: undefined });
+        patchState(state, {
+          userData: undefined,
+          campaigns: undefined,
+          currentCampaign: undefined,
+          contentScrollEvents: undefined,
+        });
       },
       isCampaignMember: (campaignName?: string): boolean => {
         campaignName = campaignName ?? state.campaignName();

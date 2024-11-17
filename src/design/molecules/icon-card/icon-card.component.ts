@@ -1,7 +1,13 @@
 import { DatePipe, TitleCasePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { IconComponent } from 'src/design/atoms/icon/icon.component';
+import { ellipsize } from 'src/utils/string';
 
 @Component({
   selector: 'app-icon-card',
@@ -16,4 +22,6 @@ export class IconCardComponent {
   title = input.required<string>();
   subText = input.required<string>();
   updateDatetime = input.required<string>();
+
+  _title = computed(() => ellipsize(this.title(), 40));
 }

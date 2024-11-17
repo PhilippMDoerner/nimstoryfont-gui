@@ -3,7 +3,7 @@
     <div class="col-12">
       <app-icon [icon]="'user'"></app-icon>
       {{ user().username | titlecase }}
-      @if (user().is_active) {
+      @if (!user().is_active) {
         <span title="Deleted/Deactivated"> (†) </span>
       }
     </div>

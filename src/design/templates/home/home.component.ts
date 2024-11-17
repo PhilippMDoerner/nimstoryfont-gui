@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { ArticleKind, OverviewItem } from 'src/app/_models/overview';
-import { ellipsize } from 'src/utils/string';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
@@ -82,7 +81,7 @@ export class HomeComponent {
       entryType: article.article_type.toUpperCase() as ArticleKind,
       icon: this.ARTICLE_ICON_MAP[article.article_type],
       link: article.getAbsoluteRouterUrl(),
-      title: ellipsize(article.name, 40),
+      title: article.name,
       subText: article.article_type.toLowerCase(),
       updateDatetime: article.update_datetime as string,
     };

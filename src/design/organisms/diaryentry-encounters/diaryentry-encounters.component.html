@@ -6,7 +6,7 @@
         <div class="list__buttons buttons">
           @if (canCreate()) {
             <app-button
-              class="col-6 col-md-4 buttons__button buttons__button--left"
+              class="col-12 col-md-4 buttons__button buttons__button--left"
               title="Add Encounter to Diaryentry"
               [size]="'LARGE'"
               [icon]="'plus'"
@@ -70,7 +70,7 @@
             <div class="list__buttons buttons">
               @if (canCreate()) {
                 <app-button
-                  class="col-6 col-md-4 buttons__button buttons__button--left"
+                  class="col-12 col-md-4 buttons__button buttons__button--left"
                   title="Add Encounter to DiaryEntry"
                   [size]="'LARGE'"
                   [icon]="'plus'"
@@ -141,7 +141,7 @@
         (encounterCreateCancel)="onEncounterCreateCancel(context.index)"
       ></app-encounter>
       @if (canUpdate() && context.entry.encounter.pk != null) {
-        <div class="encounter-card__side-buttons side-buttons">
+        <div class="encounter-card__side-buttons side-buttons side-buttons">
           <app-button
             class="side-buttons__button side-buttons__button--edit"
             [disabled]="
@@ -163,20 +163,9 @@
             [disabled]="isUpdatingAnything()"
             (click)="onExcisionClick(context.index)"
           ></app-button>
-          <app-arrow-button
-            class="side-buttons__button side-buttons__button--arrow"
-            [type]="'DARK'"
-            [icon]="'up'"
-            [disabled]="isUpdatingAnything()"
-            (click)="onEncounterOrderDecrease(context.index)"
-          ></app-arrow-button>
-          <app-arrow-button
-            class="side-buttons__button side-buttons__button--arrow"
-            [type]="'DARK'"
-            [icon]="'down'"
-            [disabled]="isUpdatingAnything()"
-            (click)="onEncounterOrderIncrease(context.index)"
-          ></app-arrow-button>
+          <ng-container
+            *ngTemplateOutlet="orderArrows; context: { $implicit: context }"
+          />
         </div>
       }
     } @else {
@@ -187,3 +176,20 @@
 
 <!-- Loading Spinner -->
 <ng-template #loading><app-spinner></app-spinner></ng-template>
+
+<ng-template #orderArrows let-context>
+  <app-arrow-button
+    class="side-buttons__button side-buttons__button--arrow"
+    [type]="'DARK'"
+    [icon]="'up'"
+    [disabled]="isUpdatingAnything()"
+    (click)="onEncounterOrderDecrease(context.index)"
+  ></app-arrow-button>
+  <app-arrow-button
+    class="side-buttons__button side-buttons__button--arrow"
+    [type]="'DARK'"
+    [icon]="'down'"
+    [disabled]="isUpdatingAnything()"
+    (click)="onEncounterOrderIncrease(context.index)"
+  ></app-arrow-button>
+</ng-template>

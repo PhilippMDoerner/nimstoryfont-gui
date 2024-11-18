@@ -18,11 +18,18 @@
   &__button {
     display: flex;
     &--left {
-      justify-content: flex-end;
+      @include media-breakpoint-up(md) {
+        justify-content: flex-end;
+      }
     }
 
     &--right {
-      justify-content: flex-start;
+      display: none;
+
+      @include media-breakpoint-up(md) {
+        display: flex;
+        justify-content: flex-start;
+      }
     }
   }
 }
@@ -39,8 +46,12 @@
 .encounter-card {
   display: flex;
   justify-content: center;
-  --card-flex-direction: row;
+  --card-flex-direction: column;
   --card-padding: var(--spacer-3);
+
+  @include media-breakpoint-up(md) {
+    --card-flex-direction: row;
+  }
 
   &__encounter {
     flex: 1;
@@ -53,12 +64,23 @@
 
 .side-buttons {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-evenly;
   margin-left: var(--spacer-1);
+
+  @include media-breakpoint-up(md) {
+    flex-direction: column;
+    justify-content: unset;
+  }
 
   &__button {
     &--edit {
+      display: none;
       margin-bottom: var(--spacer-4);
+
+      @include media-breakpoint-up(md) {
+        display: unset;
+      }
     }
 
     &--arrow {

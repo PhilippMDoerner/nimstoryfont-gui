@@ -7,6 +7,7 @@ import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
 import { GlobalStore } from './global.store';
+import { ServiceWorkerService } from './service-worker.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -20,12 +21,17 @@ export class AppComponent {
   readonly paramsService = inject(GlobalUrlParamsService);
   readonly campaignService = inject(CampaignService);
   readonly toastService = inject(ToastService);
+  readonly serviceWorkerService = inject(ServiceWorkerService);
 
   serverUrl: string = environment.backendDomain;
   campaign$ = this.globalStore.currentCampaign;
   hasCampaignAdminRights$ = computed(() =>
     this.globalStore.isCampaignAdmin(this.globalStore.campaignName()),
   );
+
+  constructor() {
+    this.serviceWorkerService.initializeServiceWorkerInteractions();
+  }
 
   logout(): void {
     this.globalStore.logout();

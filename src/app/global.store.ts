@@ -123,7 +123,7 @@ export const GlobalStore = signalStore(
         const hasTokens = !!accessToken && !!refreshToken;
         if (!hasTokens) return false;
 
-        return !isTokenExpired(accessToken);
+        return !isTokenExpired(refreshToken);
       }),
     };
   }),
@@ -213,6 +213,14 @@ export const GlobalStore = signalStore(
         effect(() => {
           if (store.userData() != null) return;
           routingService.routeToPath('login');
+        });
+
+        effect(() => {
+          const { accessToken, refreshToken } = store.userData() ?? {};
+          console.groupCollapsed('token expiration check');
+          tokenService.isTokenExpired(accessToken);
+          tokenService.isTokenExpired(refreshToken);
+          console.groupEnd();
         });
 
         const campaignParam$ =

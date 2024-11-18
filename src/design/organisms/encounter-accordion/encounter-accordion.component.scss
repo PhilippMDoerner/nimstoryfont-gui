@@ -1,24 +1,27 @@
-.panel-title{
+:host {
+  --bs-accordion-active-color: var(--bs-accordion);
+}
+
+.panel-title {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  
+
   .encounter-title,
-  .icon{
+  .icon {
     transition: color 0.2s;
     color: var(--bs-white);
   }
-  
-  &:hover{
-    .encounter-title, 
-    .icon{
-      color: var(--bs-grey);
+
+  &:hover {
+    .encounter-title,
+    .icon {
+      color: var(--bs-gray);
     }
   }
 }
 
-.encounter-title{
+.encounter-title {
   color: var(--bs-white);
   width: 100%;
 }
-

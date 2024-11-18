@@ -1,9 +1,10 @@
 /// <reference types="@angular/localize" />
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, isDevMode } from '@angular/core';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideServiceWorker } from '@angular/service-worker';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { errorInterceptor } from './app/_interceptors/errorInterceptor';
 import { addTokenInterceptor } from './app/_interceptors/tokenInterceptor';
@@ -23,5 +24,9 @@ bootstrapApplication(AppComponent, {
     GlobalStore,
     NavigationStore,
     provideAnimations(),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 }).catch((err) => console.error(err));

@@ -3,6 +3,7 @@ import {
   ElementRef,
   inject,
   input,
+  OnDestroy,
   OnInit,
   output,
 } from '@angular/core';
@@ -10,7 +11,9 @@ import {
   standalone: true,
   selector: '[resizeListener]',
 })
-export class ResizeDirective<T extends HTMLElement> implements OnInit {
+export class ResizeDirective<T extends HTMLElement>
+  implements OnInit, OnDestroy
+{
   listenTo = input.required<'FIRST' | 'LAST' | 'ALL'>();
   resized = output<ResizeObserverEntry>();
 
@@ -35,5 +38,9 @@ export class ResizeDirective<T extends HTMLElement> implements OnInit {
 
   ngOnInit(): void {
     this.observer.observe(this.element.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.observer.disconnect();
   }
 }

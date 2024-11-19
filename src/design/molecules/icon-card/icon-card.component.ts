@@ -22,6 +22,7 @@ export class IconCardComponent {
   title = input.required<string>();
   subText = input.required<string>();
   updateDatetime = input.required<string>();
+  decoration = input<string>();
 
   _title = computed(() => ellipsize(this.title(), 40));
 }

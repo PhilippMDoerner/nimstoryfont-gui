@@ -42,10 +42,10 @@ const activeSlideRightStyle = style({
 export const slideRight = trigger('slideRight', [
   transition(':enter', [
     inactiveSlideRightStyle,
-    animate('250ms', activeSlideRightStyle),
+    animate('250ms ease-in-out', activeSlideRightStyle),
   ]),
   transition(':leave', [
     activeSlideRightStyle,
-    animate('250ms', inactiveSlideRightStyle),
+    animate('250ms ease-in-out', inactiveSlideRightStyle),
   ]),
 ]);

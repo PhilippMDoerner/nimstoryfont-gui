@@ -54,3 +54,17 @@ export const insertEntries = <T>(
     newList.splice(entry.index, 0, entry.entry);
   });
 };
+
+export function chunk<T>(items: T[], chunkSize: number): T[][] {
+  const accs = items.reduce((acc, entry, index) => {
+    const isNewChunk = index % chunkSize === 0;
+    if (isNewChunk) {
+      acc.push([entry]);
+    } else {
+      acc[acc.length - 1].push(entry);
+    }
+    return acc;
+  }, [] as T[][]);
+
+  return accs;
+}

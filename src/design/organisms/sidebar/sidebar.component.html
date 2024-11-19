@@ -65,13 +65,16 @@
         </a>
       </li>
       <li class="sidebar__entry entry">
-        <a class="entry__link" (click)="this.logout.emit()">
+        <button
+          class="entry__link entry__link--button"
+          (click)="this.logout.emit()"
+        >
           <app-icon
             class="entry__icon"
             [icon]="'right-from-bracket'"
           ></app-icon>
           <span class="entry__text">Logout</span>
-        </a>
+        </button>
       </li>
     </ul>
   </div>

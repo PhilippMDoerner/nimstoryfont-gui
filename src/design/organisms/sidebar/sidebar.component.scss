@@ -64,7 +64,16 @@ a {
     height: 2.75rem;
     font-weight: bold;
     font-size: large;
-    cursor: pointer;
+
+    &--button {
+      width: 100%;
+      &:focus,
+      &:focus-within,
+      &:hover,
+      &:focus-visible {
+        outline: var(--focus-outline);
+      }
+    }
   }
 
   &__icon {

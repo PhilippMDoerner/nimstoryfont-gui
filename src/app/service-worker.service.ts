@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { SwPush, SwUpdate } from '@angular/service-worker';
+import { SwUpdate, UnrecoverableStateEvent } from '@angular/service-worker';
+import { switchMap, take, timer } from 'rxjs';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { ToastConfig } from './_models/toast';
 
@@ -10,9 +11,41 @@ import { ToastConfig } from './_models/toast';
 export class ServiceWorkerService {
   readonly toastService = inject(ToastService);
   readonly serviceWorkerUpdate = inject(SwUpdate);
-  readonly serviceWorkerPush = inject(SwPush);
+
+  private newVersionInstalledToast: ToastConfig = {
+    type: 'INFO',
+    body: {
+      text: 'A new version of nimstoryfont has been installed!',
+      buttons: [
+        {
+          type: 'PRIMARY',
+          label: 'Use new version',
+          onClick: () => document.location.reload(),
+        },
+        {
+          type: 'SECONDARY',
+          label: 'Dismiss',
+          onClick: (dismiss) => dismiss(),
+        },
+      ],
+    },
+  };
 
   initializeServiceWorkerInteractions() {
+    this.initUpdateEventListening();
+    this.initUpdatePolling();
+    this.initErrorListening();
+  }
+
+  private initErrorListening() {
+    this.serviceWorkerUpdate.unrecoverable
+      .pipe(takeUntilDestroyed())
+      .subscribe((event) =>
+        this.toastService.addToast(unrecoverableErrorToast(event)),
+      );
+  }
+
+  private initUpdateEventListening() {
     this.serviceWorkerUpdate.versionUpdates
       .pipe(takeUntilDestroyed())
       .subscribe((event) => {
@@ -24,12 +57,28 @@ export class ServiceWorkerService {
             this.toastService.addToast(newVersionInstallFailedToast);
             break;
           case 'VERSION_READY':
-            this.toastService.addToast(newVersionInstalledToast);
+            this.toastService.addToast(this.newVersionInstalledToast);
             break;
           case 'NO_NEW_VERSION_DETECTED':
             break;
         }
       });
+  }
+
+  /**
+   * Polls for updates but only after 30 seconds. This allows the application and
+   * service worker script to stabilize in order to register with the browser
+   */
+  private initUpdatePolling() {
+    const thirtySeconds = 30 * 1000;
+    const twelveHours = 12 * 60 * 60 * 1000;
+    timer(thirtySeconds)
+      .pipe(
+        take(1),
+        switchMap(() => timer(twelveHours)),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => this.serviceWorkerUpdate.checkForUpdate());
   }
 }
 
@@ -40,16 +89,29 @@ const newVersionFoundToast: ToastConfig = {
   onToastClick: (dismiss) => dismiss(),
 };
 
-const newVersionInstalledToast: ToastConfig = {
-  type: 'INFO',
-  dismissMs: 3000,
-  body: { text: 'A new version of nimstoryfont has been installed!' },
-  onToastClick: (dismiss) => dismiss(),
-};
-
 const newVersionInstallFailedToast: ToastConfig = {
   type: 'DANGER',
   dismissMs: 3000,
   body: { text: 'Failed to install new version of nimstoryfont' },
   onToastClick: (dismiss) => dismiss(),
 };
+
+const unrecoverableErrorToast = (
+  err: UnrecoverableStateEvent,
+): ToastConfig => ({
+  type: 'DANGER',
+  important: true,
+  header: {
+    text: 'Unrecoverable Error',
+  },
+  body: {
+    text: `This error occurred:\n${err.reason}\n\nPlease reload`,
+    buttons: [
+      {
+        type: 'PRIMARY',
+        label: 'Reload',
+        onClick: () => document.location.reload(),
+      },
+    ],
+  },
+});

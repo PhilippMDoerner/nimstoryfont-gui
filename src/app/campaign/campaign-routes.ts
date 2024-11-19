@@ -747,6 +747,7 @@ export const campaignRoutes = [
   {
     path: '',
     children: [...overviewRoutes, ...detailRoutes],
+    data: { requiredMinimumRole: 'guest' },
     canActivate: [campaignGuard],
   },
 ];

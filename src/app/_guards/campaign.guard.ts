@@ -16,12 +16,12 @@ export const campaignGuard: CanActivateFn = (next: ActivatedRouteSnapshot) => {
     return false;
   }
 
-  const currentCampaignName = next.params['campaign'];
+  const nextCampaignName = next.params['campaign'];
   const isAdmin = globalStore.isGlobalAdmin();
-  const role = globalStore.currentCampaignRole();
+  const role = globalStore.getCampaignRole(nextCampaignName);
   if (isAdmin) return true;
 
-  if (currentCampaignName == null) {
+  if (nextCampaignName == null) {
     throw "Invalid Route Exception. The campaign-route you're trying to access has no campaign name parameter";
   }
 

@@ -35,6 +35,8 @@
         @if (map()) {
           <div class="mb-5 col">
             <app-ngx-leaflet-map
+              (touchstart)="$event.preventDefault()"
+              (touchend)="$event.preventDefault()"
               [mapData]="map()"
               [serverUrl]="serverUrl()"
             ></app-ngx-leaflet-map>

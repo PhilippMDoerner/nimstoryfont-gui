@@ -8,4 +8,5 @@ export interface IconCardEntry {
   title: string;
   subText: string;
   updateDatetime: string;
+  decoration?: string;
 }

@@ -8,7 +8,11 @@ import {
   Output,
 } from '@angular/core';
 import { CampaignOverview } from 'src/app/_models/campaign';
-import { ArticleKind, OverviewItem } from 'src/app/_models/overview';
+import {
+  ArticleKind,
+  OverviewItem,
+  VisitedState,
+} from 'src/app/_models/overview';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
@@ -84,7 +88,21 @@ export class HomeComponent {
       title: article.name,
       subText: article.article_type.toLowerCase(),
       updateDatetime: article.update_datetime as string,
+      decoration: this.toDecorationLabel(article.visited_state),
     };
+  }
+
+  private toDecorationLabel(
+    visibilityState: VisitedState | undefined,
+  ): string | undefined {
+    switch (visibilityState) {
+      case 'NEW_UPDATED':
+        return 'Updated';
+      case 'NEW_CREATED':
+        return 'New';
+      default:
+        return undefined;
+    }
   }
 
   private onPageScroll(event: ContentScrollEvent) {

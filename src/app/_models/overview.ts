@@ -23,12 +23,15 @@ export type ArticleKind =
 
 // export type OverviewItem = any;
 
+export type VisitedState = 'SEEN' | 'NEW_UPDATED' | 'NEW_CREATED';
+
 export interface OverviewItem extends ApiObject {
   article_type: string;
   name: string;
   name_full: string;
   description?: string;
   update_datetime?: string;
+  visited_state?: VisitedState;
 
   //For Character-Type OverviewItems
   player_character?: boolean;

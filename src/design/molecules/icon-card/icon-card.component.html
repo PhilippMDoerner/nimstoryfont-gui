@@ -1,6 +1,8 @@
 <div class="card" [title]="title() | titlecase">
   @if (decoration()) {
-    <div class="card-decoration">{{ decoration() }}</div>
+    <div class="card-decoration">
+      {{ decoration() }}
+    </div>
   }
 
   <!-- Heading -->

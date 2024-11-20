@@ -12,6 +12,9 @@
   }
 
   &-decoration {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     transform: rotate(45deg);
     width: 120px;

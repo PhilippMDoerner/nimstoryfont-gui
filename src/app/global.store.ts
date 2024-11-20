@@ -103,7 +103,6 @@ export const GlobalStore = signalStore(
       currentCampaignRole: computed(() => {
         const currentCampaign = state.currentCampaign();
         const userData = state.userData();
-        console.log('ROLE ME UP', currentCampaign, userData);
         if (currentCampaign == null || userData == null) return undefined;
         return tokenService.getCampaignRole(userData, currentCampaign.name);
       }),
@@ -134,7 +133,6 @@ export const GlobalStore = signalStore(
     return {
       getCampaignRole: (campaignName: string) => {
         const userData = state.userData();
-        console.log('ROLE ME UP', userData);
         if (userData == null) return undefined;
         return tokenService.getCampaignRole(userData, campaignName);
       },

@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { filter, fromEvent, map, shareReplay, withLatestFrom } from 'rxjs';
+import { filter, fromEvent, map, shareReplay, tap, withLatestFrom } from 'rxjs';
 import { MOBILE_WIDTH, SWIPE_Y_THRESHOLD } from '../app.constants';
 
 @Injectable({
@@ -8,18 +8,28 @@ import { MOBILE_WIDTH, SWIPE_Y_THRESHOLD } from '../app.constants';
 export class SwipeService {
   constructor() {}
 
+  /**
+   * Listens to swipe events to the left and right that happen on or inside the element.
+   * Ignores all swipe events that start their touch event on an element with the attribute "data-swipe-ignore"
+   */
   getSwipeEvents(elementRef: ElementRef<HTMLElement>) {
     const touchStart$ = fromEvent<TouchEvent>(
       elementRef.nativeElement,
       'touchstart',
     ).pipe(
       filter(() => this.isMobile()),
+      filter((event) => this.isInIgnoreZone(event)),
+      tap((event) => console.log('touchstart', event)),
       shareReplay(1),
     );
     const touchEnd$ = fromEvent<TouchEvent>(
       elementRef.nativeElement,
       'touchend',
-    ).pipe(filter(() => this.isMobile()));
+    ).pipe(
+      filter(() => this.isMobile()),
+      filter((event) => this.isInIgnoreZone(event)),
+      tap(() => console.log('touchend')),
+    );
 
     const swipe$ = touchEnd$.pipe(
       withLatestFrom(touchStart$),
@@ -41,5 +51,14 @@ export class SwipeService {
 
   private isMobile() {
     return screen.width <= MOBILE_WIDTH;
+  }
+
+  private isInIgnoreZone(event: TouchEvent) {
+    const target = event.target;
+    const isElement = target instanceof Element;
+    if (!isElement) return true;
+
+    const isInIgnoreZone = target.closest('[data-swipe-ignore]') != null;
+    return !isInIgnoreZone;
   }
 }

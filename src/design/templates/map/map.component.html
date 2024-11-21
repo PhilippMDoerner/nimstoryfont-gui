@@ -31,7 +31,7 @@
 
     <!-- Leaflet Map -->
     @if (mapChoices().length > 0) {
-      <div class="row map__map">
+      <div class="row map__map" data-swipe-ignore>
         @if (map()) {
           <div class="mb-5 col">
             <app-ngx-leaflet-map

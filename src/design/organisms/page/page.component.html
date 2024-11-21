@@ -3,17 +3,19 @@
   <div class="mobile">
     <nav class="navbar bg-dark">
       <div class="container-fluid">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasNavbar"
-          aria-controls="offcanvasNavbar"
-          aria-label="Toggle navigation"
-          (click)="openSidebar()"
-        >
-          <app-icon [icon]="'bars'" />
-        </button>
+        @if (canShowSidebar()) {
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar"
+            aria-label="Toggle navigation"
+            (click)="openSidebar()"
+          >
+            <app-icon [icon]="'bars'" />
+          </button>
+        }
         <a class="navbar-brand" [routerLink]="homeUrl()">
           <strong>
             <img
@@ -28,9 +30,11 @@
     </nav>
   </div>
 
-  <div class="desktop">
-    <ng-template *ngTemplateOutlet="sidebar" />
-  </div>
+  @if (canShowSidebar()) {
+    <div class="desktop">
+      <ng-template *ngTemplateOutlet="sidebar" />
+    </div>
+  }
 }
 
 <div class="page" #content>

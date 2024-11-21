@@ -63,6 +63,7 @@ export class PageComponent {
 
   hasCampaignAdminPrivileges = this.globalStore.hasRoleOrBetter('admin');
   showSidebar = signal(this.isMobile() ? false : true);
+  canShowSidebar = computed(() => !!this.globalStore.currentCampaign());
   homeUrl = computed(() =>
     this.routingService.getRoutePath('home', {
       campaign: this.globalStore.campaignName(),
@@ -90,7 +91,7 @@ export class PageComponent {
   }
 
   openSidebar() {
-    if (!this.isMobile()) return;
+    if (!this.isMobile() || !this.canShowSidebar()) return;
     this.sidebarService.open(this.sidebarTemplate(), {
       ariaLabelledBy: 'offcanvas-basic-title',
     });

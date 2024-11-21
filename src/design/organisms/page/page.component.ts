@@ -14,14 +14,14 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
-import { filter, map } from 'rxjs';
+import { debounceTime, filter, fromEvent, map, switchMap } from 'rxjs';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
 import { MOBILE_WIDTH, SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { GlobalStore } from 'src/app/global.store';
 import { PageBackgroundComponent } from 'src/design/molecules';
-import { delayFalsy } from 'src/utils/rxjs-operators';
+import { delayFalsy, filterNil } from 'src/utils/rxjs-operators';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -45,15 +45,17 @@ export class PageComponent {
   titleService = inject(TitleService);
   globalStore = inject(GlobalStore);
   sidebarService = inject(NgbOffcanvas);
-  serverUrl = input.required<string>();
   swipeService = inject(SwipeService);
   routingService = inject(RoutingService);
+  host = inject(ElementRef);
+
+  serverUrl = input.required<string>();
 
   @Output() logout: EventEmitter<void> = new EventEmitter();
-  host = inject(ElementRef);
+
   contentElement = viewChild.required<ElementRef<HTMLDivElement>>('content');
   innerContentElement =
-    viewChild.required<ElementRef<PageBackgroundComponent>>('innerContent');
+    viewChild.required<ElementRef<HTMLDivElement>>('innerContent');
   sidebarTemplate = viewChild.required<TemplateRef<any>>('sidebar');
   sidebarElement = viewChild<ElementRef<HTMLElement>>('sidebarElement');
 
@@ -81,6 +83,23 @@ export class PageComponent {
     this.pageSwipesRight$
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.openSidebar());
+
+    /**
+     * Due to the structure of the webpage (left sidebar, right a global content section)
+     * where the scrollable element is not window or document or body, but instead the .page
+     * element, none of the child-elements can know when a scroll event is triggered.
+     * This propagates a scroll-event to the window, making it "global" in a sense.
+     * That way, all child components (e.g. home.component) can listen to scroll events.
+     */
+    const contentScrolls$ = toObservable(this.innerContentElement).pipe(
+      filterNil(),
+      switchMap((innerContent) =>
+        fromEvent<Event>(innerContent.nativeElement, 'scroll'),
+      ),
+    );
+    contentScrolls$
+      .pipe(takeUntilDestroyed(), debounceTime(50))
+      .subscribe((event) => this.dispatchCustomPageScrollEvent(event));
   }
 
   closeSidebar() {
@@ -96,17 +115,6 @@ export class PageComponent {
       ariaLabelledBy: 'offcanvas-basic-title',
     });
     this.showSidebar.set(true);
-  }
-
-  /**
-   * Due to the structure of the webpage (left sidebar, right a global content section)
-   * where the scrollable element is not window or document or body, but instead the .page
-   * element, none of the child-elements can know when a scroll event is triggered.
-   * This propagates a scroll-event to the window, making it "global" in a sense.
-   * That way, all child components (e.g. home.component) can listen to scroll events.
-   */
-  onPageScroll(event: Event): void {
-    this.dispatchCustomPageScrollEvent(event);
   }
 
   private isMobile() {

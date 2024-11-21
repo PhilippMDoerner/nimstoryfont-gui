@@ -1,4 +1,4 @@
-import { NgStyle, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,13 +37,7 @@ export class ToastService {
 @Component({
   selector: 'app-toast-overlay',
   standalone: true,
-  imports: [
-    NgbToastModule,
-    ButtonComponent,
-    IconComponent,
-    NgTemplateOutlet,
-    NgStyle,
-  ],
+  imports: [NgbToastModule, ButtonComponent, IconComponent, NgTemplateOutlet],
   animations: [slideRight],
   templateUrl: './toast-overlay.component.html',
   styleUrl: './toast-overlay.component.scss',

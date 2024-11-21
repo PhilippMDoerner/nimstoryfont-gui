@@ -42,8 +42,6 @@ export class ServiceWorkerService {
   }
 
   private initUpdateEventListening() {
-    this.toastService.addToast(this.newVersionInstalledToast);
-
     this.serviceWorkerUpdate.versionUpdates
       .pipe(takeUntilDestroyed())
       .subscribe((event) => {

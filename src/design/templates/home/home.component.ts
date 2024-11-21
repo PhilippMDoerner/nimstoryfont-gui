@@ -73,6 +73,11 @@ export class HomeComponent {
 
   constructor() {
     effect(() => {
+      const articles = this.articles();
+      const isScrollDueToPageUnload =
+        articles === undefined || articles.length === 0;
+      if (isScrollDueToPageUnload) return;
+
       const scrollEvent = this.globalStore.contentScrollEvents();
       if (!scrollEvent) return;
 

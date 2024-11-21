@@ -5,7 +5,6 @@ import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
 import { pipe, switchMap, tap } from 'rxjs';
-import { errorToast } from 'src/app/_models/toast';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import {
   Request,
@@ -75,7 +74,6 @@ export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
                       [keys.queryStateField]: 'success' satisfies RequestState,
                     }),
                   error: (err: HttpErrorResponse) => {
-                    toastService.addToast(errorToast(err));
                     patchState(store, {
                       [keys.errorField]: err,
                       [keys.queryStateField]: 'error' satisfies RequestState,

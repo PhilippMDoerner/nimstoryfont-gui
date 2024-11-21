@@ -162,7 +162,7 @@ export class SessionComponent implements OnInit {
   private toDiaryEntryUrl(entry: SessionDiaryEntry) {
     return this.routingService.getRoutePath('diaryentry', {
       sessionNumber: this.session()?.session_number,
-      isMainSession: this.session()?.is_main_session,
+      isMainSession: this.session()?.is_main_session_int,
       authorName: entry.author_name,
       campaign: this.session()?.campaign_details?.name as string,
     });

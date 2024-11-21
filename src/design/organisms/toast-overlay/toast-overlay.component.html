@@ -23,19 +23,23 @@
       (hidden)="dismissCurrentToast()"
       (shown)="toast.onShow ? toast.onShow() : undefined"
     >
-      <ng-template ngbToastHeader>
-        <span class="toast-header__text">
-          @let headerIcon = icon();
-          @if (headerIcon) {
-            <app-icon class="toast-header__icon" [icon]="headerIcon"></app-icon>
-          }
-          <span
-            class="toast-header__text-container"
-            [innerHTML]="toast.header?.text"
-          ></span>
-        </span>
-      </ng-template>
-      @if (toast.header) {}
+      @if (toast.header) {
+        <ng-template ngbToastHeader>
+          <span class="toast-header__text">
+            @let headerIcon = icon();
+            @if (headerIcon) {
+              <app-icon
+                class="toast-header__icon"
+                [icon]="headerIcon"
+              ></app-icon>
+            }
+            <span
+              class="toast-header__text-container"
+              [innerHTML]="toast.header.text"
+            ></span>
+          </span>
+        </ng-template>
+      }
 
       <div class="toast__body body">
         <span class="body__text">

@@ -85,14 +85,6 @@
     max-height: calc(var(--bs-body-font-size) * 8);
     max-width: 100%;
     overflow: auto;
-
-    &:focus,
-    &:focus-within,
-    &:hover,
-    &:focus-visible {
-      outline: var(--focus-outline);
-      border-radius: var(--bs-border-radius);
-    }
   }
 
   &__button {

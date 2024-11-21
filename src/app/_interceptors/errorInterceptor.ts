@@ -19,14 +19,20 @@ const notFoundToast = (
     {
       label: 'Go back',
       icon: 'arrow-left',
-      onClick: () => history.back(),
+      onClick: (dismiss) => {
+        history.back();
+        dismiss();
+      },
     },
   ];
   if (campaignName) {
     buttons.push({
       label: 'Home',
       icon: 'home',
-      onClick: () => routingService.routeToPath('home'),
+      onClick: (dismiss) => {
+        routingService.routeToPath('home');
+        dismiss();
+      },
     });
   }
 

@@ -13,6 +13,7 @@ import { slideRight } from 'src/design/animations/slideDown';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { IconComponent } from 'src/design/atoms/icon/icon.component';
+import { log } from 'src/utils/logging';
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
@@ -20,6 +21,7 @@ export class ToastService {
   currentToast = computed<ToastConfig | undefined>(() => this.toasts()[0]);
 
   public addToast(newToast: ToastConfig) {
+    log(this.addToast.name, newToast);
     const toasts = this.toasts();
     if (newToast.important) {
       this.toasts.set([newToast, ...toasts]);

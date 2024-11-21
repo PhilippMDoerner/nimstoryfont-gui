@@ -3,7 +3,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { dummyCampaigns } from 'src/app/_services/utils/campaign.mock.service';
-import { OrganismsModule } from '../../organisms';
 import { CampaignOverviewComponent } from './campaign-overview.component';
 
 export default {
@@ -11,7 +10,7 @@ export default {
   component: CampaignOverviewComponent,
   decorators: [
     moduleMetadata({
-      imports: [OrganismsModule, RouterTestingModule, BrowserAnimationsModule],
+      imports: [RouterTestingModule, BrowserAnimationsModule],
       declarations: [],
       providers: [],
     }),

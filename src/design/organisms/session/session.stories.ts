@@ -1,17 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { FormlyDatepickerFieldComponent } from '..';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { Session } from '../../../app/_models/session';
-import {
-  dateMessage,
-  dateValidator,
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-} from '../../../app/_services/formly/validators';
 import { SessionComponent } from './session.component';
 
 const dummySession: Session = {
@@ -48,16 +39,7 @@ export default {
   component: SessionComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'datepicker', component: FormlyDatepickerFieldComponent },
-          ],
-          validationMessages: [requiredMessage, dateMessage, notIntegerMessage],
-          validators: [requiredValidator, dateValidator, integerValidator],
-        }),
-      ],
+      imports: [RouterTestingModule, FORMLY_MODULE],
     }),
   ],
   args: {

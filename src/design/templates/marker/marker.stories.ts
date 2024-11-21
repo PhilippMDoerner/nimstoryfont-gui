@@ -4,7 +4,6 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import * as x from 'leaflet';
 import { dummyMarkers } from 'src/app/_services/article/marker.service.mock';
 import { MapMarker } from '../../../app/_models/mapMarker';
-import { OrganismsModule } from '../../organisms';
 import { MarkerComponent } from './marker.component';
 
 const y = x;
@@ -16,7 +15,7 @@ export default {
   component: MarkerComponent,
   decorators: [
     moduleMetadata({
-      imports: [OrganismsModule, RouterTestingModule],
+      imports: [RouterTestingModule],
       declarations: [],
     }),
   ],

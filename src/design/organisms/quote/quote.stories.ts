@@ -4,7 +4,6 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
 import { CharacterDetails } from '../../../app/_models/character';
 import { Quote } from '../../../app/_models/quote';
-import { MoleculesModule } from '../../molecules';
 import { QuoteComponent } from './quote.component';
 
 const dummyQuote: Quote = {
@@ -291,8 +290,7 @@ export default {
   component: QuoteComponent,
   decorators: [
     moduleMetadata({
-      imports: [MoleculesModule, RouterTestingModule],
-      declarations: [],
+      imports: [RouterTestingModule],
     }),
   ],
   args: {

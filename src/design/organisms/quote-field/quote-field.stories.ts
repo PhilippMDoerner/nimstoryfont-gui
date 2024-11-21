@@ -1,35 +1,11 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { FormlyFileFieldComponent } from 'src/design/molecules';
-import {
-  FormlyDatepickerFieldComponent,
-  FormlyEditorFieldComponent,
-  FormlySelectDisableFieldComponent,
-} from '..';
+
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { CharacterDetails } from '../../../app/_models/character';
 import { Quote } from '../../../app/_models/quote';
-import {
-  dateMessage,
-  dateValidator,
-  faPrefixMessage,
-  fieldMatchValidator,
-  fieldsDontMatchMessage,
-  hasSpecialCharactersMessage,
-  iconValidator,
-  integerValidator,
-  invalidTimeMessage,
-  notIntegerMessage,
-  requiredIconMessage,
-  requiredIconValidator,
-  requiredMessage,
-  requiredValidator,
-  sessionAlreadyHasAuthor,
-  specialCharacterValidator,
-  timeValidator,
-} from '../../../app/_services/formly/validators';
 import { QuoteFieldComponent } from './quote-field.component';
 
 const dummyQuote: Quote = {
@@ -316,45 +292,7 @@ export default {
   component: QuoteFieldComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            {
-              name: 'file',
-              component: FormlyFileFieldComponent,
-              wrappers: ['form-field'],
-            },
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-            {
-              name: 'select-disable',
-              component: FormlySelectDisableFieldComponent,
-            },
-            { name: 'datepicker', component: FormlyDatepickerFieldComponent },
-          ],
-          validationMessages: [
-            invalidTimeMessage,
-            requiredMessage,
-            dateMessage,
-            requiredIconMessage,
-            faPrefixMessage,
-            notIntegerMessage,
-            hasSpecialCharactersMessage,
-            fieldsDontMatchMessage,
-            sessionAlreadyHasAuthor,
-          ],
-          validators: [
-            timeValidator,
-            requiredValidator,
-            dateValidator,
-            requiredIconValidator,
-            iconValidator,
-            integerValidator,
-            specialCharacterValidator,
-            fieldMatchValidator,
-          ],
-        }),
-      ],
+      imports: [RouterTestingModule, FORMLY_MODULE],
     }),
   ],
   args: {

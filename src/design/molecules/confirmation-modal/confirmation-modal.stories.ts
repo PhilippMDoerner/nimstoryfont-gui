@@ -5,16 +5,13 @@ import {
   componentWrapperDecorator,
   moduleMetadata,
 } from '@storybook/angular';
-import { ButtonComponent } from 'src/design/atoms';
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 
 export default {
   title: 'DesignSystem/Molecules/ConfirmationModalComponent',
   component: ConfirmationModalComponent,
   decorators: [
-    moduleMetadata({
-      imports: [ButtonComponent],
-    }),
+    moduleMetadata({}),
     componentWrapperDecorator(
       () => `
       <app-confirmation-modal 

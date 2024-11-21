@@ -1,15 +1,10 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { ButtonComponent } from '../../atoms';
 import { CollapsiblePanelComponent } from './collapsible-panel.component';
 
 export default {
   title: 'DesignSystem/Molecules/CollapsiblePanelComponent',
   component: CollapsiblePanelComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [ButtonComponent],
-    }),
-  ],
+  decorators: [moduleMetadata({})],
   args: {
     isOpen: false,
     heading: 'Some Heading',

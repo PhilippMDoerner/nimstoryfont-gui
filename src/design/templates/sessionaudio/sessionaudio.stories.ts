@@ -1,17 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { SessionAudio, Timestamp } from 'src/app/_models/sessionAudio';
-import {
-  integerValidator,
-  invalidTimeMessage,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-  timeValidator,
-} from 'src/app/_services/formly/validators';
-import { OrganismsModule } from '../../organisms';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { SessionaudioComponent } from './sessionaudio.component';
 
 const dummyTimestamps: Timestamp[] = [
@@ -76,18 +67,7 @@ export default {
   component: SessionaudioComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        OrganismsModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          validationMessages: [
-            requiredMessage,
-            notIntegerMessage,
-            invalidTimeMessage,
-          ],
-          validators: [requiredValidator, integerValidator, timeValidator],
-        }),
-      ],
+      imports: [RouterTestingModule, FORMLY_MODULE],
       declarations: [],
     }),
   ],

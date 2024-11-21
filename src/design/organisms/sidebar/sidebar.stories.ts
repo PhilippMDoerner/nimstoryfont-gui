@@ -1,7 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
-import { MoleculesModule } from 'src/design/molecules';
 import { SidebarComponent } from './sidebar.component';
 
 // Add MockTokenService
@@ -11,7 +10,7 @@ export default {
   component: SidebarComponent,
   decorators: [
     moduleMetadata({
-      imports: [MoleculesModule, RouterTestingModule],
+      imports: [RouterTestingModule],
       declarations: [],
     }),
   ],

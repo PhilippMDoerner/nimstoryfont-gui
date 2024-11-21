@@ -1,16 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { FormlyDatepickerFieldComponent, OrganismsModule } from '..';
-import {
-  dateMessage,
-  dateValidator,
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-} from '../../../app/_services/formly/validators';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { SessionaudioCardComponent } from './sessionaudio-card.component';
 
 const dummySessionAudio: OverviewItem = {
@@ -40,18 +31,7 @@ export default {
   component: SessionaudioCardComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        OrganismsModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'datepicker', component: FormlyDatepickerFieldComponent },
-          ],
-          validationMessages: [requiredMessage, dateMessage, notIntegerMessage],
-          validators: [requiredValidator, dateValidator, integerValidator],
-        }),
-      ],
-      declarations: [],
+      imports: [RouterTestingModule, FORMLY_MODULE],
     }),
   ],
   args: {

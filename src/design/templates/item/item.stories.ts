@@ -10,7 +10,6 @@ import {
   requiredValidator,
 } from 'src/app/_services/formly/validators';
 import { FormlyFileFieldComponent } from '../../molecules';
-import { OrganismsModule } from '../../organisms';
 import { ItemComponent } from './item.component';
 
 const dummyItem: Item = {
@@ -60,7 +59,6 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [
-        OrganismsModule,
         RouterTestingModule,
         FormlyModule.forRoot({
           types: [

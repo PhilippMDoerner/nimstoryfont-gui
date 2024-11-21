@@ -1,18 +1,9 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { FormlyEditorFieldComponent, OrganismsModule } from '..';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { PlayerClass } from '../../../app/_models/playerclass';
 import { Spell } from '../../../app/_models/spell';
-import {
-  hasSpecialCharactersMessage,
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-  specialCharacterValidator,
-} from '../../../app/_services/formly/validators';
 import { SpellComponent } from './spell.component';
 
 const dummySpell: Spell = {
@@ -77,25 +68,7 @@ export default {
   component: SpellComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        OrganismsModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-          ],
-          validationMessages: [
-            requiredMessage,
-            notIntegerMessage,
-            hasSpecialCharactersMessage,
-          ],
-          validators: [
-            requiredValidator,
-            integerValidator,
-            specialCharacterValidator,
-          ],
-        }),
-      ],
+      imports: [RouterTestingModule, FORMLY_MODULE],
       declarations: [],
     }),
   ],

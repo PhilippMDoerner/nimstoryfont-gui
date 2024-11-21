@@ -3,38 +3,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { Observable, of } from 'rxjs';
-import {
-  dateMessage,
-  dateValidator,
-  faPrefixMessage,
-  fieldMatchValidator,
-  fieldsDontMatchMessage,
-  hasSpecialCharactersMessage,
-  iconValidator,
-  integerValidator,
-  invalidTimeMessage,
-  notIntegerMessage,
-  requiredIconMessage,
-  requiredIconValidator,
-  requiredMessage,
-  requiredValidator,
-  sessionAlreadyHasAuthor,
-  specialCharacterValidator,
-  timeValidator,
-} from 'src/app/_services/formly/validators';
 import * as all from 'tinymce/tinymce';
-import { AtomsModule } from '../../atoms';
-import {
-  FormlyDatepickerFieldComponent,
-  FormlyEditorFieldComponent,
-  FormlySelectDisableFieldComponent,
-} from '../../organisms';
-import { FormlyFileFieldComponent } from '../formly-file-field/formly-file-field.component';
+
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { FormComponent } from './form.component';
 
 const x = all;
@@ -319,56 +295,15 @@ export default {
   component: FormComponent,
   decorators: [
     moduleMetadata({
-      declarations: [
-        FormlyFileFieldComponent,
-        FormlyEditorFieldComponent,
-        FormlySelectDisableFieldComponent,
-        FormlyDatepickerFieldComponent,
-      ],
+      declarations: [],
       imports: [
-        AtomsModule,
         BrowserModule,
         CommonModule,
         ReactiveFormsModule,
         FormsModule,
         NgbModule,
         EditorModule,
-        FormlyModule.forRoot({
-          types: [
-            {
-              name: 'file',
-              component: FormlyFileFieldComponent,
-              wrappers: ['form-field'],
-            },
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-            {
-              name: 'select-disable',
-              component: FormlySelectDisableFieldComponent,
-            },
-            { name: 'datepicker', component: FormlyDatepickerFieldComponent },
-          ],
-          validationMessages: [
-            invalidTimeMessage,
-            requiredMessage,
-            dateMessage,
-            requiredIconMessage,
-            faPrefixMessage,
-            notIntegerMessage,
-            hasSpecialCharactersMessage,
-            fieldsDontMatchMessage,
-            sessionAlreadyHasAuthor,
-          ],
-          validators: [
-            timeValidator,
-            requiredValidator,
-            dateValidator,
-            requiredIconValidator,
-            iconValidator,
-            integerValidator,
-            specialCharacterValidator,
-            fieldMatchValidator,
-          ],
-        }),
+        FORMLY_MODULE,
         FormlyBootstrapModule,
       ],
     }),

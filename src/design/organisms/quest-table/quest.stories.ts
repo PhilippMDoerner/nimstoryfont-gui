@@ -1,7 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { OrganismsModule } from '..';
 import { QuestTableComponent } from './quest-table.component';
 
 const dummyQuest: OverviewItem = {
@@ -23,7 +22,7 @@ export default {
   component: QuestTableComponent,
   decorators: [
     moduleMetadata({
-      imports: [OrganismsModule, RouterTestingModule],
+      imports: [RouterTestingModule],
       declarations: [],
     }),
   ],

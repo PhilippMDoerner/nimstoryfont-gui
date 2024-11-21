@@ -1,17 +1,12 @@
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
 import { DEFAULT_SEARCH_PREFERENCES } from '../_models/search-preferences';
 import { SidebarLegendComponent } from './sidebar-legend.component';
 
 export default {
   title: 'DesignSystem/Molecules/SidebarLegendComponent',
   component: SidebarLegendComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AtomsModule],
-    }),
-  ],
+  decorators: [moduleMetadata({})],
   args: {
     interactable: true,
     sidebarEntries: DEFAULT_SEARCH_PREFERENCES,

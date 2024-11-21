@@ -109,6 +109,11 @@ export const BRAND_ICON_SET = new Set(ALL_BRAND_ICONS);
 export type BrandIcon = (typeof ALL_BRAND_ICONS)[number];
 
 export type Icon = SolidIcon | RegularIcon | BrandIcon;
+export const ALL_ICONS = [
+  ...ALL_REGULAR_ICONS,
+  ...ALL_SOLID_ICONS,
+  ...ALL_BRAND_ICONS,
+];
 
 export type IconKind = 'fa-brands' | 'fa-solid' | 'fa-regular';
 export function toIconKind(icon: Icon): IconKind {

@@ -14,18 +14,14 @@ export class ServiceWorkerService {
 
   private newVersionInstalledToast: ToastConfig = {
     type: 'INFO',
+    header: {
+      text: 'New nimstoryfont version installed!',
+    },
     body: {
-      text: 'A new version of nimstoryfont has been installed!',
       buttons: [
         {
-          type: 'PRIMARY',
-          label: 'Use new version',
+          label: 'Use now!',
           onClick: () => document.location.reload(),
-        },
-        {
-          type: 'SECONDARY',
-          label: 'Dismiss',
-          onClick: (dismiss) => dismiss(),
         },
       ],
     },
@@ -46,6 +42,8 @@ export class ServiceWorkerService {
   }
 
   private initUpdateEventListening() {
+    this.toastService.addToast(this.newVersionInstalledToast);
+
     this.serviceWorkerUpdate.versionUpdates
       .pipe(takeUntilDestroyed())
       .subscribe((event) => {
@@ -108,7 +106,6 @@ const unrecoverableErrorToast = (
     text: `This error occurred:\n${err.reason}\n\nPlease reload`,
     buttons: [
       {
-        type: 'PRIMARY',
         label: 'Reload',
         onClick: () => document.location.reload(),
       },

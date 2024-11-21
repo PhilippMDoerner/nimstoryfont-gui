@@ -1,5 +1,4 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { MoleculesModule } from 'src/design/molecules';
 import { PageContainerComponent } from './page-container.component';
 
 export default {
@@ -7,7 +6,6 @@ export default {
   component: PageContainerComponent,
   decorators: [
     moduleMetadata({
-      imports: [MoleculesModule],
       declarations: [],
     }),
   ],

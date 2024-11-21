@@ -2,22 +2,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import {
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-} from 'src/app/_services/formly/validators';
-import { MoleculesModule } from 'src/design/molecules';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import * as all from 'tinymce/tinymce';
-import { FormlyEditorFieldComponent } from '..';
 import { Encounter } from '../../../app/_models/encounter';
-import { AtomsModule } from '../../atoms';
 import { DiaryentryEncountersComponent } from './diaryentry-encounters.component';
 
 const x = all;
@@ -404,20 +395,12 @@ export default {
     moduleMetadata({
       imports: [
         CommonModule,
-        AtomsModule,
-        MoleculesModule,
         NgbModule,
         EditorModule,
         RouterTestingModule,
         FormsModule,
         ReactiveFormsModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-          ],
-          validationMessages: [requiredMessage, notIntegerMessage],
-          validators: [requiredValidator, integerValidator],
-        }),
+        FORMLY_MODULE,
       ],
     }),
   ],

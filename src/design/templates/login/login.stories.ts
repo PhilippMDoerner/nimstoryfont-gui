@@ -1,12 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import {
-  requiredMessage,
-  requiredValidator,
-} from 'src/app/_services/formly/validators';
-import { OrganismsModule } from '../../organisms';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { LoginComponent } from './login.component';
 
 export default {
@@ -14,15 +9,7 @@ export default {
   component: LoginComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        OrganismsModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [],
-          validationMessages: [requiredMessage],
-          validators: [requiredValidator],
-        }),
-      ],
+      imports: [RouterTestingModule, FORMLY_MODULE],
       declarations: [],
     }),
   ],

@@ -55,9 +55,7 @@ export default {
   ],
 } as Meta<FormlyFileFieldComponent>;
 
-const Template: StoryFn<FormlyFileFieldComponent> = (
-  args: FormlyFileFieldComponent,
-) => ({
+const Template: StoryFn<FormlyFileFieldComponent> = (args) => ({
   props: {
     ...args,
   },
@@ -66,9 +64,7 @@ const Template: StoryFn<FormlyFileFieldComponent> = (
 export const Default = Template.bind({});
 Default.args = {};
 
-const PrimaryTemplate: StoryFn<FormlyFileFieldComponent> = (
-  args: FormlyFileFieldComponent,
-) => ({
+const PrimaryTemplate: StoryFn<FormlyFileFieldComponent> = (args) => ({
   props: {
     ...args,
     fields: [

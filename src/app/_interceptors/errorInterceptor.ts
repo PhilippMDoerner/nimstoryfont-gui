@@ -7,7 +7,7 @@ import {
 import { inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
-import { errorToast, ToastButton, ToastConfig } from '../_models/toast';
+import { errorToast, ToastButtons, ToastConfig } from '../_models/toast';
 import { RoutingService } from '../_services/routing.service';
 import { GlobalStore } from '../global.store';
 
@@ -15,11 +15,10 @@ const notFoundToast = (
   routingService: RoutingService,
   campaignName: string | undefined,
 ): ToastConfig => {
-  const buttons: ToastButton[] = [
+  const buttons: ToastButtons = [
     {
-      label: 'To Prior Page',
+      label: 'Go back',
       icon: 'arrow-left',
-      type: 'SECONDARY',
       onClick: () => history.back(),
     },
   ];
@@ -27,7 +26,6 @@ const notFoundToast = (
     buttons.push({
       label: 'Home',
       icon: 'home',
-      type: 'SECONDARY',
       onClick: () => routingService.routeToPath('home'),
     });
   }

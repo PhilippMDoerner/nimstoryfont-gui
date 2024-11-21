@@ -1,7 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { MoleculesModule } from 'src/design/molecules';
 import { IconCardEntry } from '../_model/icon-card-list';
 import { IconCardListComponent } from './icon-card-list.component';
 
@@ -97,14 +96,12 @@ export default {
   decorators: [
     moduleMetadata({
       declarations: [],
-      imports: [MoleculesModule, RouterTestingModule],
+      imports: [RouterTestingModule],
     }),
   ],
 } as Meta<IconCardListComponent>;
 
-const Template: StoryFn<IconCardListComponent> = (
-  args: IconCardListComponent,
-) => ({
+const Template: StoryFn<IconCardListComponent> = (args) => ({
   props: {
     ...args,
     reachEndOfList: action('reachEndOfList'),

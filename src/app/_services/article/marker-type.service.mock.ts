@@ -53,7 +53,7 @@ export const dummyMarkerTypes: MapMarkerType[] = [
   },
   {
     name: 'Fort',
-    icon: 'fa-fort-awesome',
+    icon: 'fort-awesome',
     is_text_marker: false,
     creation_datetime: '2021-07-03T17:56:33.339291Z',
     update_datetime: '2021-07-27T15:50:41.269164Z',

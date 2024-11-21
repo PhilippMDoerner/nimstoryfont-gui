@@ -1,30 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { dummyGroups } from 'src/app/_services/article/group.service.mock';
 import { dummyUsers } from 'src/app/_services/article/user.mock.service';
 import {
-  fieldMatchValidator,
-  fieldsDontMatchMessage,
-  hasSpecialCharactersMessage,
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-  specialCharacterValidator,
-} from 'src/app/_services/formly/validators';
-import {
   dummyCampaigns,
   dummyStatistics,
 } from 'src/app/_services/utils/campaign.mock.service';
-import { FormlyFileFieldComponent } from '../../molecules';
-import {
-  FormlySelectDisableFieldComponent,
-  OrganismsModule,
-} from '../../organisms';
+
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { SiteAdminComponent } from './site-admin.component';
 
 export default {
@@ -32,37 +18,7 @@ export default {
   component: SiteAdminComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        CommonModule,
-        OrganismsModule,
-        NgbModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            {
-              name: 'file',
-              component: FormlyFileFieldComponent,
-              wrappers: ['form-field'],
-            },
-            {
-              name: 'select-disable',
-              component: FormlySelectDisableFieldComponent,
-            },
-          ],
-          validationMessages: [
-            requiredMessage,
-            notIntegerMessage,
-            hasSpecialCharactersMessage,
-            fieldsDontMatchMessage,
-          ],
-          validators: [
-            requiredValidator,
-            integerValidator,
-            specialCharacterValidator,
-            fieldMatchValidator,
-          ],
-        }),
-      ],
+      imports: [CommonModule, NgbModule, RouterTestingModule, FORMLY_MODULE],
       declarations: [],
     }),
   ],

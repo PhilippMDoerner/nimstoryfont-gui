@@ -2,7 +2,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { Quest } from 'src/app/_models/quest';
-import { OrganismsModule } from '../../organisms';
 import { QuestComponent } from './quest.component';
 
 const dummyQuest: Quest = {
@@ -51,7 +50,7 @@ export default {
   component: QuestComponent,
   decorators: [
     moduleMetadata({
-      imports: [OrganismsModule, RouterTestingModule],
+      imports: [RouterTestingModule],
       declarations: [],
     }),
   ],

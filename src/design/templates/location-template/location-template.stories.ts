@@ -1,16 +1,8 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { Location } from 'src/app/_models/location';
-import {
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-} from 'src/app/_services/formly/validators';
-import { FormlyFileFieldComponent } from '../../molecules';
-import { OrganismsModule } from '../../organisms';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { LocationTemplateComponent } from './location-template.component';
 
 const dummyLocation: Location = {
@@ -73,21 +65,7 @@ export default {
   component: LocationTemplateComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        OrganismsModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            {
-              name: 'file',
-              component: FormlyFileFieldComponent,
-              wrappers: ['form-field'],
-            },
-          ],
-          validationMessages: [requiredMessage, notIntegerMessage],
-          validators: [requiredValidator, integerValidator],
-        }),
-      ],
+      imports: [RouterTestingModule, FORMLY_MODULE],
       declarations: [],
     }),
   ],

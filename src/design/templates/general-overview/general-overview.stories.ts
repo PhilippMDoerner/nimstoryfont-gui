@@ -2,7 +2,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { OrganismsModule } from '../../organisms';
 import { GeneralOverviewComponent } from './general-overview.component';
 
 const dummyCharacters: OverviewItem[] = [
@@ -1360,7 +1359,7 @@ export default {
   component: GeneralOverviewComponent,
   decorators: [
     moduleMetadata({
-      imports: [OrganismsModule, RouterTestingModule],
+      imports: [RouterTestingModule],
       declarations: [],
     }),
   ],

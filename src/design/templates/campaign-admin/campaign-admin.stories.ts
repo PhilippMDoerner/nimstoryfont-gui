@@ -1,18 +1,11 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import {
-  dateMessage,
-  dateValidator,
-  requiredMessage,
-  requiredValidator,
-} from 'src/app/_services/formly/validators';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import {
   dummyCampaign,
   dummyStatistics,
 } from 'src/app/_services/utils/campaign.mock.service';
-import { FormlySelectDisableFieldComponent } from '../../organisms';
 import { CampaignAdminComponent } from './campaign-admin.component';
 
 export default {
@@ -20,19 +13,7 @@ export default {
   component: CampaignAdminComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            {
-              name: 'select-disable',
-              component: FormlySelectDisableFieldComponent,
-            },
-          ],
-          validationMessages: [requiredMessage, dateMessage],
-          validators: [requiredValidator, dateValidator],
-        }),
-      ],
+      imports: [RouterTestingModule, FORMLY_MODULE],
     }),
   ],
   args: {

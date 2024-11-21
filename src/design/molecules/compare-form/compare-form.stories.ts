@@ -1,36 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
+import { FormlyFieldConfig } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { Observable, of } from 'rxjs';
-import {
-  dateMessage,
-  dateValidator,
-  faPrefixMessage,
-  fieldMatchValidator,
-  fieldsDontMatchMessage,
-  hasSpecialCharactersMessage,
-  iconValidator,
-  integerValidator,
-  invalidTimeMessage,
-  notIntegerMessage,
-  requiredIconMessage,
-  requiredIconValidator,
-  requiredMessage,
-  requiredValidator,
-  sessionAlreadyHasAuthor,
-  specialCharacterValidator,
-  timeValidator,
-} from 'src/app/_services/formly/validators';
 import * as all from 'tinymce/tinymce';
-import {
-  FormlyDatepickerFieldComponent,
-  FormlyEditorFieldComponent,
-  FormlySelectDisableFieldComponent,
-} from '../../organisms';
-import { FormlyFileFieldComponent } from '../formly-file-field/formly-file-field.component';
+
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { CompareFormComponent } from './compare-form.component';
 
 const x = all;
@@ -328,53 +305,8 @@ export default {
   component: CompareFormComponent,
   decorators: [
     moduleMetadata({
-      declarations: [
-        FormlyFileFieldComponent,
-        FormlyEditorFieldComponent,
-        FormlySelectDisableFieldComponent,
-        FormlyDatepickerFieldComponent,
-      ],
-      imports: [
-        BrowserModule,
-        CommonModule,
-        EditorModule,
-        FormlyModule.forRoot({
-          types: [
-            {
-              name: 'file',
-              component: FormlyFileFieldComponent,
-              wrappers: ['form-field'],
-            },
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-            {
-              name: 'select-disable',
-              component: FormlySelectDisableFieldComponent,
-            },
-            { name: 'datepicker', component: FormlyDatepickerFieldComponent },
-          ],
-          validationMessages: [
-            invalidTimeMessage,
-            requiredMessage,
-            dateMessage,
-            requiredIconMessage,
-            faPrefixMessage,
-            notIntegerMessage,
-            hasSpecialCharactersMessage,
-            fieldsDontMatchMessage,
-            sessionAlreadyHasAuthor,
-          ],
-          validators: [
-            timeValidator,
-            requiredValidator,
-            dateValidator,
-            requiredIconValidator,
-            iconValidator,
-            integerValidator,
-            specialCharacterValidator,
-            fieldMatchValidator,
-          ],
-        }),
-      ],
+      declarations: [],
+      imports: [BrowserModule, CommonModule, EditorModule, FORMLY_MODULE],
     }),
   ],
   args: {

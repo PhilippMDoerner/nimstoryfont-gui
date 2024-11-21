@@ -1,21 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { Spell } from 'src/app/_models/spell';
-import {
-  hasSpecialCharactersMessage,
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-  specialCharacterValidator,
-} from 'src/app/_services/formly/validators';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import * as all from 'tinymce/tinymce';
-import { FormlyEditorFieldComponent, OrganismsModule } from '../../organisms';
 import { SpellsTemplateComponent } from './spells-template.component';
 
 const x = all;
@@ -114,27 +105,7 @@ export default {
   component: SpellsTemplateComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        CommonModule,
-        OrganismsModule,
-        NgbModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-          ],
-          validationMessages: [
-            requiredMessage,
-            notIntegerMessage,
-            hasSpecialCharactersMessage,
-          ],
-          validators: [
-            requiredValidator,
-            integerValidator,
-            specialCharacterValidator,
-          ],
-        }),
-      ],
+      imports: [CommonModule, NgbModule, RouterTestingModule, FORMLY_MODULE],
       declarations: [],
     }),
   ],

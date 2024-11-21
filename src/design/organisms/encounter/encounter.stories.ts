@@ -1,17 +1,10 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import {
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-} from 'src/app/_services/formly/validators';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import * as all from 'tinymce/tinymce';
-import { FormlyEditorFieldComponent } from '..';
 import { Encounter, EncounterConnection } from '../../../app/_models/encounter';
 import { EncounterComponent } from './encounter.component';
 
@@ -257,17 +250,7 @@ export default {
   component: EncounterComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        EditorModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-          ],
-          validationMessages: [requiredMessage, notIntegerMessage],
-          validators: [requiredValidator, integerValidator],
-        }),
-      ],
+      imports: [EditorModule, RouterTestingModule, FORMLY_MODULE],
     }),
   ],
   args: {

@@ -6,7 +6,6 @@ import * as x from 'leaflet';
 import { OverviewItem } from 'src/app/_models/overview';
 import { dummyMarkers } from 'src/app/_services/article/marker.service.mock';
 import { ExtendedMap } from '../../../app/_models/map';
-import { OrganismsModule } from '../../organisms';
 import { MapComponent } from './map.component';
 const y = x;
 
@@ -109,7 +108,7 @@ export default {
   component: MapComponent,
   decorators: [
     moduleMetadata({
-      imports: [OrganismsModule, LeafletModule, RouterTestingModule],
+      imports: [LeafletModule, RouterTestingModule],
       declarations: [],
     }),
   ],

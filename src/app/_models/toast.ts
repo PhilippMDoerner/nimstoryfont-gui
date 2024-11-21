@@ -1,27 +1,29 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ElementSize, ElementType } from 'src/design/atoms/_models/button';
+import { ElementType } from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { copyToClipboard } from 'src/utils/clipboard';
 
 export type ToastButton = {
   label: string;
   icon?: Icon;
-  size?: ElementSize;
-  type?: ElementType;
   onClick: (dismiss: () => void) => void;
 };
 
+export type ToastButtons = [] | [ToastButton] | [ToastButton, ToastButton];
+
+export type ToastType = ElementType | 'SUCCESS';
+
 export type ToastConfig = {
-  type: ElementType | 'SUCCESS';
+  type: ToastType;
   important?: boolean;
   header?: {
     icon?: Icon;
     text: string;
   };
   body: {
-    text: string;
+    text?: string;
     icon?: Icon;
-    buttons?: ToastButton[];
+    buttons?: ToastButtons;
   };
   dismissMs?: 1500 | 3000 | 5000;
   onHide?: () => void;
@@ -37,19 +39,13 @@ export function errorToast(err: HttpErrorResponse): ToastConfig {
     throw err;
   }
 
-  const buttons: ToastButton[] =
+  const buttons: ToastButtons =
     err.status === 500
       ? [
           {
             label: 'Copy to Clipboard',
             icon: 'clipboard',
-            type: 'PRIMARY',
             onClick: () => copyToClipboard(err.error),
-          },
-          {
-            label: 'Close',
-            icon: 'xmark',
-            onClick: (dismiss) => dismiss(),
           },
         ]
       : [];

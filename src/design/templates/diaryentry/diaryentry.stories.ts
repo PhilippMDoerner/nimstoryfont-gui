@@ -1,17 +1,10 @@
 import { RouterTestingModule } from '@angular/router/testing';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { DiaryEntry } from 'src/app/_models/diaryentry';
 import { Encounter } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
-import {
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-} from 'src/app/_services/formly/validators';
-import { FormlyEditorFieldComponent, OrganismsModule } from '../../organisms';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { DiaryentryComponent } from './diaryentry.component';
 
 const dummyEncounters: Encounter[] = [
@@ -334,17 +327,7 @@ export default {
   component: DiaryentryComponent,
   decorators: [
     moduleMetadata({
-      imports: [
-        OrganismsModule,
-        RouterTestingModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-          ],
-          validationMessages: [requiredMessage, notIntegerMessage],
-          validators: [requiredValidator, integerValidator],
-        }),
-      ],
+      imports: [RouterTestingModule, FORMLY_MODULE],
       declarations: [],
     }),
   ],

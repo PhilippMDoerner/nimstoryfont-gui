@@ -1,7 +1,6 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
-import { OrganismsModule } from '../../organisms';
 import { QuestOverviewComponent } from './quest-overview.component';
 
 const dummyQuests: OverviewItem[] = [
@@ -167,7 +166,7 @@ export default {
   component: QuestOverviewComponent,
   decorators: [
     moduleMetadata({
-      imports: [OrganismsModule, RouterTestingModule],
+      imports: [RouterTestingModule],
       declarations: [],
     }),
   ],

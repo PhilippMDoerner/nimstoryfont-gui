@@ -1,19 +1,10 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { Rule } from 'src/app/_models/rule';
-import {
-  hasSpecialCharactersMessage,
-  integerValidator,
-  notIntegerMessage,
-  requiredMessage,
-  requiredValidator,
-  specialCharacterValidator,
-} from 'src/app/_services/formly/validators';
+import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import * as all from 'tinymce/tinymce';
-import { FormlyEditorFieldComponent } from '..';
 import { RulesComponent } from './rules.component';
 
 const x = all;
@@ -44,21 +35,7 @@ export default {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        FormlyModule.forRoot({
-          types: [
-            { name: 'text-editor', component: FormlyEditorFieldComponent },
-          ],
-          validationMessages: [
-            requiredMessage,
-            notIntegerMessage,
-            hasSpecialCharactersMessage,
-          ],
-          validators: [
-            requiredValidator,
-            integerValidator,
-            specialCharacterValidator,
-          ],
-        }),
+        FORMLY_MODULE,
       ],
     }),
   ],

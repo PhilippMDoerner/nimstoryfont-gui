@@ -7,8 +7,8 @@ import {
   Injectable,
   signal,
 } from '@angular/core';
-import { NgbToast, NgbToastHeader } from '@ng-bootstrap/ng-bootstrap';
-import { ToastConfig } from 'src/app/_models/toast';
+import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { ToastConfig, ToastType } from 'src/app/_models/toast';
 import { slideRight } from 'src/design/animations/slideDown';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
@@ -38,8 +38,7 @@ export class ToastService {
   selector: 'app-toast-overlay',
   standalone: true,
   imports: [
-    NgbToast,
-    NgbToastHeader,
+    NgbToastModule,
     ButtonComponent,
     IconComponent,
     NgTemplateOutlet,
@@ -58,10 +57,26 @@ export class ToastOverlayComponent {
     const currentToast = this.currentToast();
     if (!currentToast) return undefined;
 
-    const explicitIcon = currentToast.header?.icon;
-    if (explicitIcon != null) return explicitIcon;
+    return this.toHeaderIcon(currentToast.type, currentToast.header?.icon);
+  });
 
-    switch (currentToast.type) {
+  dismissCurrentToast() {
+    const currentToast = this.currentToast();
+    if (!currentToast) return undefined;
+
+    const onHide = currentToast.onHide;
+    if (onHide) onHide();
+
+    this.toastService.dismissToast();
+  }
+
+  private toHeaderIcon(
+    toastType: ToastType,
+    icon: Icon | undefined,
+  ): Icon | undefined {
+    if (icon != null) return icon;
+
+    switch (toastType) {
       case 'DANGER':
         return 'triangle-exclamation' satisfies Icon;
       case 'WARNING':
@@ -73,15 +88,5 @@ export class ToastOverlayComponent {
       default:
         return undefined;
     }
-  });
-
-  dismissCurrentToast() {
-    const currentToast = this.currentToast();
-    if (!currentToast) return undefined;
-
-    const onHide = currentToast.onHide;
-    if (onHide) onHide();
-
-    this.toastService.dismissToast();
   }
 }

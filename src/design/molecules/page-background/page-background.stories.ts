@@ -1,15 +1,10 @@
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
-import { AtomsModule } from '../../atoms';
 import { PageBackgroundComponent } from './page-background.component';
 
 export default {
   title: 'DesignSystem/Molecules/PageBackgroundComponent',
   component: PageBackgroundComponent,
-  decorators: [
-    moduleMetadata({
-      imports: [AtomsModule],
-    }),
-  ],
+  decorators: [moduleMetadata({})],
   args: {
     serverUrl: 'https://www.aldrune.com',
     imageUrl: '/assets/default_images/audio_pic_default.webp',

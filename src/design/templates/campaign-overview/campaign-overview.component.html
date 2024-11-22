@@ -32,10 +32,9 @@
     <h3 class="heading__text">
       @if (campaignsVal && campaignsVal.length > 0) {
         Choose Your Campaign
-      } @else {
+      } @else if (campaignsVal && campaignsVal.length == 0) {
         <ng-container *ngTemplateOutlet="noCampaignHeading" />
-      }
-      @if (campaigns == null) {
+      } @else {
         <app-spinner></app-spinner>
       }
     </h3>

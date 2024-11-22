@@ -1,7 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
 import { take } from 'rxjs';
 import { successToast } from 'src/app/_models/toast';
@@ -19,9 +18,9 @@ import { getKeys } from './types';
  */
 type NewMethods<Name extends string, Q> =
   Q extends Request<void, any>
-    ? Record<`update${Capitalize<Name>}`, ReturnType<typeof rxMethod<void>>>
+    ? Record<`delete${Capitalize<Name>}`, () => void>
     : Q extends Request<infer Params, any>
-      ? Record<`update${Capitalize<Name>}`, ReturnType<typeof rxMethod<Params>>>
+      ? Record<`delete${Capitalize<Name>}`, (params: Params) => void>
       : never;
 
 /**
@@ -48,18 +47,18 @@ type NewMethodUnion<Requests extends RequestMap> =
  */ export type AllNewMethods<Requests extends RequestMap> =
   UnionToIntersection<NewMethodUnion<Requests>>;
 
-export function withUpdateMethods<Requests extends RequestMap>(
+export function withDeleteMethods<Requests extends RequestMap>(
   requests: Requests,
 ) {
   return signalStoreFeature(
     withMethods((store) => {
       const toastService = inject(ToastService);
 
-      const requestLoadFunctions = Object.keys(requests)
+      const deleteFunctions = Object.keys(requests)
         .map((requestName) => getKeys(requestName))
         .map((keys) => {
           return {
-            [keys.updateMethod]: (params: any) => {
+            [keys.createMethod]: (params: any) => {
               patchState(store, {
                 [keys.requestStateField]: 'loading' satisfies RequestState,
                 [keys.errorField]: undefined,
@@ -67,27 +66,20 @@ export function withUpdateMethods<Requests extends RequestMap>(
               requests[keys.name](params)
                 .pipe(take(1))
                 .subscribe({
-                  next: (val) => {
+                  next: () => {
                     toastService.addToast(
-                      successToast('Updated successfully!'),
+                      successToast('Deleted Article successfully!'),
                     );
                     patchState(store, {
-                      [keys.dataField]: val,
+                      [keys.dataField]: undefined,
                       [keys.requestStateField]:
                         'success' satisfies RequestState,
-                      [keys.serverModelField]: undefined,
                     });
                   },
                   error: (err: HttpErrorResponse) => {
-                    const isOutdatedUpdateError = err.status === 409;
-                    const serverModel = isOutdatedUpdateError
-                      ? err.error
-                      : undefined;
-
                     patchState(store, {
                       [keys.errorField]: err,
                       [keys.requestStateField]: 'error' satisfies RequestState,
-                      [keys.serverModelField]: serverModel,
                     });
                   },
                 });
@@ -95,7 +87,7 @@ export function withUpdateMethods<Requests extends RequestMap>(
           };
         });
 
-      return requestLoadFunctions.reduce(
+      return deleteFunctions.reduce(
         (acc, requestLoadFunction) => ({ ...acc, ...requestLoadFunction }),
         {},
       ) as MethodsDictionary & AllNewMethods<Requests>;

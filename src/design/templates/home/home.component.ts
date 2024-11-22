@@ -62,7 +62,7 @@ export class HomeComponent {
   isLoading = input.required<boolean>();
   canLoadMore = input.required<boolean>();
 
-  @Output() search: EventEmitter<string> = new EventEmitter();
+  @Output() appSearch: EventEmitter<string> = new EventEmitter();
   @Output() loadArticlePage: EventEmitter<number> = new EventEmitter();
 
   articleEntries = computed<IconCardEntry[]>(

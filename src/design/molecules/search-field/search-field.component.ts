@@ -21,7 +21,7 @@ export class SearchFieldComponent {
   TWO_OR_MORE_WHITESPACE_REGEXP: RegExp = /\s\s+/g;
 
   placeholder = input('Enter Search Query');
-  @Output() search: EventEmitter<string> = new EventEmitter();
+  @Output() appSearch: EventEmitter<string> = new EventEmitter();
 
   searchString: string = '';
 
@@ -35,11 +35,11 @@ export class SearchFieldComponent {
     if (this.searchString == null || this.searchString === '') {
       return;
     }
-
-    this.search.emit(this.searchString);
+    console.log('Emit with', this.searchString);
+    this.appSearch.emit(this.searchString);
   }
 
-  cleanText(str: string): string {
+  private cleanText(str: string): string {
     return str
       .replace(this.NON_NORMAL_CHARACTER_REGEXP, ' ')
       .trim()

@@ -4,6 +4,6 @@
   [articles]="recentlyUpdatedArticles()"
   [canLoadMore]="hasMoreArticles() === true"
   [isLoading]="store.isLoading()"
-  (search)="search($event)"
+  (appSearch)="search($event)"
   (loadArticlePage)="loadArticlePage($event)"
 ></app-home>

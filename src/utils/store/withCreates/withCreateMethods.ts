@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { successToast } from 'src/app/_models/toast';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import {
@@ -17,10 +18,13 @@ import { getKeys } from './types';
  * Creates an object with a bunch of methods based on an input name
  */
 type NewMethods<Name extends string, Q> =
-  Q extends Request<void, any>
-    ? Record<`create${Capitalize<Name>}`, () => void>
-    : Q extends Request<infer Params, any>
-      ? Record<`create${Capitalize<Name>}`, (params: Params) => void>
+  Q extends Request<void, infer Resp extends object>
+    ? Record<`create${Capitalize<Name>}`, () => Observable<Resp>>
+    : Q extends Request<infer Params, infer Resp extends object>
+      ? Record<
+          `create${Capitalize<Name>}`,
+          (params: Params) => Observable<Resp>
+        >
       : never;
 
 /**
@@ -63,9 +67,9 @@ export function withCreateMethods<Requests extends RequestMap>(
                 [keys.requestStateField]: 'loading' satisfies RequestState,
                 [keys.errorField]: undefined,
               });
-              requests[keys.name](params)
-                .pipe(take(1))
-                .subscribe({
+              return requests[keys.name](params).pipe(
+                take(1),
+                tapResponse({
                   next: (val) => {
                     toastService.addToast(
                       successToast('Created Article successfully!'),
@@ -82,7 +86,8 @@ export function withCreateMethods<Requests extends RequestMap>(
                       [keys.requestStateField]: 'error' satisfies RequestState,
                     });
                   },
-                });
+                }),
+              );
             },
           };
         });

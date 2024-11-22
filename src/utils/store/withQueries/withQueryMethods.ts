@@ -2,9 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
-import { pipe, switchMap, tap } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import {
   Request,
@@ -18,10 +17,10 @@ import { getKeys } from './types';
  * Creates an object with a bunch of methods based on an input name
  */
 type NewMethods<Name extends string, Q> =
-  Q extends Request<void, any>
-    ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<void>>>
-    : Q extends Request<infer Params, any>
-      ? Record<`load${Capitalize<Name>}`, ReturnType<typeof rxMethod<Params>>>
+  Q extends Request<void, infer Resp extends object>
+    ? Record<`load${Capitalize<Name>}`, () => Observable<Resp>>
+    : Q extends Request<infer Params, infer Resp extends object>
+      ? Record<`load${Capitalize<Name>}`, (params: Params) => Observable<Resp>>
       : never;
 
 /**
@@ -58,15 +57,13 @@ export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
         .map((queryName) => getKeys(queryName))
         .map((keys) => {
           return {
-            [keys.loadMethod]: rxMethod(
-              pipe(
-                tap(() =>
-                  patchState(store, {
-                    [keys.queryStateField]: 'loading' satisfies RequestState,
-                    [keys.errorField]: undefined,
-                  }),
-                ),
-                switchMap((params) => queries[keys.name](params)),
+            [keys.loadMethod]: (params: any) => {
+              patchState(store, {
+                [keys.queryStateField]: 'loading' satisfies RequestState,
+                [keys.errorField]: undefined,
+              });
+              return queries[keys.name](params).pipe(
+                take(1),
                 tapResponse({
                   next: (val) =>
                     patchState(store, {
@@ -80,8 +77,8 @@ export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
                     });
                   },
                 }),
-              ),
-            ),
+              );
+            },
           };
         });
 

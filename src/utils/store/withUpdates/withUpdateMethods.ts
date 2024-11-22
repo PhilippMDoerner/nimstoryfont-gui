@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
-import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
+import { Observable } from 'dist/nimstoryfont-gui/tinymce/tinymce';
 import { take } from 'rxjs';
 import { successToast } from 'src/app/_models/toast';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
@@ -18,10 +19,13 @@ import { getKeys } from './types';
  * Creates an object with a bunch of methods based on an input name
  */
 type NewMethods<Name extends string, Q> =
-  Q extends Request<void, any>
-    ? Record<`update${Capitalize<Name>}`, ReturnType<typeof rxMethod<void>>>
-    : Q extends Request<infer Params, any>
-      ? Record<`update${Capitalize<Name>}`, ReturnType<typeof rxMethod<Params>>>
+  Q extends Request<void, infer Resp extends object>
+    ? Record<`update${Capitalize<Name>}`, () => Observable<Resp>>
+    : Q extends Request<infer Params, infer Resp extends object>
+      ? Record<
+          `update${Capitalize<Name>}`,
+          (params: Params) => Observable<Resp>
+        >
       : never;
 
 /**
@@ -64,9 +68,9 @@ export function withUpdateMethods<Requests extends RequestMap>(
                 [keys.requestStateField]: 'loading' satisfies RequestState,
                 [keys.errorField]: undefined,
               });
-              requests[keys.name](params)
-                .pipe(take(1))
-                .subscribe({
+              return requests[keys.name](params).pipe(
+                take(1),
+                tapResponse({
                   next: (val) => {
                     toastService.addToast(
                       successToast('Updated successfully!'),
@@ -90,7 +94,8 @@ export function withUpdateMethods<Requests extends RequestMap>(
                       [keys.serverModelField]: serverModel,
                     });
                   },
-                });
+                }),
+              );
             },
           };
         });

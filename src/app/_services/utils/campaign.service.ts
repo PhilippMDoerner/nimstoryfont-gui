@@ -81,7 +81,10 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
   }
 
   private hasImageSelected(imageFieldValue: any): boolean {
-    return imageFieldValue.constructor.name === 'FileList';
+    return (
+      imageFieldValue.constructor.name === 'FileList' ||
+      imageFieldValue.constructor.name === 'File'
+    );
   }
 
   override delete(pk: number): Observable<any> {

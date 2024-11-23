@@ -45,7 +45,7 @@ export class CampaignUpdatePageComponent {
       has_audio_recording_permission: false,
       is_deactivated: false,
       name,
-      default_map_id: campaign.default_map_details?.id,
+      default_map_id: campaign.default_map,
       background_image: campaign.background_image ?? '',
       icon: campaign.icon,
       pk: campaignPk,

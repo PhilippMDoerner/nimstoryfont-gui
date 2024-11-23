@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { map, switchMap, take } from 'rxjs';
+import { map, shareReplay, switchMap, take } from 'rxjs';
 import { Campaign, CampaignRaw } from 'src/app/_models/campaign';
 import { OverviewItem } from 'src/app/_models/overview';
 import { MapService } from 'src/app/_services/article/map.service';
@@ -59,7 +59,9 @@ export const CampaignUpdatePageStore = signalStore(
       },
       updateCampaign: (pk: number, campaign: Campaign) => {
         patchState(state, { serverModel: undefined });
-        const update$ = campaignService.update(pk, campaign).pipe(take(1));
+        const update$ = campaignService
+          .update(pk, campaign)
+          .pipe(take(1), shareReplay(1));
         update$.subscribe({
           next: (campaign) => patchState(state, { campaign }),
           error: (err: HttpErrorResponse) => {

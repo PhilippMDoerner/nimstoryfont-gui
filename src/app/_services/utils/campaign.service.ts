@@ -56,7 +56,11 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     if (!hasNewIcon && !hasNewBackgroundImage) {
       delete userModel.icon;
       delete userModel.background_image;
-      return userModel;
+      const formData = new FormData();
+      Object.keys(userModel).forEach((key) =>
+        formData.append(key, (userModel as any)[key]),
+      );
+      return formData;
     } else if (!hasNewIcon && hasNewBackgroundImage) {
       delete userModel.icon;
       const userModelFormData: FormData = convertSingleFileModelToFormData(

@@ -23,8 +23,8 @@
       (hidden)="dismissCurrentToast()"
       (shown)="toast.onShow ? toast.onShow() : undefined"
     >
-      @if (toast.header) {
-        <ng-template ngbToastHeader>
+      <ng-template ngbToastHeader>
+        @if (toast.header) {
           <span class="toast-header__text">
             @let headerIcon = icon();
             @if (headerIcon) {
@@ -38,8 +38,8 @@
               [innerHTML]="toast.header.text"
             ></span>
           </span>
-        </ng-template>
-      }
+        }
+      </ng-template>
 
       <div class="toast__body body">
         <span class="body__text">

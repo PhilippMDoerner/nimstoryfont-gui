@@ -1,5 +1,5 @@
 import { ElementRef, Injectable } from '@angular/core';
-import { filter, fromEvent, map, shareReplay, tap, withLatestFrom } from 'rxjs';
+import { filter, fromEvent, map, shareReplay, withLatestFrom } from 'rxjs';
 import { MOBILE_WIDTH, SWIPE_Y_THRESHOLD } from '../app.constants';
 
 @Injectable({
@@ -16,19 +16,19 @@ export class SwipeService {
     const touchStart$ = fromEvent<TouchEvent>(
       elementRef.nativeElement,
       'touchstart',
+      { passive: true },
     ).pipe(
       filter(() => this.isMobile()),
       filter((event) => this.isInIgnoreZone(event)),
-      tap((event) => console.log('touchstart', event)),
       shareReplay(1),
     );
     const touchEnd$ = fromEvent<TouchEvent>(
       elementRef.nativeElement,
       'touchend',
+      { passive: true },
     ).pipe(
       filter(() => this.isMobile()),
       filter((event) => this.isInIgnoreZone(event)),
-      tap(() => console.log('touchend')),
     );
 
     const swipe$ = touchEnd$.pipe(

@@ -94,7 +94,9 @@ export class PageComponent {
     const contentScrolls$ = toObservable(this.innerContentElement).pipe(
       filterNil(),
       switchMap((innerContent) =>
-        fromEvent<Event>(innerContent.nativeElement, 'scroll'),
+        fromEvent<Event>(innerContent.nativeElement, 'scroll', {
+          passive: true,
+        }),
       ),
     );
     contentScrolls$

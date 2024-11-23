@@ -9,7 +9,7 @@
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar"
+            aria-controls="sidebar"
             aria-label="Toggle navigation"
             (click)="openSidebar()"
           >
@@ -53,6 +53,7 @@
 <ng-template #sidebar>
   <app-sidebar
     #sidebarElement
+    id="sidebar"
     class="sidebar"
     [campaign]="campaign"
     [hasCampaignAdminPrivileges]="hasCampaignAdminPrivileges()"

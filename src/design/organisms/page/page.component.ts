@@ -25,6 +25,8 @@ import { delayFalsy, filterNil } from 'src/utils/rxjs-operators';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
+export const showSidebarSignal = signal(true);
+
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
@@ -65,7 +67,11 @@ export class PageComponent {
 
   hasCampaignAdminPrivileges = this.globalStore.hasRoleOrBetter('admin');
   showSidebar = signal(this.isMobile() ? false : true);
-  canShowSidebar = computed(() => !!this.globalStore.currentCampaign());
+  canShowSidebar = computed(() => {
+    const hasCampaign = !!this.globalStore.currentCampaign();
+    const allowSidebarVisibility = showSidebarSignal();
+    return allowSidebarVisibility && hasCampaign;
+  });
   homeUrl = computed(() =>
     this.routingService.getRoutePath('home', {
       campaign: this.globalStore.campaignName(),

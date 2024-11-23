@@ -7,6 +7,7 @@ export default {
   args: {
     width: 400,
     height: 40,
+    color: '173, 181, 189',
   },
 } as Meta<PlaceholderComponent>;
 
@@ -17,7 +18,7 @@ export const Default: Story = {
     return {
       props: args,
       template: `
-        <app-placeholder style="height:{{height}}px; width:{{width}}px;"></app-placeholder>
+        <app-placeholder style="height:{{height}}px; width:{{width}}px; --animation-color-rgb:{{color}};"></app-placeholder>
       `,
     };
   },

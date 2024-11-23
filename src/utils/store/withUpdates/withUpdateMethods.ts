@@ -3,8 +3,7 @@ import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
-import { Observable } from 'dist/nimstoryfont-gui/tinymce/tinymce';
-import { take } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { successToast } from 'src/app/_models/toast';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import {

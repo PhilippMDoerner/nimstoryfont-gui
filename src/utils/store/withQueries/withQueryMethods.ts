@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
-import { Observable, take } from 'rxjs';
-import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
+import { Observable, pipe, switchMap, tap } from 'rxjs';
 import {
   Request,
   RequestMap,
@@ -51,19 +50,19 @@ type NewMethodUnion<Queries extends RequestMap> =
 export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
   return signalStoreFeature(
     withMethods((store) => {
-      const toastService = inject(ToastService);
-
       const queryLoadFunctions = Object.keys(queries)
         .map((queryName) => getKeys(queryName))
         .map((keys) => {
           return {
-            [keys.loadMethod]: (params: any) => {
-              patchState(store, {
-                [keys.queryStateField]: 'loading' satisfies RequestState,
-                [keys.errorField]: undefined,
-              });
-              return queries[keys.name](params).pipe(
-                take(1),
+            [keys.loadMethod]: rxMethod(
+              pipe(
+                tap(() =>
+                  patchState(store, {
+                    [keys.queryStateField]: 'loading' satisfies RequestState,
+                    [keys.errorField]: undefined,
+                  }),
+                ),
+                switchMap((params: any) => queries[keys.name](params)),
                 tapResponse({
                   next: (val) =>
                     patchState(store, {
@@ -77,8 +76,8 @@ export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
                     });
                   },
                 }),
-              );
-            },
+              ),
+            ),
           };
         });
 

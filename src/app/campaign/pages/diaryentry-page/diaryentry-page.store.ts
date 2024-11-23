@@ -16,7 +16,7 @@ import {
   EncounterConnection,
   EncounterRaw,
 } from 'src/app/_models/encounter';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { DiaryentryService } from 'src/app/_services/article/diaryentry.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
@@ -184,7 +184,7 @@ export const DiaryentryPageStore = signalStore(
               });
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       removeEncounter: (encounter: Encounter) => {
@@ -204,7 +204,7 @@ export const DiaryentryPageStore = signalStore(
               updateEncounterList(newEncounterList);
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       updateEncounter: (encounter: Encounter) => {
@@ -224,7 +224,7 @@ export const DiaryentryPageStore = signalStore(
               updateEncounterList(newEncounterList);
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       swapEncounters: (encounter1Pk: number, encounter2Pk: number) => {
@@ -260,7 +260,7 @@ export const DiaryentryPageStore = signalStore(
               patchState(store, { isUpdatingGlobally: false });
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       cutInsertEncounter: (encounter: Encounter, newOrderIndex: number) => {
@@ -284,7 +284,7 @@ export const DiaryentryPageStore = signalStore(
               patchState(store, { isUpdatingGlobally: false });
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       addEncounterConnection: (connection: EncounterConnection) =>
@@ -312,7 +312,7 @@ export const DiaryentryPageStore = signalStore(
               updateEncounterList(newEncounterList);
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
       removeEncounterConnection: (connection: EncounterConnection) => {
         encounterConnectionService
@@ -350,7 +350,7 @@ export const DiaryentryPageStore = signalStore(
                 diaryEntryDeleteState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
     };

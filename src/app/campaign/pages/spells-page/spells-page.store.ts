@@ -14,7 +14,7 @@ import {
   SpellPlayerClassConnection,
   SpellRaw,
 } from 'src/app/_models/spell';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { PlayerClassService } from 'src/app/_services/article/player-class.service';
 import { SpellPlayerClassConnectionService } from 'src/app/_services/article/spell-player-class-connection.service';
 import { SpellService } from 'src/app/_services/article/spell.service';
@@ -111,7 +111,7 @@ export const SpellsPageStore = signalStore(
                   spellServerModel: err.error,
                 });
               } else {
-                toastService.addToast(errorToast(err));
+                toastService.addToast(httpErrorToast(err));
               }
             },
           });
@@ -132,7 +132,7 @@ export const SpellsPageStore = signalStore(
                 spells: store.spells()?.filter((spell) => spell.pk !== spellPk),
               }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       createSpell: (spell: SpellRaw) => {
@@ -152,7 +152,7 @@ export const SpellsPageStore = signalStore(
             });
           },
           error: (err: HttpErrorResponse) =>
-            toastService.addToast(errorToast(err)),
+            toastService.addToast(httpErrorToast(err)),
         });
       },
       addPlayerClassConnection: (connection: SpellPlayerClassConnection) => {
@@ -179,7 +179,7 @@ export const SpellsPageStore = signalStore(
             patchState(store, { spells: newSpells });
           },
           error: (err: HttpErrorResponse) =>
-            toastService.addToast(errorToast(err)),
+            toastService.addToast(httpErrorToast(err)),
         });
       },
       removePlayerClassConnection: (connection: SpellPlayerClassConnection) => {

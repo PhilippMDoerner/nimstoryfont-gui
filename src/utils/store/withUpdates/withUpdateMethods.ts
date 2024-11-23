@@ -2,8 +2,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
-import { Observable, take } from 'rxjs';
+import { Observable, pipe, switchMap, tap } from 'rxjs';
 import { successToast } from 'src/app/_models/toast';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import {
@@ -62,13 +63,15 @@ export function withUpdateMethods<Requests extends RequestMap>(
         .map((requestName) => getKeys(requestName))
         .map((keys) => {
           return {
-            [keys.updateMethod]: (params: any) => {
-              patchState(store, {
-                [keys.requestStateField]: 'loading' satisfies RequestState,
-                [keys.errorField]: undefined,
-              });
-              return requests[keys.name](params).pipe(
-                take(1),
+            [keys.updateMethod]: rxMethod(
+              pipe(
+                tap(() =>
+                  patchState(store, {
+                    [keys.requestStateField]: 'loading' satisfies RequestState,
+                    [keys.errorField]: undefined,
+                  }),
+                ),
+                switchMap((params: any) => requests[keys.name](params)),
                 tapResponse({
                   next: (val) => {
                     toastService.addToast(
@@ -94,8 +97,8 @@ export function withUpdateMethods<Requests extends RequestMap>(
                     });
                   },
                 }),
-              );
-            },
+              ),
+            ),
           };
         });
 

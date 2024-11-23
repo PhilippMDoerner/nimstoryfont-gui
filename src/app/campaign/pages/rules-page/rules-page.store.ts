@@ -10,7 +10,7 @@ import {
 } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { Rule, RuleRaw } from 'src/app/_models/rule';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { RuleService } from 'src/app/_services/article/rule.service';
 import { GlobalStore } from 'src/app/global.store';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
@@ -95,7 +95,7 @@ export const RulesPageStore = signalStore(
               });
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       updateRule: (rule: Rule) => {
@@ -125,7 +125,7 @@ export const RulesPageStore = signalStore(
                   ruleServerModel: err.error,
                 });
               } else {
-                toastService.addToast(errorToast(err));
+                toastService.addToast(httpErrorToast(err));
               }
             },
           });
@@ -146,7 +146,7 @@ export const RulesPageStore = signalStore(
               });
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
     };

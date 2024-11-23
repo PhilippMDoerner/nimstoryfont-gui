@@ -10,7 +10,7 @@ import {
 } from '@ngrx/signals';
 import { take } from 'rxjs';
 import { Image, ImageType } from 'src/app/_models/image';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { ImageUploadService } from 'src/app/_services/article/image-upload.service';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { InnerStore } from './withQueries';
@@ -75,7 +75,7 @@ export function withImages<Input extends SignalStoreFeatureResult>(
             .subscribe({
               next: (newImage) =>
                 callbacks.onCreateSuccess(state as InnerStore<Input>, newImage),
-              error: (err) => toastService.addToast(errorToast(err)),
+              error: (err) => toastService.addToast(httpErrorToast(err)),
             });
         },
         deleteImage: (imgPk: number) => {
@@ -85,7 +85,7 @@ export function withImages<Input extends SignalStoreFeatureResult>(
             .subscribe({
               next: () =>
                 callbacks.onDeleteSuccess(state as InnerStore<Input>, imgPk),
-              error: (err) => toastService.addToast(errorToast(err)),
+              error: (err) => toastService.addToast(httpErrorToast(err)),
             });
         },
         updateImage: (img: Image) => {
@@ -93,7 +93,7 @@ export function withImages<Input extends SignalStoreFeatureResult>(
             next: (newImg) =>
               callbacks.onUpdateSuccess(state as InnerStore<Input>, newImg),
             error: (err: HttpErrorResponse) => {
-              toastService.addToast(errorToast(err));
+              toastService.addToast(httpErrorToast(err));
 
               if (err.status !== 409) return;
               const serverModel: Image = err.error;

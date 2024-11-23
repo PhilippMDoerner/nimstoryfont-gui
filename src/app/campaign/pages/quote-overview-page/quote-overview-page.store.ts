@@ -10,7 +10,7 @@ import {
 } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { EncounterService } from 'src/app/_services/article/encounter.service';
 import { QuoteConnectionService } from 'src/app/_services/article/quote-connection.service';
@@ -146,7 +146,7 @@ export const QuoteOverviewPageStore = signalStore(
                   quotesError: err.error,
                 });
               } else {
-                toastService.addToast(errorToast(err));
+                toastService.addToast(httpErrorToast(err));
               }
             },
           });
@@ -167,7 +167,7 @@ export const QuoteOverviewPageStore = signalStore(
                 quotes: store.quotes()?.filter((quote) => quote.pk !== quotePk),
               }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       createQuote: (quote: QuoteRaw) => {
@@ -185,7 +185,7 @@ export const QuoteOverviewPageStore = signalStore(
             });
           },
           error: (err: HttpErrorResponse) =>
-            toastService.addToast(errorToast(err)),
+            toastService.addToast(httpErrorToast(err)),
         });
       },
       createQuoteConnection(connection: QuoteConnection) {

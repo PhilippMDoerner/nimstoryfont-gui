@@ -10,7 +10,7 @@ import {
 } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { Timestamp } from 'src/app/_models/sessionAudio';
-import { errorToast, successToast } from 'src/app/_models/toast';
+import { httpErrorToast, successToast } from 'src/app/_models/toast';
 import { SessionAudioTimestampService } from 'src/app/_services/article/session-audio-timestamp.service';
 import { SessionAudioService } from 'src/app/_services/article/session-audio.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -97,7 +97,7 @@ export const SessionaudioPageStore = signalStore(
             });
           },
           error: (err: HttpErrorResponse) => {
-            toastService.addToast(errorToast(err));
+            toastService.addToast(httpErrorToast(err));
             patchState(state, {
               deleteSessionaudioState: 'error',
             });
@@ -122,7 +122,7 @@ export const SessionaudioPageStore = signalStore(
               });
             },
             error: (err: HttpErrorResponse) => {
-              toastService.addToast(errorToast(err));
+              toastService.addToast(httpErrorToast(err));
               patchState(state, {
                 createTimestampState: 'error',
               });
@@ -145,7 +145,7 @@ export const SessionaudioPageStore = signalStore(
               });
             },
             error: (err: HttpErrorResponse) => {
-              toastService.addToast(errorToast(err));
+              toastService.addToast(httpErrorToast(err));
               patchState(state, {
                 deleteTimestampState: 'error',
               });

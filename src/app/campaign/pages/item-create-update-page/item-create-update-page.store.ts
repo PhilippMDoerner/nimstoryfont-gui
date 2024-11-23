@@ -4,7 +4,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { Item, ItemRaw } from 'src/app/_models/item';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { ItemService } from 'src/app/_services/article/item.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -76,7 +76,7 @@ export const ItemCreateUpdateStore = signalStore(
           next: (newItem) =>
             patchState(store, { item: newItem, createState: 'success' }),
           error: (err: HttpErrorResponse) =>
-            toastService.addToast(errorToast(err)),
+            toastService.addToast(httpErrorToast(err)),
         });
       },
     };

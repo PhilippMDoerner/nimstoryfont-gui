@@ -12,7 +12,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, shareReplay, switchMap, tap } from 'rxjs';
 import { Creature } from 'src/app/_models/creature';
 import { Image } from 'src/app/_models/image';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { CreatureService } from 'src/app/_services/article/creature.service';
 import { GlobalStore } from 'src/app/global.store';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
@@ -110,7 +110,7 @@ export const CreaturePageStore = signalStore(
                 creatureQueryState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),

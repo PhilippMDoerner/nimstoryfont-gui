@@ -10,7 +10,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { MarkerService } from 'src/app/_services/article/marker.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -78,7 +78,7 @@ export const MarkerPageStore = signalStore(
             router.navigateByUrl(navigationStore.priorUrl() ?? fallback);
           },
           error: (err: HttpErrorResponse) =>
-            toastService.addToast(errorToast(err)),
+            toastService.addToast(httpErrorToast(err)),
         });
       },
     };

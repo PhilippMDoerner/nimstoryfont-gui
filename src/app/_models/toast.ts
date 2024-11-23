@@ -32,7 +32,18 @@ export type ToastConfig = {
   styles?: { [key: string]: string };
 };
 
-export function errorToast(err: HttpErrorResponse): ToastConfig {
+export function errorToast(errorMsg: string): ToastConfig {
+  return {
+    type: 'DANGER',
+    body: {
+      text: `
+        Failed to 
+      `,
+    },
+  };
+}
+
+export function httpErrorToast(err: HttpErrorResponse): ToastConfig {
   const isHttpErrorResponse =
     err.status?.constructor?.name.toLowerCase() === 'number';
   if (!isHttpErrorResponse) {

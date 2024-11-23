@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { patchState } from '@ngrx/signals';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 
 export function handleError(
@@ -11,7 +11,7 @@ export function handleError(
   if (err.status === 409) {
     patchState(store, { serverModel: err.error });
   } else {
-    toastService.addToast(errorToast(err));
+    toastService.addToast(httpErrorToast(err));
   }
 }
 

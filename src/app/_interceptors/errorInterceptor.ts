@@ -7,7 +7,7 @@ import {
 import { inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
-import { errorToast, ToastButtons, ToastConfig } from '../_models/toast';
+import { httpErrorToast, ToastButtons, ToastConfig } from '../_models/toast';
 import { RoutingService } from '../_services/routing.service';
 import { GlobalStore } from '../global.store';
 
@@ -65,7 +65,7 @@ export function errorInterceptor(
           case 0:
           case 500:
           case 502:
-            toastService.addToast(errorToast(err));
+            toastService.addToast(httpErrorToast(err));
             break;
         }
       },

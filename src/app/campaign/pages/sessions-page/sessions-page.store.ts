@@ -10,7 +10,7 @@ import {
 } from '@ngrx/signals';
 import { map, shareReplay, switchMap, take } from 'rxjs';
 import { Session, SessionRaw } from 'src/app/_models/session';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { SessionService } from 'src/app/_services/article/session.service';
 import { GlobalStore } from 'src/app/global.store';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
@@ -107,7 +107,7 @@ export const SessionsPageStore = signalStore(
                   sessionServerModel: err.error,
                 });
               } else {
-                toastService.addToast(errorToast(err));
+                toastService.addToast(httpErrorToast(err));
               }
             },
           });
@@ -130,7 +130,7 @@ export const SessionsPageStore = signalStore(
                   ?.filter((session) => session.pk !== sessionPk),
               }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       createSession(session: SessionRaw) {
@@ -147,7 +147,7 @@ export const SessionsPageStore = signalStore(
             });
           },
           error: (err: HttpErrorResponse) =>
-            toastService.addToast(errorToast(err)),
+            toastService.addToast(httpErrorToast(err)),
         });
       },
     };

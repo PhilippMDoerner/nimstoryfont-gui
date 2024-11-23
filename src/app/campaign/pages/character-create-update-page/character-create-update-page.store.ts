@@ -4,14 +4,14 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { map, pipe, shareReplay, switchMap, take, tap } from 'rxjs';
+import { map, pipe, switchMap, tap } from 'rxjs';
 import {
   CharacterDetails,
   CharacterRaw,
   OrganizationMembership,
 } from 'src/app/_models/character';
 import { CharacterPlayerClassConnectionRaw } from 'src/app/_models/playerclass';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { CharacterPlayerClassConnectionService } from 'src/app/_services/article/character-player-class-connection.service';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { LocationService } from 'src/app/_services/article/location.service';
@@ -42,8 +42,6 @@ export const CharacterCreateUpdateStore = signalStore(
     const organizationService = inject(OrganizationService);
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
       filterNil(),
-      shareReplay(1),
-      take(1),
     );
 
     return {
@@ -95,7 +93,7 @@ export const CharacterCreateUpdateStore = signalStore(
                 characterQueryState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),
@@ -115,7 +113,7 @@ export const CharacterCreateUpdateStore = signalStore(
                 characterQueryState: 'success',
               }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),
@@ -140,7 +138,7 @@ export const CharacterCreateUpdateStore = signalStore(
               patchState(store, { character: newCharacter });
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),
@@ -164,7 +162,7 @@ export const CharacterCreateUpdateStore = signalStore(
               patchState(store, { character: newCharacter });
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),
@@ -176,7 +174,7 @@ export const CharacterCreateUpdateStore = signalStore(
           tapResponse({
             next: (character) => patchState(store, { character }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),
@@ -200,7 +198,7 @@ export const CharacterCreateUpdateStore = signalStore(
               patchState(store, { character: newCharacter });
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),

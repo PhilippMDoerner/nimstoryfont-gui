@@ -9,7 +9,7 @@ import {
   CampaignRaw,
   WikiStatistics,
 } from 'src/app/_models/campaign';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { User, UserRaw } from 'src/app/_models/user';
 import { GroupService } from 'src/app/_services/article/group.service';
 import { UserService } from 'src/app/_services/article/user.service';
@@ -143,7 +143,7 @@ export const SiteAdministrationPageStore = signalStore(
               URL.revokeObjectURL(blobAsFileUrl);
             },
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           });
       },
       createUser: (user: User): void => {

@@ -4,7 +4,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { shareReplay, switchMap, take } from 'rxjs';
 import { MapMarker, MapMarkerRaw } from 'src/app/_models/mapMarker';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { LocationService } from 'src/app/_services/article/location.service';
 import { MapService } from 'src/app/_services/article/map.service';
 import { MarkerTypeService } from 'src/app/_services/article/marker-type.service';
@@ -84,7 +84,7 @@ export const MarkerCreateUpdateStore = signalStore(
             patchState(store, { createMarkerState: 'success', marker });
           },
           error: (err: HttpErrorResponse) =>
-            toastService.addToast(errorToast(err)),
+            toastService.addToast(httpErrorToast(err)),
         });
       },
     };

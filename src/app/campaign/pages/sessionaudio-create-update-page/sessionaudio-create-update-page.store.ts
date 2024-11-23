@@ -22,7 +22,7 @@ import {
   tap,
 } from 'rxjs';
 import { SessionAudio, SessionAudioRaw } from 'src/app/_models/sessionAudio';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { SessionAudioService } from 'src/app/_services/article/session-audio.service';
 import { SessionService } from 'src/app/_services/article/session.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -114,7 +114,7 @@ export const SessionaudioCreateUpdatePageStore = signalStore(
                 createSessionaudioState: 'success',
               }),
             error: (err) => {
-              toastService.addToast(errorToast(err));
+              toastService.addToast(httpErrorToast(err));
               patchState(store, {
                 createSessionaudioState: 'error',
                 sessionaudioError: err,
@@ -196,7 +196,7 @@ export const SessionaudioCreateUpdatePageStore = signalStore(
                   sessionaudioServerModel: err.error,
                 });
               } else {
-                toastService.addToast(errorToast(err));
+                toastService.addToast(httpErrorToast(err));
               }
             },
           });
@@ -230,7 +230,7 @@ export const SessionaudioCreateUpdatePageStore = signalStore(
                   sessionaudioServerModel: err.error,
                 });
               } else {
-                toastService.addToast(errorToast(err));
+                toastService.addToast(httpErrorToast(err));
               }
             },
           });

@@ -12,7 +12,7 @@ import {
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, shareReplay, switchMap, take, tap } from 'rxjs';
 import { Item } from 'src/app/_models/item';
-import { errorToast } from 'src/app/_models/toast';
+import { httpErrorToast } from 'src/app/_models/toast';
 import { ItemService } from 'src/app/_services/article/item.service';
 import { GlobalStore } from 'src/app/global.store';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
@@ -123,7 +123,7 @@ export const ItemPageStore = signalStore(
                 itemError: undefined,
               }),
             error: (err: HttpErrorResponse) =>
-              toastService.addToast(errorToast(err)),
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),

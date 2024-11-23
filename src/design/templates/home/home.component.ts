@@ -17,6 +17,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 
 import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
 import { Icon } from 'src/design/atoms/_models/icon';
+import { PlaceholderComponent } from 'src/design/atoms/placeholder/placeholder.component';
 import { IconCardEntry } from 'src/design/organisms/_model/icon-card-list';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
 import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
@@ -34,6 +35,7 @@ import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-
     SearchFieldComponent,
     IconCardListComponent,
     SpinnerComponent,
+    PlaceholderComponent,
   ],
 })
 export class HomeComponent {

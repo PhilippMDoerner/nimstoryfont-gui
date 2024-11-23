@@ -3,16 +3,18 @@
   --col1: rgba(var(--animation-color-rgb), 0.05);
   --col2: rgba(var(--animation-color-rgb), 0.3);
   --col3: rgba(var(--animation-color-rgb), 0.6);
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background-color: var(--bs-secondary-bg);
-  overflow: hidden;
-  display: inline-block;
-  cursor: wait;
 }
 
 .placeholder {
+  position: relative;
+  background-color: var(--bs-secondary-bg);
+  overflow: hidden;
+  display: inline-block;
+  border-radius: var(--bs-border-radius);
+  cursor: wait;
+  width: 100%;
+  height: 100%;
+
   &__animation {
     position: absolute;
     left: -45%;

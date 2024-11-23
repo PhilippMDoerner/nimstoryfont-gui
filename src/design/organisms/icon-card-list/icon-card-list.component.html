@@ -16,7 +16,7 @@
       </a>
     </div>
   }
-  @if (isLoading() || true) {
+  @if (isLoading()) {
     @for (item of dummyArticles; track $index) {
       <app-placeholder
         class="entry entry--placeholder col-6 col-lg-4 col-xl-3"

@@ -1,5 +1,5 @@
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, input, Input, OnChanges, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -39,7 +39,7 @@ export class GeneralOverviewComponent implements OnInit, OnChanges {
   @Input() overviewType!: GeneralOverviewType;
   @Input() entries!: OverviewItem[];
   @Input() campaignName!: string;
-  @Input() canCreate: boolean = false;
+  canCreate = input.required<boolean>();
 
   defaultPlayerCharacterImage: string =
     'assets/default_images/icon_default.webp';

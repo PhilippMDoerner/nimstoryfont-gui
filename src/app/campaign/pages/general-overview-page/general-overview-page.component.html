@@ -1,6 +1,5 @@
 @let campaignName = campaignName$ | async;
 @let overviewType = overviewType$ | async;
-@let canCreate = canCreate$;
 @let entries = entries$ | async;
 
 @if (entries != null && campaignName != null && overviewType != null) {
@@ -9,6 +8,6 @@
     [overviewType]="overviewType"
     [entries]="entries"
     [campaignName]="campaignName"
-    [canCreate]="canCreate"
+    [canCreate]="canCreate()"
   ></app-general-overview>
 }

@@ -49,7 +49,7 @@
     </div>
 
     <!-- Adding Item button -->
-    @if (canCreate) {
+    @if (canCreate()) {
       <div class="overview__create">
         <a [routerLink]="'create'">
           <app-button

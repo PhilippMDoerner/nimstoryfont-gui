@@ -1,5 +1,5 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest, map, switchMap } from 'rxjs';
@@ -39,7 +39,9 @@ export class GeneralOverviewPageComponent {
   serverUrl = environment.backendDomain;
 
   campaignName$ = toObservable(this.globalStore.campaignName).pipe(filterNil());
-  canCreate$ = this.globalStore.isCampaignMember();
+  canCreate = computed(
+    () => this.globalStore.currentCampaignRole() === 'member',
+  );
   overviewType$ = this.route.data.pipe(
     map((data) => data['overviewType'] as GeneralOverviewType),
   );

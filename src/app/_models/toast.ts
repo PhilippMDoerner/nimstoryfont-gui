@@ -36,9 +36,7 @@ export function errorToast(errorMsg: string): ToastConfig {
   return {
     type: 'DANGER',
     body: {
-      text: `
-        Failed to 
-      `,
+      text: errorMsg,
     },
   };
 }

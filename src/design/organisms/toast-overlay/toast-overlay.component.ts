@@ -82,7 +82,7 @@ export class ToastOverlayComponent {
       case 'SUCCESS':
         return 'check' satisfies Icon;
       default:
-        return undefined;
+        return 'info' satisfies Icon;
     }
   }
 }

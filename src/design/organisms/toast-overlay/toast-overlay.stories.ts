@@ -25,6 +25,8 @@ export default {
     bodyText: 'World',
     important: false,
     dismissMs: 1500,
+    hasBody: true,
+    hasHeader: true,
   },
   argTypes: {
     toastType: {
@@ -44,16 +46,17 @@ export default {
 
 type Story = StoryObj<ToastOverlayComponent>;
 
-export const WithCustomApplicationProvider: Story = {
+export const WithHeaderToast: Story = {
   render: (args: any) => {
     const toast: ToastConfig = {
-      type: args.toastType,
-      header: { text: args.headerText, icon: args.headerIcon },
+      type: args.toastType ?? 'INFO',
+      header: args.hasHeader
+        ? { text: args.headerText, icon: args.headerIcon }
+        : undefined,
       body: { text: args.bodyText, icon: args.bodyIcon },
       onToastClick: (dismiss) => dismiss(),
     };
     (args as any).toast = toast;
-    console.log(args);
 
     return {
       props: args,

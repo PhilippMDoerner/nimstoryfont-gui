@@ -10,8 +10,6 @@ import {
 import { adminRoutes } from './administration/administration-routes';
 import { campaignRoutes } from './campaign/campaign-routes';
 import { generalRoutes } from './general/general-routes';
-import { CampaignOverviewPageComponent } from './general/pages/campaign-overview-page/campaign-overview-page.component';
-import { ErrorPageComponent } from './general/pages/error-page/error-page.component';
 
 const redirectRoutes: Routes = [
   //Redirect Routes
@@ -38,12 +36,18 @@ const redirectRoutes: Routes = [
 const errorRoutes: Routes = [
   {
     path: `error/:errorStatus`,
-    component: ErrorPageComponent,
+    loadComponent: () =>
+      import('./general/pages/error-page/error-page.component').then(
+        (m) => m.ErrorPageComponent,
+      ),
     data: { name: 'error' },
   },
   {
     path: '**',
-    component: ErrorPageComponent,
+    loadComponent: () =>
+      import('./general/pages/error-page/error-page.component').then(
+        (m) => m.ErrorPageComponent,
+      ),
     data: { name: '404' },
   },
 ];
@@ -67,7 +71,10 @@ const routes: Routes = [
               },
               {
                 path: `campaigns`,
-                component: CampaignOverviewPageComponent,
+                loadComponent: () =>
+                  import(
+                    './general/pages/campaign-overview-page/campaign-overview-page.component'
+                  ).then((m) => m.CampaignOverviewPageComponent),
                 data: { name: 'campaign-overview' },
                 canActivate: [loginGuard],
               },

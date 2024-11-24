@@ -16,7 +16,16 @@
             }"
           >
             <div class="entry__overlay">
-              <h4 class="entry__heading">{{ entry[labelProp()] }}</h4>
+              <h4 class="entry__heading heading">
+                @let iconPropVal = iconProp();
+                @if (iconPropVal && entry[iconPropVal]) {
+                  <img
+                    class="heading__icon"
+                    [src]="serverUrl() + entry[iconPropVal]"
+                  />
+                }
+                {{ entry[labelProp()] }}
+              </h4>
             </div>
           </a>
         }

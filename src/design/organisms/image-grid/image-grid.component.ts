@@ -23,13 +23,11 @@ export class ImageGridComponent<T> {
   serverUrl = input.required<string>();
   imageProp = input.required<keyof T>();
   labelProp = input.required<keyof T>();
+  iconProp = input<keyof T>();
 
   @Output() entryClick: EventEmitter<any> = new EventEmitter();
 
-  entryGrid = computed<T[][]>(() =>
-    this.chunk(this.entries(), this.columnCount()),
-  );
-  columnCount = computed(() => {
+  columnCount = computed<ColumnCount>(() => {
     switch (this.entries().length) {
       case 1:
         return 1;
@@ -40,15 +38,4 @@ export class ImageGridComponent<T> {
         return 3;
     }
   });
-
-  chunk(input: T[], size: number): T[][] {
-    return input.reduce((gridAccumultor, item, idx) => {
-      return idx % size === 0
-        ? [...gridAccumultor, [item]]
-        : [
-            ...gridAccumultor.slice(0, -1),
-            [...gridAccumultor.slice(-1)[0], item],
-          ];
-    }, [] as T[][]);
-  }
 }

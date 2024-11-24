@@ -30,7 +30,12 @@ const notFoundToast = (
       label: 'Home',
       icon: 'home',
       onClick: (dismiss) => {
-        routingService.routeToPath('home');
+        const isInCampaign = campaignName != null;
+        if (isInCampaign) {
+          routingService.routeToPath('home', { campaign: campaignName });
+        } else {
+          routingService.routeToPath('campaign-overview');
+        }
         dismiss();
       },
     });

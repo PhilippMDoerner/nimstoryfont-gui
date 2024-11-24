@@ -4,10 +4,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-placeholder',
   standalone: true,
   imports: [],
+  host: {
+    class: 'placeholder-wave',
+    'aria-hidden': 'true',
+  },
   templateUrl: './placeholder.component.html',
   styleUrl: './placeholder.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaceholderComponent {
-
-}
+export class PlaceholderComponent {}

@@ -1,43 +1,9 @@
 :host {
-  --animation-color-rgb: var(--bs-light-rgb);
-  --col1: rgba(var(--animation-color-rgb), 0.05);
-  --col2: rgba(var(--animation-color-rgb), 0.3);
-  --col3: rgba(var(--animation-color-rgb), 0.6);
+  display: flex;
+  border-radius: var(--bs-border-radius);
 }
 
 .placeholder {
-  position: relative;
-  background-color: var(--bs-secondary-bg);
-  overflow: hidden;
-  display: inline-block;
-  border-radius: var(--bs-border-radius);
-  cursor: wait;
-  width: 100%;
-  height: 100%;
-
-  &__animation {
-    position: absolute;
-    left: -45%;
-    top: 0%;
-    height: 100%;
-    width: 45%;
-    background-image: linear-gradient(
-      to left,
-      var(--col1),
-      var(--col2),
-      var(--col3),
-      var(--col2),
-      var(--col1)
-    );
-    animation: loading 1s infinite;
-  }
-}
-
-@keyframes loading {
-  0% {
-    left: -45%;
-  }
-  100% {
-    left: 100%;
-  }
+  flex: 1;
+  border-radius: inherit;
 }

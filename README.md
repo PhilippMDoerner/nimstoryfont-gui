@@ -41,3 +41,8 @@ It explicitly does not support Safari, due to the resources this would cost to a
 - leaflet - For map... maybe dependncy of ngx-leaflet, maybe it can be used on its own
 - bootstrap - Visuals, utility classes and components
 - plyr - Audioplayer
+
+# Notable commits
+
+- Add lazy-loaded routes: c1fadddf87463a0d29ebe066f9486ca97fb31d79
+  Revert if you notice lazy-loaded routes not working well

@@ -1,4 +1,4 @@
-import { ApiObject } from './article';
+import { ApiObject, MinimumCampaignOverview } from './article';
 
 export type QuestStatus = 'Completed' | 'Failed' | 'In progress' | 'On Hold';
 
@@ -32,6 +32,7 @@ export interface OverviewItem extends ApiObject {
   description?: string;
   update_datetime?: string;
   visited_state?: VisitedState;
+  campaign_details: MinimumCampaignOverview;
 
   //For Character-Type OverviewItems
   player_character?: boolean;
@@ -66,8 +67,6 @@ export interface OverviewItem extends ApiObject {
 
   // For User
   username?: string;
-
-  campaign_details?: { pk: number; name: string };
 }
 
 export interface OverviewSession {

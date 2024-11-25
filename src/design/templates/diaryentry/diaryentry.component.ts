@@ -1,3 +1,4 @@
+import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -7,38 +8,38 @@ import {
   Output,
   signal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { DiaryEntry, DiaryEntryStump } from 'src/app/_models/diaryentry';
 import {
   Encounter,
   EncounterConnection,
+  EncounterConnectionRaw,
   EncounterRaw,
 } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Session } from 'src/app/_models/session';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
-import { NgTemplateOutlet, DatePipe } from '@angular/common';
-import { DiaryentryEncountersComponent } from '../../organisms/diaryentry-encounters/diaryentry-encounters.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
+import { DiaryentryEncountersComponent } from '../../organisms/diaryentry-encounters/diaryentry-encounters.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 type DiaryEntryState = 'DISPLAY' | 'EDIT';
 
 @Component({
-    selector: 'app-diaryentry',
-    templateUrl: './diaryentry.component.html',
-    styleUrls: ['./diaryentry.component.scss'],
-    standalone: true,
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        NgTemplateOutlet,
-        DiaryentryEncountersComponent,
-        ArticleFooterComponent,
-        DatePipe,
-    ],
+  selector: 'app-diaryentry',
+  templateUrl: './diaryentry.component.html',
+  styleUrls: ['./diaryentry.component.scss'],
+  standalone: true,
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    NgTemplateOutlet,
+    DiaryentryEncountersComponent,
+    ArticleFooterComponent,
+    DatePipe,
+  ],
 })
 export class DiaryentryComponent {
   diaryentry = input.required<DiaryEntry>();
@@ -52,7 +53,7 @@ export class DiaryentryComponent {
   @Output() diaryentryDelete: EventEmitter<DiaryEntry> = new EventEmitter();
   @Output() encounterConnectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();
-  @Output() encounterConnectionCreate: EventEmitter<EncounterConnection> =
+  @Output() encounterConnectionCreate: EventEmitter<EncounterConnectionRaw> =
     new EventEmitter();
   @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
   @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();

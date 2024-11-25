@@ -3,6 +3,7 @@ import { ArticleObject } from './article';
 export interface EncounterConnectionRaw {
   encounter: number;
   character: number;
+  campaign: number;
 }
 
 export interface EncounterConnection {

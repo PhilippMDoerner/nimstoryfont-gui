@@ -14,6 +14,7 @@ import {
 import {
   Encounter,
   EncounterConnection,
+  EncounterConnectionRaw,
   EncounterRaw,
   getShiftedOrderIndex,
   nextOrderIndex,
@@ -66,7 +67,7 @@ export class DiaryentryEncountersComponent {
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();
-  @Output() connectionCreate: EventEmitter<EncounterConnection> =
+  @Output() connectionCreate: EventEmitter<EncounterConnectionRaw> =
     new EventEmitter();
   @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
   @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();

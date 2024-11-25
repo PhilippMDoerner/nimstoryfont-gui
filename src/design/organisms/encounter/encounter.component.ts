@@ -31,6 +31,7 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import {
   Encounter,
   EncounterConnection,
+  EncounterConnectionRaw,
   EncounterRaw,
 } from '../../../app/_models/encounter';
 
@@ -65,7 +66,7 @@ export class EncounterComponent implements OnInit {
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();
-  @Output() connectionCreate: EventEmitter<EncounterConnection> =
+  @Output() connectionCreate: EventEmitter<EncounterConnectionRaw> =
     new EventEmitter();
   @Output() encounterDelete: EventEmitter<Encounter | CharacterEncounter> =
     new EventEmitter();
@@ -156,7 +157,8 @@ export class EncounterComponent implements OnInit {
   }
 
   onConnectionCreate(character: OverviewItem) {
-    const newConnection: EncounterConnection = {
+    const newConnection: EncounterConnectionRaw = {
+      campaign: this.encounter()?.campaign_details?.id as number,
       encounter: this.encounter()?.pk as number,
       character: character.pk as number,
     };

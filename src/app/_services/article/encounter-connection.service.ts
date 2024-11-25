@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EncounterConnection } from 'src/app/_models/encounter';
+import {
+  EncounterConnection,
+  EncounterConnectionRaw,
+} from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
 import { BaseService } from '../base.service';
 import { CreateDeleteService } from '../service.interfaces';
@@ -10,7 +13,7 @@ import { CreateDeleteService } from '../service.interfaces';
   providedIn: 'root',
 })
 export class EncounterConnectionService
-  extends BaseService<EncounterConnection, EncounterConnection>
+  extends BaseService<EncounterConnectionRaw, EncounterConnection>
   implements CreateDeleteService<EncounterConnection>
 {
   constructor(http: HttpClient) {

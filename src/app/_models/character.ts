@@ -1,4 +1,4 @@
-import { ArticleObject } from './article';
+import { ArticleObject, MinimumCampaignOverview } from './article';
 import { Image } from './image';
 import { CharacterPlayerClassConnectionDetail } from './playerclass';
 
@@ -44,7 +44,7 @@ export interface CharacterEncounter {
   encounterConnections?: CharacterEncounterConnections[];
   description: string;
   pk?: number;
-  campaign_details?: { name: string; pk: number };
+  campaign_details?: MinimumCampaignOverview;
   location?: number;
   location_details?: {
     name: string;

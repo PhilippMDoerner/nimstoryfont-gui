@@ -14,6 +14,7 @@ import { DiaryEntry } from 'src/app/_models/diaryentry';
 import {
   Encounter,
   EncounterConnection,
+  EncounterConnectionRaw,
   EncounterRaw,
 } from 'src/app/_models/encounter';
 import { httpErrorToast } from 'src/app/_models/toast';
@@ -287,7 +288,7 @@ export const DiaryentryPageStore = signalStore(
               toastService.addToast(httpErrorToast(err)),
           });
       },
-      addEncounterConnection: (connection: EncounterConnection) =>
+      addEncounterConnection: (connection: EncounterConnectionRaw) =>
         encounterConnectionService
           .create(connection)
           .pipe(take(1))

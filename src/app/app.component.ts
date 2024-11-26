@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
 import { PageComponent } from '../design/organisms/page/page.component';
@@ -14,6 +14,9 @@ import { ServiceWorkerService } from './service-worker.service';
   styleUrls: ['./app.component.scss'],
   standalone: true,
   imports: [PageComponent, ToastOverlayComponent],
+  host: {
+    '[@.disabled]': 'disableAnimation()',
+  },
 })
 export class AppComponent {
   readonly globalStore = inject(GlobalStore);
@@ -28,12 +31,21 @@ export class AppComponent {
   hasCampaignAdminRights$ = computed(() =>
     this.globalStore.isCampaignAdmin(this.globalStore.campaignName()),
   );
+  disableAnimation = signal(false);
 
   constructor() {
+    this.trackAnimationSetting();
     this.serviceWorkerService.initializeServiceWorkerInteractions();
   }
 
   logout(): void {
     this.globalStore.logout();
+  }
+
+  private trackAnimationSetting() {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    mediaQuery.addEventListener('change', (event) => {
+      this.disableAnimation.set(event.matches);
+    });
   }
 }

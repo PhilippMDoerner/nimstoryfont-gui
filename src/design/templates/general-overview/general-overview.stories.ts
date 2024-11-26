@@ -13,6 +13,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Gandalf the Grey',
     player_character: true,
     images: ['/assets/default_images/background_default.webp'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -22,6 +23,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Frodo Baggins',
     player_character: true,
     images: ['/assets/default_images/background_default.webp'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -31,6 +33,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Gimli son of Glóin',
     player_character: false,
     images: ['/assets/default_images/background_default.webp'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -40,6 +43,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Legolas Greenleaf',
     player_character: false,
     images: ['/assets/default_images/background_default.webp'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -49,6 +53,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Bilbo Baggins',
     player_character: false,
     images: ['/assets/default_images/background_default.webp'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -58,6 +63,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Aragorn son of Arathorn',
     player_character: false,
     images: ['/assets/default_images/background_default.webp'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -67,6 +73,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Saruman the White',
     player_character: false,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -79,6 +86,7 @@ const dummyCharacters: OverviewItem[] = [
     update_datetime: '2022-03-15T10:30:00.000Z',
     player_character: true,
     images: ['/assets/default_images/background_default.webp'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -94,6 +102,7 @@ const dummyCharacters: OverviewItem[] = [
       '/assets/default_images/background_default.webp',
       '/assets/default_images/background_default.webp',
     ],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -106,6 +115,7 @@ const dummyCharacters: OverviewItem[] = [
     update_datetime: '2022-03-20T08:45:00.000Z',
     player_character: true,
     images: ['/assets/default_images/background_default.webp'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
 ];
 
@@ -117,7 +127,7 @@ const dummyCreatures: OverviewItem[] = [
     pk: 3,
     name: 'Chaos Wolf - Stage 3',
     name_full: 'Chaos Wolf - Stage 3',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-06-10T12:00:00.000000Z',
     getAbsoluteRouterUrl: () => '/creature/123',
   },
@@ -128,7 +138,7 @@ const dummyCreatures: OverviewItem[] = [
     pk: 16,
     name: 'Chimera',
     name_full: 'Chimera',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-01-01T15:53:09.343803Z',
     getAbsoluteRouterUrl: () => '/creature/123',
   },
@@ -139,7 +149,7 @@ const dummyCreatures: OverviewItem[] = [
     pk: 10,
     name: 'Coastal Wyvern',
     name_full: 'Coastal Wyvern',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-01T16:56:12.663451Z',
     getAbsoluteRouterUrl: () => '/creature/123',
   },
@@ -150,7 +160,7 @@ const dummyCreatures: OverviewItem[] = [
     pk: 14,
     name: 'Devil Outcasts',
     name_full: 'Devil Outcasts',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-09-09T15:08:52.261056Z',
     getAbsoluteRouterUrl: () => '/creature/123',
   },
@@ -161,7 +171,7 @@ const dummyCreatures: OverviewItem[] = [
     pk: 8,
     name: 'Dragons',
     name_full: 'Dragons',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-01-24T11:29:37.226502Z',
     getAbsoluteRouterUrl: () => '/creature/123',
   },
@@ -172,7 +182,7 @@ const dummyCreatures: OverviewItem[] = [
     pk: 23,
     name: 'Gargantuan Dune Worm',
     name_full: 'Gargantuan Dune Worm',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-07-26T17:27:54.172382Z',
     getAbsoluteRouterUrl: () => '/creature/123',
   },
@@ -183,7 +193,7 @@ const dummyCreatures: OverviewItem[] = [
     pk: 34,
     name: 'Gaunt',
     name_full: 'Gaunt',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-01-18T20:17:04.487036Z',
     getAbsoluteRouterUrl: () => '/creature/123',
   },
@@ -194,7 +204,7 @@ const dummyCreatures: OverviewItem[] = [
     pk: 18,
     name: 'Giant Leech',
     name_full: 'Giant Leech',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-01-07T19:05:49.047964Z',
     getAbsoluteRouterUrl: () => '/creature/123',
   },
@@ -208,7 +218,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 206,
     name_full: 'Eastern sea',
     name: 'Eastern sea',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-11-12T20:20:56.008470Z',
     parent_location_details: {
       pk: 1,
@@ -224,7 +234,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 25,
     name_full: 'Eastfife',
     name: 'Eastfife',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.493763Z',
     parent_location_details: {
       pk: 1,
@@ -241,7 +251,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 272,
     name_full: 'Elevator',
     name: 'Elevator',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-12-06T21:35:20.848467Z',
     parent_location_details: {
       pk: 1,
@@ -258,7 +268,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 257,
     name_full: 'Equinia',
     name: 'Equinia',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-04-16T14:50:13.971556Z',
     parent_location_details: {
       pk: 1,
@@ -275,7 +285,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 35,
     name_full: 'Equinox Stones',
     name: 'Equinox Stones',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-04-16T15:59:17.118115Z',
     parent_location_details: {
       pk: 1,
@@ -291,7 +301,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 11,
     name_full: 'Etruscan',
     name: 'Etruscan',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.509444Z',
     parent_location_details: {
       pk: 1,
@@ -307,7 +317,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 15,
     name_full: 'Farhold',
     name: 'Farhold',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.515376Z',
     parent_location_details: {
       pk: 1,
@@ -324,7 +334,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 173,
     name_full: 'Etruscan - Upper Dirtside - Farmland',
     name: 'Farmland',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-02-14T14:12:03.252267Z',
     parent_location_details: {
       pk: 97,
@@ -341,7 +351,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 185,
     name_full: 'Merren - Mud lands - Felicia Foghounds Manor',
     name: 'Felicia Foghounds Manor',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-06-20T18:18:40.578499Z',
     parent_location_details: {
       pk: 183,
@@ -358,7 +368,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 66,
     name_full: 'Hallan - Fellhammer',
     name: 'Fellhammer',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:58:13.279086Z',
     parent_location_details: {
       pk: 3,
@@ -374,7 +384,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 22,
     name_full: 'Felliman Bay',
     name: 'Felliman Bay',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.521416Z',
     parent_location_details: {
       pk: 1,
@@ -390,7 +400,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 21,
     name_full: 'Fellman',
     name: 'Fellman',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.527967Z',
     parent_location_details: {
       pk: 1,
@@ -407,7 +417,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 19,
     name_full: 'Firbolg Cliff Face',
     name: 'Firbolg Cliff Face',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.534127Z',
     parent_location_details: {
       pk: 1,
@@ -424,7 +434,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 193,
     name_full: 'Flying Whalebone Ship',
     name: 'Flying Whalebone Ship',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-07-31T11:53:53.751627Z',
     parent_location_details: {
       pk: 1,
@@ -441,7 +451,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 135,
     name_full: 'Etruscan - Guild Quarters - Fraich Arc',
     name: 'Fraich Arc',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-03-09T21:56:27.502563Z',
     parent_location_details: {
       pk: 126,
@@ -458,7 +468,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 162,
     name_full: "Frank's Mountain Range",
     name: "Frank's Mountain Range",
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-11-27T20:44:06.734835Z',
     parent_location_details: {
       pk: 1,
@@ -475,7 +485,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 78,
     name_full: 'Loom Arrow - Galdian',
     name: 'Galdian',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:58:13.443928Z',
     parent_location_details: {
       pk: 5,
@@ -492,7 +502,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 267,
     name_full: 'Gallowglass',
     name: 'Gallowglass',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-08-30T20:34:09.958811Z',
     parent_location_details: {
       pk: 1,
@@ -509,7 +519,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 50,
     name_full: 'Galway',
     name: 'Galway',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-05-31T16:10:30.061953Z',
     parent_location_details: {
       pk: 1,
@@ -526,7 +536,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 46,
     name_full: 'Teeth of Galway - Glenrie Ruins',
     name: 'Glenrie Ruins',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-09-13T10:55:52.560792Z',
     parent_location_details: {
       pk: 146,
@@ -543,7 +553,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 101,
     name_full: 'Etruscan - Glimhorgan Beach',
     name: 'Glimhorgan Beach',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-24T08:09:06.600687Z',
     parent_location_details: {
       pk: 11,
@@ -560,7 +570,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 24,
     name_full: 'God Peaks',
     name: 'God Peaks',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-25T07:05:26.382064Z',
     parent_location_details: {
       pk: 1,
@@ -577,7 +587,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 13,
     name_full: 'Godrick Vale',
     name: 'Godrick Vale',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-05-29T10:34:03.945996Z',
     parent_location_details: {
       pk: 1,
@@ -595,7 +605,7 @@ const dummyLocations: OverviewItem[] = [
     name_full:
       'Etruscan - Guild Quarters - Public Docks and Fishing Werfs - Wooden Statue of the Blackhound',
     name: 'Wooden Statue of the Blackhound',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-01-24T11:25:58.611061Z',
     parent_location_details: {
       pk: 111,
@@ -612,7 +622,7 @@ const dummyLocations: OverviewItem[] = [
     pk: 176,
     name_full: 'Aldrunian Sea - Wound of the world',
     name: 'Wound of the world',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-11-02T19:15:45.515776Z',
     parent_location_details: {
       pk: 157,
@@ -632,7 +642,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 17,
     name_full: 'Academy Of Schools',
     name: 'Academy Of Schools',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-10-12T15:33:07.176299Z',
   },
   {
@@ -642,7 +652,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 13,
     name_full: 'Affingtons',
     name: 'Affingtons',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-12-22T16:40:48.834877Z',
   },
   {
@@ -652,7 +662,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 5,
     name_full: 'Aspen Blood',
     name: 'Aspen Blood',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-11T16:55:59.479546Z',
   },
   {
@@ -662,7 +672,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 6,
     name_full: 'Black Feather Blood',
     name: 'Black Feather Blood',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-07-19T10:15:03.064474Z',
   },
   {
@@ -672,7 +682,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 14,
     name_full: 'Bronze Hoof guild',
     name: 'Bronze Hoof guild',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-12-06T21:19:17.466740Z',
   },
   {
@@ -682,7 +692,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 41,
     name_full: 'Bug people village',
     name: 'Bug people village',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-07-31T12:53:45.845264Z',
   },
   {
@@ -692,7 +702,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 55,
     name_full: 'Celestial Archangelic Beings',
     name: 'Celestial Archangelic Beings',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-10-12T09:23:03.231654Z',
   },
   {
@@ -702,7 +712,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 1,
     name_full: 'Church of Brigantia',
     name: 'Church of Brigantia',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-03T16:15:22.612710Z',
   },
   {
@@ -712,7 +722,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 2,
     name_full: 'Church of Dunatis',
     name: 'Church of Dunatis',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-03T16:15:07.906083Z',
   },
   {
@@ -722,7 +732,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 3,
     name_full: 'Church of Morrigan',
     name: 'Church of Morrigan',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-05-21T18:46:34.125916Z',
   },
   {
@@ -732,7 +742,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 4,
     name_full: 'Church of Silvanus',
     name: 'Church of Silvanus',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-03T16:14:50.614549Z',
   },
   {
@@ -742,7 +752,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 18,
     name_full: 'Council Of Succession',
     name: 'Council Of Succession',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-06-10T12:00:00.000000Z',
   },
   {
@@ -752,7 +762,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 37,
     name_full: 'Dock Hawks',
     name: 'Dock Hawks',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-05-02T12:04:47.463005Z',
   },
   {
@@ -761,7 +771,7 @@ const dummyOrganizations: OverviewItem[] = [
     pk: 23,
     name_full: 'Dwarrow {Status Unknown}',
     name: 'Dwarrow {Status Unknown}',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-13T12:00:00.000000Z',
   },
 ].map((entry) => ({
@@ -777,7 +787,7 @@ const dummyItems: OverviewItem[] = [
     pk: 159,
     name_full: 'Abyssal Schematics',
     name: 'Abyssal Schematics',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-11-22T20:59:00.832111Z',
   },
   {
@@ -787,7 +797,7 @@ const dummyItems: OverviewItem[] = [
     pk: 149,
     name_full: 'Academy Wing Book on Aboleths',
     name: 'Academy Wing Book on Aboleths',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-10-11T21:41:23.089507Z',
   },
   {
@@ -797,7 +807,7 @@ const dummyItems: OverviewItem[] = [
     pk: 55,
     name_full: 'Adamantine Plate',
     name: 'Adamantine Plate',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-04-20T18:32:17.650720Z',
   },
   {
@@ -807,7 +817,7 @@ const dummyItems: OverviewItem[] = [
     pk: 18,
     name_full: "Ahjuu's Lamp",
     name: "Ahjuu's Lamp",
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-11-08T23:22:30.965195Z',
   },
   {
@@ -817,7 +827,7 @@ const dummyItems: OverviewItem[] = [
     pk: 31,
     name_full: "Ailis' Note To the Group",
     name: "Ailis' Note To the Group",
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-11-26T12:29:09.444727Z',
   },
   {
@@ -827,7 +837,7 @@ const dummyItems: OverviewItem[] = [
     pk: 109,
     name_full: 'Amber Shards {1}',
     name: 'Amber Shards {1}',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-01-18T18:16:49.305128Z',
   },
   {
@@ -837,7 +847,7 @@ const dummyItems: OverviewItem[] = [
     pk: 126,
     name_full: 'Anti-matter pistol',
     name: 'Anti-matter pistol',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-11-29T18:09:52.933907Z',
   },
   {
@@ -847,7 +857,7 @@ const dummyItems: OverviewItem[] = [
     pk: 16,
     name_full: 'Areppū',
     name: 'Areppū',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-08-09T19:52:52.086208Z',
   },
   {
@@ -857,7 +867,7 @@ const dummyItems: OverviewItem[] = [
     pk: 72,
     name_full: "Aridhel's booklet",
     name: "Aridhel's booklet",
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-01-24T12:33:42.693831Z',
   },
   {
@@ -867,7 +877,7 @@ const dummyItems: OverviewItem[] = [
     pk: 145,
     name_full: 'Armor of Tears',
     name: 'Armor of Tears',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-02-21T22:23:59.974852Z',
   },
   {
@@ -877,7 +887,7 @@ const dummyItems: OverviewItem[] = [
     pk: 86,
     name_full: 'Arondight',
     name: 'Arondight',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-11-09T17:07:56.382942Z',
   },
   {
@@ -887,7 +897,7 @@ const dummyItems: OverviewItem[] = [
     pk: 98,
     name_full: 'Aspenwood Stake',
     name: 'Aspenwood Stake',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-06-13T07:42:18.707462Z',
   },
   {
@@ -897,7 +907,7 @@ const dummyItems: OverviewItem[] = [
     pk: 94,
     name_full: 'Axe of the dwarven lords',
     name: 'Axe of the dwarven lords',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-05-25T19:55:17.102622Z',
   },
   {
@@ -907,7 +917,7 @@ const dummyItems: OverviewItem[] = [
     pk: 136,
     name_full: 'Balmung',
     name: 'Balmung',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-04-25T21:26:33.807065Z',
   },
   {
@@ -916,7 +926,7 @@ const dummyItems: OverviewItem[] = [
     pk: 53,
     name_full: "Barbatos' Lamp",
     name: "Barbatos' Lamp",
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-11-27T20:55:18.201159Z',
   },
   {
@@ -926,7 +936,7 @@ const dummyItems: OverviewItem[] = [
     pk: 162,
     name_full: 'Belt of the Serpent',
     name: 'Belt of the Serpent',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-01-03T21:03:12.303851Z',
   },
   {
@@ -936,7 +946,7 @@ const dummyItems: OverviewItem[] = [
     pk: 80,
     name_full: 'Birthday gifts',
     name: 'Birthday gifts',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-02-28T09:40:11.002694Z',
   },
   {
@@ -946,7 +956,7 @@ const dummyItems: OverviewItem[] = [
     pk: 79,
     name_full: 'Blackfeather Necklace',
     name: 'Blackfeather Necklace',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-02-18T23:50:29.413758Z',
   },
   {
@@ -956,7 +966,7 @@ const dummyItems: OverviewItem[] = [
     pk: 9,
     name_full: 'Blood Moss',
     name: 'Blood Moss',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-06-10T12:00:00.000000Z',
   },
   {
@@ -966,7 +976,7 @@ const dummyItems: OverviewItem[] = [
     pk: 20,
     name_full: 'Book - Memento Mori',
     name: 'Book - Memento Mori',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-22T12:00:00.000000Z',
   },
   {
@@ -976,7 +986,7 @@ const dummyItems: OverviewItem[] = [
     pk: 57,
     name_full: 'Book of Spells',
     name: 'Book of Spells',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-11-15T23:41:05.385738Z',
   },
   {
@@ -986,7 +996,7 @@ const dummyItems: OverviewItem[] = [
     pk: 130,
     name_full: 'Boomerang Axe',
     name: 'Boomerang Axe',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-01-25T10:34:10.897765Z',
   },
 ].map((entry) => ({ ...entry, getAbsoluteRouterUrl: () => '/item/123' }));
@@ -1000,7 +1010,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #33 - I seened it',
     name: 'I seened it',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-03-01T22:29:48.485561Z',
     session_details: {
       start_day: 249,
@@ -1020,7 +1030,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #14 - The Act of Companionship',
     name: 'The Act of Companionship',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-09-29T14:05:05.003143Z',
     session_details: {
       start_day: 83,
@@ -1040,7 +1050,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #105 - Interrogations',
     name: 'Interrogations',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-03-28T18:06:55.686426Z',
     session_details: {
       start_day: undefined,
@@ -1060,7 +1070,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #104 - On to Douglas',
     name: 'On to Douglas',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-03-28T18:03:29.282284Z',
     session_details: {
       start_day: undefined,
@@ -1080,7 +1090,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #103 - The death of the wizard of the present',
     name: 'The death of the wizard of the present',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-02-21T20:26:29.164494Z',
     session_details: {
       start_day: undefined,
@@ -1100,7 +1110,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #102 - Working Title',
     name: 'Working Title',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-02-14T20:31:38.010025Z',
     session_details: {
       start_day: undefined,
@@ -1120,7 +1130,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #101 - Aurelian the Archmind',
     name: 'Aurelian the Archmind',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-02-08T18:07:31.483248Z',
     session_details: {
       start_day: undefined,
@@ -1140,7 +1150,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #100 - Bathildes Bad Trip',
     name: 'Bathildes Bad Trip',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-01-24T20:17:54.079619Z',
     session_details: {
       start_day: undefined,
@@ -1160,7 +1170,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #99 - Debating Betrayal',
     name: 'Debating Betrayal',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-01-17T21:01:57.152160Z',
     session_details: {
       start_day: undefined,
@@ -1180,7 +1190,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #98 - An attempt at recording again',
     name: 'An attempt at recording again',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2023-01-10T20:19:27.864087Z',
     session_details: {
       start_day: undefined,
@@ -1200,7 +1210,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #78 - Interrogating Hoert',
     name: 'Interrogating Hoert',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-06-12T12:56:09.422027Z',
     session_details: {
       start_day: undefined,
@@ -1220,7 +1230,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #77 - Murder in Hotel California',
     name: 'Murder in Hotel California',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-06-05T09:27:20.100114Z',
     session_details: {
       start_day: 0,
@@ -1240,7 +1250,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #77 - Fighting for Hoert',
     name: 'Fighting for Hoert',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-06-05T09:40:53.082283Z',
     session_details: {
       start_day: 360,
@@ -1260,7 +1270,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #76 - Aspen Infiltration',
     name: 'Aspen Infiltration',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-05-25T19:21:05.359068Z',
     session_details: {
       start_day: 360,
@@ -1280,7 +1290,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #75 - The party gets jailed!',
     name: 'The party gets jailed!',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-05-15T22:08:53.463991Z',
     session_details: {
       start_day: 351,
@@ -1300,7 +1310,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #74 - Merlin QA',
     name: 'Merlin QA',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-05-14T21:23:08.230896Z',
     session_details: {
       start_day: 351,
@@ -1320,7 +1330,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #73 - Space Elves!',
     name: 'Space Elves!',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-05-01T10:20:22.069594Z',
     session_details: {
       start_day: 346,
@@ -1340,7 +1350,7 @@ const dummyDiaryentries: OverviewItem[] = [
     name_full: 'Diary Entry #72 - Secrets underneath the Equinox Stones',
     name: 'Secrets underneath the Equinox Stones',
     campaign: 1,
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-04-23T06:56:22.727834Z',
     session_details: {
       start_day: 346,

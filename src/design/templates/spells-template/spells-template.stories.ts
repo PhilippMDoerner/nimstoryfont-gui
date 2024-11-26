@@ -48,7 +48,7 @@ const dummySpell: Spell = {
   update_datetime: '2022-04-25T14:30:00.000Z',
   campaign: 1,
   campaign_details: {
-    pk: 1,
+    id: 1,
     name: 'Tales from the Sword Coast',
   },
 };
@@ -82,7 +82,7 @@ const dummySpell2: Spell = {
   update_datetime: '2022-04-25T14:30:00.000Z',
   campaign: 1,
   campaign_details: {
-    pk: 1,
+    id: 1,
     name: 'Tales from the Sword Coast',
   },
 };

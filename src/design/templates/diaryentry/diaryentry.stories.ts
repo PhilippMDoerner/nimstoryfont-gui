@@ -131,7 +131,7 @@ const dummyEncounters: Encounter[] = [
     update_datetime: '2022-04-23T12:34:56.789Z',
     campaign: 1,
     campaign_details: {
-      pk: 1,
+      id: 1,
       name: 'Campaign 1',
     },
     getAbsoluteRouterUrl: () => '/encounters/1/',
@@ -208,7 +208,7 @@ const dummyEncounters: Encounter[] = [
     update_datetime: '2022-04-23T12:34:56.789Z',
     campaign: 1,
     campaign_details: {
-      pk: 1,
+      id: 1,
       name: 'Campaign 1',
     },
     getAbsoluteRouterUrl: () => '/encounters/2/',
@@ -270,7 +270,7 @@ const dummyEncounters: Encounter[] = [
     update_datetime: '2022-04-23T13:34:56.789Z',
     campaign: 1,
     campaign_details: {
-      pk: 1,
+      id: 1,
       name: 'Campaign 1',
     },
     getAbsoluteRouterUrl: () => '/encounters/2/',

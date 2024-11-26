@@ -39,7 +39,7 @@ const dummyQuest: Quest = {
     session_date: '2022-06-30',
   },
   campaign: 1,
-  campaign_details: { pk: 1, name: 'Campaign of Adventures' },
+  campaign_details: { id: 1, name: 'Campaign of Adventures' },
   creation_datetime: '2022-05-01T10:00:00Z',
   update_datetime: '2022-05-03T14:30:00Z',
   getAbsoluteRouterUrl: () => 'https://example.com/quests/123',

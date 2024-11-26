@@ -21,7 +21,7 @@ const dummySessionAudio: OverviewItem = {
   audio_url: 'dnd-session-1-audio.mp3',
   download_url: 'dnd-session-1-audio-download.mp3',
   campaign_details: {
-    pk: 100,
+    id: 100,
     name: 'The Chronicles of Adventure',
   },
 };

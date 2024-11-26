@@ -13,7 +13,7 @@ const dummyCreature: Creature = {
   update_datetime: '2022-04-02T15:30:00Z',
   description: 'A small, green-skinned humanoid with sharp teeth and claws.',
   campaign: 4,
-  campaign_details: { pk: 4, name: 'Lost Mines of Phandelver' },
+  campaign_details: { id: 4, name: 'Lost Mines of Phandelver' },
   images: [
     {
       pk: 1,

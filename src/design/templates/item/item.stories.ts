@@ -47,7 +47,7 @@ const dummyItem: Item = {
     },
   ],
   campaign: 1,
-  campaign_details: { pk: 1, name: 'Campaign of Adventures' },
+  campaign_details: { id: 1, name: 'Campaign of Adventures' },
   creation_datetime: '2022-04-01T12:00:00Z',
   update_datetime: '2022-04-03T09:30:00Z',
   getAbsoluteRouterUrl: () => 'https://example.com/items/123',

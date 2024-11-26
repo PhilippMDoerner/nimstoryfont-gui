@@ -22,7 +22,7 @@ const dummyRule: Rule = {
     <p> This rule adds an exciting element of chance to combat encounters in the campaign, while also providing some risk and uncertainty for players who attempt to score a critical hit. By implementing this rule, players will have to think strategically about when to attempt a critical hit and when to play it safe, adding an additional layer of strategy and excitement to combat encounters. </p>
   `,
   campaign: 2,
-  campaign_details: { pk: 2, name: 'The Quest for the Lost City' },
+  campaign_details: { id: 2, name: 'The Quest for the Lost City' },
 };
 
 export default {

@@ -17,6 +17,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Gandalf the Grey',
     player_character: true,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -26,6 +27,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Frodo Baggins',
     player_character: true,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -35,6 +37,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Gimli son of Glóin',
     player_character: false,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -44,6 +47,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Legolas Greenleaf',
     player_character: false,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -53,6 +57,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Bilbo Baggins',
     player_character: false,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -62,6 +67,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Aragorn son of Arathorn',
     player_character: false,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -71,6 +77,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Saruman the White',
     player_character: false,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -83,6 +90,7 @@ const dummyCharacters: OverviewItem[] = [
     update_datetime: '2022-03-15T10:30:00.000Z',
     player_character: true,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -98,6 +106,7 @@ const dummyCharacters: OverviewItem[] = [
       'https://example.com/images/lirien1.jpg',
       'https://example.com/images/lirien1.jpg',
     ],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -110,6 +119,7 @@ const dummyCharacters: OverviewItem[] = [
     update_datetime: '2022-03-20T08:45:00.000Z',
     player_character: true,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
 ];
 
@@ -151,7 +161,7 @@ const dummyCharacter: CharacterDetails = {
   creation_datetime: '2020-06-10T12:00:00.000000Z',
   update_datetime: '2022-02-13T13:37:28.357483Z',
   campaign_id: 1,
-  campaign_details: { name: 'Aldrune', pk: 1 },
+  campaign_details: { name: 'Aldrune', id: 1 },
   organizations: [
     { pk: 138, organization_id: 54, role: 'Member', name: 'The Party' },
     {
@@ -238,7 +248,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-18T10:34:27.917004Z',
       diaryentry: 73,
       order_index: 20,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 685,
@@ -274,7 +284,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-19T08:59:03.295660Z',
       diaryentry: 73,
       order_index: 30,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 686,
@@ -310,7 +320,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-19T08:47:49.405613Z',
       diaryentry: 73,
       order_index: 40,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 687,
@@ -346,7 +356,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-19T08:57:41.423061Z',
       diaryentry: 73,
       order_index: 50,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 688,
@@ -382,7 +392,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-19T09:53:49.827757Z',
       diaryentry: 73,
       order_index: 60,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 689,
@@ -419,7 +429,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-11-29T18:52:55.892937Z',
       diaryentry: 73,
       order_index: 70,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 690,
@@ -455,7 +465,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-20T09:39:15.642340Z',
       diaryentry: 73,
       order_index: 80,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 691,
@@ -491,7 +501,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-20T09:48:43.851322Z',
       diaryentry: 73,
       order_index: 90,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 693,
@@ -527,7 +537,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-20T10:11:28.467109Z',
       diaryentry: 73,
       order_index: 110,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 695,
@@ -563,7 +573,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-20T10:25:20.735002Z',
       diaryentry: 73,
       order_index: 130,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 697,
@@ -599,7 +609,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-20T10:47:13.241566Z',
       diaryentry: 73,
       order_index: 150,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       pk: 700,
@@ -635,7 +645,7 @@ const dummyCharacter: CharacterDetails = {
       update_datetime: '2021-09-21T15:35:00.353516Z',
       diaryentry: 73,
       order_index: 180,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
   ],
   images: [

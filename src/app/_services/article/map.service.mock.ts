@@ -12,7 +12,7 @@ export const dummyMap: ExtendedMap = {
   campaign: 1,
   campaign_details: {
     name: 'Aldrune',
-    pk: 1,
+    id: 1,
   },
   markers: dummyMarkers,
 };
@@ -25,7 +25,7 @@ export const dummyMaps: OverviewItem[] = [
     pk: 13,
     name_full: 'East Academy Year 2 Dorms ',
     name: 'East Academy Year 2 Dorms ',
-    campaign_details: { name: 'Empress-City', pk: 3 },
+    campaign_details: { name: 'Empress-City', id: 3 },
     update_datetime: '2024-08-25T20:44:28.629572Z',
     icon: undefined,
   },
@@ -36,7 +36,7 @@ export const dummyMaps: OverviewItem[] = [
     pk: 12,
     name_full: 'Forgian',
     name: 'Forgian',
-    campaign_details: { name: 'Empress-City', pk: 4 },
+    campaign_details: { name: 'Empress-City', id: 4 },
     update_datetime: '2024-08-23T21:58:05.094772Z',
     icon: undefined,
   },

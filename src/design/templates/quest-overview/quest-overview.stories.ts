@@ -11,7 +11,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players are hired to find and defeat the Black Knight, a powerful undead warrior who is terrorizing the countryside',
     update_datetime: '2022-05-10',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/345',
     pk: 345,
     taker_details: {
@@ -29,7 +29,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players must find and recover a stolen treasure hoard from a fearsome dragon who is guarding it in a remote mountain cave',
     update_datetime: '2022-05-12',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/346',
     pk: 346,
     taker_details: {
@@ -47,7 +47,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players are hired to find and recover a powerful magical artifact that has been lost for centuries',
     update_datetime: '2022-05-14',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/347',
     pk: 347,
     taker_details: {
@@ -64,7 +64,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players are hired to find and defeat a powerful bandit leader who has been raiding caravans and terrorizing the local towns',
     update_datetime: '2022-05-16',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/348',
     pk: 348,
     taker_details: {
@@ -81,7 +81,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players are hired to investigate a mysterious mine that was abandoned years ago',
     update_datetime: '2022-05-20',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/350',
     pk: 350,
     taker_details: {
@@ -98,7 +98,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players are hired to break a powerful curse that has plagued a local castle for generations',
     update_datetime: '2022-05-22',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/351',
     pk: 351,
     taker_details: {
@@ -115,7 +115,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players are hired to find and defeat a powerful goblin leader who has been raiding villages and hoarding treasure',
     update_datetime: '2022-05-24',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/352',
     pk: 352,
     taker_details: {
@@ -132,7 +132,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players are hired to explore a dangerous forest that is said to be home to powerful monsters and ancient magic',
     update_datetime: '2022-05-26',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/353',
     pk: 353,
     taker_details: {
@@ -149,7 +149,7 @@ const dummyQuests: OverviewItem[] = [
     description:
       'The players are hired to investigate a haunted mansion that is said to be cursed and haunted by vengeful spirits',
     update_datetime: '2022-05-28',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/354',
     pk: 354,
     taker_details: {

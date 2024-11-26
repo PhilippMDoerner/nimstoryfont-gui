@@ -12,6 +12,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     name_full: 'Gandalf the Grey',
     player_character: true,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -21,6 +22,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     name_full: 'Frodo Baggins',
     player_character: true,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -30,6 +32,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     name_full: 'Gimli son of Glóin',
     player_character: false,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -39,6 +42,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     name_full: 'Legolas Greenleaf',
     player_character: false,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -48,6 +52,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     name_full: 'Bilbo Baggins',
     player_character: false,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -57,6 +62,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     name_full: 'Aragorn son of Arathorn',
     player_character: false,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -66,6 +72,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     name_full: 'Saruman the White',
     player_character: false,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -78,6 +85,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     update_datetime: '2022-03-15T10:30:00.000Z',
     player_character: true,
     images: [],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -93,6 +101,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
       'https://example.com/images/lirien1.jpg',
       'https://example.com/images/lirien1.jpg',
     ],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -105,6 +114,7 @@ export const dummyOverviewCharacters: OverviewItem[] = [
     update_datetime: '2022-03-20T08:45:00.000Z',
     player_character: true,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { name: 'Aldrune', id: 1 },
   },
 ];
 
@@ -172,7 +182,7 @@ export const dummyCharacter: CharacterDetails = {
       description:
         'At the Council of Elrond, Gandalf reveals the true nature of the One Ring and urges the Fellowship to destroy it in the fires of Mount Doom.',
       pk: 1,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
     {
       name: "The Battle of Helm's Deep",
@@ -216,7 +226,7 @@ export const dummyCharacter: CharacterDetails = {
       description:
         "Gandalf arrives at Helm's Deep with reinforcements and turns the tide of the battle against Saruman's forces.",
       pk: 2,
-      campaign_details: { name: 'Aldrune', pk: 1 },
+      campaign_details: { name: 'Aldrune', id: 1 },
     },
   ],
   images: [],
@@ -234,7 +244,7 @@ export const dummyCharacter: CharacterDetails = {
   ],
   campaign: 1,
   campaign_details: {
-    pk: 1,
+    id: 1,
     name: 'The War of the Ring',
   },
 };

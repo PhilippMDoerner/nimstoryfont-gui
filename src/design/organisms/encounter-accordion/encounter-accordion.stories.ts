@@ -134,7 +134,7 @@ const dummyEncounters: Encounter[] = [
     update_datetime: '2022-04-23T12:34:56.789Z',
     campaign: 1,
     campaign_details: {
-      pk: 1,
+      id: 1,
       name: 'Campaign 1',
     },
     getAbsoluteRouterUrl: () => '/encounters/1/',
@@ -211,7 +211,7 @@ const dummyEncounters: Encounter[] = [
     update_datetime: '2022-04-23T12:34:56.789Z',
     campaign: 1,
     campaign_details: {
-      pk: 1,
+      id: 1,
       name: 'Campaign 1',
     },
     getAbsoluteRouterUrl: () => '/encounters/2/',
@@ -273,7 +273,7 @@ const dummyEncounters: Encounter[] = [
     update_datetime: '2022-04-23T13:34:56.789Z',
     campaign: 1,
     campaign_details: {
-      pk: 1,
+      id: 1,
       name: 'Campaign 1',
     },
     getAbsoluteRouterUrl: () => '/encounters/2/',
@@ -289,6 +289,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Gandalf the Grey',
     player_character: true,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -298,6 +299,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Frodo Baggins',
     player_character: true,
     images: [],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -307,6 +309,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Gimli son of Glóin',
     player_character: false,
     images: [],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -316,6 +319,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Legolas Greenleaf',
     player_character: false,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -325,6 +329,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Bilbo Baggins',
     player_character: false,
     images: [],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -334,6 +339,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Aragorn son of Arathorn',
     player_character: false,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -343,6 +349,7 @@ const dummyCharacters: OverviewItem[] = [
     name_full: 'Saruman the White',
     player_character: false,
     images: [],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -355,6 +362,7 @@ const dummyCharacters: OverviewItem[] = [
     update_datetime: '2022-03-15T10:30:00.000Z',
     player_character: true,
     images: [],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -370,6 +378,7 @@ const dummyCharacters: OverviewItem[] = [
       'https://example.com/images/lirien1.jpg',
       'https://example.com/images/lirien1.jpg',
     ],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
   {
     getAbsoluteRouterUrl: () => '/search/character/123',
@@ -382,6 +391,7 @@ const dummyCharacters: OverviewItem[] = [
     update_datetime: '2022-03-20T08:45:00.000Z',
     player_character: true,
     images: ['https://example.com/images/lirien1.jpg'],
+    campaign_details: { id: 1, name: 'Aldrune' },
   },
 ];
 

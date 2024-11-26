@@ -10,7 +10,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 17,
     name_full: 'Academy Of Schools',
     name: 'Academy Of Schools',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-10-12T15:33:07.176299Z',
   },
   {
@@ -20,7 +20,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 13,
     name_full: 'Affingtons',
     name: 'Affingtons',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-12-22T16:40:48.834877Z',
   },
   {
@@ -30,7 +30,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 5,
     name_full: 'Aspen Blood',
     name: 'Aspen Blood',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-11T16:55:59.479546Z',
   },
   {
@@ -40,7 +40,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 6,
     name_full: 'Black Feather Blood',
     name: 'Black Feather Blood',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-07-19T10:15:03.064474Z',
   },
   {
@@ -50,7 +50,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 14,
     name_full: 'Bronze Hoof guild',
     name: 'Bronze Hoof guild',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-12-06T21:19:17.466740Z',
   },
   {
@@ -60,7 +60,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 41,
     name_full: 'Bug people village',
     name: 'Bug people village',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-07-31T12:53:45.845264Z',
   },
   {
@@ -70,7 +70,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 55,
     name_full: 'Celestial Archangelic Beings',
     name: 'Celestial Archangelic Beings',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-10-12T09:23:03.231654Z',
   },
   {
@@ -80,7 +80,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 1,
     name_full: 'Church of Brigantia',
     name: 'Church of Brigantia',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-03T16:15:22.612710Z',
   },
   {
@@ -90,7 +90,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 2,
     name_full: 'Church of Dunatis',
     name: 'Church of Dunatis',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-03T16:15:07.906083Z',
   },
   {
@@ -100,7 +100,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 3,
     name_full: 'Church of Morrigan',
     name: 'Church of Morrigan',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-05-21T18:46:34.125916Z',
   },
   {
@@ -110,7 +110,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 4,
     name_full: 'Church of Silvanus',
     name: 'Church of Silvanus',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-08-03T16:14:50.614549Z',
   },
   {
@@ -120,7 +120,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 18,
     name_full: 'Council Of Succession',
     name: 'Council Of Succession',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-06-10T12:00:00.000000Z',
   },
   {
@@ -130,7 +130,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 37,
     name_full: 'Dock Hawks',
     name: 'Dock Hawks',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-05-02T12:04:47.463005Z',
   },
   {
@@ -139,7 +139,7 @@ export const dummyOrganizations: OverviewItem[] = [
     pk: 23,
     name_full: 'Dwarrow {Status Unknown}',
     name: 'Dwarrow {Status Unknown}',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-13T12:00:00.000000Z',
   },
 ].map((entry) => ({

@@ -10,7 +10,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 206,
     name_full: 'Eastern sea',
     name: 'Eastern sea',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-11-12T20:20:56.008470Z',
     parent_location_details: {
       pk: 1,
@@ -26,7 +26,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 25,
     name_full: 'Eastfife',
     name: 'Eastfife',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.493763Z',
     parent_location_details: {
       pk: 1,
@@ -43,7 +43,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 272,
     name_full: 'Elevator',
     name: 'Elevator',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-12-06T21:35:20.848467Z',
     parent_location_details: {
       pk: 1,
@@ -60,7 +60,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 257,
     name_full: 'Equinia',
     name: 'Equinia',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-04-16T14:50:13.971556Z',
     parent_location_details: {
       pk: 1,
@@ -77,7 +77,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 35,
     name_full: 'Equinox Stones',
     name: 'Equinox Stones',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-04-16T15:59:17.118115Z',
     parent_location_details: {
       pk: 1,
@@ -93,7 +93,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 11,
     name_full: 'Etruscan',
     name: 'Etruscan',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.509444Z',
     parent_location_details: {
       pk: 1,
@@ -109,7 +109,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 15,
     name_full: 'Farhold',
     name: 'Farhold',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.515376Z',
     parent_location_details: {
       pk: 1,
@@ -126,7 +126,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 173,
     name_full: 'Etruscan - Upper Dirtside - Farmland',
     name: 'Farmland',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-02-14T14:12:03.252267Z',
     parent_location_details: {
       pk: 97,
@@ -143,7 +143,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 185,
     name_full: 'Merren - Mud lands - Felicia Foghounds Manor',
     name: 'Felicia Foghounds Manor',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-06-20T18:18:40.578499Z',
     parent_location_details: {
       pk: 183,
@@ -160,7 +160,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 66,
     name_full: 'Hallan - Fellhammer',
     name: 'Fellhammer',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:58:13.279086Z',
     parent_location_details: {
       pk: 3,
@@ -176,7 +176,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 22,
     name_full: 'Felliman Bay',
     name: 'Felliman Bay',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.521416Z',
     parent_location_details: {
       pk: 1,
@@ -192,7 +192,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 21,
     name_full: 'Fellman',
     name: 'Fellman',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.527967Z',
     parent_location_details: {
       pk: 1,
@@ -209,7 +209,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 19,
     name_full: 'Firbolg Cliff Face',
     name: 'Firbolg Cliff Face',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:34:19.534127Z',
     parent_location_details: {
       pk: 1,
@@ -226,7 +226,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 193,
     name_full: 'Flying Whalebone Ship',
     name: 'Flying Whalebone Ship',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-07-31T11:53:53.751627Z',
     parent_location_details: {
       pk: 1,
@@ -243,7 +243,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 135,
     name_full: 'Etruscan - Guild Quarters - Fraich Arc',
     name: 'Fraich Arc',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-03-09T21:56:27.502563Z',
     parent_location_details: {
       pk: 126,
@@ -260,7 +260,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 162,
     name_full: "Frank's Mountain Range",
     name: "Frank's Mountain Range",
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-11-27T20:44:06.734835Z',
     parent_location_details: {
       pk: 1,
@@ -277,7 +277,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 78,
     name_full: 'Loom Arrow - Galdian',
     name: 'Galdian',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-23T10:58:13.443928Z',
     parent_location_details: {
       pk: 5,
@@ -294,7 +294,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 267,
     name_full: 'Gallowglass',
     name: 'Gallowglass',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2022-08-30T20:34:09.958811Z',
     parent_location_details: {
       pk: 1,
@@ -311,7 +311,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 50,
     name_full: 'Galway',
     name: 'Galway',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-05-31T16:10:30.061953Z',
     parent_location_details: {
       pk: 1,
@@ -328,7 +328,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 46,
     name_full: 'Teeth of Galway - Glenrie Ruins',
     name: 'Glenrie Ruins',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-09-13T10:55:52.560792Z',
     parent_location_details: {
       pk: 146,
@@ -345,7 +345,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 101,
     name_full: 'Etruscan - Glimhorgan Beach',
     name: 'Glimhorgan Beach',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-24T08:09:06.600687Z',
     parent_location_details: {
       pk: 11,
@@ -362,7 +362,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 24,
     name_full: 'God Peaks',
     name: 'God Peaks',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2020-07-25T07:05:26.382064Z',
     parent_location_details: {
       pk: 1,
@@ -379,7 +379,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 13,
     name_full: 'Godrick Vale',
     name: 'Godrick Vale',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-05-29T10:34:03.945996Z',
     parent_location_details: {
       pk: 1,
@@ -397,7 +397,7 @@ export const dummyLocations: OverviewItem[] = [
     name_full:
       'Etruscan - Guild Quarters - Public Docks and Fishing Werfs - Wooden Statue of the Blackhound',
     name: 'Wooden Statue of the Blackhound',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-01-24T11:25:58.611061Z',
     parent_location_details: {
       pk: 111,
@@ -414,7 +414,7 @@ export const dummyLocations: OverviewItem[] = [
     pk: 176,
     name_full: 'Aldrunian Sea - Wound of the world',
     name: 'Wound of the world',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-11-02T19:15:45.515776Z',
     parent_location_details: {
       pk: 157,

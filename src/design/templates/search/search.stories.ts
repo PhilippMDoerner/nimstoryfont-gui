@@ -13,6 +13,7 @@ const dummyOverview: OverviewItem[] = [
     parent_location_details: { name: 'The Wall', pk: 123 },
     getAbsoluteRouterUrl: () => '/locations/456',
     pk: 456,
+    campaign_details: { id: 789, name: 'Dungeons and Dragons' },
   },
   {
     article_type: 'character',
@@ -24,6 +25,7 @@ const dummyOverview: OverviewItem[] = [
     images: [],
     getAbsoluteRouterUrl: () => '/characters/789',
     pk: 789,
+    campaign_details: { id: 789, name: 'Dungeons and Dragons' },
   },
   {
     article_type: 'diaryentry',
@@ -40,6 +42,7 @@ const dummyOverview: OverviewItem[] = [
     author_details: { pk: 789, name: 'Jon Snow' },
     getAbsoluteRouterUrl: () => '/diaryentries/345',
     pk: 345,
+    campaign_details: { id: 789, name: 'Dungeons and Dragons' },
   },
   {
     article_type: 'item',
@@ -48,7 +51,7 @@ const dummyOverview: OverviewItem[] = [
     description:
       'A bastard sword made of Valyrian steel, with a hilt fashioned like a wolf',
     update_datetime: '2022-04-10',
-    campaign_details: { pk: 567, name: 'Game of Thrones RPG' },
+    campaign_details: { id: 567, name: 'Game of Thrones RPG' },
     getAbsoluteRouterUrl: () => '/items/890',
     pk: 890,
   },
@@ -67,6 +70,7 @@ const dummyOverview: OverviewItem[] = [
     },
     getAbsoluteRouterUrl: () => '/session-audios/901',
     pk: 901,
+    campaign_details: { id: 789, name: 'Dungeons and Dragons' },
   },
   {
     article_type: 'encounter',
@@ -76,7 +80,7 @@ const dummyOverview: OverviewItem[] = [
       'The party is ambushed while travelling on the Kingsroad, by a group of bandits led by a dangerous outlaw',
     update_datetime: '2022-04-20',
     icon: 'swords-crossed',
-    campaign_details: { pk: 567, name: 'Game of Thrones RPG' },
+    campaign_details: { id: 567, name: 'Game of Thrones RPG' },
     getAbsoluteRouterUrl: () => '/encounters/123',
     pk: 123,
   },
@@ -87,7 +91,7 @@ const dummyOverview: OverviewItem[] = [
     description:
       'A spell that creates a powerful explosion of fire, causing damage to all creatures within a certain area',
     update_datetime: '2022-04-25',
-    campaign_details: { pk: 789, name: 'Dungeons and Dragons' },
+    campaign_details: { id: 789, name: 'Dungeons and Dragons' },
     getAbsoluteRouterUrl: () => '/spells/234',
     pk: 234,
   },
@@ -99,7 +103,7 @@ const dummyOverview: OverviewItem[] = [
     description:
       'A set of rules for determining the effects of critical hits and misses during combat',
     update_datetime: '2022-04-30',
-    campaign_details: { pk: 789, name: 'Dungeons and Dragons' },
+    campaign_details: { id: 789, name: 'Dungeons and Dragons' },
     getAbsoluteRouterUrl: () => '/rules/567',
     pk: 567,
   },
@@ -110,7 +114,7 @@ const dummyOverview: OverviewItem[] = [
     description:
       'The players are hired to find and defeat the Black Knight, a powerful undead warrior who is terrorizing the countryside',
     update_datetime: '2022-05-10',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/quests/345',
     pk: 345,
     taker_details: {
@@ -126,7 +130,7 @@ const dummyOverview: OverviewItem[] = [
     description:
       'The Thieves Guild is a secret organization of skilled thieves, who operate in the shadows and have their own code of honor',
     update_datetime: '2022-05-15',
-    campaign_details: { pk: 456, name: 'Medieval Fantasy RPG' },
+    campaign_details: { id: 456, name: 'Medieval Fantasy RPG' },
     getAbsoluteRouterUrl: () => '/organizations/678',
     pk: 678,
   },
@@ -138,7 +142,7 @@ const dummyOverview: OverviewItem[] = [
     description:
       'The Beholder is a monstrous creature with a large central eye and numerous smaller eyes around its head, each with a different deadly ability',
     update_datetime: '2022-05-20',
-    campaign_details: { pk: 789, name: 'Dungeons and Dragons' },
+    campaign_details: { id: 789, name: 'Dungeons and Dragons' },
     getAbsoluteRouterUrl: () => '/creatures/901',
     pk: 901,
   },
@@ -149,7 +153,7 @@ const dummyOverview: OverviewItem[] = [
     pk: 1,
     name_full: 'Aldrune',
     name: 'Aldrune',
-    campaign_details: { name: 'Aldrune', pk: 1 },
+    campaign_details: { name: 'Aldrune', id: 1 },
     update_datetime: '2021-06-26T17:10:35.352119Z',
     icon: '/media/map',
   },

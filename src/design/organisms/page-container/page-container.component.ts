@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { animateElement } from 'src/app/_functions/animate';
+import { Component } from '@angular/core';
+import { fadeIn } from 'src/design/animations/fadeIn';
 
 @Component({
   selector: 'app-page-container',
@@ -7,13 +7,6 @@ import { animateElement } from 'src/app/_functions/animate';
   styleUrls: ['./page-container.component.scss'],
   standalone: true,
   imports: [],
+  animations: [fadeIn],
 })
-export class PageContainerComponent implements AfterViewInit {
-  @ViewChild('pageElement') pageElement!: ElementRef;
-
-  ngAfterViewInit(): void {
-    if (!this.pageElement?.nativeElement) return;
-
-    animateElement(this.pageElement.nativeElement, 'fadeIn');
-  }
-}
+export class PageContainerComponent {}

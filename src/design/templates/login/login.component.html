@@ -1,14 +1,17 @@
-<div class="login" #loginMainCard>
+<div
+  class="login"
+  [@backInUp]
+  [@flipInY]="state === 'LOGIN' ? 'sideA' : 'sideB'"
+>
   <app-page-container>
-    @if (state === 'LOGIN') {
+    @if (state === "LOGIN") {
       <h1>Sign In</h1>
       @if (loginState) {
-        <div class="login__subtitle-warning">{{loginMessages[loginState]}}</div>
+        <div class="login__subtitle-warning">
+          {{ loginMessages[loginState] }}
+        </div>
       }
-      <form
-        class="login__form"
-        (submit)="onLogin()"
-        >
+      <form class="login__form" (submit)="onLogin()">
         <formly-form
           [model]="model"
           [fields]="fields"
@@ -25,15 +28,15 @@
         ></app-button>
       </form>
     } @else {
-      <h1> Password Reset </h1>
-      <p> Forgot your account's password? Enter your account name and we'll send you a randomized new password to your email address.</p>
+      <h1>Password Reset</h1>
+      <p>
+        Forgot your account's password? Enter your account name and we'll send
+        you a randomized new password to your email address.
+      </p>
       <div class="login__subtitle-warning">
-        {{resetErrorMessage}}
+        {{ resetErrorMessage }}
       </div>
-      <form
-        class="login__form"
-        (submit)="onPasswordReset()"
-        >
+      <form class="login__form" (submit)="onPasswordReset()">
         <formly-form
           [model]="recoveryModel"
           [fields]="recoveryFields"
@@ -57,4 +60,3 @@
     }
   </app-page-container>
 </div>
-

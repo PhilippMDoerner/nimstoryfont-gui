@@ -2,21 +2,23 @@
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { importProvidersFrom, isDevMode } from '@angular/core';
-import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
+import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { errorInterceptor } from './app/_interceptors/errorInterceptor';
 import { addTokenInterceptor } from './app/_interceptors/tokenInterceptor';
 import { FORMLY_MODULE } from './app/_modules/formly_constants';
-import { AppRoutingModule } from './app/app-routing.module';
+import { ROUTES } from './app/app-routing.module';
 import { AppComponent } from './app/app.component';
 import { GlobalStore } from './app/global.store';
 import { NavigationStore } from './app/navigation.store';
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(BrowserModule, AppRoutingModule, FORMLY_MODULE),
+    importProvidersFrom(FORMLY_MODULE),
+    provideRouter(ROUTES, withViewTransitions()),
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     provideHttpClient(
       withInterceptors([addTokenInterceptor, errorInterceptor]),

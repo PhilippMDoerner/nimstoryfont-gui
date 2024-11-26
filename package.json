@@ -29,7 +29,6 @@
     "@ngx-formly/core": "^6.3.7",
     "@popperjs/core": "^2.11.6",
     "@tinymce/tinymce-angular": "^7.0.0",
-    "animate.css": "^4.1.1",
     "bootstrap": "^5.2.3",
     "leaflet": "^1.9.3",
     "plyr": "^3.7.8",

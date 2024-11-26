@@ -1,18 +1,13 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
-import { animateElement } from 'src/app/_functions/animate';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { backInUp } from 'src/design/animations/backInUp';
+import { flipInY } from 'src/design/animations/flip';
 import { ButtonComponent } from '../../atoms/button/button.component';
 
 type LoginViewState = 'LOGIN' | 'PASSWORD_RESET';
@@ -30,6 +25,7 @@ type LoginMessageMap = { [key in SpecialLoginState]: string };
     FormlyBootstrapModule,
     ButtonComponent,
   ],
+  animations: [backInUp, flipInY],
 })
 export class LoginComponent {
   @Input() loginState?: SpecialLoginState;
@@ -74,20 +70,12 @@ export class LoginComponent {
   state: LoginViewState = 'LOGIN';
   isWaitingForPasswordReset: boolean = false;
 
-  @ViewChild('loginMainCard') loginMainCard!: any;
-
   constructor(private formlyService: FormlyService) {}
-
-  ngAfterViewInit(): void {
-    this.animateCard('backInUp');
-  }
 
   setState(newState: LoginViewState): void {
     this.state = newState;
     this.recoveryModel = {};
     this.model = {};
-
-    this.animateCard('flip');
   }
 
   onLogin(): void {
@@ -96,9 +84,5 @@ export class LoginComponent {
 
   onPasswordReset(): void {
     this.resetPassword.emit(this.recoveryModel.username);
-  }
-
-  private animateCard(animationName: string): void {
-    animateElement(this.loginMainCard?.nativeElement, animationName);
   }
 }

@@ -1,4 +1,4 @@
-<div #toggleElement>
+<div [@flipInY]="isActive() ? 'sideA' : 'sideB'">
   <ng-container
     *ngTemplateOutlet="isActive() ? activeToggle : inactiveToggle"
   />

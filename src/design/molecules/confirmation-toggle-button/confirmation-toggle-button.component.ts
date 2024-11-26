@@ -2,14 +2,12 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   input,
   Output,
   signal,
-  ViewChild,
 } from '@angular/core';
-import { animateElement } from 'src/app/_functions/animate';
+import { flipInY } from 'src/design/animations/flip';
 import { ElementSize, ElementType } from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
@@ -21,6 +19,7 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ButtonComponent, NgTemplateOutlet],
+  animations: [flipInY],
 })
 export class ConfirmationToggleButtonComponent {
   confirmationQuestion = input.required<string>();
@@ -32,13 +31,10 @@ export class ConfirmationToggleButtonComponent {
 
   @Output() confirm: EventEmitter<null> = new EventEmitter();
 
-  @ViewChild('toggleElement') toggleElement!: ElementRef;
-
   isActive = signal(false);
 
   toggle() {
     this.isActive.set(!this.isActive());
-    animateElement(this.toggleElement.nativeElement, 'flipInY');
   }
 
   emitConfirmation() {

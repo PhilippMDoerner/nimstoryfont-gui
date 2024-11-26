@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -25,6 +25,7 @@ import { DiaryentryPageStore } from 'src/app/campaign/pages/diaryentry-page/diar
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map, take } from 'rxjs';
+import { slideUpFromBottom } from 'src/design/animations/slideDown';
 import { ArrowButtonComponent } from 'src/design/atoms/arrow-button/arrow-button.component';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { CardComponent } from 'src/design/atoms/card/card.component';
@@ -44,12 +45,12 @@ type ListState = 'READ' | 'EDIT';
     ButtonComponent,
     CardComponent,
     HtmlTextComponent,
-    NgClass,
     EncounterComponent,
     ArrowButtonComponent,
     SpinnerComponent,
     NgTemplateOutlet,
   ],
+  animations: [slideUpFromBottom],
 })
 export class DiaryentryEncountersComponent {
   store = inject(DiaryentryPageStore);

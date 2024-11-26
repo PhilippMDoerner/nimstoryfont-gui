@@ -52,7 +52,7 @@ const errorRoutes: Routes = [
   },
 ];
 
-const routes: Routes = [
+export const ROUTES: Routes = [
   ...redirectRoutes,
   {
     path: environment.frontendPrefix,
@@ -95,7 +95,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, {
+    RouterModule.forRoot(ROUTES, {
       enableViewTransitions: true,
     }),
   ],

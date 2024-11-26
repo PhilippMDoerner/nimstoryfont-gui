@@ -40,6 +40,7 @@
       @for (entryEncounter of diaryEntryEncounters(); track entryEncounter) {
         <!-- Encounter -->
         <div
+          [@slideUpFromBottom]
           class="repeated-unit"
           [id]="entryEncounter.encounter.title"
           #encounter
@@ -66,7 +67,7 @@
           }
 
           <!-- Insert new Encounter -->
-          @if (state() === "EDIT") {
+          @if (state() === "EDIT" && (canCreate() || canUpdate())) {
             <div class="list__buttons buttons">
               @if (canCreate()) {
                 <app-button
@@ -114,12 +115,7 @@
 </ng-template>
 
 <ng-template #editEncounter let-context>
-  <app-card
-    class="encounter-card"
-    [ngClass]="{
-      'animate__animated animate__zoomIn': context.entry.encounter.pk == null,
-    }"
-  >
+  <app-card class="encounter-card">
     @if (!context.entry.isUpdating) {
       <app-encounter
         class="encounter-card__encounter"

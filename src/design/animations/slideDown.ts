@@ -20,16 +20,16 @@ const activeStyle = style({
 });
 
 export const slideFromBottom = trigger('slideFromBottom', [
-  transition(':enter', [inactiveStyle, animate('500ms', activeStyle)]),
-  transition(':leave', [activeStyle, animate('500ms', inactiveStyle)]),
+  transition(':enter', [inactiveStyle, animate('500ms ease-out', activeStyle)]),
+  transition(':leave', [activeStyle, animate('500ms ease-in', inactiveStyle)]),
 ]);
 
 export const slideUpFromBottom = trigger('slideUpFromBottom', [
-  transition(':enter', [inactiveStyle, animate('500ms', activeStyle)]),
+  transition(':enter', [inactiveStyle, animate('500ms ease-out', activeStyle)]),
 ]);
 
 export const slideOutFromBottom = trigger('slideOutFromBottom', [
-  transition(':leave', [activeStyle, animate('500ms', inactiveStyle)]),
+  transition(':leave', [activeStyle, animate('500ms ease-in', inactiveStyle)]),
 ]);
 
 const inactiveSlideRightStyle = style({

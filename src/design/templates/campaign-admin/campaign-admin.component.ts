@@ -167,7 +167,7 @@ export class CampaignAdminComponent implements OnChanges {
   responseFormlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
       key: 'text',
-      placeholder: 'Quest Name',
+      placeholder: 'Text to show for empty searches',
       maxLength: 400,
       inputKind: 'STRING',
     }),

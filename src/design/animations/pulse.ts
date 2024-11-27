@@ -8,12 +8,12 @@ import {
 
 export const pulse = trigger('pulse', [
   transition('start => end', [
-    style({ bightnesss: 0 }),
+    style({ filter: 'brightness(100%)' }),
     animate(
-      '250ms ease-in',
+      '500ms ease-in-out',
       keyframes([
-        style({ brightnesss: '200%', offset: 0.5 }),
-        style({ brightness: 'unset', offset: 1 }),
+        style({ filter: 'brightness(200%)', offset: 0.5 }),
+        style({ filter: 'brightness(100%)', offset: 1 }),
       ]),
     ),
   ]),

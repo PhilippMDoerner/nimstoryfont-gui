@@ -8,12 +8,24 @@
     [serverUrl]="serverUrl"
     [campaignStatistics]="campaignStatistics"
     [users]="users"
-    (addAdmin)="store.addMemberToCampaignGroup('admin', $event)"
-    (addMember)="store.addMemberToCampaignGroup('member', $event)"
-    (addGuest)="store.addMemberToCampaignGroup('guest', $event)"
-    (removeAdmin)="store.removeMemberFromCampaignGroup('admin', $event)"
-    (removeMember)="store.removeMemberFromCampaignGroup('member', $event)"
-    (removeGuest)="store.removeMemberFromCampaignGroup('guest', $event)"
+    (addAdmin)="
+      store.addMemberToCampaignGroup({ role: 'admin', addedUser: $event })
+    "
+    (addMember)="
+      store.addMemberToCampaignGroup({ role: 'member', addedUser: $event })
+    "
+    (addGuest)="
+      store.addMemberToCampaignGroup({ role: 'guest', addedUser: $event })
+    "
+    (removeAdmin)="
+      store.removeMemberFromCampaignGroup({ role: 'admin', user: $event })
+    "
+    (removeMember)="
+      store.removeMemberFromCampaignGroup({ role: 'member', user: $event })
+    "
+    (removeGuest)="
+      store.removeMemberFromCampaignGroup({ role: 'guest', user: $event })
+    "
     (addEmptySearchResponse)="store.addEmptySearchResponse($event)"
     (removeEmptySearchResponse)="store.deleteEmptySearchResponse($event)"
   />

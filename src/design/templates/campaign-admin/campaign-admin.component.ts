@@ -201,17 +201,19 @@ export class CampaignAdminComponent implements OnChanges {
   }
 
   onAddUser(role: CampaignRole, model: Partial<User>): void {
+    const userPk = model.pk as number;
+    const user = this.users()?.find((usr) => usr.pk === userPk);
     switch (role) {
       case 'member':
       case 'globalmember':
-        this.addMember.emit(model as User);
+        this.addMember.emit(user as User);
         break;
       case 'admin':
-        this.addAdmin.emit(model as User);
+        this.addAdmin.emit(user as User);
         break;
       case 'guest':
       case 'globalguest':
-        this.addGuest.emit(model as User);
+        this.addGuest.emit(user as User);
         break;
     }
 

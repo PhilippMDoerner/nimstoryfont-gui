@@ -46,10 +46,10 @@ export class AppComponent {
   disableAnimation = signal(false);
   hasReachedInitialStability$ = this.zone.onStable.pipe(
     debounceTime(250),
+    take(1),
     map(() => true),
     startWith(false),
     takeUntilDestroyed(),
-    take(2),
   );
 
   constructor() {

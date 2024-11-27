@@ -190,36 +190,46 @@ export const CampaignAdminPageStore = signalStore(
           }),
         ),
       ),
-      deleteEmptySearchResponse: (deleteItem: EmptySearchResponse) => {
-        campaignService.deleteEmptySearchResponse(deleteItem.id);
-        const campaign = state.campaign();
-        if (campaign == null) return;
-
-        const newCampaign: Campaign | undefined = {
-          ...campaign,
-          emptySearchResponses: campaign.emptySearchResponses?.filter(
-            (item) => item.id !== deleteItem.id,
+      deleteEmptySearchResponse: rxMethod<EmptySearchResponse>(
+        pipe(
+          switchMap((deleteItem) =>
+            campaignService
+              .deleteEmptySearchResponse(deleteItem.id)
+              .pipe(map(() => deleteItem)),
           ),
-        };
+          tapResponse({
+            next: (deleteItem: EmptySearchResponse) => {
+              const campaign = state.campaign();
+              if (campaign == null) return;
 
-        patchState(state, { campaign: newCampaign });
-      },
+              const newCampaign: Campaign | undefined = {
+                ...campaign,
+                emptySearchResponses: campaign.emptySearchResponses?.filter(
+                  (item) => item.id !== deleteItem.id,
+                ),
+              };
 
-      addEmptySearchResponse: (newItem: EmptySearchResponse) => {
-        campaignService.addEmptySearchResponse(newItem);
-        const campaign = state.campaign();
-        if (campaign == null) return;
-
-        const newCampaign: Campaign | undefined = {
-          ...campaign,
-          emptySearchResponses: [
-            ...(campaign.emptySearchResponses ?? []),
-            newItem,
-          ],
-        };
-
-        patchState(state, { campaign: newCampaign });
-      },
+              patchState(state, { campaign: newCampaign });
+            },
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(httpErrorToast(err)),
+          }),
+        ),
+      ),
+      addEmptySearchResponse: rxMethod<EmptySearchResponse>(
+        pipe(
+          switchMap((newItem) =>
+            campaignService.addEmptySearchResponse(newItem),
+          ),
+          tapResponse({
+            next: (updatedCampaign) => {
+              patchState(state, { campaign: updatedCampaign });
+            },
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(httpErrorToast(err)),
+          }),
+        ),
+      ),
     };
   }),
 );

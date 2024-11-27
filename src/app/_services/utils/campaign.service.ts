@@ -168,14 +168,14 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
 
   addEmptySearchResponse(
     responseModel: EmptySearchResponse,
-  ): Observable<EmptySearchResponse> {
+  ): Observable<Campaign> {
     const emptySearchUrl = `${this.apiUrl}/emptysearchresponse/`;
-    return this.http.post<EmptySearchResponse>(emptySearchUrl, responseModel);
+    return this.http.post<Campaign>(emptySearchUrl, responseModel);
   }
 
   deleteEmptySearchResponse(emptySearchResponsePk: number): Observable<any> {
     return this.http.delete(
-      `${this.apiUrl}/emptysearchresponse/pk/${emptySearchResponsePk}`,
+      `${this.apiUrl}/emptysearchresponse/pk/${emptySearchResponsePk}/`,
     );
   }
 

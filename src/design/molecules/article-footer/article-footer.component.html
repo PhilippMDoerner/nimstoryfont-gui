@@ -1,4 +1,4 @@
-<div class="footer">
+<footer class="footer">
   <ng-container
     [ngTemplateOutlet]="buttonLink() ? linkButton : nonLinkButton"
   />
@@ -10,7 +10,7 @@
       (confirm)="delete.emit()"
     ></app-confirmation-toggle-button>
   }
-</div>
+</footer>
 
 <ng-template #linkButton>
   <a [routerLink]="buttonLink()" (click)="buttonClick.emit()" [tabIndex]="-1">

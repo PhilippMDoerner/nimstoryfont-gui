@@ -1,7 +1,7 @@
 import { AbstractControl } from '@angular/forms';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { Observable } from 'rxjs';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 
 export interface FormlyPasswordInterface {
   label?: string;
@@ -59,7 +59,7 @@ export interface FormlyInputConfig extends FormlyInterface {
 export type FileFieldKind = 'IMAGE' | 'OTHER';
 
 export interface FormlyFileConfig extends FormlyInterface {
-  fileButtonType?: ElementType;
+  fileButtonType?: ElementKind;
   fileFieldKind?: FileFieldKind;
 }
 

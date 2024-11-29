@@ -5,7 +5,6 @@
 
   @if (showDelete()) {
     <app-confirmation-toggle-button
-      [toggleType]="'DANGER'"
       [confirmationQuestion]="deleteMessage()"
       [icon]="'trash'"
       (confirm)="delete.emit()"
@@ -15,14 +14,15 @@
 
 <ng-template #linkButton>
   <a [routerLink]="buttonLink()" (click)="buttonClick.emit()" [tabIndex]="-1">
-    <app-button [type]="'SECONDARY'" [text]="buttonLabel()"></app-button>
+    <button btn [kind]="'SECONDARY'" [text]="buttonLabel()"></button>
   </a>
 </ng-template>
 
 <ng-template #nonLinkButton>
-  <app-button
-    [type]="'SECONDARY'"
+  <button
+    btn
+    [kind]="'SECONDARY'"
     [text]="buttonLabel()"
     (click)="buttonClick.emit()"
-  ></app-button>
+  ></button>
 </ng-template>

@@ -14,20 +14,22 @@
     <div class="modal-body body">
       <ng-content select="[body]"></ng-content>
       <div class="body__buttons">
-        <app-button
+        <button
+          btn
           class="body__button"
-          [type]="cancelButtonType()"
+          [kind]="cancelButtonType()"
           [icon]="'times'"
           [text]="cancelButtonLabel()"
           (click)="onCancel(modal)"
-        ></app-button>
-        <app-button
+        ></button>
+        <button
+          btn
           class="body__button"
-          [type]="modalType()"
+          [kind]="modalType()"
           [icon]="submitIcon()"
           [text]="submitButtonLabel()"
           (click)="onSubmit(modal)"
-        ></app-button>
+        ></button>
       </div>
     </div>
   </div>

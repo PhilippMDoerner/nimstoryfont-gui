@@ -268,7 +268,7 @@ export class NgxLeafletMapComponent {
     const popUpElement = document.createElement('div');
     popUpElement.innerHTML = `
       <div class="mb-2 pointer">
-        <button id="add-marker" class="a rounded" tabindex="0">
+        <button btn id="add-marker" class="a rounded" tabindex="0">
         <i class="fa fa-map-marker"></i> Add Marker
         </button>
       </div>

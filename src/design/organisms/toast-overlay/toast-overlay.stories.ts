@@ -61,7 +61,7 @@ export const WithHeaderToast: Story = {
     return {
       props: args,
       template: `
-        <button style="color: black;" (click)="toastService.addToast(toast)"> Click </button>
+        <button btn style="color: black;" (click)="toastService.addToast(toast)"> Click </button>
         <app-toast-overlay></app-toast-overlay>
       `,
     };

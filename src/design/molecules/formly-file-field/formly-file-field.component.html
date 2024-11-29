@@ -1,13 +1,14 @@
 <div class="mb-3 {{ field.className }}" [class.d-none]="to.hidden">
-  <app-button
+  <button
+    btn
     class="file-field"
     [class.disabled]="props.disabled"
     [disabled]="!!props.disabled"
-    [type]="buttonType"
+    [kind]="buttonType"
     [icon]="'upload'"
     [text]="'Choose a file'"
     (click)="onButtonClick($event)"
-  ></app-button>
+  ></button>
   <div class="mt-2">
     @if (selectedFileName) {
       <span class="me-3"> Currently Selected: </span>

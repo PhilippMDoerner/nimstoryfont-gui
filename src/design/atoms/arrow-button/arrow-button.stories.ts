@@ -5,7 +5,7 @@ export default {
   title: 'DesignSystem/Atoms/ArrowButtonComponent',
   component: ArrowButtonComponent,
   args: {
-    type: 'PRIMARY',
+    kind: 'PRIMARY',
   },
 } as Meta<ArrowButtonComponent>;
 
@@ -15,9 +15,9 @@ const Template: StoryFn<ArrowButtonComponent> = (args: any) => ({
     <div class="d-flex flex-column">
       <div>
         Button Size: {{size}}
-        <app-arrow-button [icon]="'up'" [type]="type">
+        <app-arrow-button [icon]="'up'" [kind]="type">
         </app-arrow-button>
-        <app-arrow-button [icon]="'down'" [type]="type"[outline]="true">
+        <app-arrow-button [icon]="'down'" [kind]="type"[outline]="true">
         </app-arrow-button>
       </div>
     </div>
@@ -29,30 +29,30 @@ Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type: 'SECONDARY',
+  kind: 'SECONDARY',
 };
 
 export const Dark = Template.bind({});
 Dark.args = {
-  type: 'DARK',
+  kind: 'DARK',
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
-  type: 'WARNING',
+  kind: 'WARNING',
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type: 'DANGER',
+  kind: 'DANGER',
 };
 
 export const Light = Template.bind({});
 Light.args = {
-  type: 'LIGHT',
+  kind: 'LIGHT',
 };
 
 export const Info = Template.bind({});
 Info.args = {
-  type: 'INFO',
+  kind: 'INFO',
 };

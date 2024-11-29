@@ -36,6 +36,13 @@ a,
   }
 }
 
+.btn {
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+}
+
+.btn-none,
 button {
   background: none;
   color: inherit;

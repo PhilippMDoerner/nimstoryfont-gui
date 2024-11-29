@@ -5,31 +5,34 @@
       <div class="row">
         <div class="list__buttons buttons">
           @if (canCreate()) {
-            <app-button
+            <button
+              btn
               class="col-12 col-md-4 buttons__button buttons__button--left"
               title="Add Encounter to Diaryentry"
+              [kind]="'PRIMARY'"
               [size]="'LARGE'"
               [icon]="'plus'"
               [text]="'Add First Encounter'"
               [disabled]="isUpdatingAnything()"
               (click)="addEmptyEncounterAtIndex(-1)"
-            ></app-button>
+            ></button>
           }
           @if (canUpdate()) {
-            <app-button
+            <button
+              btn
               class="col-6 col-md-4 buttons__button buttons__button--right"
               title="Insert Cut Encounter"
               [size]="'LARGE'"
               [icon]="'file-import'"
               [text]="'Insert Cut Encounter'"
-              [type]="'SECONDARY'"
+              [kind]="'SECONDARY'"
               [disabled]="
                 isUpdatingAnything() ||
                 cutEncounterIndex() == null ||
                 cutEncounterIndex() === 0
               "
               (click)="onInsertExcisedEncounter(-1 + 1)"
-            ></app-button>
+            ></button>
           }
         </div>
       </div>
@@ -70,24 +73,27 @@
           @if (state() === "EDIT" && (canCreate() || canUpdate())) {
             <div class="list__buttons buttons">
               @if (canCreate()) {
-                <app-button
+                <button
+                  btn
                   class="col-12 col-md-4 buttons__button buttons__button--left"
                   title="Add Encounter to DiaryEntry"
+                  [kind]="'PRIMARY'"
                   [size]="'LARGE'"
                   [icon]="'plus'"
                   [text]="'Add Encounter'"
                   [disabled]="isUpdatingAnything()"
                   (click)="addEmptyEncounterAtIndex($index)"
-                ></app-button>
+                ></button>
               }
               @if (canUpdate()) {
-                <app-button
+                <button
+                  btn
                   class="col-6 col-md-4 buttons__button buttons__button--right"
                   title="Insert Cut Encounter"
                   [size]="'LARGE'"
                   [icon]="'file-import'"
                   [text]="'Insert Cut Encounter'"
-                  [type]="'SECONDARY'"
+                  [kind]="'SECONDARY'"
                   [disabled]="
                     isUpdatingAnything() ||
                     cutEncounterIndex() == null ||
@@ -95,7 +101,7 @@
                     cutEncounterIndex() === $index
                   "
                   (click)="onInsertExcisedEncounter($index + 1)"
-                ></app-button>
+                ></button>
               }
             </div>
           }
@@ -138,13 +144,14 @@
       ></app-encounter>
       @if (canUpdate() && context.entry.encounter.pk != null) {
         <div class="encounter-card__side-buttons side-buttons side-buttons">
-          <app-button
+          <button
+            btn
             class="side-buttons__button side-buttons__button--edit"
             [disabled]="
               cutEncounterIndex() != null &&
               context.index !== cutEncounterIndex()
             "
-            [type]="
+            [kind]="
               cutEncounterIndex() != null &&
               context.index === cutEncounterIndex()
                 ? 'PRIMARY'
@@ -158,7 +165,7 @@
             "
             [disabled]="isUpdatingAnything()"
             (click)="onExcisionClick(context.index)"
-          ></app-button>
+          ></button>
           <ng-container
             *ngTemplateOutlet="orderArrows; context: { $implicit: context }"
           />
@@ -176,14 +183,14 @@
 <ng-template #orderArrows let-context>
   <app-arrow-button
     class="side-buttons__button side-buttons__button--arrow"
-    [type]="'DARK'"
+    [kind]="'DARK'"
     [icon]="'up'"
     [disabled]="isUpdatingAnything()"
     (click)="onEncounterOrderDecrease(context.index)"
   ></app-arrow-button>
   <app-arrow-button
     class="side-buttons__button side-buttons__button--arrow"
-    [type]="'DARK'"
+    [kind]="'DARK'"
     [icon]="'down'"
     [disabled]="isUpdatingAnything()"
     (click)="onEncounterOrderIncrease(context.index)"

@@ -19,7 +19,7 @@
 
     @if (canUpdate() || canCreate()) {
       <app-edit-toggle
-        [buttonType]="'DARK'"
+        [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
@@ -55,7 +55,6 @@
   @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
-      [toggleType]="'DANGER'"
       [confirmationQuestion]="'Delete this rule?'"
       [icon]="'trash'"
       (confirm)="onRuleDelete()"

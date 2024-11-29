@@ -13,7 +13,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { distinctUntilChanged, interval, map, startWith } from 'rxjs';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
@@ -40,8 +40,8 @@ export class FormComponent<T> {
   enctype = input('application/x-www-form-urlencoded'); //Default form enctype in HTML5
   enableSubmitButtons = input(true);
   disabled = input(false);
-  submitButtonType = input<ElementType>('PRIMARY');
-  cancelButtonType = input<ElementType>('SECONDARY');
+  submitButtonType = input<ElementKind>('PRIMARY');
+  cancelButtonType = input<ElementKind>('SECONDARY');
   submitIcon = input<Icon>();
 
   @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();

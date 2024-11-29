@@ -1,5 +1,5 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
-import { ELEMENT_TYPES, ElementType } from '../_models/button';
+import { ELEMENT_TYPES, ElementKind } from '../_models/button';
 import { AlertComponent } from './alert.component';
 
 export default {
@@ -13,7 +13,7 @@ export default {
   ],
   args: {
     text: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Adipisci temporibus quas, quam veniam beatae necessitatibus. Ut cupiditate illo harum debitis. Temporibus accusamus, ab exercitationem vero assumenda saepe recusandae nostrum similique.',
-    type: 'PRIMARY' satisfies ElementType,
+    kind: 'PRIMARY' satisfies ElementKind,
   },
 } as Meta<AlertComponent>;
 

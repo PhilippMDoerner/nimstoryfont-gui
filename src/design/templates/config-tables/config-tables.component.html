@@ -1,11 +1,12 @@
 <app-page-container>
   <article class="config-tables">
     <a class="config-tables__return-button" [routerLink]="campaignOverviewUrl">
-      <app-button
-        [type]="'SECONDARY'"
+      <button
+        btn
+        [kind]="'SECONDARY'"
         [icon]="'globe-americas'"
         [text]="'Back to campaign overview'"
-      ></app-button>
+      ></button>
     </a>
 
     <!-- Sections -->
@@ -21,8 +22,9 @@
           <!-- Heading Buttons -->
           <div class="heading__buttons">
             <!-- Add Users -->
-            <app-button
-              [type]="'DARK'"
+            <button
+              btn
+              [kind]="'DARK'"
               [icon]="table.showForm ? 'times' : 'plus'"
               [text]="
                 table.showForm
@@ -30,14 +32,15 @@
                   : 'Add ' + table.name
               "
               (click)="table.showForm = !table.showForm"
-            ></app-button>
+            ></button>
 
-            <app-button
-              [type]="'PRIMARY'"
+            <button
+              btn
+              [kind]="'PRIMARY'"
               [icon]="'refresh'"
               [text]="'Load table data'"
               (click)="loadTableEntries.emit(table.kind)"
-            ></app-button>
+            ></button>
           </div>
         </div>
 
@@ -79,7 +82,6 @@
                       }
                       <td>
                         <app-confirmation-toggle-button
-                          [toggleType]="'DANGER'"
                           [toggleSize]="'SMALL'"
                           [confirmationQuestion]="'Delete this Entry?'"
                           [icon]="'trash'"
@@ -113,11 +115,12 @@
     }
 
     <a class="config-tables__return-button" [routerLink]="campaignOverviewUrl">
-      <app-button
-        [type]="'SECONDARY'"
+      <button
+        btn
+        [kind]="'SECONDARY'"
         [icon]="'globe-americas'"
         [text]="'Back to campaign overview'"
-      ></app-button>
+      ></button>
     </a>
   </article>
 </app-page-container>

@@ -6,11 +6,12 @@
       </span>
       <!-- Heading -->
       <div class="heading__edit-cancel">
-        <app-button
+        <button
+          btn
           (click)="cancel.emit()"
           [icon]="'times'"
-          [type]="'SECONDARY'"
-        ></app-button>
+          [kind]="'SECONDARY'"
+        ></button>
       </div>
     </h1>
 
@@ -20,20 +21,14 @@
 
     <!-- Form -->
     @switch (state()) {
-      @case ('CREATE') {
-        <ng-container
-          [ngTemplateOutlet]="createUpdateForm"
-        ></ng-container>
+      @case ("CREATE") {
+        <ng-container [ngTemplateOutlet]="createUpdateForm"></ng-container>
       }
-      @case ('UPDATE') {
-        <ng-container
-          [ngTemplateOutlet]="createUpdateForm"
-        ></ng-container>
+      @case ("UPDATE") {
+        <ng-container [ngTemplateOutlet]="createUpdateForm"></ng-container>
       }
-      @case ('OUTDATED_UPDATE') {
-        <ng-container
-          [ngTemplateOutlet]="outdatedUpdateForm"
-        ></ng-container>
+      @case ("OUTDATED_UPDATE") {
+        <ng-container [ngTemplateOutlet]="outdatedUpdateForm"></ng-container>
       }
     }
   </div>

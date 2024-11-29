@@ -2,24 +2,20 @@
 
 :host {
   display: inline-block;
+
+  :disabled {
+    cursor: not-allowed;
+  }
 }
 
 .btn {
-  width: 100%;
-
-  @include media-breakpoint-up(sm) {
-    width: fit-content;
-  }
-
   &__icon {
     margin-right: var(--spacer-1);
   }
 
-  &-disabled {
-    cursor: not-allowed;
-  }
-
-  &-lg {
-    font-weight: bold;
+  &__text {
+    &--large {
+      font-weight: bold;
+    }
   }
 }

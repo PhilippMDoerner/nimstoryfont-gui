@@ -1,12 +1,13 @@
 <div class="list">
   @if (canCreate()) {
     <div class="list__button-row">
-      <app-button
+      <button
+        btn
         class="button-row__button"
-        [type]="'PRIMARY'"
+        [kind]="'PRIMARY'"
         [text]="'Add quote'"
         [icon]="'plus'"
-      ></app-button>
+      ></button>
     </div>
   }
 

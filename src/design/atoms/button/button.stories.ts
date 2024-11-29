@@ -5,40 +5,40 @@ export default {
   title: 'DesignSystem/Atoms/ButtonComponent',
   component: ButtonComponent,
   args: {
-    type: 'PRIMARY',
+    kind: 'PRIMARY',
     text: 'ButtonText',
     icon: 'plus',
     size: 'MEDIUM',
     isSubmitButton: false,
   },
-} as Meta<ButtonComponent>;
+} as Meta<button btnComponent>;
 
-const Template: StoryFn<ButtonComponent> = (args: any) => ({
+const Template: StoryFn<button btnComponent> = (args: any) => ({
   props: args,
   template: `
     <div class="d-flex flex-column">
       <div>
         Button Size: {{size}}
-        <app-button [text]="text" [icon]="icon" [type]="type" [size]="size">
-        </app-button>
-        <app-button [text]="text" [icon]="icon" [type]="type" [size]="size" [outline]="true">
-        </app-button>
+        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="size">
+        </button>
+        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="size" [outline]="true">
+        </button>
       </div>
       
       <div class="my-4">
         Button Size: SMALL
-        <app-button [text]="text" [icon]="icon" [type]="type" [size]="'SMALL'">
-        </app-button>
-        <app-button [text]="text" [icon]="icon" [type]="type" [size]="'SMALL'" [outline]="true">
-        </app-button>
+        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="'SMALL'">
+        </button>
+        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="'SMALL'" [outline]="true">
+        </button>
       </div>
       
       <div>
         Button Size: LARGE
-        <app-button [text]="text" [icon]="icon" [type]="type" [size]="'LARGE'">
-        </app-button>
-        <app-button [text]="text" [icon]="icon" [type]="type" [size]="'LARGE'" [outline]="true">
-        </app-button>
+        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="'LARGE'">
+        </button>
+        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="'LARGE'" [outline]="true">
+        </button>
       </div>
       
     </div>
@@ -50,32 +50,32 @@ Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type: 'SECONDARY',
+  kind: 'SECONDARY',
 };
 
 export const Dark = Template.bind({});
 Dark.args = {
-  type: 'DARK',
+  kind: 'DARK',
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
-  type: 'WARNING',
+  kind: 'WARNING',
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type: 'DANGER',
+  kind: 'DANGER',
 };
 
 export const Light = Template.bind({});
 Light.args = {
-  type: 'LIGHT',
+  kind: 'LIGHT',
 };
 
 export const Info = Template.bind({});
 Info.args = {
-  type: 'INFO',
+  kind: 'INFO',
 };
 
 export const NoText = Template.bind({});

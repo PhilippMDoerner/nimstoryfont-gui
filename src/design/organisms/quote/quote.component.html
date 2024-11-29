@@ -47,24 +47,26 @@
       @for (control of quoteControlls(); track $index) {
         @switch (control.config.kind) {
           @case ("CLICK") {
-            <app-button
+            <button
+              btn
               class="field__control"
               [title]="control.title"
-              [type]="control.type"
+              [kind]="control.type"
               [text]="control.label"
               [icon]="control.icon"
               (click)="control.config.onClick()"
-            ></app-button>
+            ></button>
           }
           @case ("LINK") {
             <a [routerLink]="control.config.link" tabindex="-1">
-              <app-button
+              <button
+                btn
                 class="field__control"
                 [title]="control.title"
-                [type]="control.type"
+                [kind]="control.type"
                 [text]="control.label"
                 [icon]="control.icon"
-              ></app-button>
+              ></button>
             </a>
           }
         }

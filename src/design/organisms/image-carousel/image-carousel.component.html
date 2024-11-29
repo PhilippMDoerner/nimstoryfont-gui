@@ -24,38 +24,41 @@
 <div class="edit-image-buttons">
   <!-- Create Image Button -->
   @if (canCreate()) {
-    <app-button
+    <button
+      btn
       title="Create Image"
       class="mx-2"
-      [type]="'PRIMARY'"
+      [kind]="'PRIMARY'"
       [size]="'SMALL'"
       [icon]="'plus-square'"
       (click)="onImageCreate()"
-    ></app-button>
+    ></button>
   }
 
   <!-- Update Image button -->
   @if (images().length > 0 && canUpdate()) {
-    <app-button
+    <button
+      btn
       title="Update Image"
       class="mx-2"
-      [type]="'SECONDARY'"
+      [kind]="'SECONDARY'"
       [size]="'SMALL'"
       [icon]="'pencil'"
       (click)="onImageUpdate()"
-    ></app-button>
+    ></button>
   }
 
   <!-- Delete Image Button -->
   @if (images().length > 1 && canDelete()) {
-    <app-button
+    <button
+      btn
       title="Delete Image"
       class="mx-2"
-      [type]="'DANGER'"
+      [kind]="'DANGER'"
       [size]="'SMALL'"
       [icon]="'trash'"
       (click)="onImageDelete()"
-    ></app-button>
+    ></button>
   }
 </div>
 

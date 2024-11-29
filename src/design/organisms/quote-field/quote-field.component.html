@@ -104,20 +104,22 @@
     </blockquote>
 
     <div class="form-card__confirmation confirmation">
-      <app-button
+      <button
+        btn
         class="confirmation__button"
-        [type]="'DARK'"
+        [kind]="'DARK'"
         [icon]="'times'"
         [text]="'No'"
         (click)="onCancel()"
-      ></app-button>
-      <app-button
+      ></button>
+      <button
+        btn
         class="confirmation__button"
-        [type]="'DANGER'"
+        [kind]="'DANGER'"
         [icon]="'trash'"
         [text]="'Yes'"
         (click)="onDelete()"
-      ></app-button>
+      ></button>
     </div>
   </app-card>
 </ng-template>

@@ -52,11 +52,12 @@
     @if (canCreate()) {
       <div class="overview__create">
         <a [routerLink]="'create'">
-          <app-button
+          <button
+            btn
             [icon]="'plus'"
-            [type]="'PRIMARY'"
+            [kind]="'PRIMARY'"
             [text]="'Add ' + (overviewTypeName | titlecase)"
-          ></app-button>
+          ></button>
         </a>
       </div>
     }
@@ -78,10 +79,7 @@
     <!-- Footer -->
     <div class="mt-4">
       <a [routerLink]="homeUrl" class="overview__home">
-        <app-button
-          [type]="'SECONDARY'"
-          [text]="'Back To Frontpage'"
-        ></app-button>
+        <button btn [kind]="'SECONDARY'" [text]="'Back To Frontpage'"></button>
       </a>
     </div>
   </article>

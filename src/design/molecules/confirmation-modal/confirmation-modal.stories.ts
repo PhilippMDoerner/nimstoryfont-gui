@@ -33,10 +33,10 @@ export default {
         </ng-container>
         
         <ng-container opener>
-          <app-button 
-            [type]="'SECONDARY'" 
+          <button btn 
+            [kind]="'SECONDARY'" 
             [text]="'Open Modal'"
-          ></app-button>
+          ></button>
         </ng-container>
         
       </app-confirmation-modal>

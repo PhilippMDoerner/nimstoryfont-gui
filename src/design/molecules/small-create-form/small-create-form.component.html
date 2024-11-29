@@ -12,7 +12,7 @@
 <ng-template #displayState>
   <app-badge
     class="display-form"
-    [type]="'PRIMARY'"
+    [kind]="'PRIMARY'"
     [icon]="'plus'"
     [text]="badgeText()"
     [clickable]="true"
@@ -43,21 +43,23 @@
     </select>
 
     <!-- Submit Button -->
-    <app-button
+    <button
+      btn
       class="mx-2"
-      [type]="submitButtonType()"
+      [kind]="submitButtonType()"
       [size]="'SMALL'"
       [icon]="'check'"
-      [isSubmitButton]="true"
+      [type]="'submit'"
       (click)="onSubmit()"
-    ></app-button>
+    ></button>
 
     <!-- Cancel Button -->
-    <app-button
-      [type]="cancelButtonType()"
+    <button
+      btn
+      [kind]="cancelButtonType()"
       [size]="'SMALL'"
       [icon]="'times'"
       (click)="onCancel()"
-    ></app-button>
+    ></button>
   </form>
 </ng-template>

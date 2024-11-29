@@ -12,7 +12,7 @@ export default {
   ],
   args: {
     toggled: false,
-    buttonType: 'SECONDARY',
+    buttonKind: 'SECONDARY',
   },
 } as Meta<EditToggleComponent>;
 

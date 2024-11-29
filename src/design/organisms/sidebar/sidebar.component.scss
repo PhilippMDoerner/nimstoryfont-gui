@@ -69,7 +69,6 @@ a {
       width: 100%;
       &:focus,
       &:focus-within,
-      &:hover,
       &:focus-visible {
         outline: var(--focus-outline);
       }

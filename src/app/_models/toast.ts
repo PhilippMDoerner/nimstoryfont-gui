@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { copyToClipboard } from 'src/utils/clipboard';
 
@@ -11,7 +11,7 @@ export type ToastButton = {
 
 export type ToastButtons = [] | [ToastButton] | [ToastButton, ToastButton];
 
-export type ToastType = ElementType | 'SUCCESS';
+export type ToastType = ElementKind | 'SUCCESS';
 
 export type ToastConfig = {
   type: ToastType;

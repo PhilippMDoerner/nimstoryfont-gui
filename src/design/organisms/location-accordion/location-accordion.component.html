@@ -3,12 +3,13 @@
 
   @if (canCreate()) {
     <a class="create-button" [routerLink]="createUrl()" tabindex="-1">
-      <app-button
+      <button
+        btn
         title="Create Location"
-        [type]="'PRIMARY'"
+        [kind]="'PRIMARY'"
         [size]="'SMALL'"
         [icon]="'plus'"
-      ></app-button>
+      ></button>
     </a>
   }
 </h4>
@@ -18,7 +19,7 @@
     <div ngbAccordionItem [id]="'static-' + $index">
       <!-- Header -->
       <div ngbAccordionHeader class="button-container">
-        <button ngbAccordionButton>
+        <button btn [kind]="'NONE'" ngbAccordionButton>
           <a class="location-title" [routerLink]="entry.link">
             {{ entry.value.name }}
           </a>

@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
 import {
   CompareFormComponent,
@@ -41,8 +41,8 @@ export class RuleComponent implements OnInit {
   canDelete = input.required<boolean>();
   canCreate = input.required<boolean>();
   serverModel = input.required<Rule | undefined>();
-  cancelButtonType = input<ElementType>('SECONDARY');
-  submitButtonType = input<ElementType>('PRIMARY');
+  cancelButtonType = input<ElementKind>('SECONDARY');
+  submitButtonType = input<ElementKind>('PRIMARY');
 
   @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
   @Output() ruleCreate: EventEmitter<RuleRaw> = new EventEmitter();

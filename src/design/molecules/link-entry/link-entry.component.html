@@ -18,14 +18,14 @@
   <!-- Delete Entry -->
   <div class="linkentry__delete">
     @if (canDelete()) {
-      <app-button
+      <button
+        btn
         class="linkentry__delete-button"
         (click)="changeState('DELETE')"
         [size]="'SMALL'"
         [icon]="'trash'"
-        [type]="'DANGER'"
-        [outline]="true"
-      ></app-button>
+        [kind]="'DANGER-OUTLINE'"
+      ></button>
     }
   </div>
 </ng-template>
@@ -35,19 +35,21 @@
     <span class="ms-2">
       {{ deleteMessage() }}
     </span>
-    <app-button
+    <button
+      btn
       class="box__button"
-      [type]="'DANGER'"
+      [kind]="'DANGER'"
       [size]="'SMALL'"
       [text]="'Delete'"
       (click)="delete.emit(entry().value)"
-    ></app-button>
-    <app-button
+    ></button>
+    <button
+      btn
       class="box__button"
-      [type]="'DARK'"
+      [kind]="'DARK'"
       [size]="'SMALL'"
       [text]="'Cancel'"
       (click)="changeState('DISPLAY')"
-    ></app-button>
+    ></button>
   </div>
 </ng-template>

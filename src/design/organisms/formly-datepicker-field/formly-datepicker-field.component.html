@@ -22,7 +22,9 @@
       #datepickerInput="ngbDatepicker"
     />
     <button
+      btn
       class="btn btn-outline-light highlight"
+      [kind]="'NONE'"
       [class.disabled]="!!props.disabled"
       (click)="datepickerInput.toggle()"
     >
@@ -32,10 +34,11 @@
 </div>
 
 <ng-template #customDay let-date>
-  <app-button
+  <button
+    btn
     class="datepicker-day"
-    [type]="'LIGHT'"
+    [kind]="'LIGHT'"
     [disabled]="!!props.disabled"
     [text]="date.day"
-  ></app-button>
+  ></button>
 </ng-template>

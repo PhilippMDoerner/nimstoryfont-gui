@@ -15,11 +15,8 @@
     ></app-rules>
 
     <div class="container">
-      <a class="row back-link" [routerLink]="homeUrl()">
-        <app-button
-          [type]="'SECONDARY'"
-          [text]="'Back to Frontpage'"
-        ></app-button>
+      <a class="back-link" [routerLink]="homeUrl()">
+        <button btn [kind]="'SECONDARY'" [text]="'Back to Frontpage'"></button>
       </a>
     </div>
   </article>

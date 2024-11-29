@@ -9,23 +9,25 @@
 
       <!-- Header Buttons -->
       <div class="col-12 col-sm-6 heading__buttons">
-        <app-button
+        <button
+          btn
           class="heading__button"
-          [type]="'SECONDARY'"
+          [kind]="'SECONDARY'"
           [icon]="showProfileEditForm ? 'times' : 'pencil'"
           [text]="showProfileEditForm ? 'Cancel Profile Edit' : 'Edit Profile'"
           (click)="toggleProfileEditState()"
-        ></app-button>
+        ></button>
 
-        <app-button
+        <button
+          btn
           class="heading__button"
-          [type]="'SECONDARY'"
+          [kind]="'SECONDARY'"
           [icon]="showPasswordEditForm ? 'times' : 'pencil'"
           [text]="
             showPasswordEditForm ? 'Cancel Password Edit' : 'Edit Password'
           "
           (click)="togglePasswordEditState()"
-        ></app-button>
+        ></button>
       </div>
     </div>
 
@@ -81,19 +83,19 @@
     <div class="mt-5 row justify-content-between">
       <div class="col-md-3">
         <a [routerLink]="backUrl()" class="w-100">
-          <app-button
-            [type]="'SECONDARY'"
+          <button
+            btn
+            [kind]="'SECONDARY'"
             [text]="
               campaignName ? 'Back To ' + campaignName : 'Back to Campaigns'
             "
-          ></app-button>
+          ></button>
         </a>
       </div>
 
       @if (canDeleteProfile) {
         <div class="col-md-3">
           <app-confirmation-toggle-button
-            [toggleType]="'DANGER'"
             [confirmationQuestion]="'Delete your account?'"
             [icon]="'trash'"
             (confirm)="profileDelete.emit(user)"
@@ -109,18 +111,19 @@
     <div class="col-5">{{ context.membership.campaignName | titlecase }}</div>
     <div class="col-4">{{ context.membership.role | titlecase }}</div>
     <div class="col-3 d-flex justify-content-end">
-      <app-button
-        [type]="'SECONDARY'"
+      <button
+        btn
+        [kind]="'SECONDARY'"
         [icon]="'sign-out-alt'"
         [size]="'SMALL'"
         (click)="toggleLeaveCampaignState(context.membership)"
-      ></app-button>
+      ></button>
     </div>
   </div>
 </ng-template>
 
 <ng-template #leaveCampaignForm let-context>
-  <app-alert [type]="'DANGER'" class="row">
+  <app-alert [kind]="'DANGER'" class="row">
     <div class="col-md-8">
       <strong
         >Permanently leave '{{
@@ -128,17 +131,19 @@
         }}'?</strong
       >
     </div>
-    <app-button
+    <button
+      btn
       class="col-md-2"
-      [type]="'DANGER'"
+      [kind]="'DANGER'"
       [text]="'Yes'"
       (click)="campaignLeave.emit(context.membership)"
-    ></app-button>
-    <app-button
+    ></button>
+    <button
+      btn
       class="col-md-2"
-      [type]="'DARK'"
+      [kind]="'DARK'"
       [text]="'No'"
       (click)="toggleLeaveCampaignState(context.membership)"
-    ></app-button>
+    ></button>
   </app-alert>
 </ng-template>

@@ -8,17 +8,18 @@
             [routerLink]="updateUrl()"
             tabindex="-1"
           >
-            <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
+            <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
           </a>
-          <app-button
+          <button
+            btn
             class="edit-container__button"
-            [type]="'SECONDARY'"
+            [kind]="'SECONDARY'"
             [icon]="state() === 'DISPLAY' ? 'pencil' : 'times'"
             [text]="
               state() === 'DISPLAY' ? 'Edit Encounters' : 'Read Diaryentry'
             "
             (click)="toggleState()"
-          ></app-button>
+          ></button>
         </div>
       </div>
     }
@@ -69,33 +70,37 @@
   <!-- Next/Prior Diaryentry Buttons -->
   <div class="row diaryentry__nav-buttons nav-buttons">
     <!-- Next Diaryentry -->
-    <div class="col-lg-2 col-md-4 col-5 nav-buttons__button-container">
+    <div class="col-xl-2 col-lg-3 col-md-4 col-5 nav-buttons__button-container">
       @if (diaryentry().adjacent_diaryentries.next_diaryentry) {
         <a
           class="nav-buttons__button nav-buttons__button--left"
           [routerLink]="nextDiaryentryUrl()"
         >
-          <app-button
+          <button
+            btn
+            class="nav-buttons__inner-button"
             [text]="'Next'"
             [icon]="'arrow-left'"
-            [type]="'SECONDARY'"
-          ></app-button>
+            [kind]="'SECONDARY'"
+          ></button>
         </a>
       }
     </div>
 
     <!-- Prior Diaryentry -->
-    <div class="col-lg-2 col-md-4 col-5 nav-buttons__button-container">
+    <div class="col-xl-2 col-lg-3 col-md-4 col-5 nav-buttons__button-container">
       @if (diaryentry().adjacent_diaryentries.prior_diaryentry) {
         <a
           class="nav-buttons__button nav-buttons__button--right"
           [routerLink]="priorDiaryentryUrl()"
         >
-          <app-button
+          <button
+            btn
+            class="nav-buttons__inner-button"
             [text]="'Back'"
             [icon]="'arrow-right'"
-            [type]="'SECONDARY'"
-          ></app-button>
+            [kind]="'SECONDARY'"
+          ></button>
         </a>
       }
     </div>

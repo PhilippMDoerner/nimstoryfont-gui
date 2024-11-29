@@ -2,7 +2,9 @@
 @let onToastClick = toast?.onToastClick;
 @if (toast && onToastClick) {
   <button
+    btn
     class="button-container"
+    [kind]="'NONE'"
     (click)="onToastClick(dismissCurrentToast.bind(this))"
   >
     <ng-container *ngTemplateOutlet="toastOverlay" />
@@ -75,25 +77,27 @@
     <div class="body__button-container">
       @let firstButton = toast?.body?.buttons?.[0];
       @if (firstButton) {
-        <app-button
+        <button
+          btn
           class="body__button"
           [text]="firstButton.label"
           [icon]="firstButton.icon"
           [size]="'SMALL'"
-          [type]="'PRIMARY'"
+          [kind]="'PRIMARY'"
           (click)="firstButton.onClick(dismissCurrentToast.bind(this))"
-        ></app-button>
+        ></button>
       }
       @let secondButton = toast?.body?.buttons?.[1];
       @if (secondButton) {
-        <app-button
+        <button
+          btn
           class="body__button"
           [text]="secondButton.label"
           [icon]="secondButton.icon"
           [size]="'SMALL'"
-          [type]="'SECONDARY'"
+          [kind]="'SECONDARY'"
           (click)="secondButton.onClick(dismissCurrentToast.bind(this))"
-        ></app-button>
+        ></button>
       }
     </div>
   </div>

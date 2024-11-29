@@ -17,15 +17,22 @@
 
   <ng-template #campaignLink>
     <a [routerLink]="campaignHomeUrl()">
-      <app-button [text]="'Retry'" [icon]="'redo-alt'"></app-button>
+      <button
+        btn
+        [kind]="'PRIMARY'"
+        [text]="'Retry'"
+        [icon]="'redo-alt'"
+      ></button>
     </a>
   </ng-template>
 
   <ng-template #loginLink>
-    <app-button
+    <button
+      btn
       [text]="'Log in again'"
       [icon]="'redo-alt'"
+      [kind]="'PRIMARY'"
       (click)="onReLogin()"
-    ></app-button>
+    ></button>
   </ng-template>
 }

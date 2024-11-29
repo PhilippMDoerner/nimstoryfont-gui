@@ -29,35 +29,38 @@
         "
       />
       <!-- Cancel Button -->
-      <app-button
+      <button
+        btn
         class="form__button"
-        [type]="cancelButtonType()"
+        [kind]="cancelButtonType()"
         [icon]="'times'"
         [text]="'Cancel'"
         (click)="onCancel()"
-      ></app-button>
+      ></button>
     </div>
   }
 </form>
 
 <ng-template #activeSubmitButton>
-  <app-button
+  <button
+    btn
     class="form__button"
-    [type]="submitButtonType()"
+    [kind]="submitButtonType()"
     [text]="'Submit'"
     [icon]="submitIcon()"
-    [isSubmitButton]="true"
-  ></app-button>
+    [type]="'submit'"
+  ></button>
 </ng-template>
 
 <ng-template #inactiveSubmitButton>
-  <app-button
+  <button
+    btn
     class="form__button"
     placement="top"
-    [type]="'DARK'"
+    [kind]="'DARK'"
     [ngbTooltip]="'The form is not yet correctly filled out!'"
     [tooltipClass]="'my-tooltip'"
     [icon]="'lock'"
     [text]="'Submit'"
-  ></app-button>
+  ></button>
 </ng-template>

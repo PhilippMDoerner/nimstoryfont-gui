@@ -11,7 +11,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 
 import { RouterLink } from '@angular/router';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
@@ -41,7 +41,7 @@ type QuoteControl = {
   controlKind: QuoteControlKind;
   isVisible: boolean;
   title: string;
-  type: ElementType;
+  type: ElementKind;
   label?: string;
   icon: Icon;
   config:

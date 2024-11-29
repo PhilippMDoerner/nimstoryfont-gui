@@ -5,11 +5,12 @@
 
       <!-- Heading -->
       <div class="heading__edit-cancel">
-        <app-button
+        <button
+          btn
           (click)="onCancel()"
           [icon]="'times'"
-          [type]="'SECONDARY'"
-        ></app-button>
+          [kind]="'SECONDARY'"
+        ></button>
       </div>
     </h1>
 
@@ -125,7 +126,7 @@
     ></app-badge-list>
     <app-badge
       [text]="'Add Membership'"
-      [type]="'PRIMARY'"
+      [kind]="'PRIMARY'"
       [icon]="'plus'"
       [clickable]="true"
       (badgeClick)="membershipFormState.set('CREATE')"

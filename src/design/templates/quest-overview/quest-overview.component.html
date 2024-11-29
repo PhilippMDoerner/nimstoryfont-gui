@@ -5,11 +5,12 @@
 
     <div class="row mb-3 quests__create">
       <a [routerLink]="createUrl()">
-        <app-button
-          [type]="'PRIMARY'"
+        <button
+          btn
+          [kind]="'PRIMARY'"
           [icon]="'plus'"
           [text]="'Add quest'"
-        ></app-button>
+        ></button>
       </a>
     </div>
 
@@ -27,10 +28,7 @@
     <!-- Footer -->
     <div class="row">
       <a [routerLink]="homeUrl()" class="quests__home">
-        <app-button
-          [type]="'SECONDARY'"
-          [text]="'Back To Frontpage'"
-        ></app-button>
+        <button btn [kind]="'SECONDARY'" [text]="'Back To Frontpage'"></button>
       </a>
     </div>
   </article>

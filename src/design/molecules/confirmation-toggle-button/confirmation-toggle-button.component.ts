@@ -2,13 +2,19 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   EventEmitter,
   input,
   Output,
   signal,
 } from '@angular/core';
 import { flipInY } from 'src/design/animations/flip';
-import { ElementSize, ElementType } from 'src/design/atoms/_models/button';
+import {
+  ButtonKind,
+  ElementKind,
+  ElementSize,
+  toElementKind,
+} from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
@@ -25,9 +31,12 @@ export class ConfirmationToggleButtonComponent {
   confirmationQuestion = input.required<string>();
   icon = input<Icon>();
   text = input<string>();
-  toggleType = input<ElementType>('DANGER');
+  toggleType = input<ButtonKind>('DANGER-OUTLINE');
   toggleSize = input<ElementSize>('MEDIUM');
-  cancelButtonType = input<ElementType>('SECONDARY');
+  confirmButtonType = computed<ElementKind>(
+    () => toElementKind(this.toggleType()) ?? 'DANGER',
+  );
+  cancelButtonType = input<ElementKind>('SECONDARY');
 
   @Output() confirm: EventEmitter<null> = new EventEmitter();
 

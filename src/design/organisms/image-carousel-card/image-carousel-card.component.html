@@ -105,20 +105,22 @@
         Do you really want to delete this image?
       </span>
       <div class="confirmation__button-container">
-        <app-button
+        <button
+          btn
           class="confirmation__button"
-          [type]="'DARK'"
+          [kind]="'DARK'"
           [icon]="'times'"
           [text]="'No'"
           (click)="onCancel()"
-        ></app-button>
-        <app-button
+        ></button>
+        <button
+          btn
           class="confirmation__button"
-          [type]="'DANGER'"
+          [kind]="'DANGER'"
           [icon]="'trash'"
           [text]="'Yes'"
           (click)="onSubmit(undefined)"
-        ></app-button>
+        ></button>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { ElementType } from '../_models/button';
+import { ElementKind } from '../_models/button';
 
 @Component({
   selector: 'app-alert',
@@ -11,5 +11,5 @@ import { ElementType } from '../_models/button';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AlertComponent {
-  type = input.required<ElementType>();
+  kind = input.required<ElementKind>();
 }

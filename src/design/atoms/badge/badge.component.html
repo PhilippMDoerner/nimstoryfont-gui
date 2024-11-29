@@ -1,5 +1,5 @@
 @if (clickable()) {
-  <button class="badge-button" (click)="badgeClick.emit()">
+  <button btn class="badge-button" (click)="badgeClick.emit()">
     <ng-container [ngTemplateOutlet]="content" />
   </button>
 } @else {
@@ -11,13 +11,13 @@
     class="badge"
     [title]="text()"
     [ngClass]="{
-      'bg-primary': type() === 'PRIMARY',
-      'bg-secondary': type() === 'SECONDARY',
-      'bg-dark': type() === 'DARK',
-      'bg-danger': type() === 'DANGER',
-      'bg-warning': type() === 'WARNING',
-      'bg-light': type() === 'LIGHT',
-      'bg-info': type() === 'INFO',
+      'bg-primary': kind() === 'PRIMARY',
+      'bg-secondary': kind() === 'SECONDARY',
+      'bg-dark': kind() === 'DARK',
+      'bg-danger': kind() === 'DANGER',
+      'bg-warning': kind() === 'WARNING',
+      'bg-light': kind() === 'LIGHT',
+      'bg-info': kind() === 'INFO',
     }"
   >
     @let iconVal = icon();

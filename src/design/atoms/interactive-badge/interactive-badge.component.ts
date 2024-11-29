@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ElementType } from '../_models/button';
+import { ElementKind } from '../_models/button';
 import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
 
@@ -21,13 +21,13 @@ import { IconComponent } from '../icon/icon.component';
   imports: [RouterLink, NgClass, IconComponent],
 })
 export class InteractiveBadgeComponent {
-  type = input.required<ElementType>();
+  kind = input.required<ElementKind>();
   text = input.required<string>();
   textLink = input<string>();
   icon = input<Icon>();
-  iconType = input<ElementType>();
+  iconKind = input<ElementKind>();
 
-  iconTypeVal = computed(() => this.iconType() ?? this.type());
+  iconKindVal = computed(() => this.iconKind() ?? this.kind());
 
   @Output() iconClick: EventEmitter<null> = new EventEmitter();
   @Output() labelClick: EventEmitter<null> = new EventEmitter();

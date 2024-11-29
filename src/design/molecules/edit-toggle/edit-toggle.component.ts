@@ -7,7 +7,7 @@ import {
   Output,
   signal,
 } from '@angular/core';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
@@ -19,7 +19,7 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
   imports: [ButtonComponent],
 })
 export class EditToggleComponent {
-  buttonType = input<ElementType>('SECONDARY');
+  buttonKind = input<ElementKind>('SECONDARY');
   toggled = input<boolean>(false);
   _toggled = signal(false);
   @Output() toggle: EventEmitter<boolean> = new EventEmitter();

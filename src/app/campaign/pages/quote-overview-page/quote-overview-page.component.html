@@ -26,11 +26,12 @@
       />
       <div class="mt-3">
         <a class="back-link" [routerLink]="characterUrl()">
-          <app-button
+          <button
+            btn
             class="back-link__button"
-            [type]="'SECONDARY'"
+            [kind]="'SECONDARY'"
             [text]="'Back to ' + store.character()?.name"
-          ></app-button>
+          ></button>
         </a>
       </div>
     </article>

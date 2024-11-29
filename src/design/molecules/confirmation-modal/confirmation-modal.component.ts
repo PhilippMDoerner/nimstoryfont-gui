@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
@@ -23,8 +23,8 @@ export class ConfirmationModalComponent<T> {
   heading = input.required<string>();
   confirmValue = input.required<T>();
   submitIcon = input.required<Icon>();
-  modalType = input<ElementType>('PRIMARY');
-  cancelButtonType = input<ElementType>('SECONDARY');
+  modalType = input<ElementKind>('PRIMARY');
+  cancelButtonType = input<ElementKind>('SECONDARY');
   submitButtonLabel = input<string>('Yes');
   cancelButtonLabel = input<string>('No');
 

@@ -6,7 +6,7 @@ import {
   input,
   Output,
 } from '@angular/core';
-import { ElementType } from '../_models/button';
+import { ElementKind } from '../_models/button';
 import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
 
@@ -19,7 +19,7 @@ import { IconComponent } from '../icon/icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BadgeComponent {
-  type = input.required<ElementType>();
+  kind = input.required<ElementKind>();
   text = input.required<string>();
   icon = input<Icon>();
   clickable = input(false);

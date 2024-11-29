@@ -3,7 +3,7 @@
     @if (canUpdate()) {
       <div class="map__edit-container">
         <a [routerLink]="updateUrl()" tabindex="-1">
-          <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
+          <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
         </a>
       </div>
     }
@@ -22,11 +22,12 @@
     }
 
     <a [routerLink]="createUrl()" class="map__create" tabindex="-1">
-      <app-button
-        [type]="'PRIMARY'"
+      <button
+        btn
+        [kind]="'PRIMARY'"
         [icon]="'plus'"
         [text]="'Add Map'"
-      ></app-button>
+      ></button>
     </a>
 
     <!-- Leaflet Map -->
@@ -63,11 +64,12 @@
     <div class="map__no-map">
       <h4>There's no map yet! Want to add one?</h4>
       <a [routerLink]="createUrl()" class="map__create">
-        <app-button
-          [type]="'PRIMARY'"
+        <button
+          btn
+          [kind]="'PRIMARY'"
           [icon]="'plus'"
           [text]="'Add Map'"
-        ></app-button>
+        ></button>
       </a>
     </div>
   } @else {
@@ -79,10 +81,7 @@
   <div class="map__no-map">
     <h4>There's no map yet, but maybe there may be in the future!</h4>
     <a [routerLink]="homeUrl()" class="map__create" tabindex="-1">
-      <app-button
-        [type]="'SECONDARY'"
-        [text]="'Back to home page'"
-      ></app-button>
+      <button btn [kind]="'SECONDARY'" [text]="'Back to home page'"></button>
     </a>
   </div>
 </ng-template>

@@ -1,12 +1,13 @@
 <div class="container list">
   @if (canCreate()) {
-    <div class="row list__button">
-      <app-button
-        [type]="'PRIMARY'"
+    <div class="list__button">
+      <button
+        btn
+        [kind]="'PRIMARY'"
         [text]="'Add Session'"
         [icon]="'plus'"
         (click)="addSession()"
-      ></app-button>
+      ></button>
     </div>
   }
 

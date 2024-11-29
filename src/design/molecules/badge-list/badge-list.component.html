@@ -4,8 +4,8 @@
     @for (entry of entries(); track $index) {
       <app-interactive-badge
         class="badge-list__entry"
-        [type]="'DARK'"
-        [iconType]="'DANGER'"
+        [kind]="'DARK'"
+        [iconKind]="'DANGER'"
         [text]="entry.text"
         [textLink]="entry.link"
         [icon]="canDelete() ? 'trash' : undefined"
@@ -49,7 +49,7 @@
   <a [routerLink]="createLink()" class="badge-list__create-link" tabindex="-1">
     <app-badge
       class="badge-list__create-badge"
-      [type]="'PRIMARY'"
+      [kind]="'PRIMARY'"
       [icon]="'plus'"
       [text]="'Add ' + label()"
       [clickable]="true"

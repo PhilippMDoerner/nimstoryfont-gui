@@ -18,7 +18,7 @@ const Template: StoryFn<CollapsiblePanelComponent> = (args: any) => ({
   template: `
   <app-collapsible-panel>
     <div heading> {{heading}} </div>
-    <app-button body [icon]="'plus'" [text]="'Add things'"></app-button>
+    <button btn body [icon]="'plus'" [text]="'Add things'"></button>
     
   </app-collapsible-panel>
 `,

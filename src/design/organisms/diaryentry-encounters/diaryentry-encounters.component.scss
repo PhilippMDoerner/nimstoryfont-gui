@@ -24,9 +24,6 @@
   &__button {
     display: flex;
     &--left {
-      @include media-breakpoint-up(md) {
-        justify-content: flex-end;
-      }
     }
 
     &--right {
@@ -34,7 +31,6 @@
 
       @include media-breakpoint-up(md) {
         display: flex;
-        justify-content: flex-start;
       }
     }
   }

@@ -47,7 +47,7 @@
     [class.field--hidden]="state() !== 'OUTDATED_UPDATE'"
   >
     <!-- Informating heading -->
-    <app-alert [type]="'INFO'">
+    <app-alert [kind]="'INFO'">
       <app-icon [icon]="'info-circle'"></app-icon>
       While you were updating this article, somebody else went ahead and updated
       it as well. Please include their changes in your update before submitting.
@@ -85,18 +85,20 @@
 
 <ng-template #formButtons>
   <div class="field__buttons">
-    <app-button
+    <button
+      btn
       [icon]="'check'"
       [text]="'Submit'"
-      [type]="'PRIMARY'"
-      [isSubmitButton]="true"
-    ></app-button>
-    <app-button
+      [kind]="'PRIMARY'"
+      [type]="'submit'"
+    ></button>
+    <button
+      btn
       [icon]="'times'"
       [text]="'Cancel'"
-      [type]="'SECONDARY'"
+      [kind]="'SECONDARY'"
       (click)="cancelEdit()"
-    ></app-button>
+    ></button>
   </div>
 </ng-template>
 

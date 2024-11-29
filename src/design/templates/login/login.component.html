@@ -20,12 +20,13 @@
         <a class="login__reset-link" (click)="setState('PASSWORD_RESET')">
           Forgot your password?
         </a>
-        <app-button
+        <button
+          btn
           class="login__button"
-          [type]="'PRIMARY'"
+          [kind]="'PRIMARY'"
           [text]="'Login'"
-          [isSubmitButton]="true"
-        ></app-button>
+          [type]="'submit'"
+        ></button>
       </form>
     } @else {
       <h1>Password Reset</h1>
@@ -43,18 +44,20 @@
           [form]="recoveryForm"
         ></formly-form>
         <div class="login__button">
-          <app-button
+          <button
+            btn
             class="login__button-left"
-            [type]="'DARK'"
+            [kind]="'DARK'"
             [text]="'Cancel'"
             (click)="setState('LOGIN')"
-          ></app-button>
-          <app-button
-            [type]="'PRIMARY'"
+          ></button>
+          <button
+            btn
+            [kind]="'PRIMARY'"
             [text]="'Reset Password'"
+            [type]="'submit'"
             [disabled]="isWaitingForPasswordReset"
-            [isSubmitButton]="true"
-          ></app-button>
+          ></button>
         </div>
       </form>
     }

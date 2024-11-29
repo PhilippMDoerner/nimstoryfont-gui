@@ -39,12 +39,13 @@
 
 <ng-template #timestampDisplay>
   <div class="timestamp__create-button">
-    <app-button
-      [type]="'PRIMARY'"
+    <button
+      btn
+      [kind]="'PRIMARY'"
       [text]="'Add Timestamp'"
       [icon]="'plus'"
       (click)="changeTimestampState('CREATE')"
-    ></app-button>
+    ></button>
   </div>
 </ng-template>
 

@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { BadgeComponent } from 'src/design/atoms/badge/badge.component';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
@@ -26,8 +26,8 @@ export class SmallCreateFormComponent<T> {
   labelProp = input.required<keyof T>();
   badgeText = input<string>('Add Entry');
   valueProp = input.required<keyof T>();
-  submitButtonType = input<ElementType>('PRIMARY');
-  cancelButtonType = input<ElementType>('SECONDARY');
+  submitButtonType = input<ElementKind>('PRIMARY');
+  cancelButtonType = input<ElementKind>('SECONDARY');
 
   @Output() create: EventEmitter<T> = new EventEmitter();
 

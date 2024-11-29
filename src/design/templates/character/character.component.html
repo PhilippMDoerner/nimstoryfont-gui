@@ -3,11 +3,12 @@
     @if (canUpdate()) {
       <div class="character__edit-container">
         <a [routerLink]="updateUrl()" tabindex="-1">
-          <app-button
+          <button
+            btn
             [title]="'Edit ' + character().name"
             [icon]="'pencil'"
-            [type]="'SECONDARY'"
-          />
+            [kind]="'SECONDARY'"
+          ></button>
         </a>
       </div>
     }

@@ -3,14 +3,15 @@
   <div class="list__heading">
     <h4>{{ heading() }}</h4>
     @if (enableCreate()) {
-      <app-button
+      <button
+        btn
         class="ms-3"
         [title]="'Create ' + heading()"
-        [type]="'PRIMARY'"
+        [kind]="'PRIMARY'"
         [size]="'SMALL'"
         [icon]="'plus'"
         (click)="onCreateButtonClick()"
-      ></app-button>
+      ></button>
     }
   </div>
 

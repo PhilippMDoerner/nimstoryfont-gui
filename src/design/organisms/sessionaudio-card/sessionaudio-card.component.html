@@ -7,11 +7,12 @@
   <!-- Card Body -->
   <div class="card-body">
     <a [routerLink]="sessionAudioUrl()" class="card-link">
-      <app-button
+      <button
+        btn
         [icon]="'desktop'"
         [text]="'Stream'"
-        [type]="'PRIMARY'"
-      ></app-button>
+        [kind]="'PRIMARY'"
+      ></button>
     </a>
 
     <a
@@ -19,11 +20,12 @@
       target="_blank"
       class="card-link"
     >
-      <app-button
+      <button
+        btn
         [icon]="'download'"
         [text]="'Download'"
-        [type]="'DARK'"
-      ></app-button>
+        [kind]="'DARK'"
+      ></button>
     </a>
   </div>
 </div>

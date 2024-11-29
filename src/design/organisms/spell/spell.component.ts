@@ -12,7 +12,7 @@ import {
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
 import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 import {
@@ -61,8 +61,8 @@ export class SpellComponent implements OnInit {
   canDelete = input.required<boolean>();
   canCreate = input.required<boolean>();
   serverModel = input.required<Spell | undefined>();
-  cancelButtonType = input<ElementType>('SECONDARY');
-  submitButtonType = input<ElementType>('PRIMARY');
+  cancelButtonType = input<ElementKind>('SECONDARY');
+  submitButtonType = input<ElementKind>('PRIMARY');
 
   @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
   @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();

@@ -2,7 +2,7 @@
   <article class="container campaign">
     <div class="campaign__edit-container">
       <a [routerLink]="updateUrl">
-        <app-button [icon]="'pencil'" [type]="'SECONDARY'"></app-button>
+        <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
       </a>
     </div>
 
@@ -253,37 +253,41 @@
 </app-page-container>
 
 <ng-template #addMemberButton>
-  <app-button
-    [type]="'PRIMARY'"
+  <button
+    btn
+    [kind]="'PRIMARY'"
     [text]="'Add Member'"
     [icon]="'user-plus'"
     (click)="changeState('member', true)"
-  ></app-button>
+  ></button>
 </ng-template>
 
 <ng-template #addAdminButton>
-  <app-button
-    [type]="'PRIMARY'"
+  <button
+    btn
+    [kind]="'PRIMARY'"
     [text]="'Add Admin'"
     [icon]="'user-plus'"
     (click)="changeState('admin', true)"
-  ></app-button>
+  ></button>
 </ng-template>
 
 <ng-template #addGuestButton>
-  <app-button
-    [type]="'PRIMARY'"
+  <button
+    btn
+    [kind]="'PRIMARY'"
     [text]="'Add Guest'"
     [icon]="'user-plus'"
     (click)="changeState('guest', true)"
-  ></app-button>
+  ></button>
 </ng-template>
 
 <ng-template #addResponseButton>
-  <app-button
-    [type]="'PRIMARY'"
+  <button
+    btn
+    [kind]="'PRIMARY'"
     [text]="'Add EmptySearchResponse'"
     [icon]="'plus'"
     (click)="toggleResponseAddForm()"
-  ></app-button>
+  ></button>
 </ng-template>

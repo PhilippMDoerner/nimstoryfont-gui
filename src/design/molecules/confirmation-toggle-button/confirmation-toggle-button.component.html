@@ -5,33 +5,35 @@
 </div>
 
 <ng-template #inactiveToggle>
-  <app-button
+  <button
+    btn
     class="confirmation-toggle"
     (click)="toggle()"
-    [type]="toggleType()"
+    [kind]="toggleType()"
     [icon]="icon()"
     [size]="toggleSize()"
     [text]="text()"
-    [outline]="true"
-  ></app-button>
+  ></button>
 </ng-template>
 
 <ng-template #activeToggle>
-  <div class="confirmation confirmation--{{ toggleType() }}">
+  <div class="confirmation confirmation--{{ confirmButtonType() }}">
     <div class="confirmation__question">
       <strong>{{ confirmationQuestion() }}</strong>
     </div>
     <div class="confirmation__buttons">
-      <app-button
-        [type]="toggleType()"
+      <button
+        btn
+        [kind]="confirmButtonType()"
         [text]="'Yes'"
         (click)="emitConfirmation()"
-      ></app-button>
-      <app-button
-        [type]="cancelButtonType()"
+      ></button>
+      <button
+        btn
+        [kind]="cancelButtonType()"
         [text]="'No'"
         (click)="toggle()"
-      ></app-button>
+      ></button>
     </div>
   </div>
 </ng-template>

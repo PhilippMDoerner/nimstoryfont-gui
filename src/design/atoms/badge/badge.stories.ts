@@ -6,7 +6,7 @@ export default {
   component: BadgeComponent,
   args: {
     text: 'BadgeText',
-    type: 'PRIMARY',
+    kind: 'PRIMARY',
     icon: undefined,
   },
 } as Meta<BadgeComponent>;
@@ -22,32 +22,32 @@ Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type: 'SECONDARY',
+  kind: 'SECONDARY',
 };
 
 export const Dark = Template.bind({});
 Dark.args = {
-  type: 'DARK',
+  kind: 'DARK',
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
-  type: 'WARNING',
+  kind: 'WARNING',
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type: 'DANGER',
+  kind: 'DANGER',
 };
 
 export const Light = Template.bind({});
 Light.args = {
-  type: 'LIGHT',
+  kind: 'LIGHT',
 };
 
 export const Info = Template.bind({});
 Info.args = {
-  type: 'INFO',
+  kind: 'INFO',
 };
 
 export const WithIcon = Template.bind({});

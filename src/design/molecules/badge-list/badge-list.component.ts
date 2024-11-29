@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { ElementType } from 'src/design/atoms/_models/button';
+import { ElementKind } from 'src/design/atoms/_models/button';
 import { BadgeComponent } from 'src/design/atoms/badge/badge.component';
 import { InteractiveBadgeComponent } from 'src/design/atoms/interactive-badge/interactive-badge.component';
 import { BadgeListEntry, BadgeListSelectOptions } from '../_models/badge-list';
@@ -47,8 +47,8 @@ export class BadgeListComponent<T, O> {
   label = input('Entry');
   canCreate = input(false);
   canDelete = input(false);
-  submitButtonType = input<ElementType>('PRIMARY');
-  cancelButtonType = input<ElementType>('SECONDARY');
+  submitButtonType = input<ElementKind>('PRIMARY');
+  cancelButtonType = input<ElementKind>('SECONDARY');
 
   @Output() entryDelete: EventEmitter<T> = new EventEmitter();
   @Output() entryCreate: EventEmitter<O> = new EventEmitter();

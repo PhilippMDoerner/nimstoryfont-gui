@@ -1,13 +1,14 @@
 <div class="container list">
   @if (canCreate()) {
-    <div class="row list__button">
-      <app-button
+    <div class="list__button">
+      <button
+        btn
         class="list__button--button"
-        [type]="'PRIMARY'"
+        [kind]="'PRIMARY'"
         [text]="'Add Spell'"
         [icon]="'plus'"
         (click)="addSpell()"
-      ></app-button>
+      ></button>
     </div>
   }
 
@@ -60,7 +61,7 @@
                 >
                   <app-badge
                     [text]="connection.player_class_details?.name ?? ''"
-                    [type]="'DARK'"
+                    [kind]="'DARK'"
                   ></app-badge>
                 </button>
               }

@@ -2,7 +2,11 @@
   <div class="offcanvas-header">
     <div class="sidebar__brand brand">
       <div class="brand__back" title="campaign-overview">
-        <a [routerLink]="campaignOverviewUrl" class="brand__back-link">
+        <a
+          [routerLink]="campaignOverviewUrl"
+          class="brand__back-link"
+          aria-label="'Back to campaign overview'"
+        >
           <app-icon class="brand__back-icon" [icon]="'chevron-left'"></app-icon>
         </a>
       </div>

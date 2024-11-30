@@ -1,5 +1,10 @@
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
-import { Component, input, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -24,8 +29,9 @@ import { GeneralOverviewType } from '../_models/generalOverviewType';
     FilterListComponent,
     TitleCasePipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GeneralOverviewComponent implements OnInit, OnChanges {
+export class GeneralOverviewComponent {
   OVERVIEW_IMAGE_MAP: { [key in GeneralOverviewType]: string } = {
     CHARACTER: '/assets/overview_images/characters.webp',
     CREATURE: '/assets/overview_images/creatures.webp',
@@ -35,33 +41,43 @@ export class GeneralOverviewComponent implements OnInit, OnChanges {
     ORGANIZATION: '/assets/overview_images/organizations.webp',
   };
 
-  @Input() serverUrl!: string;
-  @Input() overviewType!: GeneralOverviewType;
-  @Input() entries!: OverviewItem[];
-  @Input() campaignName!: string;
+  serverUrl = input.required<string>();
+  overviewType = input.required<GeneralOverviewType>();
+  entries = input.required<OverviewItem[]>();
+  campaignName = input.required<string>();
   canCreate = input.required<boolean>();
 
   defaultPlayerCharacterImage: string =
     'assets/default_images/icon_default.webp';
-  displayEntries!: FilterListEntry<any>[];
-  playerCharacters?: OverviewItem[];
-  homeUrl!: string;
-  overviewTypeName!: string;
+  displayEntries = computed<FilterListEntry<any>[]>(() => {
+    switch (this.overviewType()) {
+      case 'CHARACTER':
+        return this.getCharacterEntries(this.entries());
+      case 'DIARYENTRY':
+        return this.getDiaryEntryEntries(this.entries());
+      case 'LOCATION':
+        return this.getLocationEntries(this.entries());
+      default:
+        return this.entries().map((entry) => ({
+          ...entry,
+          link: entry['getAbsoluteRouterUrl'](),
+        }));
+    }
+  });
+
+  playerCharacters = computed<OverviewItem[] | undefined>(() => {
+    if (this.overviewType() !== 'CHARACTER') return undefined;
+    return this.entries().filter((entry) => entry.player_character);
+  });
+
+  homeUrl = computed(() =>
+    this.routingService.getRoutePath('home', {
+      campaign: this.campaignName,
+    }),
+  );
+  overviewTypeName = computed(() => this.overviewType().toLocaleLowerCase());
 
   constructor(private routingService: RoutingService) {}
-
-  ngOnInit(): void {
-    this.overviewTypeName = this.overviewType.toLocaleLowerCase();
-    this.homeUrl = this.routingService.getRoutePath('home', {
-      campaign: this.campaignName,
-    });
-
-    this.setEntries();
-  }
-
-  ngOnChanges(): void {
-    this.setEntries();
-  }
 
   toImageUrl(playerCharacter: OverviewItem): string {
     return (
@@ -69,34 +85,10 @@ export class GeneralOverviewComponent implements OnInit, OnChanges {
     );
   }
 
-  private setEntries(): void {
-    switch (this.overviewType) {
-      case 'CHARACTER':
-        this.setCharacterEntries();
-        break;
-
-      case 'DIARYENTRY':
-        this.setDiaryEntryEntries();
-        break;
-
-      case 'LOCATION':
-        this.setLocationEntries();
-        break;
-
-      default:
-        this.displayEntries = this.entries.map((entry) => ({
-          ...entry,
-          link: entry['getAbsoluteRouterUrl'](),
-        }));
-    }
-  }
-
-  private setCharacterEntries(): void {
-    this.playerCharacters = this.entries.filter(
-      (entry) => entry.player_character,
-    );
-
-    this.displayEntries = this.entries
+  private getCharacterEntries(
+    entries: OverviewItem[],
+  ): FilterListEntry<OverviewItem>[] {
+    return entries
       .filter((entry) => !entry.player_character)
       .map((entry) => ({
         ...entry,
@@ -104,8 +96,10 @@ export class GeneralOverviewComponent implements OnInit, OnChanges {
       }));
   }
 
-  private setDiaryEntryEntries(): void {
-    this.displayEntries = this.entries.map((diaryEntry) => ({
+  private getDiaryEntryEntries(
+    entries: OverviewItem[],
+  ): FilterListEntry<OverviewItem>[] {
+    return entries.map((diaryEntry) => ({
       ...diaryEntry,
       name_full: this.buildDiaryEntryNameForList(diaryEntry),
       link: diaryEntry['getAbsoluteRouterUrl'](),
@@ -146,12 +140,14 @@ export class GeneralOverviewComponent implements OnInit, OnChanges {
    * any parent name at the start.
    * @param {this} context - This component, needed to grant access despite the function being assigned to an object.
    */
-  private setLocationEntries(): void {
-    this.displayEntries = this.entries
+  private getLocationEntries(
+    entries: OverviewItem[],
+  ): FilterListEntry<OverviewItem>[] {
+    return entries
       .map((locationEntry: OverviewItem) => {
         const parents: OverviewItem[] = this.getParentLocations(
           locationEntry,
-          this.entries,
+          entries,
         );
         const parentNames: string[] = parents
           .map((location: OverviewItem) => location.name)

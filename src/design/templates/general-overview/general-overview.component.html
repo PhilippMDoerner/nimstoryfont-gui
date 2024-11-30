@@ -1,10 +1,10 @@
 <app-page-container>
   <article class="overview">
     <!-- Heading -->
-    @if (overviewTypeName) {
+    @if (overviewTypeName()) {
       <div>
         <h1 class="overview__page-heading">
-          @switch (overviewType) {
+          @switch (overviewType()) {
             @case ("CHARACTER") {
               Characters
             }
@@ -32,11 +32,11 @@
     }
 
     <div class="overview__subheading">
-      @switch (overviewType) {
+      @switch (overviewType()) {
         @case ("CHARACTER") {
           <ng-container
             [ngTemplateOutlet]="
-              (playerCharacters?.length ?? 0 > 0)
+              (playerCharacters()?.length ?? 0 > 0)
                 ? characterHeading
                 : defaultHeading
             "
@@ -56,14 +56,14 @@
             btn
             [icon]="'plus'"
             [kind]="'PRIMARY'"
-            [text]="'Add ' + (overviewTypeName | titlecase)"
+            [text]="'Add ' + (overviewTypeName() | titlecase)"
           ></button>
         </a>
       </div>
     }
 
     <div>
-      @switch (overviewType) {
+      @switch (overviewType()) {
         @case ("CHARACTER") {
           <ng-container [ngTemplateOutlet]="characterBody" />
         }
@@ -78,7 +78,7 @@
 
     <!-- Footer -->
     <div class="mt-4">
-      <a [routerLink]="homeUrl" class="overview__home">
+      <a [routerLink]="homeUrl()" class="overview__home">
         <button btn [kind]="'SECONDARY'" [text]="'Back To Frontpage'"></button>
       </a>
     </div>
@@ -89,8 +89,8 @@
   <!-- Image -->
   <img
     class="overview__image"
-    [src]="OVERVIEW_IMAGE_MAP[overviewType]"
-    alt="Image describing the overview type {{ overviewType }}"
+    [src]="OVERVIEW_IMAGE_MAP[overviewType()]"
+    alt="Image describing the overview type {{ overviewType() }}"
   />
 </ng-template>
 
@@ -98,7 +98,7 @@
   <h3>Player Characters</h3>
 
   <div class="row">
-    @for (playerCharacter of playerCharacters; track playerCharacter.name) {
+    @for (playerCharacter of playerCharacters(); track playerCharacter.name) {
       <div class="col-lg-3 col-md-4 col-6 overview__player-card player-card">
         <a
           [routerLink]="playerCharacter.getAbsoluteRouterUrl()"
@@ -107,7 +107,7 @@
           @if (playerCharacter.images) {
             <app-image-card
               class="player-card__card"
-              [serverUrl]="serverUrl"
+              [serverUrl]="serverUrl()"
               [imageUrl]="toImageUrl(playerCharacter)"
               [alt]="
                 'An image displaying the player character ' +
@@ -126,26 +126,26 @@
   <h3>Non-Player Characters</h3>
 
   <app-filter-list
-    [entries]="displayEntries"
+    [entries]="displayEntries()"
     [labelProp]="'name'"
-    [heading]="overviewTypeName"
+    [heading]="overviewTypeName()"
   ></app-filter-list>
 </ng-template>
 
 <ng-template #diaryentryBody>
   <app-filter-list
-    [entries]="displayEntries"
+    [entries]="displayEntries()"
     [labelProp]="'name_full'"
     [groupProp]="'author_details.name'"
-    [heading]="overviewTypeName"
+    [heading]="overviewTypeName()"
     [forceSingleLine]="true"
   ></app-filter-list>
 </ng-template>
 
 <ng-template #defaultBody>
   <app-filter-list
-    [entries]="displayEntries"
+    [entries]="displayEntries()"
     [labelProp]="'name_full'"
-    [heading]="overviewTypeName"
+    [heading]="overviewTypeName()"
   ></app-filter-list>
 </ng-template>

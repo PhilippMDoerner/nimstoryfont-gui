@@ -1,10 +1,4 @@
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 const out = style({
   transform: 'translateX(-100%)',
@@ -17,19 +11,27 @@ export const slideInOut = trigger('slideInOut', [
   transition('* => void', [ins, animate('1s ease-in-out', out)]),
 ]);
 
-type DisplayStyle = 'flex' | 'block' | 'inline' | 'inline-block';
-export type VisibilityAnimationState = 'show' | 'hide';
-const show = (displayState: string) =>
-  state('show', style({ display: displayState }));
-const hide = state('hide', style({ display: 'none' }));
-
-export const delayVisibility = (
-  displayState: DisplayStyle,
-  delay: number = 1000,
-) =>
-  trigger('delayVisibility', [
-    show(displayState),
-    hide,
-    transition('show => hide', [animate(`${delay}ms ease-in-out`)]),
-    transition('hide => show', [animate(`${delay}ms ease-in-out`)]),
-  ]);
+export const slideInOutSameElement = trigger('slideInOutSameElement', [
+  transition('in => out', [
+    style({
+      transform: 'translateX(0%)',
+    }),
+    animate(
+      '1s ease-in-out',
+      style({
+        transform: 'translateX(-100%)',
+      }),
+    ),
+  ]),
+  transition('out => in', [
+    style({
+      transform: 'translateX(100%)',
+    }),
+    animate(
+      '1s ease-in-out',
+      style({
+        transform: 'translateX(0%)',
+      }),
+    ),
+  ]),
+]);

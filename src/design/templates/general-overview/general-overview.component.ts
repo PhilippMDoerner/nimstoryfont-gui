@@ -79,12 +79,6 @@ export class GeneralOverviewComponent {
 
   constructor(private routingService: RoutingService) {}
 
-  toImageUrl(playerCharacter: OverviewItem): string {
-    return (
-      playerCharacter?.images?.[0] ?? '/' + this.defaultPlayerCharacterImage
-    );
-  }
-
   private getCharacterEntries(
     entries: OverviewItem[],
   ): FilterListEntry<OverviewItem>[] {

@@ -31,7 +31,7 @@
   }
 
   &__player-card {
-    height: 12.5rem;
+    min-height: 12.5rem;
     margin-bottom: var(--spacer-4);
   }
 }

@@ -48,6 +48,7 @@ export const ALL_SOLID_ICONS = [
   'dragon',
   'dungeon',
   'exclamation',
+  'expand',
   'file-audio',
   'file-import',
   'file',

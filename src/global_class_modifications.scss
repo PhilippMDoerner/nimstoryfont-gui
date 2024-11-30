@@ -55,4 +55,11 @@ button {
   &:hover {
     color: var(--bs-link-hover-color);
   }
+
+  &:focus,
+  &:focus-within,
+  &:hover,
+  &:focus-visible {
+    outline: var(--focus-outline);
+  }
 }

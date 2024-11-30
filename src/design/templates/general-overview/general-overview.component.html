@@ -99,16 +99,17 @@
 
   <div class="row">
     @for (playerCharacter of playerCharacters(); track playerCharacter.name) {
-      <div class="col-lg-3 col-md-4 col-6 overview__player-card player-card">
-        <a
-          [routerLink]="playerCharacter.getAbsoluteRouterUrl()"
-          class="player-card__link"
-        >
+      <div
+        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 overview__player-card player-card"
+      >
+        <div class="player-card__link">
           @if (playerCharacter.images) {
             <app-image-card
               class="player-card__card"
               [serverUrl]="serverUrl()"
-              [imageUrl]="toImageUrl(playerCharacter)"
+              [fallbackUrl]="'/' + this.defaultPlayerCharacterImage"
+              [imageUrls]="playerCharacter.images"
+              [link]="playerCharacter.getAbsoluteRouterUrl()"
               [alt]="
                 'An image displaying the player character ' +
                 playerCharacter.name
@@ -116,7 +117,7 @@
               [text]="playerCharacter.name_full"
             ></app-image-card>
           }
-        </a>
+        </div>
       </div>
     }
   </div>

@@ -20,8 +20,3 @@ const Template: StoryFn<ImageCardComponent> = (args) => ({
 
 export const Default = Template.bind({});
 Default.args = {};
-
-export const NoImage = Template.bind({});
-NoImage.args = {
-  imageUrl: undefined,
-};

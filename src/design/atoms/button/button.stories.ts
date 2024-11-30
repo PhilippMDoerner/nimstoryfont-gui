@@ -11,9 +11,9 @@ export default {
     size: 'MEDIUM',
     isSubmitButton: false,
   },
-} as Meta<button btnComponent>;
+} as Meta<ButtonComponent>;
 
-const Template: StoryFn<button btnComponent> = (args: any) => ({
+const Template: StoryFn<ButtonComponent> = (args: any) => ({
   props: args,
   template: `
     <div class="d-flex flex-column">

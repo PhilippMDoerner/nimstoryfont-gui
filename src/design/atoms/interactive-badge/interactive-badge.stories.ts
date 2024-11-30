@@ -13,7 +13,7 @@ export default {
   ],
   args: {
     text: 'BadgeText',
-    type: 'PRIMARY',
+    kind: 'PRIMARY',
     icon: 'times',
     textLink: undefined,
   },
@@ -32,22 +32,22 @@ Default.args = {};
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-  type: 'SECONDARY',
+  kind: 'SECONDARY',
 };
 
 export const Dark = Template.bind({});
 Dark.args = {
-  type: 'DARK',
+  kind: 'DARK',
 };
 
 export const Warning = Template.bind({});
 Warning.args = {
-  type: 'WARNING',
+  kind: 'WARNING',
 };
 
 export const Danger = Template.bind({});
 Danger.args = {
-  type: 'DANGER',
+  kind: 'DANGER',
 };
 
 export const WithoutIcon = Template.bind({});

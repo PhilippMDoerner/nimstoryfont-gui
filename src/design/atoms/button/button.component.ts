@@ -7,6 +7,7 @@ import {
 import { ButtonKind, ElementSize } from '../_models/button';
 import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
   selector: 'button[btn]',
@@ -14,10 +15,11 @@ import { IconComponent } from '../icon/icon.component';
   styleUrls: ['./button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [IconComponent],
+  imports: [IconComponent, SpinnerComponent],
   host: {
     '[class]': 'classes()',
     '[type]': 'type()',
+    '[disabled]': 'isLoading()',
   },
 })
 export class ButtonComponent {
@@ -26,6 +28,7 @@ export class ButtonComponent {
   icon = input<Icon>();
   size = input<ElementSize>('MEDIUM');
   type = input<'button' | 'reset' | 'submit'>('button');
+  isLoading = input<boolean>(false);
 
   sizeClass = computed(() => {
     switch (this.size()) {

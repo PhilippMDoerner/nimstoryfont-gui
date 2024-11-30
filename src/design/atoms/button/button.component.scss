@@ -1,7 +1,10 @@
 @import "/src/screens.scss";
 
 :host {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacer-1);
 
   :disabled {
     cursor: not-allowed;
@@ -9,13 +12,15 @@
 }
 
 .btn {
-  &__icon {
-    margin-right: var(--spacer-1);
-  }
-
   &__text {
     &--large {
       font-weight: bold;
     }
+  }
+
+  &__spinner {
+    margin-left: var(--spacer-2);
+    width: 20px;
+    height: 20px;
   }
 }

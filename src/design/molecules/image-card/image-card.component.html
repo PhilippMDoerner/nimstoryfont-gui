@@ -9,24 +9,18 @@
         />
       </a>
 
-      @if (inFocus()) {
-        <button
-          class="card__img-close-btn"
-          btn
-          [kind]="'NONE'"
-          [icon]="'xmark'"
-          (click)="closeBtnClicked$.next($event)"
-          data-ignore-click="true"
-        ></button>
-      } @else {
-        <button
-          class="card__img-close-btn"
-          btn
-          [kind]="'NONE'"
-          [icon]="'expand'"
-          data-ignore-click="true"
-        ></button>
-      }
+      <button
+        class="card__img-close-btn"
+        btn
+        [kind]="'NONE'"
+        [icon]="inFocus() ? 'xmark' : 'expand'"
+        (click)="
+          inFocus()
+            ? closeBtnClicked$.next($event)
+            : openBtnClicked$.next($event)
+        "
+        data-ignore-click="true"
+      ></button>
     </div>
   }
   <div class="card-body">

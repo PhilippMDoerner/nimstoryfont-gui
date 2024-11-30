@@ -55,6 +55,7 @@ export class ImageCardComponent {
 
   selectorClicked$ = new Subject<{ index: number; event: MouseEvent }>();
   closeBtnClicked$ = new Subject<MouseEvent>();
+  openBtnClicked$ = new Subject<MouseEvent>();
   inFocus = toSignal(
     merge(
       fromEvent<FocusEvent>(this.elementRef.nativeElement, 'focusin').pipe(
@@ -86,6 +87,10 @@ export class ImageCardComponent {
       this.selectorClicked$.pipe(
         map(() => true),
         tap(() => console.log('selector-click')),
+      ),
+      this.openBtnClicked$.pipe(
+        map(() => true),
+        tap(() => console.log('open-click')),
       ),
       this.closeBtnClicked$.pipe(
         map(() => false),

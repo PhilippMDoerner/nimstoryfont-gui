@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
+  computed,
   EventEmitter,
   input,
   OnInit,
@@ -10,6 +11,11 @@ import {
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { ElementKind } from 'src/design/atoms/_models/button';
+import {
+  HeadingComponent,
+  HeadingLevel,
+  nextLevel,
+} from 'src/design/atoms/heading/heading.component';
 import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
 import {
   CompareFormComponent,
@@ -33,6 +39,7 @@ type RuleState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
     ConfirmationToggleButtonComponent,
     FormComponent,
     CompareFormComponent,
+    HeadingComponent,
   ],
 })
 export class RuleComponent implements OnInit {
@@ -43,6 +50,10 @@ export class RuleComponent implements OnInit {
   serverModel = input.required<Rule | undefined>();
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitButtonType = input<ElementKind>('PRIMARY');
+  headingLevel = input.required<HeadingLevel>();
+  bodyHeadingLevel = computed<HeadingLevel>(() =>
+    nextLevel(this.headingLevel()),
+  );
 
   @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
   @Output() ruleCreate: EventEmitter<RuleRaw> = new EventEmitter();

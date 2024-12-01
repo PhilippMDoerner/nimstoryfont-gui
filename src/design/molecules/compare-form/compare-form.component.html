@@ -11,7 +11,9 @@
   <div class="row">
     <div class="col-12" [class.col-sm-6]="!displayVertically()">
       <div>
-        <h3>Server Version</h3>
+        <app-heading class="fs-3" [headingLevel]="headingLevel()">
+          Server Version
+        </app-heading>
         <app-form
           [model]="modelFromServer()"
           [fields]="fields()"
@@ -26,7 +28,9 @@
 
     <div class="col-12" [class.col-sm-6]="!displayVertically()">
       <div>
-        <h3>Your Version</h3>
+        <app-heading class="fs-3" [headingLevel]="headingLevel()">
+          Your Version
+        </app-heading>
         <app-form
           [model]="modelFromUser()"
           [fields]="fields()"

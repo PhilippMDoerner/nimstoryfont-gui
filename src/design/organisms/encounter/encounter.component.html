@@ -1,5 +1,5 @@
 @if (encounter() || state() === "CREATE") {
-  <h4 class="card__heading">
+  <app-heading class="card__heading fs-4" [headingLevel]="headingLevel()">
     @switch (state()) {
       @case ("DISPLAY") {
         <ng-container [ngTemplateOutlet]="displayHeading" />
@@ -23,7 +23,7 @@
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }
-  </h4>
+  </app-heading>
 
   @switch (state()) {
     @case ("DISPLAY") {
@@ -105,6 +105,7 @@
       [modelFromUser]="userModel()"
       [modelFromServer]="serverModel()"
       [displayVertically]="true"
+      [headingLevel]="bodyHeadingLevel()"
       (formlySubmit)="onEncounterUpdate($event)"
       (formlyCancel)="changeState('DISPLAY', undefined)"
     ></app-compare-form>

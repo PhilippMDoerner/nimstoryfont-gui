@@ -95,7 +95,7 @@
 </ng-template>
 
 <ng-template #characterHeading>
-  <h3>Player Characters</h3>
+  <h2 class="fs-3 mb-3">Player Characters</h2>
 
   <div class="row">
     @for (playerCharacter of playerCharacters(); track playerCharacter.name) {
@@ -115,6 +115,7 @@
                 playerCharacter.name
               "
               [text]="playerCharacter.name_full"
+              [titleHeadingLevel]="'h3'"
             ></app-image-card>
           }
         </div>
@@ -124,12 +125,13 @@
 </ng-template>
 
 <ng-template #characterBody>
-  <h3>Non-Player Characters</h3>
+  <h2 class="fs-3">Non-Player Characters</h2>
 
   <app-filter-list
     [entries]="displayEntries()"
     [labelProp]="'name'"
     [heading]="overviewTypeName()"
+    [headingLevel]="'h3'"
   ></app-filter-list>
 </ng-template>
 
@@ -140,6 +142,7 @@
     [groupProp]="'author_details.name'"
     [heading]="overviewTypeName()"
     [forceSingleLine]="true"
+    [headingLevel]="'h2'"
   ></app-filter-list>
 </ng-template>
 
@@ -148,5 +151,6 @@
     [entries]="displayEntries()"
     [labelProp]="'name_full'"
     [heading]="overviewTypeName()"
+    [headingLevel]="'h2'"
   ></app-filter-list>
 </ng-template>

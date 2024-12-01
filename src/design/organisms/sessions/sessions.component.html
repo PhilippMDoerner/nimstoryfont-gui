@@ -18,7 +18,7 @@
         class="list__session-card session-card"
         [@slideUpFromBottom]
       >
-        <app-collapsible-panel [isOpen]="true">
+        <app-collapsible-panel [isOpen]="true" [headingLevel]="'h2'">
           <span heading>
             {{ createSessionData().name }}
           </span>
@@ -31,6 +31,7 @@
             [canUpdate]="false"
             [canDelete]="false"
             [canCreate]="canCreate()"
+            [headingLevel]="'h3'"
             (sessionCreate)="onSessionCreate($event)"
             (sessionCreateCancel)="cancelSessionCreation()"
           ></app-session>
@@ -39,7 +40,7 @@
     }
     @for (card of sessionCards(); track card.session.pk) {
       <div class="list__session-card session-card" [@slideOutFromBottom]>
-        <app-collapsible-panel [isOpen]="card.isOpen">
+        <app-collapsible-panel [isOpen]="card.isOpen" [headingLevel]="'h2'">
           <span heading>
             {{ card.session.name }}
           </span>
@@ -52,6 +53,7 @@
             [canUpdate]="canUpdate()"
             [canDelete]="canDelete()"
             [canCreate]="canCreate()"
+            [headingLevel]="'h3'"
             (sessionDelete)="onSessionDelete($event)"
             (sessionUpdate)="sessionUpdate.emit($event)"
           ></app-session>

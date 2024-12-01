@@ -34,6 +34,7 @@
     <app-editable-text
       class="creature__description"
       [heading]="'Description'"
+      [headingLevel]="'h2'"
       [placeholder]="'Add a description for ' + creature().name"
       [text]="creature().description"
       [serverModel]="creatureServerModel()?.description"

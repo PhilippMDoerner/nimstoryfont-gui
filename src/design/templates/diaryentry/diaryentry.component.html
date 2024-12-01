@@ -30,10 +30,10 @@
         Diary Entry # {{ diaryentry().session_details?.session_number }} <br />
         {{ diaryentry().title }}
       </h1>
-      <h6 class="col-12 diaryentry__subheading">
+      <h2 class="col-12 fs-6 diaryentry__subheading">
         Written by: {{ diaryentry().author_details?.name }} <br />
         on {{ diaryentry().session_details?.session_date | date: "longDate" }}
-      </h6>
+      </h2>
     </div>
 
     <!-- Next/Prior Diaryentry Buttons -->

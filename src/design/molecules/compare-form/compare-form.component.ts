@@ -8,6 +8,10 @@ import {
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertComponent } from 'src/design/atoms/alert/alert.component';
+import {
+  HeadingComponent,
+  HeadingLevel,
+} from 'src/design/atoms/heading/heading.component';
 import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 import { FormComponent } from '../form/form.component';
@@ -17,12 +21,19 @@ import { FormComponent } from '../form/form.component';
   styleUrls: ['./compare-form.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [AlertComponent, SeparatorComponent, FormComponent, IconComponent],
+  imports: [
+    AlertComponent,
+    SeparatorComponent,
+    FormComponent,
+    IconComponent,
+    HeadingComponent,
+  ],
 })
 export class CompareFormComponent<T> implements OnInit {
   fields = input.required<FormlyFieldConfig[]>();
   modelFromUser = input.required<T>();
   modelFromServer = input.required<T>();
+  headingLevel = input.required<HeadingLevel>();
   displayVertically = input(false);
   enctype = input('application/x-www-form-urlencoded'); //Default form enctype in HTML5
 

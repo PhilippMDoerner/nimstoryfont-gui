@@ -11,6 +11,10 @@ import {
   GroupByFirstLetterPipe,
   GroupByPipe,
 } from 'src/design/atoms/_pipes/groupObjects.pipe';
+import {
+  HeadingComponent,
+  HeadingLevel,
+} from 'src/design/atoms/heading/heading.component';
 import { FilterListEntry } from '../_model/filterListEntry';
 
 type GroupMode = 'PROPERTY' | 'LETTER';
@@ -27,12 +31,14 @@ type GroupMode = 'PROPERTY' | 'LETTER';
     GroupByPipe,
     RouterLink,
     NgTemplateOutlet,
+    HeadingComponent,
   ],
 })
 export class FilterListComponent<T> {
   entries = input.required<FilterListEntry<T>[]>();
   labelProp = input.required<Exclude<keyof T, symbol | number>>();
   heading = input.required<string>();
+  headingLevel = input.required<HeadingLevel>();
   groupProp = input<string>();
   forceSingleLine = input(false);
 

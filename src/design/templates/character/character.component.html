@@ -28,13 +28,13 @@
 
       <div class="col-12 character__subheading">
         <!-- Organization -->
-        <h5>
+        <h2 class="fs-5">
           @if (character().gender !== "Other") {
             {{ character().gender }}
           }
           {{ character().race }}
           {{ playerClasses() }}
-        </h5>
+        </h2>
 
         <!-- Current Location -->
         @let currentLocationDetails = character().current_location_details;
@@ -76,6 +76,7 @@
         [canUpdate]="canUpdate()"
         [canCreate]="canCreate()"
         [canDelete]="canDelete()"
+        [headingLevel]="'h2'"
         (refreshQuote)="refreshQuote.emit()"
         (quoteUpdate)="quoteUpdate.emit($event)"
         (quoteCreate)="quoteCreate.emit($event)"
@@ -107,6 +108,7 @@
     <app-editable-text
       class="character__description"
       [heading]="'Description'"
+      [headingLevel]="'h2'"
       [placeholder]="'Add a description for ' + character().name"
       [text]="character().description"
       [serverModel]="characterServerModel()?.description"
@@ -117,6 +119,7 @@
     <div class="character__items">
       <app-list
         [heading]="'Items of Note'"
+        [headingLevel]="'h2'"
         [entries]="characterItems()"
         [enableCreate]="canCreate()"
         [emptyListText]="character().name + ' has no significant items.'"
@@ -125,7 +128,7 @@
     </div>
 
     <div class="row">
-      <h4 class="col mb-0">
+      <h2 class="col mb-0 fs-4">
         <app-info-circle-tooltip
           [text]="(character().encounters?.length ?? 0) + ' Encounters'"
           [tooltip]="
@@ -134,7 +137,7 @@
             '. Starts with the most recent encounter and ends with the latest.'
           "
         ></app-info-circle-tooltip>
-      </h4>
+      </h2>
       <app-encounter-accordion
         [encounters]="character().encounters ?? []"
         [campaignLocations]="campaignLocations()"
@@ -143,6 +146,7 @@
         [canUpdate]="canUpdate()"
         [canCreate]="canCreate()"
         [canDelete]="canDelete()"
+        [panelHeadingLevel]="'h3'"
         (connectionCreate)="encounterConnectionCreate.emit($event)"
         (connectionDelete)="encounterConnectionDelete.emit($event)"
         (encounterDelete)="encounterDelete.emit($event)"

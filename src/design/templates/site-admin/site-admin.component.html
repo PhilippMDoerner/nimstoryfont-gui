@@ -1,5 +1,6 @@
 <app-page-container>
   <article class="site-admin">
+    <h1>Site Administration</h1>
     <a class="site-admin__return-button" [routerLink]="campaignOverviewUrl">
       <button
         btn
@@ -13,10 +14,10 @@
     <div class="site-admin__user-section user-section">
       <!-- Section Heading -->
       <div class="d-flex justify-content-between">
-        <h3 class="mb-0">
+        <h2 class="fs-3 mb-0">
           <app-icon [icon]="'user'"></app-icon>
           Users
-        </h3>
+        </h2>
 
         <!-- Heading Buttons -->
         <div class="align-self-end position-relative top1">
@@ -42,7 +43,7 @@
       <!-- New Table Entry -->
       @if (userState === "CREATE") {
         <app-card class="my-2">
-          <h4>Adding new User</h4>
+          <h3 class="fs-4">Adding new User</h3>
           <!-- Form -->
           <app-form
             [model]="userModel"
@@ -59,6 +60,7 @@
         @for (card of userCards; track card.user.pk) {
           <app-collapsible-panel
             [isOpen]="card.isOpen"
+            [headingLevel]="'h3'"
             class="user-section__user"
           >
             <ng-container heading>
@@ -89,10 +91,10 @@
     <div class="mb-3">
       <!-- Section Heading -->
       <div class="d-flex justify-content-between">
-        <h3 class="mb-0">
+        <h2 class="fs-3 mb-0">
           <app-icon [icon]="'database'"></app-icon>
           Database
-        </h3>
+        </h2>
 
         <!-- Heading Buttons -->
         <div class="align-self-end position-relative top1">
@@ -131,7 +133,7 @@
     <div class="site-admin__campaign-section campaign-section">
       <!-- Section Heading -->
       <div class="campaign-section__heading heading">
-        <h3 class="heading__text">
+        <h2 class="fs-3 heading__text">
           <app-icon [icon]="'dragon'"></app-icon>
           Campaigns
           @if (campaignState === "WAIT_WHILE_CREATING") {
@@ -139,7 +141,7 @@
               class="heading__text heading__text--loading"
             ></app-spinner>
           }
-        </h3>
+        </h2>
 
         <!-- Heading Buttons -->
         <div class="heading__button">
@@ -194,7 +196,7 @@
       <!-- New Campaign Entry -->
       @if (campaignState === "CREATE") {
         <app-card class="my-2">
-          <h4>Adding new Campaign</h4>
+          <h3 class="fs-4">Adding new Campaign</h3>
           <!-- Form -->
           <app-form
             [model]="campaignModel"

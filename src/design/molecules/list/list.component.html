@@ -1,7 +1,9 @@
 <div class="list">
   <!-- Heading -->
   <div class="list__heading">
-    <h4>{{ heading() }}</h4>
+    <app-heading class="mb-2 fs-4" [headingLevel]="headingLevel()">
+      {{ heading() }}
+    </app-heading>
     @if (enableCreate()) {
       <button
         btn

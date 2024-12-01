@@ -1,6 +1,9 @@
 <!-- Heading -->
-<h4 class="card__heading heading">
-  <span>
+<app-heading
+  class="card__heading heading fs-5 w-100"
+  [headingLevel]="headingLevel()"
+>
+  <span class="w-100">
     @switch (state()) {
       @case ("DISPLAY") {
         <ng-container [ngTemplateOutlet]="displayHeading" />
@@ -25,7 +28,7 @@
       (toggle)="onToggle($event)"
     ></app-edit-toggle>
   }
-</h4>
+</app-heading>
 
 @switch (state()) {
   @case ("DISPLAY") {
@@ -57,10 +60,13 @@
   <div class="card__body body">
     @if (diaryEntries().length > 0) {
       <div class="body__entry">
-        <h5 class="body__subheading">
+        <app-heading
+          class="body__subheading fs-6"
+          [headingLevel]="bodyHeadingLevel()"
+        >
           <app-icon [icon]="'book-open'"></app-icon>
           Diaryentries
-        </h5>
+        </app-heading>
 
         <ul class="body__subbody body__subbody--list">
           @for (diaryEntry of diaryEntries(); track diaryEntry.link) {
@@ -76,12 +82,15 @@
 
     @if (session() && session().has_recording) {
       <div class="body__entry">
-        <h5 class="body__subheading">
+        <app-heading
+          class="body__subheading fs-6"
+          [headingLevel]="bodyHeadingLevel()"
+        >
           <a [routerLink]="sessionAudioUrl()" class="body__link">
             <app-icon [icon]="'file-audio'"></app-icon>
             Recording
           </a>
-        </h5>
+        </app-heading>
       </div>
     }
   </div>
@@ -125,6 +134,7 @@
 
 <ng-template #outdatedUpdateBody>
   <app-compare-form
+    [headingLevel]="bodyHeadingLevel()"
     [fields]="formlyFields"
     [modelFromUser]="userModel()"
     [modelFromServer]="serverModel()"

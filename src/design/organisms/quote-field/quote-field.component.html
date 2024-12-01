@@ -35,7 +35,12 @@
 <ng-template #update>
   <app-card class="form-card">
     <!-- Heading -->
-    <h3 class="form-card__heading">Updating Quote {{ quote()?.pk }}</h3>
+    <app-heading
+      class="form-card__heading fs-3"
+      [headingLevel]="headingLevel()"
+    >
+      Updating Quote {{ quote()?.pk }}
+    </app-heading>
 
     @if (canUpdate() && state() === "UPDATE") {
       <app-form
@@ -54,6 +59,7 @@
         [modelFromUser]="userModel()"
         [modelFromServer]="serverModel()"
         [displayVertically]="true"
+        [headingLevel]="bodyHeadingLevel()"
         (formlySubmit)="onSubmit($event)"
         (cancel)="changeState('DISPLAY', undefined)"
       ></app-compare-form>
@@ -84,7 +90,11 @@
 <!-- Quote Delete "Form" -->
 <ng-template #delete>
   <app-card class="form-card">
-    <h5 class="form-card__heading">Delete this quote?</h5>
+    <app-heading
+      class="form-card__heading fs-5"
+      [headingLevel]="bodyHeadingLevel()"
+      >Delete this quote?</app-heading
+    >
 
     <blockquote class="form-card__quote quote">
       <app-html-text

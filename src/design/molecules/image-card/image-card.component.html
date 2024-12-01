@@ -38,9 +38,9 @@
       </div>
     }
     <a class="card__title-link" [routerLink]="link()">
-      <h5 class="card-title">
+      <app-heading class="card-title fs-6" [headingLevel]="titleHeadingLevel()">
         {{ text() }}
-      </h5>
+      </app-heading>
     </a>
   </div>
 </div>

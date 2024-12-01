@@ -18,6 +18,11 @@ import { take } from 'rxjs';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { CardComponent } from 'src/design/atoms/card/card.component';
+import {
+  HeadingComponent,
+  HeadingLevel,
+  nextLevel,
+} from 'src/design/atoms/heading/heading.component';
 import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
 import {
   BadgeListEntry,
@@ -48,6 +53,7 @@ type QuoteState =
     CompareFormComponent,
     HtmlTextComponent,
     ButtonComponent,
+    HeadingComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -61,7 +67,12 @@ export class QuoteFieldComponent {
   canDelete = input(false);
   encounters = input.required<OverviewItem[]>();
   sessions = input.required<OverviewItem[]>();
+  headingLevel = input.required<HeadingLevel>();
   quoteControlsBlacklist = input<QuoteControlKind[]>([]);
+
+  bodyHeadingLevel = computed<HeadingLevel>(() =>
+    nextLevel(this.headingLevel()),
+  );
 
   @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
   @Output() quoteCreate: EventEmitter<QuoteRaw> = new EventEmitter();

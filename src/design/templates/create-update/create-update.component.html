@@ -48,6 +48,7 @@
     [fields]="formlyFields()"
     [modelFromUser]="userModel()"
     [modelFromServer]="serverModel()"
+    [headingLevel]="'h2'"
     (formlySubmit)="onSubmit($event)"
     (formlyCancel)="cancel.emit()"
   ></app-compare-form>

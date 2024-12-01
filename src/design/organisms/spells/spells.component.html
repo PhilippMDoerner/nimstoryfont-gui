@@ -15,7 +15,7 @@
   <div class="row">
     @if (isCreatingSpell()) {
       <div class="list__spell-card spell-card" [@slideUpFromBottom]>
-        <app-collapsible-panel [isOpen]="true">
+        <app-collapsible-panel [headingLevel]="'h2'" [isOpen]="true">
           <div heading class="spell-card__heading">
             <span>
               {{ createSpellData().name ?? "" }}
@@ -31,6 +31,7 @@
             [canDelete]="false"
             [canCreate]="canCreate()"
             [cancelButtonType]="'DARK'"
+            [headingLevel]="'h3'"
             (spellCreate)="onSpellCreate($event)"
             (spellCreateCancel)="cancelSpellCreation()"
           ></app-spell>
@@ -44,7 +45,7 @@
         [id]="card.spell.name"
         #spell
       >
-        <app-collapsible-panel [isOpen]="card.isOpen">
+        <app-collapsible-panel [headingLevel]="'h2'" [isOpen]="card.isOpen">
           <div heading class="spell-card__heading">
             <span class="spell-card__heading-text">
               {{ card.spell.name ?? "" }}
@@ -77,6 +78,7 @@
             [canDelete]="canDelete()"
             [canCreate]="canCreate()"
             [cancelButtonType]="'DARK'"
+            [headingLevel]="'h3'"
             (spellDelete)="onSpellDelete($event, $index)"
             (spellUpdate)="spellUpdate.emit($event)"
             (spellCreateCancel)="cancelSpellCreation()"

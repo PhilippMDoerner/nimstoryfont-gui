@@ -31,6 +31,7 @@
         [canUpdate]="false"
         [canDelete]="false"
         [canCreate]="canCreate()"
+        [headingLevel]="'h2'"
         (quoteCreate)="quoteCreate.emit($event)"
       ></app-quote-field>
     }
@@ -42,7 +43,7 @@
       track $index
     ) {
       <div class="list__session-quotes">
-        <h3 class="m-0">Quotes of Session #{{ sessionQuotes.key }}</h3>
+        <h2 class="m-0 fs-3">Quotes of Session #{{ sessionQuotes.key }}</h2>
         @for (quote of sessionQuotes.value; track quote.pk) {
           <app-quote-field
             class="list__quote"
@@ -56,6 +57,7 @@
             [canUpdate]="canUpdate()"
             [canDelete]="canDelete()"
             [canCreate]="canCreate()"
+            [headingLevel]="'h3'"
             (quoteDelete)="quoteDelete.emit($event)"
             (quoteUpdate)="quoteUpdate.emit($event)"
             (connectionCreate)="connectionCreate.emit($event)"

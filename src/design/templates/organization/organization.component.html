@@ -66,6 +66,7 @@
     <app-editable-text
       class="organization__description"
       [heading]="'Description'"
+      [headingLevel]="'h2'"
       [placeholder]="'Add a description for ' + organization().name"
       [text]="organization().description"
       [canUpdate]="canUpdate()"
@@ -76,6 +77,7 @@
     <div class="organization__members">
       <app-list
         [heading]="'Members'"
+        [headingLevel]="'h2'"
         [entries]="organizationMembers()"
         [enableCreate]="canCreate()"
         [emptyListText]="'You know no member of ' + organization().name"

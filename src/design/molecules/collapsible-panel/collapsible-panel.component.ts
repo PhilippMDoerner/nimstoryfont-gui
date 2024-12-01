@@ -7,6 +7,10 @@ import {
   signal,
 } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import {
+  HeadingComponent,
+  HeadingLevel,
+} from 'src/design/atoms/heading/heading.component';
 import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 
@@ -16,9 +20,10 @@ import { SeparatorComponent } from 'src/design/atoms/separator/separator.compone
   styleUrls: ['./collapsible-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [SeparatorComponent, IconComponent, NgbCollapse],
+  imports: [SeparatorComponent, IconComponent, NgbCollapse, HeadingComponent],
 })
 export class CollapsiblePanelComponent implements OnInit {
+  headingLevel = input.required<HeadingLevel>();
   isOpen = input(false);
   _isOpen = signal(false);
 

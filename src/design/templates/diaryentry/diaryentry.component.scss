@@ -4,6 +4,8 @@
   &__edit-row {
     width: 100%;
     margin-bottom: var(--spacer-3);
+    margin-left: calc(0.5 * var(--bs-gutter-x));
+    margin-right: calc(0.5 * var(--bs-gutter-x));
   }
 
   &__heading {
@@ -43,6 +45,7 @@
 
   &__button-container {
     display: flex;
+    padding: 0;
   }
 
   &__button {

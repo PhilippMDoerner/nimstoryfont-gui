@@ -15,6 +15,11 @@ import { EditorComponent } from '@tinymce/tinymce-angular';
 
 import { AlertComponent } from 'src/design/atoms/alert/alert.component';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import {
+  HeadingComponent,
+  HeadingLevel,
+  nextLevel,
+} from 'src/design/atoms/heading/heading.component';
 import { HtmlTextComponent } from 'src/design/atoms/html-text/html-text.component';
 import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
@@ -34,6 +39,7 @@ type State = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
     AlertComponent,
     SeparatorComponent,
     ButtonComponent,
+    HeadingComponent,
   ],
   templateUrl: './editable-text.component.html',
   styleUrl: './editable-text.component.scss',
@@ -43,6 +49,7 @@ export class EditableTextComponent {
   text = input.required<string>();
   placeholder = input.required<string>();
   canUpdate = input.required<boolean>();
+  headingLevel = input.required<HeadingLevel>();
   serverModel = input<string>();
   heading = input<string>();
   update = output<string>();
@@ -50,6 +57,8 @@ export class EditableTextComponent {
   settings = TINYMCE_SETTINGS;
   state = signal<State>('DISPLAY');
   textModel = '';
+  bodyLevel = computed(() => nextLevel(this.headingLevel()));
+  compareHeadingLevel = computed(() => this.bodyLevel());
   editButtonText = computed(() => {
     switch (this.state()) {
       case 'DISPLAY':

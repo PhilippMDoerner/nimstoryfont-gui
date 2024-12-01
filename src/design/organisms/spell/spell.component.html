@@ -1,6 +1,9 @@
 @if (spell() || state() === "CREATE") {
-  <h4 class="card__heading heading">
-    <span>
+  <app-heading
+    class="card__heading heading fs-4 w-100"
+    [headingLevel]="headingLevel()"
+  >
+    <span class="w-100">
       @switch (state()) {
         @case ("DISPLAY") {
           <ng-container [ngTemplateOutlet]="displayHeading" />
@@ -24,7 +27,7 @@
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }
-  </h4>
+  </app-heading>
 
   @switch (state()) {
     @case ("DISPLAY") {
@@ -188,6 +191,7 @@
     [modelFromUser]="userModel()"
     [modelFromServer]="serverModel()"
     [displayVertically]="true"
+    [headingLevel]="bodyHeadingLevel()"
     (formlySubmit)="onSpellUpdate($event)"
     (formlyCancel)="changeState('DISPLAY', undefined)"
   ></app-compare-form>

@@ -14,7 +14,7 @@
   <div class="row">
     @if (isCreatingRule()) {
       <div class="list__rule-card rule-card" [@slideUpFromBottom]>
-        <app-collapsible-panel [isOpen]="true">
+        <app-collapsible-panel [isOpen]="true" [headingLevel]="'h2'">
           <span heading>
             {{ createRuleData().name }}
           </span>
@@ -23,6 +23,7 @@
             body
             class="rule-card__rule"
             [rule]="createRuleData()"
+            [headingLevel]="'h3'"
             [serverModel]="undefined"
             [canUpdate]="false"
             [canDelete]="false"
@@ -41,7 +42,7 @@
         [id]="card.rule.name"
         #rule
       >
-        <app-collapsible-panel [isOpen]="card.isOpen">
+        <app-collapsible-panel [isOpen]="card.isOpen" [headingLevel]="'h2'">
           <span heading>
             {{ card.rule.name }}
           </span>
@@ -50,6 +51,7 @@
             body
             class="rule-card__rule"
             [rule]="card.rule"
+            [headingLevel]="'h3'"
             [serverModel]="serverModel()"
             [canUpdate]="canUpdate()"
             [canDelete]="canDelete()"

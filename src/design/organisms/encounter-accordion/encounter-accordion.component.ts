@@ -8,6 +8,7 @@ import {
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
+import { HeadingLevel } from 'src/design/atoms/heading/heading.component';
 import { Encounter, EncounterConnection } from '../../../app/_models/encounter';
 import { EncounterComponent } from '../encounter/encounter.component';
 
@@ -24,6 +25,7 @@ export class EncounterAccordionComponent {
   campaignLocations = input.required<OverviewItem[]>();
   campaignCharacters = input.required<OverviewItem[]>();
   serverModel = input<Encounter>();
+  panelHeadingLevel = input.required<HeadingLevel>();
   canUpdate = input(false);
   canCreate = input(false);
   canDelete = input(false);

@@ -22,6 +22,11 @@ import {
   EditToggleComponent,
   FormComponent,
 } from 'src/design/molecules';
+import {
+  HeadingComponent,
+  HeadingLevel,
+  nextLevel,
+} from '../../atoms/heading/heading.component';
 
 type SessionState = 'CREATE' | 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
 
@@ -44,6 +49,7 @@ interface DiaryEntry {
     ConfirmationToggleButtonComponent,
     FormComponent,
     CompareFormComponent,
+    HeadingComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -53,6 +59,9 @@ export class SessionComponent implements OnInit {
   canDelete = input.required<boolean>();
   canCreate = input.required<boolean>();
   serverModel = input.required<Session | undefined>();
+  headingLevel = input.required<HeadingLevel>();
+
+  bodyHeadingLevel = computed(() => nextLevel(this.headingLevel()));
 
   @Output() sessionDelete: EventEmitter<Session> = new EventEmitter();
   @Output() sessionCreate: EventEmitter<Session> = new EventEmitter();

@@ -35,9 +35,12 @@
     >
       <!-- Letter Heading -->
       @if (filterInputElement.value.length === 0) {
-        <h5 class="letter-list__heading">
+        <app-heading
+          class="letter-list__heading fs-5"
+          [headingLevel]="headingLevel()"
+        >
           {{ itemLetterEntries.key }}
-        </h5>
+        </app-heading>
       }
 
       <!-- Article List -->
@@ -71,9 +74,12 @@
       >
         <!-- Letter Heading -->
         @if (filterInputElement.value.length === 0) {
-          <h5 class="letter-list__heading">
+          <app-heading
+            class="letter-list__heading fs-5"
+            [headingLevel]="headingLevel()"
+          >
             {{ itemLetterEntries.key }}
-          </h5>
+          </app-heading>
         }
 
         <!-- Article List -->

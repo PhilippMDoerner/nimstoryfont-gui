@@ -34,6 +34,11 @@ import {
   SPELL_SCHOOLS,
   SpellPlayerClassConnection,
 } from '../../../app/_models/spell';
+import {
+  HeadingComponent,
+  HeadingLevel,
+  nextLevel,
+} from '../../atoms/heading/heading.component';
 
 type SpellState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
 
@@ -52,6 +57,7 @@ type SpellState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
     ConfirmationToggleButtonComponent,
     FormComponent,
     CompareFormComponent,
+    HeadingComponent,
   ],
 })
 export class SpellComponent implements OnInit {
@@ -63,6 +69,11 @@ export class SpellComponent implements OnInit {
   serverModel = input.required<Spell | undefined>();
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitButtonType = input<ElementKind>('PRIMARY');
+  headingLevel = input.required<HeadingLevel>();
+
+  bodyHeadingLevel = computed<HeadingLevel>(() =>
+    nextLevel(this.headingLevel()),
+  );
 
   @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
   @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();

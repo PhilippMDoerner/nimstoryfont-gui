@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -21,6 +20,10 @@ import {
   tap,
 } from 'rxjs';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import {
+  HeadingComponent,
+  HeadingLevel,
+} from 'src/design/atoms/heading/heading.component';
 
 @Component({
   selector: 'app-image-card',
@@ -28,7 +31,7 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
   styleUrls: ['./image-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [RouterLink, ButtonComponent, AsyncPipe],
+  imports: [RouterLink, ButtonComponent, HeadingComponent],
   host: {
     '[class.card--active]': 'inFocus()',
   },
@@ -45,6 +48,7 @@ export class ImageCardComponent {
   link = input<string>();
   text = input.required<string>();
   alt = input<string>();
+  titleHeadingLevel = input.required<HeadingLevel>();
 
   currentImageIndex = signal(0);
   currentImage = computed(

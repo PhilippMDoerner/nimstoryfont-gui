@@ -21,7 +21,7 @@
 
       <!-- String indicating all parent_locations -->
       @if (location().parent_location_list?.length ?? 0 > 0) {
-        <h5 class="col-12 location__subheading subheading">
+        <h2 class="col-12 fs-5 location__subheading subheading">
           @for (
             parentLocation of parentLocations;
             track parentLocation;
@@ -36,7 +36,7 @@
             ></app-icon>
           }
           {{ location().name }}
-        </h5>
+        </h2>
       }
     </div>
 
@@ -73,6 +73,7 @@
     <app-editable-text
       class="location__description"
       [heading]="'Description'"
+      [headingLevel]="'h2'"
       [placeholder]="'Add a description for ' + location().name"
       [text]="location().description"
       [canUpdate]="canUpdate()"
@@ -83,6 +84,7 @@
     <div class="location__characters">
       <app-list
         [heading]="'Characters of interest'"
+        [headingLevel]="'h2'"
         [entries]="locationCharacters"
         [enableCreate]="canCreate()"
         [emptyListText]="'You know nobody in ' + location().name"

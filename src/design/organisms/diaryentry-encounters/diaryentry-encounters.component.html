@@ -114,9 +114,9 @@
 </div>
 
 <ng-template #displayEncounter let-entryEncounter>
-  <h4>
+  <h2 class="fs-4 mb-2">
     {{ entryEncounter.encounter?.title }}
-  </h4>
+  </h2>
   <app-html-text [text]="entryEncounter.encounter.description"></app-html-text>
 </ng-template>
 
@@ -135,6 +135,7 @@
         [initialState]="
           context.entry.encounter.pk == null ? 'CREATE' : 'DISPLAY'
         "
+        [headingLevel]="'h3'"
         (connectionDelete)="connectionDelete.emit($event)"
         (connectionCreate)="connectionCreate.emit($event)"
         (encounterDelete)="onEncounterDelete(context.index)"

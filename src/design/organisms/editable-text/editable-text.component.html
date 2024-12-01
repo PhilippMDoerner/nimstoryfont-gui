@@ -1,19 +1,19 @@
 <!-- Heading -->
 @let headingVal = heading();
 @if (headingVal) {
-  <h4 class="heading">
+  <app-heading class="heading fs-4" [headingLevel]="headingLevel()">
     <app-html-text [text]="headingVal" />
     @if (canUpdate()) {
       <button class="heading__edit-button" (click)="toggleEdit()">
-        <h6 class="heading__edit-text">
+        <span class="heading__edit-text fs-6">
           (
           {{ editButtonText() }}
           <app-icon [icon]="'pen'"></app-icon>
           )
-        </h6>
+        </span>
       </button>
     }
-  </h4>
+  </app-heading>
 }
 
 <!-- Text Body -->
@@ -57,7 +57,9 @@
     <div class="flex-column card p-4">
       <!-- Comparison text -->
       <div>
-        <h3>Server Version</h3>
+        <app-heading class="fs-3" [headingLevel]="compareHeadingLevel()">
+          Server Version
+        </app-heading>
         <app-html-text [text]="serverModel()!" />
       </div>
 
@@ -65,7 +67,9 @@
 
       <!-- Actual edit form -->
       <form (submit)="finishEdit()">
-        <h3>Your Version</h3>
+        <app-heading class="fs-3" [headingLevel]="compareHeadingLevel()">
+          Your Version
+        </app-heading>
 
         <editor
           [init]="settings"

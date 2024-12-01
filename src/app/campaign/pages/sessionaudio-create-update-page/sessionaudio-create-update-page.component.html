@@ -12,12 +12,12 @@
 } @else {
   <app-page-container class="form-page">
     <div class="container">
-      <h4 class="text-center">File Upload Progress</h4>
+      <h1 class="text-center fs-3">File Upload Progress</h1>
 
       @let progress = store.uploadProgress();
       @if (progress !== undefined) {
         <ngb-progressbar type="primary" [value]="progress" />
-        <h6 class="text-center">{{ progress | number: "1.0-0" }}%</h6>
+        <h2 class="text-center fs-5">{{ progress | number: "1.0-0" }}%</h2>
       }
     </div>
   </app-page-container>

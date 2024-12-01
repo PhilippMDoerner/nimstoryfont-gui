@@ -43,7 +43,6 @@
       @for (entryEncounter of diaryEntryEncounters(); track entryEncounter) {
         <!-- Encounter -->
         <div
-          [@slideUpFromBottom]
           class="repeated-unit"
           [id]="entryEncounter.encounter.title"
           #encounter

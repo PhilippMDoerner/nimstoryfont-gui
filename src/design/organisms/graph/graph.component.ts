@@ -6,6 +6,7 @@ import {
   effect,
   ElementRef,
   inject,
+  input,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -23,7 +24,7 @@ import {
 } from 'd3';
 import { filter, map, ReplaySubject, Subject, take } from 'rxjs';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
-import { FDGLink, FDGNode, miserables } from './data';
+import { FDGLink, FDGNode, MiserableData } from './data';
 import {
   addConnections,
   addDragBehavior,
@@ -45,6 +46,8 @@ type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent {
+  data = input.required<MiserableData>();
+
   destructor = inject(DestroyRef);
   graphContainer = viewChild<ElementRef<HTMLDivElement>>('graphContainer');
   graphElement!: GraphElement;
@@ -58,8 +61,7 @@ export class GraphComponent {
 
   constructor() {
     this.zoomLevel$.next(1);
-    // Move to Subjects/Observables to set it up so that zooms from the graph also update shit
-    this.createGraph();
+    effect(() => this.createGraph(this.data()), { allowSignalWrites: true });
 
     effect(() => {
       const graph = this.graphElement.node();
@@ -90,7 +92,7 @@ export class GraphComponent {
       );
   }
 
-  private createGraph() {
+  private createGraph({ links, nodes }: MiserableData) {
     const width = 1600;
     const height = inferGraphHeight(width, getBreakpoint());
     this.graphElement = create('svg')
@@ -102,11 +104,6 @@ export class GraphComponent {
     this.zoomContainer = this.graphElement.append('g');
 
     this.addZoomListener(this.graphElement, width, height);
-
-    // The force simulation mutates links and nodes, so create a copy
-    // so that re-evaluating this cell produces the same result.
-    const links = miserables.links;
-    const nodes = miserables.nodes;
 
     // Add a line for each link, and a circle for each node.
     const allLinksElement = addConnections(this.zoomContainer, links);

@@ -22,22 +22,23 @@ export function addNodes(
     .attr('style', 'cursor: grab;');
 
   // Add image inside circle with background-color
-  const imgGroups = nodes.append('g');
+  // const imgGroups = nodes.append('g');
   const imgSize = 10;
-  imgGroups
+  // imgGroups
+  nodes
     .append('circle')
     .attr('r', imgSize / 2 + 1)
     .attr('stroke', 'black')
-    .attr('fill', 'white');
+    .attr('fill', (d) => d.circleColor);
 
-  imgGroups
-    .append('image')
-    .attr('xlink:href', (d) => `/assets/overview_images/creatures.webp`)
-    .attr('clip-path', 'inset(0% round 50%)')
-    .attr('width', imgSize)
-    .attr('height', imgSize)
-    .attr('x', (imgSize * -1) / 2)
-    .attr('y', (imgSize * -1) / 2);
+  // imgGroups
+  //   .append('image')
+  //   .attr('xlink:href', (d) => `/assets/overview_images/creatures.webp`)
+  //   .attr('clip-path', 'inset(0% round 50%)')
+  //   .attr('width', imgSize)
+  //   .attr('height', imgSize)
+  //   .attr('x', (imgSize * -1) / 2)
+  //   .attr('y', (imgSize * -1) / 2);
 
   // Add Label
   nodes

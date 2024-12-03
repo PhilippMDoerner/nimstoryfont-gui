@@ -1,0 +1,32 @@
+<div class="graph-container" #graphContainer>
+  <div class="graph-container__controls controls">
+    <div class="controls__slider-container">
+      <button
+        btn
+        class="controls__slider-button"
+        [kind]="'SECONDARY'"
+        [icon]="'plus'"
+        [size]="'SMALL'"
+        (click)="onZoomButtonClick(1)"
+      ></button>
+      <input
+        #zoomControl
+        type="range"
+        [min]="minZoom"
+        [max]="maxZoom"
+        [value]="(zoomLevel$ | async) ?? 1"
+        [step]="0.1"
+        (input)="zoomSliderEvents$.next(zoomControl.value)"
+        class="controls__slider"
+      />
+      <button
+        btn
+        class="controls__slider-button"
+        [kind]="'SECONDARY'"
+        [icon]="'plus'"
+        [size]="'SMALL'"
+        (click)="onZoomButtonClick(-1)"
+      ></button>
+    </div>
+  </div>
+</div>

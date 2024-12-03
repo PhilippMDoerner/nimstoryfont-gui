@@ -1,0 +1,45 @@
+:host {
+  background-color: var(--bs-secondary-bg-subtle);
+}
+
+.graph-container {
+  background-color: inherit;
+  border-radius: var(--bs-border-radius);
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.controls {
+  border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-secondary);
+
+  &__slider-container {
+    position: relative;
+    height: 100%;
+    width: var(--spacer-5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__slider-button {
+    padding: 4px;
+    padding-right: 0px;
+  }
+
+  &__slider {
+    position: absolute;
+    width: 225%;
+    right: -63%;
+    top: 45%;
+    transform: rotate(270deg);
+  }
+}
+
+svg {
+  cursor: move;
+
+  circle {
+    cursor: grab;
+  }
+}

@@ -53,7 +53,7 @@ export class GraphComponent {
   graphElement!: GraphElement;
   zoomContainer!: ZoomElement;
   zoomBehavior!: ZoomBehavior<any, any>;
-  minZoom = 1;
+  minZoom = 0.5;
   maxZoom = 8;
 
   zoomSliderEvents$ = new Subject<string>();
@@ -94,7 +94,7 @@ export class GraphComponent {
   }
 
   private createGraph({ links, nodes }: NodeMap) {
-    const width = 1600;
+    const width = 1080;
     const height = inferGraphHeight(width, getBreakpoint());
     this.graphElement = create('svg')
       .attr('viewBox', [0, 0, width, height])
@@ -114,9 +114,11 @@ export class GraphComponent {
     const simulation = forceSimulation(nodes)
       .force(
         'link',
-        forceLink<ArticleNode, Link>(links).id((d) => (d.record as any).name),
+        forceLink<ArticleNode, Link>(links)
+          .id((d) => (d.record as any).name)
+          .strength(0.5),
       )
-      .force('charge', forceManyBody())
+      .force('charge', forceManyBody().strength(-5))
       .force('center', forceCenter(width / 2, height / 2));
     addDragBehavior(allNodesElement, simulation);
 

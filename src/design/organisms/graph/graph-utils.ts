@@ -1,13 +1,14 @@
 import { drag, Selection, Simulation } from 'd3';
+import { capitalize } from 'src/utils/string';
 import { ArticleNode, ArticleNodeKind, Link } from './data';
 
 export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 const colorMap: { [key in ArticleNodeKind]: string } = {
-  CHARACTER: 'red',
-  LOCATION: 'blue',
-  ORGANIZATION: 'black',
-  ITEM: 'yellow',
+  CHARACTER: 'var(--character-color)',
+  LOCATION: 'var(--location-color)',
+  ORGANIZATION: 'var(--organization-color)',
+  ITEM: 'var(--item-color)',
 };
 
 export function addNodes(
@@ -60,7 +61,9 @@ export function addNodes(
     .attr('transform', 'scale(0.3)')
     .text((d) => d.record.name);
 
-  nodes.append('title').text((d) => (d.record as any).name);
+  nodes
+    .append('title')
+    .text((d) => `${capitalize(d.record.article_type)} - ${d.record.name}`);
 
   return nodes;
 }
@@ -142,12 +145,12 @@ export function inferGraphHeight(
     case 'sm':
       return width * 1.5;
     case 'md':
-      return width;
+      return width * 1.25;
     case 'lg':
-      return width * 0.75;
+      return width;
     case 'xl':
-      return width / 2;
+      return width * 0.75;
     case 'xxl':
-      return width / 3;
+      return width * 0.5;
   }
 }

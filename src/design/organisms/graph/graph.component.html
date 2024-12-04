@@ -14,7 +14,7 @@
         type="range"
         [min]="minZoom"
         [max]="maxZoom"
-        [value]="(zoomLevel$ | async) ?? 1"
+        [value]="(zoomLevel$ | async) ?? minZoom"
         [step]="0.1"
         (input)="zoomSliderEvents$.next(zoomControl.value)"
         class="controls__slider"
@@ -23,7 +23,7 @@
         btn
         class="controls__slider-button"
         [kind]="'SECONDARY'"
-        [icon]="'plus'"
+        [icon]="'minus'"
         [size]="'SMALL'"
         (click)="onZoomButtonClick(-1)"
       ></button>

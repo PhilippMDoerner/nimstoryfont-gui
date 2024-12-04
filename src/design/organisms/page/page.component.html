@@ -1,34 +1,13 @@
 @let campaign = globalStore.currentCampaign();
 @if (campaign) {
   <div class="mobile">
-    <nav class="navbar bg-dark">
-      <div class="container-fluid">
-        @if (canShowSidebar()) {
-          <button
-            btn
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasNavbar"
-            aria-controls="sidebar"
-            aria-label="Toggle navigation"
-            (click)="openSidebar()"
-          >
-            <app-icon [icon]="'bars'" />
-          </button>
-        }
-        <a class="navbar-brand" [routerLink]="homeUrl()">
-          <strong>
-            <img
-              class="navbar-brand-icon"
-              [src]="serverUrl() + globalStore.currentCampaign()?.icon"
-              alt="To Home Page"
-            />
-            {{ titleService.currentPageTitle() }}
-          </strong>
-        </a>
-      </div>
-    </nav>
+    <app-mobile-header
+      [canShowSidebar]="canShowSidebar()"
+      [title]="titleService.currentPageTitle()"
+      [currentCampaignIconUrl]="campaign.icon"
+      [titleUrl]="homeUrl()"
+      (openSidebar)="openSidebar()"
+    ></app-mobile-header>
   </div>
 
   @if (canShowSidebar()) {

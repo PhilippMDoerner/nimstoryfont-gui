@@ -12,7 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, filter, fromEvent, map, switchMap } from 'rxjs';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -22,7 +22,7 @@ import { MOBILE_WIDTH, SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { GlobalStore } from 'src/app/global.store';
 import { PageBackgroundComponent } from 'src/design/molecules';
 import { delayFalsy, filterNil } from 'src/utils/rxjs-operators';
-import { IconComponent } from '../../atoms/icon/icon.component';
+import { MobileHeaderComponent } from '../mobile-header/mobile-header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
 export const showSidebarSignal = signal(true);
@@ -38,8 +38,7 @@ export const showSidebarSignal = signal(true);
     RouterOutlet,
     AsyncPipe,
     NgTemplateOutlet,
-    RouterLink,
-    IconComponent,
+    MobileHeaderComponent,
   ],
   providers: [NgbOffcanvas],
 })

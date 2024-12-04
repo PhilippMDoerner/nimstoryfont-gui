@@ -24,7 +24,7 @@ import {
 } from 'd3';
 import { filter, map, ReplaySubject, Subject, take } from 'rxjs';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
-import { FDGLink, FDGNode, MiserableData } from './data';
+import { ArticleNode, Link, NodeMap } from './data';
 import {
   addConnections,
   addDragBehavior,
@@ -46,7 +46,7 @@ type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent {
-  data = input.required<MiserableData>();
+  data = input.required<NodeMap>();
 
   destructor = inject(DestroyRef);
   graphContainer = viewChild<ElementRef<HTMLDivElement>>('graphContainer');
@@ -60,6 +60,7 @@ export class GraphComponent {
   zoomLevel$ = new ReplaySubject<number>(1);
 
   constructor() {
+    effect(() => console.log(this.data()));
     this.zoomLevel$.next(1);
     effect(() => this.createGraph(this.data()), { allowSignalWrites: true });
 
@@ -92,7 +93,7 @@ export class GraphComponent {
       );
   }
 
-  private createGraph({ links, nodes }: MiserableData) {
+  private createGraph({ links, nodes }: NodeMap) {
     const width = 1600;
     const height = inferGraphHeight(width, getBreakpoint());
     this.graphElement = create('svg')
@@ -113,7 +114,7 @@ export class GraphComponent {
     const simulation = forceSimulation(nodes)
       .force(
         'link',
-        forceLink<FDGNode, FDGLink>(links).id((d) => d.id),
+        forceLink<ArticleNode, Link>(links).id((d) => (d.record as any).name),
       )
       .force('charge', forceManyBody())
       .force('center', forceCenter(width / 2, height / 2));

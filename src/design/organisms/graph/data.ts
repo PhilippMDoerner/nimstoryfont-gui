@@ -1,9 +1,14 @@
-export type ArticleNodeKind = 'LOCATION' | 'CHARACTER' | 'ORGANIZATION';
+export type ArticleNodeKind =
+  | 'LOCATION'
+  | 'CHARACTER'
+  | 'ORGANIZATION'
+  | 'ITEM';
 
-const colorMap: { [key in ArticleNodeKind]: string } = {
+export const colorMap: { [key in ArticleNodeKind]: string } = {
   CHARACTER: 'red',
   LOCATION: 'blue',
   ORGANIZATION: 'black',
+  ITEM: 'yellow',
 };
 
 export interface FDGNode extends d3.SimulationNodeDatum {
@@ -15,10 +20,27 @@ export interface FDGNode extends d3.SimulationNodeDatum {
 export interface FDGLink extends d3.SimulationLinkDatum<FDGNode> {
   value: number;
 }
+
 export type MiserableData = {
   nodes: FDGNode[];
   links: FDGLink[];
 };
+
+export interface ArticleNode extends d3.SimulationNodeDatum {
+  record: { article_type: ArticleNodeKind; name: string } & unknown;
+  guid: string;
+}
+
+export interface Link extends d3.SimulationLinkDatum<ArticleNode> {
+  weight: number;
+  label: string;
+  linkKind: string;
+}
+
+export interface NodeMap {
+  nodes: ArticleNode[];
+  links: Link[];
+}
 
 export const miserables: MiserableData = {
   nodes: [

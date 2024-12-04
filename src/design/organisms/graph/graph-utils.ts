@@ -1,7 +1,14 @@
 import { drag, Selection, Simulation } from 'd3';
-import { FDGLink, FDGNode } from './data';
+import { ArticleNode, ArticleNodeKind, Link } from './data';
 
 export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+
+const colorMap: { [key in ArticleNodeKind]: string } = {
+  CHARACTER: 'red',
+  LOCATION: 'blue',
+  ORGANIZATION: 'black',
+  ITEM: 'yellow',
+};
 
 export function addNodes(
   hostElement: Selection<
@@ -10,7 +17,7 @@ export function addNodes(
     null,
     undefined
   >,
-  nodeData: FDGNode[],
+  nodeData: ArticleNode[],
 ) {
   const nodes = hostElement
     .append('g')
@@ -29,7 +36,10 @@ export function addNodes(
     .append('circle')
     .attr('r', imgSize / 2 + 1)
     .attr('stroke', 'black')
-    .attr('fill', (d) => d.circleColor);
+    .attr(
+      'fill',
+      (d) => colorMap[d.record.article_type.toUpperCase() as ArticleNodeKind],
+    );
 
   // imgGroups
   //   .append('image')
@@ -48,9 +58,9 @@ export function addNodes(
     .attr('stroke', '#000')
     .attr('stroke-width', 0.5)
     .attr('transform', 'scale(0.3)')
-    .text((d) => d.id);
+    .text((d) => d.record.name);
 
-  nodes.append('title').text((d) => d.id);
+  nodes.append('title').text((d) => (d.record as any).name);
 
   return nodes;
 }
@@ -62,7 +72,7 @@ export function addConnections(
     null,
     undefined
   >,
-  links: FDGLink[],
+  links: Link[],
 ) {
   const allLinksElement = hostElement
     .append('g')
@@ -71,27 +81,33 @@ export function addConnections(
     .selectAll()
     .data(links)
     .join('line')
-    .attr('stroke-width', (d) => Math.sqrt(d.value));
+    .attr('stroke-width', (d) => Math.sqrt(5));
 
   return allLinksElement;
 }
 
 export function addDragBehavior(
-  node: Selection<SVGGElement, FDGNode, SVGGElement, undefined>,
-  simulation: Simulation<FDGNode, undefined>,
+  node: Selection<SVGGElement, ArticleNode, SVGGElement, undefined>,
+  simulation: Simulation<ArticleNode, undefined>,
 ) {
-  function dragstarted(event: d3.D3DragEvent<SVGElement, FDGNode, FDGNode>) {
+  function dragstarted(
+    event: d3.D3DragEvent<SVGElement, ArticleNode, ArticleNode>,
+  ) {
     if (!event.active) simulation.alphaTarget(0.3).restart();
     event.subject.fx = event.subject.x;
     event.subject.fy = event.subject.y;
   }
 
-  function dragged(event: d3.D3DragEvent<SVGElement, FDGNode, FDGNode>) {
+  function dragged(
+    event: d3.D3DragEvent<SVGElement, ArticleNode, ArticleNode>,
+  ) {
     event.subject.fx = event.x;
     event.subject.fy = event.y;
   }
 
-  function dragended(event: d3.D3DragEvent<SVGElement, FDGNode, FDGNode>) {
+  function dragended(
+    event: d3.D3DragEvent<SVGElement, ArticleNode, ArticleNode>,
+  ) {
     if (!event.active) simulation.alphaTarget(0);
     event.subject.fx = null;
     event.subject.fy = null;

@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  signal,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -50,22 +51,27 @@ export class GraphComponent {
 
   destructor = inject(DestroyRef);
   graphContainer = viewChild<ElementRef<HTMLDivElement>>('graphContainer');
-  graphElement!: GraphElement;
-  zoomContainer!: ZoomElement;
-  zoomBehavior!: ZoomBehavior<any, any>;
+  elements = signal<
+    | {
+        graphElement: GraphElement;
+        zoomContainer: ZoomElement;
+        zoomBehavior: ZoomBehavior<any, any>;
+      }
+    | undefined
+  >(undefined);
+
   minZoom = 0.5;
-  maxZoom = 8;
+  maxZoom = 12;
 
   zoomSliderEvents$ = new Subject<string>();
   zoomLevel$ = new ReplaySubject<number>(1);
 
   constructor() {
-    effect(() => console.log(this.data()));
     this.zoomLevel$.next(1);
     effect(() => this.createGraph(this.data()), { allowSignalWrites: true });
 
     effect(() => {
-      const graph = this.graphElement.node();
+      const graph = this.elements()?.graphElement.node();
       if (this.graphContainer() && graph) {
         const graphContainerElement = this.graphContainer()?.nativeElement;
         graphContainerElement?.querySelector('svg')?.remove();
@@ -81,7 +87,10 @@ export class GraphComponent {
         takeUntilDestroyed(),
       )
       .subscribe((newZoomLevel) => {
-        this.zoomBehavior.scaleTo(this.zoomContainer, newZoomLevel);
+        this.elements()?.zoomBehavior.scaleTo(
+          this.elements()!.zoomContainer,
+          newZoomLevel,
+        );
       });
   }
 
@@ -96,19 +105,29 @@ export class GraphComponent {
   private createGraph({ links, nodes }: NodeMap) {
     const width = 1080;
     const height = inferGraphHeight(width, getBreakpoint());
-    this.graphElement = create('svg')
+    const graphElement = create('svg')
       .attr('viewBox', [0, 0, width, height])
       .attr(
         'style',
         'max-width: 100%; height: auto; min-height: 300px; cursor: move;',
       );
-    this.zoomContainer = this.graphElement.append('g');
+    const zoomContainer = graphElement.append('g');
+    const zoomBehavior = this.addZoomListener(
+      graphElement,
+      zoomContainer,
+      width,
+      height,
+    );
 
-    this.addZoomListener(this.graphElement, width, height);
+    this.elements.set({
+      graphElement,
+      zoomContainer,
+      zoomBehavior,
+    });
 
     // Add a line for each link, and a circle for each node.
-    const allLinksElement = addConnections(this.zoomContainer, links);
-    const allNodesElement = addNodes(this.zoomContainer, nodes);
+    const allLinksElement = addConnections(zoomContainer, links);
+    const allNodesElement = addNodes(zoomContainer, nodes);
 
     // Create a simulation with several forces.
     const simulation = forceSimulation(nodes)
@@ -130,10 +149,11 @@ export class GraphComponent {
 
   private addZoomListener(
     hostElement: Selection<SVGSVGElement, undefined, null, undefined>,
+    zoomContainer: ZoomElement,
     width: number,
     height: number,
   ) {
-    this.zoomBehavior = zoom<any, any>()
+    const zoomBehavior = zoom<any, any>()
       .extent([
         [0, 0],
         [width, height],
@@ -141,10 +161,12 @@ export class GraphComponent {
       .scaleExtent([this.minZoom, this.maxZoom])
       .on('zoom', (val) => {
         console.log('Zoom event');
-        this.zoomContainer.attr('transform', val.transform);
+        zoomContainer.attr('transform', val.transform);
         this.zoomLevel$.next(val.transform.k);
       });
-    hostElement.call(this.zoomBehavior);
+    hostElement.call(zoomBehavior);
+
+    return zoomBehavior;
   }
 
   private updateGraphdata(

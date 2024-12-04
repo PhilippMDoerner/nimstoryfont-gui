@@ -57,6 +57,7 @@ export const ALL_SOLID_ICONS = [
   'hammer',
   'hand-sparkles',
   'hat-wizard',
+  'diagram-project',
   'hotel',
   'hourglass-half',
   'info-circle',

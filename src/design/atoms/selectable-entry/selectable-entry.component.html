@@ -1,7 +1,7 @@
 @if (isSelectable()) {
   <button
     class="w-100 hover-highlight"
-    (click)="entryClick.emit(isActive() ? 'ACTIVE' : 'INACTIVE')"
+    (click)="entryClick.emit(isActive() ? 'INACTIVE' : 'ACTIVE')"
   >
     <ng-container *ngTemplateOutlet="entry"></ng-container>
   </button>

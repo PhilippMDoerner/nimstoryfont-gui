@@ -106,4 +106,12 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['session', 'sessions'],
     showInSidebar: true,
   },
+  {
+    title: 'Wiki-Overview',
+    iconClass: 'diagram-project',
+    route: 'graph',
+    color: 'white',
+    article_types: [],
+    showInSidebar: true,
+  },
 ];

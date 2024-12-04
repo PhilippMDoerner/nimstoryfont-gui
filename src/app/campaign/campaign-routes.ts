@@ -10,6 +10,7 @@ import { CreatureUpdateCreateStore } from './pages/creature-update-create-page/c
 import { DiaryEntryCreateUpdatePageStore } from './pages/diaryentry-create-update-page/diaryentry-create-update-page.store';
 import { DiaryentryPageStore } from './pages/diaryentry-page/diaryentry-page.store';
 import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
+import { GraphPageStore } from './pages/graph-page/graph-page.store';
 import { HomePageStore } from './pages/home-page/home-page.store';
 import { ItemCreateUpdateStore } from './pages/item-create-update-page/item-create-update-page.store';
 import { ItemPageStore } from './pages/item-page/item-page.store';
@@ -845,6 +846,19 @@ const detailRoutes: Route[] = [
         canDeactivate: [onExitReset(SessionaudioCreateUpdatePageStore)],
       },
     ],
+  },
+  // Graph
+  {
+    path: 'wiki-overview',
+    loadComponent: () =>
+      import('./pages/graph-page/graph-page.component').then(
+        (m) => m.GraphPageComponent,
+      ),
+    providers: [GraphPageStore],
+    resolve: {
+      nodeMap: () => inject(GraphPageStore).loadGraph(),
+    },
+    data: { name: 'graph', requiredMinimumRole: 'guest' },
   },
 ];
 

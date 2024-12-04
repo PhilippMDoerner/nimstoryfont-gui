@@ -1,0 +1,29 @@
+<app-page-container>
+  <article class="container">
+    <h1 class="text-center mb-3">Wiki Overview</h1>
+    <div class="row mb-3">
+      @for (option of entries(); track option.label) {
+        <app-selectable-entry
+          class="col-6 col-sm-3 p-0 row-entry"
+          [label]="option.label"
+          [borderColorVar]="option.color"
+          [isActive]="option.active"
+          [isSelectable]="true"
+          (entryClick)="toggleSidebarEntry(option, $event)"
+        ></app-selectable-entry>
+      }
+    </div>
+
+    @let graph = graphData();
+    @if (graph) {
+      <app-graph class="col-12" [data]="graph" />
+    }
+
+    <app-article-footer
+      class="d-block mt-5"
+      [buttonLabel]="'Back to Frontpage'"
+      [buttonLink]="homeUrl()"
+      [showDelete]="false"
+    ></app-article-footer>
+  </article>
+</app-page-container>

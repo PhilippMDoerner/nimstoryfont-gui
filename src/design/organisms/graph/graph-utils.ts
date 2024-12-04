@@ -143,14 +143,14 @@ export function inferGraphHeight(
 ): number {
   switch (breakpoint) {
     case 'sm':
-      return width * 1.5;
+      return width * 1.75;
     case 'md':
-      return width * 1.25;
+      return width * 1.5;
     case 'lg':
-      return width;
+      return width * 1.25;
     case 'xl':
-      return width * 0.75;
+      return width;
     case 'xxl':
-      return width * 0.5;
+      return width * 0.75;
   }
 }

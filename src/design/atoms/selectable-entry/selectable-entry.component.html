@@ -1,0 +1,30 @@
+@if (isSelectable()) {
+  <button
+    class="w-100 hover-highlight"
+    (click)="entryClick.emit(isActive() ? 'ACTIVE' : 'INACTIVE')"
+  >
+    <ng-container *ngTemplateOutlet="entry"></ng-container>
+  </button>
+} @else {
+  <ng-container *ngTemplateOutlet="entry"></ng-container>
+}
+
+<ng-template #entry>
+  <div
+    class="sidebar"
+    [ngClass]="{
+      highlight: isActive(),
+    }"
+  >
+    <div
+      class="sidebar-border"
+      [style]="'border-left-color: var(' + borderColorVar() + ')'"
+    >
+      <span class="mx-1"> {{ label() }} </span>
+    </div>
+
+    @if (isActive()) {
+      <app-icon [icon]="'times'"></app-icon>
+    }
+  </div>
+</ng-template>

@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,7 +5,7 @@ import {
   input,
   Output,
 } from '@angular/core';
-import { IconComponent } from 'src/design/atoms/icon/icon.component';
+import { SelectableEntryComponent } from '../../atoms/selectable-entry/selectable-entry.component';
 import {
   DEFAULT_SEARCH_PREFERENCES,
   SidebarOption,
@@ -18,7 +17,7 @@ import {
   styleUrls: ['./sidebar-legend.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
-  imports: [IconComponent, NgClass],
+  imports: [SelectableEntryComponent],
 })
 export class SidebarLegendComponent {
   interactable = input(false);

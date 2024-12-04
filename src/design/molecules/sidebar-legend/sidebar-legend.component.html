@@ -1,25 +1,14 @@
 <div class="container">
   <div class="row">
     @for (option of sidebarEntries(); track $index) {
-      <div
+      <app-selectable-entry
         class="col-6 col-sm-3 row-entry"
-        [ngClass]="{
-          'hover-highlight pointer': interactable(),
-          highlight: option.active,
-        }"
-        (click)="onSidebarEntryClick($index)"
-      >
-        <div
-          class="sidebar-border"
-          [style]="'border-left-color: var(' + option.color + ')'"
-        >
-          <span class="mx-1"> {{ option.label }} </span>
-        </div>
-
-        @if (option.active) {
-          <app-icon [icon]="'times'"></app-icon>
-        }
-      </div>
+        [label]="option.label"
+        [borderColorVar]="option.color"
+        [isActive]="option.active"
+        [isSelectable]="true"
+        (entryClick)="onSidebarEntryClick($index)"
+      ></app-selectable-entry>
     }
   </div>
 </div>

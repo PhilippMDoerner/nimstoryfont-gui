@@ -11,7 +11,7 @@ import {
   DEFAULT_SEARCH_PREFERENCES,
   SidebarOption,
 } from 'src/design/molecules';
-import { NodeMap } from 'src/design/organisms/graph/data';
+import { ArticleNode, NodeMap } from 'src/design/organisms/graph/data';
 import { capitalize } from 'src/utils/string';
 import { SelectableEntryComponent } from '../../../../design/atoms/selectable-entry/selectable-entry.component';
 import { ArticleFooterComponent } from '../../../../design/molecules/article-footer/article-footer.component';
@@ -57,8 +57,15 @@ export class GraphPageComponent {
       ),
     );
 
+    const nodeSet = new Set(filteredNodes.map((node) => node.guid));
+    const filteredLinks = graph.links.filter((link) => {
+      const sourceGuid = (link.source as ArticleNode).guid;
+      const targetGuid = (link.target as ArticleNode).guid;
+      return nodeSet.has(sourceGuid) && nodeSet.has(targetGuid);
+    });
+
     return {
-      links: graph.links,
+      links: filteredLinks,
       nodes: filteredNodes,
     };
   });

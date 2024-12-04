@@ -1,11 +1,7 @@
-import { AsyncPipe } from '@angular/common';
 import { Component, computed, inject, NgZone, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { debounceTime, map, startWith, take } from 'rxjs';
 import { fadeOut } from 'src/design/animations/fadeIn';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
-import { SplashScreenComponent } from '../design/molecules/splash-screen/splash-screen.component';
 import { PageComponent } from '../design/organisms/page/page.component';
 import { ToastOverlayComponent } from '../design/organisms/toast-overlay/toast-overlay.component';
 import { CampaignService } from './_services/utils/campaign.service';
@@ -18,12 +14,7 @@ import { ServiceWorkerService } from './service-worker.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
   standalone: true,
-  imports: [
-    PageComponent,
-    ToastOverlayComponent,
-    SplashScreenComponent,
-    AsyncPipe,
-  ],
+  imports: [PageComponent, ToastOverlayComponent],
   host: {
     '[@.disabled]': 'disableAnimation()',
   },
@@ -44,13 +35,6 @@ export class AppComponent {
     this.globalStore.isCampaignAdmin(this.globalStore.campaignName()),
   );
   disableAnimation = signal(false);
-  hasReachedInitialStability$ = this.zone.onStable.pipe(
-    debounceTime(250),
-    take(1),
-    map(() => true),
-    startWith(false),
-    takeUntilDestroyed(),
-  );
 
   constructor() {
     this.trackAnimationSetting();

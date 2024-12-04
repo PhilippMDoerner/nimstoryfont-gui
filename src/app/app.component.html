@@ -1,5 +1,2 @@
 <app-page [serverUrl]="serverUrl" (logout)="logout()"></app-page>
-@if ((hasReachedInitialStability$ | async) === false) {
-  <app-splash-screen [@fadeOut] />
-}
 <app-toast-overlay></app-toast-overlay>

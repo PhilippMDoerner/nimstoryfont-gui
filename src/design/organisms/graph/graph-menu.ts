@@ -46,10 +46,10 @@ export class GraphService {
     this.showMenu();
 
     // Add close menu behavior
-    selectAll(this.menuSelector).on('mousedown', (event) =>
+    selectAll(this.menuSelector).on('mousedown tap', (event) =>
       this.onClickOnGraph(event),
     );
-    select(this.graphSelector).on('click', (event) =>
+    select(this.graphSelector).on('click tap', (event) =>
       this.onClickOnGraph(event),
     );
   }

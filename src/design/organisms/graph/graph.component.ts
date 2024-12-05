@@ -17,13 +17,18 @@ import {
   forceLink,
   forceManyBody,
   forceSimulation,
+  forceX,
+  forceY,
   Selection,
   zoom,
   ZoomBehavior,
 } from 'd3';
 import { filter, map, ReplaySubject, Subject, take } from 'rxjs';
 import { ArticleNode, NodeLink, NodeMap } from 'src/app/_models/nodeMap';
+import { ArticleService } from 'src/app/_services/article/article.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { log } from 'src/utils/logging';
+import { GraphElement, GraphService, PopupData } from './graph-menu';
 import {
   addConnections,
   addDragBehavior,
@@ -32,8 +37,8 @@ import {
   inferGraphHeight,
 } from './graph-utils';
 
-type GraphElement = Selection<SVGSVGElement, undefined, null, undefined>;
 type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
+
 @Component({
   selector: 'app-graph',
   standalone: true,
@@ -41,10 +46,13 @@ type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
   templateUrl: './graph.component.html',
   styleUrl: './graph.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [GraphService],
 })
 export class GraphComponent {
   data = input.required<NodeMap>();
 
+  articleService = inject(ArticleService);
+  graphService = inject(GraphService);
   destructor = inject(DestroyRef);
   graphContainer = viewChild<ElementRef<HTMLDivElement>>('graphContainer');
   elements = signal<
@@ -61,6 +69,7 @@ export class GraphComponent {
 
   zoomSliderEvents$ = new Subject<string>();
   zoomLevel$ = new ReplaySubject<number>(1);
+  popupMenu$ = new Subject<{ x: number; y: number; data: PopupData }>();
 
   constructor() {
     this.zoomLevel$.next(1);
@@ -106,7 +115,8 @@ export class GraphComponent {
       .attr(
         'style',
         'max-width: 100%; height: auto; min-height: 300px; cursor: move;',
-      );
+      )
+      .attr('id', this.graphService.graphId);
     const zoomContainer = graphElement.append('g');
     const zoomBehavior = this.addZoomListener(
       graphElement,
@@ -125,15 +135,22 @@ export class GraphComponent {
     const allLinksElement = addConnections(zoomContainer, links);
     const allNodesElement = addNodes(zoomContainer, nodes);
 
+    allNodesElement.on('contextmenu', (event: MouseEvent) => {
+      this.onNodeClick(event);
+      event.preventDefault();
+    });
+
     // Create a simulation with several forces.
     const simulation = forceSimulation(nodes)
       .force(
         'link',
         forceLink<ArticleNode, NodeLink>(links)
-          .id((d) => (d.record as any).name)
+          .id((d) => d.record.name)
           .strength(0.5),
       )
-      .force('charge', forceManyBody().strength(-5))
+      .force('charge', forceManyBody().strength(-50))
+      .force('x', forceX())
+      .force('y', forceY())
       .force('center', forceCenter(width / 2, height / 2));
     addDragBehavior(allNodesElement, simulation);
 
@@ -156,7 +173,6 @@ export class GraphComponent {
       ])
       .scaleExtent([this.minZoom, this.maxZoom])
       .on('zoom', (val) => {
-        console.log('Zoom event');
         zoomContainer.attr('transform', val.transform);
         this.zoomLevel$.next(val.transform.k);
       });
@@ -176,5 +192,26 @@ export class GraphComponent {
       .attr('y2', (d) => (d.target as any).y);
 
     allNodesElement.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
+  }
+
+  private onNodeClick(event: MouseEvent) {
+    const nodeGuid = (event.target as Element).getAttribute('guid') as string;
+    const node = this.data().nodes.find((node) => node.guid === nodeGuid);
+    if (!node) {
+      log(GraphComponent.name, 'Clicked node could not be found', nodeGuid);
+      return;
+    }
+
+    const popupData = this.toPopupData(node);
+    this.graphService.showContextMenu(event, popupData);
+  }
+
+  private toPopupData(node: ArticleNode): PopupData {
+    return {
+      title: node?.record.name,
+      description: node?.record['description'] as string | undefined,
+      link: this.articleService.generateUrlCallback(node?.record)(),
+      kind: node?.record.article_type,
+    };
   }
 }

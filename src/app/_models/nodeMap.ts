@@ -6,7 +6,10 @@ export interface NodeLinkRaw {
 }
 
 export interface ArticleNode extends d3.SimulationNodeDatum {
-  record: { article_type: ArticleNodeKind; name: string } & unknown;
+  record: { article_type: ArticleNodeKind; name: string } & Record<
+    string,
+    string | number | boolean | null
+  >;
   guid: string;
 }
 

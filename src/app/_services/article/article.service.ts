@@ -139,7 +139,7 @@ export class ArticleService {
     };
   }
 
-  private generateUrlCallback(data: any) {
+  generateUrlCallback(data: any) {
     const articleType = data.article_type;
     const campaignName = data.campaign_details.name;
     const params: any = { campaign: campaignName };

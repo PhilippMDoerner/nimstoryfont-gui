@@ -24,7 +24,8 @@ export function addNodes(
     .enter()
     .append('g')
     .attr('class', 'node')
-    .attr('style', 'cursor: grab;');
+    .attr('style', 'cursor: grab;')
+    .attr('guid', (d) => d.guid);
 
   // Add image inside circle with background-color
   // const imgGroups = nodes.append('g');
@@ -34,20 +35,12 @@ export function addNodes(
     .append('circle')
     .attr('r', imgSize / 2 + 1)
     .attr('stroke', 'black')
+    .attr('guid', (d) => d.guid)
     .attr(
       'fill',
       (d) =>
         NODE_COLOR_MAP[d.record.article_type.toUpperCase() as ArticleNodeKind],
     );
-
-  // imgGroups
-  //   .append('image')
-  //   .attr('xlink:href', (d) => `/assets/overview_images/creatures.webp`)
-  //   .attr('clip-path', 'inset(0% round 50%)')
-  //   .attr('width', imgSize)
-  //   .attr('height', imgSize)
-  //   .attr('x', (imgSize * -1) / 2)
-  //   .attr('y', (imgSize * -1) / 2);
 
   // Add Label
   nodes
@@ -57,6 +50,7 @@ export function addNodes(
     .attr('stroke', '#000')
     .attr('stroke-width', 0.5)
     .attr('transform', 'scale(0.3)')
+    .attr('guid', (d) => d.guid)
     .text((d) => d.record.name);
 
   nodes

@@ -135,7 +135,7 @@ export class GraphComponent {
     const allLinksElement = addConnections(zoomContainer, links);
     const allNodesElement = addNodes(zoomContainer, nodes);
 
-    allNodesElement.on('contextmenu tap', (event: MouseEvent) => {
+    allNodesElement.on('contextmenu', (event: MouseEvent) => {
       this.onNodeClick(event);
       event.preventDefault();
     });

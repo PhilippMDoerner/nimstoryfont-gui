@@ -5,13 +5,13 @@ import {
   inject,
   signal,
 } from '@angular/core';
+import { ArticleNode, NodeMap } from 'src/app/_models/nodeMap';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
 import {
   DEFAULT_SEARCH_PREFERENCES,
   SidebarOption,
 } from 'src/design/molecules';
-import { ArticleNode, NodeMap } from 'src/design/organisms/graph/data';
 import { capitalize } from 'src/utils/string';
 import { SelectableEntryComponent } from '../../../../design/atoms/selectable-entry/selectable-entry.component';
 import { ArticleFooterComponent } from '../../../../design/molecules/article-footer/article-footer.component';
@@ -37,7 +37,12 @@ export class GraphPageComponent {
   store = inject(GraphPageStore);
   routingService = inject(RoutingService);
 
-  private AVAILABLE_NODE_TYPES = new Set(['Character', 'Item', 'Organization']);
+  private AVAILABLE_NODE_TYPES = new Set([
+    'Character',
+    'Item',
+    'Organization',
+    'Location',
+  ]);
   private nodeTypeOptions = DEFAULT_SEARCH_PREFERENCES.filter((option) =>
     this.AVAILABLE_NODE_TYPES.has(option.label),
   );

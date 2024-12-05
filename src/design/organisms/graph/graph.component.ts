@@ -17,15 +17,13 @@ import {
   forceLink,
   forceManyBody,
   forceSimulation,
-  scaleOrdinal,
-  schemeCategory10,
   Selection,
   zoom,
   ZoomBehavior,
 } from 'd3';
 import { filter, map, ReplaySubject, Subject, take } from 'rxjs';
+import { ArticleNode, NodeLink, NodeMap } from 'src/app/_models/nodeMap';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
-import { ArticleNode, Link, NodeMap } from './data';
 import {
   addConnections,
   addDragBehavior,
@@ -33,8 +31,6 @@ import {
   getBreakpoint,
   inferGraphHeight,
 } from './graph-utils';
-
-const color = scaleOrdinal(schemeCategory10);
 
 type GraphElement = Selection<SVGSVGElement, undefined, null, undefined>;
 type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
@@ -133,7 +129,7 @@ export class GraphComponent {
     const simulation = forceSimulation(nodes)
       .force(
         'link',
-        forceLink<ArticleNode, Link>(links)
+        forceLink<ArticleNode, NodeLink>(links)
           .id((d) => (d.record as any).name)
           .strength(0.5),
       )

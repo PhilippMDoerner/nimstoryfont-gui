@@ -2,9 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ArticleNode, NodeLink, NodeMap } from 'src/app/_models/nodeMap';
 import { OverviewItem } from 'src/app/_models/overview';
 import { SearchableArticleKind } from 'src/app/_models/search';
-import { ArticleNode, Link, NodeMap } from 'src/design/organisms/graph/data';
 import { environment } from 'src/environments/environment';
 import { RoutingService } from '../routing.service';
 
@@ -111,8 +111,8 @@ export class ArticleService {
     links: any[];
   }): NodeMap {
     const nodes = nodeMap.nodes;
-    const links: Link[] = nodeMap.links
-      .map((link: any): Link | undefined => {
+    const links: NodeLink[] = nodeMap.links
+      .map((link: any): NodeLink | undefined => {
         const sourceNode = nodes.find((node) => node.guid === link.node1Guid);
         const targetNode = nodes.find((node) => node.guid === link.node2Guid);
         if (!sourceNode || !targetNode) return undefined;

@@ -1,15 +1,12 @@
 import { drag, Selection, Simulation } from 'd3';
+import {
+  ArticleNode,
+  ArticleNodeKind,
+  Breakpoint,
+  NODE_COLOR_MAP,
+  NodeLink,
+} from 'src/app/_models/nodeMap';
 import { capitalize } from 'src/utils/string';
-import { ArticleNode, ArticleNodeKind, Link } from './data';
-
-export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-
-const colorMap: { [key in ArticleNodeKind]: string } = {
-  CHARACTER: 'var(--character-color)',
-  LOCATION: 'var(--location-color)',
-  ORGANIZATION: 'var(--organization-color)',
-  ITEM: 'var(--item-color)',
-};
 
 export function addNodes(
   hostElement: Selection<
@@ -39,7 +36,8 @@ export function addNodes(
     .attr('stroke', 'black')
     .attr(
       'fill',
-      (d) => colorMap[d.record.article_type.toUpperCase() as ArticleNodeKind],
+      (d) =>
+        NODE_COLOR_MAP[d.record.article_type.toUpperCase() as ArticleNodeKind],
     );
 
   // imgGroups
@@ -75,7 +73,7 @@ export function addConnections(
     null,
     undefined
   >,
-  links: Link[],
+  links: NodeLink[],
 ) {
   const allLinksElement = hostElement
     .append('g')

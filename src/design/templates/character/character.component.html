@@ -124,31 +124,34 @@
       ></app-list>
     </div>
 
-    <div class="row">
-      <h4 class="col mb-0">
-        <app-info-circle-tooltip
-          [text]="(character().encounters?.length ?? 0) + ' Encounters'"
-          [tooltip]="
-            'List of all encounters with ' +
-            character().name +
-            '. Starts with the most recent encounter and ends with the latest.'
-          "
-        ></app-info-circle-tooltip>
-      </h4>
-      <app-encounter-accordion
-        [encounters]="character().encounters ?? []"
-        [campaignLocations]="campaignLocations()"
-        [campaignCharacters]="campaignNPCCharacters()"
-        [serverModel]="encounterServerModel()"
-        [canUpdate]="canUpdate()"
-        [canCreate]="canCreate()"
-        [canDelete]="canDelete()"
-        (connectionCreate)="encounterConnectionCreate.emit($event)"
-        (connectionDelete)="encounterConnectionDelete.emit($event)"
-        (encounterDelete)="encounterDelete.emit($event)"
-        (encounterUpdate)="encounterUpdate.emit($event)"
-      ></app-encounter-accordion>
-    </div>
+    <!-- PCs don't have encounters -->
+    @if (!character().player_character) {
+      <div class="row">
+        <h4 class="col mb-0">
+          <app-info-circle-tooltip
+            [text]="(character().encounters?.length ?? 0) + ' Encounters'"
+            [tooltip]="
+              'List of all encounters with ' +
+              character().name +
+              '. Starts with the most recent encounter and ends with the latest.'
+            "
+          ></app-info-circle-tooltip>
+        </h4>
+        <app-encounter-accordion
+          [encounters]="character().encounters ?? []"
+          [campaignLocations]="campaignLocations()"
+          [campaignCharacters]="campaignNPCCharacters()"
+          [serverModel]="encounterServerModel()"
+          [canUpdate]="canUpdate()"
+          [canCreate]="canCreate()"
+          [canDelete]="canDelete()"
+          (connectionCreate)="encounterConnectionCreate.emit($event)"
+          (connectionDelete)="encounterConnectionDelete.emit($event)"
+          (encounterDelete)="encounterDelete.emit($event)"
+          (encounterUpdate)="encounterUpdate.emit($event)"
+        ></app-encounter-accordion>
+      </div>
+    }
 
     <app-article-footer
       [buttonLink]="overviewUrl()"

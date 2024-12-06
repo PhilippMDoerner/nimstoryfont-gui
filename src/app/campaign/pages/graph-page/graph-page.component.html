@@ -2,9 +2,9 @@
   <article class="container">
     <h1 class="text-center mb-3">Wiki Overview</h1>
     <div class="row mb-3">
-      @for (option of entries(); track option.label) {
+      @for (option of categories(); track option.label) {
         <app-selectable-entry
-          class="col-6 col-sm-3 p-0 row-entry"
+          class="col-6 col-sm-3 row-entry"
           [label]="option.label"
           [borderColorVar]="option.color"
           [isActive]="option.active"
@@ -16,7 +16,37 @@
 
     @let graph = graphData();
     @if (graph) {
-      <app-graph class="col-12" [data]="graph" />
+      <div class="row mb-3">
+        <app-graph
+          class="col-12"
+          [data]="graph"
+          (nodeSelected)="selectedNodes.set($event)"
+        />
+      </div>
+      @let firstSelectedNode = selectedNodes()[0];
+      @let secondSelectedNode = selectedNodes()[1];
+      <div class="row mb-3">
+        <div
+          class="d-flex col-md-6 col-12 justify-content-start align-items-center row-gap-3"
+        >
+          <span class="fs-5 me-3"> First Node: </span>
+          {{ firstSelectedNode?.record?.name ?? "None" }}
+        </div>
+        <div
+          class="d-flex col-md-6 col-12 justify-content-start align-items-center"
+        >
+          <span class="fs-5 me-3"> Second Node: </span>
+          {{ secondSelectedNode?.record?.name ?? "None" }}
+        </div>
+      </div>
+      @switch (pageState()) {
+        @case ("DISPLAY") {
+          <ng-container *ngTemplateOutlet="display" />
+        }
+        @case ("CREATE") {
+          <ng-container *ngTemplateOutlet="create" />
+        }
+      }
     }
 
     <app-article-footer
@@ -27,3 +57,38 @@
     ></app-article-footer>
   </article>
 </app-page-container>
+
+<ng-template #create>
+  <app-card>
+    <h2 class="fs-3">Create Connection</h2>
+
+    <app-form
+      [fields]="formlyFields()"
+      [model]="userModel()"
+      [cancelButtonType]="'DARK'"
+      [isLoading]="store.createLinkState() === 'loading'"
+      (formlyCancel)="pageState.set('DISPLAY')"
+      (formlySubmit)="onCreateConnection($event)"
+    ></app-form>
+  </app-card>
+</ng-template>
+
+<ng-template #display>
+  @let isButtonDisabled = !selectedNodes()[0] || !selectedNodes()[1];
+  <span
+    [ngbTooltip]="
+      isButtonDisabled
+        ? 'Select 2 nodes by clicking on them to create a custom connection!'
+        : null
+    "
+  >
+    <button
+      btn
+      [kind]="'PRIMARY'"
+      [disabled]="isButtonDisabled"
+      [text]="'Connect!'"
+      [icon]="'link'"
+      (click)="this.pageState.set('CREATE')"
+    ></button>
+  </span>
+</ng-template>

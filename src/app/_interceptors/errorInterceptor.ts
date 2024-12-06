@@ -43,9 +43,10 @@ const notFoundToast = (
 
   return {
     type: 'WARNING',
-    important: true,
-    body: {
+    header: {
       text: "We couldn't find the page you're looking for",
+    },
+    body: {
       buttons: buttons,
     },
   };

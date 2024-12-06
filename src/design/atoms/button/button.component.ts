@@ -19,7 +19,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
   host: {
     '[class]': 'classes()',
     '[type]': 'type()',
-    '[disabled]': 'isLoading()',
+    '[disabled]': 'isLoading() || disabled()',
   },
 })
 export class ButtonComponent {
@@ -29,6 +29,7 @@ export class ButtonComponent {
   size = input<ElementSize>('MEDIUM');
   type = input<'button' | 'reset' | 'submit'>('button');
   isLoading = input<boolean>(false);
+  disabled = input<boolean>(false);
 
   sizeClass = computed(() => {
     switch (this.size()) {

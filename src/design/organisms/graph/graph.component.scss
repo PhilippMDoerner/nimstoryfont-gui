@@ -1,9 +1,5 @@
-:host {
-  background-color: var(--bs-secondary-bg-subtle);
-}
-
 .graph-container {
-  background-color: inherit;
+  background-color: var(--bs-secondary-bg-subtle);
   border-radius: var(--bs-border-radius);
   display: flex;
   flex-direction: row-reverse;
@@ -41,5 +37,14 @@ svg {
 
   circle {
     cursor: grab;
+  }
+}
+
+.node {
+  &--active {
+    circle {
+      stroke: var(--bs-white);
+      stroke-width: 4px;
+    }
   }
 }

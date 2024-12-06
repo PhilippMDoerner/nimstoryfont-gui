@@ -7,6 +7,7 @@ import {
   ElementRef,
   inject,
   input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
@@ -19,20 +20,28 @@ import {
   forceSimulation,
   forceX,
   forceY,
+  select,
   Selection,
   zoom,
   ZoomBehavior,
 } from 'd3';
 import { filter, map, ReplaySubject, Subject, take } from 'rxjs';
-import { ArticleNode, NodeLink, NodeMap } from 'src/app/_models/nodeMap';
+import {
+  ArticleNode,
+  ArticleNodeKind,
+  NODE_COLOR_MAP,
+  NodeLink,
+  NodeMap,
+  NodeSelection,
+} from 'src/app/_models/nodeMap';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { log } from 'src/utils/logging';
+import { capitalize } from 'src/utils/string';
 import { GraphElement, GraphService, PopupData } from './graph-menu';
 import {
   addConnections,
   addDragBehavior,
-  addNodes,
   getBreakpoint,
   inferGraphHeight,
 } from './graph-utils';
@@ -54,6 +63,9 @@ export class GraphComponent {
   articleService = inject(ArticleService);
   graphService = inject(GraphService);
   destructor = inject(DestroyRef);
+
+  nodeSelected = output<NodeSelection>();
+
   graphContainer = viewChild<ElementRef<HTMLDivElement>>('graphContainer');
   elements = signal<
     | {
@@ -71,19 +83,37 @@ export class GraphComponent {
   zoomLevel$ = new ReplaySubject<number>(1);
   popupMenu$ = new Subject<{ x: number; y: number; data: PopupData }>();
 
+  nodeClass = 'node';
+  nodeSelector = '.node';
+  activeClass = `${this.nodeClass}--active`;
+  activeSelector = `g.${this.nodeClass}.${this.activeClass}`;
+  activeNodeData = signal<NodeSelection>([]);
+
   constructor() {
     this.zoomLevel$.next(1);
-    effect(() => this.createGraph(this.data()), { allowSignalWrites: true });
+    // Recreate Graph when Data changes
+    effect(
+      () => {
+        this.elements.set(undefined);
+        this.createGraph(this.data());
+      },
+      { allowSignalWrites: true },
+    );
 
+    // Replace graph in HTML if graph changes
     effect(() => {
       const graph = this.elements()?.graphElement.node();
       if (this.graphContainer() && graph) {
         const graphContainerElement = this.graphContainer()?.nativeElement;
         graphContainerElement?.querySelector('svg')?.remove();
         graphContainerElement?.appendChild(graph);
+        console.log('Replaced graph');
       }
     });
 
+    // Update which nodes are displayed as active
+    effect(() => this.updateSelectedNodeStyles(this.activeNodeData()));
+    effect(() => this.nodeSelected.emit(this.activeNodeData()));
     // Zoom via control
     this.zoomSliderEvents$
       .pipe(
@@ -107,7 +137,7 @@ export class GraphComponent {
       );
   }
 
-  private createGraph({ links, nodes }: NodeMap) {
+  private createGraph(nodeMap: NodeMap) {
     const width = 1080;
     const height = inferGraphHeight(width, getBreakpoint());
     const graphElement = create('svg')
@@ -125,6 +155,13 @@ export class GraphComponent {
       height,
     );
 
+    graphElement.on('click', (event: MouseEvent) => {
+      const isClickOnNode = !!(event.target as Element).closest('g.node');
+      if (!isClickOnNode) {
+        this.resetSelectedNodes();
+      }
+    });
+
     this.elements.set({
       graphElement,
       zoomContainer,
@@ -132,19 +169,14 @@ export class GraphComponent {
     });
 
     // Add a line for each link, and a circle for each node.
-    const allLinksElement = addConnections(zoomContainer, links);
-    const allNodesElement = addNodes(zoomContainer, nodes);
-
-    allNodesElement.on('contextmenu', (event: MouseEvent) => {
-      this.onNodeClick(event);
-      event.preventDefault();
-    });
+    const allLinksElement = addConnections(zoomContainer, nodeMap.links);
+    const allNodesElement = this.addNodes(zoomContainer, nodeMap.nodes);
 
     // Create a simulation with several forces.
-    const simulation = forceSimulation(nodes)
+    const simulation = forceSimulation(nodeMap.nodes)
       .force(
         'link',
-        forceLink<ArticleNode, NodeLink>(links)
+        forceLink<ArticleNode, NodeLink>(nodeMap.links)
           .id((d) => d.record.name)
           .strength(0.5),
       )
@@ -156,7 +188,7 @@ export class GraphComponent {
 
     // Set the position attributes of links and nodes each time the simulation ticks.
     simulation.on('tick', () =>
-      this.updateGraphdata(allLinksElement, allNodesElement),
+      this.updateGraphAttributes(allLinksElement, allNodesElement),
     );
   }
 
@@ -181,7 +213,138 @@ export class GraphComponent {
     return zoomBehavior;
   }
 
-  private updateGraphdata(
+  private onNodeRightClick(event: MouseEvent) {
+    const node = this.getNodeData(event);
+    if (!node) return;
+    const popupData = this.toPopupData(node);
+    this.graphService.showContextMenu(event, popupData);
+  }
+
+  private onNodeClick(event: MouseEvent) {
+    this.toggleNode(event);
+  }
+
+  private addNodes(
+    hostElement: Selection<
+      SVGSVGElement | SVGGElement,
+      undefined,
+      null,
+      undefined
+    >,
+    nodeData: ArticleNode[],
+  ) {
+    const nodes = hostElement
+      .append('g')
+      .selectAll()
+      .data(nodeData)
+      .enter()
+      .append('g')
+      .attr('class', this.nodeClass)
+      .attr('style', 'cursor: grab;')
+      .attr('guid', (d) => d.guid);
+
+    // Add image inside circle with background-color
+    // const imgGroups = nodes.append('g');
+    const imgSize = 10;
+    // imgGroups
+    nodes
+      .append('circle')
+      .attr('r', imgSize / 2 + 1)
+      .attr('stroke', 'black')
+      .attr('guid', (d) => d.guid)
+      .attr(
+        'fill',
+        (d) =>
+          NODE_COLOR_MAP[
+            d.record.article_type.toUpperCase() as ArticleNodeKind
+          ],
+      );
+
+    // Add Label
+    nodes
+      .append('text')
+      .attr('y', imgSize * 3.5)
+      .attr('text-anchor', 'middle')
+      .attr('stroke', '#000')
+      .attr('stroke-width', 0.5)
+      .attr('transform', 'scale(0.3)')
+      .attr('guid', (d) => d.guid)
+      .text((d) => d.record.name);
+
+    nodes
+      .append('title')
+      .text((d) => `${capitalize(d.record.article_type)} - ${d.record.name}`);
+
+    nodes.on('contextmenu', (event: MouseEvent) => {
+      this.onNodeRightClick(event);
+      event.preventDefault();
+    });
+
+    nodes.on('click', (event: MouseEvent) => {
+      this.onNodeClick(event);
+      event.preventDefault();
+    });
+
+    return nodes;
+  }
+
+  private toPopupData(node: ArticleNode): PopupData {
+    return {
+      title: node?.record.name,
+      description: node?.record['description'] as string | undefined,
+      link: this.articleService.generateUrlCallback(node?.record)(),
+      kind: node?.record.article_type,
+    };
+  }
+
+  /**
+   * Toggles the activity state of a node. Must deal with the following scenarios:
+   * - You toggle a node off
+   * - You toggle a node on that is currently active while you have reached maximum amount of selections
+   * - You toggle a node on that is currently not active while you have not reached maximum amount of selections (2)
+   */
+  private toggleNode(event: MouseEvent) {
+    const clickedNodeData = this.getNodeData(event);
+    if (!clickedNodeData) return;
+
+    const activeNodes = this.activeNodeData();
+    const isSelectingNode = !activeNodes.some(
+      (n) => n.guid === clickedNodeData.guid,
+    );
+
+    if (!isSelectingNode) {
+      const otherActiveNodes = activeNodes.filter(
+        (n) => n.guid !== clickedNodeData.guid,
+      );
+      this.activeNodeData.set(otherActiveNodes as NodeSelection);
+      return;
+    }
+
+    const isSelectionFull = activeNodes.length === 2;
+    if (isSelectionFull) return;
+
+    const newActiveNodes = [...activeNodes, clickedNodeData];
+    this.activeNodeData.set(newActiveNodes as NodeSelection);
+  }
+
+  private resetSelectedNodes() {
+    this.activeNodeData.set([]);
+  }
+
+  private getNodeData(event: MouseEvent | string) {
+    const nodeGuid =
+      typeof event === 'string'
+        ? event
+        : ((event.target as Element).getAttribute('guid') as string);
+    const node = this.data().nodes.find((node) => node.guid === nodeGuid);
+    if (!node) {
+      log(GraphComponent.name, 'Node could not be found', nodeGuid);
+      return;
+    }
+    return node;
+  }
+
+  private updateGraphAttributes(
     allLinksElement: Selection<SVGLineElement | null, any, any, any>,
     allNodesElement: Selection<SVGGElement, any, any, any>,
   ) {
@@ -194,24 +357,26 @@ export class GraphComponent {
     allNodesElement.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
   }
 
-  private onNodeClick(event: MouseEvent) {
-    const nodeGuid = (event.target as Element).getAttribute('guid') as string;
-    const node = this.data().nodes.find((node) => node.guid === nodeGuid);
-    if (!node) {
-      log(GraphComponent.name, 'Clicked node could not be found', nodeGuid);
-      return;
-    }
+  private updateSelectedNodeStyles(selectedNodeData: NodeSelection) {
+    const graph = select(this.graphService.graphSelector);
+    if (graph.empty()) return;
 
-    const popupData = this.toPopupData(node);
-    this.graphService.showContextMenu(event, popupData);
+    // Reset all styles
+    graph.selectAll('circle').style('stroke', '').style('stroke-width', '');
+
+    const hasSelectedNodes = selectedNodeData.length > 0;
+    if (!hasSelectedNodes) return;
+
+    // Set styles on active
+    const activeNodesSelector = this.toSelector(selectedNodeData);
+    graph
+      .selectAll(activeNodesSelector)
+      .select('circle')
+      .style('stroke', 'var(--bs-white)')
+      .style('stroke-width', '3px');
   }
 
-  private toPopupData(node: ArticleNode): PopupData {
-    return {
-      title: node?.record.name,
-      description: node?.record['description'] as string | undefined,
-      link: this.articleService.generateUrlCallback(node?.record)(),
-      kind: node?.record.article_type,
-    };
+  private toSelector(selected: NodeSelection) {
+    return selected.map((node) => `g[guid="${node.guid}"]`).join(', ');
   }
 }

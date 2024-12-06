@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ArticleNode, NodeLink, NodeMap } from 'src/app/_models/nodeMap';
 import { OverviewItem } from 'src/app/_models/overview';
 import { SearchableArticleKind } from 'src/app/_models/search';
 import { environment } from 'src/environments/environment';
@@ -98,38 +97,6 @@ export class ArticleService {
     return this.http
       .get<OverviewItem>(`${this.searchUrl}/single/${articleKind}/${articleId}`)
       .pipe(map((resp) => this.parseOverviewEntity(resp)));
-  }
-
-  getNodeMap(campaign: string): Observable<NodeMap> {
-    return this.http
-      .get<any>(`${this.apiUrl}/nodeMap/${campaign}/`)
-      .pipe(map((resp) => this.parseNodeMap(resp)));
-  }
-
-  private parseNodeMap(nodeMap: {
-    nodes: ArticleNode[];
-    links: any[];
-  }): NodeMap {
-    const nodes = nodeMap.nodes;
-    const links: NodeLink[] = nodeMap.links
-      .map((link: any): NodeLink | undefined => {
-        const sourceNode = nodes.find((node) => node.guid === link.node1Guid);
-        const targetNode = nodes.find((node) => node.guid === link.node2Guid);
-        if (!sourceNode || !targetNode) return undefined;
-        return {
-          source: sourceNode,
-          target: targetNode,
-          label: link.label,
-          weight: link.weight,
-          linkKind: link.linkKind,
-        };
-      })
-      .filter((x) => x != null);
-
-    return {
-      nodes,
-      links,
-    };
   }
 
   parseOverviewEntity(data: any): OverviewItem {

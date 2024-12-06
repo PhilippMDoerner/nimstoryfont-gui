@@ -3,6 +3,7 @@ export interface NodeLinkRaw {
   node2Guid: string;
   label: string;
   weight: number;
+  campaign_id: number;
 }
 
 export interface ArticleNode extends d3.SimulationNodeDatum {
@@ -24,6 +25,8 @@ export interface NodeMap {
   nodes: ArticleNode[];
   links: NodeLink[];
 }
+
+export type NodeSelection = [] | [ArticleNode] | [ArticleNode, ArticleNode];
 
 export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 

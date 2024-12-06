@@ -43,6 +43,7 @@ export class FormComponent<T> {
   submitButtonType = input<ElementKind>('PRIMARY');
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitIcon = input<Icon>();
+  isLoading = input<boolean>(false);
 
   @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();

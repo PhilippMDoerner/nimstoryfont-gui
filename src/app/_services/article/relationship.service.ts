@@ -1,20 +1,55 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { NodeLink, NodeLinkRaw } from 'src/app/_models/nodeMap';
+import { map, Observable } from 'rxjs';
+import {
+  ArticleNode,
+  NodeLink,
+  NodeLinkRaw,
+  NodeMap,
+} from 'src/app/_models/nodeMap';
 import { OverviewItem } from 'src/app/_models/overview';
 import { BaseService } from '../base.service';
-import { RoutingService } from '../routing.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
-  constructor(
-    private routingService: RoutingService,
-    http: HttpClient,
-  ) {
-    super(http, 'creature');
+  constructor(http: HttpClient) {
+    super(http, 'relationship');
+  }
+
+  getNodeMap(campaign: string): Observable<NodeMap> {
+    return this.http
+      .get<any>(`${this.apiUrl}/nodeMap/${campaign}/`)
+      .pipe(map((resp) => this.parseNodeMap(resp)));
+  }
+
+  private parseNodeMap(nodeMap: {
+    nodes: ArticleNode[];
+    links: any[];
+  }): NodeMap {
+    const nodes = nodeMap.nodes;
+    const links: NodeLink[] = nodeMap.links
+      .map((link: any): NodeLink | undefined => this.parseLink(link, nodes))
+      .filter((x) => x != null);
+
+    return {
+      nodes,
+      links,
+    };
+  }
+
+  parseLink(link: any, nodes: ArticleNode[]) {
+    const sourceNode = nodes.find((node) => node.guid === link.node1Guid);
+    const targetNode = nodes.find((node) => node.guid === link.node2Guid);
+    if (!sourceNode || !targetNode) return undefined;
+    return {
+      source: sourceNode,
+      target: targetNode,
+      label: link.label,
+      weight: link.weight,
+      linkKind: link['linkKind'],
+    };
   }
 
   override parseEntity(data: any): NodeLink {

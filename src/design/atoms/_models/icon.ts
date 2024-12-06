@@ -64,6 +64,7 @@ export const ALL_SOLID_ICONS = [
   'info',
   'location-dot',
   'lock',
+  'link',
   'magic',
   'male',
   'minus',

@@ -5,9 +5,10 @@ import {
   computed,
   EventEmitter,
   input,
+  output,
   Output,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
@@ -47,6 +48,7 @@ export class FormComponent<T> {
 
   @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();
+  formChange = output<Partial<T>>();
 
   formErrors = toSignal(
     interval(1000).pipe(
@@ -75,6 +77,12 @@ export class FormComponent<T> {
       } satisfies FormlyFieldConfig;
     });
   });
+
+  constructor() {
+    this.form.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((event) => this.formChange.emit(event));
+  }
 
   onSubmit(event: Event | undefined): void {
     event?.preventDefault(); //Prevent event from bubbling up

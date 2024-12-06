@@ -23,20 +23,18 @@
           (nodeSelected)="selectedNodes.set($event)"
         />
       </div>
-      @let firstSelectedNode = selectedNodes()[0];
-      @let secondSelectedNode = selectedNodes()[1];
       <div class="row mb-3">
         <div
           class="d-flex col-md-6 col-12 justify-content-start align-items-center row-gap-3"
         >
           <span class="fs-5 me-3"> First Node: </span>
-          {{ firstSelectedNode?.record?.name ?? "None" }}
+          {{ firstSelectedNode()?.record?.name ?? "None" }}
         </div>
         <div
           class="d-flex col-md-6 col-12 justify-content-start align-items-center"
         >
           <span class="fs-5 me-3"> Second Node: </span>
-          {{ secondSelectedNode?.record?.name ?? "None" }}
+          {{ secondSelectedNode()?.record?.name ?? "None" }}
         </div>
       </div>
       @switch (pageState()) {
@@ -60,7 +58,11 @@
 
 <ng-template #create>
   <app-card>
-    <h2 class="fs-3">Create Connection</h2>
+    <h2 class="fs-3 mb-3">Create Connection</h2>
+    <div class="border border-info rounded p-3 mb-2">
+      <div class="fw-bold fs-5 mb-1">Connection-Preview:</div>
+      {{ formTitle() }}
+    </div>
 
     <app-form
       [fields]="formlyFields()"
@@ -69,12 +71,13 @@
       [isLoading]="store.createLinkState() === 'loading'"
       (formlyCancel)="pageState.set('DISPLAY')"
       (formlySubmit)="onCreateConnection($event)"
+      (formChange)="createLabel.set($event.label || EMPTY_LABEL)"
     ></app-form>
   </app-card>
 </ng-template>
 
 <ng-template #display>
-  @let isButtonDisabled = !selectedNodes()[0] || !selectedNodes()[1];
+  @let isButtonDisabled = !firstSelectedNode() || !secondSelectedNode();
   <span
     [ngbTooltip]="
       isButtonDisabled
@@ -91,4 +94,23 @@
       (click)="this.pageState.set('CREATE')"
     ></button>
   </span>
+
+  <app-collapsible-panel class="row mt-5" [isOpen]="isPanelOpen()">
+    <ng-container heading> Custom Links </ng-container>
+    <ng-container body>
+      @for (item of store.customLinks(); track item.link.id) {
+        <div class="col-12 d-flex justify-content-between">
+          {{ item.label }}
+
+          <app-confirmation-toggle-button
+            class="user-group__remove-button"
+            [icon]="'trash'"
+            [toggleSize]="'SMALL'"
+            [confirmationQuestion]="'Delete link?'"
+            (confirm)="store.deleteConnection(item.link.id)"
+          ></app-confirmation-toggle-button>
+        </div>
+      }
+    </ng-container>
+  </app-collapsible-panel>
 </ng-template>

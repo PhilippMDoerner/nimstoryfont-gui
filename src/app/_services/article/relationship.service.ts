@@ -39,7 +39,7 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
     };
   }
 
-  parseLink(link: any, nodes: ArticleNode[]) {
+  parseLink(link: any, nodes: ArticleNode[]): NodeLink | undefined {
     const sourceNode = nodes.find((node) => node.guid === link.node1Guid);
     const targetNode = nodes.find((node) => node.guid === link.node2Guid);
     if (!sourceNode || !targetNode) return undefined;
@@ -49,6 +49,7 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
       label: link.label,
       weight: link.weight,
       linkKind: link['linkKind'],
+      id: link.id,
     };
   }
 

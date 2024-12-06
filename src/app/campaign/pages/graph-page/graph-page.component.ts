@@ -29,6 +29,8 @@ import { capitalize } from 'src/utils/string';
 import { CardComponent } from '../../../../design/atoms/card/card.component';
 import { SelectableEntryComponent } from '../../../../design/atoms/selectable-entry/selectable-entry.component';
 import { ArticleFooterComponent } from '../../../../design/molecules/article-footer/article-footer.component';
+import { CollapsiblePanelComponent } from '../../../../design/molecules/collapsible-panel/collapsible-panel.component';
+import { ConfirmationToggleButtonComponent } from '../../../../design/molecules/confirmation-toggle-button/confirmation-toggle-button.component';
 import { FormComponent } from '../../../../design/molecules/form/form.component';
 import { GraphComponent } from '../../../../design/organisms/graph/graph.component';
 import { PageContainerComponent } from '../../../../design/organisms/page-container/page-container.component';
@@ -47,20 +49,25 @@ import { GraphPageStore } from './graph-page.store';
     NgTemplateOutlet,
     FormComponent,
     CardComponent,
+    CollapsiblePanelComponent,
+    ConfirmationToggleButtonComponent,
   ],
   templateUrl: './graph-page.component.html',
   styleUrl: './graph-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphPageComponent {
+  EMPTY_LABEL = '<label>';
   globalStore = inject(GlobalStore);
   store = inject(GraphPageStore);
   routingService = inject(RoutingService);
   formlyService = inject(FormlyService);
 
   selectedNodes = signal<NodeSelection>([]);
+  firstSelectedNode = computed(() => this.selectedNodes()[0]);
+  secondSelectedNode = computed(() => this.selectedNodes()[1]);
   pageState = signal<'DISPLAY' | 'CREATE'>('DISPLAY');
-
+  isPanelOpen = signal<boolean>(false);
   graphData = computed<NodeMap | undefined>(() => {
     const hasActiveFilter = this.activeCategories().size > 0;
     const graph = this.store.graph();
@@ -106,6 +113,11 @@ export class GraphPageComponent {
     }),
   ]);
   userModel = signal<Partial<NodeLinkRaw>>({});
+  createLabel = signal<string>(this.EMPTY_LABEL);
+  formTitle = computed(
+    () =>
+      `${this.firstSelectedNode()?.record.name} ${this.createLabel()} ${this.secondSelectedNode()?.record.name}`,
+  );
 
   homeUrl = computed(() =>
     this.routingService.getRoutePath('home', {

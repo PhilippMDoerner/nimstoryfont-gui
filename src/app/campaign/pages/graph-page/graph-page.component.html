@@ -26,14 +26,16 @@
       <div class="row mb-3">
         <div
           class="d-flex col-md-6 col-12 justify-content-start align-items-center row-gap-3"
+          [class.fw-light]="!firstSelectedNode()"
         >
-          <span class="fs-5 me-3"> First Node: </span>
+          <span class="fs-5 me-3"> 1st Node: </span>
           {{ firstSelectedNode()?.record?.name ?? "None" }}
         </div>
         <div
           class="d-flex col-md-6 col-12 justify-content-start align-items-center"
+          [class.fw-light]="!secondSelectedNode()"
         >
-          <span class="fs-5 me-3"> Second Node: </span>
+          <span class="fs-5 me-3"> 2nd Node: </span>
           {{ secondSelectedNode()?.record?.name ?? "None" }}
         </div>
       </div>
@@ -95,11 +97,11 @@
     ></button>
   </span>
 
-  <app-collapsible-panel class="row mt-5" [isOpen]="isPanelOpen()">
+  <app-collapsible-panel class="d-block mt-5" [isOpen]="isPanelOpen()">
     <ng-container heading> Custom Links </ng-container>
     <ng-container body>
       @for (item of store.customLinks(); track item.link.id) {
-        <div class="col-12 d-flex justify-content-between">
+        <div class="w-100 d-flex justify-content-between">
           {{ item.label }}
 
           <app-confirmation-toggle-button

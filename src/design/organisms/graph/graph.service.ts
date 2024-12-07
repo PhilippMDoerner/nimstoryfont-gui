@@ -37,7 +37,7 @@ import {
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
-import { GraphElement, GraphMenuService } from './graph-menu';
+import { GraphElement, GraphMenuService } from './graph-menu.service';
 
 export const GRAPH_SETTINGS = {
   width: 1080,
@@ -92,6 +92,7 @@ export class GraphService {
     withLatestFrom(this.createGraphEvents$),
     map(([event, graphData]) => this.toNodeEvent(event, graphData)),
   );
+  private linkRightClickEvents$ = new Subject<MouseEvent>();
   public centerNodeEvents$ = new Subject<ArticleNode | undefined>();
   public nodeSelectionChanged$ = new Subject<NodeSelection>();
   private activeNodes$ = this.nodeSelectionChanged$.pipe(
@@ -111,6 +112,7 @@ export class GraphService {
     this.initNodeClickBehavior();
     this.initGraphClickBehavior();
     this.initSyncingActivatedNodesToSVG();
+    this.initLinkRightClickBehavior();
   }
 
   // BEHAVIOR
@@ -148,7 +150,7 @@ export class GraphService {
         tap((event) => event.event.preventDefault()),
         filter((event) => !!event.clickedNode),
         map((event) => ({
-          menuData: this.graphMenuService.toMenuData(
+          menuData: this.graphMenuService.toNodeMenuData(
             event.clickedNode as ArticleNode,
           ),
           ...event,
@@ -156,7 +158,7 @@ export class GraphService {
         takeUntilDestroyed(),
       )
       .subscribe((data) =>
-        this.graphMenuService.showContextMenu(data.event, data.menuData),
+        this.graphMenuService.showNodeContextMenu(data.event, data.menuData),
       );
   }
 
@@ -175,6 +177,25 @@ export class GraphService {
       )
       .subscribe(([data, currentlyActiveNodes]) => {
         this.toggleNode(data.clickedNode as ArticleNode, currentlyActiveNodes);
+      });
+  }
+
+  /** Sets up behavior when user right clicks on a link.
+   * This should open a context menu for links for deleting links mostly
+   */
+
+  private initLinkRightClickBehavior() {
+    this.linkRightClickEvents$
+      .pipe(
+        tap((event) => event.preventDefault()),
+        withLatestFrom(this.createGraphEvents$.pipe(map((val) => val.links))),
+        takeUntilDestroyed(),
+      )
+      .subscribe(([event, links]) => {
+        // TODO:
+        // 1. Figure out how to extract the clicked links from via event from links.
+        // 2. Transform into the data needed to open a context menu
+        // 3. render a context menu with its own html etc. Make sure that it has a delete option that is disabled if the link is not a custom link
       });
   }
 
@@ -237,7 +258,7 @@ export class GraphService {
     });
 
     // Add a line for each link, and a circle for each node.
-    addLinks(zoomContainer, nodeMap.links);
+    this.addLinks(zoomContainer, nodeMap.links);
     const allNodesElement = this.addNodes(zoomContainer, nodeMap.nodes);
 
     // Create a simulation with several forces.
@@ -320,6 +341,92 @@ export class GraphService {
     );
 
     return nodes;
+  }
+
+  private addLinks(
+    hostElement: Selection<
+      SVGSVGElement | SVGGElement,
+      undefined,
+      null,
+      undefined
+    >,
+    links: NodeLink[],
+  ) {
+    const linkGroups = hostElement
+      .append('g')
+      .attr('stroke-opacity', 0.6)
+      .selectAll()
+      .data(links)
+      .join('g')
+      .attr('title', (d) => d.label)
+      .attr('class', 'link')
+      .on('contextmenu', (event) => this.linkRightClickEvents$.next(event));
+
+    const texts = linkGroups
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('stroke', '#000')
+      .attr('stroke-width', 1)
+      .attr('class', 'link-label')
+      .style('text-anchor', 'middle')
+      .style('opacity', '0');
+
+    texts
+      .append('tspan')
+      .attr('dy', '0px')
+      .attr('x', '0px')
+      .text((d: any) => d.source.record.name);
+
+    texts
+      .append('tspan')
+      .attr('dy', '15px')
+      .attr('x', '0px')
+      .text((d: any) => d.label);
+
+    texts
+      .append('tspan')
+      .attr('dy', '15px')
+      .attr('x', '0px')
+      .text((d: any) => d.target.record.name);
+
+    const linkElements = linkGroups
+      .append('line')
+      .attr('class', 'link')
+      .style('stroke-width', () => `${Math.sqrt(5)}px`)
+      .attr('stroke', '#999')
+      .on('mouseover', function (event: MouseEvent) {
+        select(this.parentNode as any)
+          .transition()
+          .duration(200)
+          .select('.link-label')
+          .style('opacity', '1')
+          .attr('transform', () => {
+            const centerX = event.layerX;
+            const centerY = event.layerY + 4;
+            return `translate(${centerX}, ${centerY}), scale(0.2)`;
+          });
+
+        select(this)
+          .transition()
+          .duration(200)
+          .style('stroke', 'var(--bs-primary)')
+          .style('stroke-width', () => '6px');
+      })
+      .on('mouseout', function () {
+        select(this.parentNode as any)
+          .transition()
+          .duration(200)
+          .select('.link-label')
+          .style('opacity', '0');
+
+        select(this)
+          .transition()
+          .duration(200)
+          .style('stroke', '#999')
+          .style('stroke-width', () => `${Math.sqrt(5)}px`);
+      });
+
+    return linkElements;
   }
 
   private updateGraphAttributes() {
@@ -448,91 +555,6 @@ export class GraphService {
         return width * 0.75;
     }
   }
-}
-
-export function addLinks(
-  hostElement: Selection<
-    SVGSVGElement | SVGGElement,
-    undefined,
-    null,
-    undefined
-  >,
-  links: NodeLink[],
-) {
-  const linkGroups = hostElement
-    .append('g')
-    .attr('stroke-opacity', 0.6)
-    .selectAll()
-    .data(links)
-    .join('g')
-    .attr('title', (d) => d.label)
-    .attr('class', 'link');
-
-  const texts = linkGroups
-    .append('text')
-    .attr('text-anchor', 'middle')
-    .attr('stroke', '#000')
-    .attr('stroke-width', 1)
-    .attr('class', 'link-label')
-    .style('text-anchor', 'middle')
-    .style('opacity', '0');
-
-  texts
-    .append('tspan')
-    .attr('dy', '0px')
-    .attr('x', '0px')
-    .text((d: any) => d.source.record.name);
-
-  texts
-    .append('tspan')
-    .attr('dy', '15px')
-    .attr('x', '0px')
-    .text((d: any) => d.label);
-
-  texts
-    .append('tspan')
-    .attr('dy', '15px')
-    .attr('x', '0px')
-    .text((d: any) => d.target.record.name);
-
-  const linkElements = linkGroups
-    .append('line')
-    .attr('class', 'link')
-    .style('stroke-width', () => `${Math.sqrt(5)}px`)
-    .attr('stroke', '#999')
-    .on('mouseover', function (event: MouseEvent) {
-      select(this.parentNode as any)
-        .transition()
-        .duration(200)
-        .select('.link-label')
-        .style('opacity', '1')
-        .attr('transform', () => {
-          const centerX = event.layerX;
-          const centerY = event.layerY + 4;
-          return `translate(${centerX}, ${centerY}), scale(0.2)`;
-        });
-
-      select(this)
-        .transition()
-        .duration(200)
-        .style('stroke', 'var(--bs-primary)')
-        .style('stroke-width', () => '6px');
-    })
-    .on('mouseout', function () {
-      select(this.parentNode as any)
-        .transition()
-        .duration(200)
-        .select('.link-label')
-        .style('opacity', '0');
-
-      select(this)
-        .transition()
-        .duration(200)
-        .style('stroke', '#999')
-        .style('stroke-width', () => `${Math.sqrt(5)}px`);
-    });
-
-  return linkElements;
 }
 
 export function addDragBehavior(

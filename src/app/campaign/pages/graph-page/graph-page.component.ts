@@ -33,7 +33,7 @@ import {
   DEFAULT_SEARCH_PREFERENCES,
   SidebarOption,
 } from 'src/design/molecules';
-import { GraphMenuService } from 'src/design/organisms/graph/graph-menu';
+import { GraphMenuService } from 'src/design/organisms/graph/graph-menu.service';
 import { GraphService } from 'src/design/organisms/graph/graph.service';
 import { capitalize } from 'src/utils/string';
 import { CardComponent } from '../../../../design/atoms/card/card.component';

@@ -1,10 +1,14 @@
 import { inject } from '@angular/core';
 import { select, selectAll, Selection } from 'd3';
-import { ArticleNode, ArticleNodeKind } from 'src/app/_models/nodeMap';
+import {
+  ArticleNode,
+  ArticleNodeKind,
+  NodeLink,
+} from 'src/app/_models/nodeMap';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { SIDEBAR_ENTRIES } from '../_model/sidebar';
 
-export type MenuData = {
+export type NodeMenuData = {
   title: string | undefined;
   description: string | undefined;
   link: string | undefined;
@@ -18,12 +22,16 @@ export class GraphMenuService {
 
   public graphId = 'graph';
   public graphSelector = `#${this.graphId}`;
-  public menuId = 'context-menu';
-  public menuSelector = `#${this.menuId}`;
+  public nodeMenuId = 'context-menu';
+  public nodeMenuSelector = `#${this.nodeMenuId}`;
+  public linkMenuId = 'link-context-menu';
+  public linkMenuSelector = `#${this.linkMenuId}`;
 
-  showContextMenu(event: MouseEvent, data: MenuData) {
+  showLinkContextMenu(event: MouseEvent, link: NodeLink) {}
+
+  showNodeContextMenu(event: MouseEvent, data: NodeMenuData) {
     // create the div element that will hold the context menu
-    selectAll(this.menuSelector)
+    selectAll(this.nodeMenuSelector)
       .data([1])
       .enter()
       .append('div')
@@ -31,10 +39,10 @@ export class GraphMenuService {
         'class',
         'bg-secondary-subtle p-3 border border-info my-body rounded text-dark w-50 h-25',
       )
-      .attr('id', this.menuId);
+      .attr('id', this.nodeMenuId);
 
     const position = this.getMenuPosition(event);
-    select(this.menuSelector)
+    select(this.nodeMenuSelector)
       .style('left', `${position.x}px`)
       .style('top', `${position.y}px`)
       .style('min-width', '300px')
@@ -45,12 +53,12 @@ export class GraphMenuService {
       .style('display', 'block');
 
     // Fills contextMenu
-    selectAll(this.menuSelector).html(this.contextMenuHTML(data));
-    this.closeMenu();
-    this.showMenu();
+    selectAll(this.nodeMenuSelector).html(this.nodeContextMenuHTML(data));
+    this.closeNodeMenu();
+    this.openNodeMenu();
 
     // Add close menu behavior
-    selectAll(this.menuSelector).on('mousedown', (event) =>
+    selectAll(this.nodeMenuSelector).on('mousedown', (event) =>
       this.onClickOnGraph(event),
     );
     select(this.graphSelector).on('click', (event) =>
@@ -58,7 +66,7 @@ export class GraphMenuService {
     );
   }
 
-  private contextMenuHTML(data: MenuData) {
+  private nodeContextMenuHTML(data: NodeMenuData) {
     const iconClass = `fas fa-${this.toIconClass(data.kind)}`;
 
     return `
@@ -74,7 +82,7 @@ export class GraphMenuService {
     `;
   }
 
-  public toMenuData(node: ArticleNode): MenuData {
+  public toNodeMenuData(node: ArticleNode): NodeMenuData {
     return {
       title: node?.record.name,
       description: node?.record['description'] as string | undefined,
@@ -96,7 +104,7 @@ export class GraphMenuService {
       '#close-btn',
     );
     if (isClickOnCloseBtn) {
-      this.closeMenu();
+      this.closeNodeMenu();
       return;
     }
 
@@ -105,19 +113,17 @@ export class GraphMenuService {
     );
     const isClickOnNode = !!(event.target as SVGElement).closest('circle');
     if (!isClickOnContextMenu && !isClickOnNode) {
-      this.closeMenu();
+      this.closeNodeMenu();
       return;
     }
   }
 
-  private closeMenu() {
-    console.log('Close', select(this.menuSelector));
-    select(this.menuSelector).style('display', 'none');
+  private closeNodeMenu() {
+    select(this.nodeMenuSelector).style('display', 'none');
   }
 
-  private showMenu() {
-    console.log('Show', select(this.menuSelector));
-    select(this.menuSelector).style('display', 'block');
+  private openNodeMenu() {
+    select(this.nodeMenuSelector).style('display', 'block');
   }
 
   private getMenuPosition(event: MouseEvent): { x: number; y: number } {

@@ -387,15 +387,6 @@ export class GraphComponent {
       .attr('x2', (d) => (d.target as any).x)
       .attr('y2', (d) => (d.target as any).y);
 
-    selectAll<SVGTextElement, NodeLink>(this.linkLabelSelector).attr(
-      'transform',
-      (d: any) => {
-        const centerX = (d.source.x + d.target.x) / 2;
-        const centerY = (d.source.y + d.target.y) / 2;
-        return `translate(${centerX}, ${centerY}), scale(0.2)`;
-      },
-    );
-
     selectAll(this.nodeSelector).attr(
       'transform',
       (d: any) => `translate(${d.x},${d.y})`,

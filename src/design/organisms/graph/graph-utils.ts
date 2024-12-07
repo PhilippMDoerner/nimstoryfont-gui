@@ -110,12 +110,17 @@ export function addLinks(
     .attr('class', 'link')
     .style('stroke-width', () => `${Math.sqrt(5)}px`)
     .attr('stroke', '#999')
-    .on('mouseover', function () {
+    .on('mouseover', function (event: MouseEvent) {
       select(this.parentNode as any)
         .transition()
         .duration(200)
         .select('.link-label')
-        .style('opacity', '1');
+        .style('opacity', '1')
+        .attr('transform', () => {
+          const centerX = event.layerX;
+          const centerY = event.layerY;
+          return `translate(${centerX}, ${centerY}), scale(0.2)`;
+        });
 
       select(this)
         .transition()

@@ -48,6 +48,16 @@ import {
 } from './graph-utils';
 
 type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
+const GRAPH_SETTINGS = {
+  width: 1080,
+  minZoom: 0.5,
+  maxZoom: 12,
+  minHeight: 300,
+  linkAttractingForce: 0.5,
+  nodeRepellingForce: 50,
+  xForce: 1,
+  yForce: 1,
+};
 
 @Component({
   selector: 'app-graph',
@@ -79,8 +89,7 @@ export class GraphComponent {
     | undefined
   >(undefined);
 
-  minZoom = 0.5;
-  maxZoom = 12;
+  settings = GRAPH_SETTINGS;
 
   zoomSliderEvents$ = new Subject<string>();
   zoomLevel$ = new ReplaySubject<number>(1);
@@ -189,11 +198,14 @@ export class GraphComponent {
         'link',
         forceLink<ArticleNode, NodeLink>(nodeMap.links)
           .id((d) => d.record.name)
-          .strength(0.5),
+          .strength(this.settings.linkAttractingForce),
       )
-      .force('charge', forceManyBody().strength(-50))
-      .force('x', forceX())
-      .force('y', forceY())
+      .force(
+        'charge',
+        forceManyBody().strength(-1 * this.settings.nodeRepellingForce),
+      )
+      .force('x', forceX().strength(0.025))
+      .force('y', forceY().strength(0.025))
       .force('center', forceCenter(width / 2, height / 2));
     addDragBehavior(allNodesElement, simulation);
 
@@ -214,7 +226,7 @@ export class GraphComponent {
         [0, 0],
         [width, height],
       ])
-      .scaleExtent([this.minZoom, this.maxZoom])
+      .scaleExtent([this.settings.minZoom, this.settings.maxZoom])
       .on('zoom', (val) => {
         zoomContainer.attr('transform', val.transform);
         this.zoomLevel$.next(val.transform.k);

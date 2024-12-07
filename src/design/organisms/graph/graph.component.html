@@ -12,9 +12,9 @@
       <input
         #zoomControl
         type="range"
-        [min]="minZoom"
-        [max]="maxZoom"
-        [value]="(zoomLevel$ | async) ?? minZoom"
+        [min]="settings.minZoom"
+        [max]="settings.maxZoom"
+        [value]="(zoomLevel$ | async) ?? settings.minZoom"
         [step]="0.1"
         (input)="zoomSliderEvents$.next(zoomControl.value)"
         class="controls__slider"

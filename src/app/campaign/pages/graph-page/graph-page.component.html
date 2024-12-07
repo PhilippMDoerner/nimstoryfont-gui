@@ -130,6 +130,7 @@
             [icon]="'trash'"
             [toggleSize]="'SMALL'"
             [confirmationQuestion]="'Delete link?'"
+            [cancelButtonType]="'DARK'"
             (confirm)="store.deleteConnection(item.link.id)"
           ></app-confirmation-toggle-button>
         </div>

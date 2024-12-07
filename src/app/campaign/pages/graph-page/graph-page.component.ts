@@ -8,16 +8,23 @@ import {
   signal,
   TemplateRef,
 } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { filter, take } from 'rxjs';
 import {
-  ArticleNode,
-  NodeLinkRaw,
-  NodeMap,
-  NodeSelection,
-} from 'src/app/_models/nodeMap';
+  combineLatestWith,
+  filter,
+  map,
+  shareReplay,
+  Subject,
+  take,
+  withLatestFrom,
+} from 'rxjs';
+import { ArticleNode, NodeLinkRaw, NodeMap } from 'src/app/_models/nodeMap';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -26,6 +33,8 @@ import {
   DEFAULT_SEARCH_PREFERENCES,
   SidebarOption,
 } from 'src/design/molecules';
+import { GraphMenuService } from 'src/design/organisms/graph/graph-menu';
+import { GraphService } from 'src/design/organisms/graph/graph.service';
 import { capitalize } from 'src/utils/string';
 import { CardComponent } from '../../../../design/atoms/card/card.component';
 import { IconComponent } from '../../../../design/atoms/icon/icon.component';
@@ -99,6 +108,7 @@ const GRAPH_INFO_RULES = [
   templateUrl: './graph-page.component.html',
   styleUrl: './graph-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [GraphMenuService, GraphService],
 })
 export class GraphPageComponent {
   EMPTY_LABEL = '<label>';
@@ -107,48 +117,29 @@ export class GraphPageComponent {
   routingService = inject(RoutingService);
   formlyService = inject(FormlyService);
   modalService = inject(NgbModal);
+  graphService = inject(GraphService);
 
-  selectedNodes = signal<NodeSelection>([]);
-  firstSelectedNode = computed(() => this.selectedNodes()[0]);
-  secondSelectedNode = computed(() => this.selectedNodes()[1]);
-  nodeQuery = signal<string>('');
-  searchedNode = computed(() => {
-    const query = this.nodeQuery();
-    const nodes = this.graphData()?.nodes;
-    if (this.nodeQuery().length < 3 || !nodes) return undefined;
+  selectedNodes = toSignal(this.graphService.nodeSelectionChanged$);
+  firstSelectedNode = computed(() => this.selectedNodes()?.[0]);
+  secondSelectedNode = computed(() => this.selectedNodes()?.[1]);
+  nodeQuery$ = new Subject<string>();
+  graphData = computed<NodeMap | undefined>(() =>
+    this.filterGraphData(this.store.graph(), this.activeCategories()),
+  );
+  graphData$ = toObservable(this.graphData);
+  searchedNode$ = this.nodeQuery$.pipe(
+    withLatestFrom(this.graphData$.pipe(map((graphData) => graphData?.nodes))),
+    filter(([query, nodes]) => query.length >= 3 && !!nodes),
+    map(([query, nodes]) =>
+      (nodes as ArticleNode[]).find((node) =>
+        node.record.name.toLowerCase().includes(query.toLowerCase()),
+      ),
+    ),
+    shareReplay(1),
+  );
 
-    return nodes.find((node) =>
-      node.record.name.toLowerCase().includes(query.toLowerCase()),
-    );
-  });
   pageState = signal<'DISPLAY' | 'CREATE'>('DISPLAY');
   isPanelOpen = signal<boolean>(false);
-  graphData = computed<NodeMap | undefined>(() => {
-    const hasActiveFilter = this.activeCategories().size > 0;
-    const graph = this.store.graph();
-    if (!hasActiveFilter) return graph;
-
-    const nodes = graph?.nodes;
-    if (!nodes) return undefined;
-
-    const filteredNodes = nodes.filter((node) =>
-      this.activeCategories().has(
-        capitalize(node.record.article_type.toLowerCase()),
-      ),
-    );
-
-    const nodeSet = new Set(filteredNodes.map((node) => node.guid));
-    const filteredLinks = graph.links.filter((link) => {
-      const sourceGuid = (link.source as ArticleNode).guid;
-      const targetGuid = (link.target as ArticleNode).guid;
-      return nodeSet.has(sourceGuid) && nodeSet.has(targetGuid);
-    });
-
-    return {
-      links: filteredLinks,
-      nodes: filteredNodes,
-    };
-  });
 
   categories = computed(() =>
     this.nodeTypeOptions.map((option) => ({
@@ -195,6 +186,12 @@ export class GraphPageComponent {
   private createLinkState$ = toObservable(this.store.createLinkState);
   private destructor = inject(DestroyRef);
 
+  constructor() {
+    this.searchedNode$
+      .pipe(takeUntilDestroyed())
+      .subscribe((node) => this.graphService.centerNodeEvents$.next(node));
+  }
+
   toggleSidebarEntry(option: SidebarOption, mode: 'INACTIVE' | 'ACTIVE') {
     const newActiveEntries = new Set(this.activeCategories());
     switch (mode) {
@@ -210,7 +207,8 @@ export class GraphPageComponent {
 
   onCreateConnection(formData: Partial<NodeLinkRaw>) {
     const selectedNodes = this.selectedNodes();
-    if (selectedNodes.length !== 2) return;
+    const has2NodesSelected = selectedNodes?.length === 2;
+    if (!has2NodesSelected) return;
 
     const rawLink: NodeLinkRaw = {
       ...formData,
@@ -223,12 +221,14 @@ export class GraphPageComponent {
     this.createLinkState$
       .pipe(
         filter((val) => val === 'success' || val === 'error'),
+        combineLatestWith(this.graphService.elements$),
         takeUntilDestroyed(this.destructor),
         take(1),
       )
       .subscribe(() => {
-        this.selectedNodes.set([]);
+        this.graphService.nodeSelectionChanged$.next([]);
         this.pageState.set('DISPLAY');
+        this.graphService.centerNodeEvents$.next(selectedNodes[0]);
       });
   }
 
@@ -237,5 +237,35 @@ export class GraphPageComponent {
       ariaLabelledBy: 'modal-title',
       modalDialogClass: 'border border-info border-3 rounded mymodal',
     });
+  }
+
+  private filterGraphData(
+    graphData: NodeMap | undefined,
+    filterCategories: Set<string>,
+  ) {
+    const hasActiveFilter = filterCategories.size > 0;
+
+    if (!hasActiveFilter) return graphData;
+
+    const nodes = graphData?.nodes;
+    if (!nodes) return undefined;
+
+    const filteredNodes = nodes.filter((node) =>
+      this.activeCategories().has(
+        capitalize(node.record.article_type.toLowerCase()),
+      ),
+    );
+
+    const nodeSet = new Set(filteredNodes.map((node) => node.guid));
+    const filteredLinks = graphData.links.filter((link) => {
+      const sourceGuid = (link.source as ArticleNode).guid;
+      const targetGuid = (link.target as ArticleNode).guid;
+      return nodeSet.has(sourceGuid) && nodeSet.has(targetGuid);
+    });
+
+    return {
+      links: filteredLinks,
+      nodes: filteredNodes,
+    };
   }
 }

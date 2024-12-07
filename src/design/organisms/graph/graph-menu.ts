@@ -1,8 +1,10 @@
+import { inject } from '@angular/core';
 import { select, selectAll, Selection } from 'd3';
-import { ArticleNodeKind } from 'src/app/_models/nodeMap';
+import { ArticleNode, ArticleNodeKind } from 'src/app/_models/nodeMap';
+import { ArticleService } from 'src/app/_services/article/article.service';
 import { SIDEBAR_ENTRIES } from '../_model/sidebar';
 
-export type PopupData = {
+export type MenuData = {
   title: string | undefined;
   description: string | undefined;
   link: string | undefined;
@@ -12,12 +14,14 @@ export type PopupData = {
 export type GraphElement = Selection<SVGSVGElement, undefined, null, undefined>;
 
 export class GraphMenuService {
+  articleService = inject(ArticleService);
+
   public graphId = 'graph';
   public graphSelector = `#${this.graphId}`;
   public menuId = 'context-menu';
   public menuSelector = `#${this.menuId}`;
 
-  showContextMenu(event: MouseEvent, data: PopupData) {
+  showContextMenu(event: MouseEvent, data: MenuData) {
     // create the div element that will hold the context menu
     selectAll(this.menuSelector)
       .data([1])
@@ -54,7 +58,7 @@ export class GraphMenuService {
     );
   }
 
-  private contextMenuHTML(data: PopupData) {
+  private contextMenuHTML(data: MenuData) {
     const iconClass = `fas fa-${this.toIconClass(data.kind)}`;
 
     return `
@@ -68,6 +72,15 @@ export class GraphMenuService {
       </div>
       <div class="">${data.description ?? ''}</div>
     `;
+  }
+
+  public toMenuData(node: ArticleNode): MenuData {
+    return {
+      title: node?.record.name,
+      description: node?.record['description'] as string | undefined,
+      link: this.articleService.generateUrlCallback(node?.record)(),
+      kind: node?.record.article_type,
+    };
   }
 
   private toIconClass(kind: ArticleNodeKind | undefined): string | undefined {

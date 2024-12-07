@@ -21,16 +21,14 @@
         [btnAriaLabel]="
           'Searches for an article node in the graph and centers it if it can find one'
         "
-        (appSearch)="nodeQuery.set($event)"
+        (appSearch)="nodeQuery$.next($event)"
       ></app-search-field>
 
       <div class="row mb-3">
         <app-graph
           class="col-12 mb-2"
           [data]="graph"
-          [activeNodesData]="selectedNodes()"
-          [centeredNodeData]="searchedNode()"
-          (nodeSelectionChanged)="selectedNodes.set($event)"
+          [activeNodesData]="selectedNodes() ?? []"
         />
         <div class="col-12 d-flex justify-content-end">
           <button

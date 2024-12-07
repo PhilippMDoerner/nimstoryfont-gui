@@ -21,6 +21,7 @@ export class SearchFieldComponent {
   TWO_OR_MORE_WHITESPACE_REGEXP: RegExp = /\s\s+/g;
 
   placeholder = input('Enter Search Query');
+  btnAriaLabel = input('Trigger a search');
   @Output() appSearch: EventEmitter<string> = new EventEmitter();
 
   searchString: string = '';

@@ -17,7 +17,10 @@
     @let graph = graphData();
     @if (graph) {
       <app-search-field
-        [placeholder]="'Search a node!'"
+        [placeholder]="'Search for an article node'"
+        [btnAriaLabel]="
+          'Searches for an article node in the graph and centers it if it can find one'
+        "
         (appSearch)="nodeQuery.set($event)"
       ></app-search-field>
 

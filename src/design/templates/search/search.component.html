@@ -10,7 +10,13 @@
       (sidebarChange)="onCategorySelect($event)"
     ></app-sidebar-legend>
 
-    <app-search-field (appSearch)="search($event)"></app-search-field>
+    <app-search-field
+      [placeholder]="'Search for Articles...'"
+      [btnAriaLabel]="
+        'Triggers a search for any articles matching the query in this campaign'
+      "
+      (appSearch)="search($event)"
+    ></app-search-field>
 
     <!-- Article List -->
     <div class="row search__results">

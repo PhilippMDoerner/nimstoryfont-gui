@@ -15,7 +15,7 @@
       <button
         btn
         class="search__button"
-        aria-label="'Button for searching articles'"
+        [attr.aria-label]="btnAriaLabel()"
         [kind]="'PRIMARY'"
         [icon]="'search'"
       ></button>

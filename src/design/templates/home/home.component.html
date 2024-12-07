@@ -24,6 +24,9 @@
     <app-search-field
       class="home__search-bar"
       [placeholder]="'Search for Articles...'"
+      [btnAriaLabel]="
+        'Triggers a search for any articles matching the query in this campaign'
+      "
       (appSearch)="appSearch.emit($event)"
     ></app-search-field>
 

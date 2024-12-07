@@ -1,6 +1,6 @@
 export interface NodeLinkRaw {
-  node1Guid: string;
-  node2Guid: string;
+  sourceGuid: string;
+  targetGuid: string;
   label: string;
   weight: number;
   campaign_id: number;

@@ -215,8 +215,8 @@ export class GraphPageComponent {
     const rawLink: NodeLinkRaw = {
       ...formData,
       campaign_id: this.globalStore.currentCampaign()?.pk,
-      node1Guid: selectedNodes[0].guid,
-      node2Guid: selectedNodes[1].guid,
+      sourceGuid: selectedNodes[0].guid,
+      targetGuid: selectedNodes[1].guid,
     } as NodeLinkRaw;
     this.store.createConnection(rawLink);
 

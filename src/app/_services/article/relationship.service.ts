@@ -40,8 +40,8 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
   }
 
   parseLink(link: any, nodes: ArticleNode[]): NodeLink | undefined {
-    const sourceNode = nodes.find((node) => node.guid === link.node1Guid);
-    const targetNode = nodes.find((node) => node.guid === link.node2Guid);
+    const sourceNode = nodes.find((node) => node.guid === link.sourceGuid);
+    const targetNode = nodes.find((node) => node.guid === link.targetGuid);
     if (!sourceNode || !targetNode) return undefined;
     return {
       source: sourceNode,

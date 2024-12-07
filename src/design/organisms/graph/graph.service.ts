@@ -8,6 +8,8 @@ import {
 } from 'src/app/_models/nodeMap';
 import { capitalize } from 'src/utils/string';
 
+export class GraphService {}
+
 export function addNodes(
   hostElement: Selection<
     SVGSVGElement | SVGGElement,

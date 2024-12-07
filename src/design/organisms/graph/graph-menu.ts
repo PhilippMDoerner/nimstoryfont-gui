@@ -11,7 +11,7 @@ export type PopupData = {
 
 export type GraphElement = Selection<SVGSVGElement, undefined, null, undefined>;
 
-export class GraphService {
+export class GraphMenuService {
   public graphId = 'graph';
   public graphSelector = `#${this.graphId}`;
   public menuId = 'context-menu';

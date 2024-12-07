@@ -40,11 +40,12 @@ import { ArticleService } from 'src/app/_services/article/article.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { log } from 'src/utils/logging';
 import { capitalize } from 'src/utils/string';
-import { GraphElement, GraphService, PopupData } from './graph-menu';
+import { GraphElement, GraphMenuService, PopupData } from './graph-menu';
 import {
   addDragBehavior,
   addLinks,
   getBreakpoint,
+  GraphService,
   inferGraphHeight,
 } from './graph.service';
 
@@ -71,7 +72,7 @@ const GRAPH_SETTINGS = {
   templateUrl: './graph.component.html',
   styleUrl: './graph.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [GraphService],
+  providers: [GraphMenuService, GraphService],
 })
 export class GraphComponent {
   data = input.required<NodeMap>();
@@ -79,6 +80,7 @@ export class GraphComponent {
   activeNodesData = input.required<NodeSelection>();
 
   articleService = inject(ArticleService);
+  graphMenuService = inject(GraphMenuService);
   graphService = inject(GraphService);
   destructor = inject(DestroyRef);
 
@@ -173,7 +175,7 @@ export class GraphComponent {
         'style',
         'max-width: 100%; height: auto; min-height: 300px; cursor: move;',
       )
-      .attr('id', this.graphService.graphId);
+      .attr('id', this.graphMenuService.graphId);
     const zoomContainer = graphElement.append('g');
     const zoomBehavior = this.addZoomListener(
       graphElement,
@@ -245,7 +247,7 @@ export class GraphComponent {
     const node = this.getNodeData(event);
     if (!node) return;
     const popupData = this.toPopupData(node);
-    this.graphService.showContextMenu(event, popupData);
+    this.graphMenuService.showContextMenu(event, popupData);
   }
 
   private onNodeClick(event: MouseEvent) {
@@ -328,7 +330,7 @@ export class GraphComponent {
   }
 
   private centerNodeInGraph(node: ArticleNode) {
-    const graph = select(this.graphService.graphSelector);
+    const graph = select(this.graphMenuService.graphSelector);
     if (graph.empty()) return;
 
     this.elements()?.zoomBehavior.translateTo(
@@ -396,7 +398,7 @@ export class GraphComponent {
   }
 
   private updateSelectedNodeStyles(selectedNodeData: NodeSelection) {
-    const graph = select(this.graphService.graphSelector);
+    const graph = select(this.graphMenuService.graphSelector);
     if (graph.empty()) return;
 
     // Reset all styles

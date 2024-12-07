@@ -1,5 +1,11 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  TemplateRef,
+} from '@angular/core';
+import { NgbTooltip, Placement } from '@ng-bootstrap/ng-bootstrap';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
@@ -10,7 +16,12 @@ import { IconComponent } from '../icon/icon.component';
   standalone: true,
   imports: [IconComponent, NgbTooltip],
 })
-export class InfoCircleTooltipComponent {
-  tooltip = input.required<string>();
+export class InfoCircleTooltipComponent<T> {
+  tooltip = input.required<string | TemplateRef<T>>();
   text = input.required<string>();
+  placement = input<Placement>('top');
+
+  tooltipKind = computed(() =>
+    this.tooltip() instanceof TemplateRef ? 'custom' : 'text',
+  );
 }

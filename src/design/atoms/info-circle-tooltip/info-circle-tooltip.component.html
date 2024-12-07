@@ -1,6 +1,6 @@
 <strong
-  placement="top"
-  [ngbTooltip]="tooltipContent"
+  [placement]="placement()"
+  [ngbTooltip]="tooltipKind() === 'text' ? tooltipContent : tooltip()"
   [tooltipClass]="'my-tooltip'"
   class="pointer"
 >

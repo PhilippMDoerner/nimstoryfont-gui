@@ -16,11 +16,18 @@
 
     @let graph = graphData();
     @if (graph) {
+      <app-search-field
+        [placeholder]="'Search a node!'"
+        (appSearch)="nodeQuery.set($event)"
+      ></app-search-field>
+
       <div class="row mb-3">
         <app-graph
           class="col-12"
           [data]="graph"
-          (nodeSelected)="selectedNodes.set($event)"
+          [activeNodesData]="selectedNodes()"
+          [centeredNodeData]="searchedNode()"
+          (nodeSelectionChanged)="selectedNodes.set($event)"
         />
       </div>
       <div class="row mb-3">

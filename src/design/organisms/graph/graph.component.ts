@@ -25,6 +25,7 @@ import {
   zoom,
   ZoomBehavior,
 } from 'd3';
+import {} from 'd3-zoom';
 import { filter, map, ReplaySubject, Subject, take } from 'rxjs';
 import {
   ArticleNode,
@@ -59,12 +60,14 @@ type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
 })
 export class GraphComponent {
   data = input.required<NodeMap>();
+  centeredNodeData = input.required<ArticleNode | undefined>();
+  activeNodesData = input.required<NodeSelection>();
 
   articleService = inject(ArticleService);
   graphService = inject(GraphService);
   destructor = inject(DestroyRef);
 
-  nodeSelected = output<NodeSelection>();
+  nodeSelectionChanged = output<NodeSelection>();
 
   graphContainer = viewChild<ElementRef<HTMLDivElement>>('graphContainer');
   elements = signal<
@@ -87,10 +90,18 @@ export class GraphComponent {
   nodeSelector = '.node';
   activeClass = `${this.nodeClass}--active`;
   activeSelector = `g.${this.nodeClass}.${this.activeClass}`;
-  activeNodeData = signal<NodeSelection>([]);
 
   constructor() {
     this.zoomLevel$.next(1);
+
+    // Center node if one is selected
+    effect(() => {
+      const centeredNode = this.centeredNodeData();
+      if (centeredNode) {
+        this.centerNodeInGraph(centeredNode);
+      }
+    });
+
     // Recreate Graph when Data changes
     effect(
       () => {
@@ -112,8 +123,8 @@ export class GraphComponent {
     });
 
     // Update which nodes are displayed as active
-    effect(() => this.updateSelectedNodeStyles(this.activeNodeData()));
-    effect(() => this.nodeSelected.emit(this.activeNodeData()));
+    effect(() => this.updateSelectedNodeStyles(this.activeNodesData()));
+    effect(() => this.nodeSelectionChanged.emit(this.activeNodesData()));
     // Zoom via control
     this.zoomSliderEvents$
       .pipe(
@@ -221,7 +232,10 @@ export class GraphComponent {
   }
 
   private onNodeClick(event: MouseEvent) {
-    this.toggleNode(event);
+    const clickedNodeData = this.getNodeData(event);
+    if (!clickedNodeData) return;
+
+    this.toggleNode(clickedNodeData);
   }
 
   private addNodes(
@@ -297,17 +311,25 @@ export class GraphComponent {
     };
   }
 
+  private centerNodeInGraph(node: ArticleNode) {
+    const graph = select(this.graphService.graphSelector);
+    if (graph.empty()) return;
+
+    this.elements()?.zoomBehavior.translateTo(
+      graph.transition().duration(1000),
+      node.x as number,
+      node.y as number,
+    );
+  }
+
   /**
    * Toggles the activity state of a node. Must deal with the following scenarios:
    * - You toggle a node off
    * - You toggle a node on that is currently active while you have reached maximum amount of selections
    * - You toggle a node on that is currently not active while you have not reached maximum amount of selections (2)
    */
-  private toggleNode(event: MouseEvent) {
-    const clickedNodeData = this.getNodeData(event);
-    if (!clickedNodeData) return;
-
-    const activeNodes = this.activeNodeData();
+  private toggleNode(clickedNodeData: ArticleNode) {
+    const activeNodes = this.activeNodesData();
     const isSelectingNode = !activeNodes.some(
       (n) => n.guid === clickedNodeData.guid,
     );
@@ -316,7 +338,7 @@ export class GraphComponent {
       const otherActiveNodes = activeNodes.filter(
         (n) => n.guid !== clickedNodeData.guid,
       );
-      this.activeNodeData.set(otherActiveNodes as NodeSelection);
+      this.nodeSelectionChanged.emit(otherActiveNodes as NodeSelection);
       return;
     }
 
@@ -324,11 +346,11 @@ export class GraphComponent {
     if (isSelectionFull) return;
 
     const newActiveNodes = [...activeNodes, clickedNodeData];
-    this.activeNodeData.set(newActiveNodes as NodeSelection);
+    this.nodeSelectionChanged.emit(newActiveNodes as NodeSelection);
   }
 
   private resetSelectedNodes() {
-    this.activeNodeData.set([]);
+    this.nodeSelectionChanged.emit([]);
   }
 
   private getNodeData(event: MouseEvent | string) {
@@ -368,7 +390,9 @@ export class GraphComponent {
     if (!hasSelectedNodes) return;
 
     // Set styles on active
-    const activeNodesSelector = this.toSelector(selectedNodeData);
+    const activeNodesSelector = selectedNodeData
+      .map((node) => this.toSelector(node))
+      .join(',');
     graph
       .selectAll(activeNodesSelector)
       .select('circle')
@@ -376,7 +400,7 @@ export class GraphComponent {
       .style('stroke-width', '3px');
   }
 
-  private toSelector(selected: NodeSelection) {
-    return selected.map((node) => `g[guid="${node.guid}"]`).join(', ');
+  private toSelector(node: ArticleNode) {
+    return `g[guid="${node.guid}"]`;
   }
 }

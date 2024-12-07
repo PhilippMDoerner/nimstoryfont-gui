@@ -32,6 +32,7 @@ import { ArticleFooterComponent } from '../../../../design/molecules/article-foo
 import { CollapsiblePanelComponent } from '../../../../design/molecules/collapsible-panel/collapsible-panel.component';
 import { ConfirmationToggleButtonComponent } from '../../../../design/molecules/confirmation-toggle-button/confirmation-toggle-button.component';
 import { FormComponent } from '../../../../design/molecules/form/form.component';
+import { SearchFieldComponent } from '../../../../design/molecules/search-field/search-field.component';
 import { GraphComponent } from '../../../../design/organisms/graph/graph.component';
 import { PageContainerComponent } from '../../../../design/organisms/page-container/page-container.component';
 import { GraphPageStore } from './graph-page.store';
@@ -51,6 +52,7 @@ import { GraphPageStore } from './graph-page.store';
     CardComponent,
     CollapsiblePanelComponent,
     ConfirmationToggleButtonComponent,
+    SearchFieldComponent,
   ],
   templateUrl: './graph-page.component.html',
   styleUrl: './graph-page.component.scss',
@@ -66,6 +68,16 @@ export class GraphPageComponent {
   selectedNodes = signal<NodeSelection>([]);
   firstSelectedNode = computed(() => this.selectedNodes()[0]);
   secondSelectedNode = computed(() => this.selectedNodes()[1]);
+  nodeQuery = signal<string>('');
+  searchedNode = computed(() => {
+    const query = this.nodeQuery();
+    const nodes = this.graphData()?.nodes;
+    if (this.nodeQuery().length < 3 || !nodes) return undefined;
+
+    return nodes.find((node) =>
+      node.record.name.toLowerCase().includes(query.toLowerCase()),
+    );
+  });
   pageState = signal<'DISPLAY' | 'CREATE'>('DISPLAY');
   isPanelOpen = signal<boolean>(false);
   graphData = computed<NodeMap | undefined>(() => {
@@ -169,6 +181,11 @@ export class GraphPageComponent {
         takeUntilDestroyed(this.destructor),
         take(1),
       )
-      .subscribe(() => this.pageState.set('DISPLAY'));
+      .subscribe(() => {
+        this.selectedNodes.set([]);
+        this.pageState.set('DISPLAY');
+      });
   }
+
+  onNodeSearch(query: string) {}
 }

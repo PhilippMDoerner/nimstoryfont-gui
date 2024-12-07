@@ -118,7 +118,7 @@ export function addLinks(
         .style('opacity', '1')
         .attr('transform', () => {
           const centerX = event.layerX;
-          const centerY = event.layerY;
+          const centerY = event.layerY + 4;
           return `translate(${centerX}, ${centerY}), scale(0.2)`;
         });
 

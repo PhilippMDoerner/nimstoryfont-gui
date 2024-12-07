@@ -113,6 +113,16 @@ blockquote {
   }
 }
 
+.modal-dialog {
+  max-width: unset !important;
+
+  width: 95%;
+
+  @include media-breakpoint-up(md) {
+    width: 75%;
+  }
+}
+
 @import "./custom_ngbootstrap.scss";
 
 @import "./global_class_modifications.scss";

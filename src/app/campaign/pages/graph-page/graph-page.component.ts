@@ -6,9 +6,10 @@ import {
   DestroyRef,
   inject,
   signal,
+  TemplateRef,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
-import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { filter, take } from 'rxjs';
 import {
@@ -27,6 +28,7 @@ import {
 } from 'src/design/molecules';
 import { capitalize } from 'src/utils/string';
 import { CardComponent } from '../../../../design/atoms/card/card.component';
+import { IconComponent } from '../../../../design/atoms/icon/icon.component';
 import { SelectableEntryComponent } from '../../../../design/atoms/selectable-entry/selectable-entry.component';
 import { ArticleFooterComponent } from '../../../../design/molecules/article-footer/article-footer.component';
 import { CollapsiblePanelComponent } from '../../../../design/molecules/collapsible-panel/collapsible-panel.component';
@@ -36,6 +38,45 @@ import { SearchFieldComponent } from '../../../../design/molecules/search-field/
 import { GraphComponent } from '../../../../design/organisms/graph/graph.component';
 import { PageContainerComponent } from '../../../../design/organisms/page-container/page-container.component';
 import { GraphPageStore } from './graph-page.store';
+
+const GRAPH_INFO_RULES = [
+  {
+    nodeKind1: 'Organization',
+    nodeKind2: 'Location',
+    description: "The location contains that organization's headquarter",
+  },
+  {
+    nodeKind1: 'Organization',
+    nodeKind2: 'Character',
+    description: 'The character is a member of that organization',
+  },
+  {
+    nodeKind1: 'Location',
+    nodeKind2: 'Location',
+    description: 'The location is part of the other location',
+  },
+  {
+    nodeKind1: 'Location',
+    nodeKind2: 'Character',
+    description: 'The character is in that location',
+  },
+  {
+    nodeKind1: 'Character',
+    nodeKind2: 'Item',
+    description: 'The character owns that item',
+  },
+  {
+    nodeKind1: 'Organization',
+    nodeKind2: 'Organization',
+    description:
+      'The organization is a smaller group within the other organization',
+  },
+  {
+    nodeKind1: 'Any',
+    nodeKind2: 'Any',
+    description: 'A custom relationship between 2 articles',
+  },
+];
 
 @Component({
   selector: 'app-graph-page',
@@ -53,6 +94,7 @@ import { GraphPageStore } from './graph-page.store';
     CollapsiblePanelComponent,
     ConfirmationToggleButtonComponent,
     SearchFieldComponent,
+    IconComponent,
   ],
   templateUrl: './graph-page.component.html',
   styleUrl: './graph-page.component.scss',
@@ -64,6 +106,7 @@ export class GraphPageComponent {
   store = inject(GraphPageStore);
   routingService = inject(RoutingService);
   formlyService = inject(FormlyService);
+  modalService = inject(NgbModal);
 
   selectedNodes = signal<NodeSelection>([]);
   firstSelectedNode = computed(() => this.selectedNodes()[0]);
@@ -137,6 +180,8 @@ export class GraphPageComponent {
     }),
   );
 
+  infoRules = GRAPH_INFO_RULES;
+
   private AVAILABLE_NODE_TYPES = new Set([
     'Character',
     'Item',
@@ -187,5 +232,10 @@ export class GraphPageComponent {
       });
   }
 
-  onNodeSearch(query: string) {}
+  openModal(content: TemplateRef<any>) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-title',
+      modalDialogClass: 'border border-info border-3 rounded mymodal',
+    });
+  }
 }

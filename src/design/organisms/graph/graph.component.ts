@@ -21,6 +21,7 @@ import {
   forceX,
   forceY,
   select,
+  selectAll,
   Selection,
   zoom,
   ZoomBehavior,
@@ -41,8 +42,8 @@ import { log } from 'src/utils/logging';
 import { capitalize } from 'src/utils/string';
 import { GraphElement, GraphService, PopupData } from './graph-menu';
 import {
-  addConnections,
   addDragBehavior,
+  addLinks,
   getBreakpoint,
   inferGraphHeight,
 } from './graph-utils';
@@ -97,6 +98,9 @@ export class GraphComponent {
 
   nodeClass = 'node';
   nodeSelector = '.node';
+  linkClass = 'link';
+  linkSelector = 'line.link';
+  linkLabelSelector = 'text.link-label';
   activeClass = `${this.nodeClass}--active`;
   activeSelector = `g.${this.nodeClass}.${this.activeClass}`;
 
@@ -189,7 +193,7 @@ export class GraphComponent {
     });
 
     // Add a line for each link, and a circle for each node.
-    const allLinksElement = addConnections(zoomContainer, nodeMap.links);
+    addLinks(zoomContainer, nodeMap.links);
     const allNodesElement = this.addNodes(zoomContainer, nodeMap.nodes);
 
     // Create a simulation with several forces.
@@ -210,9 +214,7 @@ export class GraphComponent {
     addDragBehavior(allNodesElement, simulation);
 
     // Set the position attributes of links and nodes each time the simulation ticks.
-    simulation.on('tick', () =>
-      this.updateGraphAttributes(allLinksElement, allNodesElement),
-    );
+    simulation.on('tick', () => this.updateGraphAttributes());
   }
 
   private addZoomListener(
@@ -378,17 +380,26 @@ export class GraphComponent {
     return node;
   }
 
-  private updateGraphAttributes(
-    allLinksElement: Selection<SVGLineElement | null, any, any, any>,
-    allNodesElement: Selection<SVGGElement, any, any, any>,
-  ) {
-    allLinksElement
+  private updateGraphAttributes() {
+    selectAll<SVGLineElement, NodeLink>(this.linkSelector)
       .attr('x1', (d) => (d.source as any).x)
       .attr('y1', (d) => (d.source as any).y)
       .attr('x2', (d) => (d.target as any).x)
       .attr('y2', (d) => (d.target as any).y);
 
-    allNodesElement.attr('transform', (d: any) => `translate(${d.x},${d.y})`);
+    selectAll<SVGTextElement, NodeLink>(this.linkLabelSelector).attr(
+      'transform',
+      (d: any) => {
+        const centerX = (d.source.x + d.target.x) / 2;
+        const centerY = (d.source.y + d.target.y) / 2;
+        return `translate(${centerX}, ${centerY}), scale(0.2)`;
+      },
+    );
+
+    selectAll(this.nodeSelector).attr(
+      'transform',
+      (d: any) => `translate(${d.x},${d.y})`,
+    );
   }
 
   private updateSelectedNodeStyles(selectedNodeData: NodeSelection) {

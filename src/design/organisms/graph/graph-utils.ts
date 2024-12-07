@@ -1,4 +1,4 @@
-import { drag, Selection, Simulation } from 'd3';
+import { drag, select, Selection, Simulation } from 'd3';
 import {
   ArticleNode,
   ArticleNodeKind,
@@ -60,7 +60,7 @@ export function addNodes(
   return nodes;
 }
 
-export function addConnections(
+export function addLinks(
   hostElement: Selection<
     SVGSVGElement | SVGGElement,
     undefined,
@@ -69,16 +69,75 @@ export function addConnections(
   >,
   links: NodeLink[],
 ) {
-  const allLinksElement = hostElement
+  const linkGroups = hostElement
     .append('g')
-    .attr('stroke', '#999')
     .attr('stroke-opacity', 0.6)
     .selectAll()
     .data(links)
-    .join('line')
-    .attr('stroke-width', (d) => Math.sqrt(5));
+    .join('g')
+    .attr('title', (d) => d.label)
+    .attr('class', 'link');
 
-  return allLinksElement;
+  const texts = linkGroups
+    .append('text')
+    .attr('text-anchor', 'middle')
+    .attr('stroke', '#000')
+    .attr('stroke-width', 1)
+    .attr('class', 'link-label')
+    .style('text-anchor', 'middle')
+    .style('opacity', '0');
+
+  texts
+    .append('tspan')
+    .attr('dy', '0px')
+    .attr('x', '0px')
+    .text((d: any) => d.source.record.name);
+
+  texts
+    .append('tspan')
+    .attr('dy', '15px')
+    .attr('x', '0px')
+    .text((d: any) => d.label);
+
+  texts
+    .append('tspan')
+    .attr('dy', '15px')
+    .attr('x', '0px')
+    .text((d: any) => d.target.record.name);
+
+  const linkElements = linkGroups
+    .append('line')
+    .attr('class', 'link')
+    .style('stroke-width', () => `${Math.sqrt(5)}px`)
+    .attr('stroke', '#999')
+    .on('mouseover', function () {
+      select(this.parentNode as any)
+        .transition()
+        .duration(200)
+        .select('.link-label')
+        .style('opacity', '1');
+
+      select(this)
+        .transition()
+        .duration(200)
+        .style('stroke', 'var(--bs-primary)')
+        .style('stroke-width', () => '6px');
+    })
+    .on('mouseout', function () {
+      select(this.parentNode as any)
+        .transition()
+        .duration(200)
+        .select('.link-label')
+        .style('opacity', '0');
+
+      select(this)
+        .transition()
+        .duration(200)
+        .style('stroke', '#999')
+        .style('stroke-width', () => `${Math.sqrt(5)}px`);
+    });
+
+  return linkElements;
 }
 
 export function addDragBehavior(

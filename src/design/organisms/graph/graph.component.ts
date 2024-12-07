@@ -46,7 +46,7 @@ import {
   addLinks,
   getBreakpoint,
   inferGraphHeight,
-} from './graph-utils';
+} from './graph.service';
 
 type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
 const GRAPH_SETTINGS = {
@@ -56,8 +56,12 @@ const GRAPH_SETTINGS = {
   minHeight: 300,
   linkAttractingForce: 0.5,
   nodeRepellingForce: 50,
+  circleSize: 6,
   xForce: 1,
   yForce: 1,
+  centeringTransitionTime: 1000,
+  hoverTransitionTime: 200,
+  strokeWidth: 0.5,
 };
 
 @Component({
@@ -162,10 +166,9 @@ export class GraphComponent {
   }
 
   private createGraph(nodeMap: NodeMap) {
-    const width = 1080;
-    const height = inferGraphHeight(width, getBreakpoint());
+    const height = inferGraphHeight(this.settings.width, getBreakpoint());
     const graphElement = create('svg')
-      .attr('viewBox', [0, 0, width, height])
+      .attr('viewBox', [0, 0, this.settings.width, height])
       .attr(
         'style',
         'max-width: 100%; height: auto; min-height: 300px; cursor: move;',
@@ -175,7 +178,7 @@ export class GraphComponent {
     const zoomBehavior = this.addZoomListener(
       graphElement,
       zoomContainer,
-      width,
+      this.settings.width,
       height,
     );
 
@@ -210,7 +213,7 @@ export class GraphComponent {
       )
       .force('x', forceX().strength(0.025))
       .force('y', forceY().strength(0.025))
-      .force('center', forceCenter(width / 2, height / 2));
+      .force('center', forceCenter(this.settings.width / 2, height / 2));
     addDragBehavior(allNodesElement, simulation);
 
     // Set the position attributes of links and nodes each time the simulation ticks.
@@ -273,11 +276,10 @@ export class GraphComponent {
 
     // Add image inside circle with background-color
     // const imgGroups = nodes.append('g');
-    const imgSize = 10;
     // imgGroups
     nodes
       .append('circle')
-      .attr('r', imgSize / 2 + 1)
+      .attr('r', this.settings.circleSize)
       .attr('stroke', 'black')
       .attr('guid', (d) => d.guid)
       .attr(
@@ -291,10 +293,10 @@ export class GraphComponent {
     // Add Label
     nodes
       .append('text')
-      .attr('y', imgSize * 3.5)
+      .attr('y', this.settings.circleSize * 6)
       .attr('text-anchor', 'middle')
       .attr('stroke', '#000')
-      .attr('stroke-width', 0.5)
+      .attr('stroke-width', this.settings.strokeWidth)
       .attr('transform', 'scale(0.3)')
       .attr('guid', (d) => d.guid)
       .text((d) => d.record.name);
@@ -330,7 +332,7 @@ export class GraphComponent {
     if (graph.empty()) return;
 
     this.elements()?.zoomBehavior.translateTo(
-      graph.transition().duration(1000),
+      graph.transition().duration(this.settings.centeringTransitionTime),
       node.x as number,
       node.y as number,
     );

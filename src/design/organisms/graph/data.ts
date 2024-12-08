@@ -1,3 +1,5 @@
+import { ArticleNode, NodeLink } from 'src/app/_models/nodeMap';
+
 export const SELECTORS = {
   nodeClass: 'node',
   nodeSelector: '.node',
@@ -15,4 +17,15 @@ export const SELECTORS = {
   nodeMenuCloseBtnSelector: '#context-menu-close',
   linkMenuId: 'link-context-menu',
   linkMenuSelector: `#link-context-menu`,
+  deleteLinkId: 'delete-link',
+  deleteLinkSelector: '#delete-link',
+};
+
+export type NodeClickEvent = {
+  event: MouseEvent;
+  clickedNode: ArticleNode | undefined;
+};
+export type LinkClickEvent = {
+  event: MouseEvent;
+  clickedLink: NodeLink | undefined;
 };

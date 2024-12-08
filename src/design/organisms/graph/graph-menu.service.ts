@@ -1,7 +1,7 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select, selectAll, Selection } from 'd3';
-import { filter, Subject, take } from 'rxjs';
+import { filter, Subject, take, tap } from 'rxjs';
 import {
   ArticleNode,
   ArticleNodeKind,
@@ -10,7 +10,7 @@ import {
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ellipsize } from 'src/utils/string';
 import { SIDEBAR_ENTRIES } from '../_model/sidebar';
-import { SELECTORS } from './data';
+import { LinkClickEvent, SELECTORS } from './data';
 
 export type NodeMenuData = {
   title: string | undefined;
@@ -18,6 +18,11 @@ export type NodeMenuData = {
   link: string | undefined;
   kind: ArticleNodeKind | undefined;
 } & Record<string, any>;
+
+export type NodeMenuClickEvent = {
+  event: MouseEvent;
+  nodeMenuData: NodeMenuData | undefined;
+};
 
 export type GraphElement = Selection<SVGSVGElement, undefined, null, undefined>;
 const INTERACTABLE_ELEMENT_SELECTORS = [
@@ -30,7 +35,8 @@ export class GraphMenuService implements OnDestroy {
   articleService = inject(ArticleService);
 
   allGraphClickEvents$ = new Subject<MouseEvent>(); //All click events the graph registered
-  directGraphClickEvents$ = this.allGraphClickEvents$.pipe(
+
+  private directGraphClickEvents$ = this.allGraphClickEvents$.pipe(
     filter((event) => {
       const clickTarget = event.target as Element;
       const isClickOnGraph = !INTERACTABLE_ELEMENT_SELECTORS.some(
@@ -39,11 +45,21 @@ export class GraphMenuService implements OnDestroy {
       return isClickOnGraph;
     }),
   );
-  nodeMenuElementCreatedEvent$ = new Subject<void>();
-  linkMenuElementCreatedEvent$ = new Subject<void>();
-  nodeMenuClickEvents$ = new Subject<MouseEvent>();
-  linkMenuClickEvents$ = new Subject<MouseEvent>();
+  private nodeMenuElementCreatedEvent$ = new Subject<void>();
+  private linkMenuElementCreatedEvent$ = new Subject<void>();
+  private nodeMenuClickEvents$ = new Subject<NodeMenuClickEvent>();
+  private linkMenuClickEvents$ = new Subject<LinkClickEvent>();
 
+  linkDeleteEvents$ = this.linkMenuClickEvents$.pipe(
+    filter((event) => {
+      const clickTarget = event.event.target as Element;
+      const isClickOnDeleteOption = !!clickTarget.closest(
+        SELECTORS.deleteLinkSelector,
+      );
+      return isClickOnDeleteOption;
+    }),
+    tap((event) => console.log('DELETE THINGY', event)),
+  );
   constructor() {
     this.initListeningToMenuClicks();
     this.initCloseBtnClickBehavior();
@@ -51,16 +67,23 @@ export class GraphMenuService implements OnDestroy {
       this.closeLinkMenu();
       this.closeNodeMenu();
     });
+    this.linkDeleteEvents$
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.closeLinkMenu());
   }
 
   private initCloseBtnClickBehavior() {
     this.nodeMenuClickEvents$
       .pipe(
         filter((event) => {
-          const isClickOnCloseBtn = !!(event.target as Element).closest(
+          const clickTarget = event.event.target as Element;
+          const isClickOnCloseBtn = clickTarget.closest(
             SELECTORS.nodeMenuCloseBtnSelector,
           );
-          return isClickOnCloseBtn;
+          if (!isClickOnCloseBtn) return false;
+
+          const isBtnDisabled = clickTarget.hasAttribute('disabled');
+          return !isBtnDisabled;
         }),
       )
       .pipe(takeUntilDestroyed())
@@ -71,23 +94,31 @@ export class GraphMenuService implements OnDestroy {
     this.nodeMenuElementCreatedEvent$
       .pipe(take(1), takeUntilDestroyed())
       .subscribe(() =>
-        select(SELECTORS.nodeMenuSelector).on('click', (event) =>
-          this.nodeMenuClickEvents$.next(event),
+        select<HTMLDivElement, NodeMenuData>(SELECTORS.nodeMenuSelector).on(
+          'click',
+          (event: MouseEvent, data) =>
+            this.nodeMenuClickEvents$.next({
+              event,
+              nodeMenuData: data,
+            }),
         ),
       );
 
     this.linkMenuElementCreatedEvent$
       .pipe(take(1), takeUntilDestroyed())
       .subscribe(() =>
-        select(SELECTORS.linkMenuSelector).on('click', (event) =>
-          this.linkMenuClickEvents$.next(event),
+        select<HTMLDivElement, NodeLink>(SELECTORS.linkMenuSelector).on(
+          'click',
+          (event: MouseEvent, data) => {
+            this.linkMenuClickEvents$.next({ clickedLink: data, event });
+          },
         ),
       );
   }
 
   showLinkContextMenu(event: MouseEvent, link: NodeLink) {
     selectAll(SELECTORS.linkMenuSelector)
-      .data([1])
+      .data([link])
       .enter()
       .append('div')
       .attr('class', 'border border-secondary my-body rounded text-dark')
@@ -111,7 +142,7 @@ export class GraphMenuService implements OnDestroy {
   showNodeContextMenu(event: MouseEvent, data: NodeMenuData) {
     // create the div element that will hold the context menu
     selectAll(SELECTORS.nodeMenuSelector)
-      .data([1])
+      .data([data])
       .enter()
       .append('div')
       .attr(
@@ -158,10 +189,15 @@ export class GraphMenuService implements OnDestroy {
   private linkContextMenuHTML(link: NodeLink) {
     const isCustomLink = link.id != undefined;
     const linkLabel = `${(link.source as ArticleNode).record.name} -> ${(link.target as ArticleNode).record.name}`;
-
+    const extraClasses = isCustomLink
+      ? ''
+      : 'disabled text-decoration-line-through';
     const menu = `
       <div class="list-group" id="link-context-menu">
-        <button class="list-group-item list-group-item-action bg-danger ${isCustomLink ? '' : 'disabled text-decoration-line-through'}" ${isCustomLink ? '' : 'disabled'} title="${linkLabel}"> 
+        <button 
+          id="${SELECTORS.deleteLinkId}"
+          class="list-group-item list-group-item-action bg-danger ${extraClasses}" ${isCustomLink ? '' : 'disabled'} title="${linkLabel}"
+        > 
           <i class="fas fa-trash"></i>
           Delete Link "${ellipsize(linkLabel, 15)}"
         </button>

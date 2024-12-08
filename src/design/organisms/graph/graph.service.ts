@@ -37,7 +37,7 @@ import {
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
-import { SELECTORS } from './data';
+import { LinkClickEvent, NodeClickEvent, SELECTORS } from './data';
 import { GraphElement, GraphMenuService } from './graph-menu.service';
 
 export const GRAPH_SETTINGS = {
@@ -62,14 +62,6 @@ type GraphElements = {
   graphElement: GraphElement;
   zoomContainer: ZoomElement;
   zoomBehavior: MyZoomBehavior;
-};
-type NodeClickEvent = {
-  event: MouseEvent;
-  clickedNode: ArticleNode | undefined;
-};
-type LinkClickEvent = {
-  event: MouseEvent;
-  clickedLink: NodeLink | undefined;
 };
 
 @Injectable()

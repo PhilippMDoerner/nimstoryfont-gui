@@ -35,6 +35,7 @@ import {
 } from 'src/design/molecules';
 import { GraphMenuService } from 'src/design/organisms/graph/graph-menu.service';
 import { GraphService } from 'src/design/organisms/graph/graph.service';
+import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
 import { CardComponent } from '../../../../design/atoms/card/card.component';
 import { IconComponent } from '../../../../design/atoms/icon/icon.component';
@@ -118,6 +119,7 @@ export class GraphPageComponent {
   formlyService = inject(FormlyService);
   modalService = inject(NgbModal);
   graphService = inject(GraphService);
+  graphMenuService = inject(GraphMenuService);
 
   selectedNodes = toSignal(this.graphService.nodeSelectionChanged$);
   firstSelectedNode = computed(() => this.selectedNodes()?.[0]);
@@ -190,6 +192,14 @@ export class GraphPageComponent {
     this.searchedNode$
       .pipe(takeUntilDestroyed())
       .subscribe((node) => this.graphService.centerNodeEvents$.next(node));
+
+    this.graphMenuService.linkDeleteEvents$
+      .pipe(
+        map((event) => event.clickedLink?.id),
+        filterNil(),
+        takeUntilDestroyed(),
+      )
+      .subscribe((linkIdToDelete) => this.onDeleteLink(linkIdToDelete));
   }
 
   toggleSidebarEntry(option: SidebarOption, mode: 'INACTIVE' | 'ACTIVE') {
@@ -230,6 +240,10 @@ export class GraphPageComponent {
         this.pageState.set('DISPLAY');
         this.graphService.centerNodeEvents$.next(selectedNodes[0]);
       });
+  }
+
+  onDeleteLink(linkId: number) {
+    this.store.deleteConnection(linkId);
   }
 
   openModal(content: TemplateRef<any>) {

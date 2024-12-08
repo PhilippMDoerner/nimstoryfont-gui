@@ -37,6 +37,7 @@ import {
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
+import { SELECTORS } from './data';
 import { GraphElement, GraphMenuService } from './graph-menu.service';
 
 export const GRAPH_SETTINGS = {
@@ -55,16 +56,6 @@ export const GRAPH_SETTINGS = {
   strokeWidth: 0.5,
 };
 
-export const SELECTORS = {
-  nodeClass: 'node',
-  nodeSelector: '.node',
-  linkClass: 'link',
-  linkSelector: 'line.link',
-  linkLabelSelector: 'text.link-label',
-  activeClass: `node--active`,
-  activeSelector: `g.node.node--active`,
-};
-
 type MyZoomBehavior = ZoomBehavior<any, any>;
 type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
 type GraphElements = {
@@ -75,6 +66,10 @@ type GraphElements = {
 type NodeClickEvent = {
   event: MouseEvent;
   clickedNode: ArticleNode | undefined;
+};
+type LinkClickEvent = {
+  event: MouseEvent;
+  clickedLink: NodeLink | undefined;
 };
 
 @Injectable()
@@ -92,13 +87,13 @@ export class GraphService {
     withLatestFrom(this.createGraphEvents$),
     map(([event, graphData]) => this.toNodeEvent(event, graphData)),
   );
-  private linkRightClickEvents$ = new Subject<MouseEvent>();
+  private linkRightClickEvents$ = new Subject<LinkClickEvent>();
   public centerNodeEvents$ = new Subject<ArticleNode | undefined>();
   public nodeSelectionChanged$ = new Subject<NodeSelection>();
   private activeNodes$ = this.nodeSelectionChanged$.pipe(
     startWith<NodeSelection>([]),
   );
-  private graphClickEvent = new Subject<MouseEvent>();
+  private graphClickEvent$ = new Subject<MouseEvent>();
 
   private graphMenuService = inject(GraphMenuService);
   public zoomLevelChangedEvent$ = new ReplaySubject<number>(1);
@@ -113,6 +108,12 @@ export class GraphService {
     this.initGraphClickBehavior();
     this.initSyncingActivatedNodesToSVG();
     this.initLinkRightClickBehavior();
+
+    this.graphClickEvent$
+      .pipe(takeUntilDestroyed())
+      .subscribe((event) =>
+        this.graphMenuService.allGraphClickEvents$.next(event),
+      );
   }
 
   // BEHAVIOR
@@ -129,10 +130,13 @@ export class GraphService {
   }
 
   /**
-   * Sets up behavior when users click on the graph itself and not a node or link
+   * Sets up behavior when users click on the graph itself and not a node or link.
+   * This should be:
+   * - Resetting the node selection to nothing
+   * - Closing context menus
    */
   private initGraphClickBehavior() {
-    this.graphClickEvent.pipe(takeUntilDestroyed()).subscribe((event) => {
+    this.graphClickEvent$.pipe(takeUntilDestroyed()).subscribe((event) => {
       const isClickOnNode = !!(event.target as Element).closest('g.node');
       if (!isClickOnNode) {
         this.resetNodeSelection();
@@ -187,11 +191,16 @@ export class GraphService {
   private initLinkRightClickBehavior() {
     this.linkRightClickEvents$
       .pipe(
-        tap((event) => event.preventDefault()),
-        withLatestFrom(this.createGraphEvents$.pipe(map((val) => val.links))),
+        tap((event) => event.event.preventDefault()),
         takeUntilDestroyed(),
       )
-      .subscribe(([event, links]) => {
+      .subscribe((event) => {
+        console.log(event);
+        if (!event.clickedLink) return;
+        this.graphMenuService.showLinkContextMenu(
+          event.event,
+          event.clickedLink,
+        );
         // TODO:
         // 1. Figure out how to extract the clicked links from via event from links.
         // 2. Transform into the data needed to open a context menu
@@ -238,7 +247,7 @@ export class GraphService {
         'style',
         'max-width: 100%; height: auto; min-height: 300px; cursor: move;',
       )
-      .attr('id', this.graphMenuService.graphId);
+      .attr('id', SELECTORS.graphId);
     const zoomContainer = graphElement.append('g');
     const zoomBehavior = this.addZoomListener(
       graphElement,
@@ -248,7 +257,7 @@ export class GraphService {
     );
 
     graphElement.on('click', (event: MouseEvent) =>
-      this.graphClickEvent.next(event),
+      this.graphClickEvent$.next(event),
     );
 
     this._elements$.next({
@@ -299,7 +308,13 @@ export class GraphService {
       .append('g')
       .attr('class', SELECTORS.nodeClass)
       .attr('style', 'cursor: grab;')
-      .attr('guid', (d) => d.guid);
+      .attr('guid', (d) => d.guid)
+      .on('mouseover', function () {
+        select(this).select('circle').attr('stroke', 'white');
+      })
+      .on('mouseleave', function () {
+        select(this).select('circle').attr('stroke', 'black');
+      });
 
     // Add image inside circle with background-color
     // const imgGroups = nodes.append('g');
@@ -359,15 +374,17 @@ export class GraphService {
       .data(links)
       .join('g')
       .attr('title', (d) => d.label)
-      .attr('class', 'link')
-      .on('contextmenu', (event) => this.linkRightClickEvents$.next(event));
+      .attr('class', SELECTORS.linkClass)
+      .on('contextmenu', (event, link) =>
+        this.linkRightClickEvents$.next({ event, clickedLink: link }),
+      );
 
     const texts = linkGroups
       .append('text')
       .attr('text-anchor', 'middle')
       .attr('stroke', '#000')
       .attr('stroke-width', 1)
-      .attr('class', 'link-label')
+      .attr('class', SELECTORS.linkLabelClass)
       .style('text-anchor', 'middle')
       .style('opacity', '0');
 
@@ -391,14 +408,14 @@ export class GraphService {
 
     const linkElements = linkGroups
       .append('line')
-      .attr('class', 'link')
+      .attr('class', SELECTORS.linkClass)
       .style('stroke-width', () => `${Math.sqrt(5)}px`)
       .attr('stroke', '#999')
       .on('mouseover', function (event: MouseEvent) {
         select(this.parentNode as any)
           .transition()
           .duration(200)
-          .select('.link-label')
+          .select(SELECTORS.linkLabelSelector)
           .style('opacity', '1')
           .attr('transform', () => {
             const centerX = event.layerX;
@@ -416,7 +433,7 @@ export class GraphService {
         select(this.parentNode as any)
           .transition()
           .duration(200)
-          .select('.link-label')
+          .select(SELECTORS.linkLabelSelector)
           .style('opacity', '0');
 
         select(this)
@@ -443,7 +460,7 @@ export class GraphService {
   }
 
   private centerNodeInGraph(node: ArticleNode, myZoom: MyZoomBehavior) {
-    const graph = select(this.graphMenuService.graphSelector);
+    const graph = select(SELECTORS.graphSelector);
     if (graph.empty()) return;
 
     myZoom.translateTo(
@@ -513,7 +530,7 @@ export class GraphService {
   }
 
   private updateSelectedNodeStyles(selectedNodeData: NodeSelection) {
-    const graph = select(this.graphMenuService.graphSelector);
+    const graph = select(SELECTORS.graphSelector);
     if (graph.empty()) return;
 
     // Reset all styles

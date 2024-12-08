@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
 import { DiaryentryComponent } from 'src/design/templates/diaryentry/diaryentry.component';
 import { DiaryentryPageStore } from './diaryentry-page.store';
@@ -12,6 +13,14 @@ import { DiaryentryPageStore } from './diaryentry-page.store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiaryentryPageComponent {
-  globlStore = inject(GlobalStore);
+  globalStore = inject(GlobalStore);
   store = inject(DiaryentryPageStore);
+  routingService = inject(RoutingService);
+
+  onDelete() {
+    this.store.deleteDiaryEntry();
+    this.routingService.routeToPath('diaryentry-overview', {
+      campaign: this.globalStore.campaignName(),
+    });
+  }
 }

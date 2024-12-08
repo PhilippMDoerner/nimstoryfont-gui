@@ -8,7 +8,7 @@
     [canCreate]="store.hasWritePermission()"
     [canUpdate]="store.hasWritePermission()"
     [canDelete]="store.hasWritePermission()"
-    (diaryentryDelete)="store.deleteDiaryEntry()"
+    (diaryentryDelete)="onDelete()"
     (encounterConnectionCreate)="store.addEncounterConnection($event)"
     (encounterConnectionDelete)="store.removeEncounterConnection($event)"
     (encounterCreate)="store.addEncounter($event)"

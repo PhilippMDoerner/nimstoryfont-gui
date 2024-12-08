@@ -2,19 +2,27 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   inject,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import { AbstractControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import {
   combineLatest,
+  delay,
   distinctUntilChanged,
+  filter,
   interval,
   map,
   Observable,
   startWith,
+  take,
 } from 'rxjs';
 import { DiaryEntry, DiaryEntryRaw } from 'src/app/_models/diaryentry';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -41,10 +49,12 @@ export class DiaryentryCreateUpdatePageComponent {
   private globalStore = inject(GlobalStore);
   private route = inject(ActivatedRoute);
   private routingService = inject(RoutingService);
+  private destroyer = inject(DestroyRef);
 
   private routeUrlSegments = toSignal(this.route.url);
   private authors$ = toObservable(this.store.authors).pipe(filterNil());
   private sessions$ = toObservable(this.store.sessions).pipe(filterNil());
+  private queryState$ = toObservable(this.store.diaryentryQueryState);
 
   state = computed<CreateUpdateState>(() => {
     const pathSegments = this.routeUrlSegments()?.map(
@@ -207,10 +217,29 @@ export class DiaryentryCreateUpdatePageComponent {
 
   create(diaryentry: Partial<DiaryEntryRaw>) {
     this.store.createDiaryentry(diaryentry as DiaryEntryRaw);
+    this.queryState$
+      .pipe(
+        filter((state) => state === 'success'),
+        takeUntilDestroyed(this.destroyer),
+        take(1),
+      )
+      .subscribe(() =>
+        this.routeToDiaryentry(this.store.diaryentry() as DiaryEntry),
+      );
   }
 
   update(diaryentry: Partial<DiaryEntryRaw>) {
     this.store.updateDiaryentry(diaryentry as DiaryEntry);
+    this.queryState$
+      .pipe(
+        filter((state) => state === 'success'),
+        takeUntilDestroyed(this.destroyer),
+        take(1),
+        delay(50), // I was lazy
+      )
+      .subscribe(() =>
+        this.routeToDiaryentry(this.store.diaryentry() as DiaryEntry),
+      );
   }
 
   cancel() {

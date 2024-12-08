@@ -15,6 +15,13 @@ This is a re-built Angular frontend client of Storyfont, a PWA-ready webpage bui
 11. Spells
 12. Quotes
 
+Beyond that it contains the following features:
+
+1. A visual graph representation of Characters, Organizations, Locations and Items using an interactive d3js graph
+
+It is multi-tenant, therefore can house multiple campaigns side-by-side.
+Permissions are handled on a per-campaign basis where campaign-admins can add/remove users from campaigns.
+
 # Storybook and Architecture
 
 This re-built frontend includes a storybook for individual components. It now follows atomic-design principles as well as the smart-dumb component architecture. All pages are represented via templates, made up of organisms, molecules and atoms. All of them are representational "dumb" components.
@@ -41,8 +48,4 @@ It explicitly does not support Safari, due to the resources this would cost to a
 - leaflet - For map... maybe dependncy of ngx-leaflet, maybe it can be used on its own
 - bootstrap - Visuals, utility classes and components
 - plyr - Audioplayer
-
-# Notable commits
-
-- Add lazy-loaded routes: c1fadddf87463a0d29ebe066f9486ca97fb31d79
-  Revert if you notice lazy-loaded routes not working well
+- d3js - Visualizes a graph of the articles and their connections

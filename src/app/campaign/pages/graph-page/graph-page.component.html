@@ -151,11 +151,25 @@
   </div>
 
   <div class="modal-body">
-    The graph contains the following kinds of links:
+    <h3 class="h4">Possible Graph Interactions:</h3>
+    <ul class="container">
+      @for (interaction of infoInteractions; track $index) {
+        <li class="row mb-2">
+          <div class="col-lg-6 col-12 h6 fw-bold">
+            {{ interaction.event }}
+          </div>
+          <span class="col-lg-6 col-12">
+            {{ interaction.description }}
+          </span>
+        </li>
+      }
+    </ul>
+
+    <h3 class="h4">Kinds of Links:</h3>
     <ul class="container"></ul>
     @for (rule of infoRules; track $index) {
       <li class="row mb-4">
-        <div class="col-lg-6 col-12 h5 fw-bold">
+        <div class="col-lg-6 col-12 h6 fw-bold">
           {{ rule.nodeKind1 }}
           <app-icon [icon]="'link'" />
           {{ rule.nodeKind2 }}

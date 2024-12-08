@@ -88,6 +88,30 @@ const GRAPH_INFO_RULES = [
   },
 ];
 
+const GRAPH_INTERACTIONS = [
+  {
+    event: 'Hovering a node',
+    description: 'Node changes color',
+  },
+  {
+    event: 'Left-click node',
+    description: 'Node gets selected for creating a custom connection',
+  },
+  {
+    event: 'Right-click node',
+    description: 'Open a context menu with information about the node',
+  },
+  {
+    event: 'Hovering a link',
+    description: 'Link expand and shows label',
+  },
+  {
+    event: 'Right-click link',
+    description:
+      'Open a context menu with possible actions for the link (some may be disabled for specific kinds of links)',
+  },
+];
+
 @Component({
   selector: 'app-graph-page',
   standalone: true,
@@ -174,6 +198,7 @@ export class GraphPageComponent {
   );
 
   infoRules = GRAPH_INFO_RULES;
+  infoInteractions = GRAPH_INTERACTIONS;
 
   private AVAILABLE_NODE_TYPES = new Set([
     'Character',

@@ -1,4 +1,7 @@
 "use strict";
+/**
+ * https://github.com/angular/components/tree/main/src/cdk/schematics
+ */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -9,15 +12,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.findModuleFromOptions = exports.getStylesPath = exports.getIndexHtmlPath = exports.addModuleImportToModule = exports.addModuleImportToRootModule = exports.parseSourceFile = void 0;
+exports.getProjectTargetOptions = exports.getProjectMainFile = exports.findModuleFromOptions = exports.getStylesPath = exports.getIndexHtmlPath = exports.addModuleImportToRootModule = exports.parseSourceFile = void 0;
 const core_1 = require("@angular-devkit/core");
 const schematics_1 = require("@angular-devkit/schematics");
 const ts = require("typescript");
-const ast_utils_1 = require("@schematics/angular/utility/ast-utils");
-const change_1 = require("@schematics/angular/utility/change");
 const ng_ast_utils_1 = require("@schematics/angular/utility/ng-ast-utils");
 const find_module_1 = require("@schematics/angular/utility/find-module");
 const workspace_1 = require("@schematics/angular/utility/workspace");
+const schematics_2 = require("@angular/cdk/schematics");
 /** Reads file given path and returns TypeScript source file. */
 function parseSourceFile(host, path) {
     const buffer = host.read(path);
@@ -29,32 +31,10 @@ function parseSourceFile(host, path) {
 exports.parseSourceFile = parseSourceFile;
 /** Import and add module to root app module. */
 function addModuleImportToRootModule(host, moduleName, src, project) {
-    const modulePath = (0, ng_ast_utils_1.getAppModulePath)(host, project.architect.build.options.main);
-    addModuleImportToModule(host, modulePath, moduleName, src);
+    const modulePath = (0, ng_ast_utils_1.getAppModulePath)(host, getProjectMainFile(project));
+    (0, schematics_2.addModuleImportToModule)(host, modulePath, moduleName, src);
 }
 exports.addModuleImportToRootModule = addModuleImportToRootModule;
-/**
- * Import and add module to specific module path.
- * @param host the tree we are updating
- * @param modulePath src location of the module to import
- * @param moduleName name of module to import
- * @param src src location to import
- */
-function addModuleImportToModule(host, modulePath, moduleName, src) {
-    const moduleSource = parseSourceFile(host, modulePath);
-    if (!moduleSource) {
-        throw new schematics_1.SchematicsException(`Module not found: ${modulePath}`);
-    }
-    const changes = (0, ast_utils_1.addImportToModule)(moduleSource, modulePath, moduleName, src);
-    const recorder = host.beginUpdate(modulePath);
-    changes.forEach((change) => {
-        if (change instanceof change_1.InsertChange) {
-            recorder.insertLeft(change.pos, change.toAdd);
-        }
-    });
-    host.commitUpdate(recorder);
-}
-exports.addModuleImportToModule = addModuleImportToModule;
 /** Gets the app index.html file */
 function getIndexHtmlPath(host, project) {
     const buildTarget = project.architect.build.options;
@@ -99,4 +79,22 @@ function findModuleFromOptions(host, options) {
     });
 }
 exports.findModuleFromOptions = findModuleFromOptions;
+function getProjectMainFile(project) {
+    const buildOptions = getProjectTargetOptions(project, 'build');
+    if (!buildOptions.main) {
+        throw new schematics_1.SchematicsException(`Could not find the project main file inside of the ` +
+            `workspace config (${project.sourceRoot})`);
+    }
+    return buildOptions.main;
+}
+exports.getProjectMainFile = getProjectMainFile;
+function getProjectTargetOptions(project, buildTarget) {
+    var _a, _b;
+    const options = (_b = (_a = project.targets) === null || _a === void 0 ? void 0 : _a.get(buildTarget)) === null || _b === void 0 ? void 0 : _b.options;
+    if (!options) {
+        throw new schematics_1.SchematicsException(`Cannot determine project target configuration for: ${buildTarget}.`);
+    }
+    return options;
+}
+exports.getProjectTargetOptions = getProjectTargetOptions;
 //# sourceMappingURL=ast.js.map

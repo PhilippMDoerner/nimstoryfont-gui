@@ -6,22 +6,24 @@ import { BaseService } from '../base.service';
 import { CreateDeleteService } from '../service.interfaces';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class DiaryentryEncounterConnectionService extends BaseService<DiaryEntryEncounterConnection> implements CreateDeleteService<DiaryEntryEncounterConnection>{
-
-  constructor(
-    http: HttpClient
-  ) { 
+export class DiaryentryEncounterConnectionService
+  extends BaseService<
+    DiaryEntryEncounterConnection,
+    DiaryEntryEncounterConnection
+  >
+  implements CreateDeleteService<DiaryEntryEncounterConnection>
+{
+  constructor(http: HttpClient) {
     super(http, 'diaryentryencounterconnection');
   }
-  
-  
+
   parseEntity(data: any): DiaryEntryEncounterConnection {
     return data;
   }
-  
+
   parseOverviewEntity(data: any): OverviewItem {
-    throw "CharacterPlayerClassConnection does not have an overview endpoint"
+    throw 'CharacterPlayerClassConnection does not have an overview endpoint';
   }
 }

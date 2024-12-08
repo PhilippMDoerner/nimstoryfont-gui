@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Printer = void 0;
 var tslib_1 = require("tslib");
-var assert_1 = tslib_1.__importDefault(require("assert"));
+var tiny_invariant_1 = tslib_1.__importDefault(require("tiny-invariant"));
 var types = tslib_1.__importStar(require("ast-types"));
 var comments_1 = require("./comments");
 var fast_path_1 = tslib_1.__importDefault(require("./fast-path"));
@@ -14,7 +14,7 @@ var namedTypes = types.namedTypes;
 var isString = types.builtInTypes.string;
 var isObject = types.builtInTypes.object;
 var PrintResult = function PrintResult(code, sourceMap) {
-    assert_1.default.ok(this instanceof PrintResult);
+    (0, tiny_invariant_1.default)(this instanceof PrintResult);
     isString.assert(code);
     this.code = code;
     if (sourceMap) {
@@ -35,7 +35,7 @@ PRp.toString = function () {
 };
 var emptyPrintResult = new PrintResult("");
 var Printer = function Printer(config) {
-    assert_1.default.ok(this instanceof Printer);
+    (0, tiny_invariant_1.default)(this instanceof Printer);
     var explicitTabWidth = config && config.tabWidth;
     config = (0, options_1.normalize)(config);
     // It's common for client code to pass the same options into both
@@ -49,7 +49,7 @@ var Printer = function Printer(config) {
         return function (path) { return print(path, options); };
     }
     function print(path, options) {
-        assert_1.default.ok(path instanceof fast_path_1.default);
+        (0, tiny_invariant_1.default)(path instanceof fast_path_1.default);
         options = options || {};
         if (options.includeComments) {
             return (0, comments_1.printComments)(path, makePrintFunctionWith(options, {
@@ -117,7 +117,7 @@ var Printer = function Printer(config) {
 };
 exports.Printer = Printer;
 function genericPrint(path, config, options, printPath) {
-    assert_1.default.ok(path instanceof fast_path_1.default);
+    (0, tiny_invariant_1.default)(path instanceof fast_path_1.default);
     var node = path.getValue();
     var parts = [];
     var linesWithoutParens = genericPrintNoParens(path, config, printPath);
@@ -314,7 +314,7 @@ function genericPrintNoParens(path, options, print) {
         case "ModuleDeclaration":
             parts.push("module", path.call(print, "id"));
             if (n.source) {
-                assert_1.default.ok(!n.body);
+                (0, tiny_invariant_1.default)(!n.body);
                 parts.push("from", path.call(print, "source"));
             }
             else {
@@ -339,6 +339,9 @@ function genericPrintNoParens(path, options, print) {
             }
             return (0, lines_1.concat)(parts);
         case "ExportSpecifier":
+            if (n.exportKind && n.exportKind !== "value") {
+                parts.push(n.exportKind + " ");
+            }
             if (n.local) {
                 parts.push(path.call(print, "local"));
                 if (n.exported && n.exported.name !== n.local.name) {
@@ -969,7 +972,7 @@ function genericPrintNoParens(path, options, print) {
             var closingPropName = "closing" + (n.type === "JSXElement" ? "Element" : "Fragment");
             var openingLines = path.call(print, openingPropName);
             if (n[openingPropName].selfClosing) {
-                assert_1.default.ok(!n[closingPropName], "unexpected " +
+                (0, tiny_invariant_1.default)(!n[closingPropName], "unexpected " +
                     closingPropName +
                     " element in self-closing " +
                     n.type);
@@ -980,7 +983,7 @@ function genericPrintNoParens(path, options, print) {
                 if (namedTypes.Literal.check(child) &&
                     typeof child.value === "string") {
                     if (/\S/.test(child.value)) {
-                        return child.value.replace(/^\s+|\s+$/g, "");
+                        return child.value.replace(/^\s+/g, "");
                     }
                     else if (/\n/.test(child.value)) {
                         return "\n";
@@ -993,6 +996,9 @@ function genericPrintNoParens(path, options, print) {
         }
         case "JSXOpeningElement": {
             parts.push("<", path.call(print, "name"));
+            var typeDefPart = path.call(print, "typeParameters");
+            if (typeDefPart.length)
+                parts.push(typeDefPart);
             var attrParts_1 = [];
             path.each(function (attrPath) {
                 attrParts_1.push(" ", print(attrPath));
@@ -1002,7 +1008,7 @@ function genericPrintNoParens(path, options, print) {
             if (needLineWrap) {
                 attrParts_1.forEach(function (part, i) {
                     if (part === " ") {
-                        assert_1.default.strictEqual(i % 2, 0);
+                        (0, tiny_invariant_1.default)(i % 2 === 0);
                         attrParts_1[i] = "\n";
                     }
                 });
@@ -1276,7 +1282,7 @@ function genericPrintNoParens(path, options, print) {
         case "BooleanTypeAnnotation":
             return (0, lines_1.fromString)("boolean", options);
         case "BooleanLiteralTypeAnnotation":
-            assert_1.default.strictEqual(typeof n.value, "boolean");
+            (0, tiny_invariant_1.default)(typeof n.value === "boolean");
             return (0, lines_1.fromString)("" + n.value, options);
         case "InterfaceTypeAnnotation":
             parts.push("interface");
@@ -1456,7 +1462,7 @@ function genericPrintNoParens(path, options, print) {
             return (0, lines_1.fromString)(nodeStr(n.value, options), options);
         case "NumberLiteralTypeAnnotation":
         case "NumericLiteralTypeAnnotation":
-            assert_1.default.strictEqual(typeof n.value, "number");
+            (0, tiny_invariant_1.default)(typeof n.value === "number");
             return (0, lines_1.fromString)(JSON.stringify(n.value), options);
         case "BigIntLiteralTypeAnnotation":
             return (0, lines_1.fromString)(n.raw, options);
@@ -1690,12 +1696,11 @@ function genericPrintNoParens(path, options, print) {
         case "TSQualifiedName":
             return (0, lines_1.concat)([path.call(print, "left"), ".", path.call(print, "right")]);
         case "TSAsExpression":
-        case "TSSatisfiesExpression":
-            {
-                var expression = path.call(print, "expression");
-                parts.push(expression, n.type === "TSSatisfiesExpression" ? " satisfies " : " as ", path.call(print, "typeAnnotation"));
-                return (0, lines_1.concat)(parts);
-            }
+        case "TSSatisfiesExpression": {
+            var expression = path.call(print, "expression");
+            parts.push(expression, n.type === "TSSatisfiesExpression" ? " satisfies " : " as ", path.call(print, "typeAnnotation"));
+            return (0, lines_1.concat)(parts);
+        }
         case "TSTypeCastExpression":
             return (0, lines_1.concat)([
                 path.call(print, "expression"),
@@ -1724,6 +1729,12 @@ function genericPrintNoParens(path, options, print) {
             parts.push(n.optional ? "?" : "", path.call(print, "typeAnnotation"));
             return (0, lines_1.concat)(parts);
         case "TSMethodSignature":
+            if (n.kind === "get") {
+                parts.push("get ");
+            }
+            else if (n.kind === "set") {
+                parts.push("set ");
+            }
             if (n.computed) {
                 parts.push("[", path.call(print, "key"), "]");
             }
@@ -2001,7 +2012,7 @@ function printStatementSequence(path, options, print) {
         });
     });
     if (sawComment) {
-        assert_1.default.strictEqual(sawStatement, false, "Comments may appear as statements in otherwise empty statement " +
+        (0, tiny_invariant_1.default)(sawStatement === false, "Comments may appear as statements in otherwise empty statement " +
             "lists, but may not coexist with non-Comment nodes.");
     }
     var prevTrailingSpace = null;
@@ -2234,12 +2245,14 @@ function printExportDeclaration(path, options, print) {
         else if (decl.specifiers.length === 0) {
             parts.push("{}");
         }
-        else if (decl.specifiers[0].type === "ExportDefaultSpecifier") {
+        else if (decl.specifiers[0].type === "ExportDefaultSpecifier" ||
+            decl.specifiers[0].type === "ExportNamespaceSpecifier") {
             var unbracedSpecifiers_2 = [];
             var bracedSpecifiers_2 = [];
             path.each(function (specifierPath) {
                 var spec = specifierPath.getValue();
-                if (spec.type === "ExportDefaultSpecifier") {
+                if (spec.type === "ExportDefaultSpecifier" ||
+                    spec.type === "ExportNamespaceSpecifier") {
                     unbracedSpecifiers_2.push(print(specifierPath));
                 }
                 else {
@@ -2296,7 +2309,7 @@ function printExportDeclaration(path, options, print) {
 function printFlowDeclaration(path, parts) {
     var parentExportDecl = util.getParentExportDeclaration(path);
     if (parentExportDecl) {
-        assert_1.default.strictEqual(parentExportDecl.type, "DeclareExportDeclaration");
+        (0, tiny_invariant_1.default)(parentExportDecl.type === "DeclareExportDeclaration");
     }
     else {
         // If the parent node has type DeclareExportDeclaration, then it

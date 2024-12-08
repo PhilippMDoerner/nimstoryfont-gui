@@ -6,20 +6,19 @@
 import {
   main,
   readCommandLineAndConfiguration
-} from "../../chunk-SU3FU3XQ.js";
+} from "../../chunk-O6SOT3Y4.js";
 import {
   EmitFlags
-} from "../../chunk-E3MCJFSW.js";
-import "../../chunk-JEWI23RF.js";
-import "../../chunk-ZF3IVDQ2.js";
-import "../../chunk-IJECERTO.js";
-import "../../chunk-IYYB2HTK.js";
+} from "../../chunk-Y3H6JOVH.js";
+import "../../chunk-26NKUA5V.js";
+import "../../chunk-APDLWLLW.js";
+import "../../chunk-PGXXZYOH.js";
+import "../../chunk-XSNUHRLJ.js";
 import {
   NodeJSFileSystem,
   setFileSystem
-} from "../../chunk-TBUSSXUA.js";
-import "../../chunk-YZWN2KWE.js";
-import "../../chunk-SRFZMXHZ.js";
+} from "../../chunk-YE5ORA4V.js";
+import "../../chunk-XI2RTGAL.js";
 
 // bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/bin/ng_xi18n.mjs
 import "reflect-metadata";
@@ -57,6 +56,6 @@ process.exitCode = mainXi18n(args);
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 //# sourceMappingURL=ng_xi18n.js.map

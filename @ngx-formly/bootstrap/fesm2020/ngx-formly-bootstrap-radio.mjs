@@ -41,6 +41,8 @@ FormlyFieldRadio.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", versi
           [value]="option.value"
           [formControl]="option.disabled ? disabledControl : formControl"
           [formlyAttributes]="field"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
         />
         <label class="form-check-label" [for]="id + '_' + i">
           {{ option.label }}
@@ -69,6 +71,8 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
           [value]="option.value"
           [formControl]="option.disabled ? disabledControl : formControl"
           [formlyAttributes]="field"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
         />
         <label class="form-check-label" [for]="id + '_' + i">
           {{ option.label }}

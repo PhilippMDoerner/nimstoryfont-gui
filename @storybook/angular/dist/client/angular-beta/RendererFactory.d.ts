@@ -3,7 +3,7 @@ type RenderType = 'canvas' | 'docs';
 export declare class RendererFactory {
     private lastRenderType;
     private rendererMap;
-    getRendererInstance(storyId: string, targetDOMNode: HTMLElement): Promise<AbstractRenderer | null>;
+    getRendererInstance(targetDOMNode: HTMLElement): Promise<AbstractRenderer | null>;
     private buildRenderer;
 }
 export declare const getRenderType: (targetDOMNode: HTMLElement) => RenderType;

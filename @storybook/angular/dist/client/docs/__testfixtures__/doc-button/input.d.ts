@@ -14,9 +14,8 @@ export interface ISomeInterface {
  * This is a simple button that demonstrates various JSDoc handling in Storybook Docs for Angular.
  *
  * It supports [markdown](https://en.wikipedia.org/wiki/Markdown), so you can embed formatted text,
- * like **bold**, _italic_, and `inline code`.
- *
- * > How you like dem apples?! It's never been easier to document all your components.
+ * like **bold**, _italic_, and `inline code`.> How you like dem apples?! It's never been easier to
+ * document all your components.
  *
  * @string Hello world
  * @link [Example](http://example.com)
@@ -54,7 +53,8 @@ export declare class InputComponent<T> {
      */
     onClick: EventEmitter<Event>;
     /**
-     * This is an internal method that we don't want to document and have added the `ignore` annotation to.
+     * This is an internal method that we don't want to document and have added the `ignore`
+     * annotation to.
      *
      * @ignore
      */
@@ -72,9 +72,7 @@ export declare class InputComponent<T> {
      * @ignore
      */
     get classes(): string[];
-    /**
-     * @ignore
-     */
+    /** @ignore */
     ignoredProperty: string;
     /** Public value. */
     internalProperty: string;
@@ -88,7 +86,8 @@ export declare class InputComponent<T> {
      * An internal calculation method which adds `x` and `y` together.
      *
      * @param x Some number you'd like to use.
-     * @param y Some other number or string you'd like to use, will have `parseInt()` applied before calculation.
+     * @param y Some other number or string you'd like to use, will have `parseInt()` applied before
+     *   calculation.
      */
     calc(x: number, y: string | number): number;
     /** A public method using an interface. */

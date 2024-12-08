@@ -3,9 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getComponentDecoratorMetadata = exports.getComponentPropsDecoratorMetadata = exports.isStandaloneComponent = exports.isComponent = exports.isDeclarable = exports.getComponentInputsOutputs = void 0;
 const core_1 = require("@angular/core");
 const reflectionCapabilities = new core_1.ɵReflectionCapabilities();
-/**
- * Returns component Inputs / Outputs by browsing these properties and decorator
- */
+/** Returns component Inputs / Outputs by browsing these properties and decorator */
 const getComponentInputsOutputs = (component) => {
     const componentMetadata = (0, exports.getComponentDecoratorMetadata)(component);
     const componentPropsMetadata = (0, exports.getComponentPropsDecoratorMetadata)(component);
@@ -15,7 +13,10 @@ const getComponentInputsOutputs = (component) => {
     };
     // Adds the I/O present in @Component metadata
     if (componentMetadata && componentMetadata.inputs) {
-        initialValue.inputs.push(...componentMetadata.inputs.map((i) => ({ propName: i, templateName: i })));
+        initialValue.inputs.push(...componentMetadata.inputs.map((i) => ({
+            propName: typeof i === 'string' ? i : i.name,
+            templateName: typeof i === 'string' ? i : i.alias,
+        })));
     }
     if (componentMetadata && componentMetadata.outputs) {
         initialValue.outputs.push(...componentMetadata.outputs.map((i) => ({ propName: i, templateName: i })));
@@ -30,7 +31,7 @@ const getComponentInputsOutputs = (component) => {
         if (value instanceof core_1.Input) {
             const inputToAdd = {
                 propName: propertyName,
-                templateName: value.bindingPropertyName ?? propertyName,
+                templateName: value.bindingPropertyName ?? value.alias ?? propertyName,
             };
             const previousInputsFiltered = previousValue.inputs.filter((i) => i.templateName !== propertyName);
             return {
@@ -41,7 +42,7 @@ const getComponentInputsOutputs = (component) => {
         if (value instanceof core_1.Output) {
             const outputToAdd = {
                 propName: propertyName,
-                templateName: value.bindingPropertyName ?? propertyName,
+                templateName: value.bindingPropertyName ?? value.alias ?? propertyName,
             };
             const previousOutputsFiltered = previousValue.outputs.filter((i) => i.templateName !== propertyName);
             return {
@@ -79,17 +80,12 @@ const isStandaloneComponent = (component) => {
     return (decorators || []).some((d) => (d instanceof core_1.Component || d instanceof core_1.Directive || d instanceof core_1.Pipe) && d.standalone);
 };
 exports.isStandaloneComponent = isStandaloneComponent;
-/**
- * Returns all component decorator properties
- * is used to get all `@Input` and `@Output` Decorator
- */
+/** Returns all component decorator properties is used to get all `@Input` and `@Output` Decorator */
 const getComponentPropsDecoratorMetadata = (component) => {
     return reflectionCapabilities.propMetadata(component);
 };
 exports.getComponentPropsDecoratorMetadata = getComponentPropsDecoratorMetadata;
-/**
- * Returns component decorator `@Component`
- */
+/** Returns component decorator `@Component` */
 const getComponentDecoratorMetadata = (component) => {
     const decorators = reflectionCapabilities.annotations(component);
     return decorators.reverse().find((d) => d instanceof core_1.Component);

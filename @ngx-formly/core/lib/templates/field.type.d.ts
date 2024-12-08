@@ -1,4 +1,5 @@
-import { FormControl, FormGroup } from '@angular/forms';
+import { QueryList } from '@angular/core';
+import { FormControl, NgControl, FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '../models';
 import * as i0 from "@angular/core";
 export interface FieldTypeConfig<T = FormlyFieldConfig['props']> extends FormlyFieldConfig<T> {
@@ -10,6 +11,7 @@ export interface FieldGroupTypeConfig<T = FormlyFieldConfig['props']> extends Fo
     props: NonNullable<T>;
 }
 export declare abstract class FieldType<F extends FormlyFieldConfig = FormlyFieldConfig> {
+    set _formlyControls(controls: QueryList<NgControl>);
     field: F;
     defaultOptions?: Partial<F>;
     get model(): any;

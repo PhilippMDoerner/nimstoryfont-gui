@@ -1,4 +1,6 @@
 "use strict";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,9 +12,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InputComponent = exports.ButtonAccent = exports.exportedConstant = void 0;
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
-/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 const core_1 = require("@angular/core");
 exports.exportedConstant = 'An exported constant';
@@ -20,14 +19,13 @@ var ButtonAccent;
 (function (ButtonAccent) {
     ButtonAccent["Normal"] = "Normal";
     ButtonAccent["High"] = "High";
-})(ButtonAccent = exports.ButtonAccent || (exports.ButtonAccent = {}));
+})(ButtonAccent || (exports.ButtonAccent = ButtonAccent = {}));
 /**
  * This is a simple button that demonstrates various JSDoc handling in Storybook Docs for Angular.
  *
  * It supports [markdown](https://en.wikipedia.org/wiki/Markdown), so you can embed formatted text,
- * like **bold**, _italic_, and `inline code`.
- *
- * > How you like dem apples?! It's never been easier to document all your components.
+ * like **bold**, _italic_, and `inline code`.> How you like dem apples?! It's never been easier to
+ * document all your components.
  *
  * @string Hello world
  * @link [Example](http://example.com)
@@ -56,9 +54,7 @@ let InputComponent = class InputComponent {
         this.onClick = new core_1.EventEmitter();
         this._inputValue = 'some value';
         this.focus = false;
-        /**
-         * @ignore
-         */
+        /** @ignore */
         this.ignoredProperty = 'Ignore me';
         /** Public value. */
         this.internalProperty = 'Public hello';
@@ -66,7 +62,8 @@ let InputComponent = class InputComponent {
         this._value = 'Private hello';
     }
     /**
-     * This is an internal method that we don't want to document and have added the `ignore` annotation to.
+     * This is an internal method that we don't want to document and have added the `ignore`
+     * annotation to.
      *
      * @ignore
      */
@@ -109,7 +106,8 @@ let InputComponent = class InputComponent {
      * An internal calculation method which adds `x` and `y` together.
      *
      * @param x Some number you'd like to use.
-     * @param y Some other number or string you'd like to use, will have `parseInt()` applied before calculation.
+     * @param y Some other number or string you'd like to use, will have `parseInt()` applied before
+     *   calculation.
      */
     calc(x, y) {
         return x + parseInt(`${y}`, 10);
@@ -138,6 +136,7 @@ let InputComponent = class InputComponent {
         this.processedItem = item;
     }
 };
+exports.InputComponent = InputComponent;
 __decorate([
     (0, core_1.ViewChild)('buttonRef', { static: false }),
     __metadata("design:type", core_1.ElementRef)
@@ -198,10 +197,9 @@ __decorate([
     __metadata("design:type", Array),
     __metadata("design:paramtypes", [Array])
 ], InputComponent.prototype, "item", null);
-InputComponent = __decorate([
+exports.InputComponent = InputComponent = __decorate([
     (0, core_1.Component)({
         selector: 'doc-button',
         template: '<button>{{ label }}</button>',
     })
 ], InputComponent);
-exports.InputComponent = InputComponent;

@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.sourceDecorator = exports.skipSourceRender = void 0;
-const preview_api_1 = require("@storybook/preview-api");
-const docs_tools_1 = require("@storybook/docs-tools");
+const docs_tools_1 = require("storybook/internal/docs-tools");
+const preview_api_1 = require("storybook/internal/preview-api");
 const renderer_1 = require("../../renderer");
 const skipSourceRender = (context) => {
     const sourceParams = context?.parameters.docs?.source;
@@ -17,8 +17,9 @@ const skipSourceRender = (context) => {
 exports.skipSourceRender = skipSourceRender;
 /**
  * Angular source decorator.
+ *
  * @param storyFn Fn
- * @param context  StoryContext
+ * @param context StoryContext
  */
 const sourceDecorator = (storyFn, context) => {
     const story = storyFn();
@@ -26,13 +27,22 @@ const sourceDecorator = (storyFn, context) => {
         return story;
     }
     const channel = preview_api_1.addons.getChannel();
-    const { props, template, userDefinedTemplate } = story;
-    const { component, argTypes } = context;
+    const { props, userDefinedTemplate } = story;
+    const { component, argTypes, parameters } = context;
+    const template = parameters.docs?.source?.excludeDecorators
+        ? context.originalStoryFn(context.args, context).template
+        : story.template;
     let toEmit;
     (0, preview_api_1.useEffect)(() => {
         if (toEmit) {
-            const { id, args } = context;
-            channel.emit(docs_tools_1.SNIPPET_RENDERED, { id, args, source: toEmit, format: 'angular' });
+            const { id, unmappedArgs } = context;
+            const format = parameters?.docs?.source?.format ?? true;
+            channel.emit(docs_tools_1.SNIPPET_RENDERED, {
+                id,
+                args: unmappedArgs,
+                source: toEmit,
+                format: format === true ? 'angular' : format,
+            });
         }
     });
     if (component && !userDefinedTemplate) {

@@ -1,0 +1,108 @@
+<app-page-container>
+  <article class="container diarentry">
+    @if (canUpdate()) {
+      <div class="diaryentry__edit-row edit-row">
+        <div class="edit-row__edit-container edit-container">
+          <a
+            class="edit-container__button"
+            [routerLink]="updateUrl()"
+            tabindex="-1"
+          >
+            <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
+          </a>
+          <button
+            btn
+            class="edit-container__button"
+            [kind]="'SECONDARY'"
+            [icon]="state() === 'DISPLAY' ? 'pencil' : 'times'"
+            [text]="
+              state() === 'DISPLAY' ? 'Edit Encounters' : 'Read Diaryentry'
+            "
+            (click)="toggleState()"
+          ></button>
+        </div>
+      </div>
+    }
+
+    <!-- Heading -->
+    <div class="row">
+      <h1 class="col-12 diaryentry__heading">
+        Diary Entry # {{ diaryentry().session_details?.session_number }} <br />
+        {{ diaryentry().title }}
+      </h1>
+      <h6 class="col-12 diaryentry__subheading">
+        Written by: {{ diaryentry().author_details?.name }} <br />
+        on {{ diaryentry().session_details?.session_date | date: "longDate" }}
+      </h6>
+    </div>
+
+    <!-- Next/Prior Diaryentry Buttons -->
+    <ng-container *ngTemplateOutlet="navButtons" />
+
+    <!-- DiaryEntry Text In Encounters -->
+    <app-diaryentry-encounters
+      [state]="state() === 'DISPLAY' ? 'READ' : 'EDIT'"
+      (connectionDelete)="encounterConnectionDelete.emit($event)"
+      (connectionCreate)="encounterConnectionCreate.emit($event)"
+      (encounterDelete)="encounterDelete.emit($event)"
+      (encounterUpdate)="encounterUpdate.emit($event)"
+      (encounterCreate)="encounterCreate.emit($event)"
+      (encounterSwap)="encounterSwap.emit($event)"
+      (encounterCutInsert)="encounterCutInsert.emit($event)"
+      (addUnfinishedEncounter)="addUnfinishedEncounter.emit($event)"
+    ></app-diaryentry-encounters>
+
+    <!-- Next/Prior Diaryentry Buttons -->
+    <ng-container *ngTemplateOutlet="navButtons" />
+
+    <!-- Footer (Move to other Article + Delete Article) -->
+    <app-article-footer
+      [buttonLink]="overviewUrl()"
+      [buttonLabel]="'Back to Diaryentries'"
+      [showDelete]="canDelete()"
+      [deleteMessage]="'Delete this Diaryentry?'"
+      (delete)="diaryentryDelete.emit(diaryentry())"
+    ></app-article-footer>
+  </article>
+</app-page-container>
+
+<ng-template #navButtons>
+  <!-- Next/Prior Diaryentry Buttons -->
+  <div class="row diaryentry__nav-buttons nav-buttons">
+    <!-- Next Diaryentry -->
+    <div class="col-xl-2 col-lg-3 col-md-4 col-5 nav-buttons__button-container">
+      @if (diaryentry().adjacent_diaryentries.next_diaryentry) {
+        <a
+          class="nav-buttons__button nav-buttons__button--left"
+          [routerLink]="nextDiaryentryUrl()"
+        >
+          <button
+            btn
+            class="nav-buttons__inner-button"
+            [text]="'Next'"
+            [icon]="'arrow-left'"
+            [kind]="'SECONDARY'"
+          ></button>
+        </a>
+      }
+    </div>
+
+    <!-- Prior Diaryentry -->
+    <div class="col-xl-2 col-lg-3 col-md-4 col-5 nav-buttons__button-container">
+      @if (diaryentry().adjacent_diaryentries.prior_diaryentry) {
+        <a
+          class="nav-buttons__button nav-buttons__button--right"
+          [routerLink]="priorDiaryentryUrl()"
+        >
+          <button
+            btn
+            class="nav-buttons__inner-button"
+            [text]="'Back'"
+            [icon]="'arrow-right'"
+            [kind]="'SECONDARY'"
+          ></button>
+        </a>
+      }
+    </div>
+  </div>
+</ng-template>

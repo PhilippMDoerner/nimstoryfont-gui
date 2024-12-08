@@ -1,0 +1,50 @@
+:host {
+  display: inline-block;
+}
+
+.heading {
+  margin-bottom: var(--spacer-2);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacer-3);
+
+  &__edit-text {
+    margin: var(--spacer-0);
+  }
+
+  &__edit-button {
+    &:focus,
+    &:focus-within,
+    &:hover {
+      border-radius: var(--bs-border-radius);
+      outline: var(--focus-outline);
+    }
+  }
+}
+
+.field {
+  text-align: unset;
+  border-radius: var(--bs-border-radius);
+
+  &--display {
+    min-height: 1rem;
+    width: 100%;
+
+    &:focus,
+    &:hover {
+      color: unset;
+      background-color: var(--bs-secondary);
+    }
+  }
+
+  &--hidden {
+    display: none;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacer-3);
+  }
+}

@@ -1,10 +1,7 @@
 import { Type } from '@angular/core';
 import { ICollection, NgModuleMetadata } from '../types';
 import { PropertyExtractor } from './utils/PropertyExtractor';
-export declare const componentNgModules: Map<any, Type<any>>;
-/**
- * Wraps the story template into a component
- */
+/** Wraps the story template into a component */
 export declare const createStorybookWrapperComponent: ({ selector, template, storyComponent, styles, moduleMetadata, initialProps, analyzedMetadata, }: {
     selector: string;
     template: string;
@@ -12,5 +9,5 @@ export declare const createStorybookWrapperComponent: ({ selector, template, sto
     styles: string[];
     moduleMetadata: NgModuleMetadata;
     initialProps?: ICollection;
-    analyzedMetadata?: PropertyExtractor;
+    analyzedMetadata: PropertyExtractor;
 }) => Type<any>;

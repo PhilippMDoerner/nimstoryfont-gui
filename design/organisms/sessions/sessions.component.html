@@ -1,0 +1,65 @@
+<div class="container list">
+  @if (canCreate()) {
+    <div class="list__button">
+      <button
+        btn
+        [kind]="'PRIMARY'"
+        [text]="'Add Session'"
+        [icon]="'plus'"
+        (click)="addSession()"
+      ></button>
+    </div>
+  }
+
+  <div class="row">
+    @if (isCreatingSession()) {
+      <div
+        id="potato"
+        class="list__session-card session-card"
+        [@slideUpFromBottom]
+      >
+        <app-collapsible-panel [isOpen]="true">
+          <span heading>
+            {{ createSessionData().name }}
+          </span>
+
+          <app-session
+            body
+            class="session-card__session"
+            [session]="createSessionData()"
+            [serverModel]="undefined"
+            [canUpdate]="false"
+            [canDelete]="false"
+            [canCreate]="canCreate()"
+            (sessionCreate)="onSessionCreate($event)"
+            (sessionCreateCancel)="cancelSessionCreation()"
+          ></app-session>
+        </app-collapsible-panel>
+      </div>
+    }
+    @for (card of sessionCards(); track card.session.pk) {
+      <div class="list__session-card session-card" [@slideOutFromBottom]>
+        <app-collapsible-panel [isOpen]="card.isOpen">
+          <span heading>
+            {{ card.session.name }}
+          </span>
+
+          <app-session
+            body
+            class="session-card__session"
+            [session]="card.session"
+            [serverModel]="serverModel()"
+            [canUpdate]="canUpdate()"
+            [canDelete]="canDelete()"
+            [canCreate]="canCreate()"
+            (sessionDelete)="onSessionDelete($event)"
+            (sessionUpdate)="sessionUpdate.emit($event)"
+          ></app-session>
+        </app-collapsible-panel>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<ng-template #loading><app-spinner></app-spinner></ng-template>

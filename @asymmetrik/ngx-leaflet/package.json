@@ -1,27 +1,23 @@
 {
   "name": "@asymmetrik/ngx-leaflet",
   "description": "Angular.io components for Leaflet",
-  "version": "15.0.1",
+  "version": "18.0.1",
   "author": "BlueHalo, LLC",
-  "copyright": "Copyright BlueHalo 2007-2022 - All Rights Reserved.",
+  "copyright": "Copyright BlueHalo 2007-2024 - All Rights Reserved.",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/bluehalo/ngx-leaflet.git"
   },
   "peerDependencies": {
-    "@angular/common": "15",
-    "@angular/core": "15",
+    "@angular/common": "18",
+    "@angular/core": "18",
     "leaflet": "1"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "module": "fesm2015/asymmetrik-ngx-leaflet.mjs",
-  "es2020": "fesm2020/asymmetrik-ngx-leaflet.mjs",
-  "esm2020": "esm2020/asymmetrik-ngx-leaflet.mjs",
-  "fesm2020": "fesm2020/asymmetrik-ngx-leaflet.mjs",
-  "fesm2015": "fesm2015/asymmetrik-ngx-leaflet.mjs",
+  "module": "fesm2022/asymmetrik-ngx-leaflet.mjs",
   "typings": "index.d.ts",
   "exports": {
     "./package.json": {
@@ -29,11 +25,9 @@
     },
     ".": {
       "types": "./index.d.ts",
-      "esm2020": "./esm2020/asymmetrik-ngx-leaflet.mjs",
-      "es2020": "./fesm2020/asymmetrik-ngx-leaflet.mjs",
-      "es2015": "./fesm2015/asymmetrik-ngx-leaflet.mjs",
-      "node": "./fesm2015/asymmetrik-ngx-leaflet.mjs",
-      "default": "./fesm2020/asymmetrik-ngx-leaflet.mjs"
+      "esm2022": "./esm2022/asymmetrik-ngx-leaflet.mjs",
+      "esm": "./esm2022/asymmetrik-ngx-leaflet.mjs",
+      "default": "./fesm2022/asymmetrik-ngx-leaflet.mjs"
     }
   },
   "sideEffects": false

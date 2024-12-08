@@ -1,117 +1,95 @@
-import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { EMPTY, Observable } from 'rxjs';
-import { catchError, switchMap } from 'rxjs/operators';
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandlerFn,
+  HttpHeaders,
+  HttpRequest,
+} from '@angular/common/http';
+import { inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
+import { filter, map, mergeMap, retry, take, tap } from 'rxjs/operators';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
-import { UserData } from '../_models/token';
-import { RoutingService } from '../_services/routing.service';
-import { RefreshTokenService } from '../_services/utils/refresh-token.service';
-import { TokenService } from '../_services/utils/token.service';
+import { log } from 'src/utils/logging';
+import { ToastConfig } from '../_models/toast';
+import { GlobalStore } from '../global.store';
 
+const logoutInfoToast: ToastConfig = {
+  type: 'INFO',
+  dismissMs: 3000,
+  header: {
+    text: 'Session expired',
+  },
+  body: {
+    text: 'You have been logged out',
+  },
+  onToastClick: (dismiss) => dismiss(),
+};
 
-@Injectable({providedIn: 'root'})
-export class TokenInterceptor implements HttpInterceptor{
-  apiUrl: string = environment.apiUrl;
-  
-  apiNonTokenURLEndings: string[] = [ //Endings of API URLs that require no tokem to be used
-      "/token", //Request new authentication token with refresh token
-      "/token/refresh", //Request new refresh token with login data
-      "/mail/reset", //Send password recovery mail
-  ]
+export function addTokenInterceptor(
+  req: HttpRequest<unknown>,
+  next: HttpHandlerFn,
+): Observable<HttpEvent<unknown>> {
+  const globalStore = inject(GlobalStore);
+  const toastService = inject(ToastService);
 
-  constructor(
-      private refreshTokenService: RefreshTokenService,
-      private tokenService: TokenService,
-      public routingService: RoutingService,
-  ){}
-
-  public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-    if (this.isApiUrlRequiringJWTToken(request.url)){
-      if (!this.tokenService.hasValidJWTToken()){
-        return this.handleByRoutingToLogin(request, next);
-      }
-
-      const accessToken = TokenService.getAccessToken();
-      if (this.refreshTokenService.tokenNeedsRefresh(accessToken)){
-        return this.handleByRefreshingAccessToken(request, next);
-      }
-
-      if (this.refreshTokenService.hasToWaitForRefresh(accessToken)){
-        return this.handleByWaitingForRefresh(request, next);
-      }
-
-      request = this.addTokenToRequest(accessToken.token, request);
-      return next.handle(request);
-    } 
-
-    return next.handle(request);
+  if (!isApiUrlRequiringJWTToken(req.url)) {
+    return next(req);
   }
 
-  private handleByRefreshingAccessToken(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-      return this.refreshTokenService.refreshUserData().pipe(
-        switchMap((newUserData: UserData) => {
-          const newAccessToken: string = newUserData.accessToken.token;
-          request = this.addTokenToRequest(newAccessToken, request);
-          return next.handle(request);
-        }),
-        catchError(error =>{
-          if (error.status === 401){
-            console.log("Error while refreshing access token");
-            console.log(error)
-            this.routingService.routeToPath('login-state', {state: 'token-expired'});
-            return EMPTY;
-          } 
+  const userData$ = toObservable(globalStore.userData);
 
-          this.routingService.routeToErrorPage(error);
-          return EMPTY;
-        })
-      );
-    }
-  
-  private handleByWaitingForRefresh(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-    return this.refreshTokenService.waitForAccessTokenRefresh().pipe(
-      switchMap((newAccessToken: string) => {
-        request = this.addTokenToRequest(newAccessToken, request);
-        return next.handle(request);
-      }),
-      catchError(error =>{
-        if(error.status===401){
-          console.log("Error while waiting for access token refresh");
-          console.log(error);
-          this.routingService.routeToPath('login-state', {state: '???'});
-          return EMPTY;
+  return userData$.pipe(
+    take(1),
+    map((data) => data?.accessToken.token),
+    filter(Boolean),
+    map((token) => addTokenToRequest(token, req)),
+    mergeMap(next),
+    retry({
+      count: 3,
+      delay: (err: HttpErrorResponse) => {
+        log(retry.name, err);
+        switch (err.status) {
+          case 401:
+            return globalStore.refreshUserData();
+          case 502:
+            return userData$;
+          default:
+            throw err;
         }
+      },
+    }),
+    tap({
+      error: (err: HttpErrorResponse) => {
+        if (err instanceof HttpErrorResponse && err.status === 401) {
+          toastService.addToast(logoutInfoToast);
+          globalStore.logout();
+        }
+      },
+    }),
+  );
+}
 
-        console.log("Error during token refresh. Uncertain what error, but status "+error.status);
-        console.log(error)
-        this.routingService.routeToErrorPage(error.status);
-        return EMPTY;
-      })
-    );
-  }
+const isApiUrlRequiringJWTToken = (url: string) =>
+  isApiUrl(url) && isUrlRequiringJWTToken(url);
 
-  private handleByRoutingToLogin(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>{
-      this.routingService.routeToPath('login-state', {state: 'no-token'});
-      return EMPTY;
-  }
+const isApiUrl = (url: string) => url.startsWith(environment.apiUrl);
 
-  private isApiUrlRequiringJWTToken(url: string): boolean{
-      const isApiUrl: boolean = url.startsWith(this.apiUrl);
-      let requiresJWTToken = true;
-      for(let urlEnding of this.apiNonTokenURLEndings){
-          const isApiEndpointThatDoesNotRequireToken = url.endsWith(urlEnding);
-          if(isApiEndpointThatDoesNotRequireToken){
-              requiresJWTToken = false;
-              break;
-          }
-      }
+const apiNonTokenURLEndings: string[] = [
+  //Endings of API URLs that require no tokem to be used
+  '/token', //Request new authentication token with refresh token
+  '/token/refresh', //Request new refresh token with login data
+  '/mail/reset', //Send password recovery mail
+];
+const isUrlRequiringJWTToken = (url: string) =>
+  !apiNonTokenURLEndings.some((urlEnding) => url.endsWith(urlEnding));
 
-      return isApiUrl && requiresJWTToken;
-  }
-
-  private addTokenToRequest(token: string, request: HttpRequest<any>): HttpRequest<any>{
-      const httpHeaders = new HttpHeaders().set("Authorization", `Bearer ${token}`);
-      request = request.clone({headers: httpHeaders});
-      return request;   
-  }
+function addTokenToRequest<T>(
+  token: string,
+  request: HttpRequest<T>,
+): HttpRequest<T> {
+  const httpHeaders = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  request = request.clone({ headers: httpHeaders });
+  return request;
 }

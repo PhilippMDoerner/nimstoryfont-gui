@@ -1,4 +1,8 @@
-import{PARAM_KEY}from"./chunk-2DMOCDBJ.mjs";import{useMemo,useEffect}from"@storybook/preview-api";import{global}from"@storybook/global";var clearStyles=selector=>{(Array.isArray(selector)?selector:[selector]).forEach(clearStyle)},clearStyle=input=>{let selector=typeof input=="string"?input:input.join(""),element=global.document.getElementById(selector);element&&element.parentElement&&element.parentElement.removeChild(element)},addOutlineStyles=(selector,css)=>{let existingStyle=global.document.getElementById(selector);if(existingStyle)existingStyle.innerHTML!==css&&(existingStyle.innerHTML=css);else{let style=global.document.createElement("style");style.setAttribute("id",selector),style.innerHTML=css,global.document.head.appendChild(style)}};import{dedent}from"ts-dedent";function outlineCSS(selector){return dedent`
+import { useMemo, useEffect } from 'storybook/internal/preview-api';
+import { global } from '@storybook/global';
+import { dedent } from 'ts-dedent';
+
+var PARAM_KEY="outline";var clearStyles=selector=>{(Array.isArray(selector)?selector:[selector]).forEach(clearStyle);},clearStyle=input=>{let selector=typeof input=="string"?input:input.join(""),element=global.document.getElementById(selector);element&&element.parentElement&&element.parentElement.removeChild(element);},addOutlineStyles=(selector,css)=>{let existingStyle=global.document.getElementById(selector);if(existingStyle)existingStyle.innerHTML!==css&&(existingStyle.innerHTML=css);else {let style=global.document.createElement("style");style.setAttribute("id",selector),style.innerHTML=css,global.document.head.appendChild(style);}};function outlineCSS(selector){return dedent`
     ${selector} body {
       outline: 1px solid #2980b9 !important;
     }
@@ -393,4 +397,6 @@ import{PARAM_KEY}from"./chunk-2DMOCDBJ.mjs";import{useMemo,useEffect}from"@story
 
     ${selector} wbr {
       outline: 1px solid #db175b !important;
-    }`}var withOutline=(StoryFn,context)=>{let{globals:globals2}=context,isActive=[!0,"true"].includes(globals2[PARAM_KEY]),isInDocs=context.viewMode==="docs",outlineStyles=useMemo(()=>{let selector=isInDocs?`#anchor--${context.id} .docs-story`:".sb-show-main";return outlineCSS(selector)},[context]);return useEffect(()=>{let selectorId=isInDocs?`addon-outline-docs-${context.id}`:"addon-outline";return isActive?addOutlineStyles(selectorId,outlineStyles):clearStyles(selectorId),()=>{clearStyles(selectorId)}},[isActive,outlineStyles,context]),StoryFn()};var decorators=[withOutline],globals={[PARAM_KEY]:!1};export{decorators,globals};
+    }`}var withOutline=(StoryFn,context)=>{let{globals}=context,isActive=[!0,"true"].includes(globals[PARAM_KEY]),isInDocs=context.viewMode==="docs",outlineStyles=useMemo(()=>outlineCSS(isInDocs?'[data-story-block="true"]':".sb-show-main"),[context]);return useEffect(()=>{let selectorId=isInDocs?`addon-outline-docs-${context.id}`:"addon-outline";return isActive?addOutlineStyles(selectorId,outlineStyles):clearStyles(selectorId),()=>{clearStyles(selectorId);}},[isActive,outlineStyles,context]),StoryFn()};var decorators=[withOutline],initialGlobals={[PARAM_KEY]:!1};
+
+export { decorators, initialGlobals };

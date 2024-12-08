@@ -17,6 +17,7 @@ export interface FormlyFieldConfigCache extends FormlyFieldConfig {
     options?: FormlyFormOptionsCache;
     shareFormControl?: boolean;
     index?: number;
+    _localFields?: FormlyFieldConfigCache[];
     _elementRefs?: ElementRef[];
     _expressions?: {
         [property: string]: {
@@ -40,8 +41,12 @@ export interface FormlyFormOptionsCache extends FormlyFormOptions {
     checkExpressions?: (field: FormlyFieldConfig, ingoreCache?: boolean) => void;
     _viewContainerRef?: ViewContainerRef;
     _injector?: Injector;
-    _hiddenFieldsForCheck?: FormlyFieldConfigCache[];
+    _hiddenFieldsForCheck?: {
+        field: FormlyFieldConfigCache;
+        default?: boolean;
+    }[];
     _initialModel?: any;
+    _detectChanges?: (field: FormlyFieldConfig) => void;
     /** @deprecated */
     _buildForm?: () => void;
     /** @deprecated */

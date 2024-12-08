@@ -1,0 +1,112 @@
+<app-page-container>
+  <article class="container">
+    @if (canUpdate()) {
+      <div class="location__edit-container">
+        <a [routerLink]="updateUrl" tabindex="-1">
+          <button
+            btn
+            [title]="'Edit ' + location().name"
+            [icon]="'pencil'"
+            [kind]="'SECONDARY'"
+          ></button>
+        </a>
+      </div>
+    }
+
+    <!-- Heading -->
+    <div class="row">
+      <h1 class="col-12 location__heading">
+        {{ location().name }}
+      </h1>
+
+      <!-- String indicating all parent_locations -->
+      @if (location().parent_location_list?.length ?? 0 > 0) {
+        <h5 class="col-12 location__subheading subheading">
+          @for (
+            parentLocation of parentLocations;
+            track parentLocation;
+            let i = $index
+          ) {
+            <a [routerLink]="parentLocation.link">
+              {{ parentLocation.label }}
+            </a>
+            <app-icon
+              class="subheading__icon"
+              [icon]="'arrow-right'"
+            ></app-icon>
+          }
+          {{ location().name }}
+        </h5>
+      }
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="location__images">
+      <!-- Image Gallery -->
+      <app-image-carousel-card
+        [images]="location().images ?? []"
+        [serverUrl]="serverUrl()"
+        [serverModel]="imageServerModel()"
+        [canUpdate]="canUpdate()"
+        [canCreate]="canCreate()"
+        [canDelete]="canDelete()"
+        (createImage)="createImage.emit($event)"
+        (deleteImage)="deleteImage.emit($event)"
+        (updateImage)="updateImage.emit($event)"
+      ></app-image-carousel-card>
+    </div>
+
+    <div class="mb-3">
+      <app-badge-list
+        [entries]="markerEntries"
+        [canCreate]="canCreate()"
+        [canDelete]="false"
+        [label]="'Mapmarker'"
+        [createOptions]="{
+          kind: 'LINK',
+          link: markerCreateUrl,
+        }"
+      ></app-badge-list>
+    </div>
+
+    <!-- Description -->
+    <app-editable-text
+      class="location__description"
+      [heading]="'Description'"
+      [placeholder]="'Add a description for ' + location().name"
+      [text]="location().description"
+      [canUpdate]="canUpdate()"
+      (update)="onDescriptionUpdate($event)"
+    ></app-editable-text>
+
+    <!-- Characters of Interest -->
+    <div class="location__characters">
+      <app-list
+        [heading]="'Characters of interest'"
+        [entries]="locationCharacters"
+        [enableCreate]="canCreate()"
+        [emptyListText]="'You know nobody in ' + location().name"
+        (create)="routeToCharacterCreation()"
+      ></app-list>
+    </div>
+
+    <!-- Locations of Interest -->
+    <div class="encounter-list mb-5 mt-3">
+      <app-location-accordion
+        [locations]="location().sublocations ?? []"
+        [canCreate]="canCreate()"
+        [campaignName]="location().campaign_details?.name!"
+        [campaignCharacters]="campaignCharacters()"
+      ></app-location-accordion>
+    </div>
+
+    <!-- Footer (Move to other Article + Delete Article) -->
+    <app-article-footer
+      [buttonLink]="overviewUrl"
+      [buttonLabel]="'Back to Creatures'"
+      [showDelete]="canDelete()"
+      [deleteMessage]="'Delete ' + location().name + '?'"
+      (delete)="locationDelete.emit(location())"
+    ></app-article-footer>
+  </article>
+</app-page-container>

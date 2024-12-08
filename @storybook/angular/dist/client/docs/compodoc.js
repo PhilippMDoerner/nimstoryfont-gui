@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.extractComponentDescription = exports.extractArgTypes = exports.extractArgTypesFromData = exports.extractType = exports.findComponentByName = exports.checkValidCompodocJson = exports.checkValidComponentOrDirective = exports.getCompodocJson = exports.setCompodocJson = exports.isMethod = void 0;
 /* eslint-disable no-underscore-dangle */
+const client_logger_1 = require("storybook/internal/client-logger");
 const global_1 = require("@storybook/global");
-const client_logger_1 = require("@storybook/client-logger");
 const isMethod = (methodOrProp) => {
     return methodOrProp.args !== undefined;
 };

@@ -1,4 +1,5 @@
 "use strict";
+// @vitest-environment happy-dom
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -12,26 +13,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
 const testing_1 = require("@angular/core/testing");
 const testing_2 = require("@angular/platform-browser-dynamic/testing");
+const vitest_1 = require("vitest");
 const NgComponentAnalyzer_1 = require("./NgComponentAnalyzer");
-describe('getComponentInputsOutputs', () => {
-    it('should return empty if no I/O found', () => {
+(0, vitest_1.describe)('getComponentInputsOutputs', () => {
+    (0, vitest_1.it)('should return empty if no I/O found', () => {
         let FooComponent = class FooComponent {
         };
         FooComponent = __decorate([
             (0, core_1.Component)({})
         ], FooComponent);
-        expect((0, NgComponentAnalyzer_1.getComponentInputsOutputs)(FooComponent)).toEqual({
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.getComponentInputsOutputs)(FooComponent)).toEqual({
             inputs: [],
             outputs: [],
         });
         class BarComponent {
         }
-        expect((0, NgComponentAnalyzer_1.getComponentInputsOutputs)(BarComponent)).toEqual({
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.getComponentInputsOutputs)(BarComponent)).toEqual({
             inputs: [],
             outputs: [],
         });
     });
-    it('should return I/O', () => {
+    (0, vitest_1.it)('should return I/O', () => {
         let FooComponent = class FooComponent {
             constructor() {
                 this.output = new core_1.EventEmitter();
@@ -63,7 +65,7 @@ describe('getComponentInputsOutputs', () => {
         ], FooComponent);
         const fooComponentFactory = resolveComponentFactory(FooComponent);
         const { inputs, outputs } = (0, NgComponentAnalyzer_1.getComponentInputsOutputs)(FooComponent);
-        expect({ inputs, outputs }).toEqual({
+        (0, vitest_1.expect)({ inputs, outputs }).toEqual({
             inputs: [
                 { propName: 'inputInComponentMetadata', templateName: 'inputInComponentMetadata' },
                 { propName: 'input', templateName: 'input' },
@@ -75,10 +77,10 @@ describe('getComponentInputsOutputs', () => {
                 { propName: 'outputWithBindingPropertyName', templateName: 'outputPropertyName' },
             ],
         });
-        expect(sortByPropName(inputs)).toEqual(sortByPropName(fooComponentFactory.inputs));
-        expect(sortByPropName(outputs)).toEqual(sortByPropName(fooComponentFactory.outputs));
+        (0, vitest_1.expect)(sortByPropName(inputs)).toEqual(sortByPropName(fooComponentFactory.inputs));
+        (0, vitest_1.expect)(sortByPropName(outputs)).toEqual(sortByPropName(fooComponentFactory.outputs));
     });
-    it("should return I/O when some of component metadata has the same name as one of component's properties", () => {
+    (0, vitest_1.it)("should return I/O when some of component metadata has the same name as one of component's properties", () => {
         let FooComponent = class FooComponent {
             constructor() {
                 this.output = new core_1.EventEmitter();
@@ -110,10 +112,10 @@ describe('getComponentInputsOutputs', () => {
         ], FooComponent);
         const fooComponentFactory = resolveComponentFactory(FooComponent);
         const { inputs, outputs } = (0, NgComponentAnalyzer_1.getComponentInputsOutputs)(FooComponent);
-        expect(sortByPropName(inputs)).toEqual(sortByPropName(fooComponentFactory.inputs));
-        expect(sortByPropName(outputs)).toEqual(sortByPropName(fooComponentFactory.outputs));
+        (0, vitest_1.expect)(sortByPropName(inputs)).toEqual(sortByPropName(fooComponentFactory.inputs));
+        (0, vitest_1.expect)(sortByPropName(outputs)).toEqual(sortByPropName(fooComponentFactory.outputs));
     });
-    it('should return I/O in the presence of multiple decorators', () => {
+    (0, vitest_1.it)('should return I/O in the presence of multiple decorators', () => {
         let FooComponent = class FooComponent {
         };
         __decorate([
@@ -133,17 +135,17 @@ describe('getComponentInputsOutputs', () => {
         ], FooComponent);
         const fooComponentFactory = resolveComponentFactory(FooComponent);
         const { inputs, outputs } = (0, NgComponentAnalyzer_1.getComponentInputsOutputs)(FooComponent);
-        expect({ inputs, outputs }).toEqual({
+        (0, vitest_1.expect)({ inputs, outputs }).toEqual({
             inputs: [
                 { propName: 'inputPreceedingHostBinding', templateName: 'inputPreceedingHostBinding' },
                 { propName: 'inputFollowingHostBinding', templateName: 'inputFollowingHostBinding' },
             ],
             outputs: [],
         });
-        expect(sortByPropName(inputs)).toEqual(sortByPropName(fooComponentFactory.inputs));
-        expect(sortByPropName(outputs)).toEqual(sortByPropName(fooComponentFactory.outputs));
+        (0, vitest_1.expect)(sortByPropName(inputs)).toEqual(sortByPropName(fooComponentFactory.inputs));
+        (0, vitest_1.expect)(sortByPropName(outputs)).toEqual(sortByPropName(fooComponentFactory.outputs));
     });
-    it('should return I/O with extending classes', () => {
+    (0, vitest_1.it)('should return I/O with extending classes', () => {
         let BarComponent = class BarComponent {
         };
         __decorate([
@@ -176,7 +178,7 @@ describe('getComponentInputsOutputs', () => {
         ], FooComponent);
         const fooComponentFactory = resolveComponentFactory(FooComponent);
         const { inputs, outputs } = (0, NgComponentAnalyzer_1.getComponentInputsOutputs)(FooComponent);
-        expect({ inputs, outputs }).toEqual({
+        (0, vitest_1.expect)({ inputs, outputs }).toEqual({
             inputs: [
                 { propName: 'a', templateName: 'a' },
                 { propName: 'b', templateName: 'b' },
@@ -184,143 +186,143 @@ describe('getComponentInputsOutputs', () => {
             ],
             outputs: [],
         });
-        expect(sortByPropName(inputs)).toEqual(sortByPropName(fooComponentFactory.inputs));
-        expect(sortByPropName(outputs)).toEqual(sortByPropName(fooComponentFactory.outputs));
+        (0, vitest_1.expect)(sortByPropName(inputs)).toEqual(sortByPropName(fooComponentFactory.inputs));
+        (0, vitest_1.expect)(sortByPropName(outputs)).toEqual(sortByPropName(fooComponentFactory.outputs));
     });
 });
-describe('isDeclarable', () => {
-    it('should return true with a Component', () => {
+(0, vitest_1.describe)('isDeclarable', () => {
+    (0, vitest_1.it)('should return true with a Component', () => {
         let FooComponent = class FooComponent {
         };
         FooComponent = __decorate([
             (0, core_1.Component)({})
         ], FooComponent);
-        expect((0, NgComponentAnalyzer_1.isDeclarable)(FooComponent)).toEqual(true);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isDeclarable)(FooComponent)).toEqual(true);
     });
-    it('should return true with a Directive', () => {
+    (0, vitest_1.it)('should return true with a Directive', () => {
         let FooDirective = class FooDirective {
         };
         FooDirective = __decorate([
             (0, core_1.Directive)({})
         ], FooDirective);
-        expect((0, NgComponentAnalyzer_1.isDeclarable)(FooDirective)).toEqual(true);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isDeclarable)(FooDirective)).toEqual(true);
     });
-    it('should return true with a Pipe', () => {
+    (0, vitest_1.it)('should return true with a Pipe', () => {
         let FooPipe = class FooPipe {
         };
         FooPipe = __decorate([
             (0, core_1.Pipe)({ name: 'pipe' })
         ], FooPipe);
-        expect((0, NgComponentAnalyzer_1.isDeclarable)(FooPipe)).toEqual(true);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isDeclarable)(FooPipe)).toEqual(true);
     });
-    it('should return false with simple class', () => {
+    (0, vitest_1.it)('should return false with simple class', () => {
         class FooPipe {
         }
-        expect((0, NgComponentAnalyzer_1.isDeclarable)(FooPipe)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isDeclarable)(FooPipe)).toEqual(false);
     });
-    it('should return false with Injectable', () => {
+    (0, vitest_1.it)('should return false with Injectable', () => {
         let FooInjectable = class FooInjectable {
         };
         FooInjectable = __decorate([
             (0, core_1.Injectable)()
         ], FooInjectable);
-        expect((0, NgComponentAnalyzer_1.isDeclarable)(FooInjectable)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isDeclarable)(FooInjectable)).toEqual(false);
     });
 });
-describe('isComponent', () => {
-    it('should return true with a Component', () => {
+(0, vitest_1.describe)('isComponent', () => {
+    (0, vitest_1.it)('should return true with a Component', () => {
         let FooComponent = class FooComponent {
         };
         FooComponent = __decorate([
             (0, core_1.Component)({})
         ], FooComponent);
-        expect((0, NgComponentAnalyzer_1.isComponent)(FooComponent)).toEqual(true);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isComponent)(FooComponent)).toEqual(true);
     });
-    it('should return false with simple class', () => {
+    (0, vitest_1.it)('should return false with simple class', () => {
         class FooPipe {
         }
-        expect((0, NgComponentAnalyzer_1.isComponent)(FooPipe)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isComponent)(FooPipe)).toEqual(false);
     });
-    it('should return false with Directive', () => {
+    (0, vitest_1.it)('should return false with Directive', () => {
         let FooDirective = class FooDirective {
         };
         FooDirective = __decorate([
             (0, core_1.Directive)()
         ], FooDirective);
-        expect((0, NgComponentAnalyzer_1.isComponent)(FooDirective)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isComponent)(FooDirective)).toEqual(false);
     });
 });
-describe('isStandaloneComponent', () => {
-    it('should return true with a Component with "standalone: true"', () => {
+(0, vitest_1.describe)('isStandaloneComponent', () => {
+    (0, vitest_1.it)('should return true with a Component with "standalone: true"', () => {
         let FooComponent = class FooComponent {
         };
         FooComponent = __decorate([
             (0, core_1.Component)({ standalone: true })
         ], FooComponent);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooComponent)).toEqual(true);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooComponent)).toEqual(true);
     });
-    it('should return false with a Component with "standalone: false"', () => {
+    (0, vitest_1.it)('should return false with a Component with "standalone: false"', () => {
         let FooComponent = class FooComponent {
         };
         FooComponent = __decorate([
             (0, core_1.Component)({ standalone: false })
         ], FooComponent);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooComponent)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooComponent)).toEqual(false);
     });
-    it('should return false with a Component without the "standalone" property', () => {
+    (0, vitest_1.it)('should return false with a Component without the "standalone" property', () => {
         let FooComponent = class FooComponent {
         };
         FooComponent = __decorate([
             (0, core_1.Component)({})
         ], FooComponent);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooComponent)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooComponent)).toEqual(false);
     });
-    it('should return false with simple class', () => {
+    (0, vitest_1.it)('should return false with simple class', () => {
         class FooPipe {
         }
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooPipe)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooPipe)).toEqual(false);
     });
-    it('should return true with a Directive with "standalone: true"', () => {
+    (0, vitest_1.it)('should return true with a Directive with "standalone: true"', () => {
         let FooDirective = class FooDirective {
         };
         FooDirective = __decorate([
             (0, core_1.Directive)({ standalone: true })
         ], FooDirective);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooDirective)).toEqual(true);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooDirective)).toEqual(true);
     });
-    it('should return false with a Directive with "standalone: false"', () => {
+    (0, vitest_1.it)('should return false with a Directive with "standalone: false"', () => {
         let FooDirective = class FooDirective {
         };
         FooDirective = __decorate([
             (0, core_1.Directive)({ standalone: false })
         ], FooDirective);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooDirective)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooDirective)).toEqual(false);
     });
-    it('should return false with Directive without the "standalone" property', () => {
+    (0, vitest_1.it)('should return false with Directive without the "standalone" property', () => {
         let FooDirective = class FooDirective {
         };
         FooDirective = __decorate([
             (0, core_1.Directive)()
         ], FooDirective);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooDirective)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooDirective)).toEqual(false);
     });
-    it('should return true with a Pipe with "standalone: true"', () => {
+    (0, vitest_1.it)('should return true with a Pipe with "standalone: true"', () => {
         let FooPipe = class FooPipe {
         };
         FooPipe = __decorate([
             (0, core_1.Pipe)({ name: 'FooPipe', standalone: true })
         ], FooPipe);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooPipe)).toEqual(true);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooPipe)).toEqual(true);
     });
-    it('should return false with a Pipe with "standalone: false"', () => {
+    (0, vitest_1.it)('should return false with a Pipe with "standalone: false"', () => {
         let FooPipe = class FooPipe {
         };
         FooPipe = __decorate([
             (0, core_1.Pipe)({ name: 'FooPipe', standalone: false })
         ], FooPipe);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooPipe)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooPipe)).toEqual(false);
     });
-    it('should return false with Pipe without the "standalone" property', () => {
+    (0, vitest_1.it)('should return false with Pipe without the "standalone" property', () => {
         let FooPipe = class FooPipe {
         };
         FooPipe = __decorate([
@@ -328,23 +330,23 @@ describe('isStandaloneComponent', () => {
                 name: 'fooPipe',
             })
         ], FooPipe);
-        expect((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooPipe)).toEqual(false);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.isStandaloneComponent)(FooPipe)).toEqual(false);
     });
 });
-describe('getComponentDecoratorMetadata', () => {
-    it('should return Component with a Component', () => {
+(0, vitest_1.describe)('getComponentDecoratorMetadata', () => {
+    (0, vitest_1.it)('should return Component with a Component', () => {
         let FooComponent = class FooComponent {
         };
         FooComponent = __decorate([
             (0, core_1.Component)({ selector: 'foo' })
         ], FooComponent);
-        expect((0, NgComponentAnalyzer_1.getComponentDecoratorMetadata)(FooComponent)).toBeInstanceOf(core_1.Component);
-        expect((0, NgComponentAnalyzer_1.getComponentDecoratorMetadata)(FooComponent)).toEqual({
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.getComponentDecoratorMetadata)(FooComponent)).toBeInstanceOf(core_1.Component);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.getComponentDecoratorMetadata)(FooComponent)).toEqual({
             changeDetection: 1,
             selector: 'foo',
         });
     });
-    it('should return Component with extending classes', () => {
+    (0, vitest_1.it)('should return Component with extending classes', () => {
         let BarComponent = class BarComponent {
         };
         BarComponent = __decorate([
@@ -355,8 +357,8 @@ describe('getComponentDecoratorMetadata', () => {
         FooComponent = __decorate([
             (0, core_1.Component)({ selector: 'foo' })
         ], FooComponent);
-        expect((0, NgComponentAnalyzer_1.getComponentDecoratorMetadata)(FooComponent)).toBeInstanceOf(core_1.Component);
-        expect((0, NgComponentAnalyzer_1.getComponentDecoratorMetadata)(FooComponent)).toEqual({
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.getComponentDecoratorMetadata)(FooComponent)).toBeInstanceOf(core_1.Component);
+        (0, vitest_1.expect)((0, NgComponentAnalyzer_1.getComponentDecoratorMetadata)(FooComponent)).toEqual({
             changeDetection: 1,
             selector: 'foo',
         });
@@ -368,11 +370,7 @@ function sortByPropName(array) {
 function resolveComponentFactory(component) {
     testing_1.TestBed.configureTestingModule({
         declarations: [component],
-    }).overrideModule(testing_2.BrowserDynamicTestingModule, {
-        set: {
-            entryComponents: [component],
-        },
-    });
+    }).overrideModule(testing_2.BrowserDynamicTestingModule, {});
     const componentFactoryResolver = testing_1.TestBed.inject(core_1.ComponentFactoryResolver);
     return componentFactoryResolver.resolveComponentFactory(component);
 }

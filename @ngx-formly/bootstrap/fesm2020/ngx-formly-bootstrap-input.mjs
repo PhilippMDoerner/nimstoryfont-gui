@@ -23,6 +23,8 @@ FormlyFieldInput.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", versi
         class="form-control"
         [formlyAttributes]="field"
         [class.is-invalid]="showError"
+        [attr.aria-describedby]="id + '-formly-validation-error'"
+        [attr.aria-invalid]="showError"
       />
       <ng-template #numberTmp>
         <input
@@ -31,6 +33,8 @@ FormlyFieldInput.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", versi
           class="form-control"
           [formlyAttributes]="field"
           [class.is-invalid]="showError"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
         />
       </ng-template>
     </ng-template>
@@ -48,6 +52,8 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
         class="form-control"
         [formlyAttributes]="field"
         [class.is-invalid]="showError"
+        [attr.aria-describedby]="id + '-formly-validation-error'"
+        [attr.aria-invalid]="showError"
       />
       <ng-template #numberTmp>
         <input
@@ -56,6 +62,8 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
           class="form-control"
           [formlyAttributes]="field"
           [class.is-invalid]="showError"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
         />
       </ng-template>
     </ng-template>

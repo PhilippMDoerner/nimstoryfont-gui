@@ -15,6 +15,8 @@ export declare abstract class FieldArrayType<F extends FormlyFieldConfig = Field
         markAsDirty: boolean;
     }): void;
     private _build;
+    private updateArrayElementKey;
+    private markFieldForCheck;
     static ɵfac: i0.ɵɵFactoryDeclaration<FieldArrayType<any>, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<FieldArrayType<any>, never, never, {}, {}, never>;
 }

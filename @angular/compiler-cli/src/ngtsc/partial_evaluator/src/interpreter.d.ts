@@ -3,7 +3,7 @@
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 import ts from 'typescript';
 import { DependencyTracker } from '../../incremental/api';
@@ -46,7 +46,6 @@ export declare class StaticInterpreter {
     private visitElementAccessExpression;
     private visitPropertyAccessExpression;
     private visitSourceFile;
-    private visitAmbiguousDeclaration;
     private accessHelper;
     private visitCallExpression;
     /**
@@ -65,7 +64,6 @@ export declare class StaticInterpreter {
     private visitSpreadElement;
     private visitBindingElement;
     private stringNameFromPropertyName;
-    private getResolvedEnum;
     private getReference;
     private visitType;
     private visitTupleType;

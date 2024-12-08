@@ -6,6 +6,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const vitest_1 = require("vitest");
 const core_1 = require("@angular/core");
 const decorators_1 = require("./decorators");
 const defaultContext = {
@@ -21,13 +22,20 @@ const defaultContext = {
     args: {},
     argTypes: {},
     globals: {},
+    globalTypes: {},
+    storyGlobals: {},
     hooks: {},
     loaded: {},
-    originalStoryFn: jest.fn(),
+    originalStoryFn: vitest_1.vi.fn(),
     viewMode: 'story',
     abortSignal: undefined,
     canvasElement: undefined,
+    step: undefined,
+    context: undefined,
+    canvas: undefined,
+    mount: undefined,
 };
+defaultContext.context = defaultContext;
 class MockModule {
 }
 class MockModuleTwo {
@@ -39,11 +47,11 @@ let MockComponent = class MockComponent {
 MockComponent = __decorate([
     (0, core_1.Component)({})
 ], MockComponent);
-describe('applicationConfig', () => {
+(0, vitest_1.describe)('applicationConfig', () => {
     const provider1 = () => { };
     const provider2 = () => { };
-    it('should apply global config', () => {
-        expect((0, decorators_1.applicationConfig)({
+    (0, vitest_1.it)('should apply global config', () => {
+        (0, vitest_1.expect)((0, decorators_1.applicationConfig)({
             providers: [provider1],
         })(() => ({}), defaultContext)).toEqual({
             applicationConfig: {
@@ -51,8 +59,8 @@ describe('applicationConfig', () => {
             },
         });
     });
-    it('should apply story config', () => {
-        expect((0, decorators_1.applicationConfig)({
+    (0, vitest_1.it)('should apply story config', () => {
+        (0, vitest_1.expect)((0, decorators_1.applicationConfig)({
             providers: [],
         })(() => ({
             applicationConfig: {
@@ -66,8 +74,8 @@ describe('applicationConfig', () => {
             },
         });
     });
-    it('should merge global and story config', () => {
-        expect((0, decorators_1.applicationConfig)({
+    (0, vitest_1.it)('should merge global and story config', () => {
+        (0, vitest_1.expect)((0, decorators_1.applicationConfig)({
             providers: [provider1],
         })(() => ({
             applicationConfig: {
@@ -82,15 +90,15 @@ describe('applicationConfig', () => {
         });
     });
 });
-describe('moduleMetadata', () => {
-    it('should add metadata to a story without it', () => {
+(0, vitest_1.describe)('moduleMetadata', () => {
+    (0, vitest_1.it)('should add metadata to a story without it', () => {
         const result = (0, decorators_1.moduleMetadata)({
             imports: [MockModule],
             providers: [MockService],
         })(() => ({}), 
         // deepscan-disable-next-line
         defaultContext);
-        expect(result).toEqual({
+        (0, vitest_1.expect)(result).toEqual({
             moduleMetadata: {
                 declarations: [],
                 entryComponents: [],
@@ -100,7 +108,7 @@ describe('moduleMetadata', () => {
             },
         });
     });
-    it('should combine with individual metadata on a story', () => {
+    (0, vitest_1.it)('should combine with individual metadata on a story', () => {
         const result = (0, decorators_1.moduleMetadata)({
             imports: [MockModule],
         })(() => ({
@@ -112,7 +120,7 @@ describe('moduleMetadata', () => {
         }), 
         // deepscan-disable-next-line
         defaultContext);
-        expect(result).toEqual({
+        (0, vitest_1.expect)(result).toEqual({
             component: MockComponent,
             moduleMetadata: {
                 declarations: [],
@@ -123,7 +131,7 @@ describe('moduleMetadata', () => {
             },
         });
     });
-    it('should return the original metadata if passed null', () => {
+    (0, vitest_1.it)('should return the original metadata if passed null', () => {
         const result = (0, decorators_1.moduleMetadata)(null)(() => ({
             component: MockComponent,
             moduleMetadata: {
@@ -132,7 +140,7 @@ describe('moduleMetadata', () => {
         }), 
         // deepscan-disable-next-line
         defaultContext);
-        expect(result).toEqual({
+        (0, vitest_1.expect)(result).toEqual({
             component: MockComponent,
             moduleMetadata: {
                 declarations: [],

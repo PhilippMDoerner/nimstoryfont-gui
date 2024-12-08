@@ -6,13 +6,12 @@ const RendererFactory_1 = require("./angular-beta/RendererFactory");
 exports.rendererFactory = new RendererFactory_1.RendererFactory();
 const render = (props) => ({ props });
 exports.render = render;
-async function renderToCanvas({ storyFn, showMain, forceRemount, storyContext: { parameters, component }, id, }, element) {
+async function renderToCanvas({ storyFn, showMain, forceRemount, storyContext: { component } }, element) {
     showMain();
-    const renderer = await exports.rendererFactory.getRendererInstance(id, element);
+    const renderer = await exports.rendererFactory.getRendererInstance(element);
     await renderer.render({
         storyFnAngular: storyFn(),
         component,
-        parameters,
         forced: !forceRemount,
         targetDOMNode: element,
     });

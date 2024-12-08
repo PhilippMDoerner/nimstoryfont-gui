@@ -7,4 +7,5 @@ export const environment: Environment = {
   backendDomain: backendDomain,
   apiUrl: `${backendDomain}/wiki1/api`,
   defaultTitle: "StoryFont",
+  frontendPrefix: 'wiki2',
 };

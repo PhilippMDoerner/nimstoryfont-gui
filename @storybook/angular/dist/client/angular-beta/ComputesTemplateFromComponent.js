@@ -1,7 +1,18 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.computesTemplateSourceFromComponent = exports.computesTemplateFromComponent = void 0;
+exports.computesTemplateSourceFromComponent = exports.computesTemplateFromComponent = exports.formatPropInTemplate = void 0;
 const NgComponentAnalyzer_1 = require("./utils/NgComponentAnalyzer");
+/**
+ * Check if the name matches the criteria for a valid identifier. A valid identifier can only
+ * contain letters, digits, underscores, or dollar signs. It cannot start with a digit.
+ */
+const isValidIdentifier = (name) => /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(name);
+/**
+ * Returns the property name, if it can be accessed with dot notation. If not, it returns
+ * `this['propertyName']`.
+ */
+const formatPropInTemplate = (propertyName) => isValidIdentifier(propertyName) ? propertyName : `this['${propertyName}']`;
+exports.formatPropInTemplate = formatPropInTemplate;
 const separateInputsOutputsAttributes = (ngComponentInputsOutputs, props = {}) => {
     const inputs = ngComponentInputsOutputs.inputs
         .filter((i) => i.templateName in props)
@@ -17,6 +28,7 @@ const separateInputsOutputsAttributes = (ngComponentInputsOutputs, props = {}) =
 };
 /**
  * Converts a component into a template with inputs/outputs present in initial props
+ *
  * @param component
  * @param initialProps
  * @param innerTemplate
@@ -29,13 +41,28 @@ const computesTemplateFromComponent = (component, initialProps, innerTemplate = 
         return `<ng-container *ngComponentOutlet="storyComponent"></ng-container>`;
     }
     const { inputs: initialInputs, outputs: initialOutputs } = separateInputsOutputsAttributes(ngComponentInputsOutputs, initialProps);
-    const templateInputs = initialInputs.length > 0 ? ` ${initialInputs.map((i) => `[${i}]="${i}"`).join(' ')}` : '';
+    const templateInputs = initialInputs.length > 0
+        ? ` ${initialInputs.map((i) => `[${i}]="${(0, exports.formatPropInTemplate)(i)}"`).join(' ')}`
+        : '';
     const templateOutputs = initialOutputs.length > 0
-        ? ` ${initialOutputs.map((i) => `(${i})="${i}($event)"`).join(' ')}`
+        ? ` ${initialOutputs.map((i) => `(${i})="${(0, exports.formatPropInTemplate)(i)}($event)"`).join(' ')}`
         : '';
     return buildTemplate(ngComponentMetadata.selector, innerTemplate, templateInputs, templateOutputs);
 };
 exports.computesTemplateFromComponent = computesTemplateFromComponent;
+/** Stringify an object with a placholder in the circular references. */
+function stringifyCircular(obj) {
+    const seen = new Set();
+    return JSON.stringify(obj, (key, value) => {
+        if (typeof value === 'object' && value !== null) {
+            if (seen.has(value)) {
+                return '[Circular]';
+            }
+            seen.add(value);
+        }
+        return value;
+    });
+}
 const createAngularInputProperty = ({ propertyName, value, argType, }) => {
     let templateValue;
     switch (typeof value) {
@@ -43,7 +70,7 @@ const createAngularInputProperty = ({ propertyName, value, argType, }) => {
             templateValue = `'${value}'`;
             break;
         case 'object':
-            templateValue = JSON.stringify(value)
+            templateValue = stringifyCircular(value)
                 .replace(/'/g, '\u2019')
                 .replace(/\\"/g, '\u201D')
                 .replace(/"([^-"]+)":/g, '$1: ')
@@ -60,6 +87,7 @@ const createAngularInputProperty = ({ propertyName, value, argType, }) => {
 };
 /**
  * Converts a component into a template with inputs/outputs present in initial props
+ *
  * @param component
  * @param initialProps
  * @param innerTemplate
@@ -85,7 +113,7 @@ const computesTemplateSourceFromComponent = (component, initialProps, argTypes) 
             .join(' ')}`
         : '';
     const templateOutputs = initialOutputs.length > 0
-        ? ` ${initialOutputs.map((i) => `(${i})="${i}($event)"`).join(' ')}`
+        ? ` ${initialOutputs.map((i) => `(${i})="${(0, exports.formatPropInTemplate)(i)}($event)"`).join(' ')}`
         : '';
     return buildTemplate(ngComponentMetadata.selector, '', templateInputs, templateOutputs);
 };

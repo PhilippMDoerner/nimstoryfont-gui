@@ -1,0 +1,26 @@
+<div class="row">
+  @for (article of articles(); track $index) {
+    <div class="entry col-6 col-lg-4 col-xl-3">
+      <a
+        class="entry__link"
+        [routerLink]="article.link"
+        [title]="article.title"
+      >
+        <app-icon-card
+          [icon]="article.icon"
+          [title]="article.title"
+          [subText]="article.subText"
+          [updateDatetime]="article.updateDatetime"
+          [decoration]="article.decoration"
+        ></app-icon-card>
+      </a>
+    </div>
+  }
+  @if (isLoading()) {
+    @for (item of dummyArticles; track $index) {
+      <app-placeholder
+        class="entry entry--placeholder col-6 col-lg-4 col-xl-3"
+      />
+    }
+  }
+</div>

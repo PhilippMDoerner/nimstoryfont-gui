@@ -6,5 +6,6 @@ export declare class FieldFormExtension implements FormlyExtension {
     postPopulate(field: FormlyFieldConfigCache): void;
     private addFormControl;
     private setValidators;
+    private hasValidators;
     private mergeValidators;
 }

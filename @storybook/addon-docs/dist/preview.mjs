@@ -1,1 +1,5 @@
-import"./chunk-R4NKYYJA.mjs";var parameters={docs:{renderer:async()=>{let{DocsRenderer}=await import("./DocsRenderer-7FRJXR4N.mjs");return new DocsRenderer}}};export{parameters};
+import './chunk-H6MOWX77.mjs';
+
+var excludeTags=Object.entries(globalThis.TAGS_OPTIONS??{}).reduce((acc,entry)=>{let[tag,option]=entry;return option.excludeFromDocsStories&&(acc[tag]=!0),acc},{}),parameters={docs:{renderer:async()=>{let{DocsRenderer}=await import('./DocsRenderer-CFRXHY34.mjs');return new DocsRenderer},stories:{filter:story=>(story.tags||[]).filter(tag=>excludeTags[tag]).length===0&&!story.parameters.docs?.disable}}};
+
+export { parameters };

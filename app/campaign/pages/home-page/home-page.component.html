@@ -1,0 +1,9 @@
+<app-home
+  [serverUrl]="serverUrl"
+  [campaignData]="campaignData()"
+  [articles]="recentlyUpdatedArticles()"
+  [canLoadMore]="hasMoreArticles() === true"
+  [isLoading]="store.isLoading()"
+  (appSearch)="search($event)"
+  (loadArticlePage)="loadArticlePage($event)"
+></app-home>

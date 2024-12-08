@@ -41,5 +41,5 @@ export declare class LeafletBaseLayersDirective implements DoCheck, OnDestroy, O
      */
     protected syncBaseLayer(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<LeafletBaseLayersDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<LeafletBaseLayersDirective, "[leafletBaseLayers]", never, { "baseLayers": "leafletBaseLayers"; "layersControlOptions": "leafletLayersControlOptions"; }, { "layersControlReady": "leafletLayersControlReady"; }, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<LeafletBaseLayersDirective, "[leafletBaseLayers]", never, { "baseLayers": { "alias": "leafletBaseLayers"; "required": false; }; "layersControlOptions": { "alias": "leafletLayersControlOptions"; "required": false; }; }, { "layersControlReady": "leafletLayersControlReady"; }, never, never, false, never>;
 }

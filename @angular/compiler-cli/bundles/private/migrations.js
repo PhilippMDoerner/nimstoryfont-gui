@@ -9,20 +9,19 @@ import {
   PotentialImportMode,
   StaticInterpreter,
   forwardRefResolver
-} from "../chunk-JEWI23RF.js";
+} from "../chunk-APDLWLLW.js";
 import {
+  ImportManager,
+  Reference,
   TypeScriptReflectionHost,
   reflectObjectLiteral
-} from "../chunk-ZF3IVDQ2.js";
-import "../chunk-IJECERTO.js";
-import {
-  Reference
-} from "../chunk-IYYB2HTK.js";
-import "../chunk-TBUSSXUA.js";
-import "../chunk-YZWN2KWE.js";
-import "../chunk-SRFZMXHZ.js";
+} from "../chunk-PGXXZYOH.js";
+import "../chunk-XSNUHRLJ.js";
+import "../chunk-YE5ORA4V.js";
+import "../chunk-XI2RTGAL.js";
 export {
   DynamicValue,
+  ImportManager,
   PartialEvaluator,
   PotentialImportKind,
   PotentialImportMode,
@@ -37,6 +36,6 @@ export {
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 //# sourceMappingURL=migrations.js.map

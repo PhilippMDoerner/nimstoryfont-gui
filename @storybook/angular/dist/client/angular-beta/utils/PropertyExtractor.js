@@ -1,16 +1,12 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PropertyExtractor = exports.uniqueArray = exports.REMOVED_MODULES = exports.reflectionCapabilities = void 0;
-/* eslint-disable no-console */
 const common_1 = require("@angular/common");
 const core_1 = require("@angular/core");
 const platform_browser_1 = require("@angular/platform-browser");
 const animations_1 = require("@angular/platform-browser/animations");
-const ts_dedent_1 = __importDefault(require("ts-dedent"));
+const ts_dedent_1 = require("ts-dedent");
 const NgModulesAnalyzer_1 = require("./NgModulesAnalyzer");
 exports.reflectionCapabilities = new core_1.ɵReflectionCapabilities();
 exports.REMOVED_MODULES = new core_1.InjectionToken('REMOVED_MODULES');
@@ -34,8 +30,6 @@ class PropertyExtractor {
          * - Removes Restricted Imports
          * - Extracts providers from ModuleWithProviders
          * - Returns a new NgModuleMetadata object
-         *
-         *
          */
         this.analyzeMetadata = (metadata) => {
             const declarations = [...(metadata?.declarations || [])];
@@ -44,7 +38,7 @@ class PropertyExtractor {
             const imports = [...(metadata?.imports || [])].reduce((acc, imported) => {
                 // remove ngModule and use only its providers if it is restricted
                 // (e.g. BrowserModule, BrowserAnimationsModule, NoopAnimationsModule, ...etc)
-                const [isRestricted, restrictedProviders] = PropertyExtractor.analyzeRestricted(imported);
+                const [isRestricted, restrictedProviders] = _a.analyzeRestricted(imported);
                 if (isRestricted) {
                     applicationProviders.unshift(restrictedProviders || []);
                     return acc;
@@ -61,7 +55,7 @@ class PropertyExtractor {
     static warnImportsModuleWithProviders(propertyExtractor) {
         const hasModuleWithProvidersImport = propertyExtractor.imports.some((importedModule) => 'ngModule' in importedModule);
         if (hasModuleWithProvidersImport) {
-            console.warn((0, ts_dedent_1.default)(`
+            console.warn((0, ts_dedent_1.dedent)(`
           Storybook Warning: 
           moduleMetadata property 'imports' contains one or more ModuleWithProviders, likely the result of a 'Module.forRoot()'-style call.
           In Storybook 7.0 we use Angular's new 'bootstrapApplication' API to mount the component to the DOM, which accepts a list of providers to set up application-wide providers.
@@ -77,7 +71,7 @@ class PropertyExtractor {
         this.applicationProviders = (0, exports.uniqueArray)(analyzed.applicationProviders);
         this.declarations = (0, exports.uniqueArray)(analyzed.declarations);
         if (this.component) {
-            const { isDeclarable, isStandalone } = PropertyExtractor.analyzeDecorators(this.component);
+            const { isDeclarable, isStandalone } = _a.analyzeDecorators(this.component);
             const isDeclared = (0, NgModulesAnalyzer_1.isComponentAlreadyDeclared)(this.component, analyzed.declarations, this.imports);
             if (isStandalone) {
                 this.imports.push(this.component);
@@ -92,7 +86,7 @@ exports.PropertyExtractor = PropertyExtractor;
 _a = PropertyExtractor;
 PropertyExtractor.analyzeRestricted = (ngModule) => {
     if (ngModule === platform_browser_1.BrowserModule) {
-        console.warn((0, ts_dedent_1.default) `
+        console.warn((0, ts_dedent_1.dedent) `
           Storybook Warning:
           You have imported the "BrowserModule", which is not necessary anymore. 
           In Storybook v7.0 we are using Angular's new bootstrapApplication API to mount an Angular application to the DOM.
@@ -102,7 +96,7 @@ PropertyExtractor.analyzeRestricted = (ngModule) => {
         return [true];
     }
     if (ngModule === animations_1.BrowserAnimationsModule) {
-        console.warn((0, ts_dedent_1.default) `
+        console.warn((0, ts_dedent_1.dedent) `
           Storybook Warning:
           You have added the "BrowserAnimationsModule" to the list of "imports" in your moduleMetadata definition of your Story.
           In Storybook 7.0 we use Angular's new 'bootstrapApplication' API to mount the component to the DOM, which accepts a list of providers to set up application-wide providers.
@@ -113,7 +107,7 @@ PropertyExtractor.analyzeRestricted = (ngModule) => {
         return [true, (0, animations_1.provideAnimations)()];
     }
     if (ngModule === animations_1.NoopAnimationsModule) {
-        console.warn((0, ts_dedent_1.default) `
+        console.warn((0, ts_dedent_1.dedent) `
           Storybook Warning:
           You have added the "NoopAnimationsModule" to the list of "imports" in your moduleMetadata definition of your Story.
           In Storybook v7.0 we are using Angular's new bootstrapApplication API to mount an Angular application to the DOM, which accepts a list of providers to set up application-wide providers.
@@ -131,7 +125,11 @@ PropertyExtractor.analyzeDecorators = (component) => {
     const isDirective = decorators.some((d) => _a.isDecoratorInstanceOf(d, 'Directive'));
     const isPipe = decorators.some((d) => _a.isDecoratorInstanceOf(d, 'Pipe'));
     const isDeclarable = isComponent || isDirective || isPipe;
-    const isStandalone = isComponent && decorators.some((d) => d.standalone);
+    // Check if the hierarchically lowest Component or Directive decorator (the only relevant for importing dependencies) is standalone.
+    const isStandalone = !!((isComponent || isDirective) &&
+        [...decorators]
+            .reverse() // reflectionCapabilities returns decorators in a hierarchically top-down order
+            .find((d) => _a.isDecoratorInstanceOf(d, 'Component') || _a.isDecoratorInstanceOf(d, 'Directive'))?.standalone);
     return { isDeclarable, isStandalone };
 };
 PropertyExtractor.isDecoratorInstanceOf = (decorator, name) => {

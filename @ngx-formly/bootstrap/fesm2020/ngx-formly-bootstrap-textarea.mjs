@@ -28,8 +28,9 @@ FormlyFieldTextArea.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", ve
         class="form-control"
         [class.is-invalid]="showError"
         [formlyAttributes]="field"
-      >
-      </textarea>
+        [attr.aria-describedby]="id + '-formly-validation-error'"
+        [attr.aria-invalid]="showError"
+      ></textarea>
     </ng-template>
   `, isInline: true, directives: [{ type: i1.DefaultValueAccessor, selector: "input:not([type=checkbox])[formControlName],textarea[formControlName],input:not([type=checkbox])[formControl],textarea[formControl],input:not([type=checkbox])[ngModel],textarea[ngModel],[ngDefaultControl]" }, { type: i1.NgControlStatus, selector: "[formControlName],[ngModel],[formControl]" }, { type: i1.FormControlDirective, selector: "[formControl]", inputs: ["formControl", "disabled", "ngModel"], outputs: ["ngModelChange"], exportAs: ["ngForm"] }, { type: i2.ɵFormlyAttributes, selector: "[formlyAttributes]", inputs: ["formlyAttributes", "id"] }], changeDetection: i0.ChangeDetectionStrategy.OnPush });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImport: i0, type: FormlyFieldTextArea, decorators: [{
@@ -45,8 +46,9 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
         class="form-control"
         [class.is-invalid]="showError"
         [formlyAttributes]="field"
-      >
-      </textarea>
+        [attr.aria-describedby]="id + '-formly-validation-error'"
+        [attr.aria-invalid]="showError"
+      ></textarea>
     </ng-template>
   `,
                     changeDetection: ChangeDetectionStrategy.OnPush,

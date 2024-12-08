@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getApplication = exports.AbstractRenderer = exports.rendererFactory = exports.computesTemplateSourceFromComponent = exports.storyPropsProvider = void 0;
+exports.PropertyExtractor = exports.getApplication = exports.AbstractRenderer = exports.rendererFactory = exports.computesTemplateSourceFromComponent = exports.storyPropsProvider = void 0;
 var StorybookProvider_1 = require("./client/angular-beta/StorybookProvider");
 Object.defineProperty(exports, "storyPropsProvider", { enumerable: true, get: function () { return StorybookProvider_1.storyPropsProvider; } });
 var ComputesTemplateFromComponent_1 = require("./client/angular-beta/ComputesTemplateFromComponent");
@@ -11,3 +11,5 @@ var AbstractRenderer_1 = require("./client/angular-beta/AbstractRenderer");
 Object.defineProperty(exports, "AbstractRenderer", { enumerable: true, get: function () { return AbstractRenderer_1.AbstractRenderer; } });
 var StorybookModule_1 = require("./client/angular-beta/StorybookModule");
 Object.defineProperty(exports, "getApplication", { enumerable: true, get: function () { return StorybookModule_1.getApplication; } });
+var PropertyExtractor_1 = require("./client/angular-beta/utils/PropertyExtractor");
+Object.defineProperty(exports, "PropertyExtractor", { enumerable: true, get: function () { return PropertyExtractor_1.PropertyExtractor; } });

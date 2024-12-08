@@ -1,6 +1,6 @@
 /**
- * @license Angular v15.2.7
- * (c) 2010-2022 Google LLC. https://angular.io/
+ * @license Angular v18.2.12
+ * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
 
@@ -8,7 +8,6 @@
 import { AfterContentInit } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { Compiler } from '@angular/core';
-import { ComponentFactoryResolver } from '@angular/core';
 import { ComponentRef } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { EnvironmentInjector } from '@angular/core';
@@ -28,6 +27,7 @@ import { Provider } from '@angular/core';
 import { ProviderToken } from '@angular/core';
 import { QueryList } from '@angular/core';
 import { Renderer2 } from '@angular/core';
+import { RouterState as RouterState_2 } from '@angular/router';
 import { SimpleChanges } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Type } from '@angular/core';
@@ -48,11 +48,19 @@ import { Version } from '@angular/core';
  * {@example router/activated-route/module.ts region="activated-route"
  *     header="activated-route.component.ts"}
  *
- * @see [Getting route information](guide/router#getting-route-information)
+ * @see [Getting route information](guide/routing/common-router-tasks#getting-route-information)
  *
  * @publicApi
  */
 export declare class ActivatedRoute {
+    /** The outlet name of the route, a constant. */
+    outlet: string;
+    /** The component of the route, a constant. */
+    component: Type<any> | null;
+    /** The current snapshot of this route */
+    snapshot: ActivatedRouteSnapshot;
+    /** An Observable of the resolved route title */
+    readonly title: Observable<string | undefined>;
     /** An observable of the URL segments matched by this route. */
     url: Observable<UrlSegment[]>;
     /** An observable of the matrix parameters scoped to this route. */
@@ -63,14 +71,6 @@ export declare class ActivatedRoute {
     fragment: Observable<string | null>;
     /** An observable of the static and resolved data of this route. */
     data: Observable<Data>;
-    /** The outlet name of the route, a constant. */
-    outlet: string;
-    /** The component of the route, a constant. */
-    component: Type<any> | null;
-    /** The current snapshot of this route */
-    snapshot: ActivatedRouteSnapshot;
-    /** An Observable of the resolved route title */
-    readonly title: Observable<string | undefined>;
     /** The configuration used to match this route. */
     get routeConfig(): Route | null;
     /** The root of the router state. */
@@ -175,8 +175,8 @@ export declare class ActivatedRouteSnapshot {
 /**
  * An event triggered at the end of the activation part
  * of the Resolve phase of routing.
- * @see `ActivationStart`
- * @see `ResolveStart`
+ * @see {@link ActivationStart}
+ * @see {@link ResolveStart}
  *
  * @publicApi
  */
@@ -193,8 +193,8 @@ export declare class ActivationEnd {
 /**
  * An event triggered at the start of the activation part
  * of the Resolve phase of routing.
- * @see `ActivationEnd`
- * @see `ResolveStart`
+ * @see {@link ActivationEnd}
+ * @see {@link ResolveStart}
  *
  * @publicApi
  */
@@ -273,7 +273,7 @@ export declare abstract class BaseRouteReuseStrategy implements RouteReuseStrate
  *   canActivate(
  *     route: ActivatedRouteSnapshot,
  *     state: RouterStateSnapshot
- *   ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
+ *   ): MaybeAsync<GuardResult> {
  *     return this.permissions.canActivate(this.currentUser, route.params.id);
  *   }
  * }
@@ -299,13 +299,9 @@ export declare abstract class BaseRouteReuseStrategy implements RouteReuseStrate
  * ```
  *
  * @publicApi
- * @deprecated Class-based `Route` guards are deprecated in favor of functional guards. An
- *     injectable class can be used as a functional guard using the `inject` function:
- *     `canActivate: [() => inject(myGuard).canActivate()]`.
- * @see `CanActivateFn`
  */
 export declare interface CanActivate {
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult>;
 }
 
 /**
@@ -334,7 +330,7 @@ export declare interface CanActivate {
  *   canActivateChild(
  *     route: ActivatedRouteSnapshot,
  *     state: RouterStateSnapshot
- *   ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
+ *   ): MaybeAsync<GuardResult> {
  *     return this.permissions.canActivate(this.currentUser, route.params.id);
  *   }
  * }
@@ -365,13 +361,9 @@ export declare interface CanActivate {
  * ```
  *
  * @publicApi
- * @deprecated Class-based `Route` guards are deprecated in favor of functional guards. An
- *     injectable class can be used as a functional guard using the `inject` function:
- *     `canActivateChild: [() => inject(myGuard).canActivateChild()]`.
- * @see `CanActivateChildFn`
  */
 export declare interface CanActivateChild {
-    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+    canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult>;
 }
 
 /**
@@ -387,9 +379,9 @@ export declare interface CanActivateChild {
  * {@example router/route_functional_guards.ts region="CanActivateChildFn"}
  *
  * @publicApi
- * @see `Route`
+ * @see {@link Route}
  */
-export declare type CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) => Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+export declare type CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot) => MaybeAsync<GuardResult>;
 
 /**
  * The signature of a function used as a `canActivate` guard on a `Route`.
@@ -398,20 +390,52 @@ export declare type CanActivateChildFn = (childRoute: ActivatedRouteSnapshot, st
  * navigation is cancelled. If any guard returns a `UrlTree`, the current navigation
  * is cancelled and a new navigation begins to the `UrlTree` returned from the guard.
  *
- * The following example implements and uses a `CanActivateChildFn` that checks whether the
+ * The following example implements and uses a `CanActivateFn` that checks whether the
  * current user has permission to activate the requested route.
  *
- * {@example router/route_functional_guards.ts region="CanActivateFn"}
-
+ * ```ts
+ * @Injectable()
+ * class UserToken {}
+ *
+ * @Injectable()
+ * class PermissionsService {
+ *   canActivate(currentUser: UserToken, userId: string): boolean {
+ *     return true;
+ *   }
+ *   canMatch(currentUser: UserToken): boolean {
+ *     return true;
+ *   }
+ * }
+ *
+ * const canActivateTeam: CanActivateFn = (
+ *   route: ActivatedRouteSnapshot,
+ *   state: RouterStateSnapshot,
+ * ) => {
+ *   return inject(PermissionsService).canActivate(inject(UserToken), route.params['id']);
+ * };
+ * ```
+ *
  * Here, the defined guard function is provided as part of the `Route` object
  * in the router configuration:
-
- * {@example router/route_functional_guards.ts region="CanActivateFnInRoute"}
+ *
+ * ```ts
+ * bootstrapApplication(App, {
+ *    providers: [
+ *      provideRouter([
+ *        {
+ *          path: 'team/:id',
+ *          component: TeamComponent,
+ *          canActivate: [canActivateTeam],
+ *        },
+ *      ]),
+ *    ],
+ *  });
+ * ```
  *
  * @publicApi
- * @see `Route`
+ * @see {@link Route}
  */
-export declare type CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+export declare type CanActivateFn = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => MaybeAsync<GuardResult>;
 
 /**
  * @description
@@ -447,7 +471,7 @@ export declare type CanActivateFn = (route: ActivatedRouteSnapshot, state: Route
  *     currentRoute: ActivatedRouteSnapshot,
  *     currentState: RouterStateSnapshot,
  *     nextState: RouterStateSnapshot
- *   ): Observable<boolean|UrlTree>|Promise<boolean|UrlTree>|boolean|UrlTree {
+ *   ): MaybeAsync<GuardResult> {
  *     return this.permissions.canDeactivate(this.currentUser, route.params.id);
  *   }
  * }
@@ -468,13 +492,9 @@ export declare type CanActivateFn = (route: ActivatedRouteSnapshot, state: Route
  * ```
  *
  * @publicApi
- * @deprecated Class-based `Route` guards are deprecated in favor of functional guards. An
- *     injectable class can be used as a functional guard using the `inject` function:
- *     `canDeactivate: [() => inject(myGuard).canDeactivate()]`.
- * @see `CanDeactivateFn`
  */
 export declare interface CanDeactivate<T> {
-    canDeactivate(component: T, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+    canDeactivate(component: T, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState: RouterStateSnapshot): MaybeAsync<GuardResult>;
 }
 
 /**
@@ -490,9 +510,9 @@ export declare interface CanDeactivate<T> {
  * {@example router/route_functional_guards.ts region="CanDeactivateFn"}
  *
  * @publicApi
- * @see `Route`
+ * @see {@link Route}
  */
-export declare type CanDeactivateFn<T> = (component: T, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState: RouterStateSnapshot) => Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+export declare type CanDeactivateFn<T> = (component: T, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState: RouterStateSnapshot) => MaybeAsync<GuardResult>;
 
 /**
  * @description
@@ -546,22 +566,22 @@ export declare type CanDeactivateFn<T> = (component: T, currentRoute: ActivatedR
  * ```
  *
  * @publicApi
- * @deprecated Use {@link CanMatchFn} instead
+ * @deprecated Use {@link CanMatch} instead
  */
 export declare interface CanLoad {
-    canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+    canLoad(route: Route, segments: UrlSegment[]): MaybeAsync<GuardResult>;
 }
 
 /**
  * The signature of a function used as a `canLoad` guard on a `Route`.
  *
  * @publicApi
- * @see `CanLoad`
- * @see `Route`
- * @see `CanMatchFn`
+ * @see {@link CanLoad}
+ * @see {@link Route}
+ * @see {@link CanMatch}
  * @deprecated Use `Route.canMatch` and `CanMatchFn` instead
  */
-export declare type CanLoadFn = (route: Route, segments: UrlSegment[]) => Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+export declare type CanLoadFn = (route: Route, segments: UrlSegment[]) => MaybeAsync<GuardResult>;
 
 /**
  * @description
@@ -623,13 +643,9 @@ export declare type CanLoadFn = (route: Route, segments: UrlSegment[]) => Observ
  * could not be used for a URL match but the catch-all `**` `Route` did instead.
  *
  * @publicApi
- * @deprecated Class-based `Route` guards are deprecated in favor of functional guards. An
- *     injectable class can be used as a functional guard using the `inject` function:
- *     `canMatch: [() => inject(myGuard).canMatch()]`.
- * @see `CanMatchFn`
  */
 export declare interface CanMatch {
-    canMatch(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+    canMatch(route: Route, segments: UrlSegment[]): MaybeAsync<GuardResult>;
 }
 
 /**
@@ -644,16 +660,19 @@ export declare interface CanMatch {
  *
  * {@example router/route_functional_guards.ts region="CanMatchFn"}
  *
+ * @param route The route configuration.
+ * @param segments The URL segments that have not been consumed by previous parent route evaluations.
+ *
  * @publicApi
- * @see `Route`
+ * @see {@link Route}
  */
-export declare type CanMatchFn = (route: Route, segments: UrlSegment[]) => Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree;
+export declare type CanMatchFn = (route: Route, segments: UrlSegment[]) => MaybeAsync<GuardResult>;
 
 /**
  * An event triggered at the end of the child-activation part
  * of the Resolve phase of routing.
- * @see `ChildActivationStart`
- * @see `ResolveStart`
+ * @see {@link ChildActivationStart}
+ * @see {@link ResolveStart}
  * @publicApi
  */
 export declare class ChildActivationEnd {
@@ -669,8 +688,8 @@ export declare class ChildActivationEnd {
 /**
  * An event triggered at the start of the child-activation
  * part of the Resolve phase of routing.
- * @see  `ChildActivationEnd`
- * @see `ResolveStart`
+ * @see {@link ChildActivationEnd}
+ * @see {@link ResolveStart}
  *
  * @publicApi
  */
@@ -690,7 +709,10 @@ export declare class ChildActivationStart {
  * @publicApi
  */
 export declare class ChildrenOutletContexts {
+    private rootInjector;
     private contexts;
+    /** @nodoc */
+    constructor(rootInjector: EnvironmentInjector);
     /** Called when a `RouterOutlet` directive is instantiated */
     onChildOutletCreated(childName: string, outlet: RouterOutletContract): void;
     /**
@@ -710,6 +732,16 @@ export declare class ChildrenOutletContexts {
     static ɵfac: i0.ɵɵFactoryDeclaration<ChildrenOutletContexts, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<ChildrenOutletContexts>;
 }
+
+/**
+ * A type alias for providers returned by `withComponentInputBinding` for use with `provideRouter`.
+ *
+ * @see {@link withComponentInputBinding}
+ * @see {@link provideRouter}
+ *
+ * @publicApi
+ */
+declare type ComponentInputBindingFeature = RouterFeature<RouterFeatureKind.ComponentInputBindingFeature>;
 
 /**
  * Converts a `Params` instance to a `ParamMap`.
@@ -777,7 +809,7 @@ export declare function createUrlTreeFromSnapshot(relativeTo: ActivatedRouteSnap
  *
  * Represents static data associated with a particular route.
  *
- * @see `Route#data`
+ * @see {@link Route#data}
  *
  * @publicApi
  */
@@ -788,8 +820,8 @@ export declare type Data = {
 /**
  * A type alias for providers returned by `withDebugTracing` for use with `provideRouter`.
  *
- * @see `withDebugTracing`
- * @see `provideRouter`
+ * @see {@link withDebugTracing}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -798,8 +830,8 @@ export declare type DebugTracingFeature = RouterFeature<RouterFeatureKind.DebugT
 /**
  * An ES Module object with a default export of the given type.
  *
- * @see `Route#loadComponent`
- * @see `LoadChildrenCallback`
+ * @see {@link Route#loadComponent}
+ * @see {@link LoadChildrenCallback}
  *
  * @publicApi
  */
@@ -836,8 +868,8 @@ export declare class DefaultTitleStrategy extends TitleStrategy {
  * @param segmentGroup The current segment group being matched
  * @param route The `Route` to match against.
  *
- * @see UrlMatchResult
- * @see Route
+ * @see {@link UrlMatchResult}
+ * @see {@link Route}
  *
  * @returns The resulting match information or `null` if the `route` should not match.
  * @publicApi
@@ -872,17 +904,18 @@ export declare class DefaultUrlSerializer implements UrlSerializer {
 /**
  * The `InjectionToken` and `@Injectable` classes for guards and resolvers are deprecated in favor
  * of plain JavaScript functions instead.. Dependency injection can still be achieved using the
- * `inject` function from `@angular/core` and an injectable class can be used as a functional guard
- * using `inject`: `canActivate: [() => inject(myGuard).canActivate()]`.
+ * [`inject`](api/core/inject) function from `@angular/core` and an injectable class can be used as
+ * a functional guard using [`inject`](api/core/inject): `canActivate: [() =>
+ * inject(myGuard).canActivate()]`.
  *
  * @deprecated
- * @see `CanMatchFn`
- * @see `CanLoadFn`
- * @see `CanActivateFn`
- * @see `CanActivateChildFn`
- * @see `CanDeactivateFn`
- * @see `ResolveFn`
- * @see `inject`
+ * @see {@link CanMatchFn}
+ * @see {@link CanLoadFn}
+ * @see {@link CanActivateFn}
+ * @see {@link CanActivateChildFn}
+ * @see {@link CanDeactivateFn}
+ * @see {@link ResolveFn}
+ * @see {@link core/inject}
  * @publicApi
  */
 export declare type DeprecatedGuard = ProviderToken<any> | any;
@@ -903,8 +936,8 @@ export declare type DetachedRouteHandle = {};
  * A type alias for providers returned by `withDisabledInitialNavigation` for use with
  * `provideRouter`.
  *
- * @see `withDisabledInitialNavigation`
- * @see `provideRouter`
+ * @see {@link withDisabledInitialNavigation}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -914,8 +947,8 @@ export declare type DisabledInitialNavigationFeature = RouterFeature<RouterFeatu
  * A type alias for providers returned by `withEnabledBlockingInitialNavigation` for use with
  * `provideRouter`.
  *
- * @see `withEnabledBlockingInitialNavigation`
- * @see `provideRouter`
+ * @see {@link withEnabledBlockingInitialNavigation}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -928,7 +961,7 @@ export declare type EnabledBlockingInitialNavigationFeature = RouterFeature<Rout
  *
  * * [NavigationStart](api/router/NavigationStart): Navigation starts.
  * * [RouteConfigLoadStart](api/router/RouteConfigLoadStart): Before
- * the router [lazy loads](/guide/router#lazy-loading) a route configuration.
+ * the router [lazy loads](guide/routing/common-router-tasks#lazy-loading) a route configuration.
  * * [RouteConfigLoadEnd](api/router/RouteConfigLoadEnd): After a route has been lazy loaded.
  * * [RoutesRecognized](api/router/RoutesRecognized): When the router parses the URL
  * and the routes are recognized.
@@ -954,7 +987,7 @@ export declare type EnabledBlockingInitialNavigationFeature = RouterFeature<Rout
  *
  * @publicApi
  */
-declare type Event_2 = RouterEvent | NavigationStart | NavigationEnd | NavigationCancel | NavigationError | RoutesRecognized | GuardsCheckStart | GuardsCheckEnd | RouteConfigLoadStart | RouteConfigLoadEnd | ChildActivationStart | ChildActivationEnd | ActivationStart | ActivationEnd | Scroll | ResolveStart | ResolveEnd | NavigationSkipped;
+declare type Event_2 = NavigationStart | NavigationEnd | NavigationCancel | NavigationError | RoutesRecognized | GuardsCheckStart | GuardsCheckEnd | RouteConfigLoadStart | RouteConfigLoadEnd | ChildActivationStart | ChildActivationEnd | ActivationStart | ActivationEnd | Scroll | ResolveStart | ResolveEnd | NavigationSkipped;
 export { Event_2 as Event }
 
 /**
@@ -962,7 +995,7 @@ export { Event_2 as Event }
  *
  * @publicApi
  */
-export declare const enum EventType {
+export declare enum EventType {
     NavigationStart = 0,
     NavigationEnd = 1,
     NavigationCancel = 2,
@@ -986,7 +1019,7 @@ export declare const enum EventType {
  * A set of configuration options for a router module, provided in the
  * `forRoot()` method.
  *
- * @see `forRoot()`
+ * @see {@link forRoot()}
  *
  *
  * @publicApi
@@ -1006,8 +1039,9 @@ export declare interface ExtraOptions extends InMemoryScrollingOptions, RouterCo
      * One of `enabled`, `enabledBlocking`, `enabledNonBlocking` or `disabled`.
      * When set to `enabled` or `enabledBlocking`, the initial navigation starts before the root
      * component is created. The bootstrap is blocked until the initial navigation is complete. This
-     * value is required for [server-side rendering](guide/universal) to work. When set to
-     * `enabledNonBlocking`, the initial navigation starts after the root component has been created.
+     * value should be set in case you use [server-side rendering](guide/ssr), but do not enable
+     * [hydration](guide/hydration) for your application. When set to `enabledNonBlocking`,
+     * the initial navigation starts after the root component has been created.
      * The bootstrap is not blocked on the completion of the initial navigation. When set to
      * `disabled`, the initial navigation is not performed. The location listener is set up before the
      * root component gets created. Use if there is a reason to have more control over when the router
@@ -1015,11 +1049,29 @@ export declare interface ExtraOptions extends InMemoryScrollingOptions, RouterCo
      */
     initialNavigation?: InitialNavigation;
     /**
+     * When true, enables binding information from the `Router` state directly to the inputs of the
+     * component in `Route` configurations.
+     */
+    bindToComponentInputs?: boolean;
+    /**
+     * When true, enables view transitions in the Router by running the route activation and
+     * deactivation inside of `document.startViewTransition`.
+     *
+     * @see https://developer.chrome.com/docs/web-platform/view-transitions/
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API
+     * @experimental
+     */
+    enableViewTransitions?: boolean;
+    /**
      * A custom error handler for failed navigations.
      * If the handler returns a value, the navigation Promise is resolved with this value.
      * If the handler throws an exception, the navigation Promise is rejected with the exception.
      *
      * @deprecated Subscribe to the `Router` events and watch for `NavigationError` instead.
+     *   If the ErrorHandler is used to prevent unhandled promise rejections when navigation
+     *   errors occur, use the `resolveNavigationPromiseOnError` option instead.
+     *
+     * @see RouterConfigOptions
      */
     errorHandler?: (error: any) => any;
     /**
@@ -1036,25 +1088,20 @@ export declare interface ExtraOptions extends InMemoryScrollingOptions, RouterCo
      * it restores scroll position.
      */
     scrollOffset?: [number, number] | (() => [number, number]);
-    /**
-     * A custom handler for malformed URI errors. The handler is invoked when `encodedURI` contains
-     * invalid character sequences.
-     * The default implementation is to redirect to the root URL, dropping
-     * any path or parameter information. The function takes three parameters:
-     *
-     * - `'URIError'` - Error thrown when parsing a bad URL.
-     * - `'UrlSerializer'` - UrlSerializer that’s configured with the router.
-     * - `'url'` -  The malformed URL that caused the URIError
-     *
-     * @deprecated URI parsing errors should be handled in the `UrlSerializer` instead.
-     * */
-    malformedUriErrorHandler?: (error: URIError, urlSerializer: UrlSerializer, url: string) => UrlTree;
 }
+
+/**
+ * The supported types that can be returned from a `Router` guard.
+ *
+ * @see [Routing guide](guide/routing/common-router-tasks#preventing-unauthorized-access)
+ * @publicApi
+ */
+export declare type GuardResult = boolean | UrlTree | RedirectCommand;
 
 /**
  * An event triggered at the end of the Guard phase of routing.
  *
- * @see `GuardsCheckStart`
+ * @see {@link GuardsCheckStart}
  *
  * @publicApi
  */
@@ -1083,7 +1130,7 @@ export declare class GuardsCheckEnd extends RouterEvent {
 /**
  * An event triggered at the start of the Guard phase of routing.
  *
- * @see `GuardsCheckEnd`
+ * @see {@link GuardsCheckEnd}
  *
  * @publicApi
  */
@@ -1108,7 +1155,9 @@ export declare class GuardsCheckStart extends RouterEvent {
 declare namespace i1 {
     export {
         RouterOutletContract,
-        RouterOutlet
+        RouterOutlet,
+        INPUT_BINDER,
+        RoutedComponentInputBinder
     }
 }
 
@@ -1127,8 +1176,9 @@ declare namespace i3 {
 
 declare namespace i4 {
     export {
-        ɵEmptyOutletComponent,
-        ɵEmptyOutletComponent as EmptyOutletComponent
+        standardizeConfig,
+        ɵEmptyOutletComponent as EmptyOutletComponent,
+        ɵEmptyOutletComponent
     }
 }
 
@@ -1140,14 +1190,15 @@ declare namespace i4 {
  * root component has been created. The bootstrap is not blocked on the completion of the initial
  * navigation.
  * * 'enabledBlocking' - The initial navigation starts before the root component is created.
- * The bootstrap is blocked until the initial navigation is complete. This value is required
- * for [server-side rendering](guide/universal) to work.
+ * The bootstrap is blocked until the initial navigation is complete. This value should be set in
+ * case you use [server-side rendering](guide/ssr), but do not enable [hydration](guide/hydration)
+ * for your application.
  * * 'disabled' - The initial navigation is not performed. The location listener is set up before
  * the root component gets created. Use if there is a reason to have
  * more control over when the router starts its initial navigation due to some complex
  * initialization logic.
  *
- * @see `forRoot()`
+ * @see {@link forRoot()}
  *
  * @publicApi
  */
@@ -1157,9 +1208,9 @@ export declare type InitialNavigation = 'disabled' | 'enabledBlocking' | 'enable
  * A type alias for providers returned by `withEnabledBlockingInitialNavigation` or
  * `withDisabledInitialNavigation` functions for use with `provideRouter`.
  *
- * @see `withEnabledBlockingInitialNavigation`
- * @see `withDisabledInitialNavigation`
- * @see `provideRouter`
+ * @see {@link withEnabledBlockingInitialNavigation}
+ * @see {@link withDisabledInitialNavigation}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -1168,8 +1219,8 @@ export declare type InitialNavigationFeature = EnabledBlockingInitialNavigationF
 /**
  * A type alias for providers returned by `withInMemoryScrolling` for use with `provideRouter`.
  *
- * @see `withInMemoryScrolling`
- * @see `provideRouter`
+ * @see {@link withInMemoryScrolling}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -1227,12 +1278,14 @@ export declare interface InMemoryScrollingOptions {
     scrollPositionRestoration?: 'disabled' | 'enabled' | 'top';
 }
 
+declare const INPUT_BINDER: InjectionToken<RoutedComponentInputBinder>;
+
 /**
  * A set of options which specify how to determine if a `UrlTree` is active, given the `UrlTree`
  * for the current router state.
  *
  * @publicApi
- * @see Router.isActive
+ * @see {@link Router#isActive}
  */
 export declare interface IsActiveMatchOptions {
     /**
@@ -1279,7 +1332,7 @@ export declare interface IsActiveMatchOptions {
  *
  * A function that returns a set of routes to load.
  *
- * @see `LoadChildrenCallback`
+ * @see {@link LoadChildrenCallback}
  * @publicApi
  */
 export declare type LoadChildren = LoadChildrenCallback;
@@ -1316,7 +1369,7 @@ export declare type LoadChildren = LoadChildrenCallback;
  * }];
  * ```
  *
- * @see [Route.loadChildren](api/router/Route#loadChildren)
+ * @see {@link Route#loadChildren}
  * @publicApi
  */
 export declare type LoadChildrenCallback = () => Type<any> | NgModuleFactory<any> | Routes | Observable<Type<any> | Routes | DefaultExport<Type<any>> | DefaultExport<Routes>> | Promise<NgModuleFactory<any> | Type<any> | Routes | DefaultExport<Type<any>> | DefaultExport<Routes>>;
@@ -1325,6 +1378,68 @@ declare interface LoadedRouterConfig {
     routes: Route[];
     injector: EnvironmentInjector | undefined;
 }
+
+/**
+ * Maps an array of injectable classes with canActivate functions to an array of equivalent
+ * `CanActivateFn` for use in a `Route` definition.
+ *
+ * Usage {@example router/utils/functional_guards.ts region='CanActivate'}
+ *
+ * @publicApi
+ * @see {@link Route}
+ */
+export declare function mapToCanActivate(providers: Array<Type<CanActivate>>): CanActivateFn[];
+
+/**
+ * Maps an array of injectable classes with canActivateChild functions to an array of equivalent
+ * `CanActivateChildFn` for use in a `Route` definition.
+ *
+ * Usage {@example router/utils/functional_guards.ts region='CanActivate'}
+ *
+ * @publicApi
+ * @see {@link Route}
+ */
+export declare function mapToCanActivateChild(providers: Array<Type<CanActivateChild>>): CanActivateChildFn[];
+
+/**
+ * Maps an array of injectable classes with canDeactivate functions to an array of equivalent
+ * `CanDeactivateFn` for use in a `Route` definition.
+ *
+ * Usage {@example router/utils/functional_guards.ts region='CanActivate'}
+ *
+ * @publicApi
+ * @see {@link Route}
+ */
+export declare function mapToCanDeactivate<T = unknown>(providers: Array<Type<CanDeactivate<T>>>): CanDeactivateFn<T>[];
+
+/**
+ * Maps an array of injectable classes with canMatch functions to an array of equivalent
+ * `CanMatchFn` for use in a `Route` definition.
+ *
+ * Usage {@example router/utils/functional_guards.ts region='CanActivate'}
+ *
+ * @publicApi
+ * @see {@link Route}
+ */
+export declare function mapToCanMatch(providers: Array<Type<CanMatch>>): CanMatchFn[];
+
+/**
+ * Maps an injectable class with a resolve function to an equivalent `ResolveFn`
+ * for use in a `Route` definition.
+ *
+ * Usage {@example router/utils/functional_guards.ts region='Resolve'}
+ *
+ * @publicApi
+ * @see {@link Route}
+ */
+export declare function mapToResolve<T>(provider: Type<Resolve<T>>): ResolveFn<T>;
+
+/**
+ * Type used to represent a value which may be synchronous or async.
+ *
+ * @publicApi
+ */
+export declare type MaybeAsync<T> = T | Observable<T> | Promise<T>;
 
 /**
  * Information about a navigation operation.
@@ -1398,9 +1513,9 @@ export declare interface Navigation {
  * Supply an object containing any of these properties to a `Router` navigation function to
  * control how the navigation should be handled.
  *
- * @see [Router.navigate() method](api/router/Router#navigate)
- * @see [Router.navigateByUrl() method](api/router/Router#navigatebyurl)
- * @see [Routing and Navigation guide](guide/router)
+ * @see {@link Router#navigate}
+ * @see {@link Router#navigateByUrl}
+ * @see [Routing and Navigation guide](guide/routing/common-router-tasks)
  *
  * @publicApi
  */
@@ -1411,10 +1526,10 @@ export declare interface NavigationBehaviorOptions {
      * This value is a subset of the options available in `OnSameUrlNavigation` and
      * will take precedence over the default value set for the `Router`.
      *
-     * @see `OnSameUrlNavigation`
-     * @see `RouterConfigOptions`
+     * @see {@link OnSameUrlNavigation}
+     * @see {@link RouterConfigOptions}
      */
-    onSameUrlNavigation?: Extract<OnSameUrlNavigation, 'reload'>;
+    onSameUrlNavigation?: OnSameUrlNavigation;
     /**
      * When true, navigates without pushing a new state into history.
      *
@@ -1451,6 +1566,65 @@ export declare interface NavigationBehaviorOptions {
     state?: {
         [k: string]: any;
     };
+    /**
+     * Use this to convey transient information about this particular navigation, such as how it
+     * happened. In this way, it's different from the persisted value `state` that will be set to
+     * `history.state`. This object is assigned directly to the Router's current `Navigation`
+     * (it is not copied or cloned), so it should be mutated with caution.
+     *
+     * One example of how this might be used is to trigger different single-page navigation animations
+     * depending on how a certain route was reached. For example, consider a photo gallery app, where
+     * you can reach the same photo URL and state via various routes:
+     *
+     * - Clicking on it in a gallery view
+     * - Clicking
+     * - "next" or "previous" when viewing another photo in the album
+     * - Etc.
+     *
+     * Each of these wants a different animation at navigate time. This information doesn't make sense
+     * to store in the persistent URL or history entry state, but it's still important to communicate
+     * from the rest of the application, into the router.
+     *
+     * This information could be used in coordination with the View Transitions feature and the
+     * `onViewTransitionCreated` callback. The information might be used in the callback to set
+     * classes on the document in order to control the transition animations and remove the classes
+     * when the transition has finished animating.
+     */
+    readonly info?: unknown;
+    /**
+     * When set, the Router will update the browser's address bar to match the given `UrlTree` instead
+     * of the one used for route matching.
+     *
+     *
+     * @usageNotes
+     *
+     * This feature is useful for redirects, such as redirecting to an error page, without changing
+     * the value that will be displayed in the browser's address bar.
+     *
+     * ```
+     * const canActivate: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+     *   const userService = inject(UserService);
+     *   const router = inject(Router);
+     *   if (!userService.isLoggedIn()) {
+     *     const targetOfCurrentNavigation = router.getCurrentNavigation()?.finalUrl;
+     *     const redirect = router.parseUrl('/404');
+     *     return new RedirectCommand(redirect, {browserUrl: targetOfCurrentNavigation});
+     *   }
+     *   return true;
+     * };
+     * ```
+     *
+     * This value is used directly, without considering any `UrlHandingStrategy`. In this way,
+     * `browserUrl` can also be used to use a different value for the browser URL than what would have
+     * been produced by from the navigation due to `UrlHandlingStrategy.merge`.
+     *
+     * This value only affects the path presented in the browser's address bar. It does not apply to
+     * the internal `Router` state. Information such as `params` and `data` will match the internal
+     * state used to match routes which will be different from the browser URL when using this feature
+     * The same is true when using other APIs that cause the browser URL the differ from the Router
+     * state, such as `skipLocationChange`.
+     */
+    readonly browserUrl?: UrlTree | string;
 }
 
 /**
@@ -1458,9 +1632,9 @@ export declare interface NavigationBehaviorOptions {
  * This can happen for several reasons including when a route guard
  * returns `false` or initiates a redirect by returning a `UrlTree`.
  *
- * @see `NavigationStart`
- * @see `NavigationEnd`
- * @see `NavigationError`
+ * @see {@link NavigationStart}
+ * @see {@link NavigationEnd}
+ * @see {@link NavigationError}
  *
  * @publicApi
  */
@@ -1503,7 +1677,7 @@ export declare class NavigationCancel extends RouterEvent {
  *
  * @publicApi
  */
-export declare const enum NavigationCancellationCode {
+export declare enum NavigationCancellationCode {
     /**
      * A navigation failed because a guard returned a `UrlTree` to redirect.
      */
@@ -1513,7 +1687,7 @@ export declare const enum NavigationCancellationCode {
      */
     SupersededByNewNavigation = 1,
     /**
-     * A navigation failed because one of the resolvers completed without emiting a value.
+     * A navigation failed because one of the resolvers completed without emitting a value.
      */
     NoDataFromResolver = 2,
     /**
@@ -1525,9 +1699,9 @@ export declare const enum NavigationCancellationCode {
 /**
  * An event triggered when a navigation ends successfully.
  *
- * @see `NavigationStart`
- * @see `NavigationCancel`
- * @see `NavigationError`
+ * @see {@link NavigationStart}
+ * @see {@link NavigationCancel}
+ * @see {@link NavigationError}
  *
  * @publicApi
  */
@@ -1549,9 +1723,9 @@ export declare class NavigationEnd extends RouterEvent {
 /**
  * An event triggered when a navigation fails due to an unexpected error.
  *
- * @see `NavigationStart`
- * @see `NavigationEnd`
- * @see `NavigationCancel`
+ * @see {@link NavigationStart}
+ * @see {@link NavigationEnd}
+ * @see {@link NavigationCancel}
  *
  * @publicApi
  */
@@ -1587,8 +1761,8 @@ export declare class NavigationError extends RouterEvent {
 /**
  * A type alias for providers returned by `withNavigationErrorHandler` for use with `provideRouter`.
  *
- * @see `withNavigationErrorHandler`
- * @see `provideRouter`
+ * @see {@link withNavigationErrorHandler}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -1601,12 +1775,12 @@ export declare type NavigationErrorHandlerFeature = RouterFeature<RouterFeatureK
  * Supply an object containing any of these properties to a `Router` navigation function to
  * control how the target URL should be constructed or interpreted.
  *
- * @see [Router.navigate() method](api/router/Router#navigate)
- * @see [Router.navigateByUrl() method](api/router/Router#navigatebyurl)
- * @see [Router.createUrlTree() method](api/router/Router#createurltree)
- * @see [Routing and Navigation guide](guide/router)
- * @see UrlCreationOptions
- * @see NavigationBehaviorOptions
+ * @see {@link Router#navigate}
+ * @see {@link Router#navigateByUrl}
+ * @see {@link Router#createurltree}
+ * @see [Routing and Navigation guide](guide/routing/common-router-tasks)
+ * @see {@link UrlCreationOptions}
+ * @see {@link NavigationBehaviorOptions}
  *
  * @publicApi
  */
@@ -1658,7 +1832,7 @@ export declare class NavigationSkipped extends RouterEvent {
  *
  * @publicApi
  */
-export declare const enum NavigationSkippedCode {
+export declare enum NavigationSkippedCode {
     /**
      * A navigation was skipped because the navigation URL was the same as the current Router URL.
      */
@@ -1667,7 +1841,7 @@ export declare const enum NavigationSkippedCode {
      * A navigation was skipped because the configured `UrlHandlingStrategy` return `false` for both
      * the current Router URL and the target of the navigation.
      *
-     * @see UrlHandlingStrategy
+     * @see {@link UrlHandlingStrategy}
      */
     IgnoredByUrlHandlingStrategy = 1
 }
@@ -1683,9 +1857,9 @@ export declare class NavigationStart extends RouterEvent {
      * Identifies the call or event that triggered the navigation.
      * An `imperative` trigger is a call to `router.navigateByUrl()` or `router.navigate()`.
      *
-     * @see `NavigationEnd`
-     * @see `NavigationCancel`
-     * @see `NavigationError`
+     * @see {@link NavigationEnd}
+     * @see {@link NavigationCancel}
+     * @see {@link NavigationError}
      */
     navigationTrigger?: NavigationTrigger;
     /**
@@ -1770,10 +1944,10 @@ export declare class NoPreloading implements PreloadingStrategy {
  * (configured by `runGuardsAndResolvers`).
  *
  * @publicApi
- * @see `RouteReuseStrategy`
- * @see `RunGuardsAndResolvers`
- * @see `NavigationBehaviorOptions`
- * @see `RouterConfigOptions`
+ * @see {@link RouteReuseStrategy}
+ * @see {@link RunGuardsAndResolvers}
+ * @see {@link NavigationBehaviorOptions}
+ * @see {@link RouterConfigOptions}
  */
 export declare type OnSameUrlNavigation = 'reload' | 'ignore';
 
@@ -1783,16 +1957,14 @@ export declare type OnSameUrlNavigation = 'reload' | 'ignore';
  * @publicApi
  */
 export declare class OutletContext {
+    private readonly rootInjector;
     outlet: RouterOutletContract | null;
     route: ActivatedRoute | null;
-    /**
-     * @deprecated Passing a resolver to retrieve a component factory is not required and is
-     *     deprecated since v14.
-     */
-    resolver: ComponentFactoryResolver | null;
-    injector: EnvironmentInjector | null;
     children: ChildrenOutletContexts;
     attachRef: ComponentRef<any> | null;
+    get injector(): EnvironmentInjector;
+    set injector(_: EnvironmentInjector);
+    constructor(rootInjector: EnvironmentInjector);
 }
 
 /**
@@ -1834,8 +2006,8 @@ export declare interface ParamMap {
 
 /**
  * A collection of matrix and query URL parameters.
- * @see `convertToParamMap()`
- * @see `ParamMap`
+ * @see {@link convertToParamMap}
+ * @see {@link ParamMap}
  *
  * @publicApi
  */
@@ -1864,8 +2036,8 @@ export declare class PreloadAllModules implements PreloadingStrategy {
  * A type alias that represents a feature which enables preloading in Router.
  * The type is used to describe the return value of the `withPreloading` function.
  *
- * @see `withPreloading`
- * @see `provideRouter`
+ * @see {@link withPreloading}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -1918,7 +2090,7 @@ export declare const PRIMARY_OUTLET = "primary";
  * );
  * ```
  *
- * @see `RouterFeatures`
+ * @see {@link RouterFeatures}
  *
  * @publicApi
  * @param routes A set of `Route`s to use for the application routing table.
@@ -1928,7 +2100,7 @@ export declare const PRIMARY_OUTLET = "primary";
 export declare function provideRouter(routes: Routes, ...features: RouterFeatures[]): EnvironmentProviders;
 
 /**
- * Registers a [DI provider](guide/glossary#provider) for a set of routes.
+ * Registers a DI provider for a set of routes.
  * @param routes The route configuration to provide.
  *
  * @usageNotes
@@ -1941,7 +2113,7 @@ export declare function provideRouter(routes: Routes, ...features: RouterFeature
  * ```
  *
  * @deprecated If necessary, provide routes using the `ROUTES` `InjectionToken`.
- * @see `ROUTES`
+ * @see {@link ROUTES}
  * @publicApi
  */
 export declare function provideRoutes(routes: Routes): Provider[];
@@ -1952,13 +2124,68 @@ export declare function provideRoutes(routes: Routes): Provider[];
  * One of:
  * - `"merge"` : Merge new parameters with current parameters.
  * - `"preserve"` : Preserve current parameters.
- * - `""` : Replace current parameters with new parameters. This is the default behavior.
+ * - `"replace"` : Replace current parameters with new parameters. This is the default behavior.
+ * - `""` : For legacy reasons, the same as `'replace'`.
  *
- * @see `UrlCreationOptions#queryParamsHandling`
- * @see `RouterLink`
+ * @see {@link UrlCreationOptions#queryParamsHandling}
+ * @see {@link RouterLink}
  * @publicApi
  */
-export declare type QueryParamsHandling = 'merge' | 'preserve' | '';
+export declare type QueryParamsHandling = 'merge' | 'preserve' | 'replace' | '';
+
+/**
+ * Can be returned by a `Router` guard to instruct the `Router` to redirect rather than continue
+ * processing the path of the in-flight navigation. The `redirectTo` indicates _where_ the new
+ * navigation should go to and the optional `navigationBehaviorOptions` can provide more information
+ * about _how_ to perform the navigation.
+ *
+ * ```ts
+ * const route: Route = {
+ *   path: "user/:userId",
+ *   component: User,
+ *   canActivate: [
+ *     () => {
+ *       const router = inject(Router);
+ *       const authService = inject(AuthenticationService);
+ *
+ *       if (!authService.isLoggedIn()) {
+ *         const loginPath = router.parseUrl("/login");
+ *         return new RedirectCommand(loginPath, {
+ *           skipLocationChange: "true",
+ *         });
+ *       }
+ *
+ *       return true;
+ *     },
+ *   ],
+ * };
+ * ```
+ * @see [Routing guide](guide/routing/common-router-tasks#preventing-unauthorized-access)
+ *
+ * @publicApi
+ */
+export declare class RedirectCommand {
+    readonly redirectTo: UrlTree;
+    readonly navigationBehaviorOptions?: NavigationBehaviorOptions | undefined;
+    constructor(redirectTo: UrlTree, navigationBehaviorOptions?: NavigationBehaviorOptions | undefined);
+}
+
+/**
+ * The type for the function that can be used to handle redirects when the path matches a `Route` config.
+ *
+ * The `RedirectFunction` does have access to the full
+ * `ActivatedRouteSnapshot` interface. Some data are not accurately known
+ * at the route matching phase. For example, resolvers are not run until
+ * later, so any resolved title would not be populated. The same goes for lazy
+ * loaded components. This is also true for all the snapshots up to the
+ * root, so properties that include parents (root, parent, pathFromRoot)
+ * are also excluded. And naturally, the full route matching hasn't yet
+ * happened so firstChild and children are not available either.
+ *
+ * @see {@link Route#redirectTo}
+ * @publicApi
+ */
+export declare type RedirectFunction = (redirectData: Pick<ActivatedRouteSnapshot, 'routeConfig' | 'url' | 'params' | 'queryParams' | 'fragment' | 'data' | 'outlet' | 'title'>) => string | UrlTree;
 
 /**
  * @description
@@ -2051,20 +2278,22 @@ export declare type QueryParamsHandling = 'merge' | 'preserve' | '';
  * The order of execution is: BaseGuard, ChildGuard, BaseDataResolver, ChildDataResolver.
  *
  * @publicApi
- * @deprecated Class-based `Route` resolvers are deprecated in favor of functional resolvers. An
- * injectable class can be used as a functional guard using the `inject` function: `resolve:
- * {'user': () => inject(UserResolver).resolve()}`.
- * @see `ResolveFn`
+ * @see {@link ResolveFn}
  */
 export declare interface Resolve<T> {
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<T> | Promise<T> | T;
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<T>;
 }
 
 /**
  *
  * Represents the resolved data associated with a particular route.
  *
- * @see `Route#resolve`.
+ * Returning a `RedirectCommand` directs the router to cancel the current navigation and redirect to
+ * the location provided in the `RedirectCommand`. Note that there are no ordering guarantees when
+ * resolvers execute. If multiple resolvers would return a `RedirectCommand`, only the first one
+ * returned will be used.
+ *
+ * @see {@link Route#resolve}
  *
  * @publicApi
  */
@@ -2074,7 +2303,7 @@ export declare type ResolveData = {
 
 /**
  * An event triggered at the end of the Resolve phase of routing.
- * @see `ResolveStart`.
+ * @see {@link ResolveStart}
  *
  * @publicApi
  */
@@ -2098,20 +2327,81 @@ export declare class ResolveEnd extends RouterEvent {
 
 /**
  * Function type definition for a data provider.
-
+ *
  * A data provider can be used with the router to resolve data during navigation.
  * The router waits for the data to be resolved before the route is finally activated.
+ *
+ * A resolver can also redirect a `RedirectCommand` and the Angular router will use
+ * it to redirect the current navigation to the new destination.
+ *
+ * @usageNotes
  *
  * The following example implements a function that retrieves the data
  * needed to activate the requested route.
  *
- * {@example router/route_functional_guards.ts region="ResolveFn"}
+ * ```ts
+ * interface Hero {
+ *   name: string;
+ * }
+ * @Injectable()
+ * export class HeroService {
+ *   getHero(id: string) {
+ *     return {name: `Superman-${id}`};
+ *   }
+ * }
+ *
+ * export const heroResolver: ResolveFn<Hero> = (
+ *   route: ActivatedRouteSnapshot,
+ *   state: RouterStateSnapshot,
+ * ) => {
+ *   return inject(HeroService).getHero(route.paramMap.get('id')!);
+ * };
+ *
+ * bootstrapApplication(App, {
+ *   providers: [
+ *     provideRouter([
+ *       {
+ *         path: 'detail/:id',
+ *         component: HeroDetailComponent,
+ *         resolve: {hero: heroResolver},
+ *       },
+ *     ]),
+ *   ],
+ * });
+ * ```
  *
  * And you can access to your resolved data from `HeroComponent`:
  *
- * {@example router/route_functional_guards.ts region="ResolveDataUse"}
+ * ```ts
+ * @Component({template: ''})
+ * export class HeroDetailComponent {
+ *   private activatedRoute = inject(ActivatedRoute);
  *
- * @usageNotes
+ *   ngOnInit() {
+ *     this.activatedRoute.data.subscribe(({hero}) => {
+ *       // do something with your resolved data ...
+ *     });
+ *   }
+ * }
+ * ```
+ *
+ * If resolved data cannot be retrieved, you may want to redirect the user
+ * to a new page instead:
+ *
+ * ```ts
+ * export const heroResolver: ResolveFn<Hero> = async (
+ *   route: ActivatedRouteSnapshot,
+ *   state: RouterStateSnapshot,
+ * ) => {
+ *   const router = inject(Router);
+ *   const heroService = inject(HeroService);
+ *   try {
+ *     return await heroService.getHero(route.paramMap.get('id')!);
+ *   } catch {
+ *     return new RedirectCommand(router.parseUrl('/404'));
+ *   }
+ * };
+ * ```
  *
  * When both guard and resolvers are specified, the resolvers are not executed until
  * all guards have run and succeeded.
@@ -2135,9 +2425,9 @@ export declare class ResolveEnd extends RouterEvent {
  * The order of execution is: baseGuard, childGuard, baseDataResolver, childDataResolver.
  *
  * @publicApi
- * @see `Route`
+ * @see {@link Route}
  */
-export declare type ResolveFn<T> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => Observable<T> | Promise<T> | T;
+export declare type ResolveFn<T> = (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => MaybeAsync<T | RedirectCommand>;
 
 /**
  * An event triggered at the start of the Resolve phase of routing.
@@ -2145,7 +2435,7 @@ export declare type ResolveFn<T> = (route: ActivatedRouteSnapshot, state: Router
  * Runs in the "resolve" phase whether or not there is anything to resolve.
  * In future, may change to only run when there are things to be resolved.
  *
- * @see `ResolveEnd`
+ * @see {@link ResolveEnd}
  *
  * @publicApi
  */
@@ -2176,7 +2466,7 @@ export declare class ResolveStart extends RouterEvent {
  * Supports static, parameterized, redirect, and wildcard routes, as well as
  * custom route data and resolve methods.
  *
- * For detailed usage information, see the [Routing Guide](guide/router).
+ * For detailed usage information, see the [Routing Guide](guide/routing/common-router-tasks).
  *
  * @usageNotes
  *
@@ -2397,7 +2687,7 @@ export declare interface Route {
      * Used to define a page title for the route. This can be a static string or an `Injectable` that
      * implements `Resolve`.
      *
-     * @see `PageTitleStrategy`
+     * @see {@link TitleStrategy}
      */
     title?: string | Type<Resolve<string>> | ResolveFn<string>;
     /**
@@ -2442,14 +2732,17 @@ export declare interface Route {
      */
     loadComponent?: () => Type<unknown> | Observable<Type<unknown> | DefaultExport<Type<unknown>>> | Promise<Type<unknown> | DefaultExport<Type<unknown>>>;
     /**
-     * A URL to redirect to when the path matches.
+     * A URL or function that returns a URL to redirect to when the path matches.
      *
-     * Absolute if the URL begins with a slash (/), otherwise relative to the path URL.
-     * Note that no further redirects are evaluated after an absolute redirect.
+     * Absolute if the URL begins with a slash (/) or the function returns a `UrlTree`, otherwise
+     * relative to the path URL.
+     *
+     * The `RedirectFunction` is run in an injection context so it can call `inject` to get any
+     * required dependencies.
      *
      * When not present, router does not redirect.
      */
-    redirectTo?: string;
+    redirectTo?: string | RedirectFunction;
     /**
      * Name of a `RouterOutlet` object where the component can be placed
      * when the path matches.
@@ -2534,7 +2827,7 @@ export declare interface Route {
      * - `pathParamsOrQueryParamsChange` : Rerun guards and resolvers when the path params
      * change or query params have changed. This does not include matrix parameters.
      *
-     * @see `RunGuardsAndResolvers`
+     * @see {@link RunGuardsAndResolvers}
      */
     runGuardsAndResolvers?: RunGuardsAndResolvers;
     /**
@@ -2551,7 +2844,7 @@ export declare interface Route {
 /**
  * An event triggered when a route has been lazy loaded.
  *
- * @see `RouteConfigLoadStart`
+ * @see {@link RouteConfigLoadStart}
  *
  * @publicApi
  */
@@ -2568,7 +2861,7 @@ export declare class RouteConfigLoadEnd {
 /**
  * An event triggered before lazy loading a route configuration.
  *
- * @see `RouteConfigLoadEnd`
+ * @see {@link RouteConfigLoadEnd}
  *
  * @publicApi
  */
@@ -2583,38 +2876,62 @@ export declare class RouteConfigLoadStart {
 }
 
 /**
+ * Injectable used as a tree-shakable provider for opting in to binding router data to component
+ * inputs.
+ *
+ * The RouterOutlet registers itself with this service when an `ActivatedRoute` is attached or
+ * activated. When this happens, the service subscribes to the `ActivatedRoute` observables (params,
+ * queryParams, data) and sets the inputs of the component using `ComponentRef.setInput`.
+ * Importantly, when an input does not have an item in the route data with a matching key, this
+ * input is set to `undefined`. If it were not done this way, the previous information would be
+ * retained if the data got removed from the route (i.e. if a query parameter is removed).
+ *
+ * The `RouterOutlet` should unregister itself when destroyed via `unsubscribeFromRouteData` so that
+ * the subscriptions are cleaned up.
+ */
+declare class RoutedComponentInputBinder {
+    private outletDataSubscriptions;
+    bindActivatedRouteToOutletComponent(outlet: RouterOutlet): void;
+    unsubscribeFromRouteData(outlet: RouterOutlet): void;
+    private subscribeToRouteData;
+    static ɵfac: i0.ɵɵFactoryDeclaration<RoutedComponentInputBinder, never>;
+    static ɵprov: i0.ɵɵInjectableDeclaration<RoutedComponentInputBinder>;
+}
+
+/**
  * @description
  *
- * A service that provides navigation among views and URL manipulation capabilities.
+ * A service that facilitates navigation among views and URL manipulation capabilities.
+ * This service is provided in the root scope and configured with [provideRouter](api/router/provideRouter).
  *
- * @see `Route`.
- * @see [Routing and Navigation Guide](guide/router).
+ * @see {@link Route}
+ * @see {@link provideRouter}
+ * @see [Routing and Navigation Guide](guide/routing/common-router-tasks).
  *
  * @ngModule RouterModule
  *
  * @publicApi
  */
 export declare class Router {
+    private get currentUrlTree();
+    private get rawUrlTree();
     private disposed;
-    private locationSubscription?;
-    private get navigationId();
+    private nonRouterCurrentEntryChangeSubscription?;
+    private readonly console;
+    private readonly stateManager;
+    private readonly options;
+    private readonly pendingTasks;
+    private readonly urlUpdateStrategy;
+    private readonly navigationTransitions;
+    private readonly urlSerializer;
+    private readonly location;
+    private readonly urlHandlingStrategy;
     /**
-     * The id of the currently active page in the router.
-     * Updated to the transition's target id on a successful navigation.
-     *
-     * This is used to track what page the router last activated. When an attempted navigation fails,
-     * the router can then use this to compute how to restore the state back to the previously active
-     * page.
+     * The private `Subject` type for the public events exposed in the getter. This is used internally
+     * to push events to. The separate field allows us to expose separate types in the public API
+     * (i.e., an Observable rather than the Subject).
      */
-    private currentPageId;
-    /**
-     * The ɵrouterPageId of whatever page is currently active in the browser history. This is
-     * important for computing the target page id for new navigations because we need to ensure each
-     * page id in the browser history is 1 more than the previous entry.
-     */
-    private get browserPageId();
-    private console;
-    private isNgZoneEnabled;
+    private _events;
     /**
      * An event stream for routing events.
      */
@@ -2622,41 +2939,20 @@ export declare class Router {
     /**
      * The current state of routing in this NgModule.
      */
-    readonly routerState: RouterState;
-    private options;
+    get routerState(): RouterState_2;
     /**
      * A handler for navigation errors in this NgModule.
      *
      * @deprecated Subscribe to the `Router` events and watch for `NavigationError` instead.
      *   `provideRouter` has the `withNavigationErrorHandler` feature to make this easier.
-     * @see `withNavigationErrorHandler`
+     * @see {@link withNavigationErrorHandler}
      */
     errorHandler: (error: any) => any;
-    /**
-     * A handler for errors thrown by `Router.parseUrl(url)`
-     * when `url` contains an invalid character.
-     * The most common case is a `%` sign
-     * that's not encoded and is not part of a percent encoded sequence.
-     *
-     * @deprecated URI parsing errors should be handled in the `UrlSerializer`.
-     *
-     * @see `RouterModule`
-     */
-    malformedUriErrorHandler: (error: URIError, urlSerializer: UrlSerializer, url: string) => UrlTree;
     /**
      * True if at least one navigation event has occurred,
      * false otherwise.
      */
     navigated: boolean;
-    private lastSuccessfulId;
-    /**
-     * A strategy for extracting and merging URLs.
-     * Used for AngularJS to Angular migrations.
-     *
-     * @deprecated Configure using `providers` instead:
-     *   `{provide: UrlHandlingStrategy, useClass: MyStrategy}`.
-     */
-    urlHandlingStrategy: UrlHandlingStrategy;
     /**
      * A strategy for re-using routes.
      *
@@ -2664,85 +2960,27 @@ export declare class Router {
      *   `{provide: RouteReuseStrategy, useClass: MyStrategy}`.
      */
     routeReuseStrategy: RouteReuseStrategy;
-    /** Strategy used to create a UrlTree. */
-    private readonly urlCreationStrategy;
-    /**
-     * A strategy for setting the title based on the `routerState`.
-     *
-     * @deprecated Configure using `providers` instead:
-     *   `{provide: TitleStrategy, useClass: MyStrategy}`.
-     */
-    titleStrategy?: TitleStrategy;
     /**
      * How to handle a navigation request to the current URL.
      *
      *
      * @deprecated Configure this through `provideRouter` or `RouterModule.forRoot` instead.
-     * @see `withRouterConfig`
-     * @see `provideRouter`
-     * @see `RouterModule`
+     * @see {@link withRouterConfig}
+     * @see {@link provideRouter}
+     * @see {@link RouterModule}
      */
     onSameUrlNavigation: OnSameUrlNavigation;
-    /**
-     * How to merge parameters, data, resolved data, and title from parent to child
-     * routes. One of:
-     *
-     * - `'emptyOnly'` : Inherit parent parameters, data, and resolved data
-     * for path-less or component-less routes.
-     * - `'always'` : Inherit parent parameters, data, and resolved data
-     * for all child routes.
-     *
-     * @deprecated Configure this through `provideRouter` or `RouterModule.forRoot` instead.
-     * @see `withRouterConfig`
-     * @see `provideRouter`
-     * @see `RouterModule`
-     */
-    paramsInheritanceStrategy: 'emptyOnly' | 'always';
-    /**
-     * Determines when the router updates the browser URL.
-     * By default (`"deferred"`), updates the browser URL after navigation has finished.
-     * Set to `'eager'` to update the browser URL at the beginning of navigation.
-     * You can choose to update early so that, if navigation fails,
-     * you can show an error message with the URL that failed.
-     *
-     * @deprecated Configure this through `provideRouter` or `RouterModule.forRoot` instead.
-     * @see `withRouterConfig`
-     * @see `provideRouter`
-     * @see `RouterModule`
-     */
-    urlUpdateStrategy: 'deferred' | 'eager';
-    /**
-     * Configures how the Router attempts to restore state when a navigation is cancelled.
-     *
-     * 'replace' - Always uses `location.replaceState` to set the browser state to the state of the
-     * router before the navigation started. This means that if the URL of the browser is updated
-     * _before_ the navigation is canceled, the Router will simply replace the item in history rather
-     * than trying to restore to the previous location in the session history. This happens most
-     * frequently with `urlUpdateStrategy: 'eager'` and navigations with the browser back/forward
-     * buttons.
-     *
-     * 'computed' - Will attempt to return to the same index in the session history that corresponds
-     * to the Angular route when the navigation gets cancelled. For example, if the browser back
-     * button is clicked and the navigation is cancelled, the Router will trigger a forward navigation
-     * and vice versa.
-     *
-     * Note: the 'computed' option is incompatible with any `UrlHandlingStrategy` which only
-     * handles a portion of the URL because the history restoration navigates to the previous place in
-     * the browser history rather than simply resetting a portion of the URL.
-     *
-     * The default value is `replace`.
-     *
-     * @deprecated Configure this through `provideRouter` or `RouterModule.forRoot` instead.
-     * @see `withRouterConfig`
-     * @see `provideRouter`
-     * @see `RouterModule`
-     */
-    canceledNavigationResolution: 'replace' | 'computed';
     config: Routes;
-    private readonly navigationTransitions;
-    private readonly urlSerializer;
-    private readonly location;
+    /**
+     * Indicates whether the application has opted in to binding Router data to component inputs.
+     *
+     * This option is enabled by the `withComponentInputBinding` feature of `provideRouter` or
+     * `bindToComponentInputs` in the `ExtraOptions` of `RouterModule.forRoot`.
+     */
+    readonly componentInputBindingEnabled: boolean;
     constructor();
+    private eventsSubscription;
+    private subscribeToNavigationEvents;
     /**
      * Sets up the location change listener and performs the initial navigation.
      */
@@ -2768,6 +3006,11 @@ export declare class Router {
      * and `null` when idle.
      */
     getCurrentNavigation(): Navigation | null;
+    /**
+     * The `Navigation` object of the most recent navigation to succeed and `null` if there
+     *     has not been a successful navigation yet.
+     */
+    get lastSuccessfulNavigation(): Navigation | null;
     /**
      * Resets the route configuration used for navigation and generating links.
      *
@@ -2859,7 +3102,7 @@ export declare class Router {
      * router.navigateByUrl("/team/33/user/11", { skipLocationChange: true });
      * ```
      *
-     * @see [Routing and Navigation guide](guide/router)
+     * @see [Routing and Navigation guide](guide/routing/common-router-tasks)
      *
      */
     navigateByUrl(url: string | UrlTree, extras?: NavigationBehaviorOptions): Promise<boolean>;
@@ -2875,9 +3118,9 @@ export declare class Router {
      * @param extras An options object that determines how the URL should be constructed or
      *     interpreted.
      *
-     * @returns A Promise that resolves to `true` when navigation succeeds, to `false` when navigation
-     *     fails,
-     * or is rejected on error.
+     * @returns A Promise that resolves to `true` when navigation succeeds, or `false` when navigation
+     *     fails. The Promise is rejected when an error occurs if `resolveNavigationPromiseOnError` is
+     * not `true`.
      *
      * @usageNotes
      *
@@ -2890,7 +3133,7 @@ export declare class Router {
      * router.navigate(['team', 33, 'user', 11], {relativeTo: route, skipLocationChange: true});
      * ```
      *
-     * @see [Routing and Navigation guide](guide/router)
+     * @see [Routing and Navigation guide](guide/routing/common-router-tasks)
      *
      */
     navigate(commands: any[], extras?: NavigationExtras): Promise<boolean>;
@@ -2915,22 +3158,20 @@ export declare class Router {
      */
     isActive(url: string | UrlTree, matchOptions: IsActiveMatchOptions): boolean;
     private removeEmptyProps;
-    private resetState;
-    private resetUrlToCurrentUrlTree;
-    private generateNgRouterState;
+    private scheduleNavigation;
     static ɵfac: i0.ɵɵFactoryDeclaration<Router, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<Router>;
 }
 
 /**
- * A [DI token](guide/glossary/#di-token) for the router service.
+ * A DI token for the router service.
  *
  * @publicApi
  */
 export declare const ROUTER_CONFIGURATION: InjectionToken<ExtraOptions>;
 
 /**
- * A [DI token](guide/glossary/#di-token) for the router initializer that
+ * A DI token for the router initializer that
  * is called after the app is bootstrapped.
  *
  * @publicApi
@@ -2945,7 +3186,6 @@ declare class RouterConfigLoader {
     private readonly compiler;
     loadComponent(route: Route): Observable<Type<unknown>>;
     loadChildren(parentInjector: Injector, route: Route): Observable<LoadedRouterConfig>;
-    private loadModuleFactoryOrRoutes;
     static ɵfac: i0.ɵɵFactoryDeclaration<RouterConfigLoader, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<RouterConfigLoader>;
 }
@@ -2983,13 +3223,16 @@ export declare interface RouterConfigOptions {
      *
      * If unset, the `Router` will use `'ignore'`.
      *
-     * @see `OnSameUrlNavigation`
+     * @see {@link OnSameUrlNavigation}
      */
     onSameUrlNavigation?: OnSameUrlNavigation;
     /**
      * Defines how the router merges parameters, data, and resolved data from parent to child
-     * routes. By default ('emptyOnly'), inherits parent parameters only for
-     * path-less or component-less routes.
+     * routes.
+     *
+     * By default ('emptyOnly'), a route inherits the parent route's parameters when the route itself
+     * has an empty path (meaning its configured with path: '') or when the parent route doesn't have
+     * any component set.
      *
      * Set to 'always' to enable unconditional inheritance of parent parameters.
      *
@@ -3009,13 +3252,34 @@ export declare interface RouterConfigOptions {
      * showing an error message with the URL that failed.
      */
     urlUpdateStrategy?: 'deferred' | 'eager';
+    /**
+     * The default strategy to use for handling query params in `Router.createUrlTree` when one is not provided.
+     *
+     * The `createUrlTree` method is used internally by `Router.navigate` and `RouterLink`.
+     * Note that `QueryParamsHandling` does not apply to `Router.navigateByUrl`.
+     *
+     * When neither the default nor the queryParamsHandling option is specified in the call to `createUrlTree`,
+     * the current parameters will be replaced by new parameters.
+     *
+     * @see {@link Router#createUrlTree}
+     * @see {@link QueryParamsHandling}
+     */
+    defaultQueryParamsHandling?: QueryParamsHandling;
+    /**
+     * When `true`, the `Promise` will instead resolve with `false`, as it does with other failed
+     * navigations (for example, when guards are rejected).
+
+     * Otherwise the `Promise` returned by the Router's navigation with be rejected
+     * if an error occurs.
+     */
+    resolveNavigationPromiseOnError?: boolean;
 }
 
 /**
  * A type alias for providers returned by `withRouterConfig` for use with `provideRouter`.
  *
- * @see `withRouterConfig`
- * @see `provideRouter`
+ * @see {@link withRouterConfig}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -3059,7 +3323,7 @@ export declare abstract class RouteReuseStrategy {
  * class MyService {
  *   constructor(public router: Router) {
  *     router.events.pipe(
- *        filter((e: Event): e is RouterEvent => e instanceof RouterEvent)
+ *        filter((e: Event | RouterEvent): e is RouterEvent => e instanceof RouterEvent)
  *     ).subscribe((e: RouterEvent) => {
  *       // Do something
  *     });
@@ -3067,8 +3331,8 @@ export declare abstract class RouteReuseStrategy {
  * }
  * ```
  *
- * @see `Event`
- * @see [Router events summary](guide/router-reference#router-events)
+ * @see {@link Event}
+ * @see [Router events summary](guide/routing/router-reference#router-events)
  * @publicApi
  */
 export declare class RouterEvent {
@@ -3104,7 +3368,9 @@ declare const enum RouterFeatureKind {
     InMemoryScrollingFeature = 4,
     RouterConfigurationFeature = 5,
     RouterHashLocationFeature = 6,
-    NavigationErrorHandlerFeature = 7
+    NavigationErrorHandlerFeature = 7,
+    ComponentInputBindingFeature = 8,
+    ViewTransitionsFeature = 9
 }
 
 /**
@@ -3113,17 +3379,17 @@ declare const enum RouterFeatureKind {
  * See documentation for each symbol to find corresponding function name. See also `provideRouter`
  * documentation on how to use those functions.
  *
- * @see `provideRouter`
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
-export declare type RouterFeatures = PreloadingFeature | DebugTracingFeature | InitialNavigationFeature | InMemoryScrollingFeature | RouterConfigurationFeature | NavigationErrorHandlerFeature;
+export declare type RouterFeatures = PreloadingFeature | DebugTracingFeature | InitialNavigationFeature | InMemoryScrollingFeature | RouterConfigurationFeature | NavigationErrorHandlerFeature | ComponentInputBindingFeature | ViewTransitionsFeature | RouterHashLocationFeature;
 
 /**
  * A type alias for providers returned by `withHashLocation` for use with `provideRouter`.
  *
- * @see `withHashLocation`
- * @see `provideRouter`
+ * @see {@link withHashLocation}
+ * @see {@link provideRouter}
  *
  * @publicApi
  */
@@ -3153,7 +3419,7 @@ export declare type RouterHashLocationFeature = RouterFeature<RouterFeatureKind.
  * For instance, suppose the current URL is `/user/(box//aux:team)`.
  * The link `<a [routerLink]="['/user/jim']">Jim</a>` creates the URL
  * `/user/(jim//aux:team)`.
- * See {@link Router#createUrlTree createUrlTree} for more information.
+ * See {@link Router#createUrlTree} for more information.
  *
  * @usageNotes
  *
@@ -3196,7 +3462,10 @@ export declare type RouterHashLocationFeature = RouterFeature<RouterFeatureKind.
  * </a>
  * ```
  *
- * See {@link UrlCreationOptions.queryParamsHandling UrlCreationOptions#queryParamsHandling}.
+ * `queryParams`, `fragment`, `queryParamsHandling`, `preserveFragment`, and `relativeTo`
+ * cannot be used when the `routerLink` input is a `UrlTree`.
+ *
+ * See {@link UrlCreationOptions#queryParamsHandling}.
  *
  * ### Preserving navigation history
  *
@@ -3210,7 +3479,7 @@ export declare type RouterHashLocationFeature = RouterFeature<RouterFeatureKind.
  * </a>
  * ```
  *
- * Use {@link Router.getCurrentNavigation() Router#getCurrentNavigation} to retrieve a saved
+ * Use {@link Router#getCurrentNavigation} to retrieve a saved
  * navigation-state value. For example, to capture the `tracingId` during the `NavigationStart`
  * event:
  *
@@ -3233,9 +3502,6 @@ declare class RouterLink implements OnChanges, OnDestroy {
     private readonly renderer;
     private readonly el;
     private locationStrategy?;
-    private _preserveFragment;
-    private _skipLocationChange;
-    private _replaceUrl;
     /**
      * Represents an `href` attribute value applied to a host element,
      * when a host element is `<a>`. For other tags, the value is `null`.
@@ -3247,89 +3513,95 @@ declare class RouterLink implements OnChanges, OnDestroy {
      */
     target?: string;
     /**
-     * Passed to {@link Router#createUrlTree Router#createUrlTree} as part of the
+     * Passed to {@link Router#createUrlTree} as part of the
      * `UrlCreationOptions`.
-     * @see {@link UrlCreationOptions#queryParams UrlCreationOptions#queryParams}
-     * @see {@link Router#createUrlTree Router#createUrlTree}
+     * @see {@link UrlCreationOptions#queryParams}
+     * @see {@link Router#createUrlTree}
      */
     queryParams?: Params | null;
     /**
-     * Passed to {@link Router#createUrlTree Router#createUrlTree} as part of the
+     * Passed to {@link Router#createUrlTree} as part of the
      * `UrlCreationOptions`.
-     * @see {@link UrlCreationOptions#fragment UrlCreationOptions#fragment}
-     * @see {@link Router#createUrlTree Router#createUrlTree}
+     * @see {@link UrlCreationOptions#fragment}
+     * @see {@link Router#createUrlTree}
      */
     fragment?: string;
     /**
-     * Passed to {@link Router#createUrlTree Router#createUrlTree} as part of the
+     * Passed to {@link Router#createUrlTree} as part of the
      * `UrlCreationOptions`.
-     * @see {@link UrlCreationOptions#queryParamsHandling UrlCreationOptions#queryParamsHandling}
-     * @see {@link Router#createUrlTree Router#createUrlTree}
+     * @see {@link UrlCreationOptions#queryParamsHandling}
+     * @see {@link Router#createUrlTree}
      */
     queryParamsHandling?: QueryParamsHandling | null;
     /**
-     * Passed to {@link Router#navigateByUrl Router#navigateByUrl} as part of the
+     * Passed to {@link Router#navigateByUrl} as part of the
      * `NavigationBehaviorOptions`.
-     * @see {@link NavigationBehaviorOptions#state NavigationBehaviorOptions#state}
-     * @see {@link Router#navigateByUrl Router#navigateByUrl}
+     * @see {@link NavigationBehaviorOptions#state}
+     * @see {@link Router#navigateByUrl}
      */
     state?: {
         [k: string]: any;
     };
     /**
-     * Passed to {@link Router#createUrlTree Router#createUrlTree} as part of the
+     * Passed to {@link Router#navigateByUrl} as part of the
+     * `NavigationBehaviorOptions`.
+     * @see {@link NavigationBehaviorOptions#info}
+     * @see {@link Router#navigateByUrl}
+     */
+    info?: unknown;
+    /**
+     * Passed to {@link Router#createUrlTree} as part of the
      * `UrlCreationOptions`.
      * Specify a value here when you do not want to use the default value
      * for `routerLink`, which is the current activated route.
      * Note that a value of `undefined` here will use the `routerLink` default.
-     * @see {@link UrlCreationOptions#relativeTo UrlCreationOptions#relativeTo}
-     * @see {@link Router#createUrlTree Router#createUrlTree}
+     * @see {@link UrlCreationOptions#relativeTo}
+     * @see {@link Router#createUrlTree}
      */
     relativeTo?: ActivatedRoute | null;
-    private commands;
     /** Whether a host element is an `<a>` tag. */
     private isAnchorElement;
     private subscription?;
     constructor(router: Router, route: ActivatedRoute, tabIndexAttribute: string | null | undefined, renderer: Renderer2, el: ElementRef, locationStrategy?: LocationStrategy | undefined);
     /**
-     * Passed to {@link Router#createUrlTree Router#createUrlTree} as part of the
+     * Passed to {@link Router#createUrlTree} as part of the
      * `UrlCreationOptions`.
-     * @see {@link UrlCreationOptions#preserveFragment UrlCreationOptions#preserveFragment}
-     * @see {@link Router#createUrlTree Router#createUrlTree}
+     * @see {@link UrlCreationOptions#preserveFragment}
+     * @see {@link Router#createUrlTree}
      */
-    set preserveFragment(preserveFragment: boolean | string | null | undefined);
-    get preserveFragment(): boolean;
+    preserveFragment: boolean;
     /**
-     * Passed to {@link Router#navigateByUrl Router#navigateByUrl} as part of the
+     * Passed to {@link Router#navigateByUrl} as part of the
      * `NavigationBehaviorOptions`.
-     * @see {@link NavigationBehaviorOptions#skipLocationChange NavigationBehaviorOptions#skipLocationChange}
-     * @see {@link Router#navigateByUrl Router#navigateByUrl}
+     * @see {@link NavigationBehaviorOptions#skipLocationChange}
+     * @see {@link Router#navigateByUrl}
      */
-    set skipLocationChange(skipLocationChange: boolean | string | null | undefined);
-    get skipLocationChange(): boolean;
+    skipLocationChange: boolean;
     /**
-     * Passed to {@link Router#navigateByUrl Router#navigateByUrl} as part of the
+     * Passed to {@link Router#navigateByUrl} as part of the
      * `NavigationBehaviorOptions`.
-     * @see {@link NavigationBehaviorOptions#replaceUrl NavigationBehaviorOptions#replaceUrl}
-     * @see {@link Router#navigateByUrl Router#navigateByUrl}
+     * @see {@link NavigationBehaviorOptions#replaceUrl}
+     * @see {@link Router#navigateByUrl}
      */
-    set replaceUrl(replaceUrl: boolean | string | null | undefined);
-    get replaceUrl(): boolean;
+    replaceUrl: boolean;
     /**
      * Modifies the tab index if there was not a tabindex attribute on the element during
      * instantiation.
      */
     private setTabIndexIfNotOnNativeEl;
     /** @nodoc */
-    ngOnChanges(changes: SimpleChanges): void;
+    ngOnChanges(changes?: SimpleChanges): void;
+    private routerLinkInput;
     /**
-     * Commands to pass to {@link Router#createUrlTree Router#createUrlTree}.
-     *   - **array**: commands to pass to {@link Router#createUrlTree Router#createUrlTree}.
+     * Commands to pass to {@link Router#createUrlTree} or a `UrlTree`.
+     *   - **array**: commands to pass to {@link Router#createUrlTree}.
      *   - **string**: shorthand for array of commands with just the string, i.e. `['/route']`
+     *   - **UrlTree**: a `UrlTree` for this link rather than creating one from the commands
+     *     and other inputs that correspond to properties of `UrlCreationOptions`.
      *   - **null|undefined**: effectively disables the `routerLink`
-     * @see {@link Router#createUrlTree Router#createUrlTree}
+     * @see {@link Router#createUrlTree}
      */
-    set routerLink(commands: any[] | string | null | undefined);
+    set routerLink(commandsOrUrlTree: any[] | string | UrlTree | null | undefined);
     /** @nodoc */
     onClick(button: number, ctrlKey: boolean, shiftKey: boolean, altKey: boolean, metaKey: boolean): boolean;
     /** @nodoc */
@@ -3338,7 +3610,10 @@ declare class RouterLink implements OnChanges, OnDestroy {
     private applyAttributeValue;
     get urlTree(): UrlTree | null;
     static ɵfac: i0.ɵɵFactoryDeclaration<RouterLink, [null, null, { attribute: "tabindex"; }, null, null, null]>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<RouterLink, "[routerLink]", never, { "target": "target"; "queryParams": "queryParams"; "fragment": "fragment"; "queryParamsHandling": "queryParamsHandling"; "state": "state"; "relativeTo": "relativeTo"; "preserveFragment": "preserveFragment"; "skipLocationChange": "skipLocationChange"; "replaceUrl": "replaceUrl"; "routerLink": "routerLink"; }, {}, never, never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RouterLink, "[routerLink]", never, { "target": { "alias": "target"; "required": false; }; "queryParams": { "alias": "queryParams"; "required": false; }; "fragment": { "alias": "fragment"; "required": false; }; "queryParamsHandling": { "alias": "queryParamsHandling"; "required": false; }; "state": { "alias": "state"; "required": false; }; "info": { "alias": "info"; "required": false; }; "relativeTo": { "alias": "relativeTo"; "required": false; }; "preserveFragment": { "alias": "preserveFragment"; "required": false; }; "skipLocationChange": { "alias": "skipLocationChange"; "required": false; }; "replaceUrl": { "alias": "replaceUrl"; "required": false; }; "routerLink": { "alias": "routerLink"; "required": false; }; }, {}, never, never, true, never>;
+    static ngAcceptInputType_preserveFragment: unknown;
+    static ngAcceptInputType_skipLocationChange: unknown;
+    static ngAcceptInputType_replaceUrl: unknown;
 }
 export { RouterLink }
 export { RouterLink as RouterLinkWithHref }
@@ -3429,7 +3704,7 @@ export declare class RouterLinkActive implements OnChanges, OnDestroy, AfterCont
      *
      * These options are passed to the `Router.isActive()` function.
      *
-     * @see Router.isActive
+     * @see {@link Router#isActive}
      */
     routerLinkActiveOptions: {
         exact: boolean;
@@ -3472,7 +3747,7 @@ export declare class RouterLinkActive implements OnChanges, OnDestroy, AfterCont
     private isLinkActive;
     private hasActiveLinks;
     static ɵfac: i0.ɵɵFactoryDeclaration<RouterLinkActive, [null, null, null, null, { optional: true; }]>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<RouterLinkActive, "[routerLinkActive]", ["routerLinkActive"], { "routerLinkActiveOptions": "routerLinkActiveOptions"; "ariaCurrentWhenActive": "ariaCurrentWhenActive"; "routerLinkActive": "routerLinkActive"; }, { "isActiveChange": "isActiveChange"; }, ["links"], never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RouterLinkActive, "[routerLinkActive]", ["routerLinkActive"], { "routerLinkActiveOptions": { "alias": "routerLinkActiveOptions"; "required": false; }; "ariaCurrentWhenActive": { "alias": "ariaCurrentWhenActive"; "required": false; }; "routerLinkActive": { "alias": "routerLinkActive"; "required": false; }; }, { "isActiveChange": "isActiveChange"; }, ["links"], never, true, never>;
 }
 
 /**
@@ -3491,7 +3766,7 @@ export declare class RouterLinkActive implements OnChanges, OnDestroy, AfterCont
  * * The `forChild()` method creates an `NgModule` that contains all the directives and the given
  * routes, but does not include the `Router` service.
  *
- * @see [Routing and Navigation guide](guide/router) for an
+ * @see [Routing and Navigation guide](guide/routing/common-router-tasks) for an
  * overview of how the `Router` service should be used.
  *
  * @publicApi
@@ -3582,10 +3857,8 @@ export declare class RouterModule {
  *   (detach)='onDetach($event)'></router-outlet>
  * ```
  *
- * @see [Routing tutorial](guide/router-tutorial-toh#named-outlets "Example of a named
- * outlet and secondary route configuration").
- * @see `RouterLink`
- * @see `Route`
+ * @see {@link RouterLink}
+ * @see {@link Route}
  * @ngModule RouterModule
  *
  * @publicApi
@@ -3596,7 +3869,6 @@ export declare class RouterOutlet implements OnDestroy, OnInit, RouterOutletCont
     /**
      * The name of the outlet
      *
-     * @see [named outlets](guide/router-tutorial-toh#displaying-multiple-routes-in-named-outlets)
      */
     name: string;
     activateEvents: EventEmitter<any>;
@@ -3614,7 +3886,9 @@ export declare class RouterOutlet implements OnDestroy, OnInit, RouterOutletCont
     private parentContexts;
     private location;
     private changeDetector;
-    private environmentInjector;
+    private inputBinder;
+    /** @nodoc */
+    readonly supportsBindingToComponentInputs = true;
     /** @nodoc */
     ngOnChanges(changes: SimpleChanges): void;
     /** @nodoc */
@@ -3640,9 +3914,9 @@ export declare class RouterOutlet implements OnDestroy, OnInit, RouterOutletCont
      */
     attach(ref: ComponentRef<any>, activatedRoute: ActivatedRoute): void;
     deactivate(): void;
-    activateWith(activatedRoute: ActivatedRoute, resolverOrInjector?: ComponentFactoryResolver | EnvironmentInjector | null): void;
+    activateWith(activatedRoute: ActivatedRoute, environmentInjector: EnvironmentInjector): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<RouterOutlet, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<RouterOutlet, "router-outlet", ["outlet"], { "name": "name"; }, { "activateEvents": "activate"; "deactivateEvents": "deactivate"; "attachEvents": "attach"; "detachEvents": "detach"; }, never, never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<RouterOutlet, "router-outlet", ["outlet"], { "name": { "alias": "name"; "required": false; }; }, { "activateEvents": "activate"; "deactivateEvents": "deactivate"; "attachEvents": "attach"; "detachEvents": "detach"; }, never, never, true, never>;
 }
 
 /**
@@ -3655,7 +3929,7 @@ export declare class RouterOutlet implements OnDestroy, OnInit, RouterOutletCont
  * `ChildrenOutletContexts#onChildOutletDestroyed`. When the `Router` identifies a matched `Route`,
  * it looks for a registered outlet in the `ChildrenOutletContexts` and activates it.
  *
- * @see `ChildrenOutletContexts`
+ * @see {@link ChildrenOutletContexts}
  * @publicApi
  */
 export declare interface RouterOutletContract {
@@ -3678,14 +3952,7 @@ export declare interface RouterOutletContract {
     /**
      * Called by the `Router` when the outlet should activate (create a component).
      */
-    activateWith(activatedRoute: ActivatedRoute, environmentInjector: EnvironmentInjector | null): void;
-    /**
-     * Called by the `Router` when the outlet should activate (create a component).
-     *
-     * @deprecated Passing a resolver to retrieve a component factory is not required and is
-     *     deprecated since v14.
-     */
-    activateWith(activatedRoute: ActivatedRoute, resolver: ComponentFactoryResolver | null): void;
+    activateWith(activatedRoute: ActivatedRoute, environmentInjector: EnvironmentInjector): void;
     /**
      * A request to destroy the currently activated component.
      *
@@ -3722,6 +3989,15 @@ export declare interface RouterOutletContract {
      * subtree.
      */
     detachEvents?: EventEmitter<unknown>;
+    /**
+     * Used to indicate that the outlet is able to bind data from the `Router` to the outlet
+     * component's inputs.
+     *
+     * When this is `undefined` or `false` and the developer has opted in to the
+     * feature using `withComponentInputBinding`, a warning will be logged in dev mode if this outlet
+     * is used in the application.
+     */
+    readonly supportsBindingToComponentInputs?: true;
 }
 
 /**
@@ -3779,8 +4055,8 @@ export declare class RouterPreloader implements OnDestroy {
  * }
  * ```
  *
- * @see `ActivatedRoute`
- * @see [Getting route information](guide/router#getting-route-information)
+ * @see {@link ActivatedRoute}
+ * @see [Getting route information](guide/routing/common-router-tasks#getting-route-information)
  *
  * @publicApi
  */
@@ -3824,7 +4100,7 @@ export declare class RouterStateSnapshot extends Tree<ActivatedRouteSnapshot> {
 }
 
 /**
- * The [DI token](guide/glossary/#di-token) for a router configuration.
+ * The DI token for a router configuration.
  *
  * `ROUTES` is a low level API for router configuration via dependency injection.
  *
@@ -3840,9 +4116,9 @@ export declare const ROUTES: InjectionToken<Route[][]>;
  * An array of `Route` objects, used in `Router.config` and for nested route configurations
  * in `Route.children`.
  *
- * @see `Route`
- * @see `Router`
- * @see [Router configuration guide](guide/router-reference#configuration)
+ * @see {@link Route}
+ * @see {@link Router}
+ * @see [Router configuration guide](guide/routing/router-reference#configuration)
  * @publicApi
  */
 export declare type Routes = Route[];
@@ -3886,7 +4162,7 @@ export declare class RoutesRecognized extends RouterEvent {
  * - `pathParamsOrQueryParamsChange` : Rerun guards and resolvers when the path params
  * change or query params have changed. This does not include matrix parameters.
  *
- * @see [Route.runGuardsAndResolvers](api/router/Route#runGuardsAndResolvers)
+ * @see {@link Route#runGuardsAndResolvers}
  * @publicApi
  */
 export declare type RunGuardsAndResolvers = 'pathParamsChange' | 'pathParamsOrQueryParamsChange' | 'paramsChange' | 'paramsOrQueryParamsChange' | 'always' | ((from: ActivatedRouteSnapshot, to: ActivatedRouteSnapshot) => boolean);
@@ -3898,7 +4174,7 @@ export declare type RunGuardsAndResolvers = 'pathParamsChange' | 'pathParamsOrQu
  */
 export declare class Scroll {
     /** @docsNotRequired */
-    readonly routerEvent: NavigationEnd;
+    readonly routerEvent: NavigationEnd | NavigationSkipped;
     /** @docsNotRequired */
     readonly position: [number, number] | null;
     /** @docsNotRequired */
@@ -3906,13 +4182,18 @@ export declare class Scroll {
     readonly type = EventType.Scroll;
     constructor(
     /** @docsNotRequired */
-    routerEvent: NavigationEnd, 
+    routerEvent: NavigationEnd | NavigationSkipped, 
     /** @docsNotRequired */
     position: [number, number] | null, 
     /** @docsNotRequired */
     anchor: string | null);
     toString(): string;
 }
+
+/**
+ * Makes a copy of the config and adds any default required properties.
+ */
+declare function standardizeConfig(r: Route): Route;
 
 /**
  * Provides a strategy for setting the page title after a router navigation.
@@ -3935,7 +4216,7 @@ export declare class Scroll {
  * incorporate titles in named outlets.
  *
  * @publicApi
- * @see [Page title guide](guide/router#setting-the-page-title)
+ * @see [Page title guide](guide/routing/common-router-tasks#setting-the-page-title)
  */
 export declare abstract class TitleStrategy {
     /** Performs the application title update. */
@@ -3973,9 +4254,9 @@ declare class TreeNode<T> {
  * Supply an object containing any of these properties to a `Router` navigation function to
  * control how the target URL should be constructed.
  *
- * @see [Router.navigate() method](api/router/Router#navigate)
- * @see [Router.createUrlTree() method](api/router/Router#createurltree)
- * @see [Routing and Navigation guide](guide/router)
+ * @see {@link Router#navigate}
+ * @see {@link Router#createUrlTree}
+ * @see [Routing and Navigation guide](guide/routing/common-router-tasks)
  *
  * @publicApi
  */
@@ -4130,7 +4411,7 @@ export declare type UrlMatcher = (segments: UrlSegment[], group: UrlSegmentGroup
  * * `consumed` is an array of the consumed URL segments.
  * * `posParams` is a map of positional parameters.
  *
- * @see `UrlMatcher()`
+ * @see {@link UrlMatcher}
  * @publicApi
  */
 export declare type UrlMatchResult = {
@@ -4294,6 +4575,117 @@ export declare class UrlTree {
 export declare const VERSION: Version;
 
 /**
+ * The information passed to the `onViewTransitionCreated` function provided in the
+ * `withViewTransitions` feature options.
+ *
+ * @publicApi
+ * @experimental
+ */
+export declare interface ViewTransitionInfo {
+    /**
+     * The `ViewTransition` returned by the call to `startViewTransition`.
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/ViewTransition
+     */
+    transition: {
+        /**
+         * @see https://developer.mozilla.org/en-US/docs/Web/API/ViewTransition/finished
+         */
+        finished: Promise<void>;
+        /**
+         * @see https://developer.mozilla.org/en-US/docs/Web/API/ViewTransition/ready
+         */
+        ready: Promise<void>;
+        /**
+         * @see https://developer.mozilla.org/en-US/docs/Web/API/ViewTransition/updateCallbackDone
+         */
+        updateCallbackDone: Promise<void>;
+        /**
+         * @see https://developer.mozilla.org/en-US/docs/Web/API/ViewTransition/skipTransition
+         */
+        skipTransition(): void;
+    };
+    /**
+     * The `ActivatedRouteSnapshot` that the navigation is transitioning from.
+     */
+    from: ActivatedRouteSnapshot;
+    /**
+     * The `ActivatedRouteSnapshot` that the navigation is transitioning to.
+     */
+    to: ActivatedRouteSnapshot;
+}
+
+/**
+ * A type alias for providers returned by `withViewTransitions` for use with `provideRouter`.
+ *
+ * @see {@link withViewTransitions}
+ * @see {@link provideRouter}
+ *
+ * @publicApi
+ */
+export declare type ViewTransitionsFeature = RouterFeature<RouterFeatureKind.ViewTransitionsFeature>;
+
+/**
+ * Options to configure the View Transitions integration in the Router.
+ *
+ * @experimental
+ * @publicApi
+ * @see withViewTransitions
+ */
+export declare interface ViewTransitionsFeatureOptions {
+    /**
+     * Skips the very first call to `startViewTransition`. This can be useful for disabling the
+     * animation during the application's initial loading phase.
+     */
+    skipInitialTransition?: boolean;
+    /**
+     * A function to run after the `ViewTransition` is created.
+     *
+     * This function is run in an injection context and can use `inject`.
+     */
+    onViewTransitionCreated?: (transitionInfo: ViewTransitionInfo) => void;
+}
+
+/**
+ * Enables binding information from the `Router` state directly to the inputs of the component in
+ * `Route` configurations.
+ *
+ * @usageNotes
+ *
+ * Basic example of how you can enable the feature:
+ * ```
+ * const appRoutes: Routes = [];
+ * bootstrapApplication(AppComponent,
+ *   {
+ *     providers: [
+ *       provideRouter(appRoutes, withComponentInputBinding())
+ *     ]
+ *   }
+ * );
+ * ```
+ *
+ * The router bindings information from any of the following sources:
+ *
+ *  - query parameters
+ *  - path and matrix parameters
+ *  - static route data
+ *  - data from resolvers
+ *
+ * Duplicate keys are resolved in the same order from above, from least to greatest,
+ * meaning that resolvers have the highest precedence and override any of the other information
+ * from the route.
+ *
+ * Importantly, when an input does not have an item in the route data with a matching key, this
+ * input is set to `undefined`. This prevents previous information from being
+ * retained if the data got removed from the route (i.e. if a query parameter is removed).
+ * Default values can be provided with a resolver on the route to ensure the value is always present
+ * or an input and use an input transform in the component.
+ *
+ * @see {@link guide/components/inputs#input-transforms input transforms}
+ * @returns A set of providers for use with `provideRouter`.
+ */
+export declare function withComponentInputBinding(): ComponentInputBindingFeature;
+
+/**
  * Enables logging of all internal navigation events to the console.
  * Extra logging might be useful for debugging purposes to inspect Router event sequence.
  *
@@ -4311,7 +4703,7 @@ export declare const VERSION: Version;
  * );
  * ```
  *
- * @see `provideRouter`
+ * @see {@link provideRouter}
  *
  * @returns A set of providers for use with `provideRouter`.
  *
@@ -4339,7 +4731,7 @@ export declare function withDebugTracing(): DebugTracingFeature;
  * );
  * ```
  *
- * @see `provideRouter`
+ * @see {@link provideRouter}
  *
  * @returns A set of providers for use with `provideRouter`.
  *
@@ -4350,8 +4742,9 @@ export declare function withDisabledInitialNavigation(): DisabledInitialNavigati
 /**
  * Configures initial navigation to start before the root component is created.
  *
- * The bootstrap is blocked until the initial navigation is complete. This value is required for
- * [server-side rendering](guide/universal) to work.
+ * The bootstrap is blocked until the initial navigation is complete. This should be set in case
+ * you use [server-side rendering](guide/ssr), but do not enable [hydration](guide/hydration) for
+ * your application.
  *
  * @usageNotes
  *
@@ -4367,7 +4760,7 @@ export declare function withDisabledInitialNavigation(): DisabledInitialNavigati
  * );
  * ```
  *
- * @see `provideRouter`
+ * @see {@link provideRouter}
  *
  * @publicApi
  * @returns A set of providers for use with `provideRouter`.
@@ -4391,14 +4784,14 @@ export declare function withEnabledBlockingInitialNavigation(): EnabledBlockingI
  * );
  * ```
  *
- * @see `provideRouter`
- * @see `HashLocationStrategy`
+ * @see {@link provideRouter}
+ * @see {@link HashLocationStrategy}
  *
  * @returns A set of providers for use with `provideRouter`.
  *
  * @publicApi
  */
-export declare function withHashLocation(): RouterConfigurationFeature;
+export declare function withHashLocation(): RouterHashLocationFeature;
 
 /**
  * Enables customizable scrolling behavior for router navigations.
@@ -4417,8 +4810,8 @@ export declare function withHashLocation(): RouterConfigurationFeature;
  * );
  * ```
  *
- * @see `provideRouter`
- * @see `ViewportScroller`
+ * @see {@link provideRouter}
+ * @see {@link ViewportScroller}
  *
  * @publicApi
  * @param options Set of configuration parameters to customize scrolling behavior, see
@@ -4428,10 +4821,16 @@ export declare function withHashLocation(): RouterConfigurationFeature;
 export declare function withInMemoryScrolling(options?: InMemoryScrollingOptions): InMemoryScrollingFeature;
 
 /**
- * Subscribes to the Router's navigation events and calls the given function when a
- * `NavigationError` happens.
+ * Provides a function which is called when a navigation error occurs.
  *
- * This function is run inside application's injection context so you can use the `inject` function.
+ * This function is run inside application's [injection context](guide/di/dependency-injection-context)
+ * so you can use the [`inject`](api/core/inject) function.
+ *
+ * This function can return a `RedirectCommand` to convert the error to a redirect, similar to returning
+ * a `UrlTree` or `RedirectCommand` from a guard. This will also prevent the `Router` from emitting
+ * `NavigationError`; it will instead emit `NavigationCancel` with code NavigationCancellationCode.Redirect.
+ * Return values other than `RedirectCommand` are ignored and do not change any behavior with respect to
+ * how the `Router` handles the error.
  *
  * @usageNotes
  *
@@ -4448,15 +4847,15 @@ export declare function withInMemoryScrolling(options?: InMemoryScrollingOptions
  * );
  * ```
  *
- * @see `NavigationError`
- * @see `inject`
- * @see `EnvironmentInjector#runInContext`
+ * @see {@link NavigationError}
+ * @see {@link core/inject}
+ * @see {@link runInInjectionContext}
  *
  * @returns A set of providers for use with `provideRouter`.
  *
  * @publicApi
  */
-export declare function withNavigationErrorHandler(fn: (error: NavigationError) => void): NavigationErrorHandlerFeature;
+export declare function withNavigationErrorHandler(handler: (error: NavigationError) => unknown | RedirectCommand): NavigationErrorHandlerFeature;
 
 /**
  * Allows to configure a preloading strategy to use. The strategy is configured by providing a
@@ -4476,7 +4875,7 @@ export declare function withNavigationErrorHandler(fn: (error: NavigationError) 
  * );
  * ```
  *
- * @see `provideRouter`
+ * @see {@link provideRouter}
  *
  * @param preloadingStrategy A reference to a class that implements a `PreloadingStrategy` that
  *     should be used.
@@ -4484,9 +4883,7 @@ export declare function withNavigationErrorHandler(fn: (error: NavigationError) 
  *
  * @publicApi
  */
-declare function withPreloading(preloadingStrategy: Type<PreloadingStrategy>): PreloadingFeature;
-export { withPreloading }
-export { withPreloading as ɵwithPreloading }
+export declare function withPreloading(preloadingStrategy: Type<PreloadingStrategy>): PreloadingFeature;
 
 /**
  * Allows to provide extra parameters to configure Router.
@@ -4507,7 +4904,7 @@ export { withPreloading as ɵwithPreloading }
  * );
  * ```
  *
- * @see `provideRouter`
+ * @see {@link provideRouter}
  *
  * @param options A set of parameters to configure Router, see `RouterConfigOptions` for
  *     additional information.
@@ -4518,6 +4915,35 @@ export { withPreloading as ɵwithPreloading }
 export declare function withRouterConfig(options: RouterConfigOptions): RouterConfigurationFeature;
 
 /**
+ * Enables view transitions in the Router by running the route activation and deactivation inside of
+ * `document.startViewTransition`.
+ *
+ * Note: The View Transitions API is not available in all browsers. If the browser does not support
+ * view transitions, the Router will not attempt to start a view transition and continue processing
+ * the navigation as usual.
+ *
+ * @usageNotes
+ *
+ * Basic example of how you can enable the feature:
+ * ```
+ * const appRoutes: Routes = [];
+ * bootstrapApplication(AppComponent,
+ *   {
+ *     providers: [
+ *       provideRouter(appRoutes, withViewTransitions())
+ *     ]
+ *   }
+ * );
+ * ```
+ *
+ * @returns A set of providers for use with `provideRouter`.
+ * @see https://developer.chrome.com/docs/web-platform/view-transitions/
+ * @see https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API
+ * @developerPreview
+ */
+export declare function withViewTransitions(options?: ViewTransitionsFeatureOptions): ViewTransitionsFeature;
+
+/**
  * Performs the given action once the router finishes its next/current navigation.
  *
  * The navigation is considered complete under the following conditions:
@@ -4526,7 +4952,9 @@ export declare function withRouterConfig(options: RouterConfigOptions): RouterCo
  * redirecting/superseding navigation must finish.
  * - `NavigationError`, `NavigationEnd`, or `NavigationSkipped` event emits
  */
-export declare function ɵafterNextNavigation(router: Router, action: () => void): void;
+export declare function ɵafterNextNavigation(router: {
+    events: Observable<Event_2>;
+}, action: () => void): void;
 
 /**
  * This component is used internally within the router to be a placeholder when an empty
@@ -4543,9 +4971,14 @@ export declare class ɵEmptyOutletComponent {
 }
 
 /**
- * Flattens single-level nested arrays.
+ * Executes a `route.loadChildren` callback and converts the result to an array of child routes and
+ * an injector if that callback returned a module.
+ *
+ * This function is used for the route discovery during prerendering
+ * in @angular-devkit/build-angular. If there are any updates to the contract here, it will require
+ * an update to the extractor.
  */
-export declare function ɵflatten<T>(arr: T[][]): T[];
+export declare function ɵloadChildren(route: Route, compiler: Compiler, parentInjector: Injector, onLoadEndListener?: (r: Route) => void): Observable<LoadedRouterConfig>;
 
 export declare type ɵRestoredState = {
     [k: string]: any;

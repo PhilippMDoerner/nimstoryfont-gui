@@ -1,1 +1,1 @@
-import 'jest-specific-snapshot';
+export {};

@@ -1,0 +1,69 @@
+<div class="container list">
+  @if (canCreate()) {
+    <div class="list__button">
+      <button
+        btn
+        [kind]="'PRIMARY'"
+        [text]="'Add Rule'"
+        [icon]="'plus'"
+        (click)="addRule()"
+      ></button>
+    </div>
+  }
+
+  <div class="row">
+    @if (isCreatingRule()) {
+      <div class="list__rule-card rule-card" [@slideUpFromBottom]>
+        <app-collapsible-panel [isOpen]="true">
+          <span heading>
+            {{ createRuleData().name }}
+          </span>
+
+          <app-rule
+            body
+            class="rule-card__rule"
+            [rule]="createRuleData()"
+            [serverModel]="undefined"
+            [canUpdate]="false"
+            [canDelete]="false"
+            [canCreate]="canCreate()"
+            [cancelButtonType]="'DARK'"
+            (ruleCreate)="onRuleCreate($event)"
+            (ruleCreateCancel)="cancelRuleCreation()"
+          ></app-rule>
+        </app-collapsible-panel>
+      </div>
+    }
+    @for (card of ruleCards(); track card.rule.pk) {
+      <div
+        class="list__rule-card rule-card"
+        [@slideOutFromBottom]
+        [id]="card.rule.name"
+        #rule
+      >
+        <app-collapsible-panel [isOpen]="card.isOpen">
+          <span heading>
+            {{ card.rule.name }}
+          </span>
+
+          <app-rule
+            body
+            class="rule-card__rule"
+            [rule]="card.rule"
+            [serverModel]="serverModel()"
+            [canUpdate]="canUpdate()"
+            [canDelete]="canDelete()"
+            [canCreate]="canCreate()"
+            [cancelButtonType]="'DARK'"
+            (ruleDelete)="onRuleDelete($event)"
+            (ruleUpdate)="ruleUpdate.emit($event)"
+            (ruleCreateCancel)="cancelRuleCreation()"
+          ></app-rule>
+        </app-collapsible-panel>
+      </div>
+    }
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<ng-template #loading><app-spinner></app-spinner></ng-template>

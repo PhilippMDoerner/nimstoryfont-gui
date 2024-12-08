@@ -11,6 +11,7 @@ export declare class NgbTypeaheadConfig {
     container: any;
     editable: boolean;
     focusFirst: boolean;
+    selectOnExact: boolean;
     showHint: boolean;
     placement: PlacementArray;
     popperOptions: (options: Partial<Options>) => Partial<Options>;

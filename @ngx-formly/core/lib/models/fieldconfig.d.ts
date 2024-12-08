@@ -4,6 +4,15 @@ import { FieldType } from '../templates/field.type';
 import { FieldWrapper } from '../templates/field.wrapper';
 import { ValidationMessageOption } from '../models';
 import { Type } from '@angular/core';
+declare type FieldExpression<T = any> = string | ((field: FormlyFieldConfig) => T) | Observable<T>;
+declare type FieldExpressions = {
+    [property: string]: FieldExpression;
+} & {
+    className?: FieldExpression<string>;
+    hide?: FieldExpression<boolean>;
+    'props.disabled'?: FieldExpression<boolean>;
+    'props.required'?: FieldExpression<boolean>;
+};
 export interface FormlyFieldConfig<Props = FormlyFieldProps & {
     [additionalProperties: string]: any;
 }> {
@@ -94,9 +103,7 @@ export interface FormlyFieldConfig<Props = FormlyFieldProps & {
     /**
      * An object where the key is a property to be set on the main field config and the value is an expression used to assign that property.
      */
-    expressions?: {
-        [property: string]: string | ((field: FormlyFieldConfig) => any) | Observable<any>;
-    };
+    expressions?: FieldExpressions;
     /**
      * You can specify your own class that will be applied to the `formly-field` component.
      */
@@ -200,7 +207,7 @@ export interface FormlyFieldProps {
 }
 export declare type FormlyHookFn = (field: FormlyFieldConfig) => void;
 export interface FormlyHookConfig {
-    onInit?: FormlyHookFn;
+    onInit?: FormlyHookFn | ((field: FormlyFieldConfig) => Observable<any>);
     onChanges?: FormlyHookFn;
     afterContentInit?: FormlyHookFn;
     afterViewInit?: FormlyHookFn;

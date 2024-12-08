@@ -1,1 +1,3 @@
-import{PARAM_KEY}from"./chunk-RCNGGLPU.mjs";export{PARAM_KEY};
+var PARAM_KEY="a11y";
+
+export { PARAM_KEY };

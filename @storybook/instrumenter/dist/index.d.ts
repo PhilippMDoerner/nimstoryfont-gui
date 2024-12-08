@@ -1,10 +1,4 @@
-declare global {
-	interface SymbolConstructor {
-		readonly observable: symbol;
-	}
-}
-
-type StoryId = string;
+import { StoryId } from 'storybook/internal/types';
 
 interface Call {
     id: string;
@@ -22,6 +16,10 @@ interface Call {
         message: Error['message'];
         stack: Error['stack'];
         callId: Call['id'];
+        showDiff?: boolean;
+        diff?: string;
+        actual?: unknown;
+        expected?: unknown;
     };
 }
 declare enum CallStates {
@@ -60,7 +58,7 @@ interface SyncPayload {
     pausedAt?: Call['id'];
 }
 interface State {
-    renderPhase: 'loading' | 'rendering' | 'playing' | 'played' | 'completed' | 'aborted' | 'errored';
+    renderPhase?: 'loading' | 'rendering' | 'playing' | 'played' | 'completed' | 'aborted' | 'errored';
     isDebugging: boolean;
     isPlaying: boolean;
     isLocked: boolean;
@@ -74,7 +72,7 @@ interface State {
     ancestors: Call['id'][];
     playUntil?: Call['id'];
     resolvers: Record<Call['id'], Function>;
-    syncTimeout: ReturnType<typeof setTimeout>;
+    syncTimeout?: ReturnType<typeof setTimeout>;
     forwardedException?: Error;
 }
 interface Options {
@@ -83,6 +81,7 @@ interface Options {
     mutate?: boolean;
     path?: Array<string | CallRef>;
     getArgs?: (call: Call, state: State) => Call['args'];
+    getKeys?: (originalObject: Record<string, unknown>, depth: number) => string[];
 }
 
 declare const EVENTS: {
@@ -95,10 +94,10 @@ declare const EVENTS: {
     END: string;
 };
 /**
- * Instruments an object or module by traversing its properties, patching any functions (methods)
- * to enable debugging. Patched functions will emit a `call` event when invoked.
- * When intercept = true, patched functions will return a Promise when the debugger stops before
- * this function. As such, "interceptable" functions will have to be `await`-ed.
+ * Instruments an object or module by traversing its properties, patching any functions (methods) to
+ * enable debugging. Patched functions will emit a `call` event when invoked. When intercept = true,
+ * patched functions will return a Promise when the debugger stops before this function. As such,
+ * "interceptable" functions will have to be `await`-ed.
  */
 declare function instrument<TObj extends Record<string, any>>(obj: TObj, options?: Options): TObj;
 

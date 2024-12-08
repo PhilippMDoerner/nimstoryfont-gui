@@ -1,0 +1,21 @@
+.field {
+  margin-bottom: var(--spacer-3);
+
+  &__controls {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacer-4);
+    margin-top: var(--spacer-3);
+  }
+
+  &__control {
+    display: inline-block;
+    width: fit-content;
+  }
+}
+
+.quote {
+  &__description {
+    margin: var(--spacer-3) var(--spacer-0) var(--spacer-3) var(--spacer-3);
+  }
+}

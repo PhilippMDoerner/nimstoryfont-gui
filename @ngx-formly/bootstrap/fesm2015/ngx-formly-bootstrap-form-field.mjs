@@ -29,7 +29,11 @@ FormlyWrapperFormField.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0",
       </ng-container>
 
       <div *ngIf="showError" class="invalid-feedback" [style.display]="'block'">
-        <formly-validation-message [field]="field"></formly-validation-message>
+        <formly-validation-message
+          id="{{ id }}-formly-validation-error"
+          [field]="field"
+          role="alert"
+        ></formly-validation-message>
       </div>
 
       <small *ngIf="props.description" class="form-text text-muted">{{ props.description }}</small>
@@ -59,7 +63,11 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
       </ng-container>
 
       <div *ngIf="showError" class="invalid-feedback" [style.display]="'block'">
-        <formly-validation-message [field]="field"></formly-validation-message>
+        <formly-validation-message
+          id="{{ id }}-formly-validation-error"
+          [field]="field"
+          role="alert"
+        ></formly-validation-message>
       </div>
 
       <small *ngIf="props.description" class="form-text text-muted">{{ props.description }}</small>

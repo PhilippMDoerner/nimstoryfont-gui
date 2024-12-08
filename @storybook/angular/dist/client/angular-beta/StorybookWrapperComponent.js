@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createStorybookWrapperComponent = exports.componentNgModules = void 0;
+exports.createStorybookWrapperComponent = void 0;
 const core_1 = require("@angular/core");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
@@ -28,34 +28,21 @@ const getNonInputsOutputsProps = (ngComponentInputsOutputs, props = {}) => {
         .map((o) => o.templateName);
     return Object.keys(props).filter((k) => ![...inputs, ...outputs].includes(k));
 };
-// component modules cache
-exports.componentNgModules = new Map();
-/**
- * Wraps the story template into a component
- */
+/** Wraps the story template into a component */
 const createStorybookWrapperComponent = ({ selector, template, storyComponent, styles, moduleMetadata, initialProps, analyzedMetadata, }) => {
     // In ivy, a '' selector is not allowed, therefore we need to just set it to anything if
     // storyComponent was not provided.
     const viewChildSelector = storyComponent ?? '__storybook-noop';
     const { imports, declarations, providers } = analyzedMetadata;
-    // Only create a new module if it doesn't already exist
-    // This is to prevent the module from being recreated on every story change
-    // Declarations & Imports are only added once
-    // Providers are added on every story change to allow for story-specific providers
-    let ngModule = exports.componentNgModules.get(storyComponent);
-    if (!ngModule) {
-        let StorybookComponentModule = class StorybookComponentModule {
-        };
-        StorybookComponentModule = __decorate([
-            (0, core_1.NgModule)({
-                declarations,
-                imports,
-                exports: [...declarations, ...imports],
-            })
-        ], StorybookComponentModule);
-        exports.componentNgModules.set(storyComponent, StorybookComponentModule);
-        ngModule = exports.componentNgModules.get(storyComponent);
-    }
+    let StorybookComponentModule = class StorybookComponentModule {
+    };
+    StorybookComponentModule = __decorate([
+        (0, core_1.NgModule)({
+            declarations,
+            imports,
+            exports: [...declarations, ...imports],
+        })
+    ], StorybookComponentModule);
     PropertyExtractor_1.PropertyExtractor.warnImportsModuleWithProviders(analyzedMetadata);
     let StorybookWrapperComponent = class StorybookWrapperComponent {
         constructor(storyProps$, changeDetectorRef) {
@@ -125,7 +112,7 @@ const createStorybookWrapperComponent = ({ selector, template, storyComponent, s
             selector,
             template,
             standalone: true,
-            imports: [ngModule],
+            imports: [StorybookComponentModule],
             providers,
             styles,
             schemas: moduleMetadata.schemas,

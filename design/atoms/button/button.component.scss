@@ -1,0 +1,26 @@
+@import "/src/screens.scss";
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacer-1);
+
+  :disabled {
+    cursor: not-allowed;
+  }
+}
+
+.btn {
+  &__text {
+    &--large {
+      font-weight: bold;
+    }
+  }
+
+  &__spinner {
+    margin-left: var(--spacer-2);
+    width: 20px;
+    height: 20px;
+  }
+}

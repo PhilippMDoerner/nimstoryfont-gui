@@ -3,7 +3,7 @@
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 import { BuilderContext, BuilderOutput } from '@angular-devkit/architect';
 import { Observable } from 'rxjs';
@@ -15,20 +15,13 @@ import { Schema as ServerBuilderOptions } from './schema';
  */
 export type ServerBuilderOutput = BuilderOutput & {
     baseOutputPath: string;
-    /**
-     * @deprecated in version 14. Use 'outputs' instead.
-     */
-    outputPaths: string[];
-    /**
-     * @deprecated in version 9. Use 'outputs' instead.
-     */
     outputPath: string;
     outputs: {
         locale?: string;
         path: string;
     }[];
 };
-export { ServerBuilderOptions };
+export type { ServerBuilderOptions };
 /**
  * @experimental Direct usage of this function is considered experimental.
  */

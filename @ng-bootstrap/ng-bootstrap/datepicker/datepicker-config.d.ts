@@ -1,5 +1,4 @@
 import { TemplateRef } from '@angular/core';
-import { TranslationWidth } from '@angular/common';
 import { DayTemplateContext } from './datepicker-day-template-context';
 import { NgbDateStruct } from './ngb-date-struct';
 import * as i0 from "@angular/core";
@@ -30,8 +29,9 @@ export declare class NgbDatepickerConfig {
     startDate: {
         year: number;
         month: number;
+        day?: number;
     };
-    weekdays: TranslationWidth | boolean;
+    weekdays: Exclude<Intl.DateTimeFormatOptions['weekday'], undefined> | boolean;
     static ɵfac: i0.ɵɵFactoryDeclaration<NgbDatepickerConfig, never>;
     static ɵprov: i0.ɵɵInjectableDeclaration<NgbDatepickerConfig>;
 }

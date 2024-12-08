@@ -1,6 +1,5 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { ValidatorOption } from '@ngx-formly/core/lib/models';
-import { Observable } from 'rxjs';
 /***
  * This is how Validators work:
  * 1) You have a validation function. That takes in a control:Formcontrol and returns ValidationErrors (when sync)
@@ -62,7 +61,10 @@ function timeValidation(control: AbstractControl): ValidationErrors | null {
   const isValidTime: boolean = /\d\d.[0-5]\d.[0-5]\d/.test(control.value);
   return isValidTime ? null : { time: !isValidTime };
 }
-export const timeValidator: ValidatorOption = { name: 'time', validation: timeValidation };
+export const timeValidator: ValidatorOption = {
+  name: 'time',
+  validation: timeValidation,
+};
 
 function requiredValidation(control: AbstractControl): ValidationErrors | null {
   const hasValue: boolean = !!control.value || control.value === 0;
@@ -78,23 +80,35 @@ export const requiredIconValidator = {
   validation: requiredValidation,
 };
 
-function dateValidation(control: AbstractControl): ValidationErrors | null{
+function dateValidation(control: AbstractControl): ValidationErrors | null {
   const dateHasYYYYMMDDFormat: boolean = /[1-2]\d{3}-(0\d|1[0-2])-[0-3]\d/.test(
-    control.value
+    control.value,
   );
-  return dateHasYYYYMMDDFormat ? null : { date: true};
+  return dateHasYYYYMMDDFormat ? null : { date: true };
 }
-export const dateValidator: ValidatorOption = { name: 'date', validation: dateValidation };
+export const dateValidator: ValidatorOption = {
+  name: 'date',
+  validation: dateValidation,
+};
 
-function iconValidation(control: AbstractControl): ValidationErrors | null{
+function iconValidation(control: AbstractControl): ValidationErrors | null {
   const hasFaPrefix = /fa-/.test(control.value);
-  const isValidIcon = hasFaPrefix;
+  const hasFasPrefix = /fas-/.test(control.value);
+  const isValidIcon = hasFaPrefix || hasFasPrefix;
   return isValidIcon ? null : { faPrefix: isValidIcon };
 }
-export const iconValidator: ValidatorOption = { name: 'faPrefix', validation: iconValidation };
+export const iconValidator: ValidatorOption = {
+  name: 'faPrefix',
+  validation: iconValidation,
+};
 
-function isIntegerValidation(control: AbstractControl): ValidationErrors | null {
-  const isInteger =  typeof control.value === 'number' && Number.isInteger(control.value);
+function isIntegerValidation(
+  control: AbstractControl,
+): ValidationErrors | null {
+  if (control.value == null) return null;
+
+  const isInteger =
+    typeof control.value === 'number' && Number.isInteger(control.value);
   return isInteger ? null : { notInteger: !isInteger };
 }
 export const integerValidator: ValidatorOption = {
@@ -102,7 +116,9 @@ export const integerValidator: ValidatorOption = {
   validation: isIntegerValidation,
 };
 
-function hasNoSpecialCharactersValidation(control: AbstractControl): ValidationErrors | null {
+function hasNoSpecialCharactersValidation(
+  control: AbstractControl,
+): ValidationErrors | null {
   const isString = typeof control.value === 'string';
   if (isString) {
     const specialCharacters: string[] = [
@@ -142,54 +158,21 @@ export const specialCharacterValidator: ValidatorOption = {
  *  the field's value. Must contain
  * @returns
  */
-function passwordMatchValidation(control: AbstractControl): ValidationErrors | null {
+function passwordMatchValidation(
+  control: AbstractControl,
+): ValidationErrors | null {
   const { password, passwordConfirm } = control.value;
 
   // avoid displaying the message error when values are empty
   const isAnyPasswordFieldEmpty = !passwordConfirm || !password;
   if (isAnyPasswordFieldEmpty) {
-    return { passwordMatch: true};
-  }
-  
-  const arePasswordsMatching = passwordConfirm === password;
-  if (arePasswordsMatching) {
-    return { passwordMatch: true };
+    return { fieldMatch: true };
   }
 
-  return null;
+  const arePasswordsMatching = passwordConfirm === password;
+  return arePasswordsMatching ? null : { fieldMatch: true };
 }
 export const fieldMatchValidator: ValidatorOption = {
   name: 'fieldMatch',
   validation: passwordMatchValidation,
-};
-
-/**
- * If you wish to manipulate this, you also have to manipulate in diaryentry-article-update "hasDiaryentryForAuthor"
- * TODO: Fix how this makes way too many calls to the sessions api endpoint for no reason
- */
-async function isSessionAuthorPairUniqueValidator(control: any): Promise<ValidationErrors> {
-  const { session: selectedSessionId, author: selectedAuthorId } = control.value;
-  const sessionFieldConfig = control.controls.session._fields[0];
-
-  const selectFieldOptionsObs: Observable<any> =  sessionFieldConfig.templateOptions.options;
-  const selectFieldOptions: any = await selectFieldOptionsObs.toPromise();
-  const selectedOption = selectFieldOptions.find((option: any) => option.pk === selectedSessionId);
-
-  if (selectedOption == null){
-    throw 'WeirdError. You selected a session, its id got into the model and somehow that field is no longer among the options (?)';
-  }
-  
-  const authorIdsWithDiaryentriesOnSession: number[] = selectedOption.author_ids;
-  const selectedAuthorAlreadyHasDiaryentryOnSession: boolean = authorIdsWithDiaryentriesOnSession.includes(selectedAuthorId);
-  const isInitialValue: boolean = control.pristine; //True if this is an initial value, never changed by the user
-
-  if (selectedAuthorAlreadyHasDiaryentryOnSession && !isInitialValue) {
-    return { passwordMatch: { message: "That account already has a diaryentry written for that session. Accounts can only have one Diaryentry per session" } };
-  }
-
-  return { passwordMatch: null };
-}
-export const sessionAuthorUniqueValidator: ValidatorOption = {
-  name: 'sessionAuthorPairUnique',
-  validation: isSessionAuthorPairUniqueValidator,
 };

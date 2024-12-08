@@ -1,7 +1,7 @@
+import { ArgsStoryFn, RenderContext } from 'storybook/internal/types';
 import '@angular/compiler';
-import { RenderContext, ArgsStoryFn } from '@storybook/types';
-import { AngularRenderer } from './types';
 import { RendererFactory } from './angular-beta/RendererFactory';
+import { AngularRenderer } from './types';
 export declare const rendererFactory: RendererFactory;
 export declare const render: ArgsStoryFn<AngularRenderer>;
-export declare function renderToCanvas({ storyFn, showMain, forceRemount, storyContext: { parameters, component }, id, }: RenderContext<AngularRenderer>, element: HTMLElement): Promise<void>;
+export declare function renderToCanvas({ storyFn, showMain, forceRemount, storyContext: { component } }: RenderContext<AngularRenderer>, element: HTMLElement): Promise<void>;

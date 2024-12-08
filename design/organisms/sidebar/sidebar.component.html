@@ -1,0 +1,99 @@
+@if (campaign()) {
+  <div class="offcanvas-header">
+    <div class="sidebar__brand brand">
+      <div class="brand__back" title="campaign-overview">
+        <a
+          [routerLink]="campaignOverviewUrl"
+          class="brand__back-link"
+          aria-label="'Back to campaign overview'"
+        >
+          <app-icon class="brand__back-icon" [icon]="'chevron-left'"></app-icon>
+        </a>
+      </div>
+
+      <div
+        class="brand__home"
+        [title]="campaign()?.name + '-Home'"
+        [class.disabled-entry]="campaign() == null"
+      >
+        <a class="brand__home-link" [routerLink]="homeUrl()">
+          <h4 class="brand__home-link-text">
+            <img
+              class="brand__icon"
+              [src]="serverUrl + campaign()?.icon"
+              alt="To Home Page"
+            />
+            <div class="brand__home-link-text-text">
+              {{ campaign()?.name }}
+            </div>
+          </h4>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="offcanvas-body">
+    <ul class="sidebar__entries">
+      <!-- Admin Section -->
+      @if (hasCampaignAdminPrivileges()) {
+        <li
+          class="sidebar__entry entry"
+          [class.disabled-entry]="campaign() == null"
+        >
+          <a class="entry__link" [routerLink]="campaignAdminUrl()">
+            <app-icon class="entry__icon" [icon]="'hammer'"></app-icon>
+            <span class="entry__text"> Campaign Admin </span>
+          </a>
+        </li>
+      }
+
+      <!-- Campaign Overview Entries -->
+      @for (entry of sidebarEntries(); track $index) {
+        <li
+          class="sidebar__entry entry"
+          [class.disabled-entry]="campaign() == null"
+        >
+          <a [routerLink]="entry.route" class="entry__link">
+            <app-icon class="entry__icon" [icon]="entry.iconClass"></app-icon>
+            <span class="entry__text">{{ entry.title }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+
+    <!-- Logout -->
+    <ul class="sidebar__footer footer">
+      <li class="sidebar__entry entry">
+        <a class="entry__link" [routerLink]="profileUrl">
+          <app-icon class="entry__icon" [icon]="'circle-user'"></app-icon>
+          <span class="entry__text">Profile</span>
+        </a>
+      </li>
+      <li class="sidebar__entry entry">
+        <button
+          btn
+          class="entry__link entry__link--button btn-none"
+          (click)="this.logout.emit()"
+        >
+          <app-icon
+            class="entry__icon"
+            [icon]="'right-from-bracket'"
+          ></app-icon>
+          <span class="entry__text">Logout</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+}
+
+<ng-template #nonCampaignBrand>
+  <ul class="brand-line d-flex">
+    <li class="flex-1">
+      <a class="ps-0" [routerLink]="campaignOverviewUrl">
+        <h3 class="d-flex align-items-center justify-content-center" id="brand">
+          <span class="fas fa-chevron-left"></span>
+          <span class="ms-2 on-hover-show"> To campaigns</span>
+        </h3>
+      </a>
+    </li>
+  </ul>
+</ng-template>

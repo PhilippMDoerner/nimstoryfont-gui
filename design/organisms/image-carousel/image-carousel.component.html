@@ -1,0 +1,82 @@
+@if (images() && images().length > 0) {
+  <ngb-carousel
+    #imageCarousel
+    [interval]="0"
+    [showNavigationArrows]="images().length > 1"
+    [showNavigationIndicators]="images().length > 1"
+    [activeId]="'imageIndex-' + currentSlideIndex()"
+    (slide)="onSlide($event)"
+    (slid)="onSlideEnd($event)"
+  >
+    @for (image of images(); track image.pk) {
+      <ng-template ngbSlide [id]="'imageIndex-' + $index">
+        <div class="image-container" [title]="image.name">
+          <img [src]="serverUrl() + image.image" [alt]="'Image ' + $index" />
+        </div>
+      </ng-template>
+    }
+  </ngb-carousel>
+} @else {
+  <ng-container *ngTemplateOutlet="defaultImage"></ng-container>
+}
+
+<!-- Image Edit/Delete/Create Buttons -->
+<div class="edit-image-buttons">
+  <!-- Create Image Button -->
+  @if (canCreate()) {
+    <button
+      btn
+      title="Create Image"
+      class="mx-2"
+      [kind]="'PRIMARY'"
+      [size]="'SMALL'"
+      [icon]="'plus-square'"
+      (click)="onImageCreate()"
+    ></button>
+  }
+
+  <!-- Update Image button -->
+  @if (images().length > 0 && canUpdate()) {
+    <button
+      btn
+      title="Update Image"
+      class="mx-2"
+      [kind]="'SECONDARY'"
+      [size]="'SMALL'"
+      [icon]="'pencil'"
+      (click)="onImageUpdate()"
+    ></button>
+  }
+
+  <!-- Delete Image Button -->
+  @if (images().length > 1 && canDelete()) {
+    <button
+      btn
+      title="Delete Image"
+      class="mx-2"
+      [kind]="'DANGER'"
+      [size]="'SMALL'"
+      [icon]="'trash'"
+      (click)="onImageDelete()"
+    ></button>
+  }
+</div>
+
+<ng-template #defaultImage>
+  <ngb-carousel
+    [showNavigationArrows]="false"
+    [showNavigationIndicators]="false"
+  >
+    <ng-template ngbSlide>
+      <div class="image-container default-image">
+        <img
+          [src]="'assets/default_images/icon_default.webp'"
+          alt="Default Image to show as backup when there is nothing"
+        />
+        <div class="image-caption">
+          <p>This article doesn't have an image yet</p>
+        </div>
+      </div>
+    </ng-template>
+  </ngb-carousel>
+</ng-template>

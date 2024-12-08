@@ -50,10 +50,13 @@ FormlyFieldMultiCheckbox.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0
           type="checkbox"
           [id]="id + '_' + i"
           class="form-check-input"
+          [class.is-invalid]="showError"
           [value]="option.value"
           [checked]="isChecked(option)"
           [formlyAttributes]="field"
           [disabled]="formControl.disabled || option.disabled"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
           (change)="onChange(option.value, $any($event.target).checked)"
         />
         <label class="form-check-label" [for]="id + '_' + i">
@@ -80,10 +83,13 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
           type="checkbox"
           [id]="id + '_' + i"
           class="form-check-input"
+          [class.is-invalid]="showError"
           [value]="option.value"
           [checked]="isChecked(option)"
           [formlyAttributes]="field"
           [disabled]="formControl.disabled || option.disabled"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
           (change)="onChange(option.value, $any($event.target).checked)"
         />
         <label class="form-check-label" [for]="id + '_' + i">

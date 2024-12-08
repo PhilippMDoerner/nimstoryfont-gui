@@ -1,0 +1,1 @@
+{"key":"lastEvents","content":{"boot":{"body":{"eventType":"boot","eventId":"5ECOpMoA7zzc3nRgbTJ8A","sessionId":"JYJ5Rm2_iF__905r3qPKy","payload":{"eventType":"build"},"context":{"inCI":true,"platform":"Linux","nodeVersion":"20.18.1","cliVersion":"8.4.4"}},"timestamp":1733686685041}}}

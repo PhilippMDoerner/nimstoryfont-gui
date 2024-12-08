@@ -1,4 +1,4 @@
-import { importProvidersFrom, InjectionToken, NgModule, Provider, ɵReflectionCapabilities as ReflectionCapabilities } from '@angular/core';
+import { InjectionToken, NgModule, Provider, ɵReflectionCapabilities as ReflectionCapabilities, importProvidersFrom } from '@angular/core';
 import { NgModuleMetadata } from '../../types';
 export declare const reflectionCapabilities: ReflectionCapabilities;
 export declare const REMOVED_MODULES: InjectionToken<unknown>;
@@ -19,8 +19,6 @@ export declare class PropertyExtractor implements NgModuleMetadata {
      * - Removes Restricted Imports
      * - Extracts providers from ModuleWithProviders
      * - Returns a new NgModuleMetadata object
-     *
-     *
      */
     private analyzeMetadata;
     static analyzeRestricted: (ngModule: NgModule) => [boolean] | [boolean, Provider];

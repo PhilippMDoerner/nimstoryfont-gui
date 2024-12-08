@@ -6,16 +6,20 @@ import {
   GLOBAL_DEFS_FOR_TERSER,
   GLOBAL_DEFS_FOR_TERSER_WITH_AOT,
   constructorParametersDownlevelTransform
-} from "./chunk-ZV3QKZR5.js";
+} from "./chunk-AQX32KGU.js";
 import {
   DEFAULT_ERROR_CODE,
+  DecoratorType,
+  DocsExtractor,
   EmitFlags,
+  EntryType,
+  MemberTags,
+  MemberType,
   NgCompiler,
   NgCompilerHost,
   NgtscProgram,
   PatchedProgramIncrementalBuildStrategy,
   SOURCE,
-  TsCreateProgramDriver,
   UNKNOWN_ERROR_CODE,
   calcProjectFileAndBasePath,
   createCompilerHost,
@@ -25,21 +29,31 @@ import {
   formatDiagnostics,
   freshCompilationTicket,
   incrementalFromStateTicket,
+  isDocEntryWithSourceInfo,
   isTsDiagnostic,
   performCompilation,
-  readConfiguration,
-  untagAllTsFiles
-} from "./chunk-E3MCJFSW.js";
+  readConfiguration
+} from "./chunk-Y3H6JOVH.js";
 import {
-  OptimizeFor
-} from "./chunk-JEWI23RF.js";
-import "./chunk-ZF3IVDQ2.js";
+  angularJitApplicationTransform,
+  getDownlevelDecoratorsTransform,
+  getInitializerApiJitTransform
+} from "./chunk-26NKUA5V.js";
+import {
+  OptimizeFor,
+  TsCreateProgramDriver
+} from "./chunk-APDLWLLW.js";
+import {
+  isLocalCompilationDiagnostics
+} from "./chunk-PGXXZYOH.js";
+import {
+  ActivePerfRecorder,
+  PerfPhase
+} from "./chunk-XSNUHRLJ.js";
 import {
   ConsoleLogger,
   LogLevel
-} from "./chunk-LYJKWJUC.js";
-import "./chunk-IJECERTO.js";
-import "./chunk-IYYB2HTK.js";
+} from "./chunk-RT2QTF73.js";
 import {
   LogicalFileSystem,
   LogicalProjectPath,
@@ -60,16 +74,12 @@ import {
   resolve,
   setFileSystem,
   toRelativeImport
-} from "./chunk-TBUSSXUA.js";
-import {
-  ActivePerfRecorder,
-  PerfPhase
-} from "./chunk-YZWN2KWE.js";
-import "./chunk-SRFZMXHZ.js";
+} from "./chunk-YE5ORA4V.js";
+import "./chunk-XI2RTGAL.js";
 
 // bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/version.mjs
 import { Version } from "@angular/compiler";
-var VERSION = new Version("15.2.7");
+var VERSION = new Version("18.2.12");
 
 // bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/ngtsc/tsc_plugin.mjs
 var NgTscPlugin = class {
@@ -99,7 +109,6 @@ var NgTscPlugin = class {
       throw new Error("Lifecycle error: setupCompilation() before wrapHost().");
     }
     this.host.postProgramCreationCleanup();
-    untagAllTsFiles(program);
     const programDriver = new TsCreateProgramDriver(program, this.host, this.options, this.host.shimExtensionPrefixes);
     const strategy = new PatchedProgramIncrementalBuildStrategy();
     const oldState = oldProgram !== void 0 ? strategy.getIncrementalState(oldProgram) : null;
@@ -153,12 +162,17 @@ setFileSystem(new NodeJSFileSystem());
 export {
   ConsoleLogger,
   DEFAULT_ERROR_CODE,
+  DecoratorType,
+  DocsExtractor,
   EmitFlags,
+  EntryType,
   GLOBAL_DEFS_FOR_TERSER,
   GLOBAL_DEFS_FOR_TERSER_WITH_AOT,
   LogLevel,
   LogicalFileSystem,
   LogicalProjectPath,
+  MemberTags,
+  MemberType,
   NgTscPlugin,
   NgtscCompilerHost,
   NgtscProgram,
@@ -169,6 +183,7 @@ export {
   VERSION,
   absoluteFrom,
   absoluteFromSourceFile,
+  angularJitApplicationTransform,
   basename,
   calcProjectFileAndBasePath,
   constructorParametersDownlevelTransform,
@@ -178,8 +193,12 @@ export {
   dirname,
   exitCodeFromResult,
   formatDiagnostics,
+  getDownlevelDecoratorsTransform,
   getFileSystem,
+  getInitializerApiJitTransform,
   getSourceFileOrError,
+  isDocEntryWithSourceInfo,
+  isLocalCompilationDiagnostics,
   isLocalRelativePath,
   isRoot,
   isRooted,
@@ -198,6 +217,6 @@ export {
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 //# sourceMappingURL=index.js.map

@@ -1,5 +1,5 @@
-import { StorybookConfig as StorybookConfig$1, Options, NormalizedStoriesSpecifier } from '@storybook/types';
-export { BuilderResult, Options, Preset, TypescriptOptions } from '@storybook/types';
+import { StorybookConfig as StorybookConfig$1, Options, NormalizedStoriesSpecifier } from 'storybook/internal/types';
+export { BuilderResult, Options, Preset, TypescriptOptions } from 'storybook/internal/types';
 
 type RulesConfig = any;
 type ModuleConfig = {
@@ -17,15 +17,17 @@ interface WebpackConfiguration {
     optimization?: any;
     devtool?: false | string;
 }
+type BuilderOptions = {
+    fsCache?: boolean;
+    lazyCompilation?: boolean;
+};
 type StorybookConfig<TWebpackConfiguration = WebpackConfiguration> = StorybookConfig$1 & {
     /**
-     * Modify or return a custom Webpack config after the Storybook's default configuration
-     * has run (mostly used by addons).
+     * Modify or return a custom Webpack config after the Storybook's default configuration has run
+     * (mostly used by addons).
      */
     webpack?: (config: TWebpackConfiguration, options: Options) => TWebpackConfiguration | Promise<TWebpackConfiguration>;
-    /**
-     * Modify or return a custom Webpack config after every addon has run.
-     */
+    /** Modify or return a custom Webpack config after every addon has run. */
     webpackFinal?: (config: TWebpackConfiguration, options: Options) => TWebpackConfiguration | Promise<TWebpackConfiguration>;
 };
 
@@ -50,4 +52,4 @@ declare const toRequireContext: (specifier: NormalizedStoriesSpecifier) => {
 };
 declare const toRequireContextString: (specifier: NormalizedStoriesSpecifier) => string;
 
-export { ModuleConfig, ResolveConfig, RulesConfig, StorybookConfig, WebpackConfiguration, checkWebpackVersion, loadCustomWebpackConfig, mergeConfigs, toImportFn, toImportFnPart, toRequireContext, toRequireContextString, webpackIncludeRegexp };
+export { BuilderOptions, ModuleConfig, ResolveConfig, RulesConfig, StorybookConfig, WebpackConfiguration, checkWebpackVersion, loadCustomWebpackConfig, mergeConfigs, toImportFn, toImportFnPart, toRequireContext, toRequireContextString, webpackIncludeRegexp };

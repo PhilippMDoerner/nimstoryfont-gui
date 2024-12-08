@@ -1,0 +1,90 @@
+<app-page-container>
+  <article class="container map">
+    @if (canUpdate()) {
+      <div class="map__edit-container">
+        <a [routerLink]="updateUrl()" tabindex="-1">
+          <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
+        </a>
+      </div>
+    }
+
+    @if (mapChoices().length > 0) {
+      <h3 class="map__heading heading">
+        Map of
+        <app-choice-select
+          class="heading__select"
+          [choices]="mapChoices()"
+          [labelProp]="'name'"
+          [selectedLabelValue]="map().name"
+          (choiceSelect)="onMapChange($event)"
+        ></app-choice-select>
+      </h3>
+    }
+
+    <a [routerLink]="createUrl()" class="map__create" tabindex="-1">
+      <button
+        btn
+        [kind]="'PRIMARY'"
+        [icon]="'plus'"
+        [text]="'Add Map'"
+      ></button>
+    </a>
+
+    <!-- Leaflet Map -->
+    @if (mapChoices().length > 0) {
+      <div class="row map__map" data-swipe-ignore>
+        @if (map()) {
+          <div class="mb-5 col">
+            <app-ngx-leaflet-map
+              [mapData]="map()"
+              [serverUrl]="serverUrl()"
+            ></app-ngx-leaflet-map>
+          </div>
+        } @else {
+          <ng-container *ngTemplateOutlet="loading" />
+        }
+      </div>
+    } @else {
+      <ng-container *ngTemplateOutlet="noMapMessage" />
+    }
+
+    <!-- Footer (Move to other Article + Delete Article) -->
+    <app-article-footer
+      [showDelete]="canDelete()"
+      [buttonLink]="homeUrl()"
+      [buttonLabel]="'Back to Frontpage'"
+      [deleteMessage]="'Delete Map of ' + map().name + '?'"
+      (delete)="onMapDelete()"
+    ></app-article-footer>
+  </article>
+</app-page-container>
+
+<ng-template #noMapMessage>
+  @if (canCreate()) {
+    <div class="map__no-map">
+      <h4>There's no map yet! Want to add one?</h4>
+      <a [routerLink]="createUrl()" class="map__create">
+        <button
+          btn
+          [kind]="'PRIMARY'"
+          [icon]="'plus'"
+          [text]="'Add Map'"
+        ></button>
+      </a>
+    </div>
+  } @else {
+    <ng-container *ngTemplateOutlet="noMapMessageGuest" />
+  }
+</ng-template>
+
+<ng-template #noMapMessageGuest>
+  <div class="map__no-map">
+    <h4>There's no map yet, but maybe there may be in the future!</h4>
+    <a [routerLink]="homeUrl()" class="map__create" tabindex="-1">
+      <button btn [kind]="'SECONDARY'" [text]="'Back to home page'"></button>
+    </a>
+  </div>
+</ng-template>
+
+<!-- Loading Spinner -->
+<ng-template #loading><app-spinner></app-spinner></ng-template>

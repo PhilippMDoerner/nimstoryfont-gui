@@ -1,5 +1,4 @@
-import { AfterContentInit, ChangeDetectorRef, EventEmitter, OnDestroy, TemplateRef } from '@angular/core';
-import { NgbAccordionConfig } from './accordion-config';
+import { AfterContentChecked, AfterContentInit, EventEmitter, OnDestroy } from '@angular/core';
 import { NgbCollapse } from '../collapse/collapse';
 import * as i0 from "@angular/core";
 import * as i1 from "../collapse/collapse";
@@ -11,13 +10,18 @@ import * as i1 from "../collapse/collapse";
  *
  * @since 14.1.0
  */
-export declare class NgbAccordionBody {
+export declare class NgbAccordionBody implements AfterContentChecked, OnDestroy {
+    private _vcr;
+    private _element;
     private _item;
-    constructor(_item: NgbAccordionItem);
+    private _viewRef;
     private _bodyTpl;
-    template(): TemplateRef<any> | null;
+    ngAfterContentChecked(): void;
+    ngOnDestroy(): void;
+    private _destroyViewIfExists;
+    private _createViewIfNotExists;
     static ɵfac: i0.ɵɵFactoryDeclaration<NgbAccordionBody, never>;
-    static ɵcmp: i0.ɵɵComponentDeclaration<NgbAccordionBody, "[ngbAccordionBody]", never, {}, {}, ["_bodyTpl"], never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionBody, "[ngbAccordionBody]", never, {}, {}, ["_bodyTpl"], never, true, never>;
 }
 /**
  * A directive that wraps the collapsible item's content of the accordion.
@@ -29,7 +33,6 @@ export declare class NgbAccordionBody {
 export declare class NgbAccordionCollapse {
     item: NgbAccordionItem;
     ngbCollapse: NgbCollapse;
-    constructor(item: NgbAccordionItem, ngbCollapse: NgbCollapse);
     static ɵfac: i0.ɵɵFactoryDeclaration<NgbAccordionCollapse, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionCollapse, "[ngbAccordionCollapse]", ["ngbAccordionCollapse"], {}, {}, never, never, true, [{ directive: typeof i1.NgbCollapse; inputs: {}; outputs: {}; }]>;
 }
@@ -44,7 +47,6 @@ export declare class NgbAccordionCollapse {
 export declare class NgbAccordionToggle {
     item: NgbAccordionItem;
     accordion: NgbAccordionDirective;
-    constructor(item: NgbAccordionItem, accordion: NgbAccordionDirective);
     static ɵfac: i0.ɵɵFactoryDeclaration<NgbAccordionToggle, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionToggle, "[ngbAccordionToggle]", never, {}, {}, never, never, true, never>;
 }
@@ -57,7 +59,6 @@ export declare class NgbAccordionToggle {
  */
 export declare class NgbAccordionButton {
     item: NgbAccordionItem;
-    constructor(item: NgbAccordionItem);
     static ɵfac: i0.ɵɵFactoryDeclaration<NgbAccordionButton, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionButton, "button[ngbAccordionButton]", never, {}, {}, never, never, true, [{ directive: typeof NgbAccordionToggle; inputs: {}; outputs: {}; }]>;
 }
@@ -68,7 +69,6 @@ export declare class NgbAccordionButton {
  */
 export declare class NgbAccordionHeader {
     item: NgbAccordionItem;
-    constructor(item: NgbAccordionItem);
     static ɵfac: i0.ɵɵFactoryDeclaration<NgbAccordionHeader, never>;
     static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionHeader, "[ngbAccordionHeader]", never, {}, {}, never, never, true, never>;
 }
@@ -82,14 +82,14 @@ export declare class NgbAccordionHeader {
  *
  * @since 14.1.0
  */
-export declare class NgbAccordionItem implements AfterContentInit, OnDestroy {
+export declare class NgbAccordionItem implements AfterContentInit {
     private _accordion;
     private _cd;
-    constructor(_accordion: NgbAccordionDirective, _cd: ChangeDetectorRef);
-    private _subscriptions;
+    private _destroyRef;
     private _collapsed;
     private _id;
-    animatingBodyCollapse: boolean;
+    private _destroyOnHide;
+    private _collapseAnimationRunning;
     private _collapse;
     /**
      * Sets the custom ID of the accordion item. It must be unique for the document.
@@ -102,7 +102,8 @@ export declare class NgbAccordionItem implements AfterContentInit, OnDestroy {
      *
      * This property can also be set up on the parent [`NgbAccordion` directive](#/components/accordion/api#NgbAccordionDirective).
      */
-    destroyOnHide: boolean;
+    set destroyOnHide(destroyOnHide: boolean);
+    get destroyOnHide(): boolean;
     /**
      * If `true`, the accordion item will be disabled.
      * It won't react to user's clicks, but still will be toggelable programmatically.
@@ -115,9 +116,21 @@ export declare class NgbAccordionItem implements AfterContentInit, OnDestroy {
      */
     set collapsed(collapsed: boolean);
     /**
+     * Event emitted before the expanding animation starts. It has no payload.
+     *
+     * @since 15.1.0
+     */
+    show: EventEmitter<void>;
+    /**
      * Event emitted when the expanding animation is finished. It has no payload.
      */
     shown: EventEmitter<void>;
+    /**
+     * Event emitted before the collapsing animation starts. It has no payload.
+     *
+     * @since 15.1.0
+     */
+    hide: EventEmitter<void>;
     /**
      * Event emitted when the collapsing animation is finished and before the content is removed from DOM.
      * It has no payload.
@@ -127,14 +140,22 @@ export declare class NgbAccordionItem implements AfterContentInit, OnDestroy {
     get id(): string;
     get toggleId(): string;
     get collapseId(): string;
+    get _shouldBeInDOM(): boolean;
     ngAfterContentInit(): void;
-    ngOnDestroy(): void;
     /**
      * Toggles an accordion item.
      */
     toggle(): void;
+    /**
+     * Expands an accordion item.
+     */
+    expand(): void;
+    /**
+     * Collapses an accordion item.
+     */
+    collapse(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<NgbAccordionItem, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionItem, "[ngbAccordionItem]", ["ngbAccordionItem"], { "id": "ngbAccordionItem"; "destroyOnHide": "destroyOnHide"; "disabled": "disabled"; "collapsed": "collapsed"; }, { "shown": "shown"; "hidden": "hidden"; }, ["_collapse"], never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionItem, "[ngbAccordionItem]", ["ngbAccordionItem"], { "id": { "alias": "ngbAccordionItem"; "required": false; }; "destroyOnHide": { "alias": "destroyOnHide"; "required": false; }; "disabled": { "alias": "disabled"; "required": false; }; "collapsed": { "alias": "collapsed"; "required": false; }; }, { "show": "show"; "shown": "shown"; "hide": "hide"; "hidden": "hidden"; }, ["_collapse"], never, true, never>;
 }
 /**
  * Accordion is a stack of cards that have a header and collapsible body.
@@ -144,7 +165,9 @@ export declare class NgbAccordionItem implements AfterContentInit, OnDestroy {
  * @since 14.1.0
  */
 export declare class NgbAccordionDirective {
-    private _items;
+    private _config;
+    private _anItemWasAlreadyExpandedDuringInitialisation;
+    private _items?;
     /**
      * If `true`, accordion will be animated.
      */
@@ -160,15 +183,26 @@ export declare class NgbAccordionDirective {
      */
     destroyOnHide: boolean;
     /**
+     * Event emitted before expanding animation starts. The payload is the id of shown accordion item.
+     *
+     * @since 15.1.0
+     */
+    show: EventEmitter<string>;
+    /**
      * Event emitted when the expanding animation is finished. The payload is the id of shown accordion item.
      */
     shown: EventEmitter<string>;
+    /**
+     * Event emitted before the collapsing animation starts. The payload is the id of hidden accordion item.
+     *
+     * @since 15.1.0
+     */
+    hide: EventEmitter<string>;
     /**
      * Event emitted when the collapsing animation is finished and before the content is removed from DOM.
      * The payload is the id of hidden accordion item.
      */
     hidden: EventEmitter<string>;
-    constructor(config: NgbAccordionConfig);
     /**
      * Toggles an item with the given id.
      *
@@ -211,7 +245,14 @@ export declare class NgbAccordionDirective {
      * @param itemId The id of the item to check.
      */
     isExpanded(itemId: string): boolean;
+    /**
+     * It checks, if the item can be expanded in the current state of the accordion.
+     * With `closeOthers` there can be only one expanded item at a time.
+     *
+     * @internal
+     */
+    _ensureCanExpand(toExpand: NgbAccordionItem): boolean;
     private _getItem;
     static ɵfac: i0.ɵɵFactoryDeclaration<NgbAccordionDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionDirective, "[ngbAccordion]", ["ngbAccordion"], { "animation": "animation"; "closeOthers": "closeOthers"; "destroyOnHide": "destroyOnHide"; }, { "shown": "shown"; "hidden": "hidden"; }, ["_items"], never, true, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<NgbAccordionDirective, "[ngbAccordion]", ["ngbAccordion"], { "animation": { "alias": "animation"; "required": false; }; "closeOthers": { "alias": "closeOthers"; "required": false; }; "destroyOnHide": { "alias": "destroyOnHide"; "required": false; }; }, { "show": "show"; "shown": "shown"; "hide": "hide"; "hidden": "hidden"; }, ["_items"], never, true, never>;
 }

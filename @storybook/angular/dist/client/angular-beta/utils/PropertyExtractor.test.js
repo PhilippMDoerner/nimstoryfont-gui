@@ -4,8 +4,9 @@ const common_1 = require("@angular/common");
 const core_1 = require("@angular/core");
 const platform_browser_1 = require("@angular/platform-browser");
 const animations_1 = require("@angular/platform-browser/animations");
-const PropertyExtractor_1 = require("./PropertyExtractor");
+const vitest_1 = require("vitest");
 const test_module_1 = require("../__testfixtures__/test.module");
+const PropertyExtractor_1 = require("./PropertyExtractor");
 const TEST_TOKEN = new core_1.InjectionToken('testToken');
 const TestTokenProvider = { provide: TEST_TOKEN, useValue: 123 };
 const TestService = (0, core_1.Injectable)()(class {
@@ -16,7 +17,13 @@ const TestComponent2 = (0, core_1.Component)({})(class {
 });
 const StandaloneTestComponent = (0, core_1.Component)({ standalone: true })(class {
 });
-const TestDirective = (0, core_1.Directive)({})(class {
+const StandaloneTestDirective = (0, core_1.Directive)({ standalone: true })(class {
+});
+const MixedTestComponent1 = (0, core_1.Component)({ standalone: true })(class extends StandaloneTestComponent {
+});
+const MixedTestComponent2 = (0, core_1.Component)({})(class extends MixedTestComponent1 {
+});
+const MixedTestComponent3 = (0, core_1.Component)({ standalone: true })(class extends MixedTestComponent2 {
 });
 const TestModuleWithDeclarations = (0, core_1.NgModule)({ declarations: [TestComponent1] })(class {
 });
@@ -44,98 +51,121 @@ const extractApplicationProviders = (metadata, component) => {
     const { applicationProviders } = new PropertyExtractor_1.PropertyExtractor(metadata, component);
     return applicationProviders;
 };
-describe('PropertyExtractor', () => {
-    describe('analyzeMetadata', () => {
-        it('should remove BrowserModule', () => {
+(0, vitest_1.describe)('PropertyExtractor', () => {
+    vitest_1.vi.spyOn(console, 'warn').mockImplementation(() => { });
+    (0, vitest_1.describe)('analyzeMetadata', () => {
+        (0, vitest_1.it)('should remove BrowserModule', () => {
             const metadata = {
                 imports: [platform_browser_1.BrowserModule],
             };
             const { imports, providers, applicationProviders } = analyzeMetadata(metadata);
-            expect(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule]);
-            expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
-            expect(applicationProviders.flat(Number.MAX_VALUE)).toEqual([]);
+            (0, vitest_1.expect)(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule]);
+            (0, vitest_1.expect)(providers.flat(Number.MAX_VALUE)).toEqual([]);
+            (0, vitest_1.expect)(applicationProviders.flat(Number.MAX_VALUE)).toEqual([]);
         });
-        it('should remove BrowserAnimationsModule and use its providers instead', () => {
+        (0, vitest_1.it)('should remove BrowserAnimationsModule and use its providers instead', () => {
             const metadata = {
                 imports: [animations_1.BrowserAnimationsModule],
             };
             const { imports, providers, applicationProviders } = analyzeMetadata(metadata);
-            expect(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule]);
-            expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
-            expect(applicationProviders.flat(Number.MAX_VALUE)).toEqual((0, animations_1.provideAnimations)());
+            (0, vitest_1.expect)(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule]);
+            (0, vitest_1.expect)(providers.flat(Number.MAX_VALUE)).toEqual([]);
+            (0, vitest_1.expect)(applicationProviders.flat(Number.MAX_VALUE)).toEqual((0, animations_1.provideAnimations)());
         });
-        it('should remove NoopAnimationsModule and use its providers instead', () => {
+        (0, vitest_1.it)('should remove NoopAnimationsModule and use its providers instead', () => {
             const metadata = {
                 imports: [animations_1.NoopAnimationsModule],
             };
             const { imports, providers, applicationProviders } = analyzeMetadata(metadata);
-            expect(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule]);
-            expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
-            expect(applicationProviders.flat(Number.MAX_VALUE)).toEqual((0, animations_1.provideNoopAnimations)());
+            (0, vitest_1.expect)(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule]);
+            (0, vitest_1.expect)(providers.flat(Number.MAX_VALUE)).toEqual([]);
+            (0, vitest_1.expect)(applicationProviders.flat(Number.MAX_VALUE)).toEqual((0, animations_1.provideNoopAnimations)());
         });
-        it('should remove Browser/Animations modules recursively', () => {
+        (0, vitest_1.it)('should remove Browser/Animations modules recursively', () => {
             const metadata = {
                 imports: [animations_1.BrowserAnimationsModule, platform_browser_1.BrowserModule],
             };
             const { imports, providers, applicationProviders } = analyzeMetadata(metadata);
-            expect(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule]);
-            expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
-            expect(applicationProviders.flat(Number.MAX_VALUE)).toEqual((0, animations_1.provideAnimations)());
+            (0, vitest_1.expect)(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule]);
+            (0, vitest_1.expect)(providers.flat(Number.MAX_VALUE)).toEqual([]);
+            (0, vitest_1.expect)(applicationProviders.flat(Number.MAX_VALUE)).toEqual((0, animations_1.provideAnimations)());
         });
-        it('should not destructure Angular official module', () => {
+        (0, vitest_1.it)('should not destructure Angular official module', () => {
             const metadata = {
                 imports: [test_module_1.WithOfficialModule],
             };
             const { imports, providers, applicationProviders } = analyzeMetadata(metadata);
-            expect(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule, test_module_1.WithOfficialModule]);
-            expect(providers.flat(Number.MAX_VALUE)).toEqual([]);
-            expect(applicationProviders.flat(Number.MAX_VALUE)).toEqual([]);
+            (0, vitest_1.expect)(imports.flat(Number.MAX_VALUE)).toEqual([common_1.CommonModule, test_module_1.WithOfficialModule]);
+            (0, vitest_1.expect)(providers.flat(Number.MAX_VALUE)).toEqual([]);
+            (0, vitest_1.expect)(applicationProviders.flat(Number.MAX_VALUE)).toEqual([]);
         });
     });
-    describe('extractImports', () => {
-        it('should return Angular official modules', () => {
+    (0, vitest_1.describe)('extractImports', () => {
+        (0, vitest_1.it)('should return Angular official modules', () => {
             const imports = extractImports({ imports: [TestModuleWithImportsAndProviders] });
-            expect(imports).toEqual([common_1.CommonModule, TestModuleWithImportsAndProviders]);
+            (0, vitest_1.expect)(imports).toEqual([common_1.CommonModule, TestModuleWithImportsAndProviders]);
         });
-        it('should return standalone components', () => {
+        (0, vitest_1.it)('should return standalone components', () => {
             const imports = extractImports({
                 imports: [TestModuleWithImportsAndProviders],
             }, StandaloneTestComponent);
-            expect(imports).toEqual([
+            (0, vitest_1.expect)(imports).toEqual([
                 common_1.CommonModule,
                 TestModuleWithImportsAndProviders,
                 StandaloneTestComponent,
             ]);
         });
+        (0, vitest_1.it)('should return standalone directives', () => {
+            const imports = extractImports({
+                imports: [TestModuleWithImportsAndProviders],
+            }, StandaloneTestDirective);
+            (0, vitest_1.expect)(imports).toEqual([
+                common_1.CommonModule,
+                TestModuleWithImportsAndProviders,
+                StandaloneTestDirective,
+            ]);
+        });
     });
-    describe('extractDeclarations', () => {
-        it('should return an array of declarations that contains `storyComponent`', () => {
+    (0, vitest_1.describe)('extractDeclarations', () => {
+        (0, vitest_1.it)('should return an array of declarations that contains `storyComponent`', () => {
             const declarations = extractDeclarations({ declarations: [TestComponent1] }, TestComponent2);
-            expect(declarations).toEqual([TestComponent1, TestComponent2]);
+            (0, vitest_1.expect)(declarations).toEqual([TestComponent1, TestComponent2]);
         });
     });
-    describe('analyzeDecorators', () => {
-        it('isStandalone should be false', () => {
+    (0, vitest_1.describe)('analyzeDecorators', () => {
+        (0, vitest_1.it)('isStandalone should be false', () => {
             const { isStandalone } = PropertyExtractor_1.PropertyExtractor.analyzeDecorators(TestComponent1);
-            expect(isStandalone).toBe(false);
+            (0, vitest_1.expect)(isStandalone).toBe(false);
         });
-        it('isStandalone should be true', () => {
+        (0, vitest_1.it)('isStandalone should be true', () => {
             const { isStandalone } = PropertyExtractor_1.PropertyExtractor.analyzeDecorators(StandaloneTestComponent);
-            expect(isStandalone).toBe(true);
+            (0, vitest_1.expect)(isStandalone).toBe(true);
+        });
+        (0, vitest_1.it)('isStandalone should be true', () => {
+            const { isStandalone } = PropertyExtractor_1.PropertyExtractor.analyzeDecorators(MixedTestComponent1);
+            (0, vitest_1.expect)(isStandalone).toBe(true);
+        });
+        (0, vitest_1.it)('isStandalone should be false', () => {
+            const { isStandalone } = PropertyExtractor_1.PropertyExtractor.analyzeDecorators(MixedTestComponent2);
+            (0, vitest_1.expect)(isStandalone).toBe(false);
+        });
+        (0, vitest_1.it)('isStandalone should be true', () => {
+            const { isStandalone } = PropertyExtractor_1.PropertyExtractor.analyzeDecorators(MixedTestComponent3);
+            (0, vitest_1.expect)(isStandalone).toBe(true);
         });
     });
-    describe('extractProviders', () => {
-        it('should return an array of providers', () => {
+    (0, vitest_1.describe)('extractProviders', () => {
+        (0, vitest_1.it)('should return an array of providers', () => {
             const providers = extractProviders({
                 providers: [TestService],
             });
-            expect(providers).toEqual([TestService]);
+            (0, vitest_1.expect)(providers).toEqual([TestService]);
         });
-        it('should return an array of singletons extracted', () => {
+        (0, vitest_1.it)('should return an array of singletons extracted', () => {
             const singeltons = extractApplicationProviders({
                 imports: [animations_1.BrowserAnimationsModule],
             });
-            expect(singeltons).toEqual((0, animations_1.provideAnimations)());
+            (0, vitest_1.expect)(singeltons).toEqual((0, animations_1.provideAnimations)());
         });
     });
 });

@@ -1,4 +1,5 @@
 "use strict";
+// @vitest-environment happy-dom
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,14 +11,15 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const vitest_1 = require("vitest");
 const testing_1 = require("@angular/core/testing");
 const rxjs_1 = require("rxjs");
 const StorybookModule_1 = require("./StorybookModule");
 const StorybookProvider_1 = require("./StorybookProvider");
 const PropertyExtractor_1 = require("./utils/PropertyExtractor");
-describe('StorybookModule', () => {
-    describe('getStorybookModuleMetadata', () => {
-        describe('with simple component', () => {
+(0, vitest_1.describe)('StorybookModule', () => {
+    (0, vitest_1.describe)('getStorybookModuleMetadata', () => {
+        (0, vitest_1.describe)('with simple component', () => {
             let FooComponent = class FooComponent {
                 constructor() {
                     this.output = new core_1.EventEmitter();
@@ -55,16 +57,16 @@ describe('StorybookModule', () => {
                     selector: 'foo',
                     template: `
           <p id="input">{{ input }}</p>
-          <p id="inputBindingPropertyName">{{ localPropertyName }}</p>
-          <p id="setterCallNb">{{ setterCallNb }}</p>
-          <p id="localProperty">{{ localProperty }}</p>
-          <p id="localFunction">{{ localFunction() }}</p>
-          <p id="output" (click)="output.emit('outputEmitted')"></p>
-          <p id="outputBindingPropertyName" (click)="localOutput.emit('outputEmitted')"></p>
+<p id="inputBindingPropertyName">{{ localPropertyName }}</p>
+<p id="setterCallNb">{{ setterCallNb }}</p>
+<p id="localProperty">{{ localProperty }}</p>
+<p id="localFunction">{{ localFunction() }}</p>
+<p id="output" (click)="output.emit('outputEmitted')"></p>
+<p id="outputBindingPropertyName" (click)="localOutput.emit('outputEmitted')"></p>
         `,
                 })
             ], FooComponent);
-            it('should initialize inputs', async () => {
+            (0, vitest_1.it)('should initialize inputs', async () => {
                 const props = {
                     input: 'input',
                     inputBindingPropertyName: 'inputBindingPropertyName',
@@ -83,12 +85,12 @@ describe('StorybookModule', () => {
                     providers: [(0, StorybookProvider_1.storyPropsProvider)(new rxjs_1.BehaviorSubject(props))],
                 });
                 fixture.detectChanges();
-                expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(props.input);
-                expect(fixture.nativeElement.querySelector('p#inputBindingPropertyName').innerHTML).toEqual(props.inputBindingPropertyName);
-                expect(fixture.nativeElement.querySelector('p#localProperty').innerHTML).toEqual(props.localProperty);
-                expect(fixture.nativeElement.querySelector('p#localFunction').innerHTML).toEqual(props.localFunction());
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(props.input);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#inputBindingPropertyName').innerHTML).toEqual(props.inputBindingPropertyName);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#localProperty').innerHTML).toEqual(props.localProperty);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#localFunction').innerHTML).toEqual(props.localFunction());
             });
-            it('should initialize outputs', async () => {
+            (0, vitest_1.it)('should initialize outputs', async () => {
                 let expectedOutputValue;
                 let expectedOutputBindingValue;
                 const props = {
@@ -113,10 +115,10 @@ describe('StorybookModule', () => {
                 fixture.detectChanges();
                 fixture.nativeElement.querySelector('p#output').click();
                 fixture.nativeElement.querySelector('p#outputBindingPropertyName').click();
-                expect(expectedOutputValue).toEqual('outputEmitted');
-                expect(expectedOutputBindingValue).toEqual('outputEmitted');
+                (0, vitest_1.expect)(expectedOutputValue).toEqual('outputEmitted');
+                (0, vitest_1.expect)(expectedOutputBindingValue).toEqual('outputEmitted');
             });
-            it('should change inputs if storyProps$ Subject emit', async () => {
+            (0, vitest_1.it)('should change inputs if storyProps$ Subject emit', async () => {
                 const initialProps = {
                     input: 'input',
                     inputBindingPropertyName: '',
@@ -134,8 +136,8 @@ describe('StorybookModule', () => {
                     providers: [(0, StorybookProvider_1.storyPropsProvider)(storyProps$)],
                 });
                 fixture.detectChanges();
-                expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(initialProps.input);
-                expect(fixture.nativeElement.querySelector('p#inputBindingPropertyName').innerHTML).toEqual('');
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(initialProps.input);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#inputBindingPropertyName').innerHTML).toEqual('');
                 const newProps = {
                     input: 'new input',
                     inputBindingPropertyName: 'new inputBindingPropertyName',
@@ -144,12 +146,12 @@ describe('StorybookModule', () => {
                 };
                 storyProps$.next(newProps);
                 fixture.detectChanges();
-                expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(newProps.input);
-                expect(fixture.nativeElement.querySelector('p#inputBindingPropertyName').innerHTML).toEqual(newProps.inputBindingPropertyName);
-                expect(fixture.nativeElement.querySelector('p#localProperty').innerHTML).toEqual(newProps.localProperty);
-                expect(fixture.nativeElement.querySelector('p#localFunction').innerHTML).toEqual(newProps.localFunction());
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(newProps.input);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#inputBindingPropertyName').innerHTML).toEqual(newProps.inputBindingPropertyName);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#localProperty').innerHTML).toEqual(newProps.localProperty);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#localFunction').innerHTML).toEqual(newProps.localFunction());
             });
-            it('should override outputs if storyProps$ Subject emit', async () => {
+            (0, vitest_1.it)('should override outputs if storyProps$ Subject emit', async () => {
                 let expectedOutputValue;
                 let expectedOutputBindingValue;
                 const initialProps = {
@@ -187,11 +189,11 @@ describe('StorybookModule', () => {
                 fixture.detectChanges();
                 fixture.nativeElement.querySelector('p#output').click();
                 fixture.nativeElement.querySelector('p#outputBindingPropertyName').click();
-                expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(newProps.input);
-                expect(expectedOutputValue).toEqual('should be called');
-                expect(expectedOutputBindingValue).toEqual('should be called');
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(newProps.input);
+                (0, vitest_1.expect)(expectedOutputValue).toEqual('should be called');
+                (0, vitest_1.expect)(expectedOutputBindingValue).toEqual('should be called');
             });
-            it('should change template inputs if storyProps$ Subject emit', async () => {
+            (0, vitest_1.it)('should change template inputs if storyProps$ Subject emit', async () => {
                 const initialProps = {
                     color: 'red',
                     input: 'input',
@@ -212,18 +214,18 @@ describe('StorybookModule', () => {
                     providers: [(0, StorybookProvider_1.storyPropsProvider)(storyProps$)],
                 });
                 fixture.detectChanges();
-                expect(fixture.nativeElement.querySelector('p').style.color).toEqual('red');
-                expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(initialProps.input);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p').style.color).toEqual('red');
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(initialProps.input);
                 const newProps = {
                     color: 'black',
                     input: 'new input',
                 };
                 storyProps$.next(newProps);
                 fixture.detectChanges();
-                expect(fixture.nativeElement.querySelector('p').style.color).toEqual('black');
-                expect(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(newProps.input);
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p').style.color).toEqual('black');
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#input').innerHTML).toEqual(newProps.input);
             });
-            it('should call the Input() setter the right number of times', async () => {
+            (0, vitest_1.it)('should call the Input() setter the right number of times', async () => {
                 const initialProps = {
                     setter: 'init',
                 };
@@ -240,16 +242,16 @@ describe('StorybookModule', () => {
                     providers: [(0, StorybookProvider_1.storyPropsProvider)(storyProps$)],
                 });
                 fixture.detectChanges();
-                expect(fixture.nativeElement.querySelector('p#setterCallNb').innerHTML).toEqual('1');
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#setterCallNb').innerHTML).toEqual('1');
                 const newProps = {
                     setter: 'new setter value',
                 };
                 storyProps$.next(newProps);
                 fixture.detectChanges();
-                expect(fixture.nativeElement.querySelector('p#setterCallNb').innerHTML).toEqual('2');
+                (0, vitest_1.expect)(fixture.nativeElement.querySelector('p#setterCallNb').innerHTML).toEqual('2');
             });
         });
-        describe('with component without selector', () => {
+        (0, vitest_1.describe)('with component without selector', () => {
             let WithoutSelectorComponent = class WithoutSelectorComponent {
             };
             WithoutSelectorComponent = __decorate([
@@ -257,7 +259,7 @@ describe('StorybookModule', () => {
                     template: `The content`,
                 })
             ], WithoutSelectorComponent);
-            it('should display the component', async () => {
+            (0, vitest_1.it)('should display the component', async () => {
                 const props = {};
                 const analyzedMetadata = new PropertyExtractor_1.PropertyExtractor({ entryComponents: [WithoutSelectorComponent] }, WithoutSelectorComponent);
                 const application = (0, StorybookModule_1.getApplication)({
@@ -274,10 +276,10 @@ describe('StorybookModule', () => {
                     providers: [(0, StorybookProvider_1.storyPropsProvider)(new rxjs_1.BehaviorSubject(props))],
                 });
                 fixture.detectChanges();
-                expect(fixture.nativeElement.innerHTML).toContain('The content');
+                (0, vitest_1.expect)(fixture.nativeElement.innerHTML).toContain('The content');
             });
         });
-        it('should keep template with an empty value', async () => {
+        (0, vitest_1.it)('should keep template with an empty value', async () => {
             let FooComponent = class FooComponent {
             };
             FooComponent = __decorate([
@@ -298,7 +300,7 @@ describe('StorybookModule', () => {
                 providers: [(0, StorybookProvider_1.storyPropsProvider)(new rxjs_1.BehaviorSubject({}))],
             });
             fixture.detectChanges();
-            expect(fixture.nativeElement.innerHTML).toEqual('');
+            (0, vitest_1.expect)(fixture.nativeElement.innerHTML).toEqual('');
         });
     });
     async function configureTestingModule(ngModule) {

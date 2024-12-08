@@ -8,6 +8,7 @@ export interface ISomeInterface {
     one: string;
     two: boolean;
     three: any[];
+    ref?: ISomeInterface;
 }
 export declare class InputComponent<T> {
     /** Appearance style of the button. */
@@ -20,7 +21,9 @@ export declare class InputComponent<T> {
     /** Sets the button to a disabled state. */
     isDisabled: boolean;
     label: string;
+    ariaLabel: string;
     /** Specifies some arbitrary object */
     someDataObject: ISomeInterface;
     onClick: EventEmitter<Event>;
+    dashOut: EventEmitter<any>;
 }

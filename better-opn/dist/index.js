@@ -74,7 +74,7 @@ var startBrowserProcess = function startBrowserProcess(browser, url) {
         // Try our best to reuse existing tab
         // on OSX Chromium-based browser with AppleScript
         execSync('ps cax | grep "' + chromiumBrowser + '"');
-        execSync("osascript ../openChrome.applescript \"".concat(encodeURI(url), "\" ").concat(process.env.OPEN_MATCH_HOST_ONLY === 'true' ? encodeURI(normalizeURLToMatch(url)) : encodeURI(url), " \"").concat(chromiumBrowser, "\""), {
+        execSync("osascript ../openChrome.applescript \"".concat(encodeURI(url), "\" \"").concat(process.env.OPEN_MATCH_HOST_ONLY === 'true' ? encodeURI(normalizeURLToMatch(url)) : encodeURI(url), "\" \"").concat(chromiumBrowser, "\""), {
           cwd: __dirname,
           stdio: 'ignore'
         });
@@ -91,18 +91,15 @@ var startBrowserProcess = function startBrowserProcess(browser, url) {
 
   if (process.platform === 'darwin' && browser === 'open') {
     browser = undefined;
-  } // If there are arguments, they must be passed as array with the browser
-
-
-  if (typeof browser === 'string' && args.length > 0) {
-    browser = [browser].concat(args);
   } // Fallback to opn
   // (It will always open new tab)
 
 
   var options = _objectSpread({
-    app: browser,
-    url: true,
+    app: {
+      name: browser,
+      arguments: args
+    },
     wait: false
   }, opts);
 

@@ -38,6 +38,8 @@ FormlyFieldCheckbox.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", ve
           [indeterminate]="props.indeterminate && formControl.value == null"
           [formControl]="formControl"
           [formlyAttributes]="field"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
         />
         <label *ngIf="props.formCheck !== 'nolabel'" [for]="id" class="form-check-label">
           {{ props.label }}
@@ -67,6 +69,8 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
           [indeterminate]="props.indeterminate && formControl.value == null"
           [formControl]="formControl"
           [formlyAttributes]="field"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
         />
         <label *ngIf="props.formCheck !== 'nolabel'" [for]="id" class="form-check-label">
           {{ props.label }}

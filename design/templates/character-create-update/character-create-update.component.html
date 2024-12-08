@@ -1,0 +1,145 @@
+<app-page-container>
+  <article class="container create-update">
+    <h1 class="create-update__heading heading">
+      <span class="heading__text"> {{ heading() }} </span>
+
+      <!-- Heading -->
+      <div class="heading__edit-cancel">
+        <button
+          btn
+          (click)="onCancel()"
+          [icon]="'times'"
+          [kind]="'SECONDARY'"
+        ></button>
+      </div>
+    </h1>
+
+    <!-- Form -->
+    @switch (state()) {
+      @case ("CREATE") {
+        <ng-container [ngTemplateOutlet]="createForm" />
+      }
+      @case ("UPDATE") {
+        <ng-container [ngTemplateOutlet]="updateForm" />
+      }
+      @case ("OUTDATED_UPDATE") {
+        <ng-container [ngTemplateOutlet]="outdatedUpdateForm" />
+      }
+    }
+  </article>
+</app-page-container>
+
+<ng-template #createForm>
+  <app-form
+    class="create-update__form"
+    [model]="userModel()"
+    [fields]="formlyFields()"
+    (formlySubmit)="onSubmit($event)"
+    (formlyCancel)="onCancel()"
+  ></app-form>
+</ng-template>
+
+<ng-template #updateForm>
+  <div class="create-update__form form">
+    <div class="form__player-classes">
+      <h4 class="form__heading">{{ userModel().name }}'s Classes</h4>
+
+      <app-separator class="form__heading-separator" />
+
+      <!-- Add-Class-Badge -->
+      <h6>
+        <app-badge-list
+          [label]="'Class'"
+          [entries]="characterClasses()"
+          [createOptions]="{
+            kind: 'SELECT',
+            config: {
+              options: classOptions(),
+              valueProp: 'pk',
+              labelProp: 'name',
+            },
+          }"
+          [canCreate]="true"
+          [canDelete]="true"
+          (entryCreate)="addClass.emit($event)"
+          (entryDelete)="removeClass.emit($event)"
+        ></app-badge-list>
+      </h6>
+    </div>
+
+    <!-- Memberships -->
+    <div class="form__memberships">
+      <!-- Form -->
+      @switch (membershipFormState()) {
+        @case ("DISPLAY") {
+          <ng-container [ngTemplateOutlet]="displayMembershipForm" />
+        }
+        @case ("CREATE") {
+          <ng-container [ngTemplateOutlet]="createMembershipForm" />
+        }
+      }
+    </div>
+
+    <div class="form__character-data">
+      <h4 class="form__heading">Character Data</h4>
+
+      <app-separator class="form__heading-separator" />
+
+      <app-form
+        [model]="userModel()"
+        [fields]="formlyFields()"
+        (formlySubmit)="onSubmit($event)"
+        (formlyCancel)="onCancel()"
+      ></app-form>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #createMembershipForm>
+  <h4 class="form__heading">Create Organization Membership</h4>
+
+  <app-separator class="form__heading-separator" />
+
+  <app-form
+    [model]="organizationModel()"
+    [fields]="organizationFormlyFields()"
+    (formlySubmit)="createMembership($event)"
+    (formlyCancel)="membershipFormState.set('DISPLAY')"
+  ></app-form>
+</ng-template>
+
+<ng-template #displayMembershipForm>
+  <h4 class="form__heading">
+    {{ userModel().name }}'s Organization Memberships
+  </h4>
+
+  <app-separator class="form__heading-separator" />
+
+  <h6>
+    <app-badge-list
+      [label]="'Membership'"
+      [entries]="characterOrganizations()"
+      [canCreate]="false"
+      [canDelete]="true"
+      (entryCreate)="addOrganizationMembership.emit($event)"
+      (entryDelete)="removeMembership($event)"
+    ></app-badge-list>
+    <app-badge
+      [text]="'Add Membership'"
+      [kind]="'PRIMARY'"
+      [icon]="'plus'"
+      [clickable]="true"
+      (badgeClick)="membershipFormState.set('CREATE')"
+    ></app-badge>
+  </h6>
+</ng-template>
+
+<ng-template #outdatedUpdateForm>
+  <app-compare-form
+    [fields]="formlyFields()"
+    [modelFromUser]="userModel()"
+    [modelFromServer]="serverModel()"
+    (formlySubmit)="onSubmit($event)"
+    (formlyCancel)="onCancel()"
+  ></app-compare-form>
+</ng-template>

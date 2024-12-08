@@ -1,0 +1,25 @@
+.card {
+  padding: var(--spacer-3);
+
+  &:focus-within {
+    outline: 1px white solid;
+  }
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: start;
+    margin-bottom: 0px;
+  }
+
+  &__heading-text {
+    flex: 1;
+    margin-right: var(--spacer-4);
+  }
+
+  &__button {
+    outline: none;
+  }
+}

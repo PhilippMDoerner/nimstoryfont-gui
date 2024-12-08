@@ -1,7 +1,5 @@
-import { TranslationWidth } from '@angular/common';
 import { NgbDateStruct } from './ngb-date-struct';
 import * as i0 from "@angular/core";
-export declare function NGB_DATEPICKER_18N_FACTORY(locale: any): NgbDatepickerI18nDefault;
 /**
  * A service supplying i18n data to the datepicker component.
  *
@@ -21,7 +19,7 @@ export declare abstract class NgbDatepickerI18n {
      *
      * @since 9.1.0
      */
-    abstract getWeekdayLabel(weekday: number, width?: TranslationWidth): string;
+    abstract getWeekdayLabel(weekday: number, width?: Exclude<Intl.DateTimeFormatOptions['weekday'], undefined>): string;
     /**
      * Returns the short month name to display in the date picker navigation.
      *
@@ -83,8 +81,7 @@ export declare class NgbDatepickerI18nDefault extends NgbDatepickerI18n {
     private _locale;
     private _monthsShort;
     private _monthsFull;
-    constructor(_locale: string);
-    getWeekdayLabel(weekday: number, width?: TranslationWidth): string;
+    getWeekdayLabel(weekday: number, width?: Exclude<Intl.DateTimeFormatOptions['weekday'], undefined>): string;
     getMonthShortName(month: number): string;
     getMonthFullName(month: number): string;
     getDayAriaLabel(date: NgbDateStruct): string;

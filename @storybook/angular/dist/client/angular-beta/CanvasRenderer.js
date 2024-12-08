@@ -9,8 +9,5 @@ class CanvasRenderer extends AbstractRenderer_1.AbstractRenderer {
     async beforeFullRender() {
         CanvasRenderer.resetApplications();
     }
-    async afterFullRender() {
-        await AbstractRenderer_1.AbstractRenderer.resetCompiledComponents();
-    }
 }
 exports.CanvasRenderer = CanvasRenderer;

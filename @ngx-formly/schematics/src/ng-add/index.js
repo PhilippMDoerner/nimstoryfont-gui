@@ -13,6 +13,7 @@ exports.ngAdd = void 0;
 const schematics_1 = require("@angular-devkit/schematics");
 const tasks_1 = require("@angular-devkit/schematics/tasks");
 const ast_1 = require("../../utils/ast");
+const schematics_2 = require("@angular/cdk/schematics");
 const lib_versions_1 = require("../../utils/lib-versions");
 const package_1 = require("../../utils/package");
 /**
@@ -42,8 +43,8 @@ function addFormlyToPackageJson() {
 function addFormlyModuleConfig(options) {
     return (host) => __awaiter(this, void 0, void 0, function* () {
         const modulePath = (yield (0, ast_1.findModuleFromOptions)(host, options));
-        (0, ast_1.addModuleImportToModule)(host, modulePath, 'FormlyModule.forRoot()', '@ngx-formly/core');
-        (0, ast_1.addModuleImportToModule)(host, modulePath, 'ReactiveFormsModule', '@angular/forms');
+        (0, schematics_2.addModuleImportToModule)(host, modulePath, 'FormlyModule.forRoot()', '@ngx-formly/core');
+        (0, schematics_2.addModuleImportToModule)(host, modulePath, 'ReactiveFormsModule', '@angular/forms');
     });
 }
 /** Add UI module to app.module */
@@ -53,7 +54,7 @@ function addUITheme(options) {
         const uiTheme = options.uiTheme;
         if (uiTheme) {
             (0, package_1.addPackageToPackageJson)(host, 'dependencies', `@ngx-formly/${uiTheme}`, lib_versions_1.ngxFormlyVersion);
-            (0, ast_1.addModuleImportToModule)(host, modulePath, `Formly${mapUIName(uiTheme)}Module`, `@ngx-formly/${uiTheme}`);
+            (0, schematics_2.addModuleImportToModule)(host, modulePath, `Formly${mapUIName(uiTheme)}Module`, `@ngx-formly/${uiTheme}`);
         }
     });
 }

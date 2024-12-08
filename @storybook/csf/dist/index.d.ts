@@ -57,6 +57,7 @@ interface Parameters {
 interface StrictParameters {
     [name: string]: unknown;
 }
+type ControlType = 'object' | 'boolean' | 'check' | 'inline-check' | 'radio' | 'inline-radio' | 'select' | 'multi-select' | 'number' | 'range' | 'file' | 'color' | 'date' | 'text';
 type ConditionalTest = {
     truthy?: boolean;
 } | {
@@ -72,12 +73,118 @@ type ConditionalValue = {
     global: string;
 };
 type Conditional = ConditionalValue & ConditionalTest;
+interface ControlBase {
+    [key: string]: any;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#controltype
+     */
+    type?: ControlType;
+    disable?: boolean;
+}
+type Control = ControlType | false | (ControlBase & (ControlBase | {
+    type: 'color';
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#controlpresetcolors
+     */
+    presetColors?: string[];
+} | {
+    type: 'file';
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#controlaccept
+     */
+    accept?: string;
+} | {
+    type: 'inline-check' | 'radio' | 'inline-radio' | 'select' | 'multi-select';
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#controllabels
+     */
+    labels?: {
+        [options: string]: string;
+    };
+} | {
+    type: 'number' | 'range';
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#controlmax
+     */
+    max?: number;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#controlmin
+     */
+    min?: number;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#controlstep
+     */
+    step?: number;
+}));
 interface InputType {
-    name?: string;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#control
+     */
+    control?: Control;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#description
+     */
     description?: string;
-    defaultValue?: any;
-    type?: SBType | SBScalarType['name'];
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#if
+     */
     if?: Conditional;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#mapping
+     */
+    mapping?: {
+        [key: string]: any;
+    };
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#name
+     */
+    name?: string;
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#options
+     */
+    options?: readonly any[];
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#table
+     */
+    table?: {
+        [key: string]: unknown;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#tablecategory
+         */
+        category?: string;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#tabledefaultvalue
+         */
+        defaultValue?: {
+            summary?: string;
+            detail?: string;
+        };
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#tabledisable
+         */
+        disable?: boolean;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#tablesubcategory
+         */
+        subcategory?: string;
+        /**
+         * @see https://storybook.js.org/docs/api/arg-types#tabletype
+         */
+        type?: {
+            summary?: string;
+            detail?: string;
+        };
+    };
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#type
+     */
+    type?: SBType | SBScalarType['name'];
+    /**
+     * @see https://storybook.js.org/docs/api/arg-types#defaultvalue
+     *
+     * @deprecated Use `table.defaultValue.summary` instead.
+     */
+    defaultValue?: any;
     [key: string]: any;
 }
 interface StrictInputType extends InputType {
@@ -90,33 +197,37 @@ interface Args {
 interface StrictArgs {
     [name: string]: unknown;
 }
+/**
+ * @see https://storybook.js.org/docs/api/arg-types#argtypes
+ */
 type ArgTypes<TArgs = Args> = {
     [name in keyof TArgs]: InputType;
 };
 type StrictArgTypes<TArgs = Args> = {
     [name in keyof TArgs]: StrictInputType;
 };
-type Globals = {
+interface Globals {
     [name: string]: any;
-};
-type GlobalTypes = {
+}
+interface GlobalTypes {
     [name: string]: InputType;
-};
-type StrictGlobalTypes = {
+}
+interface StrictGlobalTypes {
     [name: string]: StrictInputType;
-};
-type Renderer = {
+}
+interface Renderer {
     /** What is the type of the `component` annotation in this renderer? */
     component: unknown;
     /** What does the story function return in this renderer? */
     storyResult: unknown;
     /** What type of element does this renderer render to? */
     canvasElement: unknown;
+    mount(): Promise<Canvas>;
     T?: unknown;
-};
+}
 /** @deprecated - use `Renderer` */
 type AnyFramework = Renderer;
-type StoryContextForEnhancers<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryIdentifier & {
+interface StoryContextForEnhancers<TRenderer extends Renderer = Renderer, TArgs = Args> extends StoryIdentifier {
     component?: (TRenderer & {
         T: any;
     })['component'];
@@ -126,33 +237,44 @@ type StoryContextForEnhancers<TRenderer extends Renderer = Renderer, TArgs = Arg
     parameters: Parameters;
     initialArgs: TArgs;
     argTypes: StrictArgTypes<TArgs>;
-};
+}
 type ArgsEnhancer<TRenderer extends Renderer = Renderer, TArgs = Args> = (context: StoryContextForEnhancers<TRenderer, TArgs>) => TArgs;
 type ArgTypesEnhancer<TRenderer extends Renderer = Renderer, TArgs = Args> = ((context: StoryContextForEnhancers<TRenderer, TArgs>) => StrictArgTypes<TArgs>) & {
     secondPass?: boolean;
 };
-type StoryContextUpdate<TArgs = Args> = {
+interface StoryContextUpdate<TArgs = Args> {
     args?: TArgs;
     globals?: Globals;
     [key: string]: any;
-};
+}
 type ViewMode = 'story' | 'docs';
-type StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryContextForEnhancers<TRenderer, TArgs> & Required<StoryContextUpdate<TArgs>> & {
-    hooks: unknown;
-    viewMode: ViewMode;
-    originalStoryFn: StoryFn<TRenderer>;
-};
-type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (context: StoryContextForLoaders<TRenderer, TArgs>) => Promise<Record<string, any>>;
-type StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryContextForLoaders<TRenderer, TArgs> & {
+type LoaderFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (context: StoryContextForLoaders<TRenderer, TArgs>) => Promise<Record<string, any> | void> | Record<string, any> | void;
+type Awaitable<T> = T | PromiseLike<T>;
+type CleanupCallback = () => Awaitable<unknown>;
+type BeforeAll = () => Awaitable<CleanupCallback | void>;
+type BeforeEach<TRenderer extends Renderer = Renderer, TArgs = Args> = (context: StoryContext<TRenderer, TArgs>) => Awaitable<CleanupCallback | void>;
+interface Canvas {
+}
+interface StoryContext<TRenderer extends Renderer = Renderer, TArgs = Args> extends StoryContextForEnhancers<TRenderer, TArgs>, Required<StoryContextUpdate<TArgs>> {
     loaded: Record<string, any>;
     abortSignal: AbortSignal;
     canvasElement: TRenderer['canvasElement'];
-};
+    hooks: unknown;
+    originalStoryFn: StoryFn<TRenderer>;
+    viewMode: ViewMode;
+    step: StepFunction<TRenderer, TArgs>;
+    context: this;
+    canvas: Canvas;
+    mount: TRenderer['mount'];
+}
+/** @deprecated Use {@link StoryContext} instead. */
+interface StoryContextForLoaders<TRenderer extends Renderer = Renderer, TArgs = Args> extends StoryContext<TRenderer, TArgs> {
+}
+/** @deprecated Use {@link StoryContext} instead. */
+interface PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args> extends StoryContext<TRenderer, TArgs> {
+}
 type StepLabel = string;
 type StepFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (label: StepLabel, play: PlayFunction<TRenderer, TArgs>) => Promise<void> | void;
-type PlayFunctionContext<TRenderer extends Renderer = Renderer, TArgs = Args> = StoryContext<TRenderer, TArgs> & {
-    step: StepFunction<TRenderer, TArgs>;
-};
 type PlayFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (context: PlayFunctionContext<TRenderer, TArgs>) => Promise<void> | void;
 type PartialStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = (update?: StoryContextUpdate<Partial<TArgs>>) => TRenderer['storyResult'];
 type LegacyStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = (context: StoryContext<TRenderer, TArgs>) => TRenderer['storyResult'];
@@ -162,15 +284,15 @@ type ArgsStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = (args: T
 type StoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = LegacyStoryFn<TRenderer, TArgs> | ArgsStoryFn<TRenderer, TArgs>;
 type DecoratorFunction<TRenderer extends Renderer = Renderer, TArgs = Args> = (fn: PartialStoryFn<TRenderer, TArgs>, c: StoryContext<TRenderer, TArgs>) => TRenderer['storyResult'];
 type DecoratorApplicator<TRenderer extends Renderer = Renderer, TArgs = Args> = (storyFn: LegacyStoryFn<TRenderer, TArgs>, decorators: DecoratorFunction<TRenderer, TArgs>[]) => LegacyStoryFn<TRenderer, TArgs>;
-type StepRunner<TRenderer extends Renderer = Renderer, TArgs = Args> = (label: StepLabel, play: PlayFunction<TRenderer, TArgs>, context: PlayFunctionContext<TRenderer, TArgs>) => Promise<void>;
-type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> = {
+type StepRunner<TRenderer extends Renderer = Renderer, TArgs = Args> = (label: StepLabel, play: PlayFunction<TRenderer, TArgs>, context: StoryContext<TRenderer, TArgs>) => Promise<void>;
+interface BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> {
     /**
      * Wrapper components or Storybook decorators that wrap a story.
      *
      * Decorators defined in Meta will be applied to every story variation.
      * @see [Decorators](https://storybook.js.org/docs/addons/introduction/#1-decorators)
      */
-    decorators?: DecoratorFunction<TRenderer, Simplify<TArgs>>[];
+    decorators?: DecoratorFunction<TRenderer, Simplify<TArgs>>[] | DecoratorFunction<TRenderer, Simplify<TArgs>>;
     /**
      * Custom metadata for a story.
      * @see [Parameters](https://storybook.js.org/docs/basics/writing-stories/#parameters)
@@ -190,20 +312,50 @@ type BaseAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> = {
      * Asynchronous functions which provide data for a story.
      * @see [Loaders](https://storybook.js.org/docs/react/writing-stories/loaders)
      */
-    loaders?: LoaderFunction<TRenderer, TArgs>[];
+    loaders?: LoaderFunction<TRenderer, TArgs>[] | LoaderFunction<TRenderer, TArgs>;
+    /**
+     * Function to be called before each story. When the function is async, it will be awaited.
+     *
+     * `beforeEach` can be added to preview, the default export and to a specific story.
+     * They are run (and awaited) in the order: preview, default export, story
+     *
+     * A cleanup function can be returned.
+     */
+    beforeEach?: BeforeEach<TRenderer, TArgs>[] | BeforeEach<TRenderer, TArgs>;
     /**
      * Define a custom render function for the story(ies). If not passed, a default render function by the renderer will be used.
      */
     render?: ArgsStoryFn<TRenderer, TArgs>;
-};
-type ProjectAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> = BaseAnnotations<TRenderer, TArgs> & {
+    /**
+     * Named tags for a story, used to filter stories in different contexts.
+     */
+    tags?: Tag[];
+    mount?: (context: StoryContext<TRenderer, TArgs>) => TRenderer['mount'];
+}
+interface ProjectAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> extends BaseAnnotations<TRenderer, TArgs> {
     argsEnhancers?: ArgsEnhancer<TRenderer, Args>[];
     argTypesEnhancers?: ArgTypesEnhancer<TRenderer, Args>[];
+    /**
+     * Lifecycle hook which runs once, before any loaders, decorators or stories, and may rerun when configuration changes or when reinitializing (e.g. between test runs).
+     * The function may be synchronous or asynchronous, and may return a cleanup function which may also be synchronous or asynchronous.
+     * The cleanup function is not guaranteed to run (e.g. when the browser closes), but runs when configuration changes or when reinitializing.
+     * This hook may only be defined globally (i.e. not on component or story level).
+     * When multiple hooks are specified, they are to be executed sequentially (and awaited) in the following order:
+     * - Addon hooks (in order of addons array in e.g. .storybook/main.js)
+     * - Annotation hooks (in order of previewAnnotations array in e.g. .storybook/main.js)
+     * - Preview hook (via e.g. .storybook/preview.js)
+     * Cleanup functions are executed sequentially in reverse order of initialization.
+     */
+    beforeAll?: BeforeAll;
+    /**
+     * @deprecated Project `globals` renamed to `initiaGlobals`
+     */
     globals?: Globals;
+    initialGlobals?: Globals;
     globalTypes?: GlobalTypes;
     applyDecorators?: DecoratorApplicator<TRenderer, Args>;
     runStep?: StepRunner<TRenderer, TArgs>;
-};
+}
 type StoryDescriptor$1 = string[] | RegExp;
 interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args> extends BaseAnnotations<TRenderer, TArgs> {
     /**
@@ -277,9 +429,9 @@ interface ComponentAnnotations<TRenderer extends Renderer = Renderer, TArgs = Ar
      */
     play?: PlayFunction<TRenderer, TArgs>;
     /**
-     * Named tags for a story, used to filter stories in different contexts.
+     * Override the globals values for all stories in this component
      */
-    tags?: Tag[];
+    globals?: Globals;
 }
 type StoryAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args, TRequiredArgs = Partial<TArgs>> = BaseAnnotations<TRenderer, TArgs> & {
     /**
@@ -295,9 +447,9 @@ type StoryAnnotations<TRenderer extends Renderer = Renderer, TArgs = Args, TRequ
      */
     play?: PlayFunction<TRenderer, TArgs>;
     /**
-     * Named tags for a story, used to filter stories in different contexts.
+     * Override the globals values for this story
      */
-    tags?: Tag[];
+    globals?: Globals;
     /** @deprecated */
     story?: Omit<StoryAnnotations<TRenderer, TArgs>, 'story'>;
 } & ({} extends TRequiredArgs ? {
@@ -311,8 +463,8 @@ type AnnotatedStoryFn<TRenderer extends Renderer = Renderer, TArgs = Args> = Arg
 type StoryAnnotationsOrFn<TRenderer extends Renderer = Renderer, TArgs = Args> = AnnotatedStoryFn<TRenderer, TArgs> | StoryAnnotations<TRenderer, TArgs>;
 type ArgsFromMeta<TRenderer extends Renderer, Meta> = Meta extends {
     render?: ArgsStoryFn<TRenderer, infer RArgs>;
-    loaders?: (infer Loaders)[];
-    decorators?: (infer Decorators)[];
+    loaders?: (infer Loaders)[] | infer Loaders;
+    decorators?: (infer Decorators)[] | infer Decorators;
 } ? Simplify<RemoveIndexSignature<RArgs & DecoratorsArgs<TRenderer, Decorators> & LoaderArgs<TRenderer, Loaders>>> : unknown;
 type DecoratorsArgs<TRenderer extends Renderer, Decorators> = UnionToIntersection<Decorators extends DecoratorFunction<TRenderer, infer TArgs> ? TArgs : unknown>;
 type LoaderArgs<TRenderer extends Renderer, Loaders> = UnionToIntersection<Loaders extends LoaderFunction<TRenderer, infer TArgs> ? TArgs : unknown>;
@@ -357,5 +509,9 @@ declare const parseKind: (kind: string, { rootSeparator, groupSeparator }: Separ
     root: string | null;
     groups: string[];
 };
+/**
+ * Combine a set of project / meta / story tags, removing duplicates and handling negations.
+ */
+declare const combineTags: (...tags: string[]) => string[];
 
-export { AnnotatedStoryFn, AnyFramework, ArgTypes, ArgTypesEnhancer, Args, ArgsEnhancer, ArgsFromMeta, ArgsStoryFn, BaseAnnotations, ComponentAnnotations, ComponentId, ComponentTitle, Conditional, DecoratorApplicator, DecoratorFunction, GlobalTypes, Globals, IncludeExcludeOptions, InputType, LegacyAnnotatedStoryFn, LegacyStoryAnnotationsOrFn, LegacyStoryFn, LoaderFunction, Parameters, PartialStoryFn, PlayFunction, PlayFunctionContext, ProjectAnnotations, Renderer, SBArrayType, SBEnumType, SBIntersectionType, SBObjectType, SBOtherType, SBScalarType, SBType, SBUnionType, SeparatorOptions, StepFunction, StepLabel, StepRunner, StoryAnnotations, StoryAnnotationsOrFn, StoryContext, StoryContextForEnhancers, StoryContextForLoaders, StoryContextUpdate, StoryFn, StoryId, StoryIdentifier, StoryKind, StoryName, StrictArgTypes, StrictArgs, StrictGlobalTypes, StrictInputType, StrictParameters, Tag, ViewMode, includeConditionalArg, isExportStory, parseKind, sanitize, storyNameFromExport, toId };
+export { AnnotatedStoryFn, AnyFramework, ArgTypes, ArgTypesEnhancer, Args, ArgsEnhancer, ArgsFromMeta, ArgsStoryFn, BaseAnnotations, BeforeAll, BeforeEach, Canvas, CleanupCallback, ComponentAnnotations, ComponentId, ComponentTitle, Conditional, DecoratorApplicator, DecoratorFunction, GlobalTypes, Globals, IncludeExcludeOptions, InputType, LegacyAnnotatedStoryFn, LegacyStoryAnnotationsOrFn, LegacyStoryFn, LoaderFunction, Parameters, PartialStoryFn, PlayFunction, PlayFunctionContext, ProjectAnnotations, Renderer, SBArrayType, SBEnumType, SBIntersectionType, SBObjectType, SBOtherType, SBScalarType, SBType, SBUnionType, SeparatorOptions, StepFunction, StepLabel, StepRunner, StoryAnnotations, StoryAnnotationsOrFn, StoryContext, StoryContextForEnhancers, StoryContextForLoaders, StoryContextUpdate, StoryFn, StoryId, StoryIdentifier, StoryKind, StoryName, StrictArgTypes, StrictArgs, StrictGlobalTypes, StrictInputType, StrictParameters, Tag, ViewMode, combineTags, includeConditionalArg, isExportStory, parseKind, sanitize, storyNameFromExport, toId };

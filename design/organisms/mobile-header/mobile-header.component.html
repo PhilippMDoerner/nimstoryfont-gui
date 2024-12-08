@@ -1,0 +1,41 @@
+<nav class="navbar bg-dark">
+  <div class="container-fluid">
+    @if (canShowSidebar()) {
+      <button
+        btn
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="offcanvas"
+        data-bs-target="#offcanvasNavbar"
+        aria-controls="sidebar"
+        aria-label="Toggle navigation"
+        (click)="openSidebar.emit()"
+      >
+        <app-icon [icon]="'bars'" />
+      </button>
+    }
+    <a class="navbar-brand" [routerLink]="titleUrl()">
+      <strong>
+        <img
+          class="navbar-brand-icon"
+          [src]="serverUrl + currentCampaignIconUrl()"
+          alt="To Home Page"
+        />
+        {{ title() }}
+      </strong>
+    </a>
+
+    @if ((online$ | async) === false) {
+      <app-icon
+        class="navbar-toggler"
+        [ngbTooltip]="tooltipContent"
+        [placement]="'left-bottom'"
+        [icon]="'triangle-exclamation'"
+      ></app-icon>
+    }
+  </div>
+</nav>
+
+<ng-template #tooltipContent>
+  <div class="m-0 p-0">You are currently offline</div>
+</ng-template>

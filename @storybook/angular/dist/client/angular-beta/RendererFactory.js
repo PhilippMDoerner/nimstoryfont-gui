@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.clearRootHTMLElement = exports.getRenderType = exports.RendererFactory = void 0;
 const AbstractRenderer_1 = require("./AbstractRenderer");
-const DocsRenderer_1 = require("./DocsRenderer");
 const CanvasRenderer_1 = require("./CanvasRenderer");
+const DocsRenderer_1 = require("./DocsRenderer");
 class RendererFactory {
     constructor() {
         this.rendererMap = new Map();
     }
-    async getRendererInstance(storyId, targetDOMNode) {
+    async getRendererInstance(targetDOMNode) {
         const targetId = targetDOMNode.id;
         // do nothing if the target node is null
         // fix a problem when the docs asks 2 times the same component at the same time
@@ -24,16 +24,16 @@ class RendererFactory {
             this.rendererMap.clear();
         }
         if (!this.rendererMap.has(targetId)) {
-            this.rendererMap.set(targetId, this.buildRenderer(storyId, renderType));
+            this.rendererMap.set(targetId, this.buildRenderer(renderType));
         }
         this.lastRenderType = renderType;
         return this.rendererMap.get(targetId);
     }
-    buildRenderer(storyId, renderType) {
+    buildRenderer(renderType) {
         if (renderType === 'docs') {
-            return new DocsRenderer_1.DocsRenderer(storyId);
+            return new DocsRenderer_1.DocsRenderer();
         }
-        return new CanvasRenderer_1.CanvasRenderer(storyId);
+        return new CanvasRenderer_1.CanvasRenderer();
     }
 }
 exports.RendererFactory = RendererFactory;

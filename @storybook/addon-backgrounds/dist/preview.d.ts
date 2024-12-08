@@ -1,21 +1,28 @@
-import * as lib_types_dist from 'lib/types/dist';
+import { Addon_DecoratorFunction } from 'storybook/internal/types';
 
-declare const decorators: ((StoryFn: lib_types_dist.PartialStoryFn<lib_types_dist.Renderer, lib_types_dist.Args>, context: lib_types_dist.StoryContext<lib_types_dist.Renderer, lib_types_dist.Args>) => unknown)[];
+interface Background {
+    name: string;
+    value: string;
+}
+type GlobalState = {
+    value: string | undefined;
+    grid: boolean;
+};
+
+declare const decorators: Addon_DecoratorFunction[];
 declare const parameters: {
     backgrounds: {
+        values?: Background[] | undefined;
         grid: {
             cellSize: number;
             opacity: number;
             cellAmount: number;
         };
-        values: {
-            name: string;
-            value: string;
-        }[];
+        disable: false;
     };
 };
-declare const globals: {
-    backgrounds: any;
+declare const initialGlobals: Record<string, GlobalState> | {
+    backgrounds: null;
 };
 
-export { decorators, globals, parameters };
+export { decorators, initialGlobals, parameters };

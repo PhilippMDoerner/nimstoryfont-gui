@@ -1,0 +1,39 @@
+<div [@flipInY]="isActive() ? 'sideA' : 'sideB'">
+  <ng-container
+    *ngTemplateOutlet="isActive() ? activeToggle : inactiveToggle"
+  />
+</div>
+
+<ng-template #inactiveToggle>
+  <button
+    btn
+    class="confirmation-toggle"
+    (click)="toggle()"
+    [kind]="toggleType()"
+    [icon]="icon()"
+    [size]="toggleSize()"
+    [text]="text()"
+  ></button>
+</ng-template>
+
+<ng-template #activeToggle>
+  <div class="confirmation confirmation--{{ confirmButtonType() }}">
+    <div class="confirmation__question">
+      <strong>{{ confirmationQuestion() }}</strong>
+    </div>
+    <div class="confirmation__buttons">
+      <button
+        btn
+        [kind]="confirmButtonType()"
+        [text]="'Yes'"
+        (click)="emitConfirmation()"
+      ></button>
+      <button
+        btn
+        [kind]="cancelButtonType()"
+        [text]="'No'"
+        (click)="toggle()"
+      ></button>
+    </div>
+  </div>
+</ng-template>

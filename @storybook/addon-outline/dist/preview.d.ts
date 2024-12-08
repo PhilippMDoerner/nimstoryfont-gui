@@ -1,8 +1,8 @@
-import * as lib_types_dist from 'lib/types/dist';
+import { Addon_DecoratorFunction } from 'storybook/internal/types';
 
-declare const decorators: ((StoryFn: lib_types_dist.PartialStoryFn<lib_types_dist.Renderer, lib_types_dist.Args>, context: lib_types_dist.StoryContext<lib_types_dist.Renderer, lib_types_dist.Args>) => unknown)[];
-declare const globals: {
+declare const decorators: Addon_DecoratorFunction[];
+declare const initialGlobals: {
     outline: boolean;
 };
 
-export { decorators, globals };
+export { decorators, initialGlobals };

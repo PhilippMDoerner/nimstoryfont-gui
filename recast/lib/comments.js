@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.printComments = exports.attach = void 0;
 var tslib_1 = require("tslib");
-var assert_1 = tslib_1.__importDefault(require("assert"));
+var tiny_invariant_1 = tslib_1.__importDefault(require("tiny-invariant"));
 var types = tslib_1.__importStar(require("ast-types"));
 var n = types.namedTypes;
 var isArray = types.builtInTypes.array;
@@ -124,7 +124,8 @@ function attach(comments, ast, lines) {
             var tieCount = tiesToBreak.length;
             if (tieCount > 0) {
                 var lastTie = tiesToBreak[tieCount - 1];
-                assert_1.default.strictEqual(lastTie.precedingNode === comment.precedingNode, lastTie.followingNode === comment.followingNode);
+                (0, tiny_invariant_1.default)((lastTie.precedingNode === comment.precedingNode) ===
+                    (lastTie.followingNode === comment.followingNode));
                 if (lastTie.followingNode !== comment.followingNode) {
                     breakTies(tiesToBreak, lines);
                 }
@@ -178,8 +179,8 @@ function breakTies(tiesToBreak, lines) {
     var comment;
     for (; indexOfFirstLeadingComment > 0; --indexOfFirstLeadingComment) {
         comment = tiesToBreak[indexOfFirstLeadingComment - 1];
-        assert_1.default.strictEqual(comment.precedingNode, pn);
-        assert_1.default.strictEqual(comment.followingNode, fn);
+        (0, tiny_invariant_1.default)(comment.precedingNode === pn);
+        (0, tiny_invariant_1.default)(comment.followingNode === fn);
         var gap = lines.sliceString(comment.loc.end, gapEndPos);
         if (/\S/.test(gap)) {
             // The gap string contained something other than whitespace.
@@ -194,6 +195,12 @@ function breakTies(tiesToBreak, lines) {
         (comment.type === "Line" || comment.type === "CommentLine") &&
         comment.loc.start.column > fn.loc.start.column) {
         ++indexOfFirstLeadingComment;
+    }
+    if (indexOfFirstLeadingComment) {
+        var enclosingNode = tiesToBreak[indexOfFirstLeadingComment - 1].enclosingNode;
+        if ((enclosingNode === null || enclosingNode === void 0 ? void 0 : enclosingNode.type) === "CallExpression") {
+            --indexOfFirstLeadingComment;
+        }
     }
     tiesToBreak.forEach(function (comment, i) {
         if (i < indexOfFirstLeadingComment) {

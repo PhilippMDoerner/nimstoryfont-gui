@@ -26,5 +26,5 @@ export declare class LeafletLayerDirective implements OnChanges, OnDestroy, OnIn
     private addLayerEventListeners;
     private removeLayerEventListeners;
     static ɵfac: i0.ɵɵFactoryDeclaration<LeafletLayerDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<LeafletLayerDirective, "[leafletLayer]", never, { "layer": "leafletLayer"; }, { "onAdd": "leafletLayerAdd"; "onRemove": "leafletLayerRemove"; }, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<LeafletLayerDirective, "[leafletLayer]", never, { "layer": { "alias": "leafletLayer"; "required": false; }; }, { "onAdd": "leafletLayerAdd"; "onRemove": "leafletLayerRemove"; }, never, never, false, never>;
 }

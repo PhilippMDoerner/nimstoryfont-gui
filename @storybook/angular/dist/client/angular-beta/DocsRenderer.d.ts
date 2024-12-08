@@ -1,5 +1,5 @@
+import { Parameters, StoryFnAngularReturnType } from '../types';
 import { AbstractRenderer } from './AbstractRenderer';
-import { StoryFnAngularReturnType, Parameters } from '../types';
 export declare class DocsRenderer extends AbstractRenderer {
     render(options: {
         storyFnAngular: StoryFnAngularReturnType;
@@ -9,5 +9,5 @@ export declare class DocsRenderer extends AbstractRenderer {
         targetDOMNode: HTMLElement;
     }): Promise<void>;
     beforeFullRender(domNode?: HTMLElement): Promise<void>;
-    afterFullRender(): Promise<void>;
+    protected initAngularRootElement(targetDOMNode: HTMLElement, targetSelector: string): void;
 }

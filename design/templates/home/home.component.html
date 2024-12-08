@@ -1,0 +1,40 @@
+<app-page-container>
+  <article class="home">
+    <!-- Heading -->
+    @if (campaignData()) {
+      <header class="home__heading-container heading-container">
+        <img
+          class="heading-container__icon"
+          [src]="serverUrl() + campaignData()?.icon"
+          [alt]="DEFAULT_ICON"
+        />
+        <h1 class="heading-container__heading">
+          {{ campaignData()?.name }}
+        </h1>
+        <app-html-text
+          class="heading-container__subheading"
+          [text]="campaignData()?.subtitle ?? ''"
+        ></app-html-text>
+      </header>
+    } @else {
+      <app-placeholder class="heading-container--placeholder" />
+    }
+
+    <!-- Search Bar -->
+    <app-search-field
+      class="home__search-bar"
+      [placeholder]="'Search for Articles...'"
+      [btnAriaLabel]="
+        'Triggers a search for any articles matching the query in this campaign'
+      "
+      (appSearch)="appSearch.emit($event)"
+    ></app-search-field>
+
+    <!-- News -->
+    <app-icon-card-list
+      class="home__recently-updated-articles"
+      [isLoading]="isLoading()"
+      [articles]="articleEntries()"
+    ></app-icon-card-list>
+  </article>
+</app-page-container>

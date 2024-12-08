@@ -1,0 +1,35 @@
+<div class="encounter-list mb-5 mt-3">
+  <div ngbAccordion [closeOthers]="true" [animation]="true">
+    @for (encounter of encounters(); track encounter.pk) {
+      <div ngbAccordionItem [id]="'static-' + $index">
+        <header ngbAccordionHeader>
+          <button btn ngbAccordionButton class="panel-title">
+            <strong
+              class="encounter-title"
+              [innerHTML]="encounter.name"
+            ></strong>
+          </button>
+        </header>
+
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <app-encounter
+              class="panel-content"
+              [encounter]="encounter"
+              [locations]="campaignLocations()"
+              [characters]="campaignCharacters()"
+              [serverModel]="serverModel()"
+              [canUpdate]="canUpdate()"
+              [canDelete]="canDelete()"
+              [canCreate]="canCreate()"
+              (connectionDelete)="connectionDelete.emit($event)"
+              (connectionCreate)="connectionCreate.emit($event)"
+              (encounterDelete)="encounterDelete.emit($event)"
+              (encounterUpdate)="encounterUpdate.emit($event)"
+            ></app-encounter>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

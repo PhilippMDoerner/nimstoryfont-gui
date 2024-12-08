@@ -2,11 +2,6 @@ export interface Schema {
     $schema?: string;
     cli?: CliOptions;
     /**
-     * Default project name used in commands.
-     * @deprecated The project to use will be determined from the current working directory.
-     */
-    defaultProject?: string;
-    /**
      * Path where new projects will be created.
      */
     newProjectRoot?: string;
@@ -23,10 +18,6 @@ export interface CliOptions {
      * Control disk cache.
      */
     cache?: Cache;
-    /**
-     * The default schematics collection to use.
-     */
-    defaultCollection?: string;
     /**
      * Specify which package manager tool to use.
      */
@@ -75,6 +66,7 @@ export declare enum Environment {
  * The package manager used to install dependencies.
  */
 export declare enum PackageManager {
+    Bun = "bun",
     Cnpm = "cnpm",
     Npm = "npm",
     Pnpm = "pnpm",
@@ -106,6 +98,7 @@ export interface SchematicOptions {
     "@schematics/angular:resolver"?: AngularResolverOptionsSchema;
     "@schematics/angular:service"?: AngularServiceOptionsSchema;
     "@schematics/angular:web-worker"?: AngularWebWorkerOptionsSchema;
+    [property: string]: any;
 }
 /**
  * Generates a new basic application definition in the "projects" subfolder of the workspace.
@@ -140,7 +133,7 @@ export interface AngularApplicationOptionsSchema {
      */
     projectRoot?: string;
     /**
-     * Create a routing NgModule.
+     * Creates an application with routing enabled.
      */
     routing?: boolean;
     /**
@@ -155,6 +148,15 @@ export interface AngularApplicationOptionsSchema {
      * Do not create "spec.ts" test files for the application.
      */
     skipTests?: boolean;
+    /**
+     * Creates an application with Server-Side Rendering (SSR) and Static Site Generation
+     * (SSG/Prerendering) enabled.
+     */
+    ssr?: boolean;
+    /**
+     * Creates an application based upon the standalone API, without NgModules.
+     */
+    standalone?: boolean;
     /**
      * Creates an application with stricter bundle budgets settings.
      */
@@ -427,7 +429,6 @@ export declare enum Implement {
     CanActivate = "CanActivate",
     CanActivateChild = "CanActivateChild",
     CanDeactivate = "CanDeactivate",
-    CanLoad = "CanLoad",
     CanMatch = "CanMatch"
 }
 /**
@@ -517,6 +518,10 @@ export interface LibraryOptionsSchema {
      * is needed to use the library in an app, but can be disabled here to simplify development.
      */
     skipTsConfig?: boolean;
+    /**
+     * Creates a library based upon the standalone API, without NgModules.
+     */
+    standalone?: boolean;
 }
 /**
  * Creates a new project by combining the workspace and application schematics.
@@ -547,10 +552,6 @@ export interface AngularNgNewOptionsSchema {
      */
     inlineTemplate?: boolean;
     /**
-     * Link the CLI to the global version (internal development only).
-     */
-    linkCli?: boolean;
-    /**
      * Create a workspace without any testing frameworks. (Use for learning purposes only.)
      */
     minimal?: boolean;
@@ -571,7 +572,7 @@ export interface AngularNgNewOptionsSchema {
      */
     prefix?: string;
     /**
-     * Generate a routing module for the initial project.
+     * Enable routing in the initial project.
      */
     routing?: boolean;
     /**
@@ -587,9 +588,18 @@ export interface AngularNgNewOptionsSchema {
      */
     skipTests?: boolean;
     /**
+     * Creates an application with Server-Side Rendering (SSR) and Static Site Generation
+     * (SSG/Prerendering) enabled.
+     */
+    ssr?: boolean;
+    /**
+     * Creates an application based upon the standalone API, without NgModules.
+     */
+    standalone?: boolean;
+    /**
      * Creates a workspace with stricter type checking and stricter bundle budgets settings.
      * This setting helps improve maintainability and catch bugs ahead of time. For more
-     * information, see https://angular.io/guide/strict-mode
+     * information, see https://angular.dev/tools/cli/template-typecheck#strict-mode
      */
     strict?: boolean;
     /**
@@ -613,6 +623,7 @@ export interface CommitObject {
     email: string;
     message?: string;
     name: string;
+    [property: string]: any;
 }
 /**
  * Creates a new, generic pipe definition in the given project.

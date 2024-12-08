@@ -1,5 +1,6 @@
 import { FormlyFieldConfig } from './models';
 import { FormlyFieldConfigCache } from './models';
+import { NgZone } from '@angular/core';
 export declare function disableTreeValidityCall(form: any, callback: Function): void;
 export declare function getFieldId(formId: string, field: FormlyFieldConfig, index: string | number): string;
 export declare function hasKey(field: FormlyFieldConfig): boolean;
@@ -24,7 +25,7 @@ declare type IObserveFn<T> = (change: {
     firstChange: boolean;
 }) => void;
 export interface IObserver<T> {
-    setValue: (value: T) => void;
+    setValue: (value: T, emitEvent?: boolean) => void;
     unsubscribe: Function;
 }
 interface IObserveTarget<T> {
@@ -36,8 +37,11 @@ interface IObserveTarget<T> {
         };
     };
 }
-export declare function observeDeep(source: any, paths: string[], setFn: () => void): () => void;
-export declare function observe<T = any>(o: IObserveTarget<T>, paths: string[], setFn: IObserveFn<T>): IObserver<T>;
+export declare function observeDeep<T = any>(source: IObserveTarget<T>, paths: string[], setFn: () => void): () => void;
+export declare function observe<T = any>(o: IObserveTarget<T>, paths: string[], setFn?: IObserveFn<T>): IObserver<T>;
 export declare function getField(f: FormlyFieldConfig, key: FormlyFieldConfig['key']): FormlyFieldConfig;
 export declare function markFieldForCheck(field: FormlyFieldConfigCache): void;
+export declare function isNoopNgZone(ngZone: NgZone): boolean;
+export declare function isHiddenField(field: FormlyFieldConfig): boolean;
+export declare function isSignalRequired(): boolean;
 export {};

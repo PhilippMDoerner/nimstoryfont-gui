@@ -1,0 +1,161 @@
+a {
+  text-decoration: none;
+}
+
+:host {
+  --entry-hover-color: var(--bs-link-hover-color);
+  --entry-hover-bg-color: var(--bs-gray-700);
+  --brand-height: 3rem;
+  background-color: var(--bs-gray-dark);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden; //Necessary because when sidebar folds out, x scrollbar appears
+  max-height: 100mvh;
+  height: 100%;
+}
+
+.offcanvas-body,
+.offcanvas-header {
+  --bs-offcanvas-padding-y: 0;
+  --bs-offcanvas-padding-x: 0;
+}
+
+.offcanvas-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar {
+  &__brand {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__entries {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+  }
+
+  &__entry {
+    :hover {
+      color: var(--entry-hover-color);
+      background-color: var(--entry-hover-bg-color);
+    }
+  }
+
+  &__footer {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border-top: 4px inset;
+  }
+}
+
+.entry {
+  &__link {
+    display: flex;
+    align-items: center;
+    padding-left: var(--spacer-3);
+    list-style-type: none;
+    height: 2.75rem;
+    font-weight: bold;
+    font-size: large;
+
+    &--button {
+      width: 100%;
+      &:focus,
+      &:focus-within,
+      &:focus-visible {
+        outline: var(--focus-outline);
+      }
+    }
+  }
+
+  &__icon {
+    width: var(--spacer-5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.brand {
+  display: flex;
+  height: var(--brand-height);
+  font-size: 1.5rem;
+  flex: 1;
+
+  &__back {
+    :hover {
+      color: var(--entry-hover-color);
+      background-color: var(--entry-hover-bg-color);
+      height: var(--brand-height);
+    }
+  }
+
+  &__back-link {
+    font-size: 32px;
+    height: 100%;
+    font-weight: bold;
+    display: flex;
+    padding-right: var(--spacer-3);
+    padding-left: var(--spacer-3);
+    border-right: solid 2px var(--bs-white);
+  }
+
+  &__back-icon {
+    display: flex;
+    align-items: center;
+  }
+
+  &__home {
+    height: var(--brand-height);
+    flex: 1;
+
+    :hover {
+      color: var(--entry-hover-color) !important;
+      background-color: var(--entry-hover-bg-color);
+    }
+  }
+
+  &__home-link {
+    padding-left: var(--spacer-2);
+    color: inherit;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__home-link-text {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    color: inherit;
+    margin: var(--spacer-0);
+  }
+
+  &__home-link-text-text {
+    margin-left: var(--spacer-2);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__icon {
+    height: 32px;
+    width: 32px;
+    border-radius: var(--bs-border-radius);
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacer-3);
+}

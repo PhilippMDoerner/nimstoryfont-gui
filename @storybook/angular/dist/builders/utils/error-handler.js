@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorSummary = exports.printErrorDetails = void 0;
-const node_logger_1 = require("@storybook/node-logger");
+const node_logger_1 = require("storybook/internal/node-logger");
 const ts_dedent_1 = require("ts-dedent");
 const printErrorDetails = (error) => {
     // Duplicate code for Standalone error handling

@@ -1,0 +1,42 @@
+<app-page-container>
+  <article class="container search">
+    <!-- Heading -->
+    <div class="row search__heading">
+      <h1 class="col-12">Search Results</h1>
+    </div>
+
+    <app-sidebar-legend
+      [interactable]="true"
+      (sidebarChange)="onCategorySelect($event)"
+    ></app-sidebar-legend>
+
+    <app-search-field
+      [placeholder]="'Search for Articles...'"
+      [btnAriaLabel]="
+        'Triggers a search for any articles matching the query in this campaign'
+      "
+      (appSearch)="search($event)"
+    ></app-search-field>
+
+    <!-- Article List -->
+    <div class="row search__results">
+      @if (foundArticles().length > 0) {
+        @for (article of filteredArticles(); track article.pk) {
+          <app-search-hit [article]="article"></app-search-hit>
+        }
+      } @else {
+        <div class="search__empty-results">
+          <h4>We couldn't find any hits for '{{ searchString() }}'</h4>
+          <i> {{ emptySearchSubtitle() }}</i>
+        </div>
+      }
+    </div>
+
+    <!-- Footer -->
+    <div class="row">
+      <a [routerLink]="homeUrl()" class="search__home" tabindex="-1">
+        <button btn [kind]="'SECONDARY'" [text]="'Back To Frontpage'"></button>
+      </a>
+    </div>
+  </article>
+</app-page-container>

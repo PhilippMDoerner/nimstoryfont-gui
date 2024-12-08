@@ -13,18 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@angular/core");
+const vitest_1 = require("vitest");
 const decorators_1 = require("./decorators");
 const decorateStory_1 = __importDefault(require("./decorateStory"));
-describe('decorateStory', () => {
-    describe('angular behavior', () => {
-        it('should use componentWrapperDecorator with args', () => {
+(0, vitest_1.describe)('decorateStory', () => {
+    (0, vitest_1.describe)('angular behavior', () => {
+        (0, vitest_1.it)('should use componentWrapperDecorator with args', () => {
             const decorators = [
                 (0, decorators_1.componentWrapperDecorator)(ParentComponent, ({ args }) => args),
                 (0, decorators_1.componentWrapperDecorator)((story) => `<grandparent [grandparentInput]="grandparentInput">${story}</grandparent>`, ({ args }) => args),
                 (0, decorators_1.componentWrapperDecorator)((story) => `<great-grandparent>${story}</great-grandparent>`),
             ];
             const decorated = (0, decorateStory_1.default)(() => ({ template: '</child>' }), decorators);
-            expect(decorated(makeContext({
+            (0, vitest_1.expect)(decorated(makeContext({
                 component: FooComponent,
                 args: {
                     parentInput: 'Parent input',
@@ -35,13 +36,13 @@ describe('decorateStory', () => {
                 props: {
                     parentInput: 'Parent input',
                     grandparentInput: 'grandparent input',
-                    parentOutput: expect.any(Function),
+                    parentOutput: vitest_1.expect.any(Function),
                 },
                 template: '<great-grandparent><grandparent [grandparentInput]="grandparentInput"><parent [parentInput]="parentInput" (parentOutput)="parentOutput($event)"></child></parent></grandparent></great-grandparent>',
                 userDefinedTemplate: true,
             });
         });
-        it('should use componentWrapperDecorator with input / output', () => {
+        (0, vitest_1.it)('should use componentWrapperDecorator with input / output', () => {
             const decorators = [
                 (0, decorators_1.componentWrapperDecorator)(ParentComponent, {
                     parentInput: 'Parent input',
@@ -54,12 +55,12 @@ describe('decorateStory', () => {
                 (0, decorators_1.componentWrapperDecorator)((story) => `<great-grandparent>${story}</great-grandparent>`),
             ];
             const decorated = (0, decorateStory_1.default)(() => ({ template: '</child>', props: { sameInput: 'Story input' } }), decorators);
-            expect(decorated(makeContext({
+            (0, vitest_1.expect)(decorated(makeContext({
                 component: FooComponent,
             }))).toEqual({
                 props: {
                     parentInput: 'Parent input',
-                    parentOutput: expect.any(Function),
+                    parentOutput: vitest_1.expect.any(Function),
                     grandparentInput: 'Grandparent input',
                     sameInput: 'Story input',
                 },
@@ -67,19 +68,19 @@ describe('decorateStory', () => {
                 userDefinedTemplate: true,
             });
         });
-        it('should use componentWrapperDecorator', () => {
+        (0, vitest_1.it)('should use componentWrapperDecorator', () => {
             const decorators = [
                 (0, decorators_1.componentWrapperDecorator)(ParentComponent),
                 (0, decorators_1.componentWrapperDecorator)((story) => `<grandparent>${story}</grandparent>`),
                 (0, decorators_1.componentWrapperDecorator)((story) => `<great-grandparent>${story}</great-grandparent>`),
             ];
             const decorated = (0, decorateStory_1.default)(() => ({ template: '</child>' }), decorators);
-            expect(decorated(makeContext({ component: FooComponent }))).toEqual({
+            (0, vitest_1.expect)(decorated(makeContext({ component: FooComponent }))).toEqual({
                 template: '<great-grandparent><grandparent><parent></child></parent></grandparent></great-grandparent>',
                 userDefinedTemplate: true,
             });
         });
-        it('should use template in preference to component parameters', () => {
+        (0, vitest_1.it)('should use template in preference to component parameters', () => {
             const decorators = [
                 (s) => {
                     const story = s();
@@ -104,12 +105,12 @@ describe('decorateStory', () => {
                 },
             ];
             const decorated = (0, decorateStory_1.default)(() => ({ template: '</child>' }), decorators);
-            expect(decorated(makeContext({ component: FooComponent }))).toEqual({
+            (0, vitest_1.expect)(decorated(makeContext({ component: FooComponent }))).toEqual({
                 template: '<great-grandparent><grandparent><parent></child></parent></grandparent></great-grandparent>',
                 userDefinedTemplate: true,
             });
         });
-        it('should include story templates in decorators', () => {
+        (0, vitest_1.it)('should include story templates in decorators', () => {
             const decorators = [
                 (s) => {
                     const story = s();
@@ -134,12 +135,12 @@ describe('decorateStory', () => {
                 },
             ];
             const decorated = (0, decorateStory_1.default)(() => ({ template: '</child>' }), decorators);
-            expect(decorated(makeContext({}))).toEqual({
+            (0, vitest_1.expect)(decorated(makeContext({}))).toEqual({
                 template: '<great-grandparent><grandparent><parent></child></parent></grandparent></great-grandparent>',
                 userDefinedTemplate: true,
             });
         });
-        it('should include story components in decorators', () => {
+        (0, vitest_1.it)('should include story components in decorators', () => {
             const decorators = [
                 (s) => {
                     const story = s();
@@ -164,25 +165,25 @@ describe('decorateStory', () => {
                 },
             ];
             const decorated = (0, decorateStory_1.default)(() => ({}), decorators);
-            expect(decorated(makeContext({ component: FooComponent }))).toEqual({
+            (0, vitest_1.expect)(decorated(makeContext({ component: FooComponent }))).toEqual({
                 template: '<great-grandparent><grandparent><parent><foo></foo></parent></grandparent></great-grandparent>',
                 userDefinedTemplate: false,
             });
         });
-        it('should keep template with an empty value', () => {
+        (0, vitest_1.it)('should keep template with an empty value', () => {
             const decorators = [
                 (0, decorators_1.componentWrapperDecorator)(ParentComponent),
             ];
             const decorated = (0, decorateStory_1.default)(() => ({ template: '' }), decorators);
-            expect(decorated(makeContext({ component: FooComponent }))).toEqual({
+            (0, vitest_1.expect)(decorated(makeContext({ component: FooComponent }))).toEqual({
                 template: '<parent></parent>',
             });
         });
-        it('should only keeps args with a control or an action in argTypes', () => {
+        (0, vitest_1.it)('should only keeps args with a control or an action in argTypes', () => {
             const decorated = (0, decorateStory_1.default)((context) => ({
                 template: `Args available in the story : ${Object.keys(context.args).join()}`,
             }), []);
-            expect(decorated(makeContext({
+            (0, vitest_1.expect)(decorated(makeContext({
                 component: FooComponent,
                 argTypes: {
                     withControl: { control: { type: 'object' }, name: 'withControl' },
@@ -200,8 +201,8 @@ describe('decorateStory', () => {
             });
         });
     });
-    describe('default behavior', () => {
-        it('calls decorators in out to in order', () => {
+    (0, vitest_1.describe)('default behavior', () => {
+        (0, vitest_1.it)('calls decorators in out to in order', () => {
             const decorators = [
                 (s) => {
                     const story = s();
@@ -217,9 +218,9 @@ describe('decorateStory', () => {
                 },
             ];
             const decorated = (0, decorateStory_1.default)(() => ({ props: { a: [0] } }), decorators);
-            expect(decorated(makeContext({}))).toEqual({ props: { a: [0, 1, 2, 3] } });
+            (0, vitest_1.expect)(decorated(makeContext({}))).toEqual({ props: { a: [0, 1, 2, 3] } });
         });
-        it('passes context through to sub decorators', () => {
+        (0, vitest_1.it)('passes context through to sub decorators', () => {
             const decorators = [
                 (s, c) => {
                     const story = s({ ...c, k: 1 });
@@ -235,9 +236,9 @@ describe('decorateStory', () => {
                 },
             ];
             const decorated = (0, decorateStory_1.default)((c) => ({ props: { a: [c.k] } }), decorators);
-            expect(decorated(makeContext({ k: 0 }))).toEqual({ props: { a: [1, 2, 3, 0] } });
+            (0, vitest_1.expect)(decorated(makeContext({ k: 0 }))).toEqual({ props: { a: [1, 2, 3, 0] } });
         });
-        it('DOES NOT merge parameter or pass through parameters key in context', () => {
+        (0, vitest_1.it)('DOES NOT merge parameter or pass through parameters key in context', () => {
             const decorators = [
                 (s, c) => {
                     const story = s({ ...c, k: 1, parameters: { p: 1 } });
@@ -262,7 +263,7 @@ describe('decorateStory', () => {
                 },
             ];
             const decorated = (0, decorateStory_1.default)((c) => ({ props: { a: [c.k], p: [c.parameters.p] } }), decorators);
-            expect(decorated(makeContext({ k: 0, parameters: { p: 0 } }))).toEqual({
+            (0, vitest_1.expect)(decorated(makeContext({ k: 0, parameters: { p: 0 } }))).toEqual({
                 props: { a: [1, 2, 3, 0], p: [0, 0, 0, 0] },
             });
         });

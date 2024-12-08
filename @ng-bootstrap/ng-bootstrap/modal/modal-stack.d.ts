@@ -1,5 +1,4 @@
-import { ApplicationRef, EnvironmentInjector, EventEmitter, Injector, NgZone, RendererFactory2 } from '@angular/core';
-import { ScrollBar } from '../util/scrollbar';
+import { EventEmitter, Injector } from '@angular/core';
 import { NgbModalOptions } from './modal-config';
 import { NgbModalRef } from './modal-ref';
 import * as i0 from "@angular/core";
@@ -9,17 +8,13 @@ export declare class NgbModalStack {
     private _environmentInjector;
     private _document;
     private _scrollBar;
-    private _rendererFactory;
-    private _ngZone;
     private _activeWindowCmptHasChanged;
     private _ariaHiddenValues;
     private _scrollBarRestoreFn;
-    private _backdropAttributes;
     private _modalRefs;
-    private _windowAttributes;
     private _windowCmpts;
     private _activeInstances;
-    constructor(_applicationRef: ApplicationRef, _injector: Injector, _environmentInjector: EnvironmentInjector, _document: any, _scrollBar: ScrollBar, _rendererFactory: RendererFactory2, _ngZone: NgZone);
+    constructor();
     private _restoreScrollBar;
     private _hideScrollBar;
     open(contentInjector: Injector, content: any, options: NgbModalOptions): NgbModalRef;
@@ -28,8 +23,6 @@ export declare class NgbModalStack {
     hasOpenModals(): boolean;
     private _attachBackdrop;
     private _attachWindowComponent;
-    private _applyWindowOptions;
-    private _applyBackdropOptions;
     private _getContentRef;
     private _createFromTemplateRef;
     private _createFromString;

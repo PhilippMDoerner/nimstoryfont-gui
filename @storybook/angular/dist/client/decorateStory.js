@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.decorateStory = void 0;
-const preview_api_1 = require("@storybook/preview-api");
+const preview_api_1 = require("storybook/internal/preview-api");
 const ComputesTemplateFromComponent_1 = require("./angular-beta/ComputesTemplateFromComponent");
 function decorateStory(mainStoryFn, decorators) {
     const returnDecorators = [cleanArgsDecorator, ...decorators].reduce((previousStoryFn, decorator) => (context) => {

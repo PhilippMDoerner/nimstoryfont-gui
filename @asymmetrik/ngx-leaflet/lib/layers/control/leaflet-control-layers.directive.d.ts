@@ -31,5 +31,5 @@ export declare class LeafletLayersControlDirective implements DoCheck, OnDestroy
     ngDoCheck(): void;
     protected updateLayers(): void;
     static ɵfac: i0.ɵɵFactoryDeclaration<LeafletLayersControlDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<LeafletLayersControlDirective, "[leafletLayersControl]", never, { "layersControlConfig": "leafletLayersControl"; "layersControlOptions": "leafletLayersControlOptions"; }, { "layersControlReady": "leafletLayersControlReady"; }, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<LeafletLayersControlDirective, "[leafletLayersControl]", never, { "layersControlConfig": { "alias": "leafletLayersControl"; "required": false; }; "layersControlOptions": { "alias": "leafletLayersControlOptions"; "required": false; }; }, { "layersControlReady": "leafletLayersControlReady"; }, never, never, false, never>;
 }

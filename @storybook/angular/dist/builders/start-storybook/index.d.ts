@@ -1,18 +1,31 @@
+import { CLIOptions } from 'storybook/internal/types';
 import { BuilderOutput } from '@angular-devkit/architect';
-import { JsonObject } from '@angular-devkit/core';
 import { StylePreprocessorOptions } from '@angular-devkit/build-angular';
-import { CLIOptions } from '@storybook/types';
-import { AssetPattern, StyleElement } from '@angular-devkit/build-angular/src/builders/browser/schema';
+import { AssetPattern, SourceMapUnion, StyleElement } from '@angular-devkit/build-angular/src/builders/browser/schema';
+import { JsonObject } from '@angular-devkit/core';
 export type StorybookBuilderOptions = JsonObject & {
     browserTarget?: string | null;
     tsConfig?: string;
-    docs: boolean;
     compodoc: boolean;
     compodocArgs: string[];
+    enableProdMode?: boolean;
     styles?: StyleElement[];
     stylePreprocessorOptions?: StylePreprocessorOptions;
     assets?: AssetPattern[];
-} & Pick<CLIOptions, 'port' | 'host' | 'configDir' | 'https' | 'sslCa' | 'sslCert' | 'sslKey' | 'smokeTest' | 'ci' | 'quiet' | 'disableTelemetry'>;
+    preserveSymlinks?: boolean;
+    sourceMap?: SourceMapUnion;
+} & Pick<CLIOptions, 'port' | 'host' | 'configDir' | 'https' | 'sslCa' | 'sslCert' | 'sslKey' | 'smokeTest' | 'ci' | 'quiet' | 'disableTelemetry' | 'initialPath' | 'open' | 'docs' | 'debugWebpack' | 'webpackStatsJson' | 'statsJson' | 'loglevel' | 'previewUrl'>;
 export type StorybookBuilderOutput = JsonObject & BuilderOutput & {};
-declare const _default: import("@angular-devkit/architect/src/internal").Builder<any>;
+declare const _default: import("@angular-devkit/architect/src/internal").Builder<JsonObject & {
+    browserTarget?: string | null | undefined;
+    tsConfig?: string | undefined;
+    compodoc: boolean;
+    compodocArgs: string[];
+    enableProdMode?: boolean | undefined;
+    styles?: StyleElement[] | undefined;
+    stylePreprocessorOptions?: StylePreprocessorOptions | undefined;
+    assets?: AssetPattern[] | undefined;
+    preserveSymlinks?: boolean | undefined;
+    sourceMap?: SourceMapUnion | undefined;
+} & Pick<CLIOptions, "docs" | "statsJson" | "configDir" | "loglevel" | "quiet" | "webpackStatsJson" | "disableTelemetry" | "debugWebpack" | "previewUrl" | "port" | "host" | "initialPath" | "https" | "sslCa" | "sslCert" | "sslKey" | "smokeTest" | "open" | "ci">>;
 export default _default;

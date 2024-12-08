@@ -1,0 +1,40 @@
+<h4>
+  Locations of Interest
+
+  @if (canCreate()) {
+    <a class="create-button" [routerLink]="createUrl()" tabindex="-1">
+      <button
+        btn
+        title="Create Location"
+        [kind]="'PRIMARY'"
+        [size]="'SMALL'"
+        [icon]="'plus'"
+      ></button>
+    </a>
+  }
+</h4>
+
+<div ngbAccordion [closeOthers]="true">
+  @for (entry of accordionEntries(); track entry.value.pk) {
+    <div ngbAccordionItem [id]="'static-' + $index">
+      <!-- Header -->
+      <div ngbAccordionHeader class="button-container">
+        <button btn [kind]="'NONE'" ngbAccordionButton>
+          <a class="location-title" [routerLink]="entry.link">
+            {{ entry.value.name }}
+          </a>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div ngbAccordionCollapse>
+        <div ngbAccordionBody>
+          <app-location
+            [location]="entry.value"
+            [campaignCharacters]="campaignCharacters()"
+          />
+        </div>
+      </div>
+    </div>
+  }
+</div>

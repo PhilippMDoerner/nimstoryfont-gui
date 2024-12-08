@@ -1,5 +1,7 @@
-import { ArgsEnhancer } from '@storybook/types';
+import { ArgsEnhancer, LoaderFunction } from 'storybook/internal/types';
 
 declare const argsEnhancers: ArgsEnhancer[];
 
-export { argsEnhancers };
+declare const loaders: LoaderFunction[];
+
+export { argsEnhancers, loaders };

@@ -12,14 +12,14 @@ import {
   makeEs2015TranslatePlugin,
   makeEs5TranslatePlugin,
   makeLocalePlugin
-} from "../../chunk-3TQ7D6V2.js";
+} from "../../chunk-P52LUQCG.js";
 import {
   Diagnostics
-} from "../../chunk-SOWE44E4.js";
+} from "../../chunk-YINHXBYF.js";
 
 // bazel-out/k8-fastbuild/bin/packages/localize/tools/src/translate/cli.mjs
 import { NodeJSFileSystem, setFileSystem } from "@angular/compiler-cli/private/localize";
-import glob from "glob";
+import glob from "fast-glob";
 import yargs from "yargs";
 
 // bazel-out/k8-fastbuild/bin/packages/localize/tools/src/translate/output_path.mjs
@@ -66,7 +66,10 @@ var SourceFileTranslationHandler = class {
   constructor(fs2, translationOptions = {}) {
     this.fs = fs2;
     this.translationOptions = translationOptions;
-    this.sourceLocaleOptions = { ...this.translationOptions, missingTranslation: "ignore" };
+    this.sourceLocaleOptions = {
+      ...this.translationOptions,
+      missingTranslation: "ignore"
+    };
   }
   canTranslate(relativeFilePath, _contents) {
     return this.fs.extname(relativeFilePath) === ".js";
@@ -229,10 +232,7 @@ function translateFiles({ sourceRootPath: sourceRootPath2, sourceFilePaths: sour
     new SimpleJsonTranslationParser(),
     new ArbTranslationParser()
   ], duplicateTranslation2, diagnostics2);
-  const resourceProcessor = new Translator(fs2, [
-    new SourceFileTranslationHandler(fs2, { missingTranslation: missingTranslation2 }),
-    new AssetTranslationHandler(fs2)
-  ], diagnostics2);
+  const resourceProcessor = new Translator(fs2, [new SourceFileTranslationHandler(fs2, { missingTranslation: missingTranslation2 }), new AssetTranslationHandler(fs2)], diagnostics2);
   const translationFilePathsArrays = translationFilePaths2.map((filePaths) => Array.isArray(filePaths) ? filePaths.map((p) => fs2.resolve(p)) : [fs2.resolve(filePaths)]);
   const translations = translationLoader.loadBundles(translationFilePathsArrays, translationFileLocales2);
   sourceRootPath2 = fs2.resolve(sourceRootPath2);
@@ -287,7 +287,7 @@ var options = yargs(args).option("r", {
 var fs = new NodeJSFileSystem();
 setFileSystem(fs);
 var sourceRootPath = options.r;
-var sourceFilePaths = glob.sync(options.s, { cwd: sourceRootPath, nodir: true });
+var sourceFilePaths = glob.sync(options.s, { cwd: sourceRootPath, onlyFiles: true });
 var translationFilePaths = convertArraysFromArgs(options.t);
 var outputPathFn = getOutputPathFn(fs, fs.resolve(options.o));
 var diagnostics = new Diagnostics();
@@ -316,6 +316,6 @@ function convertArraysFromArgs(args2) {
  * Copyright Google LLC All Rights Reserved.
  *
  * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
+ * found in the LICENSE file at https://angular.dev/license
  */
 //# sourceMappingURL=cli.js.map

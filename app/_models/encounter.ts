@@ -1,90 +1,94 @@
-import { ArticleObject } from "./article";
+import { ArticleObject } from './article';
 
-export interface EncounterConnection{
-    pk?: number,
-    encounter: number,
-    encounter_details?: {name: string, name_full: string, pk: number},
-    character: number,
-    character_details?: {name: string, name_full: string, pk: number},
+export interface EncounterConnectionRaw {
+  encounter: number;
+  character: number;
+  campaign: number;
 }
 
-export interface Encounter extends ArticleObject{
-    pk?: number,
-    description: string,
-    encounterConnections?: EncounterConnection[],
-    location: number,
-    location_details?: {name: string, pk: number, name_full: string, parent_location_name: string},
-    title: string,
-    diaryentry: number,
-    diaryentry_details?: {
-        author_name: string,
-        is_main_session: 0 | 1,
-        session_number: number
-    },
-    order_index: number;
-    
-    hasShiftedOrderIndex(): boolean;
-    getShiftedOrderIndex(): number;
-    getUnshiftedOrderIndex(): number;
-    unshiftOrderIndex(): void;
-    shiftOrderIndex(): void;
-    swapOrderIndexState(): void;
-    nextOrderIndex(): number;
-    priorOrderIndex(): number;
+export interface EncounterConnection {
+  pk?: number;
+  encounter: number;
+  encounter_details?: { name: string; name_full: string; pk: number };
+  character: number;
+  character_details?: { name: string; name_full: string; pk: number };
 }
 
-export class EncounterObject implements Encounter{
-    orderIndexIncrement: number = 10;
-    
-    pk?: number;
-    description!: string;
-    encounterConnections?: EncounterConnection[];
-    location!: number;
-    location_details?: {name: string, pk: number, name_full: string, parent_location_name: string};
-    title!: string;
-    diaryentry!: number;
-    diaryentry_details?: {
-        author_name: string,
-        is_main_session: 0 | 1,
-        session_number: number
-    };
-    order_index!: number;
-    getAbsoluteRouterUrl!: () => string;
+export interface EncounterRaw {
+  description: string;
+  location?: number;
+  title: string;
+  diaryentry: number;
+  order_index: number;
+}
 
-    constructor(object?: Encounter | Partial<Encounter>){
-        if(object) Object.assign(this, object);
-    }
+export interface Encounter extends ArticleObject {
+  pk: number;
+  description: string;
+  encounterConnections?: EncounterConnection[];
+  location: number;
+  location_details?: {
+    name: string;
+    pk: number;
+    name_full: string;
+    parent_location_name: string;
+  };
+  title: string;
+  diaryentry: number;
+  diaryentry_details?: {
+    author_name: string;
+    is_main_session: 0 | 1;
+    session_number: number;
+  };
+  order_index: number;
+  getAbsoluteRouterUrl: () => string;
+}
 
+const ORDER_INDEX_INCREMENT = 10;
+export function hasShiftedOrderIndex(
+  encounter: Encounter | EncounterRaw,
+): boolean {
+  return encounter.order_index % ORDER_INDEX_INCREMENT > 0;
+}
 
-    hasShiftedOrderIndex(): boolean{
-        return this.order_index % this.orderIndexIncrement > 0;
-    }
+export function getShiftedOrderIndex(
+  encounter: Encounter | EncounterRaw,
+): number {
+  return hasShiftedOrderIndex(encounter)
+    ? encounter.order_index
+    : encounter.order_index + 1;
+}
 
-    getShiftedOrderIndex(): number{
-        return (this.hasShiftedOrderIndex()) ? this.order_index : this.order_index + 1;
-    }
+export function getUnshiftedOrderIndex(
+  encounter: Encounter | EncounterRaw,
+): number {
+  return (
+    Math.floor(encounter.order_index / ORDER_INDEX_INCREMENT) *
+    ORDER_INDEX_INCREMENT
+  );
+}
 
-    getUnshiftedOrderIndex(): number{
-        return Math.floor(this.order_index / this.orderIndexIncrement) * this.orderIndexIncrement;
-    }
+export function unshiftOrderIndex(encounter: Encounter | EncounterRaw): void {
+  encounter.order_index = getUnshiftedOrderIndex(encounter);
+}
 
-    unshiftOrderIndex(): void{
-        this.order_index = this.getUnshiftedOrderIndex();
-    }
+export function swapOrderIndexState(encounter: Encounter): void {
+  hasShiftedOrderIndex(encounter)
+    ? unshiftOrderIndex(encounter)
+    : shiftOrderIndex(encounter);
+}
 
-    swapOrderIndexState(): void{
-        this.hasShiftedOrderIndex() ? this.unshiftOrderIndex() : this.shiftOrderIndex();
-    }
+export function shiftOrderIndex(encounter: Encounter): Encounter {
+  return {
+    ...encounter,
+    order_index: encounter.order_index++,
+  };
+}
 
-    shiftOrderIndex(): void{
-        this.order_index++;
-    }
+export function nextOrderIndex(encounter: Encounter | EncounterRaw) {
+  return getUnshiftedOrderIndex(encounter) + ORDER_INDEX_INCREMENT;
+}
 
-    nextOrderIndex(){
-        return this.getUnshiftedOrderIndex() + this.orderIndexIncrement;
-    }
-
-    priorOrderIndex(){
-        return this.getUnshiftedOrderIndex() - this.orderIndexIncrement;
-    }
+export function priorOrderIndex(encounter: Encounter | EncounterRaw) {
+  return getUnshiftedOrderIndex(encounter) - ORDER_INDEX_INCREMENT;
 }

@@ -17,8 +17,8 @@ declare type AbsoluteFsPathLocalizeCopy = string & {
  *
  * All translations that had been loading into memory using `loadTranslations()` will be removed.
  *
- * @see `loadTranslations()` for loading translations at runtime.
- * @see `$localize` for tagging messages as needing to be translated.
+ * @see {@link loadTranslations} for loading translations at runtime.
+ * @see {@link $localize} for tagging messages as needing to be translated.
  *
  * @publicApi
  */
@@ -59,14 +59,16 @@ export declare function clearTranslations(): void;
  *
  * These messages are processed and added to a lookup based on their `MessageId`.
  *
- * @see `clearTranslations()` for removing translations loaded using this function.
- * @see `$localize` for tagging messages as needing to be translated.
+ * @see {@link clearTranslations} for removing translations loaded using this function.
+ * @see {@link $localize} for tagging messages as needing to be translated.
  * @publicApi
  */
 export declare function loadTranslations(translations: Record<MessageId, TargetMessage>): void;
 
 /**
  * A string that uniquely identifies a message, to be used for matching translations.
+ *
+ * @publicApi
  */
 export declare type MessageId = string;
 
@@ -115,6 +117,8 @@ declare interface MessageMetadata {
  * I.E. the message that indicates what will be translated to.
  *
  * Uses `{$placeholder-name}` to indicate a placeholder.
+ *
+ * @publicApi
  */
 export declare type TargetMessage = string;
 
@@ -141,7 +145,7 @@ export declare type TargetMessage = string;
  * ```
  *
  * This format is the same as that used for `i18n` markers in Angular templates. See the
- * [Angular i18n guide](guide/i18n-common-prepare#mark-text-in-component-template).
+ * [Angular i18n guide](guide/i18n/prepare#mark-text-in-component-template).
  *
  * **Naming placeholders**
  *
@@ -210,12 +214,9 @@ export declare type TargetMessage = string;
  * @param expressions a collection of the values of each placeholder in the template string.
  * @returns the translated string, with the `messageParts` and `expressions` interleaved together.
  *
- * @globalApi
  * @publicApi
  */
 export declare const ɵ$localize: ɵLocalizeFn;
-
-export declare const ɵ_global: any;
 
 export declare function ɵcomputeMsgId(msg: string, meaning?: string): string;
 

@@ -7,6 +7,5 @@ export declare class FieldValidationExtension implements FormlyExtension {
     private initFieldValidation;
     private getPredefinedFieldValidation;
     private wrapNgValidatorFn;
-    private handleAsyncResult;
     private handleResult;
 }

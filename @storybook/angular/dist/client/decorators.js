@@ -25,12 +25,11 @@ const moduleMetadata = (metadata) => (storyFn) => {
 };
 exports.moduleMetadata = moduleMetadata;
 /**
- * Decorator to set the config options which are available during the application bootstrap operation
+ * Decorator to set the config options which are available during the application bootstrap
+ * operation
  */
 function applicationConfig(
-/**
- * Set of config options available during the application bootstrap operation.
- */
+/** Set of config options available during the application bootstrap operation. */
 config) {
     return (storyFn) => {
         const story = storyFn();

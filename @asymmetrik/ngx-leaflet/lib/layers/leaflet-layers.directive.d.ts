@@ -37,5 +37,5 @@ export declare class LeafletLayersDirective implements DoCheck, OnDestroy, OnIni
      */
     private updateLayers;
     static ɵfac: i0.ɵɵFactoryDeclaration<LeafletLayersDirective, never>;
-    static ɵdir: i0.ɵɵDirectiveDeclaration<LeafletLayersDirective, "[leafletLayers]", never, { "layers": "leafletLayers"; }, {}, never, never, false, never>;
+    static ɵdir: i0.ɵɵDirectiveDeclaration<LeafletLayersDirective, "[leafletLayers]", never, { "layers": { "alias": "leafletLayers"; "required": false; }; }, {}, never, never, false, never>;
 }

@@ -1,3 +1,148 @@
+# v0.1.11 (Tue Jul 02 2024)
+
+#### 🐛 Bug Fix
+
+- Add mount to CSF [#100](https://github.com/ComponentDriven/csf/pull/100) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
+# v0.1.10 (Tue Jul 02 2024)
+
+#### 🐛 Bug Fix
+
+- Consolidate loader, play and render context and add a self referencing context property [#98](https://github.com/ComponentDriven/csf/pull/98) ([@kasperpeulen](https://github.com/kasperpeulen))
+- Add canvas prop to the context [#99](https://github.com/ComponentDriven/csf/pull/99) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
+# v0.1.9 (Mon Jun 24 2024)
+
+#### 🐛 Bug Fix
+
+- Add `beforeAll` hook to CSF types [#96](https://github.com/ComponentDriven/csf/pull/96) ([@ghengeveld](https://github.com/ghengeveld))
+
+#### Authors: 2
+
+- Gert Hengeveld ([@ghengeveld](https://github.com/ghengeveld))
+- Michael Shilman ([@shilman](https://github.com/shilman))
+
+---
+
+# v0.1.8 (Mon Jun 03 2024)
+
+#### 🐛 Bug Fix
+
+- Add project initialGlobals & component/story globals, deprecate project globals [#92](https://github.com/ComponentDriven/csf/pull/92) ([@shilman](https://github.com/shilman))
+
+#### Authors: 1
+
+- Michael Shilman ([@shilman](https://github.com/shilman))
+
+---
+
+# v0.1.7 (Mon May 06 2024)
+
+#### 🐛 Bug Fix
+
+- Fix the package name in the readme [#81](https://github.com/ComponentDriven/csf/pull/81) ([@stof](https://github.com/stof))
+- Add utility for tag combination & negation [#80](https://github.com/ComponentDriven/csf/pull/80) ([@shilman](https://github.com/shilman))
+
+#### Authors: 2
+
+- Christophe Coevoet ([@stof](https://github.com/stof))
+- Michael Shilman ([@shilman](https://github.com/shilman))
+
+---
+
+# v0.1.6 (Tue Apr 30 2024)
+
+#### 🐛 Bug Fix
+
+- Add the beforeEach hook [#82](https://github.com/ComponentDriven/csf/pull/82) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
+# v0.1.5 (Thu Apr 25 2024)
+
+#### 🐛 Bug Fix
+
+- chore: resolve eslint issues [#87](https://github.com/ComponentDriven/csf/pull/87) ([@Cherry](https://github.com/Cherry))
+- fix: better handle readonly InputType options [#85](https://github.com/ComponentDriven/csf/pull/85) ([@Cherry](https://github.com/Cherry))
+
+#### Authors: 2
+
+- James Ross ([@Cherry](https://github.com/Cherry))
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
+# v0.1.4 (Fri Apr 12 2024)
+
+#### 🐛 Bug Fix
+
+- Loosen control type and some fixes [#83](https://github.com/ComponentDriven/csf/pull/83) ([@kasperpeulen](https://github.com/kasperpeulen))
+
+#### Authors: 1
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+
+---
+
+# v0.1.3 (Mon Mar 18 2024)
+
+#### 🐛 Bug Fix
+
+- Fix bad publish [#78](https://github.com/ComponentDriven/csf/pull/78) ([@shilman](https://github.com/shilman))
+- Improve InputType for controls [#75](https://github.com/ComponentDriven/csf/pull/75) ([@Shinigami92](https://github.com/Shinigami92) [@shilman](https://github.com/shilman))
+- Update README [#74](https://github.com/ComponentDriven/csf/pull/74) ([@nkabrown](https://github.com/nkabrown))
+
+#### Authors: 4
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Michael Shilman ([@shilman](https://github.com/shilman))
+- Nathan Brown ([@nkabrown](https://github.com/nkabrown))
+- Shinigami ([@Shinigami92](https://github.com/Shinigami92))
+
+---
+
+# v0.1.2 (Wed Nov 22 2023)
+
+#### 🐛 Bug Fix
+
+- Allow loaders to be synchronous or void [#71](https://github.com/ComponentDriven/csf/pull/71) ([@kasperpeulen](https://github.com/kasperpeulen))
+- Move `types` condition to the front [#69](https://github.com/ComponentDriven/csf/pull/69) ([@Andarist](https://github.com/Andarist))
+
+#### Authors: 2
+
+- Kasper Peulen ([@kasperpeulen](https://github.com/kasperpeulen))
+- Mateusz Burzyński ([@Andarist](https://github.com/Andarist))
+
+---
+
+# v0.1.1 (Fri Jun 02 2023)
+
+#### 🐛 Bug Fix
+
+- Move `types` condition to the front [#70](https://github.com/ComponentDriven/csf/pull/70) ([@Andarist](https://github.com/Andarist))
+
+#### Authors: 1
+
+- Mateusz Burzyński ([@Andarist](https://github.com/Andarist))
+
+---
+
 # v0.1.0 (Mon Apr 03 2023)
 
 #### 🚀 Enhancement

@@ -16,7 +16,7 @@ var ButtonAccent;
 (function (ButtonAccent) {
     ButtonAccent["Normal"] = "Normal";
     ButtonAccent["High"] = "High";
-})(ButtonAccent = exports.ButtonAccent || (exports.ButtonAccent = {}));
+})(ButtonAccent || (exports.ButtonAccent = ButtonAccent = {}));
 let InputComponent = class InputComponent {
     constructor() {
         /** Appearance style of the button. */
@@ -24,8 +24,10 @@ let InputComponent = class InputComponent {
         /** Sets the button to a disabled state. */
         this.isDisabled = false;
         this.onClick = new core_1.EventEmitter();
+        this.dashOut = new core_1.EventEmitter();
     }
 };
+exports.InputComponent = InputComponent;
 __decorate([
     (0, core_1.Input)(),
     __metadata("design:type", String)
@@ -51,6 +53,10 @@ __decorate([
     __metadata("design:type", String)
 ], InputComponent.prototype, "label", void 0);
 __decorate([
+    (0, core_1.Input)('aria-label'),
+    __metadata("design:type", String)
+], InputComponent.prototype, "ariaLabel", void 0);
+__decorate([
     (0, core_1.Input)(),
     __metadata("design:type", Object)
 ], InputComponent.prototype, "someDataObject", void 0);
@@ -58,10 +64,13 @@ __decorate([
     (0, core_1.Output)(),
     __metadata("design:type", Object)
 ], InputComponent.prototype, "onClick", void 0);
-InputComponent = __decorate([
+__decorate([
+    (0, core_1.Output)('dash-out'),
+    __metadata("design:type", Object)
+], InputComponent.prototype, "dashOut", void 0);
+exports.InputComponent = InputComponent = __decorate([
     (0, core_1.Component)({
         selector: 'doc-button',
         template: '<button>{{ label }}</button>',
     })
 ], InputComponent);
-exports.InputComponent = InputComponent;

@@ -1,5 +1,5 @@
-import { StoryKind, ComponentTitle, StoryName } from '@storybook/types';
-import { PureComponent, ReactNode } from 'react';
+import React, { PureComponent, ReactNode } from 'react';
+import { StoryKind, ComponentTitle, StoryName } from 'storybook/internal/types';
 
 interface Props {
     kind?: StoryKind;
@@ -18,7 +18,7 @@ declare class LinkTo extends PureComponent<Props, State> {
     componentDidUpdate(prevProps: Props): void;
     updateHref: () => Promise<void>;
     handleClick: () => void;
-    render(): JSX.Element;
+    render(): React.JSX.Element;
 }
 
 export { LinkTo as default };

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-essentials",
-  "version": "7.0.5",
+  "version": "8.4.4",
   "description": "Curated addons to bring out the best of Storybook",
   "keywords": [
     "addon",
@@ -14,7 +14,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/storybookjs/storybook.git",
-    "directory": "addons/essentials"
+    "directory": "code/addons/essentials"
   },
   "funding": {
     "type": "opencollective",
@@ -23,85 +23,53 @@
   "license": "MIT",
   "exports": {
     ".": {
-      "node": "./dist/index.js",
-      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/index.js"
     },
     "./actions/preview": {
-      "require": "./dist/actions/preview.js",
+      "types": "./dist/actions/preview.d.ts",
       "import": "./dist/actions/preview.mjs",
-      "types": "./dist/actions/preview.d.ts"
+      "require": "./dist/actions/preview.js"
     },
-    "./actions/manager": {
-      "require": "./dist/actions/manager.js",
-      "import": "./dist/actions/manager.mjs",
-      "types": "./dist/actions/manager.d.ts"
-    },
+    "./actions/manager": "./dist/actions/manager.js",
     "./backgrounds/preview": {
-      "require": "./dist/backgrounds/preview.js",
+      "types": "./dist/backgrounds/preview.d.ts",
       "import": "./dist/backgrounds/preview.mjs",
-      "types": "./dist/backgrounds/preview.d.ts"
+      "require": "./dist/backgrounds/preview.js"
     },
-    "./backgrounds/manager": {
-      "require": "./dist/backgrounds/manager.js",
-      "import": "./dist/backgrounds/manager.mjs",
-      "types": "./dist/backgrounds/manager.d.ts"
-    },
-    "./controls/manager": {
-      "require": "./dist/controls/manager.js",
-      "import": "./dist/controls/manager.mjs",
-      "types": "./dist/controls/manager.d.ts"
-    },
+    "./backgrounds/manager": "./dist/backgrounds/manager.js",
+    "./controls/manager": "./dist/controls/manager.js",
     "./docs/preview": {
-      "require": "./dist/docs/preview.js",
+      "types": "./dist/docs/preview.d.ts",
       "import": "./dist/docs/preview.mjs",
-      "types": "./dist/docs/preview.d.ts"
+      "require": "./dist/docs/preview.js"
     },
-    "./docs/preset": {
-      "require": "./dist/docs/preset.js",
-      "import": "./dist/docs/preset.mjs",
-      "types": "./dist/docs/preset.d.ts"
-    },
-    "./docs/mdx-react-shim": {
-      "require": "./dist/docs/mdx-react-shim.js",
-      "import": "./dist/docs/mdx-react-shim.mjs",
-      "types": "./dist/docs/mdx-react-shim.d.ts"
-    },
+    "./docs/preset": "./dist/docs/preset.js",
+    "./docs/mdx-react-shim": "./dist/docs/mdx-react-shim.js",
     "./highlight/preview": {
-      "require": "./dist/highlight/preview.js",
+      "types": "./dist/highlight/preview.d.ts",
       "import": "./dist/highlight/preview.mjs",
-      "types": "./dist/highlight/preview.d.ts"
+      "require": "./dist/highlight/preview.js"
     },
     "./measure/preview": {
-      "require": "./dist/measure/preview.js",
+      "types": "./dist/measure/preview.d.ts",
       "import": "./dist/measure/preview.mjs",
-      "types": "./dist/measure/preview.d.ts"
+      "require": "./dist/measure/preview.js"
     },
-    "./measure/manager": {
-      "require": "./dist/measure/manager.js",
-      "import": "./dist/measure/manager.mjs",
-      "types": "./dist/measure/manager.d.ts"
-    },
+    "./measure/manager": "./dist/measure/manager.js",
     "./outline/preview": {
-      "require": "./dist/outline/preview.js",
+      "types": "./dist/outline/preview.d.ts",
       "import": "./dist/outline/preview.mjs",
-      "types": "./dist/outline/preview.d.ts"
+      "require": "./dist/outline/preview.js"
     },
-    "./outline/manager": {
-      "require": "./dist/outline/manager.js",
-      "import": "./dist/outline/manager.mjs",
-      "types": "./dist/outline/manager.d.ts"
-    },
-    "./toolbars/manager": {
-      "require": "./dist/toolbars/manager.js",
-      "import": "./dist/toolbars/manager.mjs",
-      "types": "./dist/toolbars/manager.d.ts"
-    },
-    "./viewport/manager": {
-      "require": "./dist/viewport/manager.js",
-      "import": "./dist/viewport/manager.mjs",
-      "types": "./dist/viewport/manager.d.ts"
+    "./outline/manager": "./dist/outline/manager.js",
+    "./toolbars/manager": "./dist/toolbars/manager.js",
+    "./viewport/manager": "./dist/viewport/manager.js",
+    "./viewport/preview": {
+      "types": "./dist/viewport/preview.d.ts",
+      "import": "./dist/viewport/preview.mjs",
+      "require": "./dist/viewport/preview.js"
     },
     "./package.json": "./package.json"
   },
@@ -112,59 +80,58 @@
     "dist/**/*",
     "README.md",
     "*.js",
-    "*.d.ts"
+    "*.d.ts",
+    "!src/**/*"
   ],
   "scripts": {
-    "check": "../../../scripts/node_modules/.bin/tsc --noEmit",
-    "prep": "../../../scripts/prepare/bundle.ts"
+    "check": "jiti ../../../scripts/prepare/check.ts",
+    "prep": "jiti ../../../scripts/prepare/addon-bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-actions": "7.0.5",
-    "@storybook/addon-backgrounds": "7.0.5",
-    "@storybook/addon-controls": "7.0.5",
-    "@storybook/addon-docs": "7.0.5",
-    "@storybook/addon-highlight": "7.0.5",
-    "@storybook/addon-measure": "7.0.5",
-    "@storybook/addon-outline": "7.0.5",
-    "@storybook/addon-toolbars": "7.0.5",
-    "@storybook/addon-viewport": "7.0.5",
-    "@storybook/core-common": "7.0.5",
-    "@storybook/manager-api": "7.0.5",
-    "@storybook/node-logger": "7.0.5",
-    "@storybook/preview-api": "7.0.5",
+    "@storybook/addon-actions": "8.4.4",
+    "@storybook/addon-backgrounds": "8.4.4",
+    "@storybook/addon-controls": "8.4.4",
+    "@storybook/addon-docs": "8.4.4",
+    "@storybook/addon-highlight": "8.4.4",
+    "@storybook/addon-measure": "8.4.4",
+    "@storybook/addon-outline": "8.4.4",
+    "@storybook/addon-toolbars": "8.4.4",
+    "@storybook/addon-viewport": "8.4.4",
     "ts-dedent": "^2.0.0"
   },
   "devDependencies": {
-    "@storybook/vue": "7.0.5",
-    "typescript": "^4.9.3"
+    "typescript": "^5.3.2"
   },
   "peerDependencies": {
-    "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
-    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0"
+    "storybook": "^8.4.4"
   },
   "publishConfig": {
     "access": "public"
   },
   "bundler": {
-    "entries": [
+    "nodeEntries": [
       "./src/index.ts",
-      "./src/actions/preview.ts",
+      "./src/docs/preset.ts",
+      "./src/docs/mdx-react-shim.ts"
+    ],
+    "managerEntries": [
       "./src/actions/manager.ts",
-      "./src/backgrounds/preview.ts",
       "./src/backgrounds/manager.ts",
       "./src/controls/manager.ts",
-      "./src/docs/preview.ts",
-      "./src/docs/preset.ts",
-      "./src/docs/mdx-react-shim.ts",
-      "./src/highlight/preview.ts",
-      "./src/measure/preview.ts",
       "./src/measure/manager.ts",
-      "./src/outline/preview.ts",
       "./src/outline/manager.ts",
       "./src/toolbars/manager.ts",
       "./src/viewport/manager.ts"
     ],
-    "platform": "node"
+    "previewEntries": [
+      "./src/actions/preview.ts",
+      "./src/backgrounds/preview.ts",
+      "./src/docs/preview.ts",
+      "./src/highlight/preview.ts",
+      "./src/measure/preview.ts",
+      "./src/outline/preview.ts",
+      "./src/viewport/preview.ts"
+    ]
   },
-  "gitHead": "0c784eb56272a1413904cfa53ae8ea4c5c35306e"
+  "gitHead": "e6a7fd8a655c69780bc20b9749c2699e44beae16"
 }

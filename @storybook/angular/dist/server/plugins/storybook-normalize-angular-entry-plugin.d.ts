@@ -1,21 +1,8 @@
 /**
- * Angular's webpack plugin @angular-devkit/build-angular/src/webpack/plugins/styles-webpack-plugin.js
- * transforms the original webpackOptions.entry point array into a structure like this:
- *
- * ```js
- * {
- *  main: {
- *    import: [...]
- *  },
- *
- *  styles: {
- *    import: [...]
- *  },
- * }
- * ```
- *
- * Storybook throws an __webpack_require__.nmd is not a function error, when another runtime bundle (styles~runtime.iframe.bundle.js) is loaded.
- * To prevent this error, we have to normalize the entry point to only generate one runtime bundle (main~runtime.iframe.bundle.js).
+ * This plugin is designed to modify the Webpack configuration for Storybook projects that use
+ * Angular, specifically to prevent multiple runtime bundle issues by merging 'main' and 'styles'
+ * entry points. It ensures that only one runtime bundle is generated to avoid
+ * '**webpack_require**.nmd is not a function' errors.
  */
 export default class StorybookNormalizeAngularEntryPlugin {
     constructor(options: any);

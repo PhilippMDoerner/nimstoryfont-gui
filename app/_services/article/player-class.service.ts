@@ -5,19 +5,18 @@ import { PlayerClass } from 'src/app/_models/playerclass';
 import { BaseService } from '../base.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class PlayerClassService extends BaseService<PlayerClass>{
+export class PlayerClassService extends BaseService<PlayerClass, PlayerClass> {
+  constructor(http: HttpClient) {
+    super(http, 'player_class');
+  }
 
-  constructor(
-    http: HttpClient
-  ) { super(http, 'player_class') }
-  
   override parseEntity(data: any): PlayerClass {
     return data;
   }
-  
+
   override parseOverviewEntity(data: any): OverviewItem {
-    throw "Player Class does not have an overview";
+    throw 'Player Class does not have an overview';
   }
 }

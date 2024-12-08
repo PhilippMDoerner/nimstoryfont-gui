@@ -1,0 +1,59 @@
+<div class="badge-container" [title]="text()">
+  @if (textLink()) {
+    <a
+      [routerLink]="textLink()"
+      class="badge"
+      [ngClass]="{
+        'badge--part1': icon(),
+        'bg-primary': kind() === 'PRIMARY',
+        'bg-secondary': kind() === 'SECONDARY',
+        'bg-dark': kind() === 'DARK',
+        'bg-danger': kind() === 'DANGER',
+        'bg-warning': kind() === 'WARNING',
+        'bg-info': kind() === 'INFO',
+        'bg-light': kind() === 'LIGHT',
+      }"
+    >
+      {{ text() }}
+    </a>
+  } @else {
+    <button
+      (click)="labelClick.emit()"
+      class="badge"
+      tabindex="0"
+      [ngClass]="{
+        'badge--part1': icon(),
+        'bg-primary': kind() === 'PRIMARY',
+        'bg-secondary': kind() === 'SECONDARY',
+        'bg-dark': kind() === 'DARK',
+        'bg-danger': kind() === 'DANGER',
+        'bg-warning': kind() === 'WARNING',
+        'bg-info': kind() === 'INFO',
+        'bg-light': kind() === 'LIGHT',
+      }"
+      [type]="'button'"
+    >
+      {{ text() }}
+    </button>
+  }
+
+  @let iconVal = icon();
+  @if (iconVal) {
+    <button
+      (click)="iconClick.emit()"
+      tabindex=""
+      class="badge badge--part2"
+      [ngClass]="{
+        'bg-primary': iconKindVal() === 'PRIMARY',
+        'bg-secondary': iconKindVal() === 'SECONDARY',
+        'bg-dark': iconKindVal() === 'DARK',
+        'bg-danger': iconKindVal() === 'DANGER',
+        'bg-warning': iconKindVal() === 'WARNING',
+        'bg-info': iconKindVal() === 'INFO',
+        'bg-light': iconKindVal() === 'LIGHT',
+      }"
+    >
+      <app-icon [icon]="iconVal" />
+    </button>
+  }
+</div>

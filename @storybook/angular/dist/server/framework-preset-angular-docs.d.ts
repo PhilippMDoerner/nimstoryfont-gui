@@ -1,2 +1,2 @@
-import { StorybookConfig } from '@storybook/types';
-export declare const previewAnnotations: StorybookConfig['previewAnnotations'];
+import { PresetProperty } from 'storybook/internal/types';
+export declare const previewAnnotations: PresetProperty<'previewAnnotations'>;

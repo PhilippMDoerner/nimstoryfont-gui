@@ -1,5 +1,5 @@
-declare const HIGHLIGHT: string;
-declare const RESET_HIGHLIGHT: string;
+declare const HIGHLIGHT = "storybook/highlight/add";
+declare const RESET_HIGHLIGHT = "storybook/highlight/reset";
 
 declare const _default: {};
 

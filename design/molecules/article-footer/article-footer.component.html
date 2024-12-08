@@ -1,0 +1,28 @@
+<footer class="footer">
+  <ng-container
+    [ngTemplateOutlet]="buttonLink() ? linkButton : nonLinkButton"
+  />
+
+  @if (showDelete()) {
+    <app-confirmation-toggle-button
+      [confirmationQuestion]="deleteMessage()"
+      [icon]="'trash'"
+      (confirm)="delete.emit()"
+    ></app-confirmation-toggle-button>
+  }
+</footer>
+
+<ng-template #linkButton>
+  <a [routerLink]="buttonLink()" (click)="buttonClick.emit()" [tabIndex]="-1">
+    <button btn [kind]="'SECONDARY'" [text]="buttonLabel()"></button>
+  </a>
+</ng-template>
+
+<ng-template #nonLinkButton>
+  <button
+    btn
+    [kind]="'SECONDARY'"
+    [text]="buttonLabel()"
+    (click)="buttonClick.emit()"
+  ></button>
+</ng-template>

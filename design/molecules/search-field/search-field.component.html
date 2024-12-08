@@ -1,0 +1,24 @@
+<div class="search" id="search-area">
+  <form class="search__form" (submit)="startSearch()">
+    <div class="d-flex search__bar">
+      <input
+        class="search__input"
+        type="search"
+        name="search"
+        title="search"
+        id="search"
+        [(ngModel)]="searchString"
+        [placeholder]="placeholder()"
+        aria-label="Search"
+      />
+
+      <button
+        btn
+        class="search__button"
+        [attr.aria-label]="btnAriaLabel()"
+        [kind]="'PRIMARY'"
+        [icon]="'search'"
+      ></button>
+    </div>
+  </form>
+</div>

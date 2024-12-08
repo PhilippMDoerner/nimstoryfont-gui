@@ -1,0 +1,40 @@
+<ng-template #content let-modal>
+  <div class="modal-border {{ modalClass() }}">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">{{ heading() }}</h4>
+      <div
+        class="btn-close pointer"
+        aria-label="Close"
+        (click)="modal.dismiss()"
+      >
+        <span aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <div class="modal-body body">
+      <ng-content select="[body]"></ng-content>
+      <div class="body__buttons">
+        <button
+          btn
+          class="body__button"
+          [kind]="cancelButtonType()"
+          [icon]="'times'"
+          [text]="cancelButtonLabel()"
+          (click)="onCancel(modal)"
+        ></button>
+        <button
+          btn
+          class="body__button"
+          [kind]="modalType()"
+          [icon]="submitIcon()"
+          [text]="submitButtonLabel()"
+          (click)="onSubmit(modal)"
+        ></button>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<div (click)="open(content)">
+  <ng-content select="[opener]"></ng-content>
+</div>

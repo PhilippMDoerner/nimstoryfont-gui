@@ -1,6 +1,6 @@
 {
   "name": "better-opn",
-  "version": "2.1.1",
+  "version": "3.0.2",
   "description": "A better opn. Reuse the same tab on Chrome for 👨‍💻.",
   "main": "dist/index.js",
   "repository": {
@@ -18,7 +18,7 @@
     "browser"
   ],
   "engines": {
-    "node": ">8.0.0"
+    "node": ">=12.0.0"
   },
   "files": [
     "dist",
@@ -32,20 +32,32 @@
     "nodeVersion": ">=10.0.0",
     "space": 2,
     "prettier": true,
-    "envs": ["node"]
+    "envs": [
+      "node"
+    ]
+  },
+  "ava": {
+    "files": [
+      "tests/**/*",
+      "!test/host-only.js"
+    ]
   },
   "scripts": {
     "build": "babel src -d dist",
     "_lint": "--node-version is a work around since we use v8 as target in babel anyway",
-    "lint": "xo src/ --fix --node-version \">=10.0.0\""
+    "lint": "xo --fix --node-version \">=10.0.0\"",
+    "test": "ava"
   },
   "dependencies": {
-    "open": "^7.0.3"
+    "open": "^8.0.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
+    "ava": "^3.6.0",
+    "lodash.countby": "^4.6.0",
+    "puppeteer-core": "^8.0.0",
     "xo": "^0.28.3"
   }
 }

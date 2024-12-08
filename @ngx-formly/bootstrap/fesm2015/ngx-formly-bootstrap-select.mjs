@@ -64,6 +64,8 @@ FormlyFieldSelect.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", vers
         [compareWith]="props.compareWith"
         [class.is-invalid]="showError"
         [formlyAttributes]="field"
+        [attr.aria-describedby]="id + '-formly-validation-error'"
+        [attr.aria-invalid]="showError"
       >
         <ng-container *ngIf="props.options | formlySelectOptions : field | async as opts">
           <ng-container *ngFor="let opt of opts">
@@ -88,6 +90,8 @@ FormlyFieldSelect.ɵcmp = i0.ɵɵngDeclareComponent({ minVersion: "12.0.0", vers
           [compareWith]="props.compareWith"
           [class.is-invalid]="showError"
           [formlyAttributes]="field"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
         >
           <option *ngIf="props.placeholder" [ngValue]="undefined">{{ props.placeholder }}</option>
           <ng-container *ngIf="props.options | formlySelectOptions : field | async as opts">
@@ -122,6 +126,8 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
         [compareWith]="props.compareWith"
         [class.is-invalid]="showError"
         [formlyAttributes]="field"
+        [attr.aria-describedby]="id + '-formly-validation-error'"
+        [attr.aria-invalid]="showError"
       >
         <ng-container *ngIf="props.options | formlySelectOptions : field | async as opts">
           <ng-container *ngFor="let opt of opts">
@@ -146,6 +152,8 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
           [compareWith]="props.compareWith"
           [class.is-invalid]="showError"
           [formlyAttributes]="field"
+          [attr.aria-describedby]="id + '-formly-validation-error'"
+          [attr.aria-invalid]="showError"
         >
           <option *ngIf="props.placeholder" [ngValue]="undefined">{{ props.placeholder }}</option>
           <ng-container *ngIf="props.options | formlySelectOptions : field | async as opts">

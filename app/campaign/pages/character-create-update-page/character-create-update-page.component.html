@@ -1,0 +1,21 @@
+@let character = userModel();
+@let campaignName = globalStore.campaignName();
+
+@if (character && campaignName) {
+  <app-character-create-update
+    [state]="state()"
+    [campaignName]="campaignName"
+    [userModel]="character"
+    [serverModel]="store.serverModel()"
+    [classOptions]="store.playerClasses() ?? []"
+    [organizationOptions]="store.campaignOrganizations() ?? []"
+    [lastVisitedPlaceOptions]="store.campaignLocations() ?? []"
+    (addClass)="addClass($event.pk)"
+    (removeClass)="removeClass($event.pk)"
+    (addOrganizationMembership)="store.addOrganizationMembership($event)"
+    (removeOrganizationMembership)="store.removeOrganizationMembership($event)"
+    (cancel)="onCancel()"
+    (update)="onUpdateSubmit($event)"
+    (create)="onCreateSubmit($event)"
+  />
+}

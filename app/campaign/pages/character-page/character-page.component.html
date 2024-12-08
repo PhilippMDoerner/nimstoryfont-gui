@@ -1,0 +1,43 @@
+@let character = character$();
+@let characterQuote = characterQuote$();
+@let imageServerModel = imageServerModel$();
+@let quoteServerModel = quoteServerModel$();
+@let encounterServerModel = encounterServerModel$();
+
+@if (character != null) {
+  <app-character
+    [character]="character"
+    [characterServerModel]="store.characterServerModel()"
+    [characterQuote]="characterQuote"
+    [campaignCharacters]="campaignCharacters() ?? []"
+    [campaignNPCCharacters]="campaignNPCCharacters() ?? []"
+    [campaignOrganizations]="campaignOrganizations() ?? []"
+    [campaignLocations]="campaignLocations() ?? []"
+    [serverUrl]="serverUrl"
+    [encounters]="campaignEncounters() ?? []"
+    [sessions]="campaignSessions() ?? []"
+    [quoteServerModel]="quoteServerModel"
+    [imageServerModel]="imageServerModel"
+    [encounterServerModel]="encounterServerModel"
+    [canUpdate]="hasWritePermission$()"
+    [canCreate]="hasWritePermission$()"
+    [canDelete]="hasWritePermission$()"
+    (characterDelete)="onCharacterDelete()"
+    (characterUpdate)="onCharacterUpdate($event)"
+    (createImage)="onCreateImage($event)"
+    (deleteImage)="onDeleteImage($event)"
+    (updateImage)="onUpdateImage($event)"
+    (quoteCreate)="onCreateQuote($event)"
+    (quoteUpdate)="onUpdateQuote($event)"
+    (quoteDelete)="onDeleteQuote($event)"
+    (quoteConnectionCreate)="onCreateQuoteConnection($event)"
+    (quoteConnectionDelete)="onDeleteQuoteConnection($event)"
+    (encounterUpdate)="onUpdateEncounter($event)"
+    (encounterDelete)="onDeleteEncounter($event)"
+    (encounterConnectionCreate)="onCreateEncounterConnection($event)"
+    (encounterConnectionDelete)="onDeleteEncounterConnection($event)"
+    (refreshQuote)="onRefreshQuote()"
+    (organizationMembershipCreate)="store.createMembership($event)"
+    (organizationMembershipDelete)="store.deleteMembership($event)"
+  ></app-character>
+}

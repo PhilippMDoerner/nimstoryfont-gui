@@ -1,31 +1,21 @@
+import { Options as Options$1, Builder } from 'storybook/internal/types';
 import webpack__default, { Configuration, Stats } from 'webpack';
-import { O as Options$1, B as Builder } from './index.d-1a1e1de1.js';
-import { StorybookConfig, Options, BuilderResult as BuilderResult$1 } from '@storybook/core-webpack';
+import { StorybookConfig, Options, BuilderResult as BuilderResult$1, TypescriptOptions as TypescriptOptions$1 } from '@storybook/core-webpack';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
-import 'file-system-cache';
-import '@babel/core';
-import 'express';
-import 'http';
 
-type TypeScriptOptionsBase = Required<StorybookConfig>['typescript'];
-/**
- * Options for TypeScript usage within Storybook.
- */
+type TypeScriptOptionsBase = Partial<TypescriptOptions$1>;
+/** Options for TypeScript usage within Storybook. */
 interface TypescriptOptions extends TypeScriptOptionsBase {
-    /**
-     * Configures `fork-ts-checker-webpack-plugin`
-     */
+    /** Configures `fork-ts-checker-webpack-plugin` */
     checkOptions?: ConstructorParameters<typeof ForkTsCheckerWebpackPlugin>[0];
 }
-interface StorybookConfigWebpack extends Pick<StorybookConfig, 'webpack' | 'webpackFinal'> {
+interface StorybookConfigWebpack extends Omit<StorybookConfig, 'webpack' | 'webpackFinal'> {
     /**
-     * Modify or return a custom Webpack config after the Storybook's default configuration
-     * has run (mostly used by addons).
+     * Modify or return a custom Webpack config after the Storybook's default configuration has run
+     * (mostly used by addons).
      */
     webpack?: (config: Configuration, options: Options) => Configuration | Promise<Configuration>;
-    /**
-     * Modify or return a custom Webpack config after every addon has run.
-     */
+    /** Modify or return a custom Webpack config after every addon has run. */
     webpackFinal?: (config: Configuration, options: Options) => Configuration | Promise<Configuration>;
 }
 type BuilderOptions = {
@@ -35,6 +25,11 @@ type BuilderOptions = {
 interface BuilderResult extends BuilderResult$1 {
     stats?: Stats;
 }
+
+declare const getVirtualModules: (options: Options$1) => Promise<{
+    virtualModules: Record<string, string>;
+    entries: string[];
+}>;
 
 declare const printDuration: (startTime: [number, number]) => string;
 type WebpackBuilder = Builder<Configuration, Stats>;
@@ -53,4 +48,4 @@ declare const build: (options: BuilderStartOptions) => Promise<void | Stats>;
 declare const corePresets: string[];
 declare const overridePresets: string[];
 
-export { BuilderOptions, BuilderResult, StorybookConfigWebpack, TypescriptOptions, bail, build, corePresets, executor, getConfig, overridePresets, printDuration, start };
+export { BuilderOptions, BuilderResult, StorybookConfigWebpack, TypescriptOptions, bail, build, corePresets, executor, getConfig, getVirtualModules, overridePresets, printDuration, start };

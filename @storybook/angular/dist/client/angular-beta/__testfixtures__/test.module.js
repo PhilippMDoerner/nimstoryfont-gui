@@ -12,9 +12,9 @@ const http_1 = require("@angular/common/http");
 const core_1 = require("@angular/core");
 let WithOfficialModule = class WithOfficialModule {
 };
-WithOfficialModule = __decorate([
+exports.WithOfficialModule = WithOfficialModule;
+exports.WithOfficialModule = WithOfficialModule = __decorate([
     (0, core_1.NgModule)({
         imports: [common_1.CommonModule, http_1.HttpClientModule],
     })
 ], WithOfficialModule);
-exports.WithOfficialModule = WithOfficialModule;

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/csf",
-  "version": "0.1.0",
+  "version": "0.1.11",
   "description": "Component Story Format (CSF) utilities",
   "keywords": [
     "storybook",
@@ -19,11 +19,11 @@
   "license": "MIT",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
       "require": "./dist/index.js",
       "browser": "./dist/index.mjs",
-      "node": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "node": "./dist/index.js"
     }
   },
   "main": "dist/index.js",
@@ -62,6 +62,7 @@
       "@storybook/eslint-config-storybook"
     ],
     "rules": {
+      "@typescript-eslint/no-empty-interface": "off",
       "import/no-unresolved": "error",
       "jest/expect-expect": [
         "warn",
@@ -99,14 +100,14 @@
     "type-fest": "^2.19.0"
   },
   "devDependencies": {
-    "@auto-it/released": "^10.37.6",
+    "@auto-it/released": "^11.1.1",
     "@ngard/tiny-isequal": "^1.1.0",
     "@storybook/eslint-config-storybook": "^3.1.2",
     "@types/jest": "^29.2.0",
     "@types/node": "^18.11.0",
     "@typescript-eslint/eslint-plugin": "^5.42.1",
     "@typescript-eslint/parser": "^5.42.1",
-    "auto": "^10.37.6",
+    "auto": "^11.1.1",
     "common-tags": "^1.8.0",
     "eslint": "^8.27.0",
     "eslint-import-resolver-typescript": "^3.5.2",

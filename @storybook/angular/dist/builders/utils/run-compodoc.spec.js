@@ -1,101 +1,76 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const operators_1 = require("rxjs/operators");
-const cpSpawnMock = {
-    spawn: jest.fn(),
-};
-jest.doMock('child_process', () => cpSpawnMock);
-const { runCompodoc } = require('./run-compodoc');
+const vitest_1 = require("vitest");
+const run_compodoc_1 = require("./run-compodoc");
+const mockRunScript = vitest_1.vi.fn();
+vitest_1.vi.mock('storybook/internal/common', () => ({
+    JsPackageManagerFactory: {
+        getPackageManager: () => ({
+            runPackageCommandSync: mockRunScript,
+        }),
+    },
+}));
 const builderContextLoggerMock = {
-    createChild: jest.fn(),
-    log: jest.fn(),
-    debug: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
-    fatal: jest.fn(),
+    createChild: vitest_1.vi.fn(),
+    log: vitest_1.vi.fn(),
+    debug: vitest_1.vi.fn(),
+    info: vitest_1.vi.fn(),
+    warn: vitest_1.vi.fn(),
+    error: vitest_1.vi.fn(),
+    fatal: vitest_1.vi.fn(),
 };
-describe('runCompodoc', () => {
-    beforeEach(() => {
-        cpSpawnMock.spawn.mockImplementation(() => ({
-            stdout: { on: () => { } },
-            stderr: { on: () => { } },
-            on: (_event, cb) => cb(0),
-        }));
+(0, vitest_1.describe)('runCompodoc', () => {
+    (0, vitest_1.afterEach)(() => {
+        mockRunScript.mockClear();
     });
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-    it('should run compodoc with tsconfig from context', async () => {
-        runCompodoc({
+    const builderContextMock = {
+        workspaceRoot: 'path/to/project',
+        logger: builderContextLoggerMock,
+    };
+    (0, vitest_1.it)('should run compodoc with tsconfig from context', async () => {
+        (0, run_compodoc_1.runCompodoc)({
             compodocArgs: [],
             tsconfig: 'path/to/tsconfig.json',
-        }, {
-            workspaceRoot: 'path/to/project',
-            logger: builderContextLoggerMock,
-        })
+        }, builderContextMock)
             .pipe((0, operators_1.take)(1))
             .subscribe();
-        expect(cpSpawnMock.spawn).toHaveBeenCalledWith('npx', ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/project'], {
-            cwd: 'path/to/project',
-            shell: true,
-        });
+        (0, vitest_1.expect)(mockRunScript).toHaveBeenCalledWith('compodoc', ['-p', 'path/to/tsconfig.json', '-d', 'path/to/project'], 'path/to/project', 'inherit');
     });
-    it('should run compodoc with tsconfig from compodocArgs', async () => {
-        runCompodoc({
+    (0, vitest_1.it)('should run compodoc with tsconfig from compodocArgs', async () => {
+        (0, run_compodoc_1.runCompodoc)({
             compodocArgs: ['-p', 'path/to/tsconfig.stories.json'],
             tsconfig: 'path/to/tsconfig.json',
-        }, {
-            workspaceRoot: 'path/to/project',
-            logger: builderContextLoggerMock,
-        })
+        }, builderContextMock)
             .pipe((0, operators_1.take)(1))
             .subscribe();
-        expect(cpSpawnMock.spawn).toHaveBeenCalledWith('npx', ['compodoc', '-d', 'path/to/project', '-p', 'path/to/tsconfig.stories.json'], {
-            cwd: 'path/to/project',
-            shell: true,
-        });
+        (0, vitest_1.expect)(mockRunScript).toHaveBeenCalledWith('compodoc', ['-d', 'path/to/project', '-p', 'path/to/tsconfig.stories.json'], 'path/to/project', 'inherit');
     });
-    it('should run compodoc with default output folder.', async () => {
-        runCompodoc({
+    (0, vitest_1.it)('should run compodoc with default output folder.', async () => {
+        (0, run_compodoc_1.runCompodoc)({
             compodocArgs: [],
             tsconfig: 'path/to/tsconfig.json',
-        }, {
-            workspaceRoot: 'path/to/project',
-            logger: builderContextLoggerMock,
-        })
+        }, builderContextMock)
             .pipe((0, operators_1.take)(1))
             .subscribe();
-        expect(cpSpawnMock.spawn).toHaveBeenCalledWith('npx', ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/project'], {
-            cwd: 'path/to/project',
-        });
+        (0, vitest_1.expect)(mockRunScript).toHaveBeenCalledWith('compodoc', ['-p', 'path/to/tsconfig.json', '-d', 'path/to/project'], 'path/to/project', 'inherit');
     });
-    it('should run with custom output folder specified with --output compodocArgs', async () => {
-        runCompodoc({
+    (0, vitest_1.it)('should run with custom output folder specified with --output compodocArgs', async () => {
+        (0, run_compodoc_1.runCompodoc)({
             compodocArgs: ['--output', 'path/to/customFolder'],
             tsconfig: 'path/to/tsconfig.json',
-        }, {
-            workspaceRoot: 'path/to/project',
-            logger: builderContextLoggerMock,
-        })
+        }, builderContextMock)
             .pipe((0, operators_1.take)(1))
             .subscribe();
-        expect(cpSpawnMock.spawn).toHaveBeenCalledWith('npx', ['compodoc', '-p', 'path/to/tsconfig.json', '--output', 'path/to/customFolder'], {
-            cwd: 'path/to/project',
-        });
+        (0, vitest_1.expect)(mockRunScript).toHaveBeenCalledWith('compodoc', ['-p', 'path/to/tsconfig.json', '--output', 'path/to/customFolder'], 'path/to/project', 'inherit');
     });
-    it('should run with custom output folder specified with -d compodocArgs', async () => {
-        runCompodoc({
+    (0, vitest_1.it)('should run with custom output folder specified with -d compodocArgs', async () => {
+        (0, run_compodoc_1.runCompodoc)({
             compodocArgs: ['-d', 'path/to/customFolder'],
             tsconfig: 'path/to/tsconfig.json',
-        }, {
-            workspaceRoot: 'path/to/project',
-            logger: builderContextLoggerMock,
-        })
+        }, builderContextMock)
             .pipe((0, operators_1.take)(1))
             .subscribe();
-        expect(cpSpawnMock.spawn).toHaveBeenCalledWith('npx', ['compodoc', '-p', 'path/to/tsconfig.json', '-d', 'path/to/customFolder'], {
-            cwd: 'path/to/project',
-        });
+        (0, vitest_1.expect)(mockRunScript).toHaveBeenCalledWith('compodoc', ['-p', 'path/to/tsconfig.json', '-d', 'path/to/customFolder'], 'path/to/project', 'inherit');
     });
 });

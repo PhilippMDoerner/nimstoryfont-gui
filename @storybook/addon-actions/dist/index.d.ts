@@ -1,16 +1,29 @@
-import { Options as Options$1 } from 'telejson';
-
 declare const PARAM_KEY = "actions";
 declare const ADDON_ID = "storybook/actions";
-declare const PANEL_ID: string;
-declare const EVENT_ID: string;
-declare const CLEAR_ID: string;
+declare const PANEL_ID = "storybook/actions/panel";
+declare const EVENT_ID = "storybook/actions/action-event";
+declare const CLEAR_ID = "storybook/actions/action-clear";
 declare const CYCLIC_KEY = "$___storybook.isCyclic";
+
+interface Options$1 {
+    allowRegExp: boolean;
+    allowFunction: boolean;
+    allowSymbol: boolean;
+    allowDate: boolean;
+    allowUndefined: boolean;
+    allowClass: boolean;
+    allowError: boolean;
+    maxDepth: number;
+    space: number | undefined;
+    lazyEval: boolean;
+}
 
 interface Options {
     depth: number;
     clearOnStoryChange: boolean;
     limit: number;
+    implicit: boolean;
+    id: string;
 }
 type ActionOptions = Partial<Options> & Partial<Options$1>;
 

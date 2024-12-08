@@ -1,5 +1,5 @@
+import { Parameters, StoryFnAngularReturnType } from '../types';
 import { AbstractRenderer } from './AbstractRenderer';
-import { StoryFnAngularReturnType, Parameters } from '../types';
 export declare class CanvasRenderer extends AbstractRenderer {
     render(options: {
         storyFnAngular: StoryFnAngularReturnType;
@@ -9,5 +9,4 @@ export declare class CanvasRenderer extends AbstractRenderer {
         targetDOMNode: HTMLElement;
     }): Promise<void>;
     beforeFullRender(): Promise<void>;
-    afterFullRender(): Promise<void>;
 }

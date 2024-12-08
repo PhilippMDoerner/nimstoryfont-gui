@@ -1,9 +1,9 @@
 import * as i0 from '@angular/core';
-import { Type, TemplateRef, ComponentRef, ChangeDetectorRef, InjectionToken, Injectable, Optional, Directive, Input, ViewContainerRef, Component, ViewChild, EventEmitter, ChangeDetectionStrategy, Output, ContentChildren, Inject, NgModule } from '@angular/core';
+import { Type, TemplateRef, ComponentRef, ChangeDetectorRef, ɵNoopNgZone, VERSION, InjectionToken, Injectable, Optional, Directive, Input, ViewContainerRef, Component, ViewChild, EventEmitter, ChangeDetectionStrategy, Output, ContentChildren, Inject, ViewChildren, NgModule } from '@angular/core';
 import * as i2 from '@angular/forms';
-import { AbstractControl, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
-import { isObservable, merge, of, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, startWith, debounceTime, filter, switchMap, take, tap, map } from 'rxjs/operators';
+import { AbstractControl, FormGroup, FormArray, FormControl, NgControl, Validators } from '@angular/forms';
+import { isObservable, of, merge, Observable, Subject } from 'rxjs';
+import { map, distinctUntilChanged, startWith, debounceTime, filter, switchMap, take, tap } from 'rxjs/operators';
 import * as i2$1 from '@angular/common';
 import { DOCUMENT, CommonModule } from '@angular/common';
 import * as i1 from '@angular/platform-browser';
@@ -28,7 +28,7 @@ function getFieldId(formId, field, index) {
     return [formId, type, field.key, index].join('_');
 }
 function hasKey(field) {
-    return !isNil(field.key) && field.key !== '';
+    return !isNil(field.key) && field.key !== '' && (!Array.isArray(field.key) || field.key.length > 0);
 }
 function getKeyPath(field) {
     if (!hasKey(field)) {
@@ -133,7 +133,7 @@ function clone(value) {
         isObservable(value) ||
         value instanceof TemplateRef ||
         /* instanceof SafeHtmlImpl */ value.changingThisBreaksApplicationSecurity ||
-        ['RegExp', 'FileList', 'File', 'Blob'].indexOf(value.constructor.name) !== -1) {
+        ['RegExp', 'FileList', 'File', 'Blob'].indexOf(value.constructor?.name) !== -1) {
         return value;
     }
     if (value instanceof Set) {
@@ -141,6 +141,15 @@ function clone(value) {
     }
     if (value instanceof Map) {
         return new Map(value);
+    }
+    if (value instanceof Uint8Array) {
+        return new Uint8Array(value);
+    }
+    if (value instanceof Uint16Array) {
+        return new Uint16Array(value);
+    }
+    if (value instanceof Uint32Array) {
+        return new Uint32Array(value);
     }
     // https://github.com/moment/moment/blob/master/moment.js#L252
     if (value._isAMomentObject && isFunction(value.clone)) {
@@ -217,10 +226,10 @@ function observe(o, paths, setFn) {
     if (target[key] !== state.value) {
         state.value = target[key];
     }
-    if (state.onChange.indexOf(setFn) === -1) {
+    if (setFn && state.onChange.indexOf(setFn) === -1) {
         state.onChange.push(setFn);
         setFn({ currentValue: state.value, firstChange: true });
-        if (state.onChange.length >= 1) {
+        if (state.onChange.length >= 1 && isObject(target)) {
             const { enumerable } = Object.getOwnPropertyDescriptor(target, key) || { enumerable: true };
             Object.defineProperty(target, key, {
                 enumerable,
@@ -237,8 +246,17 @@ function observe(o, paths, setFn) {
         }
     }
     return {
-        setValue(value) {
-            state.value = value;
+        setValue(currentValue, emitEvent = true) {
+            if (currentValue === state.value) {
+                return;
+            }
+            const previousValue = state.value;
+            state.value = currentValue;
+            state.onChange.forEach((changeFn) => {
+                if (changeFn !== setFn && emitEvent) {
+                    changeFn({ previousValue, currentValue, firstChange: false });
+                }
+            });
         },
         unsubscribe() {
             state.onChange = state.onChange.filter((changeFn) => changeFn !== setFn);
@@ -279,6 +297,24 @@ function markFieldForCheck(field) {
             ref.markForCheck();
         }
     });
+}
+function isNoopNgZone(ngZone) {
+    return ngZone instanceof ɵNoopNgZone;
+}
+function isHiddenField(field) {
+    const isHidden = (f) => f.hide || f.expressions?.hide || f.hideExpression;
+    let setDefaultValue = !field.resetOnHide || !isHidden(field);
+    if (!isHidden(field) && field.resetOnHide) {
+        let parent = field.parent;
+        while (parent && !isHidden(parent)) {
+            parent = parent.parent;
+        }
+        setDefaultValue = !parent || !isHidden(parent);
+    }
+    return !setDefaultValue;
+}
+function isSignalRequired() {
+    return +VERSION.major >= 18 && +VERSION.minor >= 1;
 }
 
 /**
@@ -523,16 +559,22 @@ class FormlyFormBuilder {
         }
         if (!field.parent) {
             this._setOptions(field);
-            disableTreeValidityCall(field.form, () => {
-                this._build(field);
-                const options = field.options;
-                options.checkExpressions?.(field, true);
-                options.detectChanges?.(field);
-            });
         }
-        else {
+        disableTreeValidityCall(field.form, () => {
             this._build(field);
-        }
+            // TODO: add test for https://github.com/ngx-formly/ngx-formly/issues/3910
+            if (!field.parent || field.fieldArray) {
+                // detect changes early to avoid reset value by hidden fields
+                const options = field.options;
+                if (field.parent && isHiddenField(field)) {
+                    // when hide is used in expression set defaul value will not be set until detect hide changes
+                    // which causes default value not set on new item is added
+                    options._hiddenFieldsForCheck?.push({ field, default: false });
+                }
+                options.checkExpressions?.(field, true);
+                options._detectChanges?.(field);
+            }
+        });
     }
     _build(field) {
         if (!field) {
@@ -567,12 +609,13 @@ class FormlyFormBuilder {
         }
         if (!options.parentForm && this.parentForm) {
             defineHiddenProp(options, 'parentForm', this.parentForm);
-            observe(options, ['parentForm', 'submitted'], ({ firstChange }) => {
-                if (!firstChange) {
-                    options.checkExpressions(field);
-                    options.detectChanges(field);
-                }
-            });
+            if (!isSignalRequired()) {
+                observe(options, ['parentForm', 'submitted'], ({ firstChange }) => {
+                    if (!firstChange) {
+                        options.detectChanges(field);
+                    }
+                });
+            }
         }
     }
 }
@@ -805,6 +848,7 @@ class FormlyField {
     }
     triggerHook(name, changes) {
         if (name === 'onInit' || (name === 'onChanges' && changes.field && !changes.field.firstChange)) {
+            this.valueChangesUnsubscribe();
             this.valueChangesUnsubscribe = this.fieldChanges(this.field);
         }
         if (this.field?.hooks?.[name]) {
@@ -871,11 +915,23 @@ class FormlyField {
                     this.elementRef && this.renderer.setAttribute(this.elementRef.nativeElement, 'class', currentValue);
                 }
             }),
-            ...['touched', 'pristine', 'status'].map((prop) => observe(this.field, ['formControl', prop], ({ firstChange }) => !firstChange && markFieldForCheck(this.field))),
         ];
+        if (!isSignalRequired()) {
+            ['touched', 'pristine', 'status'].forEach((prop) => this.hostObservers.push(observe(this.field, ['formControl', prop], ({ firstChange }) => !firstChange && markFieldForCheck(this.field))));
+        }
+        else if (this.field.formControl) {
+            const events = this.field.formControl.events.subscribe(() => markFieldForCheck(this.field));
+            this.hostObservers.push(events);
+        }
     }
     resetRefs(field) {
         if (field) {
+            if (field._localFields) {
+                field._localFields = [];
+            }
+            else {
+                defineHiddenProp(this.field, '_localFields', []);
+            }
             if (field._componentRefs) {
                 field._componentRefs = field._componentRefs.filter((ref) => this.componentRefs.indexOf(ref) === -1);
             }
@@ -886,13 +942,14 @@ class FormlyField {
         this.componentRefs = [];
     }
     fieldChanges(field) {
-        this.valueChangesUnsubscribe();
         if (!field) {
             return () => { };
         }
-        const subscribes = [
-            observeDeep(field, ['props'], () => field.options.detectChanges(field)),
-            observeDeep(field.options, ['formState'], () => field.options.detectChanges(field)),
+        const propsObserver = observeDeep(field, ['props'], () => field.options.detectChanges(field));
+        let subscribes = [
+            () => {
+                propsObserver();
+            },
         ];
         for (const key of Object.keys(field._expressions || {})) {
             const expressionObserver = observe(field, ['_expressions', key], ({ currentValue, previousValue }) => {
@@ -911,13 +968,19 @@ class FormlyField {
                 expressionObserver.unsubscribe();
             });
         }
-        for (const path of [['template'], ['fieldGroupClassName'], ['validation', 'show']]) {
+        for (const path of [['focus'], ['template'], ['fieldGroupClassName'], ['validation', 'show']]) {
             const fieldObserver = observe(field, path, ({ firstChange }) => !firstChange && field.options.detectChanges(field));
             subscribes.push(() => fieldObserver.unsubscribe());
         }
         if (field.formControl && !field.fieldGroup) {
             const control = field.formControl;
-            let valueChanges = control.valueChanges.pipe(distinctUntilChanged((x, y) => {
+            let valueChanges = control.valueChanges.pipe(map((value) => {
+                field.parsers?.map((parserFn) => (value = parserFn(value, field)));
+                if (!Object.is(value, field.formControl.value)) {
+                    field.formControl.setValue(value);
+                }
+                return value;
+            }), distinctUntilChanged((x, y) => {
                 if (x !== y || Array.isArray(x) || isObject(x)) {
                     return false;
                 }
@@ -935,11 +998,6 @@ class FormlyField {
                 if (control._fields?.length > 1 && control instanceof FormControl) {
                     control.patchValue(value, { emitEvent: false, onlySelf: true });
                 }
-                field.parsers?.forEach((parserFn) => (value = parserFn(value)));
-                if (value !== field.formControl.value) {
-                    field.formControl.setValue(value);
-                    return;
-                }
                 if (hasKey(field)) {
                     assignFieldValue(field, value);
                 }
@@ -947,7 +1005,15 @@ class FormlyField {
             });
             subscribes.push(() => sub.unsubscribe());
         }
-        return () => subscribes.forEach((subscribe) => subscribe());
+        let templateFieldsSubs = [];
+        observe(field, ['_localFields'], ({ currentValue }) => {
+            templateFieldsSubs.forEach((unsubscribe) => unsubscribe());
+            templateFieldsSubs = (currentValue || []).map((f) => this.fieldChanges(f));
+        });
+        return () => {
+            subscribes.forEach((unsubscribe) => unsubscribe());
+            templateFieldsSubs.forEach((unsubscribe) => unsubscribe());
+        };
     }
 }
 FormlyField.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.12", ngImport: i0, type: FormlyField, deps: [{ token: FormlyConfig }, { token: i0.Renderer2 }, { token: i0.ElementRef }, { token: i0.ViewContainerRef }, { token: FormlyFieldTemplates, optional: true }], target: i0.ɵɵFactoryTarget.Component });
@@ -1038,15 +1104,33 @@ class FormlyForm {
     }
     valueChanges() {
         this.valueChangesUnsubscribe();
-        const sub = this.field.options.fieldChanges
-            .pipe(filter(({ field, type }) => hasKey(field) && type === 'valueChanges'), switchMap(() => this.ngZone.onStable.asObservable().pipe(take(1))))
+        let formEvents = null;
+        if (isSignalRequired()) {
+            let submitted = this.options?.parentForm?.submitted;
+            formEvents = this.form.events.subscribe(() => {
+                if (submitted !== this.options?.parentForm?.submitted) {
+                    this.options.detectChanges(this.field);
+                    submitted = this.options?.parentForm?.submitted;
+                }
+            });
+        }
+        let fieldChangesDetection = [];
+        const valueChanges = this.field.options.fieldChanges
+            .pipe(filter(({ field, type }) => hasKey(field) && type === 'valueChanges'), switchMap(() => (isNoopNgZone(this.ngZone) ? of(null) : this.ngZone.onStable.asObservable().pipe(take(1)))))
             .subscribe(() => this.ngZone.runGuarded(() => {
             // runGuarded is used to keep in sync the expression changes
             // https://github.com/ngx-formly/ngx-formly/issues/2095
             this.checkExpressionChange();
+            if (this.field.options) {
+                fieldChangesDetection.push(observeDeep(this.field.options, ['formState'], () => this.field.options.detectChanges(this.field)));
+            }
             this.modelChange.emit((this._modelChangeValue = clone(this.model)));
         }));
-        return () => sub.unsubscribe();
+        return () => {
+            fieldChangesDetection.forEach((fnc) => fnc());
+            formEvents?.unsubscribe();
+            valueChanges.unsubscribe();
+        };
     }
     setField(field) {
         if (this.config.extras.immutable) {
@@ -1168,7 +1252,8 @@ class FormlyAttributes {
             const element = this.elementRef.nativeElement;
             this.uiAttributes = [...FORMLY_VALIDATORS, 'tabindex', 'placeholder', 'readonly', 'disabled', 'step'].filter((attr) => !element.hasAttribute || !element.hasAttribute(attr));
         }
-        this.uiAttributes.forEach((attr) => {
+        for (let i = 0; i < this.uiAttributes.length; i++) {
+            const attr = this.uiAttributes[i];
             const value = this.props[attr];
             if (this.uiAttributesCache[attr] !== value &&
                 (!this.props.attributes || !this.props.attributes.hasOwnProperty(attr.toLowerCase()))) {
@@ -1180,7 +1265,7 @@ class FormlyAttributes {
                     this.removeAttribute(attr);
                 }
             }
-        });
+        }
     }
     ngOnDestroy() {
         this.uiEvents.listeners.forEach((listener) => listener());
@@ -1265,6 +1350,16 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
             }] } });
 
 class FieldType {
+    constructor() {
+        this.field = {};
+    }
+    set _formlyControls(controls) {
+        const f = this.field;
+        f._localFields = controls
+            .map((c) => c.control._fields || [])
+            .flat()
+            .filter((f) => f.formControl !== this.field.formControl);
+    }
     get model() {
         return this.field.model;
     }
@@ -1294,14 +1389,17 @@ class FieldType {
         return this.field.id;
     }
     get formState() {
-        return this.options.formState || {};
+        return this.options?.formState || {};
     }
 }
 FieldType.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.12", ngImport: i0, type: FieldType, deps: [], target: i0.ɵɵFactoryTarget.Directive });
-FieldType.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.3.12", type: FieldType, inputs: { field: "field" }, ngImport: i0 });
+FieldType.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.3.12", type: FieldType, inputs: { field: "field" }, viewQueries: [{ propertyName: "_formlyControls", predicate: NgControl, descendants: true }], ngImport: i0 });
 i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImport: i0, type: FieldType, decorators: [{
             type: Directive
-        }], propDecorators: { field: [{
+        }], propDecorators: { _formlyControls: [{
+                type: ViewChildren,
+                args: [NgControl]
+            }], field: [{
                 type: Input
             }] } });
 
@@ -1391,7 +1489,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
 
 class FieldArrayType extends FieldType {
     onPopulate(field) {
-        if (!field.formControl && hasKey(field)) {
+        if (hasKey(field)) {
             const control = findControl(field);
             registerControl(field, control ? control : new FormArray([], { updateOn: field.modelOptions.updateOn }));
         }
@@ -1404,30 +1502,31 @@ class FieldArrayType extends FieldType {
             }
         }
         for (let i = field.fieldGroup.length; i < length; i++) {
-            const f = {
-                ...clone(typeof field.fieldArray === 'function' ? field.fieldArray(field) : field.fieldArray),
-                key: `${i}`,
-            };
+            const f = { ...clone(typeof field.fieldArray === 'function' ? field.fieldArray(field) : field.fieldArray) };
+            if (f.key !== null) {
+                f.key = `${i}`;
+            }
             field.fieldGroup.push(f);
         }
     }
     add(i, initialModel, { markAsDirty } = { markAsDirty: true }) {
+        markAsDirty && this.formControl.markAsDirty();
         i = i == null ? this.field.fieldGroup.length : i;
         if (!this.model) {
             assignFieldValue(this.field, []);
         }
         this.model.splice(i, 0, initialModel ? clone(initialModel) : undefined);
+        this.markFieldForCheck(this.field.fieldGroup[i]);
         this._build();
-        markAsDirty && this.formControl.markAsDirty();
     }
     remove(i, { markAsDirty } = { markAsDirty: true }) {
+        markAsDirty && this.formControl.markAsDirty();
         this.model.splice(i, 1);
         const field = this.field.fieldGroup[i];
         this.field.fieldGroup.splice(i, 1);
-        this.field.fieldGroup.forEach((f, key) => (f.key = `${key}`));
+        this.field.fieldGroup.forEach((f, key) => this.updateArrayElementKey(f, `${key}`));
         unregisterControl(field, true);
         this._build();
-        markAsDirty && this.formControl.markAsDirty();
     }
     _build() {
         const fields = this.field.formControl._fields ?? [this.field];
@@ -1438,6 +1537,27 @@ class FieldArrayType extends FieldType {
             type: 'valueChanges',
         });
     }
+    updateArrayElementKey(f, newKey) {
+        if (hasKey(f)) {
+            f.key = newKey;
+            return;
+        }
+        if (!f.fieldGroup?.length) {
+            return;
+        }
+        for (let i = 0; i < f.fieldGroup.length; i++) {
+            this.updateArrayElementKey(f.fieldGroup[i], newKey);
+        }
+    }
+    markFieldForCheck(f) {
+        if (!f) {
+            return;
+        }
+        f.fieldGroup?.forEach((c) => this.markFieldForCheck(c));
+        if (f.hide === false) {
+            this.options._hiddenFieldsForCheck.push({ field: f });
+        }
+    }
 }
 FieldArrayType.ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "13.3.12", ngImport: i0, type: FieldArrayType, deps: null, target: i0.ɵɵFactoryTarget.Directive });
 FieldArrayType.ɵdir = i0.ɵɵngDeclareDirective({ minVersion: "12.0.0", version: "13.3.12", type: FieldArrayType, usesInheritance: true, ngImport: i0 });
@@ -1446,6 +1566,7 @@ i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "13.3.12", ngImpo
         }] });
 
 class FieldWrapper extends FieldType {
+    set _formlyControls(_) { }
     set _staticContent(content) {
         this.fieldComponent = content;
     }
@@ -1520,7 +1641,7 @@ class FieldExpressionExtension {
             defineHiddenProp(field, '_hide', !!currentValue);
             if (!firstChange || (firstChange && currentValue === true)) {
                 field.props.hidden = currentValue;
-                field.options._hiddenFieldsForCheck.push(field);
+                field.options._hiddenFieldsForCheck.push({ field });
             }
         });
         if (field.hideExpression) {
@@ -1536,7 +1657,7 @@ class FieldExpressionExtension {
                 field._expressions[key] = {
                     value$: expr.pipe(tap((v) => {
                         this.evalExpr(field, key, v);
-                        field.options.detectChanges(field);
+                        field.options._detectChanges(field);
                     })),
                 };
             }
@@ -1566,14 +1687,11 @@ class FieldExpressionExtension {
                 const fieldChanged = this.checkExpressions(f, ignoreCache);
                 const options = field.options;
                 options._hiddenFieldsForCheck
-                    .sort((f) => (f.hide ? -1 : 1))
-                    .forEach((f) => this.changeHideState(f, f.hide, !ignoreCache));
+                    .sort((f) => (f.field.hide ? -1 : 1))
+                    .forEach((f) => this.changeHideState(f.field, f.field.hide ?? f.default, !ignoreCache));
                 options._hiddenFieldsForCheck = [];
                 if (fieldChanged) {
                     this.checkExpressions(field);
-                    if (field.options && field.options.detectChanges) {
-                        field.options.detectChanges(field);
-                    }
                 }
                 checkLocked = false;
             };
@@ -1650,7 +1768,7 @@ class FieldExpressionExtension {
     changeHideState(field, hide, resetOnHide) {
         if (field.fieldGroup) {
             field.fieldGroup
-                .filter((f) => !f._expressions.hide)
+                .filter((f) => f && !f._expressions.hide)
                 .forEach((f) => this.changeHideState(f, hide, resetOnHide));
         }
         if (field.formControl && hasKey(field)) {
@@ -1685,26 +1803,33 @@ class FieldExpressionExtension {
         }
     }
     evalExpr(field, prop, value) {
-        try {
-            let target = field;
-            const paths = this._evalExpressionPath(field, prop);
-            const lastIndex = paths.length - 1;
-            for (let i = 0; i < lastIndex; i++) {
-                target = target[paths[i]];
-            }
-            target[paths[lastIndex]] = value;
-        }
-        catch (error) {
-            error.message = `[Formly Error] [Expression "${prop}"] ${error.message}`;
-            throw error;
-        }
-        if (['templateOptions.disabled', 'props.disabled'].includes(prop) && hasKey(field)) {
-            this.changeDisabledState(field, value);
-        }
         if (prop.indexOf('model.') === 0) {
-            const key = prop.replace(/^model\./, ''), control = field?.key === key ? field.formControl : field.form.get(key);
+            const key = prop.replace(/^model\./, ''), parent = field.fieldGroup ? field : field.parent;
+            let control = field?.key === key ? field.formControl : field.form.get(key);
+            if (!control && field.get(key)) {
+                control = field.get(key).formControl;
+            }
+            assignFieldValue({ key, parent, model: field.model }, value);
             if (control && !(isNil(control.value) && isNil(value)) && control.value !== value) {
                 control.patchValue(value);
+            }
+        }
+        else {
+            try {
+                let target = field;
+                const paths = this._evalExpressionPath(field, prop);
+                const lastIndex = paths.length - 1;
+                for (let i = 0; i < lastIndex; i++) {
+                    target = target[paths[i]];
+                }
+                target[paths[lastIndex]] = value;
+            }
+            catch (error) {
+                error.message = `[Formly Error] [Expression "${prop}"] ${error.message}`;
+                throw error;
+            }
+            if (['templateOptions.disabled', 'props.disabled'].includes(prop) && hasKey(field)) {
+                this.changeDisabledState(field, value);
             }
         }
         this.emitExpressionChanges(field, prop, value);
@@ -1775,6 +1900,9 @@ class FieldValidationExtension {
         let VALIDATORS = [];
         FORMLY_VALIDATORS.forEach((opt) => observe(field, ['props', opt], ({ currentValue, firstChange }) => {
             VALIDATORS = VALIDATORS.filter((o) => o !== opt);
+            if (opt === 'required' && currentValue != null && typeof currentValue !== 'boolean') {
+                console.warn(`Formly: Invalid prop 'required' of type '${typeof currentValue}', expected 'boolean' (Field:${field.key}).`);
+            }
             if (currentValue != null && currentValue !== false) {
                 VALIDATORS.push(opt);
             }
@@ -1843,18 +1971,13 @@ class FieldValidationExtension {
         return (control) => {
             const errors = validatorOption.validation(control, field, validatorOption.options);
             if (isPromise(errors)) {
-                return errors.then((v) => this.handleAsyncResult(field, validatorName ? !!v : v, validatorOption));
+                return errors.then((v) => this.handleResult(field, validatorName ? !!v : v, validatorOption));
             }
             if (isObservable(errors)) {
-                return errors.pipe(map((v) => this.handleAsyncResult(field, validatorName ? !!v : v, validatorOption)));
+                return errors.pipe(map((v) => this.handleResult(field, validatorName ? !!v : v, validatorOption)));
             }
             return this.handleResult(field, validatorName ? !!errors : errors, validatorOption);
         };
-    }
-    handleAsyncResult(field, errors, options) {
-        // workaround for https://github.com/angular/angular/issues/13200
-        field.options.detectChanges(field);
-        return this.handleResult(field, errors, options);
     }
     handleResult(field, errors, { name, options }) {
         if (typeof errors === 'boolean') {
@@ -1919,6 +2042,9 @@ class FieldFormExtension {
     }
     addFormControl(field) {
         let control = findControl(field);
+        if (field.fieldArray) {
+            return;
+        }
         if (!control) {
             const controlOptions = { updateOn: field.modelOptions.updateOn };
             if (field.fieldGroup) {
@@ -1926,7 +2052,13 @@ class FieldFormExtension {
             }
             else {
                 const value = hasKey(field) ? getFieldValue(field) : field.defaultValue;
-                control = new FormControl({ value, disabled: false }, { ...controlOptions, initialValueIsDefault: true });
+                control = new FormControl({ value, disabled: !!field.props.disabled }, { ...controlOptions, initialValueIsDefault: true });
+            }
+        }
+        else {
+            if (control instanceof FormControl) {
+                const value = hasKey(field) ? getFieldValue(field) : field.defaultValue;
+                control.defaultValue = value;
             }
         }
         registerControl(field, control);
@@ -1950,11 +2082,14 @@ class FieldFormExtension {
                         markForCheck = true;
                     }
                 }
-                if (null === c.validator || null === c.asyncValidator) {
+                if (null === c.validator && this.hasValidators(field, '_validators')) {
                     c.setValidators(() => {
                         const v = Validators.compose(this.mergeValidators(field, '_validators'));
                         return v ? v(c) : null;
                     });
+                    markForCheck = true;
+                }
+                if (null === c.asyncValidator && this.hasValidators(field, '_asyncValidators')) {
                     c.setAsyncValidators(() => {
                         const v = Validators.composeAsync(this.mergeValidators(field, '_asyncValidators'));
                         return v ? v(c) : of(null);
@@ -1975,6 +2110,16 @@ class FieldFormExtension {
             }
         }
         return markForCheck;
+    }
+    hasValidators(field, type) {
+        const c = field.formControl;
+        if (c?._fields?.length > 1 && c._fields.some((f) => f[type].length > 0)) {
+            return true;
+        }
+        else if (field[type].length > 0) {
+            return true;
+        }
+        return field.fieldGroup?.some((f) => f?.fieldGroup && !hasKey(f) && this.hasValidators(f, type));
     }
     mergeValidators(field, type) {
         const validators = [];
@@ -2061,12 +2206,15 @@ class CoreExtension {
             console.warn(`Formly: 'options._markForCheck' is deprecated since v6.0, use 'options.detectChanges' instead.`);
             options.detectChanges(f);
         };
-        options.detectChanges = (f) => {
+        options._detectChanges = (f) => {
             if (f._componentRefs) {
-                f.options.checkExpressions(f);
                 markFieldForCheck(f);
             }
-            f.fieldGroup?.forEach((f) => f && options.detectChanges(f));
+            f.fieldGroup?.forEach((f) => f && options._detectChanges(f));
+        };
+        options.detectChanges = (f) => {
+            f.options.checkExpressions?.(f);
+            options._detectChanges(f);
         };
         options.resetModel = (model) => {
             model = clone(model ?? options._initialModel);
@@ -2074,11 +2222,11 @@ class CoreExtension {
                 Object.keys(field.model).forEach((k) => delete field.model[k]);
                 Object.assign(field.model, model || {});
             }
+            if (!isSignalRequired()) {
+                observe(options, ['parentForm', 'submitted']).setValue(false, false);
+            }
             options.build(field);
             field.form.reset(field.model);
-            if (options.parentForm && options.parentForm.control === field.formControl) {
-                options.parentForm.submitted = false;
-            }
         };
         options.updateInitialValue = (model) => (options._initialModel = clone(model ?? field.model));
         field.options.updateInitialValue();
@@ -2110,19 +2258,11 @@ class CoreExtension {
         if (field.type) {
             this.config.getMergedField(field);
         }
-        if (hasKey(field) && !isUndefined(field.defaultValue) && isUndefined(getFieldValue(field))) {
-            const isHidden = (f) => f.hide || f.expressions?.hide || f.hideExpression;
-            let setDefaultValue = !field.resetOnHide || !isHidden(field);
-            if (!isHidden(field) && field.resetOnHide) {
-                let parent = field.parent;
-                while (parent && !isHidden(parent)) {
-                    parent = parent.parent;
-                }
-                setDefaultValue = !parent || !isHidden(parent);
-            }
-            if (setDefaultValue) {
-                assignFieldValue(field, field.defaultValue);
-            }
+        if (hasKey(field) &&
+            !isUndefined(field.defaultValue) &&
+            isUndefined(getFieldValue(field)) &&
+            !isHiddenField(field)) {
+            assignFieldValue(field, field.defaultValue);
         }
         field.wrappers = field.wrappers || [];
     }

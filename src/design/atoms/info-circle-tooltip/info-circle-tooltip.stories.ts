@@ -8,9 +8,9 @@ export default {
     text: 'SomeText',
     tooltip: 'Tooltip text beautiful',
   },
-} as Meta<InfoCircleTooltipComponent>;
+} as Meta<InfoCircleTooltipComponent<any>>;
 
-const Template: StoryFn<InfoCircleTooltipComponent> = (args: any) => ({
+const Template: StoryFn<InfoCircleTooltipComponent<any>> = (args: any) => ({
   props: {
     ...args,
   },

@@ -164,7 +164,6 @@ export class GraphService {
   /**
    * Sets up behavior when users click on a node.
    * This should be selecting/unselecting the node in question
-   * TODO: Add selecting/unselecting a link
    */
   private initNodeClickBehavior() {
     this.nodeClickEvents$

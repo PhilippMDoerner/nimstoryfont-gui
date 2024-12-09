@@ -102,13 +102,18 @@ const GRAPH_INTERACTIONS = [
     description: 'Open a context menu with information about the node',
   },
   {
-    event: 'Hovering a link',
+    event: 'Hovering a link (clicking a link on mobile)',
     description: 'Link expand and shows label',
   },
   {
     event: 'Right-click link',
     description:
       'Open a context menu with possible actions for the link (some may be disabled for specific kinds of links)',
+  },
+  {
+    event: 'Click on graph background',
+    description:
+      'Reset node selection, close context menus and reset any links that might have changed',
   },
 ];
 

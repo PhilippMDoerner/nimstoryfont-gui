@@ -9,6 +9,7 @@ import {
   forceSimulation,
   forceX,
   forceY,
+  pointer,
   select,
   selectAll,
   Selection,
@@ -410,9 +411,8 @@ export class GraphService {
           .select(SELECTORS.linkLabelSelector)
           .style('opacity', '1')
           .attr('transform', () => {
-            const centerX = event.layerX;
-            const centerY = event.layerY + 4;
-            return `translate(${centerX}, ${centerY}), scale(0.2)`;
+            const [centerX, centerY] = pointer(event);
+            return `translate(${centerX}, ${centerY + 6}), scale(0.2)`;
           });
 
         select(this)

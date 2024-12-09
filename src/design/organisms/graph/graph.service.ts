@@ -134,6 +134,8 @@ export class GraphService {
       if (!isClickOnNode) {
         this.resetNodeSelection();
       }
+
+      this.resetActivatedLinkStyles();
     });
   }
 
@@ -403,11 +405,26 @@ export class GraphService {
       .append('line')
       .attr('class', SELECTORS.linkClass)
       .style('stroke-width', () => `${Math.sqrt(5)}px`)
+      .style('cursor', 'pointer')
       .attr('stroke', '#999')
-      .on('mouseover', function (event: MouseEvent) {
-        select(this.parentNode as any)
+      .on('mouseover click', function (event: MouseEvent) {
+        const lineElement = this as Element;
+        const linkParent = lineElement.closest(SELECTORS.linkGroupSelector);
+        select(linkParent)
           .transition()
           .duration(200)
+          .attr('class', function () {
+            const linkLabelElement = this as Element;
+            const oldClasses = linkLabelElement
+              .getAttribute('class')
+              ?.split(' ');
+            const newClassSet = new Set(oldClasses).add(
+              SELECTORS.activeLinkClass,
+            );
+            return [...newClassSet].join(' ');
+          });
+
+        select(linkParent)
           .select(SELECTORS.linkLabelSelector)
           .style('opacity', '1')
           .attr('transform', () => {
@@ -415,20 +432,21 @@ export class GraphService {
             return `translate(${centerX}, ${centerY + 6}), scale(0.2)`;
           });
 
-        select(this)
+        select(lineElement)
           .transition()
           .duration(200)
           .style('stroke', 'var(--bs-primary)')
           .style('stroke-width', () => '6px');
       })
       .on('mouseout', function () {
-        select(this.parentNode as any)
+        const lineElement = this as Element;
+        select(lineElement.parentNode as Element)
           .transition()
           .duration(200)
           .select(SELECTORS.linkLabelSelector)
           .style('opacity', '0');
 
-        select(this)
+        select(lineElement)
           .transition()
           .duration(200)
           .style('stroke', '#999')
@@ -544,6 +562,29 @@ export class GraphService {
 
   private toSelector(node: ArticleNode) {
     return `g[guid="${node.guid}"]`;
+  }
+
+  private resetActivatedLinkStyles() {
+    const linkGroupElement = select(SELECTORS.activeLinkSelector);
+    linkGroupElement.attr('class', function () {
+      const element = this as Element;
+      const newClasses = element
+        .getAttribute('class')
+        ?.replaceAll(SELECTORS.activeLinkClass, '');
+      return newClasses ?? SELECTORS.linkClass;
+    });
+
+    const linkLabelElement = linkGroupElement.select(
+      SELECTORS.linkLabelSelector,
+    );
+    linkLabelElement.transition().duration(200).style('opacity', 0);
+
+    const linkLineElement = linkGroupElement.select(SELECTORS.linkSelector);
+    linkLineElement
+      .transition()
+      .duration(200)
+      .style('stroke', '#999')
+      .style('stroke-width', () => `${Math.sqrt(5)}px`);
   }
 
   private resetNodeSelection() {

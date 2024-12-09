@@ -551,7 +551,7 @@ export class GraphService {
   }
 
   private resetActivatedLinkStyles() {
-    const linkGroupElement = select(SELECTORS.activeLinkSelector);
+    const linkGroupElement = selectAll(SELECTORS.activeLinkSelector);
     linkGroupElement.attr('class', function () {
       const element = this as Element;
       const newClasses = element

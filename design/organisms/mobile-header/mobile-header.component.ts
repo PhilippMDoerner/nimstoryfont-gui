@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { fromEvent, map, merge, startWith, tap } from 'rxjs';
+import { fromEvent, map, merge, startWith } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IconComponent } from '../../atoms/icon/icon.component';
 
@@ -31,8 +31,5 @@ export class MobileHeaderComponent {
   online$ = merge(
     fromEvent(window, 'online').pipe(map(() => true)),
     fromEvent(window, 'offline').pipe(map(() => false)),
-  ).pipe(
-    startWith(window.navigator.onLine),
-    tap((val) => console.log('online:', val)),
-  );
+  ).pipe(startWith(window.navigator.onLine));
 }

@@ -438,20 +438,7 @@ export class GraphService {
           .style('stroke', 'var(--bs-primary)')
           .style('stroke-width', () => '6px');
       })
-      .on('mouseout', function () {
-        const lineElement = this as Element;
-        select(lineElement.parentNode as Element)
-          .transition()
-          .duration(200)
-          .select(SELECTORS.linkLabelSelector)
-          .style('opacity', '0');
-
-        select(lineElement)
-          .transition()
-          .duration(200)
-          .style('stroke', '#999')
-          .style('stroke-width', () => `${Math.sqrt(5)}px`);
-      });
+      .on('mouseout', () => this.resetActivatedLinkStyles());
 
     return linkElements;
   }

@@ -32,6 +32,10 @@ import {
   DEFAULT_SEARCH_PREFERENCES,
   SidebarOption,
 } from 'src/design/molecules';
+import {
+  CategoryLabel,
+  GRAPH_CATEGORIES,
+} from 'src/design/molecules/_models/search-preferences';
 import { GraphMenuService } from 'src/design/organisms/graph/graph-menu.service';
 import { GraphService } from 'src/design/organisms/graph/graph.service';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -132,12 +136,7 @@ export class GraphPageComponent {
     }),
   );
 
-  private AVAILABLE_NODE_TYPES = new Set([
-    'Character',
-    'Item',
-    'Organization',
-    'Location',
-  ]);
+  private AVAILABLE_NODE_TYPES = new Set<CategoryLabel>(GRAPH_CATEGORIES);
   private nodeTypeOptions = DEFAULT_SEARCH_PREFERENCES.filter((option) =>
     this.AVAILABLE_NODE_TYPES.has(option.label),
   );

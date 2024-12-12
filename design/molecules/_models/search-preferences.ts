@@ -1,4 +1,4 @@
-export interface SidebarOption {
+export interface ArticleCategory {
   label: string;
   active: boolean;
   color: string;
@@ -17,4 +17,14 @@ export const DEFAULT_SEARCH_PREFERENCES = [
   { label: 'SessionAudio', active: false, color: '--sessionaudio-color' },
   { label: 'Rules', active: false, color: '--rules-color' },
   { label: 'Spell', active: false, color: '--spell-color' },
-] as const satisfies SidebarOption[];
+] as const satisfies ArticleCategory[];
+
+export type CategoryLabel =
+  (typeof DEFAULT_SEARCH_PREFERENCES)[number]['label'];
+
+export const GRAPH_CATEGORIES = [
+  'Character',
+  'Item',
+  'Organization',
+  'Location',
+] as const satisfies CategoryLabel[];

@@ -15,22 +15,8 @@ import { filter, map, Subject, take } from 'rxjs';
 import { NodeMap, NodeSelection } from 'src/app/_models/nodeMap';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { GRAPH_SETTINGS } from '../_model/graph';
 import { GraphService } from './graph.service';
-
-const GRAPH_SETTINGS = {
-  width: 1080,
-  minZoom: 0.5,
-  maxZoom: 12,
-  minHeight: 300,
-  linkAttractingForce: 0.5,
-  nodeRepellingForce: 50,
-  circleSize: 6,
-  xForce: 1,
-  yForce: 1,
-  centeringTransitionTime: 1000,
-  hoverTransitionTime: 200,
-  strokeWidth: 0.5,
-};
 
 @Component({
   selector: 'app-graph',
@@ -43,6 +29,7 @@ const GRAPH_SETTINGS = {
 export class GraphComponent {
   data = input.required<NodeMap>();
   activeNodesData = input.required<NodeSelection>();
+  graphSettings = input.required<typeof GRAPH_SETTINGS>();
 
   articleService = inject(ArticleService);
   graphService = inject(GraphService); //Accessible as the parent, GraphPageComponent, provides an instance
@@ -52,14 +39,19 @@ export class GraphComponent {
   elements = toSignal(this.graphService.elements$);
   zoomLevel$ = this.graphService.zoomLevelChangedEvent$;
 
-  settings = GRAPH_SETTINGS;
-
   zoomSliderEvents$ = new Subject<string>();
 
   constructor() {
-    effect(() => this.graphService.createGraphEvents$.next(this.data()), {
-      allowSignalWrites: true,
-    });
+    effect(
+      () =>
+        this.graphService.createGraphEvents$.next({
+          data: this.data(),
+          settings: this.graphSettings(),
+        }),
+      {
+        allowSignalWrites: true,
+      },
+    );
 
     // Replace graph in HTML if graph changes
     effect(() => {

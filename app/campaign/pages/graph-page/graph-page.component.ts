@@ -6,14 +6,13 @@ import {
   DestroyRef,
   inject,
   signal,
-  TemplateRef,
 } from '@angular/core';
 import {
   takeUntilDestroyed,
   toObservable,
   toSignal,
 } from '@angular/core/rxjs-interop';
-import { NgbModal, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import {
   combineLatestWith,
@@ -33,12 +32,16 @@ import {
   DEFAULT_SEARCH_PREFERENCES,
   SidebarOption,
 } from 'src/design/molecules';
+import {
+  CategoryLabel,
+  GRAPH_CATEGORIES,
+} from 'src/design/molecules/_models/search-preferences';
+import { GRAPH_SETTINGS } from 'src/design/organisms/_model/graph';
 import { GraphMenuService } from 'src/design/organisms/graph/graph-menu.service';
 import { GraphService } from 'src/design/organisms/graph/graph.service';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
 import { CardComponent } from '../../../../design/atoms/card/card.component';
-import { IconComponent } from '../../../../design/atoms/icon/icon.component';
 import { SelectableEntryComponent } from '../../../../design/atoms/selectable-entry/selectable-entry.component';
 import { ArticleFooterComponent } from '../../../../design/molecules/article-footer/article-footer.component';
 import { CollapsiblePanelComponent } from '../../../../design/molecules/collapsible-panel/collapsible-panel.component';
@@ -47,75 +50,9 @@ import { FormComponent } from '../../../../design/molecules/form/form.component'
 import { SearchFieldComponent } from '../../../../design/molecules/search-field/search-field.component';
 import { GraphComponent } from '../../../../design/organisms/graph/graph.component';
 import { PageContainerComponent } from '../../../../design/organisms/page-container/page-container.component';
+import { GraphHelpModalComponent } from '../../components/graph-help-modal/graph-help-modal.component';
+import { GraphSettingsModalComponent } from '../../components/graph-settings-modal/graph-settings-modal.component';
 import { GraphPageStore } from './graph-page.store';
-
-const GRAPH_INFO_RULES = [
-  {
-    nodeKind1: 'Organization',
-    nodeKind2: 'Location',
-    description: "The location contains that organization's headquarter",
-  },
-  {
-    nodeKind1: 'Organization',
-    nodeKind2: 'Character',
-    description: 'The character is a member of that organization',
-  },
-  {
-    nodeKind1: 'Location',
-    nodeKind2: 'Location',
-    description: 'The location is part of the other location',
-  },
-  {
-    nodeKind1: 'Location',
-    nodeKind2: 'Character',
-    description: 'The character is in that location',
-  },
-  {
-    nodeKind1: 'Character',
-    nodeKind2: 'Item',
-    description: 'The character owns that item',
-  },
-  {
-    nodeKind1: 'Organization',
-    nodeKind2: 'Organization',
-    description:
-      'The organization is a smaller group within the other organization',
-  },
-  {
-    nodeKind1: 'Any',
-    nodeKind2: 'Any',
-    description: 'A custom relationship between 2 articles',
-  },
-];
-
-const GRAPH_INTERACTIONS = [
-  {
-    event: 'Hovering a node',
-    description: 'Node changes color',
-  },
-  {
-    event: 'Left-click node',
-    description: 'Node gets selected for creating a custom connection',
-  },
-  {
-    event: 'Right-click node',
-    description: 'Open a context menu with information about the node',
-  },
-  {
-    event: 'Hovering a link (clicking a link on mobile)',
-    description: 'Link expand and shows label',
-  },
-  {
-    event: 'Right-click link',
-    description:
-      'Open a context menu with possible actions for the link (some may be disabled for specific kinds of links)',
-  },
-  {
-    event: 'Click on graph background',
-    description:
-      'Reset node selection, close context menus and reset any links that might have changed',
-  },
-];
 
 @Component({
   selector: 'app-graph-page',
@@ -133,7 +70,8 @@ const GRAPH_INTERACTIONS = [
     CollapsiblePanelComponent,
     ConfirmationToggleButtonComponent,
     SearchFieldComponent,
-    IconComponent,
+    GraphHelpModalComponent,
+    GraphSettingsModalComponent,
   ],
   templateUrl: './graph-page.component.html',
   styleUrl: './graph-page.component.scss',
@@ -146,7 +84,6 @@ export class GraphPageComponent {
   store = inject(GraphPageStore);
   routingService = inject(RoutingService);
   formlyService = inject(FormlyService);
-  modalService = inject(NgbModal);
   graphService = inject(GraphService);
   graphMenuService = inject(GraphMenuService);
 
@@ -168,6 +105,7 @@ export class GraphPageComponent {
     ),
     shareReplay(1),
   );
+  graphSettings = signal(GRAPH_SETTINGS);
 
   pageState = signal<'DISPLAY' | 'CREATE'>('DISPLAY');
   isPanelOpen = signal<boolean>(false);
@@ -202,15 +140,7 @@ export class GraphPageComponent {
     }),
   );
 
-  infoRules = GRAPH_INFO_RULES;
-  infoInteractions = GRAPH_INTERACTIONS;
-
-  private AVAILABLE_NODE_TYPES = new Set([
-    'Character',
-    'Item',
-    'Organization',
-    'Location',
-  ]);
+  private AVAILABLE_NODE_TYPES = new Set<CategoryLabel>(GRAPH_CATEGORIES);
   private nodeTypeOptions = DEFAULT_SEARCH_PREFERENCES.filter((option) =>
     this.AVAILABLE_NODE_TYPES.has(option.label),
   );
@@ -232,7 +162,7 @@ export class GraphPageComponent {
       .subscribe((linkIdToDelete) => this.onDeleteLink(linkIdToDelete));
   }
 
-  toggleSidebarEntry(option: SidebarOption, mode: 'INACTIVE' | 'ACTIVE') {
+  toggleCategory(option: SidebarOption, mode: 'INACTIVE' | 'ACTIVE') {
     const newActiveEntries = new Set(this.activeCategories());
     switch (mode) {
       case 'INACTIVE':
@@ -276,11 +206,9 @@ export class GraphPageComponent {
     this.store.deleteConnection(linkId);
   }
 
-  openModal(content: TemplateRef<any>) {
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-title',
-      modalDialogClass: 'border border-info border-3 rounded mymodal',
-    });
+  onSettingsChange(newSettings: typeof GRAPH_SETTINGS) {
+    console.log('New settings: ', newSettings);
+    this.graphSettings.set(newSettings);
   }
 
   private filterGraphData(

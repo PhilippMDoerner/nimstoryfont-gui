@@ -9,7 +9,7 @@
           [borderColorVar]="option.color"
           [isActive]="option.active"
           [isSelectable]="true"
-          (entryClick)="toggleSidebarEntry(option, $event)"
+          (entryClick)="toggleCategory(option, $event)"
         ></app-selectable-entry>
       }
     </div>
@@ -28,17 +28,14 @@
         <app-graph
           class="col-12 mb-2"
           [data]="graph"
+          [graphSettings]="graphSettings()"
           [activeNodesData]="selectedNodes() ?? []"
         />
-        <div class="col-12 d-flex justify-content-end">
-          <button
-            aria-label="shows modal explaining graph data"
-            class="rounded-pill"
-            (click)="openModal(infoModal)"
-          >
-            Help
-            <app-icon [icon]="'info-circle'"></app-icon>
-          </button>
+        <div class="col-12 d-flex justify-content-between">
+          <app-graph-settings-modal
+            (newSettings)="onSettingsChange($event)"
+          ></app-graph-settings-modal>
+          <app-graph-help-modal></app-graph-help-modal>
         </div>
       </div>
 
@@ -135,49 +132,4 @@
       }
     </ng-container>
   </app-collapsible-panel>
-</ng-template>
-
-<ng-template #infoModal let-modal>
-  <div class="modal-header">
-    <h2
-      class="modal-title w-100 d-flex justify-content-between"
-      id="modal-title"
-    >
-      <span>Graph Info</span>
-      <button type="button" aria-label="Close" (click)="modal.dismiss()">
-        <app-icon [icon]="'times'"></app-icon>
-      </button>
-    </h2>
-  </div>
-
-  <div class="modal-body">
-    <h3 class="h4">Possible Graph Interactions:</h3>
-    <ul class="container">
-      @for (interaction of infoInteractions; track $index) {
-        <li class="row mb-2">
-          <div class="col-lg-6 col-12 h6 fw-bold">
-            {{ interaction.event }}
-          </div>
-          <span class="col-lg-6 col-12">
-            {{ interaction.description }}
-          </span>
-        </li>
-      }
-    </ul>
-
-    <h3 class="h4">Kinds of Links:</h3>
-    <ul class="container"></ul>
-    @for (rule of infoRules; track $index) {
-      <li class="row mb-4">
-        <div class="col-lg-6 col-12 h6 fw-bold">
-          {{ rule.nodeKind1 }}
-          <app-icon [icon]="'link'" />
-          {{ rule.nodeKind2 }}
-        </div>
-        <span class="col-lg-6 col-12">
-          {{ rule.description }}
-        </span>
-      </li>
-    }
-  </div>
 </ng-template>

@@ -52,6 +52,7 @@ export const ALL_SOLID_ICONS = [
   'file-audio',
   'file-import',
   'file',
+  'gear',
   'gavel',
   'globe-americas',
   'hammer',

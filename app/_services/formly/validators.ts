@@ -39,6 +39,10 @@ export const notIntegerMessage = {
   message:
     'Your input is not an integer. This field requires an integer number. No amount of revolution can overcome this.',
 };
+export const notNumberMesage = {
+  name: 'notNumber',
+  message: 'Your input is not a number.',
+};
 export const hasSpecialCharactersMessage = {
   name: 'hasSpecialCharacters',
   message:
@@ -114,6 +118,18 @@ function isIntegerValidation(
 export const integerValidator: ValidatorOption = {
   name: 'notInteger',
   validation: isIntegerValidation,
+};
+
+function isNumberValidation(control: AbstractControl): ValidationErrors | null {
+  const isNumberType = typeof control.value === 'number';
+  const isNumberString =
+    typeof control.value === 'string' && !isNaN(control.value as any);
+  const isNumber = isNumberType || isNumberString;
+  return isNumber ? null : { notNumber: !isNumber };
+}
+export const numberValidator: ValidatorOption = {
+  name: 'notNumber',
+  validation: isNumberValidation,
 };
 
 function hasNoSpecialCharactersValidation(

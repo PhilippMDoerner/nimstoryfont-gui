@@ -82,7 +82,10 @@ export class LocationCreateUpdatePageComponent {
 
   formlyFields = computed<FormlyFieldConfig[]>(() => [
     this.formlyService.buildInputConfig({ key: 'name', inputKind: 'NAME' }),
-    this.formlyService.buildDisableSelectConfig<OverviewItem>({
+    this.formlyService.buildDisableSelectConfig<
+      LocationRaw | Location,
+      OverviewItem
+    >({
       key: 'parent_location',
       label: 'Parent Location',
       options$: this.campaignLocations$,

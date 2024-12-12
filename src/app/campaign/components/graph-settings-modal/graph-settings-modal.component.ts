@@ -35,30 +35,20 @@ export class GraphSettingsModalComponent {
     this.formlyService.buildInputConfig<typeof GRAPH_SETTINGS>({
       key: 'linkAttractingForce',
       inputKind: 'NUMBER_FRACTION',
-      label: 'Strength of links pulling nodes together',
+      label: 'Strength of links pulling nodes together (0-3)',
+      max: 3,
+      min: 0,
     }),
     this.formlyService.buildInputConfig<typeof GRAPH_SETTINGS>({
       key: 'nodeRepellingForce',
       inputKind: 'NUMBER_FRACTION',
       label: 'Strength of nodes repelling each other',
     }),
-    this.formlyService.buildInputConfig<typeof GRAPH_SETTINGS>({
-      key: 'xForce',
-      inputKind: 'NUMBER_FRACTION',
-      label: 'Horizontal force',
-    }),
-    this.formlyService.buildInputConfig<typeof GRAPH_SETTINGS>({
-      key: 'yForce',
-      inputKind: 'NUMBER_FRACTION',
-      label: 'Vertical force',
-    }),
   ]);
 
   onSettingsSubmit(model: any) {
     const newSettings: typeof GRAPH_SETTINGS = {
       ...model,
-      xForce: parseFloat(model.xForce),
-      yForce: parseFloat(model.yForce),
       linkAttractingForce: parseFloat(model.linkAttractingForce),
       nodeRepellingForce: parseFloat(model.nodeRepellingForce),
     };

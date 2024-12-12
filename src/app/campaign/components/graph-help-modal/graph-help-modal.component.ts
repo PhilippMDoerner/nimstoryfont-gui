@@ -5,6 +5,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { IconComponent } from '../../../../design/atoms/icon/icon.component';
 import { SeparatorComponent } from '../../../../design/atoms/separator/separator.component';
 
@@ -79,7 +80,7 @@ const GRAPH_INTERACTIONS = [
 @Component({
   selector: 'app-graph-help-modal',
   standalone: true,
-  imports: [IconComponent, SeparatorComponent],
+  imports: [IconComponent, SeparatorComponent, ButtonComponent],
   templateUrl: './graph-help-modal.component.html',
   styleUrl: './graph-help-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

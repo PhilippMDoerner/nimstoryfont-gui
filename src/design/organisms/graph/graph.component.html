@@ -7,11 +7,13 @@
         [kind]="'SECONDARY'"
         [icon]="'plus'"
         [size]="'SMALL'"
+        aria-label="'zoom in to graph'"
         (click)="onZoomButtonClick(1)"
       ></button>
       <input
         #zoomControl
         type="range"
+        aria-label="'Zoom level of graph'"
         [min]="settings.minZoom"
         [max]="settings.maxZoom"
         [value]="(zoomLevel$ | async) ?? settings.minZoom"
@@ -25,6 +27,7 @@
         [kind]="'SECONDARY'"
         [icon]="'minus'"
         [size]="'SMALL'"
+        aria-label="'zoom out of graph'"
         (click)="onZoomButtonClick(-1)"
       ></button>
     </div>

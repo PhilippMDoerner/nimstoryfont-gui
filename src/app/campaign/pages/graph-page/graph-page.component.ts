@@ -159,7 +159,7 @@ export class GraphPageComponent {
       .subscribe((linkIdToDelete) => this.onDeleteLink(linkIdToDelete));
   }
 
-  toggleSidebarEntry(option: SidebarOption, mode: 'INACTIVE' | 'ACTIVE') {
+  toggleCategory(option: SidebarOption, mode: 'INACTIVE' | 'ACTIVE') {
     const newActiveEntries = new Set(this.activeCategories());
     switch (mode) {
       case 'INACTIVE':

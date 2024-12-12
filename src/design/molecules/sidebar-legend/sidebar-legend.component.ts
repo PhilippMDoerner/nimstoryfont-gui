@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 import { SelectableEntryComponent } from '../../atoms/selectable-entry/selectable-entry.component';
 import {
+  CategoryOption,
   DEFAULT_SEARCH_PREFERENCES,
-  SidebarOption,
 } from '../_models/search-preferences';
 
 @Component({
@@ -21,10 +21,10 @@ import {
 })
 export class SidebarLegendComponent {
   interactable = input(false);
-  sidebarEntries = input<SidebarOption[]>(DEFAULT_SEARCH_PREFERENCES);
+  sidebarEntries = input<CategoryOption[]>(DEFAULT_SEARCH_PREFERENCES);
 
-  @Output() sidebarChange: EventEmitter<SidebarOption[]> = new EventEmitter<
-    SidebarOption[]
+  @Output() sidebarChange: EventEmitter<CategoryOption[]> = new EventEmitter<
+    CategoryOption[]
   >();
 
   constructor() {}

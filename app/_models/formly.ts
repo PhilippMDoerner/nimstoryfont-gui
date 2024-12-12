@@ -53,6 +53,8 @@ export interface FormlyInputConfig<T> extends FormlyInterface<T> {
   placeholder?: string;
   maxLength?: number;
   minLength?: number;
+  max?: number;
+  min?: number;
   parsers?: any;
   inputKind: InputKind;
 }

@@ -82,7 +82,7 @@ export class FormlyService {
         warningMessage: config.warningMessage,
         additionalProperties: {
           disabledExpression: config.disabledExpression,
-          tooltipMessage: config.tooltipMessage ?? 'WHAT',
+          tooltipMessage: config.tooltipMessage ?? '',
           showWrapperLabel: config.showWrapperLabel ?? true,
         },
       },
@@ -165,7 +165,9 @@ export class FormlyService {
       parsers: config.parsers,
       props: {
         maxLength: config.maxLength,
+        max: config.max,
         minLength: config.minLength,
+        min: config.min,
         label: config.label ?? capitalize(`${config.key}`),
         type: innerInputType,
         required: config.required ?? true,

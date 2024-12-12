@@ -1,11 +1,12 @@
 <button
+  btn
   aria-label="shows modal explaining graph data"
   class="rounded-pill"
+  [kind]="'NONE'"
+  [icon]="'info-circle'"
+  [text]="'Help'"
   (click)="openModal(infoModal)"
->
-  Help
-  <app-icon [icon]="'info-circle'"></app-icon>
-</button>
+></button>
 
 <ng-template #infoModal let-modal>
   <div class="modal-header">

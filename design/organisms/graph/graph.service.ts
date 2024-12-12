@@ -270,8 +270,8 @@ export class GraphService {
         'charge',
         forceManyBody().strength(-1 * settings.nodeRepellingForce),
       )
-      .force('x', forceX().strength(settings.undirectedForce))
-      .force('y', forceY().strength(settings.undirectedForce))
+      .force('x', forceX(settings.width / 2).strength(settings.undirectedForce))
+      .force('y', forceY(height / 2).strength(settings.undirectedForce))
       .force('center', forceCenter(settings.width / 2, height / 2));
     addDragBehavior(allNodesElement, simulation);
 

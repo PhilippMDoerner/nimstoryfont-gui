@@ -105,7 +105,10 @@ export class QuoteFieldComponent {
         labelProp: 'name_full',
         valueProp: 'pk',
       }),
-      this.formlyService.buildAutocompleteConfig<OverviewItem>({
+      this.formlyService.buildAutocompleteConfig<
+        Quote | QuoteRaw,
+        OverviewItem
+      >({
         key: 'encounter',
         required: false,
         loadOptions: (searchTerm) =>

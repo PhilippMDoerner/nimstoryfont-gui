@@ -10,8 +10,8 @@ export interface FormlyPasswordInterface {
   disabled?: boolean;
 }
 
-export interface FormlyInterface {
-  key: string;
+export interface FormlyInterface<T> {
+  key: Exclude<keyof T, symbol>;
   label?: string;
   required?: boolean;
   hide?: boolean;
@@ -23,13 +23,14 @@ export interface FormlyInterface {
   showWrapperLabel?: boolean;
 }
 
-export interface FormlyOverviewSelectConfig<T> extends FormlyInterface {
-  labelProp: keyof T;
-  valueProp?: keyof T;
-  sortProp?: keyof T;
+export interface FormlyOverviewSelectConfig<Model, Option>
+  extends FormlyInterface<Model> {
+  labelProp: keyof Option;
+  valueProp?: keyof Option;
+  sortProp?: keyof Option;
   sortDirection?: 'asc' | 'desc';
   campaign?: string;
-  options$: Observable<T[]>;
+  options$: Observable<Option[]>;
 }
 
 export type DisabledFunction<T> = (
@@ -39,16 +40,16 @@ export type DisabledFunction<T> = (
   control: AbstractControl,
 ) => Observable<boolean[]>;
 
-export interface FormlyOverviewDisabledSelectConfig<T>
-  extends FormlyOverviewSelectConfig<T> {
-  disabledExpression: DisabledFunction<T>;
+export interface FormlyOverviewDisabledSelectConfig<Model, Option>
+  extends FormlyOverviewSelectConfig<Model, Option> {
+  disabledExpression: DisabledFunction<Option>;
   tooltipMessage: string;
   warningMessage: string;
 }
 
 export type InputKind = 'NUMBER' | 'STRING' | 'NAME';
 
-export interface FormlyInputConfig extends FormlyInterface {
+export interface FormlyInputConfig<T> extends FormlyInterface<T> {
   placeholder?: string;
   maxLength?: number;
   minLength?: number;
@@ -58,7 +59,7 @@ export interface FormlyInputConfig extends FormlyInterface {
 
 export type FileFieldKind = 'IMAGE' | 'OTHER';
 
-export interface FormlyFileConfig extends FormlyInterface {
+export interface FormlyFileConfig<T> extends FormlyInterface<T> {
   fileButtonType?: ElementKind;
   fileFieldKind?: FileFieldKind;
 }
@@ -68,21 +69,21 @@ export interface StaticOption {
   value: String | Number;
 }
 
-export interface FormlyCustomStringSelectConfig extends FormlyInterface {
+export interface FormlyCustomStringSelectConfig<T> extends FormlyInterface<T> {
   options: string[];
 }
 
-export interface FormlyCustomSelectConfig extends FormlyInterface {
+export interface FormlyCustomSelectConfig<T> extends FormlyInterface<T> {
   options: StaticOption[];
 }
 
-export interface FormlyCheckboxConfig extends FormlyInterface {
+export interface FormlyCheckboxConfig<T> extends FormlyInterface<T> {
   defaultValue: boolean;
 }
 
-export interface FormlyDatepickerConfig extends FormlyInterface {}
+export interface FormlyDatepickerConfig<T> extends FormlyInterface<T> {}
 
-export interface FormlyCustomSessionSelect extends FormlyInterface {}
+export interface FormlyCustomSessionSelect<T> extends FormlyInterface<T> {}
 
 export type LoadAutocompleteOptions<T> = (
   searchTerm: string,
@@ -97,5 +98,5 @@ export type CustomAutocompleteProps<T> = {
   loadOptions: LoadAutocompleteOptions<T>;
   initialValue$?: Observable<T>;
 };
-export type FormlyAutocompleteConfig<T> = FormlyInterface &
-  CustomAutocompleteProps<T>;
+export type FormlyAutocompleteConfig<Model, Option> = FormlyInterface<Model> &
+  CustomAutocompleteProps<Option>;

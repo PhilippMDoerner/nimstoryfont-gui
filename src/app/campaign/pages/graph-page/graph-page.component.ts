@@ -42,6 +42,7 @@ import { GraphService } from 'src/design/organisms/graph/graph.service';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
 import { CardComponent } from '../../../../design/atoms/card/card.component';
+import { PlaceholderComponent } from '../../../../design/atoms/placeholder/placeholder.component';
 import { SelectableEntryComponent } from '../../../../design/atoms/selectable-entry/selectable-entry.component';
 import { ArticleFooterComponent } from '../../../../design/molecules/article-footer/article-footer.component';
 import { CollapsiblePanelComponent } from '../../../../design/molecules/collapsible-panel/collapsible-panel.component';
@@ -72,6 +73,7 @@ import { GraphPageStore } from './graph-page.store';
     SearchFieldComponent,
     GraphHelpModalComponent,
     GraphSettingsModalComponent,
+    PlaceholderComponent,
   ],
   templateUrl: './graph-page.component.html',
   styleUrl: './graph-page.component.scss',

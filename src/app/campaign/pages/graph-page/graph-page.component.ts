@@ -36,6 +36,7 @@ import {
   CategoryLabel,
   GRAPH_CATEGORIES,
 } from 'src/design/molecules/_models/search-preferences';
+import { GRAPH_SETTINGS } from 'src/design/organisms/_model/graph';
 import { GraphMenuService } from 'src/design/organisms/graph/graph-menu.service';
 import { GraphService } from 'src/design/organisms/graph/graph.service';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -50,6 +51,7 @@ import { SearchFieldComponent } from '../../../../design/molecules/search-field/
 import { GraphComponent } from '../../../../design/organisms/graph/graph.component';
 import { PageContainerComponent } from '../../../../design/organisms/page-container/page-container.component';
 import { GraphHelpModalComponent } from '../../components/graph-help-modal/graph-help-modal.component';
+import { GraphSettingsModalComponent } from '../../components/graph-settings-modal/graph-settings-modal.component';
 import { GraphPageStore } from './graph-page.store';
 
 @Component({
@@ -69,6 +71,7 @@ import { GraphPageStore } from './graph-page.store';
     ConfirmationToggleButtonComponent,
     SearchFieldComponent,
     GraphHelpModalComponent,
+    GraphSettingsModalComponent,
   ],
   templateUrl: './graph-page.component.html',
   styleUrl: './graph-page.component.scss',
@@ -102,6 +105,7 @@ export class GraphPageComponent {
     ),
     shareReplay(1),
   );
+  graphSettings = signal(GRAPH_SETTINGS);
 
   pageState = signal<'DISPLAY' | 'CREATE'>('DISPLAY');
   isPanelOpen = signal<boolean>(false);
@@ -200,6 +204,11 @@ export class GraphPageComponent {
 
   onDeleteLink(linkId: number) {
     this.store.deleteConnection(linkId);
+  }
+
+  onSettingsChange(newSettings: typeof GRAPH_SETTINGS) {
+    console.log('New settings: ', newSettings);
+    this.graphSettings.set(newSettings);
   }
 
   private filterGraphData(

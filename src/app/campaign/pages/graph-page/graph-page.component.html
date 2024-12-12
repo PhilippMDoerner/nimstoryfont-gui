@@ -28,9 +28,13 @@
         <app-graph
           class="col-12 mb-2"
           [data]="graph"
+          [graphSettings]="graphSettings()"
           [activeNodesData]="selectedNodes() ?? []"
         />
-        <div class="col-12 d-flex justify-content-end">
+        <div class="col-12 d-flex justify-content-between">
+          <app-graph-settings-modal
+            (newSettings)="onSettingsChange($event)"
+          ></app-graph-settings-modal>
           <app-graph-help-modal></app-graph-help-modal>
         </div>
       </div>

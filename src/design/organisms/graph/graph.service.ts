@@ -38,24 +38,13 @@ import {
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
-import { LinkClickEvent, NodeClickEvent, SELECTORS } from './data';
+import {
+  GRAPH_SETTINGS,
+  LinkClickEvent,
+  NodeClickEvent,
+  SELECTORS,
+} from '../_model/graph';
 import { GraphElement, GraphMenuService } from './graph-menu.service';
-
-export const GRAPH_SETTINGS = {
-  width: 1080,
-  minZoom: 0.5,
-  maxZoom: 12,
-  minHeight: 300,
-  linkAttractingForce: 0.5,
-  nodeRepellingForce: 50,
-  undirectedForce: 0.025,
-  circleSize: 6,
-  xForce: 1,
-  yForce: 1,
-  centeringTransitionTime: 1000,
-  hoverTransitionTime: 200,
-  strokeWidth: 0.5,
-};
 
 type MyZoomBehavior = ZoomBehavior<any, any>;
 type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
@@ -67,18 +56,21 @@ type GraphElements = {
 
 @Injectable()
 export class GraphService {
-  public createGraphEvents$ = new ReplaySubject<NodeMap>(1);
+  public createGraphEvents$ = new ReplaySubject<{
+    data: NodeMap;
+    settings: typeof GRAPH_SETTINGS;
+  }>(1);
   private _elements$ = new Subject<GraphElements | undefined>();
   public elements$ = this._elements$.asObservable();
   private _nodeClickEvents$ = new Subject<MouseEvent>();
   public nodeClickEvents$ = this._nodeClickEvents$.pipe(
     withLatestFrom(this.createGraphEvents$),
-    map(([event, graphData]) => this.toNodeEvent(event, graphData)),
+    map(([event, graphData]) => this.toNodeEvent(event, graphData.data)),
   );
   private _nodeRightClickEvents$ = new Subject<MouseEvent>();
   public nodeRightClickEvents$ = this._nodeRightClickEvents$.pipe(
     withLatestFrom(this.createGraphEvents$),
-    map(([event, graphData]) => this.toNodeEvent(event, graphData)),
+    map(([event, graphData]) => this.toNodeEvent(event, graphData.data)),
   );
   private linkRightClickEvents$ = new Subject<LinkClickEvent>();
   public centerNodeEvents$ = new Subject<ArticleNode | undefined>();
@@ -119,7 +111,7 @@ export class GraphService {
         tap(() => this._elements$.next(undefined)),
         takeUntilDestroyed(),
       )
-      .subscribe((data) => this.createGraph(data));
+      .subscribe((data) => this.createGraph(data.data, data.settings));
   }
 
   /**
@@ -195,10 +187,6 @@ export class GraphService {
           event.event,
           event.clickedLink,
         );
-        // TODO:
-        // 1. Figure out how to extract the clicked links from via event from links.
-        // 2. Transform into the data needed to open a context menu
-        // 3. render a context menu with its own html etc. Make sure that it has a delete option that is disabled if the link is not a custom link
       });
   }
 
@@ -216,10 +204,11 @@ export class GraphService {
             filterNil(),
           ),
         ),
+        withLatestFrom(this.createGraphEvents$),
         takeUntilDestroyed(),
       )
-      .subscribe(([centeredNodeData, zoomBehavior]) =>
-        this.centerNodeInGraph(centeredNodeData, zoomBehavior),
+      .subscribe(([[centeredNodeData, zoomBehavior], { settings }]) =>
+        this.centerNodeInGraph(centeredNodeData, zoomBehavior, settings),
       );
   }
 
@@ -233,10 +222,10 @@ export class GraphService {
   }
 
   // HELPER FUNCTIONS
-  private createGraph(nodeMap: NodeMap) {
-    const height = this.inferGraphHeight(GRAPH_SETTINGS.width, getBreakpoint());
+  private createGraph(nodeMap: NodeMap, settings: typeof GRAPH_SETTINGS) {
+    const height = this.inferGraphHeight(settings.width, getBreakpoint());
     const graphElement = create('svg')
-      .attr('viewBox', [0, 0, GRAPH_SETTINGS.width, height])
+      .attr('viewBox', [0, 0, settings.width, height])
       .attr(
         'style',
         'max-width: 100%; height: auto; min-height: 300px; cursor: move;',
@@ -246,8 +235,9 @@ export class GraphService {
     const zoomBehavior = this.addZoomListener(
       graphElement,
       zoomContainer,
-      GRAPH_SETTINGS.width,
+      settings.width,
       height,
+      settings,
     );
 
     graphElement.on('click', (event: MouseEvent) =>
@@ -262,7 +252,11 @@ export class GraphService {
 
     // Add a line for each link, and a circle for each node.
     this.addLinks(zoomContainer, nodeMap.links);
-    const allNodesElement = this.addNodes(zoomContainer, nodeMap.nodes);
+    const allNodesElement = this.addNodes(
+      zoomContainer,
+      nodeMap.nodes,
+      settings,
+    );
 
     // Create a simulation with several forces.
     const simulation = forceSimulation(nodeMap.nodes)
@@ -270,15 +264,15 @@ export class GraphService {
         'link',
         forceLink<ArticleNode, NodeLink>(nodeMap.links)
           .id((d) => d.record.name)
-          .strength(GRAPH_SETTINGS.linkAttractingForce),
+          .strength(settings.linkAttractingForce),
       )
       .force(
         'charge',
-        forceManyBody().strength(-1 * GRAPH_SETTINGS.nodeRepellingForce),
+        forceManyBody().strength(-1 * settings.nodeRepellingForce),
       )
-      .force('x', forceX().strength(GRAPH_SETTINGS.undirectedForce))
-      .force('y', forceY().strength(GRAPH_SETTINGS.undirectedForce))
-      .force('center', forceCenter(GRAPH_SETTINGS.width / 2, height / 2));
+      .force('x', forceX().strength(settings.undirectedForce))
+      .force('y', forceY().strength(settings.undirectedForce))
+      .force('center', forceCenter(settings.width / 2, height / 2));
     addDragBehavior(allNodesElement, simulation);
 
     // Set the position attributes of links and nodes each time the simulation ticks.
@@ -293,6 +287,7 @@ export class GraphService {
       undefined
     >,
     nodeData: ArticleNode[],
+    settings: typeof GRAPH_SETTINGS,
   ) {
     const nodes = hostElement
       .append('g')
@@ -315,7 +310,7 @@ export class GraphService {
     // imgGroups
     nodes
       .append('circle')
-      .attr('r', GRAPH_SETTINGS.circleSize)
+      .attr('r', settings.circleSize)
       .attr('stroke', 'black')
       .attr('guid', (d) => d.guid)
       .attr(
@@ -329,10 +324,10 @@ export class GraphService {
     // Add Label
     nodes
       .append('text')
-      .attr('y', GRAPH_SETTINGS.circleSize * 6)
+      .attr('y', settings.circleSize * 6)
       .attr('text-anchor', 'middle')
       .attr('stroke', '#000')
-      .attr('stroke-width', GRAPH_SETTINGS.strokeWidth)
+      .attr('stroke-width', settings.strokeWidth)
       .attr('transform', 'scale(0.3)')
       .attr('guid', (d) => d.guid)
       .text((d) => d.record.name);
@@ -455,12 +450,16 @@ export class GraphService {
     );
   }
 
-  private centerNodeInGraph(node: ArticleNode, myZoom: MyZoomBehavior) {
+  private centerNodeInGraph(
+    node: ArticleNode,
+    myZoom: MyZoomBehavior,
+    settings: typeof GRAPH_SETTINGS,
+  ) {
     const graph = select(SELECTORS.graphSelector);
     if (graph.empty()) return;
 
     myZoom.translateTo(
-      graph.transition().duration(GRAPH_SETTINGS.centeringTransitionTime),
+      graph.transition().duration(settings.centeringTransitionTime),
       node.x as number,
       node.y as number,
     );
@@ -509,13 +508,14 @@ export class GraphService {
     zoomContainer: ZoomElement,
     width: number,
     height: number,
+    settings: typeof GRAPH_SETTINGS,
   ) {
     const zoomBehavior = zoom<any, any>()
       .extent([
         [0, 0],
         [width, height],
       ])
-      .scaleExtent([GRAPH_SETTINGS.minZoom, GRAPH_SETTINGS.maxZoom])
+      .scaleExtent([settings.minZoom, settings.maxZoom])
       .on('zoom', (val) => {
         zoomContainer.attr('transform', val.transform);
         this.zoomLevelChangedEvent$.next(val.transform.k);

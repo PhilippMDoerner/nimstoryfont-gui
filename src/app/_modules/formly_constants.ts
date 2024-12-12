@@ -16,6 +16,8 @@ import {
   integerValidator,
   invalidTimeMessage,
   notIntegerMessage,
+  notNumberMesage,
+  numberValidator,
   requiredIconMessage,
   requiredIconValidator,
   requiredMessage,
@@ -53,6 +55,7 @@ export const FORMLY_CONFIG: ConfigOption = {
     hasSpecialCharactersMessage,
     fieldsDontMatchMessage,
     sessionAlreadyHasAuthor,
+    notNumberMesage,
   ],
   validators: [
     timeValidator,
@@ -63,6 +66,7 @@ export const FORMLY_CONFIG: ConfigOption = {
     integerValidator,
     specialCharacterValidator,
     fieldMatchValidator,
+    numberValidator,
   ],
 };
 

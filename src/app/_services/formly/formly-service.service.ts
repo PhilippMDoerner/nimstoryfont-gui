@@ -134,12 +134,17 @@ export class FormlyService {
 
   buildInputConfig<T>(config: FormlyInputConfig<T>): FormlyFieldConfig {
     const validators = this.getValidators(config);
-    if (config.inputKind === 'NUMBER') {
-      validators.push('notInteger');
-    }
-    if (config.inputKind === 'NAME') {
-      //Why 'hasSpecialCharacters' validation? Names are used in URLs, they mustn't have special characters
-      validators.push('hasSpecialCharacters');
+    switch (config.inputKind) {
+      case 'NUMBER':
+        validators.push('notInteger');
+        break;
+      case 'NAME':
+        //Why 'hasSpecialCharacters' validation? Names are used in URLs, they mustn't have special characters
+        validators.push('hasSpecialCharacters');
+        break;
+      case 'NUMBER_FRACTION':
+        validators.push('notNumber');
+        break;
     }
 
     let innerInputType: 'string' | 'number';

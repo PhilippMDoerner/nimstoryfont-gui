@@ -9,8 +9,8 @@ import {
 } from 'src/app/_models/nodeMap';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ellipsize } from 'src/utils/string';
+import { LinkClickEvent, SELECTORS } from '../_model/graph';
 import { SIDEBAR_ENTRIES } from '../_model/sidebar';
-import { LinkClickEvent, SELECTORS } from './data';
 
 export type NodeMenuData = {
   title: string | undefined;

@@ -24,6 +24,22 @@ export const SELECTORS = {
   deleteLinkSelector: '#delete-link',
 };
 
+export const GRAPH_SETTINGS = {
+  width: 1080,
+  minZoom: 0.5,
+  maxZoom: 12,
+  minHeight: 300,
+  linkAttractingForce: 0.5,
+  nodeRepellingForce: 50,
+  undirectedForce: 0.025,
+  circleSize: 6,
+  xForce: 1,
+  yForce: 1,
+  centeringTransitionTime: 1000,
+  hoverTransitionTime: 200,
+  strokeWidth: 0.5,
+};
+
 export type NodeClickEvent = {
   event: MouseEvent;
   clickedNode: ArticleNode | undefined;

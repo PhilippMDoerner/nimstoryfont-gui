@@ -14,9 +14,9 @@
         #zoomControl
         type="range"
         aria-label="'Zoom level of graph'"
-        [min]="settings.minZoom"
-        [max]="settings.maxZoom"
-        [value]="(zoomLevel$ | async) ?? settings.minZoom"
+        [min]="graphSettings().minZoom"
+        [max]="graphSettings().maxZoom"
+        [value]="(zoomLevel$ | async) ?? graphSettings().minZoom"
         [step]="0.1"
         (input)="zoomSliderEvents$.next(zoomControl.value)"
         class="controls__slider"

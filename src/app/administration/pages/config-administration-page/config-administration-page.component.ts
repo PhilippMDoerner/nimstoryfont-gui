@@ -4,7 +4,7 @@ import { PlayerClass } from 'src/app/_models/playerclass';
 import {
   ConfigTableData,
   ConfigTableKind,
-} from 'src/design/templates/_models/config-table';
+} from 'src/design/organisms/_model/config-table';
 import { ConfigTablesComponent } from '../../../../design/templates/config-tables/config-tables.component';
 import { ConfigAdministrationPageStore } from './config-administration-page.store';
 

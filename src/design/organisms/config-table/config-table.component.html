@@ -1,0 +1,98 @@
+<div class="config-tables__section section">
+  <!-- Section Heading -->
+  <div class="section__heading heading">
+    <h3 class="heading__text">
+      <app-icon [icon]="table().icon"></app-icon>
+      {{ table().name }}
+    </h3>
+
+    <!-- Heading Buttons -->
+    <div class="heading__buttons">
+      <!-- Add Users -->
+      <button
+        btn
+        [kind]="'DARK'"
+        [icon]="table().showForm ? 'times' : 'plus'"
+        [text]="
+          table().showForm
+            ? 'Cancel ' + table().name + ' creation'
+            : 'Add ' + table().name
+        "
+        (click)="table().showForm = !table().showForm"
+      ></button>
+
+      <button
+        btn
+        [kind]="'PRIMARY'"
+        [icon]="'refresh'"
+        [text]="'Load table data'"
+        (click)="loadTableEntries.emit()"
+      ></button>
+    </div>
+  </div>
+
+  <app-separator class="section__separator"></app-separator>
+
+  <!-- Section Body -->
+
+  @if (!table().showForm) {
+    @if (table().entries?.length === 0) {
+      Load entries to see them
+    }
+    <div class="section__table-container">
+      <!-- Table -->
+
+      @let entries = table().entries;
+      @if (entries && entries.length > 0) {
+        <table class="table table-dark table-striped">
+          <!-- Table heading -->
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              @for (property of entries[0] | keyvalue; track property.key) {
+                <th scope="col" class="text-uppercase">
+                  {{ property.key }}
+                </th>
+              }
+            </tr>
+          </thead>
+          <!-- Table body -->
+          <tbody>
+            @for (entry of entries; track entry[table().idProp]) {
+              <tr>
+                <th scope="row">{{ entry[table().idProp] }}</th>
+                @for (property of entry | keyvalue; track property.key) {
+                  <td>
+                    {{ property.value }}
+                  </td>
+                }
+                <td>
+                  <app-confirmation-toggle-button
+                    [toggleSize]="'SMALL'"
+                    [confirmationQuestion]="'Delete this Entry?'"
+                    [icon]="'trash'"
+                    (confirm)="deleteTableEntry.emit(entry)"
+                  ></app-confirmation-toggle-button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  }
+
+  @if (table().showForm) {
+    <app-card>
+      <h4>Adding new {{ table().name }}</h4>
+      <!-- Form -->
+      <app-form
+        [model]="table().model"
+        [fields]="table().formFields"
+        [cancelButtonType]="'DARK'"
+        (formlySubmit)="createEntry($event)"
+        (formlyCancel)="table().showForm = !table().showForm"
+      ></app-form>
+    </app-card>
+  }
+</div>

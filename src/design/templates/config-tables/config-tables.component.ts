@@ -1,4 +1,3 @@
-import { KeyValuePipe } from '@angular/common';
 import {
   Component,
   computed,
@@ -7,28 +6,19 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { NodeLinkType } from 'src/app/_models/graph';
+import { MapMarkerType } from 'src/app/_models/mapMarkerType';
+import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { Icon } from 'src/design/atoms/_models/icon';
+import {
+  ConfigTable,
+  ConfigTableData,
+  ConfigTableKind,
+} from 'src/design/organisms/_model/config-table';
 import { ButtonComponent } from '../../atoms/button/button.component';
-import { CardComponent } from '../../atoms/card/card.component';
-import { IconComponent } from '../../atoms/icon/icon.component';
-import { SeparatorComponent } from '../../atoms/separator/separator.component';
-import { ConfirmationToggleButtonComponent } from '../../molecules/confirmation-toggle-button/confirmation-toggle-button.component';
-import { FormComponent } from '../../molecules/form/form.component';
+import { ConfigTableComponent } from '../../organisms/config-table/config-table.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { ConfigTableData, ConfigTableKind } from '../_models/config-table';
-
-interface ConfigTable {
-  name: string;
-  kind: ConfigTableKind;
-  entries?: any[];
-  icon: Icon;
-  model: unknown;
-  formFields: FormlyFieldConfig[];
-  showForm: boolean;
-}
 
 @Component({
   selector: 'app-config-tables',
@@ -39,15 +29,11 @@ interface ConfigTable {
     PageContainerComponent,
     RouterLink,
     ButtonComponent,
-    IconComponent,
-    SeparatorComponent,
-    ConfirmationToggleButtonComponent,
-    CardComponent,
-    FormComponent,
-    KeyValuePipe,
+    ConfigTableComponent,
   ],
 })
 export class ConfigTablesComponent {
+  currentCampaignId = input.required<number | undefined>();
   tableData = input.required<ConfigTableData>();
 
   @Output() loadTableEntries: EventEmitter<ConfigTableKind> =
@@ -61,12 +47,18 @@ export class ConfigTablesComponent {
     entry: unknown;
   }> = new EventEmitter();
 
-  tables = computed<ConfigTable[]>(() => [
+  tables = computed<ConfigTable<any>[]>(() => [
     {
       name: 'Marker Type',
       kind: 'MARKER_TYPE',
       icon: 'tag',
-      model: { name: null, is_text_marker: false, icon: null, color: null },
+      idProp: 'id',
+      model: {
+        name: undefined,
+        is_text_marker: false,
+        icon: undefined,
+        color: undefined,
+      },
       formFields: [
         this.formlyService.buildInputConfig({
           key: 'name',
@@ -88,12 +80,13 @@ export class ConfigTablesComponent {
       ],
       showForm: false,
       entries: this.tableData().MARKER_TYPE,
-    },
+    } satisfies ConfigTable<MapMarkerType>,
     {
       name: 'Class',
       kind: 'PLAYER_CLASS',
       icon: 'user',
-      model: { name: null },
+      idProp: 'pk',
+      model: { name: undefined },
       formFields: [
         this.formlyService.buildInputConfig({
           key: 'name',
@@ -102,7 +95,16 @@ export class ConfigTablesComponent {
       ],
       entries: this.tableData().PLAYER_CLASS,
       showForm: false,
-    },
+    } satisfies ConfigTable<PlayerClass>,
+    {
+      name: 'Node Link Type',
+      kind: 'NODE_LINK_TYPE',
+      icon: 'link',
+      model: { campaign_id: this.currentCampaignId() },
+      formFields: [],
+      idProp: 'id',
+      showForm: false,
+    } satisfies ConfigTable<NodeLinkType>,
   ]);
 
   campaignOverviewUrl = this.routingService.getRoutePath('campaign-overview');
@@ -117,7 +119,7 @@ export class ConfigTablesComponent {
     this.getTable(kind).showForm = false;
   }
 
-  private getTable(kind: ConfigTableKind): ConfigTable {
-    return this.tables().find((table) => table.kind === kind) as ConfigTable;
+  private getTable<T extends object>(kind: ConfigTableKind): ConfigTable<T> {
+    return this.tables().find((table) => table.kind === kind) as ConfigTable<T>;
   }
 }

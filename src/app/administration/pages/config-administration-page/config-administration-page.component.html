@@ -1,5 +1,6 @@
 <app-config-tables
   [tableData]="tableData()"
+  [currentCampaignId]="undefined"
   (loadTableEntries)="loadTableEntries($event)"
   (deleteTableEntry)="deleteTableEntry($event)"
   (createTableEntry)="createTableEntry($event)"

@@ -18,12 +18,18 @@ import {
   combineLatestWith,
   filter,
   map,
+  Observable,
   shareReplay,
   Subject,
   take,
   withLatestFrom,
 } from 'rxjs';
-import { ArticleNode, NodeLinkRaw, NodeMap } from 'src/app/_models/graph';
+import {
+  ArticleNode,
+  NodeLinkRaw,
+  NodeLinkType,
+  NodeMap,
+} from 'src/app/_models/graph';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
@@ -97,6 +103,7 @@ export class GraphPageComponent {
     this.filterGraphData(this.store.graph(), this.activeCategories()),
   );
   graphData$ = toObservable(this.graphData);
+  linkTypes$ = toObservable(this.store.linkTypes);
   searchedNode$ = this.nodeQuery$.pipe(
     withLatestFrom(this.graphData$.pipe(map((graphData) => graphData?.nodes))),
     filter(([query, nodes]) => query.length >= 3 && !!nodes),
@@ -120,13 +127,21 @@ export class GraphPageComponent {
   );
 
   formlyFields = computed<FormlyFieldConfig[]>(() => [
-    this.formlyService.buildInputConfig({
+    this.formlyService.buildInputConfig<NodeLinkRaw>({
       inputKind: 'NAME',
       key: 'label',
     }),
-    this.formlyService.buildInputConfig({
+    this.formlyService.buildInputConfig<NodeLinkRaw>({
       inputKind: 'NUMBER',
       key: 'weight',
+      required: false,
+    }),
+    this.formlyService.buildOverviewSelectConfig<NodeLinkRaw, NodeLinkType>({
+      label: 'Link Type',
+      key: 'link_type_id',
+      options$: this.linkTypes$ as any as Observable<NodeLinkType[]>,
+      labelProp: 'name',
+      valueProp: 'id',
     }),
   ]);
   userModel = signal<Partial<NodeLinkRaw>>({});

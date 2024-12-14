@@ -1,3 +1,20 @@
+export interface NodeLinkTypeRaw {
+  name: string;
+  icon?: string;
+  color: string;
+  weight: number;
+  campaign_id: number;
+}
+
+export interface NodeLinkType {
+  id: number;
+  name: string;
+  icon?: string;
+  color: string;
+  weight: number;
+  campaign_id: number;
+}
+
 export interface NodeLinkRaw {
   sourceGuid: string;
   targetGuid: string;

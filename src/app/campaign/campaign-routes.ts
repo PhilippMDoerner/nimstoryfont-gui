@@ -857,6 +857,7 @@ const detailRoutes: Route[] = [
     providers: [GraphPageStore],
     resolve: {
       nodeMap: () => inject(GraphPageStore).loadGraph(),
+      linkTypes: () => inject(GraphPageStore).loadLinkTypes(),
     },
     data: { name: 'graph', requiredMinimumRole: 'guest' },
   },

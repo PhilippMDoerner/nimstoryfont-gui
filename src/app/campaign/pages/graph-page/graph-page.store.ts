@@ -13,6 +13,7 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, switchMap, take, tap } from 'rxjs';
 import { ArticleNode, NodeLinkRaw } from 'src/app/_models/graph';
 import { httpErrorToast } from 'src/app/_models/toast';
+import { RelationshipTypeService } from 'src/app/_services/article/relationship-type.service';
 import { RelationshipService } from 'src/app/_services/article/relationship.service';
 import { GlobalStore } from 'src/app/global.store';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
@@ -32,6 +33,7 @@ export const GraphPageStore = signalStore(
   withState(initialState),
   withQueries(() => {
     const relationshipService = inject(RelationshipService);
+    const relationshipTypeService = inject(RelationshipTypeService);
     const globalStore = inject(GlobalStore);
 
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
@@ -44,6 +46,14 @@ export const GraphPageStore = signalStore(
           take(1),
           switchMap((campaignName) =>
             relationshipService.getNodeMap(campaignName),
+          ),
+        ),
+      linkTypes: () =>
+        campaignName$.pipe(
+          takeUntilDestroyed(),
+          take(1),
+          switchMap((campaign) =>
+            relationshipTypeService.campaignList(campaign),
           ),
         ),
     };

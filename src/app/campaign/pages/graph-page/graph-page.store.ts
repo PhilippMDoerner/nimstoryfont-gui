@@ -11,7 +11,7 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, switchMap, take, tap } from 'rxjs';
-import { ArticleNode, NodeLinkRaw } from 'src/app/_models/nodeMap';
+import { ArticleNode, NodeLinkRaw } from 'src/app/_models/graph';
 import { httpErrorToast } from 'src/app/_models/toast';
 import { RelationshipService } from 'src/app/_services/article/relationship.service';
 import { GlobalStore } from 'src/app/global.store';

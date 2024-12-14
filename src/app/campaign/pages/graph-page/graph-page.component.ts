@@ -23,7 +23,7 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs';
-import { ArticleNode, NodeLinkRaw, NodeMap } from 'src/app/_models/nodeMap';
+import { ArticleNode, NodeLinkRaw, NodeMap } from 'src/app/_models/graph';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';

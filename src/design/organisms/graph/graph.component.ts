@@ -12,7 +12,7 @@ import {
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {} from 'd3-zoom';
 import { filter, map, Subject, take } from 'rxjs';
-import { NodeMap, NodeSelection } from 'src/app/_models/nodeMap';
+import { NodeMap, NodeSelection } from 'src/app/_models/graph';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { GRAPH_SETTINGS } from '../_model/graph';

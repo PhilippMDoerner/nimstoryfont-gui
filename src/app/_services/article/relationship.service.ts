@@ -6,7 +6,7 @@ import {
   NodeLink,
   NodeLinkRaw,
   NodeMap,
-} from 'src/app/_models/nodeMap';
+} from 'src/app/_models/graph';
 import { OverviewItem } from 'src/app/_models/overview';
 import { BaseService } from '../base.service';
 

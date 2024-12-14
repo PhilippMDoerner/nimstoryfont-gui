@@ -2,11 +2,7 @@ import { inject, Injectable, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select, selectAll, Selection } from 'd3';
 import { filter, Subject, take, tap } from 'rxjs';
-import {
-  ArticleNode,
-  ArticleNodeKind,
-  NodeLink,
-} from 'src/app/_models/nodeMap';
+import { ArticleNode, ArticleNodeKind, NodeLink } from 'src/app/_models/graph';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ellipsize } from 'src/utils/string';
 import { LinkClickEvent, SELECTORS } from '../_model/graph';

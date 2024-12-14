@@ -400,7 +400,7 @@ export class GraphService {
       .attr('class', SELECTORS.linkClass)
       .style('stroke-width', () => `${Math.sqrt(5)}px`)
       .style('cursor', 'pointer')
-      .attr('stroke', '#999')
+      .attr('stroke', (data) => data.color)
       .on('mouseover click', function (event: MouseEvent) {
         const lineElement = this as Element;
         const linkParent = lineElement.closest(SELECTORS.linkGroupSelector);
@@ -430,7 +430,7 @@ export class GraphService {
           .transition()
           .duration(200)
           .style('stroke', 'var(--bs-primary)')
-          .style('stroke-width', () => '6px');
+          .style('stroke-width', () => '11px');
       })
       .on('mouseout', () => this.resetActivatedLinkStyles());
 

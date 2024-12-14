@@ -4,6 +4,7 @@ export interface NodeLinkRaw {
   label: string;
   weight: number;
   campaign_id: number;
+  link_type_id: number;
 }
 
 export interface ArticleNode extends d3.SimulationNodeDatum {
@@ -15,10 +16,12 @@ export interface ArticleNode extends d3.SimulationNodeDatum {
 }
 
 export interface NodeLink extends d3.SimulationLinkDatum<ArticleNode> {
-  weight: number;
-  label: string;
-  linkKind: string;
   id?: number; //Available if linkKind === 'custom'
+  label: string;
+  weight: number;
+  color: string;
+  icon: string | null;
+  linkKind: string;
 }
 
 export interface NodeMap {

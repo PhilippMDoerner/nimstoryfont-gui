@@ -50,6 +50,8 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
       weight: link.weight,
       linkKind: link['linkKind'],
       id: link.id,
+      color: link.color,
+      icon: link.icon,
     };
   }
 

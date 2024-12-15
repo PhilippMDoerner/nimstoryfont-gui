@@ -6,8 +6,8 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NodeLinkType } from 'src/app/_models/graph';
-import { MapMarkerType } from 'src/app/_models/mapMarkerType';
+import { NodeLinkType, NodeLinkTypeRaw } from 'src/app/_models/graph';
+import { MapMarkerType, MapMarkerTypeRaw } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -47,17 +47,19 @@ export class ConfigTablesComponent {
     entry: unknown;
   }> = new EventEmitter();
 
-  tables = computed<ConfigTable<any>[]>(() => [
+  tables = computed<ConfigTable<any, any>[]>(() => [
     {
       name: 'Marker Type',
       kind: 'MARKER_TYPE',
       icon: 'tag',
       idProp: 'id',
+      campaignIdProp: 'campaign_id',
       model: {
         name: undefined,
         is_text_marker: false,
         icon: undefined,
         color: undefined,
+        campaign_id: this.currentCampaignId(),
       },
       formFields: [
         this.formlyService.buildInputConfig({
@@ -80,13 +82,14 @@ export class ConfigTablesComponent {
       ],
       showForm: false,
       entries: this.tableData().MARKER_TYPE,
-    } satisfies ConfigTable<MapMarkerType>,
+    } satisfies ConfigTable<MapMarkerType, MapMarkerTypeRaw>,
     {
       name: 'Class',
       kind: 'PLAYER_CLASS',
       icon: 'user',
       idProp: 'pk',
-      model: { name: undefined },
+      campaignIdProp: 'campaign_id',
+      model: { name: undefined, campaign_id: this.currentCampaignId() },
       formFields: [
         this.formlyService.buildInputConfig({
           key: 'name',
@@ -95,16 +98,37 @@ export class ConfigTablesComponent {
       ],
       entries: this.tableData().PLAYER_CLASS,
       showForm: false,
-    } satisfies ConfigTable<PlayerClass>,
+    } satisfies ConfigTable<PlayerClass, PlayerClass>,
     {
       name: 'Node Link Type',
       kind: 'NODE_LINK_TYPE',
       icon: 'link',
-      model: { campaign_id: this.currentCampaignId() },
-      formFields: [],
+      model: { campaign_id: this.currentCampaignId(), weight: 1 },
+      entries: this.tableData().NODE_LINK_TYPE,
+      formFields: [
+        this.formlyService.buildInputConfig({
+          key: 'name',
+          inputKind: 'NAME',
+        }),
+        this.formlyService.buildInputConfig<NodeLinkTypeRaw>({
+          inputKind: 'NUMBER_FRACTION',
+          key: 'weight',
+          max: 3,
+          min: -3,
+        }),
+        this.formlyService.buildInputConfig({
+          key: 'color',
+          inputKind: 'STRING',
+        }),
+        this.formlyService.buildInputConfig({
+          key: 'icon',
+          inputKind: 'NAME',
+        }),
+      ],
       idProp: 'id',
+      campaignIdProp: 'campaign_id',
       showForm: false,
-    } satisfies ConfigTable<NodeLinkType>,
+    } satisfies ConfigTable<NodeLinkType, NodeLinkTypeRaw>,
   ]);
 
   campaignOverviewUrl = this.routingService.getRoutePath('campaign-overview');
@@ -119,7 +143,12 @@ export class ConfigTablesComponent {
     this.getTable(kind).showForm = false;
   }
 
-  private getTable<T extends object>(kind: ConfigTableKind): ConfigTable<T> {
-    return this.tables().find((table) => table.kind === kind) as ConfigTable<T>;
+  private getTable<FullObj extends object, RawObj extends object>(
+    kind: ConfigTableKind,
+  ): ConfigTable<FullObj, RawObj> {
+    return this.tables().find((table) => table.kind === kind) as ConfigTable<
+      FullObj,
+      RawObj
+    >;
   }
 }

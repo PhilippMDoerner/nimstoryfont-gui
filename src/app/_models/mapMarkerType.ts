@@ -6,6 +6,7 @@ export interface MapMarkerTypeRaw {
   icon: Icon;
   color: string;
   fontawesome_type: 'fas' | 'fa';
+  campaign_id: number;
 }
 
 export interface MapMarkerType {
@@ -15,6 +16,7 @@ export interface MapMarkerType {
   color: string;
   id: number;
   fontawesome_type: 'fas' | 'fa';
+  campaign_id: number;
   creation_datetime: string;
   update_datetime: string;
 }

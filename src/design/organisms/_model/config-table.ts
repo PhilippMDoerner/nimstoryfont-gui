@@ -1,15 +1,16 @@
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Icon } from 'src/design/atoms/_models/icon';
 
-export interface ConfigTable<T extends object> {
+export interface ConfigTable<FullObj extends object, RawObj extends object> {
   name: string;
   kind: ConfigTableKind;
-  entries?: T[];
+  entries?: FullObj[];
   icon: Icon;
-  model: Partial<T>;
+  model: Partial<RawObj>;
   formFields: FormlyFieldConfig[];
   showForm: boolean;
-  idProp: keyof T;
+  idProp: keyof FullObj;
+  campaignIdProp: keyof FullObj;
 }
 
 export const CONFIG_TABLE_KINDS = [

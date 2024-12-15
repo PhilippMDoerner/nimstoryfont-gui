@@ -1,6 +1,7 @@
 export interface PlayerClass {
   pk?: number;
   name: string;
+  campaign_id?: number;
   update_datetime?: string;
 }
 

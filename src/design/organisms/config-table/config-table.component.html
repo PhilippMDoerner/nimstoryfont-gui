@@ -36,44 +36,46 @@
   <!-- Section Body -->
 
   @if (!table().showForm) {
-    @if (table().entries?.length === 0) {
+    @if (tableEntries().length === 0) {
       Load entries to see them
     }
     <div class="section__table-container">
       <!-- Table -->
 
-      @let entries = table().entries;
-      @if (entries && entries.length > 0) {
+      @if (tableEntries().length > 0) {
         <table class="table table-dark table-striped">
           <!-- Table heading -->
           <thead>
             <tr>
               <th scope="col">#</th>
-              @for (property of entries[0] | keyvalue; track property.key) {
+              @for (columnName of columnNames(); track columnName) {
                 <th scope="col" class="text-uppercase">
-                  {{ property.key }}
+                  {{ columnName }}
                 </th>
               }
             </tr>
           </thead>
           <!-- Table body -->
           <tbody>
-            @for (entry of entries; track entry[table().idProp]) {
+            @for (entry of tableEntries(); track entry) {
               <tr>
-                <th scope="row">{{ entry[table().idProp] }}</th>
-                @for (property of entry | keyvalue; track property.key) {
+                <th scope="row">{{ entry.id }}</th>
+                @for (property of entry.properties; track property.key) {
                   <td>
-                    {{ property.value }}
+                    {{ property.value ?? "---" }}
                   </td>
                 }
-                <td>
-                  <app-confirmation-toggle-button
-                    [toggleSize]="'SMALL'"
-                    [confirmationQuestion]="'Delete this Entry?'"
-                    [icon]="'trash'"
-                    (confirm)="deleteTableEntry.emit(entry)"
-                  ></app-confirmation-toggle-button>
-                </td>
+                @let isCampaignEntry = entry.campaignId != null;
+                @if (isCampaignEntry) {
+                  <td>
+                    <app-confirmation-toggle-button
+                      [toggleSize]="'SMALL'"
+                      [confirmationQuestion]="'Delete this Entry?'"
+                      [icon]="'trash'"
+                      (confirm)="deleteEntry(entry.id)"
+                    ></app-confirmation-toggle-button>
+                  </td>
+                }
               </tr>
             }
           </tbody>

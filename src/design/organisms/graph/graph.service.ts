@@ -372,8 +372,8 @@ export class GraphService {
       .on('mouseover click', function (event: MouseEvent) {
         const linkParent = (this as Element).closest(
           SELECTORS.linkGroupSelector,
-        );
-        const selection = select(linkParent);
+        ) as SVGGElement;
+        const selection = select<SVGGElement, NodeLink>(linkParent);
 
         selection
           .transition()
@@ -582,7 +582,9 @@ export class GraphService {
   }
 
   private resetActivatedLinkStyles() {
-    const linkGroupElement = selectAll(SELECTORS.activeLinkSelector);
+    const linkGroupElement = selectAll<SVGGElement, NodeLink>(
+      SELECTORS.activeLinkSelector,
+    );
     linkGroupElement.attr('class', function () {
       const element = this as Element;
       const newClasses = element
@@ -600,7 +602,7 @@ export class GraphService {
     linkLineElement
       .transition()
       .duration(200)
-      .style('stroke', '#999')
+      .style('stroke', (d) => d.color)
       .style('stroke-width', () => `${Math.sqrt(5)}px`);
   }
 

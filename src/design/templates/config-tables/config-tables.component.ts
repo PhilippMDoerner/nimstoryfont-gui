@@ -80,6 +80,7 @@ export class ConfigTablesComponent {
         }),
         this.formlyService.buildInputConfig({
           key: 'icon',
+          label: 'Icon (https://fontawesome.com/v6/search?o=r&m=free)',
           inputKind: 'NAME',
         }),
         this.formlyService.buildInputConfig({
@@ -130,6 +131,9 @@ export class ConfigTablesComponent {
         this.formlyService.buildInputConfig({
           key: 'icon',
           inputKind: 'NAME',
+          wrappers: ['form-field'],
+          showWrapperLabel: true,
+          label: 'Icon (https://fontawesome.com/v6/search?o=r&m=free)',
         }),
       ],
       idProp: 'id',

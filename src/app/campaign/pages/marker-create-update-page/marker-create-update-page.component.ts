@@ -85,7 +85,7 @@ export class MarkerCreateUpdatePageComponent {
     this.formlyService.buildInputConfig({
       inputKind: 'STRING',
       key: 'icon',
-      label: 'Custom Icon',
+      label: 'Custom Icon (https://fontawesome.com/v6/search?o=r&m=free)',
       required: false,
     }),
   ]);

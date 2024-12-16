@@ -13,6 +13,9 @@
     @for (table of tables(); track table.kind) {
       <app-config-table
         [table]="table"
+        [canDeleteGlobalEntries]="hasCampaignWritePermission()"
+        [canDeleteCampaignEntries]="hasCampaignWritePermission()"
+        [canCreate]="hasCampaignWritePermission()"
         (loadTableEntries)="loadTableEntries.emit(table.kind)"
         (createTableEntry)="createEntry(table.kind, $event)"
         (deleteTableEntry)="

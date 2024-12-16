@@ -9,23 +9,21 @@
     <!-- Heading Buttons -->
     <div class="heading__buttons">
       <!-- Add Users -->
-      <button
-        btn
-        [kind]="'DARK'"
-        [icon]="table().showForm ? 'times' : 'plus'"
-        [text]="
-          table().showForm
-            ? 'Cancel ' + table().name + ' creation'
-            : 'Add ' + table().name
-        "
-        (click)="table().showForm = !table().showForm"
-      ></button>
+      @if (canCreate()) {
+        <button
+          btn
+          [kind]="'DARK'"
+          [icon]="table().showForm ? 'times' : 'plus'"
+          [text]="table().showForm ? 'Cancel' : 'Add Entry'"
+          (click)="table().showForm = !table().showForm"
+        ></button>
+      }
 
       <button
         btn
         [kind]="'PRIMARY'"
         [icon]="'refresh'"
-        [text]="'Load table data'"
+        [text]="'Load'"
         (click)="loadTableEntries.emit()"
       ></button>
     </div>
@@ -66,7 +64,10 @@
                   </td>
                 }
                 @let isCampaignEntry = entry.campaignId != null;
-                @if (isCampaignEntry) {
+                @if (
+                  (isCampaignEntry && canDeleteCampaignEntries()) ||
+                  canDeleteGlobalEntries()
+                ) {
                   <td>
                     <app-confirmation-toggle-button
                       [toggleSize]="'SMALL'"

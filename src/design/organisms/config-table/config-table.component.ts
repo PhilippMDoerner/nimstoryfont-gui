@@ -39,6 +39,10 @@ export class ConfigTableComponent<
   RawObj extends object,
 > {
   table = input.required<ConfigTable<FullObj, RawObj>>();
+  canDeleteGlobalEntries = input.required<boolean>();
+  canDeleteCampaignEntries = input.required<boolean>();
+  canCreate = input.required<boolean>();
+
   tableEntries = computed<TableEntry[]>(() => {
     const entries = this.table().entries ?? [];
     const entryIdProp = this.table().idProp;

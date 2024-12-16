@@ -2,7 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
-import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
+import {
+  patchState,
+  signalStore,
+  withComputed,
+  withMethods,
+  withState,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, shareReplay, switchMap, take } from 'rxjs';
 import { NodeLinkTypeRaw } from 'src/app/_models/graph';
@@ -24,6 +30,12 @@ const initialState: ConfigAdministrationPageState = {};
 
 export const ConfigAdministrationPageStore = signalStore(
   withState(initialState),
+  withComputed(() => {
+    const globalStore = inject(GlobalStore);
+    return {
+      hasWritePermission: globalStore.hasRoleOrBetter('member'),
+    };
+  }),
   withQueries(() => {
     const playerClassService = inject(PlayerClassService);
     const markerTypeService = inject(MarkerTypeService);

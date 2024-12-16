@@ -1,6 +1,10 @@
 <app-config-tables
   [tableData]="tableData()"
   [currentCampaignId]="globalStore.currentCampaign()?.pk"
+  [hasCampaignWritePermission]="store.hasWritePermission()"
+  [canDeleteGlobalEntries]="
+    !!globalStore.userData()?.isAdmin || !!globalStore.userData()?.isSuperUser
+  "
   (loadTableEntries)="loadTableEntries($event)"
   (deleteTableEntry)="deleteTableEntry($event)"
   (createTableEntry)="createTableEntry($event)"

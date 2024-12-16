@@ -35,6 +35,8 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 export class ConfigTablesComponent {
   currentCampaignId = input.required<number | undefined>();
   tableData = input.required<ConfigTableData>();
+  canDeleteGlobalEntries = input.required<boolean>();
+  hasCampaignWritePermission = input.required<boolean>();
 
   @Output() loadTableEntries: EventEmitter<ConfigTableKind> =
     new EventEmitter();

@@ -872,6 +872,7 @@ const detailRoutes: Route[] = [
     data: { name: 'campaign-config-tables' },
     canActivate: [campaignGuard],
     providers: [ConfigAdministrationPageStore],
+    canDeactivate: [onExitReset(ConfigAdministrationPageStore)],
   },
 ];
 

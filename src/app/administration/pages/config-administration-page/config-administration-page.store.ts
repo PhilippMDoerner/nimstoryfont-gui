@@ -10,7 +10,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { map, pipe, shareReplay, switchMap, take } from 'rxjs';
+import { map, pipe, switchMap } from 'rxjs';
 import { NodeLinkTypeRaw } from 'src/app/_models/graph';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
@@ -21,7 +21,7 @@ import { RelationshipTypeService } from 'src/app/_services/article/relationship-
 import { GlobalStore } from 'src/app/global.store';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { sortByProp } from 'src/utils/array';
-import { filterNil, mapVoid } from 'src/utils/rxjs-operators';
+import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
 
 export type ConfigAdministrationPageState = {};
@@ -33,7 +33,7 @@ export const ConfigAdministrationPageStore = signalStore(
   withComputed(() => {
     const globalStore = inject(GlobalStore);
     return {
-      hasWritePermission: globalStore.hasRoleOrBetter('member'),
+      hasCampaignWritePermission: globalStore.hasRoleOrBetter('member'),
     };
   }),
   withQueries(() => {
@@ -87,8 +87,20 @@ export const ConfigAdministrationPageStore = signalStore(
     const markerTypeService = inject(MarkerTypeService);
     const relationshipTypeService = inject(RelationshipTypeService);
     const toastService = inject(ToastService);
+    const globalStore = inject(GlobalStore);
+
+    const isGlobal = () => !globalStore.campaignName();
 
     return {
+      reset: () =>
+        patchState(state, {
+          campaignMarkerTypes: undefined,
+          campaignNodeLinkTypes: undefined,
+          campaignPlayerClasses: undefined,
+          nodeLinkTypes: undefined,
+          markerTypes: undefined,
+          playerClasses: undefined,
+        }),
       createRelationshipType: rxMethod<NodeLinkTypeRaw>(
         pipe(
           switchMap((relationshipType) =>
@@ -96,11 +108,17 @@ export const ConfigAdministrationPageStore = signalStore(
           ),
           tapResponse(
             (createdRelationshipType) => {
-              const newList = [
-                createdRelationshipType,
-                ...(state.nodeLinkTypes() ?? []),
-              ];
-              patchState(state, { nodeLinkTypes: sortByProp(newList, 'name') });
+              const oldList: any[] | undefined = isGlobal()
+                ? state.nodeLinkTypes()
+                : state.campaignNodeLinkTypes();
+              const newList = sortByProp(
+                [createdRelationshipType, ...(oldList ?? [])],
+                'name',
+              );
+              patchState(state, {
+                nodeLinkTypes: newList,
+                campaignNodeLinkTypes: newList,
+              });
             },
             (error: HttpErrorResponse) =>
               toastService.addToast(httpErrorToast(error)),
@@ -114,71 +132,115 @@ export const ConfigAdministrationPageStore = signalStore(
           ),
           tapResponse({
             next: (id) => {
-              const newList = state.nodeLinkTypes()?.filter((u) => u.id !== id);
-              patchState(state, { nodeLinkTypes: newList });
+              const oldList = (
+                isGlobal()
+                  ? state.nodeLinkTypes()
+                  : state.campaignNodeLinkTypes()
+              ) as any[];
+              const newList = oldList.filter((u) => u.id !== id);
+              patchState(state, {
+                nodeLinkTypes: newList,
+                campaignNodeLinkTypes: newList,
+              });
             },
             error: (error: HttpErrorResponse) =>
               toastService.addToast(httpErrorToast(error)),
           }),
         ),
       ),
-      createPlayerClass: (playerClass: PlayerClass) => {
-        const request$ = playerClassService
-          .create(playerClass)
-          .pipe(take(1), shareReplay(1));
+      createPlayerClass: rxMethod<PlayerClass>(
+        pipe(
+          switchMap((playerClass) => playerClassService.create(playerClass)),
+          tapResponse({
+            next: (createdPlayerClass) => {
+              const oldList: any[] | undefined = isGlobal()
+                ? state.playerClasses()
+                : state.campaignPlayerClasses();
+              const newList = sortByProp(
+                [createdPlayerClass, ...(oldList ?? [])],
+                'name',
+              );
+              patchState(state, {
+                playerClasses: newList,
+                campaignPlayerClasses: newList,
+              });
+            },
+            error: (error: HttpErrorResponse) =>
+              toastService.addToast(httpErrorToast(error)),
+          }),
+        ),
+      ),
+      deletePlayerClass: rxMethod<number>(
+        pipe(
+          switchMap((playerClassPk) =>
+            playerClassService
+              .delete(playerClassPk)
+              .pipe(map(() => playerClassPk)),
+          ),
+          tapResponse({
+            next: (playerClassPk) => {
+              const oldList: any[] | undefined = isGlobal()
+                ? state.playerClasses()
+                : state.campaignPlayerClasses();
+              const newList = (oldList ?? []).filter(
+                (u) => u.pk !== playerClassPk,
+              );
+              patchState(state, {
+                playerClasses: newList,
+                campaignPlayerClasses: newList,
+              });
+            },
+            error: (error: HttpErrorResponse) =>
+              toastService.addToast(httpErrorToast(error)),
+          }),
+        ),
+      ),
+      createMarkerType: rxMethod<MapMarkerType>(
+        pipe(
+          switchMap((markerType) => markerTypeService.create(markerType)),
+          tapResponse({
+            next: (createdMarkerType) => {
+              const oldList: any[] | undefined = isGlobal()
+                ? state.markerTypes()
+                : state.campaignMarkerTypes();
 
-        request$.subscribe((createdPlayerClass) => {
-          const newList = [
-            createdPlayerClass,
-            ...(state.playerClasses() ?? []),
-          ];
-          patchState(state, { playerClasses: sortByProp(newList, 'name') });
-        });
-
-        return request$.pipe(mapVoid());
-      },
-      deletePlayerClass: (playerClassPk: number) => {
-        const request$ = playerClassService
-          .delete(playerClassPk)
-          .pipe(take(1), shareReplay(1));
-
-        request$.subscribe(() => {
-          const newList = state
-            .playerClasses()
-            ?.filter((u) => u.pk !== playerClassPk);
-
-          patchState(state, { playerClasses: newList });
-        });
-
-        return request$.pipe(mapVoid());
-      },
-      createMarkerType: (markerType: MapMarkerType) => {
-        const request$ = markerTypeService
-          .create(markerType)
-          .pipe(take(1), shareReplay(1));
-
-        request$.subscribe((createdMarkerType) => {
-          const newList = sortByProp(
-            [createdMarkerType, ...(state.markerTypes() ?? [])],
-            'name',
-          );
-          patchState(state, { markerTypes: newList });
-        });
-      },
-      deleteMarkerType: (markerTypePk: number) => {
-        const request$ = markerTypeService
-          .delete(markerTypePk)
-          .pipe(take(1), shareReplay(1));
-
-        request$.subscribe(() => {
-          const newList = state
-            .markerTypes()
-            ?.filter((u) => u.id !== markerTypePk);
-          patchState(state, { markerTypes: newList });
-        });
-
-        return request$;
-      },
+              const newList = sortByProp(
+                [createdMarkerType, ...(oldList ?? [])],
+                'name',
+              );
+              patchState(state, {
+                markerTypes: newList,
+                campaignMarkerTypes: newList,
+              });
+            },
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(httpErrorToast(err)),
+          }),
+        ),
+      ),
+      deleteMarkerType: rxMethod<number>(
+        pipe(
+          switchMap((markerTypePk) =>
+            markerTypeService
+              .delete(markerTypePk)
+              .pipe(map(() => markerTypePk)),
+          ),
+          tapResponse({
+            next: (markerTypePk) => {
+              const oldList = (
+                isGlobal() ? state.markerTypes() : state.campaignMarkerTypes()
+              ) as any[];
+              const newList = oldList.filter((u) => u.id !== markerTypePk);
+              patchState(state, {
+                markerTypes: newList,
+                campaignMarkerTypes: newList,
+              });
+            },
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(httpErrorToast(err)),
+          }),
+        ),
+      ),
     };
   }),
 );

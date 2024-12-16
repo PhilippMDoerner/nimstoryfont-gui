@@ -49,6 +49,11 @@ export class ConfigTablesComponent {
     entry: unknown;
   }> = new EventEmitter();
 
+  canCreate = computed<boolean>(() => {
+    if (this.canDeleteGlobalEntries()) return true;
+    const isCampaignView = this.currentCampaignId() != null;
+    return isCampaignView ? this.hasCampaignWritePermission() : false;
+  });
   tables = computed<ConfigTable<any, any>[]>(() => [
     {
       name: 'Marker Type',

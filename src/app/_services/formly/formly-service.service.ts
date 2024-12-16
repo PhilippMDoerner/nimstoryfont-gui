@@ -145,12 +145,17 @@ export class FormlyService {
       case 'NUMBER_FRACTION':
         validators.push('notNumber');
         break;
+      case 'COLOR':
+        break;
     }
 
-    let innerInputType: 'string' | 'number';
+    let innerInputType: 'string' | 'number' | 'color';
     switch (config.inputKind) {
       case 'NUMBER':
         innerInputType = 'number';
+        break;
+      case 'COLOR':
+        innerInputType = 'color';
         break;
       default:
         innerInputType = 'string';

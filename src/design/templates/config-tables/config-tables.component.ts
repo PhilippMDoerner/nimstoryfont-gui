@@ -84,7 +84,7 @@ export class ConfigTablesComponent {
         }),
         this.formlyService.buildInputConfig({
           key: 'color',
-          inputKind: 'STRING',
+          inputKind: 'COLOR',
         }),
       ],
       showForm: false,
@@ -125,7 +125,7 @@ export class ConfigTablesComponent {
         }),
         this.formlyService.buildInputConfig({
           key: 'color',
-          inputKind: 'STRING',
+          inputKind: 'COLOR',
         }),
         this.formlyService.buildInputConfig({
           key: 'icon',

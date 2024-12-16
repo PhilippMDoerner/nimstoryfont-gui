@@ -77,7 +77,7 @@ export class MarkerCreateUpdatePageComponent {
       campaign: this.globalStore.campaignName(),
     }),
     this.formlyService.buildInputConfig({
-      inputKind: 'STRING',
+      inputKind: 'COLOR',
       key: 'color',
       label: 'Custom Color',
       required: false,

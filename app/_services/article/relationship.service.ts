@@ -3,10 +3,11 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import {
   ArticleNode,
+  LinkGroup,
   NodeLink,
   NodeLinkRaw,
   NodeMap,
-} from 'src/app/_models/nodeMap';
+} from 'src/app/_models/graph';
 import { OverviewItem } from 'src/app/_models/overview';
 import { BaseService } from '../base.service';
 
@@ -26,16 +27,27 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
 
   private parseNodeMap(nodeMap: {
     nodes: ArticleNode[];
-    links: any[];
+    links: LinkGroup[];
   }): NodeMap {
     const nodes = nodeMap.nodes;
-    const links: NodeLink[] = nodeMap.links
-      .map((link: any): NodeLink | undefined => this.parseLink(link, nodes))
-      .filter((x) => x != null);
+    const linkGroups: LinkGroup[] = nodeMap.links.map((linkGroup) =>
+      this.parseLinkGroup(linkGroup, nodes),
+    );
 
     return {
       nodes,
-      links,
+      links: linkGroups,
+    };
+  }
+
+  parseLinkGroup(linkGroup: LinkGroup, nodes: ArticleNode[]): LinkGroup {
+    const links = linkGroup.links
+      .map((link) => this.parseLink(link, nodes))
+      .filter((x) => x != null);
+
+    return {
+      links: links,
+      name: linkGroup.name,
     };
   }
 
@@ -50,6 +62,8 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
       weight: link.weight,
       linkKind: link['linkKind'],
       id: link.id,
+      color: link.color,
+      icon: link.icon,
     };
   }
 

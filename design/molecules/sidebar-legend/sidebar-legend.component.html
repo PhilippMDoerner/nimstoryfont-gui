@@ -4,7 +4,7 @@
       <app-selectable-entry
         class="col-6 col-sm-3 row-entry"
         [label]="option.label"
-        [borderColorVar]="option.color"
+        [style]="{ '--border-color': 'var(' + option.color + ')' }"
         [isActive]="option.active"
         [isSelectable]="true"
         (entryClick)="onSidebarEntryClick($index)"

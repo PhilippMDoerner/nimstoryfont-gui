@@ -1,30 +1,71 @@
-export interface ArticleCategory {
+export interface ItemCategory {
   label: string;
   active: boolean;
   color: string;
+  value: string;
 }
 
 export const DEFAULT_SEARCH_PREFERENCES = [
-  { label: 'Character', active: false, color: '--character-color' },
-  { label: 'Creature', active: false, color: '--creature-color' },
-  { label: 'Diaryentry', active: false, color: '--diaryentry-color' },
-  { label: 'Encounter', active: false, color: '--encounter-color' },
-  { label: 'Item', active: false, color: '--item-color' },
-  { label: 'Location', active: false, color: '--location-color' },
-  { label: 'Map', active: false, color: '--map-color' },
-  { label: 'Organization', active: false, color: '--organization-color' },
-  { label: 'Quest', active: false, color: '--quest-color' },
-  { label: 'SessionAudio', active: false, color: '--sessionaudio-color' },
-  { label: 'Rules', active: false, color: '--rules-color' },
-  { label: 'Spell', active: false, color: '--spell-color' },
-] as const satisfies ArticleCategory[];
+  {
+    value: 'Character',
+    label: 'Character',
+    active: false,
+    color: '--character-color',
+  },
+  {
+    value: 'Creature',
+    label: 'Creature',
+    active: false,
+    color: '--creature-color',
+  },
+  {
+    value: 'Diaryentry',
+    label: 'Diaryentry',
+    active: false,
+    color: '--diaryentry-color',
+  },
+  {
+    value: 'Encounter',
+    label: 'Encounter',
+    active: false,
+    color: '--encounter-color',
+  },
+  { value: 'Item', label: 'Item', active: false, color: '--item-color' },
+  {
+    value: 'Location',
+    label: 'Location',
+    active: false,
+    color: '--location-color',
+  },
+  { value: 'Map', label: 'Map', active: false, color: '--map-color' },
+  {
+    value: 'Organization',
+    label: 'Organization',
+    active: false,
+    color: '--organization-color',
+  },
+  { value: 'Quest', label: 'Quest', active: false, color: '--quest-color' },
+  {
+    value: 'SessionAudio',
+    label: 'SessionAudio',
+    active: false,
+    color: '--sessionaudio-color',
+  },
+  { value: 'Rules', label: 'Rules', active: false, color: '--rules-color' },
+  { value: 'Spell', label: 'Spell', active: false, color: '--spell-color' },
+] as const satisfies ItemCategory[];
 
-export type CategoryLabel =
+export type ArticleCategoryLabel =
   (typeof DEFAULT_SEARCH_PREFERENCES)[number]['label'];
 
-export const GRAPH_CATEGORIES = [
+export const GRAPH_NODE_CATEGORIES = [
   'Character',
   'Item',
   'Organization',
   'Location',
-] as const satisfies CategoryLabel[];
+] as const satisfies ArticleCategoryLabel[];
+
+const availableNodeTypes = new Set<ArticleCategoryLabel>(GRAPH_NODE_CATEGORIES);
+export const NODE_TYPE_OPTIONS = DEFAULT_SEARCH_PREFERENCES.filter((option) =>
+  availableNodeTypes.has(option.label),
+);

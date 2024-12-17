@@ -3,6 +3,7 @@ import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
 import { onExitReset } from '../_guards/onExitReset';
 import { CampaignOverviewRoute } from '../_models/route';
+import { ConfigAdministrationPageStore } from '../administration/pages/config-administration-page/config-administration-page.store';
 import { CharacterCreateUpdateStore } from './pages/character-create-update-page/character-create-update-page.store';
 import { CharacterStore } from './pages/character-page/character-page.store';
 import { CreaturePageStore } from './pages/creature-page/creature-page.store';
@@ -857,8 +858,21 @@ const detailRoutes: Route[] = [
     providers: [GraphPageStore],
     resolve: {
       nodeMap: () => inject(GraphPageStore).loadGraph(),
+      linkTypes: () => inject(GraphPageStore).loadCustomLinkTypes(),
     },
     data: { name: 'graph', requiredMinimumRole: 'guest' },
+  },
+  // Campaign Configs
+  {
+    path: `configtables`,
+    loadComponent: () =>
+      import(
+        './pages/campaign-config-administration-page/campaign-config-administration-page.component'
+      ).then((m) => m.CampaignConfigAdministrationPageComponent),
+    data: { name: 'campaign-config-tables' },
+    canActivate: [campaignGuard],
+    providers: [ConfigAdministrationPageStore],
+    canDeactivate: [onExitReset(ConfigAdministrationPageStore)],
   },
 ];
 

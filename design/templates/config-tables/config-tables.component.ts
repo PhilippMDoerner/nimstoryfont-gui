@@ -1,4 +1,3 @@
-import { KeyValuePipe } from '@angular/common';
 import {
   Component,
   computed,
@@ -7,28 +6,19 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { NodeLinkType, NodeLinkTypeRaw } from 'src/app/_models/graph';
+import { MapMarkerType, MapMarkerTypeRaw } from 'src/app/_models/mapMarkerType';
+import { PlayerClass } from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { Icon } from 'src/design/atoms/_models/icon';
+import {
+  ConfigTable,
+  ConfigTableData,
+  ConfigTableKind,
+} from 'src/design/organisms/_model/config-table';
 import { ButtonComponent } from '../../atoms/button/button.component';
-import { CardComponent } from '../../atoms/card/card.component';
-import { IconComponent } from '../../atoms/icon/icon.component';
-import { SeparatorComponent } from '../../atoms/separator/separator.component';
-import { ConfirmationToggleButtonComponent } from '../../molecules/confirmation-toggle-button/confirmation-toggle-button.component';
-import { FormComponent } from '../../molecules/form/form.component';
+import { ConfigTableComponent } from '../../organisms/config-table/config-table.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { ConfigTableData, ConfigTableKind } from '../_models/config-table';
-
-interface ConfigTable {
-  name: string;
-  kind: ConfigTableKind;
-  entries?: any[];
-  icon: Icon;
-  model: unknown;
-  formFields: FormlyFieldConfig[];
-  showForm: boolean;
-}
 
 @Component({
   selector: 'app-config-tables',
@@ -39,16 +29,14 @@ interface ConfigTable {
     PageContainerComponent,
     RouterLink,
     ButtonComponent,
-    IconComponent,
-    SeparatorComponent,
-    ConfirmationToggleButtonComponent,
-    CardComponent,
-    FormComponent,
-    KeyValuePipe,
+    ConfigTableComponent,
   ],
 })
 export class ConfigTablesComponent {
+  currentCampaignId = input.required<number | undefined>();
   tableData = input.required<ConfigTableData>();
+  canDeleteGlobalEntries = input.required<boolean>();
+  hasCampaignWritePermission = input.required<boolean>();
 
   @Output() loadTableEntries: EventEmitter<ConfigTableKind> =
     new EventEmitter();
@@ -61,12 +49,25 @@ export class ConfigTablesComponent {
     entry: unknown;
   }> = new EventEmitter();
 
-  tables = computed<ConfigTable[]>(() => [
+  canCreate = computed<boolean>(() => {
+    if (this.canDeleteGlobalEntries()) return true;
+    const isCampaignView = this.currentCampaignId() != null;
+    return isCampaignView ? this.hasCampaignWritePermission() : false;
+  });
+  tables = computed<ConfigTable<any, any>[]>(() => [
     {
       name: 'Marker Type',
       kind: 'MARKER_TYPE',
       icon: 'tag',
-      model: { name: null, is_text_marker: false, icon: null, color: null },
+      idProp: 'id',
+      campaignIdProp: 'campaign_id',
+      model: {
+        name: undefined,
+        is_text_marker: false,
+        icon: undefined,
+        color: undefined,
+        campaign_id: this.currentCampaignId(),
+      },
       formFields: [
         this.formlyService.buildInputConfig({
           key: 'name',
@@ -79,21 +80,24 @@ export class ConfigTablesComponent {
         }),
         this.formlyService.buildInputConfig({
           key: 'icon',
+          label: 'Icon (https://fontawesome.com/v6/search?o=r&m=free)',
           inputKind: 'NAME',
         }),
         this.formlyService.buildInputConfig({
           key: 'color',
-          inputKind: 'STRING',
+          inputKind: 'COLOR',
         }),
       ],
       showForm: false,
       entries: this.tableData().MARKER_TYPE,
-    },
+    } satisfies ConfigTable<MapMarkerType, MapMarkerTypeRaw>,
     {
       name: 'Class',
       kind: 'PLAYER_CLASS',
       icon: 'user',
-      model: { name: null },
+      idProp: 'pk',
+      campaignIdProp: 'campaign_id',
+      model: { name: undefined, campaign_id: this.currentCampaignId() },
       formFields: [
         this.formlyService.buildInputConfig({
           key: 'name',
@@ -102,7 +106,40 @@ export class ConfigTablesComponent {
       ],
       entries: this.tableData().PLAYER_CLASS,
       showForm: false,
-    },
+    } satisfies ConfigTable<PlayerClass, PlayerClass>,
+    {
+      name: 'Node Link Type',
+      kind: 'NODE_LINK_TYPE',
+      icon: 'link',
+      model: { campaign_id: this.currentCampaignId(), weight: 1 },
+      entries: this.tableData().NODE_LINK_TYPE,
+      formFields: [
+        this.formlyService.buildInputConfig({
+          key: 'name',
+          inputKind: 'NAME',
+        }),
+        this.formlyService.buildInputConfig<NodeLinkTypeRaw>({
+          inputKind: 'NUMBER_FRACTION',
+          key: 'weight',
+          max: 3,
+          min: -3,
+        }),
+        this.formlyService.buildInputConfig({
+          key: 'color',
+          inputKind: 'COLOR',
+        }),
+        this.formlyService.buildInputConfig({
+          key: 'icon',
+          inputKind: 'NAME',
+          wrappers: ['form-field'],
+          showWrapperLabel: true,
+          label: 'Icon (https://fontawesome.com/v6/search?o=r&m=free)',
+        }),
+      ],
+      idProp: 'id',
+      campaignIdProp: 'campaign_id',
+      showForm: false,
+    } satisfies ConfigTable<NodeLinkType, NodeLinkTypeRaw>,
   ]);
 
   campaignOverviewUrl = this.routingService.getRoutePath('campaign-overview');
@@ -117,7 +154,12 @@ export class ConfigTablesComponent {
     this.getTable(kind).showForm = false;
   }
 
-  private getTable(kind: ConfigTableKind): ConfigTable {
-    return this.tables().find((table) => table.kind === kind) as ConfigTable;
+  private getTable<FullObj extends object, RawObj extends object>(
+    kind: ConfigTableKind,
+  ): ConfigTable<FullObj, RawObj> {
+    return this.tables().find((table) => table.kind === kind) as ConfigTable<
+      FullObj,
+      RawObj
+    >;
   }
 }

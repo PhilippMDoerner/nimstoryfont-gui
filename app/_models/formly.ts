@@ -47,7 +47,12 @@ export interface FormlyOverviewDisabledSelectConfig<Model, Option>
   warningMessage: string;
 }
 
-export type InputKind = 'NUMBER' | 'STRING' | 'NAME' | 'NUMBER_FRACTION';
+export type InputKind =
+  | 'NUMBER'
+  | 'STRING'
+  | 'NAME'
+  | 'NUMBER_FRACTION'
+  | 'COLOR';
 
 export interface FormlyInputConfig<T> extends FormlyInterface<T> {
   placeholder?: string;

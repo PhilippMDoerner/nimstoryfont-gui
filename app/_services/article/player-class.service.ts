@@ -17,6 +17,6 @@ export class PlayerClassService extends BaseService<PlayerClass, PlayerClass> {
   }
 
   override parseOverviewEntity(data: any): OverviewItem {
-    throw 'Player Class does not have an overview';
+    return data;
   }
 }

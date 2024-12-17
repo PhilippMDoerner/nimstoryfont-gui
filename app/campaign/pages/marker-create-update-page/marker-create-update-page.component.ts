@@ -77,7 +77,7 @@ export class MarkerCreateUpdatePageComponent {
       campaign: this.globalStore.campaignName(),
     }),
     this.formlyService.buildInputConfig({
-      inputKind: 'STRING',
+      inputKind: 'COLOR',
       key: 'color',
       label: 'Custom Color',
       required: false,
@@ -85,7 +85,7 @@ export class MarkerCreateUpdatePageComponent {
     this.formlyService.buildInputConfig({
       inputKind: 'STRING',
       key: 'icon',
-      label: 'Custom Icon',
+      label: 'Custom Icon (https://fontawesome.com/v6/search?o=r&m=free)',
       required: false,
     }),
   ]);

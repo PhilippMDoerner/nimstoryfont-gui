@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,23 +18,33 @@ import {
   combineLatestWith,
   filter,
   map,
+  Observable,
+  ReplaySubject,
   shareReplay,
   Subject,
   take,
   withLatestFrom,
 } from 'rxjs';
-import { ArticleNode, NodeLinkRaw, NodeMap } from 'src/app/_models/nodeMap';
+import {
+  ArticleNode,
+  DEFAULT_LINK_CATEGORY_COLOR,
+  LinkGroup,
+  LinkKind,
+  NodeLink,
+  NodeLinkRaw,
+  NodeLinkType,
+  NodeMap,
+  ParsedNodeMap,
+  toGroupLabel,
+} from 'src/app/_models/graph';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { GlobalStore } from 'src/app/global.store';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
+import { SidebarOption } from 'src/design/molecules';
 import {
-  DEFAULT_SEARCH_PREFERENCES,
-  SidebarOption,
-} from 'src/design/molecules';
-import {
-  CategoryLabel,
-  GRAPH_CATEGORIES,
+  ItemCategory,
+  NODE_TYPE_OPTIONS,
 } from 'src/design/molecules/_models/search-preferences';
 import { GRAPH_SETTINGS } from 'src/design/organisms/_model/graph';
 import { GraphMenuService } from 'src/design/organisms/graph/graph-menu.service';
@@ -74,6 +84,7 @@ import { GraphPageStore } from './graph-page.store';
     GraphHelpModalComponent,
     GraphSettingsModalComponent,
     PlaceholderComponent,
+    AsyncPipe,
   ],
   templateUrl: './graph-page.component.html',
   styleUrl: './graph-page.component.scss',
@@ -93,10 +104,15 @@ export class GraphPageComponent {
   firstSelectedNode = computed(() => this.selectedNodes()?.[0]);
   secondSelectedNode = computed(() => this.selectedNodes()?.[1]);
   nodeQuery$ = new Subject<string>();
-  graphData = computed<NodeMap | undefined>(() =>
-    this.filterGraphData(this.store.graph(), this.activeCategories()),
-  );
+  graphData = computed<ParsedNodeMap | undefined>(() => {
+    return this.filterGraphData(
+      this.store.graph(),
+      this.activeNodeCategories(),
+      this.activeLinkCategories(),
+    );
+  });
   graphData$ = toObservable(this.graphData);
+  customLinkTypes$ = toObservable(this.store.customLinkTypes);
   searchedNode$ = this.nodeQuery$.pipe(
     withLatestFrom(this.graphData$.pipe(map((graphData) => graphData?.nodes))),
     filter(([query, nodes]) => query.length >= 3 && !!nodes),
@@ -112,21 +128,22 @@ export class GraphPageComponent {
   pageState = signal<'DISPLAY' | 'CREATE'>('DISPLAY');
   isPanelOpen = signal<boolean>(false);
 
-  categories = computed(() =>
-    this.nodeTypeOptions.map((option) => ({
-      ...option,
-      active: this.activeCategories().has(option.label),
-    })),
-  );
-
   formlyFields = computed<FormlyFieldConfig[]>(() => [
-    this.formlyService.buildInputConfig({
+    this.formlyService.buildInputConfig<NodeLinkRaw>({
       inputKind: 'NAME',
       key: 'label',
     }),
-    this.formlyService.buildInputConfig({
+    this.formlyService.buildInputConfig<NodeLinkRaw>({
       inputKind: 'NUMBER',
       key: 'weight',
+      required: false,
+    }),
+    this.formlyService.buildOverviewSelectConfig<NodeLinkRaw, NodeLinkType>({
+      label: 'Link Type',
+      key: 'link_type_id',
+      options$: this.customLinkTypes$ as any as Observable<NodeLinkType[]>,
+      labelProp: 'name',
+      valueProp: 'id',
     }),
   ]);
   userModel = signal<Partial<NodeLinkRaw>>({});
@@ -142,11 +159,42 @@ export class GraphPageComponent {
     }),
   );
 
-  private AVAILABLE_NODE_TYPES = new Set<CategoryLabel>(GRAPH_CATEGORIES);
-  private nodeTypeOptions = DEFAULT_SEARCH_PREFERENCES.filter((option) =>
-    this.AVAILABLE_NODE_TYPES.has(option.label),
+  private activeNodeCategories = signal(
+    new Set<string>(NODE_TYPE_OPTIONS.map((option) => option.value)),
   );
-  private activeCategories = signal(new Set<string>());
+  nodeCategories = computed(() =>
+    NODE_TYPE_OPTIONS.map((option) => ({
+      ...option,
+      active: this.activeNodeCategories().has(option.value),
+    })),
+  );
+
+  private linkTypeOptions = computed<ItemCategory[]>(() => {
+    return (
+      this.store.graph()?.links.map((linkGroup) => {
+        const firstLink: NodeLink | undefined = linkGroup.links[0];
+        return {
+          active: false,
+          color: firstLink?.color ?? DEFAULT_LINK_CATEGORY_COLOR,
+          value: linkGroup.name,
+          label: toGroupLabel(linkGroup.name),
+        };
+      }) ?? []
+    );
+  });
+  private activeLinkCategories$ = new ReplaySubject<Set<LinkKind>>(1);
+  private activeLinkCategories = toSignal(this.activeLinkCategories$);
+  linkCategories$: Observable<ItemCategory[]> = this.activeLinkCategories$.pipe(
+    map((activeLinkCategories) =>
+      this.linkTypeOptions()
+        .map((option) => ({
+          ...option,
+          active: activeLinkCategories.has(option.value),
+        }))
+        .sort((a, b) => (a.label > b.label ? 1 : -1)),
+    ),
+  );
+
   private createLinkState$ = toObservable(this.store.createLinkState);
   private destructor = inject(DestroyRef);
 
@@ -162,19 +210,48 @@ export class GraphPageComponent {
         takeUntilDestroyed(),
       )
       .subscribe((linkIdToDelete) => this.onDeleteLink(linkIdToDelete));
+
+    toObservable(this.store.graph)
+      .pipe(
+        takeUntilDestroyed(),
+        filterNil(),
+        map((data) => data.links.map((linkGroup) => linkGroup.name)),
+      )
+      .subscribe((linkCategoryNames) =>
+        this.activeLinkCategories$.next(new Set(linkCategoryNames)),
+      );
   }
 
-  toggleCategory(option: SidebarOption, mode: 'INACTIVE' | 'ACTIVE') {
-    const newActiveEntries = new Set(this.activeCategories());
+  toggleNodeCategory(option: SidebarOption, mode: 'INACTIVE' | 'ACTIVE') {
+    const newActiveEntries = new Set(this.activeNodeCategories());
     switch (mode) {
       case 'INACTIVE':
-        newActiveEntries.delete(option.label);
+        newActiveEntries.delete(option.value);
         break;
       case 'ACTIVE':
-        newActiveEntries.add(option.label);
+        newActiveEntries.add(option.value);
         break;
     }
-    this.activeCategories.set(newActiveEntries);
+    this.activeNodeCategories.set(newActiveEntries);
+  }
+
+  toggleLinkCategory(
+    option: SidebarOption,
+    linkCategories: ItemCategory[],
+    mode: 'INACTIVE' | 'ACTIVE',
+  ) {
+    const newActiveEntries = new Set(
+      linkCategories.filter((cat) => cat.active).map((cat) => cat.value),
+    );
+    switch (mode) {
+      case 'INACTIVE':
+        newActiveEntries.delete(option.value);
+        break;
+      case 'ACTIVE':
+        newActiveEntries.add(option.value);
+        break;
+    }
+    this.activeLinkCategories$.next(newActiveEntries);
   }
 
   onCreateConnection(formData: Partial<NodeLinkRaw>) {
@@ -215,31 +292,59 @@ export class GraphPageComponent {
 
   private filterGraphData(
     graphData: NodeMap | undefined,
-    filterCategories: Set<string>,
-  ) {
-    const hasActiveFilter = filterCategories.size > 0;
-
-    if (!hasActiveFilter) return graphData;
-
-    const nodes = graphData?.nodes;
-    if (!nodes) return undefined;
-
-    const filteredNodes = nodes.filter((node) =>
-      this.activeCategories().has(
-        capitalize(node.record.article_type.toLowerCase()),
-      ),
+    activeNodeCategories: Set<string>,
+    activeLinkCategories: Set<string> | undefined,
+  ): ParsedNodeMap | undefined {
+    const filteredNodes = this.filterNodes(
+      graphData?.nodes,
+      activeNodeCategories,
     );
+    const filteredGroups = this.filterLinkGroups(
+      graphData?.links,
+      activeLinkCategories,
+    );
+    const links = filteredGroups?.flatMap((group) => group.links);
 
-    const nodeSet = new Set(filteredNodes.map((node) => node.guid));
-    const filteredLinks = graphData.links.filter((link) => {
+    const nodeSet = new Set(filteredNodes?.map((node) => node.guid));
+    const filteredLinks = links?.filter((link) => {
       const sourceGuid = (link.source as ArticleNode).guid;
       const targetGuid = (link.target as ArticleNode).guid;
       return nodeSet.has(sourceGuid) && nodeSet.has(targetGuid);
     });
 
     return {
-      links: filteredLinks,
-      nodes: filteredNodes,
+      links: filteredLinks ?? [],
+      nodes: filteredNodes ?? [],
+      linkGroups: filteredGroups ?? [],
     };
+  }
+
+  private filterNodes(
+    nodes: ArticleNode[] | undefined,
+    activeNodeCategories: Set<string> | undefined,
+  ) {
+    if (!nodes) return undefined;
+
+    const hasNodeFilter = activeNodeCategories && activeNodeCategories.size > 0;
+    if (!hasNodeFilter) return nodes;
+
+    return nodes.filter((node) =>
+      activeNodeCategories.has(
+        capitalize(node.record.article_type.toLowerCase()),
+      ),
+    );
+  }
+
+  private filterLinkGroups(
+    linkGroups: LinkGroup[] | undefined,
+    activeLinkCategories: Set<string> | undefined,
+  ) {
+    if (!linkGroups) return undefined;
+    const hasLinkGroupFilter =
+      activeLinkCategories && activeLinkCategories.size > 0;
+
+    if (!hasLinkGroupFilter) return linkGroups;
+
+    return linkGroups.filter((group) => activeLinkCategories.has(group.name));
   }
 }

@@ -1,10 +1,12 @@
 import { Component, computed, inject } from '@angular/core';
+import { NodeLinkTypeRaw } from 'src/app/_models/graph';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
+import { GlobalStore } from 'src/app/global.store';
 import {
   ConfigTableData,
   ConfigTableKind,
-} from 'src/design/templates/_models/config-table';
+} from 'src/design/organisms/_model/config-table';
 import { ConfigTablesComponent } from '../../../../design/templates/config-tables/config-tables.component';
 import { ConfigAdministrationPageStore } from './config-administration-page.store';
 
@@ -18,18 +20,15 @@ import { ConfigAdministrationPageStore } from './config-administration-page.stor
 })
 export class ConfigAdministrationPageComponent {
   store = inject(ConfigAdministrationPageStore);
+  globalStore = inject(GlobalStore);
+
   tableData = computed<ConfigTableData>(() => {
     return {
       MARKER_TYPE: this.store.markerTypes(),
       PLAYER_CLASS: this.store.playerClasses(),
+      NODE_LINK_TYPE: this.store.nodeLinkTypes(),
     };
   });
-  markerTypesLoaded = computed(
-    () => this.store.markerTypeLoadState() === 'done',
-  );
-  playerClassesLoaded = computed(
-    () => this.store.playerClassLoadState() === 'done',
-  );
 
   loadTableEntries(table: ConfigTableKind): void {
     switch (table) {
@@ -38,6 +37,9 @@ export class ConfigAdministrationPageComponent {
         break;
       case 'PLAYER_CLASS':
         this.store.loadPlayerClasses();
+        break;
+      case 'NODE_LINK_TYPE':
+        this.store.loadNodeLinkTypes();
         break;
     }
   }
@@ -53,6 +55,9 @@ export class ConfigAdministrationPageComponent {
       case 'PLAYER_CLASS':
         this.store.deletePlayerClass(entryId);
         break;
+      case 'NODE_LINK_TYPE':
+        this.store.deleteRelationshipType(entryId);
+        break;
     }
   }
 
@@ -64,6 +69,9 @@ export class ConfigAdministrationPageComponent {
         break;
       case 'PLAYER_CLASS':
         this.store.createPlayerClass(event.entry as PlayerClass);
+        break;
+      case 'NODE_LINK_TYPE':
+        this.store.createRelationshipType(event.entry as NodeLinkTypeRaw);
         break;
     }
   }

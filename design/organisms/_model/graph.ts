@@ -1,4 +1,4 @@
-import { ArticleNode, NodeLink } from 'src/app/_models/nodeMap';
+import { ArticleNode, NodeLink } from 'src/app/_models/graph';
 
 export const SELECTORS = {
   nodeClass: 'node',
@@ -10,6 +10,8 @@ export const SELECTORS = {
   linkLabelClass: 'link-label',
   linkLabelSelector: 'text.link-label',
   linkGroupSelector: 'g.link',
+  linkIconClass: 'link-icon',
+  linkIconSelector: 'foreignObject.link-icon',
   activeClass: `node--active`,
   activeSelector: `g.node.node--active`,
   graphId: 'graph',
@@ -38,6 +40,7 @@ export const GRAPH_SETTINGS = {
   centeringTransitionTime: 1000,
   hoverTransitionTime: 200,
   strokeWidth: 0.5,
+  iconSize: 10,
 };
 
 export type NodeClickEvent = {

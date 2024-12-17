@@ -9,6 +9,7 @@ export interface MapMarkerRaw {
   map: number;
   location: number;
   type: number;
+  campaign_id?: number;
 }
 
 export interface MapMarker extends ApiObject {
@@ -28,5 +29,6 @@ export interface MapMarker extends ApiObject {
   type: number;
   type_details?: MapMarkerType;
   pk?: number;
+  campaign_id?: number;
   campaign_details: { name: string; id: number };
 }

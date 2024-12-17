@@ -114,4 +114,12 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: [],
     showInSidebar: true,
   },
+  {
+    title: 'Wiki Configuration',
+    iconClass: 'gear',
+    route: 'campaign-config-tables',
+    color: 'black',
+    article_types: [],
+    showInSidebar: true,
+  },
 ];

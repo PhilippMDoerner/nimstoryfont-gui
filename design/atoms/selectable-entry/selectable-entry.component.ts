@@ -19,7 +19,6 @@ export class SelectableEntryComponent {
   label = input.required<string>();
   isSelectable = input<boolean>(false);
   isActive = input<boolean>(false);
-  borderColorVar = input<string>('secondary');
 
   entryClick = output<'ACTIVE' | 'INACTIVE'>();
 }

@@ -1,3 +1,7 @@
+:host {
+  --border-color: var(--bs-secondary);
+}
+
 .sidebar {
   display: flex;
   justify-content: space-between;
@@ -10,7 +14,8 @@
 
 .sidebar-border {
   display: flex;
-  border-left: solid 10px;
+  border-left: solid 10px var(--border-color);
+  text-align: start;
 }
 
 button {

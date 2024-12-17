@@ -22,8 +22,8 @@
   </div>
 
   <div class="modal-body">
-    <h3 class="h4">Possible Graph Interactions:</h3>
     <ul class="container">
+      <h3 class="h4">Possible Graph Interactions:</h3>
       @for (interaction of infoInteractions; track $index) {
         <li class="row mb-2">
           <div class="col-lg-6 col-12 h6 fw-bold">
@@ -38,19 +38,23 @@
 
     <app-separator />
 
-    <h3 class="h4">Kinds of Links:</h3>
-    <ul class="container"></ul>
-    @for (rule of infoRules; track $index) {
-      <li class="row mb-4">
-        <div class="col-lg-6 col-12 h6 fw-bold">
-          {{ rule.nodeKind1 }}
-          <app-icon [icon]="'link'" />
-          {{ rule.nodeKind2 }}
-        </div>
-        <span class="col-lg-6 col-12">
-          {{ rule.description }}
-        </span>
-      </li>
-    }
+    <ul class="container">
+      <h3 class="h4">Kinds of Links:</h3>
+      @for (rule of infoRules; track $index) {
+        <li class="row mb-4">
+          <div class="col-lg-6 col-12 h6 fw-bold">
+            {{ rule.nodeKind1 }}
+            <app-icon [icon]="'link'" />
+            {{ rule.nodeKind2 }}
+            @if (rule.groupLabel) {
+              <span class="fw-light"> ({{ rule.groupLabel }}) </span>
+            }
+          </div>
+          <span class="col-lg-6 col-12">
+            {{ rule.description }}
+          </span>
+        </li>
+      }
+    </ul>
   </div>
 </ng-template>

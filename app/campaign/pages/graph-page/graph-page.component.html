@@ -1,15 +1,30 @@
 <app-page-container>
   <article class="container">
     <h1 class="text-center mb-3">Wiki Overview</h1>
+    <h2 class="fs-5">Node Categories</h2>
     <div class="row mb-3">
-      @for (option of categories(); track option.label) {
+      @for (category of nodeCategories(); track category.label) {
         <app-selectable-entry
-          class="col-6 col-sm-3 row-entry"
-          [label]="option.label"
-          [borderColorVar]="option.color"
-          [isActive]="option.active"
+          class="col-6 col-lg-4 col-xl-3 row-entry"
+          [label]="category.label"
+          [style]="{ '--border-color': 'var(' + category.color + ')' }"
+          [isActive]="category.active"
           [isSelectable]="true"
-          (entryClick)="toggleCategory(option, $event)"
+          (entryClick)="toggleNodeCategory(category, $event)"
+        ></app-selectable-entry>
+      }
+    </div>
+    <h2 class="fs-5">Link Categories</h2>
+    <div class="row mb-3">
+      @let linkCategories = (linkCategories$ | async) ?? [];
+      @for (category of linkCategories; track category) {
+        <app-selectable-entry
+          class="col-6 col-lg-4 row-entry"
+          [label]="category.label"
+          [style]="{ '--border-color': category.color }"
+          [isActive]="category.active"
+          [isSelectable]="true"
+          (entryClick)="toggleLinkCategory(category, linkCategories, $event)"
         ></app-selectable-entry>
       }
     </div>

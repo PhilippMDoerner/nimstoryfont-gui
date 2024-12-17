@@ -11,11 +11,18 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, switchMap, take, tap } from 'rxjs';
-import { ArticleNode, NodeLinkRaw } from 'src/app/_models/nodeMap';
+import {
+  LinkGroup,
+  NodeLinkRaw,
+  NORMAL_LINK_KIND_SET,
+  toLinkLabel,
+} from 'src/app/_models/graph';
 import { httpErrorToast } from 'src/app/_models/toast';
+import { RelationshipTypeService } from 'src/app/_services/article/relationship-type.service';
 import { RelationshipService } from 'src/app/_services/article/relationship.service';
 import { GlobalStore } from 'src/app/global.store';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
+import { replaceItem } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
@@ -32,6 +39,7 @@ export const GraphPageStore = signalStore(
   withState(initialState),
   withQueries(() => {
     const relationshipService = inject(RelationshipService);
+    const relationshipTypeService = inject(RelationshipTypeService);
     const globalStore = inject(GlobalStore);
 
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
@@ -46,6 +54,14 @@ export const GraphPageStore = signalStore(
             relationshipService.getNodeMap(campaignName),
           ),
         ),
+      customLinkTypes: () =>
+        campaignName$.pipe(
+          takeUntilDestroyed(),
+          take(1),
+          switchMap((campaign) =>
+            relationshipTypeService.campaignList(campaign),
+          ),
+        ),
     };
   }),
   withComputed((state) => {
@@ -53,10 +69,14 @@ export const GraphPageStore = signalStore(
       customLinks: computed(() => {
         const customLinks = state
           .graph()
-          ?.links.filter((link) => link.linkKind === 'custom');
+          ?.links.filter(
+            (linkGroup) => !NORMAL_LINK_KIND_SET.has(linkGroup.name),
+          )
+          .flatMap((group) => group.links);
+
         return customLinks?.map((link) => ({
           link,
-          label: `${(link.source as ArticleNode).record.name} ${link.label} ${(link.target as ArticleNode).record.name}`,
+          label: toLinkLabel(link),
         }));
       }),
     };
@@ -75,14 +95,27 @@ export const GraphPageStore = signalStore(
           ),
           filterNil(),
           tapResponse({
-            next: (newLink) =>
+            next: (newLink) => {
+              const oldLinkGroup = state
+                .graph()
+                ?.links.find(
+                  (linkGroup) => linkGroup.name === newLink.linkKind,
+                );
+              if (!oldLinkGroup) return;
+
+              const newLinkGroup: LinkGroup = {
+                ...oldLinkGroup,
+                links: [...(oldLinkGroup?.links ?? []), newLink],
+              };
+
               patchState(state, {
                 createLinkState: 'success',
                 graph: {
                   nodes: state.graph()?.nodes ?? [],
-                  links: [...(state.graph()?.links ?? []), newLink],
+                  links: [...(state.graph()?.links ?? []), newLinkGroup],
                 },
-              }),
+              });
+            },
             error: (err: HttpErrorResponse) => {
               patchState(state, { createLinkState: 'error' });
               toastService.addToast(httpErrorToast(err));
@@ -95,15 +128,32 @@ export const GraphPageStore = signalStore(
           filterNil(),
           switchMap((id) => relationshipService.delete(id).pipe(map(() => id))),
           tapResponse({
-            next: (id) =>
+            next: (id) => {
+              const oldLinkGroups = state.graph()?.links ?? [];
+              const oldLinkGroup = oldLinkGroups.find((linkGroup) =>
+                linkGroup.links.some((link) => link.id === id),
+              );
+              if (!oldLinkGroup) return;
+
+              const newLinkGroup: LinkGroup = {
+                ...oldLinkGroup,
+                links: (oldLinkGroup?.links ?? []).filter(
+                  (link) => link.id !== id,
+                ),
+              };
+              const newLinkGroups = replaceItem(
+                oldLinkGroups,
+                newLinkGroup,
+                'name',
+              );
+
               patchState(state, {
                 graph: {
                   nodes: state.graph()?.nodes ?? [],
-                  links: (state.graph()?.links ?? []).filter(
-                    (link) => link.id !== id,
-                  ),
+                  links: newLinkGroups,
                 },
-              }),
+              });
+            },
             error: (err: HttpErrorResponse) => {
               toastService.addToast(httpErrorToast(err));
             },

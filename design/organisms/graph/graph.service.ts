@@ -32,9 +32,9 @@ import {
   Breakpoint,
   NODE_COLOR_MAP,
   NodeLink,
-  NodeMap,
   NodeSelection,
-} from 'src/app/_models/nodeMap';
+  ParsedNodeMap,
+} from 'src/app/_models/graph';
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
@@ -54,10 +54,12 @@ type GraphElements = {
   zoomBehavior: MyZoomBehavior;
 };
 
+const STATIC_ICON_SIZE = 24;
+
 @Injectable()
 export class GraphService {
   public createGraphEvents$ = new ReplaySubject<{
-    data: NodeMap;
+    data: ParsedNodeMap;
     settings: typeof GRAPH_SETTINGS;
   }>(1);
   private _elements$ = new Subject<GraphElements | undefined>();
@@ -222,7 +224,7 @@ export class GraphService {
   }
 
   // HELPER FUNCTIONS
-  private createGraph(nodeMap: NodeMap, settings: typeof GRAPH_SETTINGS) {
+  private createGraph(nodeMap: ParsedNodeMap, settings: typeof GRAPH_SETTINGS) {
     const height = this.inferGraphHeight(settings.width, getBreakpoint());
     const graphElement = create('svg')
       .attr('viewBox', [0, 0, settings.width, height])
@@ -366,45 +368,14 @@ export class GraphService {
       .attr('class', SELECTORS.linkClass)
       .on('contextmenu', (event, link) =>
         this.linkRightClickEvents$.next({ event, clickedLink: link }),
-      );
-
-    const texts = linkGroups
-      .append('text')
-      .attr('text-anchor', 'middle')
-      .attr('stroke', '#000')
-      .attr('stroke-width', 1)
-      .attr('class', SELECTORS.linkLabelClass)
-      .style('text-anchor', 'middle')
-      .style('opacity', '0');
-
-    texts
-      .append('tspan')
-      .attr('dy', '0px')
-      .attr('x', '0px')
-      .text((d: any) => d.source.record.name);
-
-    texts
-      .append('tspan')
-      .attr('dy', '15px')
-      .attr('x', '0px')
-      .text((d: any) => d.label);
-
-    texts
-      .append('tspan')
-      .attr('dy', '15px')
-      .attr('x', '0px')
-      .text((d: any) => d.target.record.name);
-
-    const linkElements = linkGroups
-      .append('line')
-      .attr('class', SELECTORS.linkClass)
-      .style('stroke-width', () => `${Math.sqrt(5)}px`)
-      .style('cursor', 'pointer')
-      .attr('stroke', '#999')
+      )
       .on('mouseover click', function (event: MouseEvent) {
-        const lineElement = this as Element;
-        const linkParent = lineElement.closest(SELECTORS.linkGroupSelector);
-        select(linkParent)
+        const linkParent = (this as Element).closest(
+          SELECTORS.linkGroupSelector,
+        ) as SVGGElement;
+        const selection = select<SVGGElement, NodeLink>(linkParent);
+
+        selection
           .transition()
           .duration(200)
           .attr('class', function () {
@@ -418,7 +389,7 @@ export class GraphService {
             return [...newClassSet].join(' ');
           });
 
-        select(linkParent)
+        selection
           .select(SELECTORS.linkLabelSelector)
           .style('opacity', '1')
           .attr('transform', () => {
@@ -426,28 +397,88 @@ export class GraphService {
             return `translate(${centerX}, ${centerY + 6}), scale(0.2)`;
           });
 
-        select(lineElement)
+        selection
+          .select(SELECTORS.linkSelector)
           .transition()
           .duration(200)
           .style('stroke', 'var(--bs-primary)')
-          .style('stroke-width', () => '6px');
+          .style('stroke-width', () => '11px');
       })
       .on('mouseout', () => this.resetActivatedLinkStyles());
+
+    const linkElements = linkGroups
+      .append('line')
+      .attr('class', SELECTORS.linkClass)
+      .style('stroke-width', () => `${Math.sqrt(5)}px`)
+      .style('cursor', 'pointer')
+      .attr('stroke', (data) => data.color);
+
+    linkGroups
+      .append('foreignObject')
+      .attr('width', `${STATIC_ICON_SIZE}px`)
+      .attr('height', `${STATIC_ICON_SIZE}px`)
+      .attr('class', `${SELECTORS.linkIconClass} pe-none`)
+      .append('xhtml:div')
+      .attr('class', (d) =>
+        d.icon ? `fa-solid fa-${d.icon} w-100 h-100 text-center` : 'd-none',
+      )
+      .style('color', 'var(--bs-dark-text-emphasis)');
+
+    const texts = linkGroups
+      .append('text')
+      .attr('text-anchor', 'middle')
+      .attr('stroke', '#000')
+      .attr('stroke-width', 1)
+      .attr('class', `${SELECTORS.linkLabelClass} pe-none`)
+      .style('text-anchor', 'middle')
+      .style('opacity', '0');
+
+    texts
+      .append('tspan')
+      .attr('dy', '0px')
+      .attr('x', '0px')
+      .text((d) => (d.source as ArticleNode).record.name);
+
+    texts
+      .append('tspan')
+      .attr('dy', '15px')
+      .attr('x', '0px')
+      .text((d) => d.label);
+
+    texts
+      .append('tspan')
+      .attr('dy', '15px')
+      .attr('x', '0px')
+      .text((d) => (d.target as ArticleNode).record.name);
 
     return linkElements;
   }
 
   private updateGraphAttributes() {
     selectAll<SVGLineElement, NodeLink>(SELECTORS.linkSelector)
-      .attr('x1', (d) => (d.source as any).x)
-      .attr('y1', (d) => (d.source as any).y)
-      .attr('x2', (d) => (d.target as any).x)
-      .attr('y2', (d) => (d.target as any).y);
+      .attr('x1', (d) => (d.source as ArticleNode).x ?? 0)
+      .attr('y1', (d) => (d.source as ArticleNode).y ?? 0)
+      .attr('x2', (d) => (d.target as ArticleNode).x ?? 0)
+      .attr('y2', (d) => (d.target as ArticleNode).y ?? 0);
 
-    selectAll(SELECTORS.nodeSelector).attr(
+    selectAll<SVGGElement, ArticleNode>(SELECTORS.nodeSelector).attr(
       'transform',
-      (d: any) => `translate(${d.x},${d.y})`,
+      (d) => `translate(${d.x},${d.y})`,
     );
+
+    selectAll<SVGForeignObjectElement, NodeLink>(
+      SELECTORS.linkIconSelector,
+    ).attr('transform', (d) => {
+      const source = d.source as ArticleNode;
+      const target = d.target as ArticleNode;
+      const centerX =
+        ((source.x ?? 0) + (target.x ?? 0) - GRAPH_SETTINGS.iconSize) / 2;
+      const centerY =
+        ((source.y ?? 0) + (target.y ?? 0) - GRAPH_SETTINGS.iconSize) / 2;
+
+      const scaleFactor = GRAPH_SETTINGS.iconSize / STATIC_ICON_SIZE;
+      return `translate(${centerX}, ${centerY}) scale(${scaleFactor})`;
+    });
   }
 
   private centerNodeInGraph(
@@ -465,7 +496,10 @@ export class GraphService {
     );
   }
 
-  private toNodeEvent(event: MouseEvent, graphData: NodeMap): NodeClickEvent {
+  private toNodeEvent(
+    event: MouseEvent,
+    graphData: ParsedNodeMap,
+  ): NodeClickEvent {
     const nodeGuid = (event.target as Element).getAttribute('guid') as string;
     const node = graphData.nodes.find((node) => node.guid === nodeGuid);
     if (!node) {
@@ -551,7 +585,9 @@ export class GraphService {
   }
 
   private resetActivatedLinkStyles() {
-    const linkGroupElement = selectAll(SELECTORS.activeLinkSelector);
+    const linkGroupElement = selectAll<SVGGElement, NodeLink>(
+      SELECTORS.activeLinkSelector,
+    );
     linkGroupElement.attr('class', function () {
       const element = this as Element;
       const newClasses = element
@@ -569,7 +605,7 @@ export class GraphService {
     linkLineElement
       .transition()
       .duration(200)
-      .style('stroke', '#999')
+      .style('stroke', (d) => d.color)
       .style('stroke-width', () => `${Math.sqrt(5)}px`);
   }
 

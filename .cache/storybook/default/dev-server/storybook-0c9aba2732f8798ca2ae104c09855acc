@@ -1,1 +1,1 @@
-{"key":"lastEvents","content":{"boot":{"body":{"eventType":"boot","eventId":"j-ZxVgMRBaYOKRFEkGhUb","sessionId":"02frE5sk8Aju-eV20xrS4","payload":{"eventType":"build"},"context":{"inCI":true,"platform":"Linux","nodeVersion":"20.18.1","cliVersion":"8.4.4"}},"timestamp":1734449831174}}}
+{"key":"lastEvents","content":{"boot":{"body":{"eventType":"boot","eventId":"uQu4BP79TjVJxPFA6Ssn9","sessionId":"tWrQ9TDx8bMhVqCrcdXQD","payload":{"eventType":"build"},"context":{"inCI":true,"platform":"Linux","nodeVersion":"20.18.1","cliVersion":"8.4.4"}},"timestamp":1734463707421}}}

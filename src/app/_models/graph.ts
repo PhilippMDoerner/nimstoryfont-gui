@@ -57,7 +57,7 @@ export function toGroupLabel(kind: LinkKind): string {
       return 'Character Locations';
     case 'sublocation':
       return 'Sublocations';
-    case 'organizationHeadquarters':
+    case 'organizationHeadquarter':
       return 'Organization Headquarters';
     case 'suborganization':
       return 'Subgroup';

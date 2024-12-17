@@ -32,8 +32,8 @@ import {
   Breakpoint,
   NODE_COLOR_MAP,
   NodeLink,
-  NodeMap,
   NodeSelection,
+  ParsedNodeMap,
 } from 'src/app/_models/graph';
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -59,7 +59,7 @@ const STATIC_ICON_SIZE = 24;
 @Injectable()
 export class GraphService {
   public createGraphEvents$ = new ReplaySubject<{
-    data: NodeMap;
+    data: ParsedNodeMap;
     settings: typeof GRAPH_SETTINGS;
   }>(1);
   private _elements$ = new Subject<GraphElements | undefined>();
@@ -224,7 +224,7 @@ export class GraphService {
   }
 
   // HELPER FUNCTIONS
-  private createGraph(nodeMap: NodeMap, settings: typeof GRAPH_SETTINGS) {
+  private createGraph(nodeMap: ParsedNodeMap, settings: typeof GRAPH_SETTINGS) {
     const height = this.inferGraphHeight(settings.width, getBreakpoint());
     const graphElement = create('svg')
       .attr('viewBox', [0, 0, settings.width, height])
@@ -437,19 +437,19 @@ export class GraphService {
       .append('tspan')
       .attr('dy', '0px')
       .attr('x', '0px')
-      .text((d: any) => d.source.record.name);
+      .text((d) => (d.source as ArticleNode).record.name);
 
     texts
       .append('tspan')
       .attr('dy', '15px')
       .attr('x', '0px')
-      .text((d: any) => d.label);
+      .text((d) => d.label);
 
     texts
       .append('tspan')
       .attr('dy', '15px')
       .attr('x', '0px')
-      .text((d: any) => d.target.record.name);
+      .text((d) => (d.target as ArticleNode).record.name);
 
     return linkElements;
   }
@@ -496,7 +496,10 @@ export class GraphService {
     );
   }
 
-  private toNodeEvent(event: MouseEvent, graphData: NodeMap): NodeClickEvent {
+  private toNodeEvent(
+    event: MouseEvent,
+    graphData: ParsedNodeMap,
+  ): NodeClickEvent {
     const nodeGuid = (event.target as Element).getAttribute('guid') as string;
     const node = graphData.nodes.find((node) => node.guid === nodeGuid);
     if (!node) {

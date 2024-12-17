@@ -12,7 +12,7 @@ import {
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import {} from 'd3-zoom';
 import { filter, map, Subject, take } from 'rxjs';
-import { NodeMap, NodeSelection } from 'src/app/_models/graph';
+import { NodeSelection, ParsedNodeMap } from 'src/app/_models/graph';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { GRAPH_SETTINGS } from '../_model/graph';
@@ -27,13 +27,13 @@ import { GraphService } from './graph.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GraphComponent {
-  data = input.required<NodeMap>();
-  activeNodesData = input.required<NodeSelection>();
-  graphSettings = input.required<typeof GRAPH_SETTINGS>();
-
   articleService = inject(ArticleService);
   graphService = inject(GraphService); //Accessible as the parent, GraphPageComponent, provides an instance
   destructor = inject(DestroyRef);
+
+  data = input.required<ParsedNodeMap>();
+  activeNodesData = input.required<NodeSelection>();
+  graphSettings = input.required<typeof GRAPH_SETTINGS>();
 
   graphContainer = viewChild<ElementRef<HTMLDivElement>>('graphContainer');
   elements = toSignal(this.graphService.elements$);

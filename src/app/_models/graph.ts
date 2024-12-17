@@ -1,3 +1,5 @@
+import { capitalize } from 'src/utils/string';
+
 export interface NodeLinkTypeRaw {
   name: string;
   icon?: string;
@@ -32,29 +34,71 @@ export interface ArticleNode extends d3.SimulationNodeDatum {
   guid: string;
 }
 
+export const NORMAL_LINK_KIND = [
+  'organizationMembership',
+  'itemOwnership',
+  'characterLocation',
+  'sublocation',
+  'organizationHeadquarter',
+] as const;
+
+export const NORMAL_LINK_KIND_SET = new Set<string>(NORMAL_LINK_KIND);
+
+export type LinkKind = (typeof NORMAL_LINK_KIND)[number] | string;
+
+export function toGroupLabel(kind: LinkKind): string {
+  switch (kind) {
+    case 'organizationMembership':
+      return 'Organization Memberships';
+    case 'itemOwnership':
+      return 'Item Ownerships';
+    case 'characterLocation':
+      return 'Character Locations';
+    case 'sublocation':
+      return 'Sublocations';
+    case 'organizationHeadquarters':
+      return 'Organization Headquarters';
+    default:
+      return capitalize(kind);
+  }
+}
+
 export interface NodeLink extends d3.SimulationLinkDatum<ArticleNode> {
   id?: number; //Available if linkKind === 'custom'
   label: string;
   weight: number;
   color: string;
   icon: string | null;
-  linkKind: string;
+  linkKind: LinkKind;
+}
+
+export interface LinkGroup {
+  name: string;
+  links: NodeLink[];
 }
 
 export interface NodeMap {
   nodes: ArticleNode[];
-  links: NodeLink[];
+  links: LinkGroup[];
 }
+
+export type ParsedNodeMap = {
+  nodes: ArticleNode[];
+  linkGroups: LinkGroup[];
+  links: NodeLink[];
+};
 
 export type NodeSelection = [] | [ArticleNode] | [ArticleNode, ArticleNode];
 
 export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
-export type ArticleNodeKind =
-  | 'LOCATION'
-  | 'CHARACTER'
-  | 'ORGANIZATION'
-  | 'ITEM';
+export const ARTICLE_NODE_KINDS = [
+  'LOCATION',
+  'CHARACTER',
+  'ORGANIZATION',
+  'ITEM',
+] as const;
+export type ArticleNodeKind = (typeof ARTICLE_NODE_KINDS)[number];
 
 export const NODE_COLOR_MAP: { [key in ArticleNodeKind]: string } = {
   CHARACTER: 'var(--character-color)',
@@ -62,3 +106,9 @@ export const NODE_COLOR_MAP: { [key in ArticleNodeKind]: string } = {
   ORGANIZATION: 'var(--organization-color)',
   ITEM: 'var(--item-color)',
 };
+
+export function toLinkLabel(link: NodeLink): string {
+  return `${(link.source as ArticleNode).record.name} ${link.label} ${(link.target as ArticleNode).record.name}`;
+}
+
+export const DEFAULT_LINK_CATEGORY_COLOR = '#999999';

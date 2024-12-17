@@ -2,7 +2,7 @@ export { BadgeListEntry, BadgeListSelectOptions } from './_models/badge-list';
 export { ListEntry } from './_models/list';
 export {
   DEFAULT_SEARCH_PREFERENCES,
-  ArticleCategory as SidebarOption,
+  ItemCategory as SidebarOption,
 } from './_models/search-preferences';
 export { ToggleState } from './_models/toggle';
 export { ArticleFooterComponent } from './article-footer/article-footer.component';

@@ -40,6 +40,7 @@ export const NORMAL_LINK_KIND = [
   'characterLocation',
   'sublocation',
   'organizationHeadquarter',
+  'suborganization',
 ] as const;
 
 export const NORMAL_LINK_KIND_SET = new Set<string>(NORMAL_LINK_KIND);
@@ -58,6 +59,8 @@ export function toGroupLabel(kind: LinkKind): string {
       return 'Sublocations';
     case 'organizationHeadquarters':
       return 'Organization Headquarters';
+    case 'suborganization':
+      return 'Subgroup';
     default:
       return capitalize(kind);
   }

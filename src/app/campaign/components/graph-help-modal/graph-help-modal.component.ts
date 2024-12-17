@@ -5,6 +5,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { toGroupLabel } from 'src/app/_models/graph';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { IconComponent } from '../../../../design/atoms/icon/icon.component';
 import { SeparatorComponent } from '../../../../design/atoms/separator/separator.component';
@@ -13,37 +14,44 @@ const GRAPH_INFO_RULES = [
   {
     nodeKind1: 'Organization',
     nodeKind2: 'Location',
+    groupLabel: toGroupLabel('organizationHeadquarters'),
     description: "The location contains that organization's headquarter",
   },
   {
     nodeKind1: 'Organization',
     nodeKind2: 'Character',
+    groupLabel: toGroupLabel('organizationMemberships'),
     description: 'The character is a member of that organization',
   },
   {
     nodeKind1: 'Location',
     nodeKind2: 'Location',
+    groupLabel: toGroupLabel('sublocation'),
     description: 'The location is part of the other location',
   },
   {
     nodeKind1: 'Location',
     nodeKind2: 'Character',
+    groupLabel: toGroupLabel('characterLocation'),
     description: 'The character is in that location',
   },
   {
     nodeKind1: 'Character',
     nodeKind2: 'Item',
+    groupLabel: toGroupLabel('itemOwnership'),
     description: 'The character owns that item',
   },
   {
     nodeKind1: 'Organization',
     nodeKind2: 'Organization',
+    groupLabel: toGroupLabel('suborganization'),
     description:
       'The organization is a smaller group within the other organization',
   },
   {
     nodeKind1: 'Any',
     nodeKind2: 'Any',
+    groupLabel: undefined,
     description: 'A custom relationship between 2 articles',
   },
 ];

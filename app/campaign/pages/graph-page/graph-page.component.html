@@ -1,7 +1,14 @@
 <app-page-container>
   <article class="container">
     <h1 class="text-center mb-3">Wiki Overview</h1>
-    <h2 class="fs-5">Node Categories</h2>
+    <h2 class="fs-5">
+      <app-info-circle-tooltip
+        [text]="'Node Categories'"
+        [tooltip]="
+          'Nodes in the graph represent Articles in the Wiki that repell each other'
+        "
+      ></app-info-circle-tooltip>
+    </h2>
     <div class="row mb-3">
       @for (category of nodeCategories(); track category.label) {
         <app-selectable-entry
@@ -14,7 +21,14 @@
         ></app-selectable-entry>
       }
     </div>
-    <h2 class="fs-5">Link Categories</h2>
+    <h2 class="fs-5">
+      <app-info-circle-tooltip
+        [text]="'Link Categories'"
+        [tooltip]="
+          'The different kinds of connections between articles. Some are inferred automatically, the rest are custom-links added by users.'
+        "
+      ></app-info-circle-tooltip>
+    </h2>
     <div class="row mb-3">
       @let linkCategories = (linkCategories$ | async) ?? [];
       @for (category of linkCategories; track category) {

@@ -16,7 +16,7 @@ export interface MapMarkerType {
   color: string;
   id: number;
   fontawesome_type: 'fas' | 'fa';
-  campaign_id: number;
+  campaign_id?: number;
   creation_datetime: string;
   update_datetime: string;
 }

@@ -5,6 +5,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
@@ -17,6 +18,7 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class SelectableEntryComponent {
   label = input.required<string>();
+  icon = input<Icon>();
   isSelectable = input<boolean>(false);
   isActive = input<boolean>(false);
 

@@ -121,7 +121,7 @@ export const ALL_ICONS = [
 ];
 
 export type IconKind = 'fa-brands' | 'fa-solid' | 'fa-regular';
-export function toIconKind(icon: Icon): IconKind {
+export function toIconKind(icon: Icon): IconKind | undefined {
   const ico = icon as any;
   if (SOLID_ICONS_SET.has(ico)) {
     return 'fa-solid';
@@ -130,6 +130,8 @@ export function toIconKind(icon: Icon): IconKind {
   } else if (REGULAR_ICON_SET.has(ico)) {
     return 'fa-regular';
   } else {
-    throw new Error('Invalid icon: ' + icon);
+    const e = new Error('Invalid icon: ' + icon);
+    console.error(e);
+    return undefined;
   }
 }

@@ -12,7 +12,7 @@
     <div class="row mb-3">
       @for (category of nodeCategories(); track category.label) {
         <app-selectable-entry
-          class="col-6 col-lg-4 col-xl-3 row-entry"
+          class="col-12 col-sm-6 col-lg-4 col-xl-3 row-entry"
           [label]="category.label"
           [style]="{ '--border-color': 'var(' + category.color + ')' }"
           [isActive]="category.active"
@@ -33,9 +33,10 @@
       @let linkCategories = (linkCategories$ | async) ?? [];
       @for (category of linkCategories; track category) {
         <app-selectable-entry
-          class="col-6 col-lg-4 row-entry"
+          class="col-12 col-sm-6 col-lg-4 row-entry"
           [label]="category.label"
           [style]="{ '--border-color': category.color }"
+          [icon]="category.icon"
           [isActive]="category.active"
           [isSelectable]="true"
           (entryClick)="toggleLinkCategory(category, linkCategories, $event)"

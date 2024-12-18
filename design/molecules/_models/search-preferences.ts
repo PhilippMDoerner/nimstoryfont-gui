@@ -1,8 +1,11 @@
+import { Icon } from 'src/design/atoms/_models/icon';
+
 export interface ItemCategory {
   label: string;
   active: boolean;
   color: string;
   value: string;
+  icon?: Icon;
 }
 
 export const DEFAULT_SEARCH_PREFERENCES = [

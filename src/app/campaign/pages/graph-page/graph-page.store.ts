@@ -108,11 +108,17 @@ export const GraphPageStore = signalStore(
                 links: [...(oldLinkGroup?.links ?? []), newLink],
               };
 
+              const newLinkGroups = replaceItem(
+                state.graph()?.links ?? [],
+                newLinkGroup,
+                'name',
+              );
+
               patchState(state, {
                 createLinkState: 'success',
                 graph: {
                   nodes: state.graph()?.nodes ?? [],
-                  links: [...(state.graph()?.links ?? []), newLinkGroup],
+                  links: newLinkGroups,
                 },
               });
             },

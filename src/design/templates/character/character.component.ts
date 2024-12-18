@@ -17,7 +17,10 @@ import {
 import { Encounter } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
 import { OverviewItem } from 'src/app/_models/overview';
-import { CharacterPlayerClassConnectionDetail } from 'src/app/_models/playerclass';
+import {
+  CharacterPlayerClassConnectionDetail,
+  PlayerClass,
+} from 'src/app/_models/playerclass';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { ButtonComponent } from '../../atoms/button/button.component';
@@ -59,6 +62,7 @@ export class CharacterComponent {
   campaignCharacters = input.required<OverviewItem[]>();
   campaignOrganizations = input.required<OverviewItem[]>();
   campaignLocations = input.required<OverviewItem[]>();
+  campaignClasses = input.required<PlayerClass[]>();
   serverUrl = input.required<string>();
   quoteServerModel = input<Quote>();
   imageServerModel = input<Image>();
@@ -96,6 +100,8 @@ export class CharacterComponent {
   @Output()
   organizationMembershipDelete =
     new EventEmitter<CharacterOrganizationMembership>();
+  addClass = output<PlayerClass>();
+  removeClass = output<PlayerClass>();
 
   campaignName = computed(() => this.character().campaign_details?.name);
   createUrl = computed(() => {
@@ -144,13 +150,12 @@ export class CharacterComponent {
   characterItems = computed<ListEntry[]>(
     () => this.character().items?.map((item) => this.toListEntry(item)) ?? [],
   );
-  playerClasses = computed(() => {
-    return this.character()
-      .player_class_connections?.map(
-        (con: CharacterPlayerClassConnectionDetail) =>
-          con.player_class_details?.name,
-      )
-      .join(', ');
+  characterClasses = computed<BadgeListEntry<PlayerClass>[]>(() => {
+    return (
+      this.character().player_class_connections?.map(
+        this.connectionToBadgeListEntry,
+      ) ?? []
+    );
   });
 
   constructor(private routingService: RoutingService) {}
@@ -205,6 +210,15 @@ export class CharacterComponent {
         campaign: this.campaignName(),
         name: item.name,
       }),
+    };
+  }
+
+  private connectionToBadgeListEntry(
+    connection: CharacterPlayerClassConnectionDetail,
+  ): BadgeListEntry<PlayerClass> {
+    return {
+      text: connection.player_class_details?.name ?? '',
+      badgeValue: connection.player_class_details as PlayerClass,
     };
   }
 }

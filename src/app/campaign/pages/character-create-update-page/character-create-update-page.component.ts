@@ -61,19 +61,6 @@ export class CharacterUpdatePageComponent {
 
   private characterQueryState$ = toObservable(this.store.characterQueryState);
 
-  addClass(classId: number | undefined) {
-    this.store.addClass(classId as number);
-  }
-
-  removeClass(classId: number | undefined) {
-    const connection = this.store
-      .character()
-      ?.player_class_connections?.find(
-        (connection) => connection.player_class === classId,
-      );
-    this.store.removeClass(connection?.pk as number);
-  }
-
   onCancel() {
     switch (this.state()) {
       case 'CREATE':

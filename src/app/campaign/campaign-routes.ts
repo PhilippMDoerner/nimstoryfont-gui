@@ -157,8 +157,6 @@ const detailRoutes: Route[] = [
             inject(CharacterCreateUpdateStore).loadCampaignLocations(),
           loadOrganizations: () =>
             inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
-          loadClasses: () =>
-            inject(CharacterCreateUpdateStore).loadPlayerClasses(),
         },
         canDeactivate: [onExitReset(CharacterCreateUpdateStore)],
       },
@@ -178,6 +176,7 @@ const detailRoutes: Route[] = [
           loadEncounters: () => inject(CharacterStore).loadCampaignEncounters(),
           loadSessions: () => inject(CharacterStore).loadCampaignSessions(),
           loadLocations: () => inject(CharacterStore).loadCampaignLocations(),
+          loadClasses: () => inject(CharacterStore).loadCampaignPlayerClasses(),
         },
         canDeactivate: [onExitReset(CharacterStore)],
       },
@@ -197,8 +196,6 @@ const detailRoutes: Route[] = [
             inject(CharacterCreateUpdateStore).loadCampaignLocations(),
           loadOrganizations: () =>
             inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
-          loadClasses: () =>
-            inject(CharacterCreateUpdateStore).loadPlayerClasses(),
         },
         canDeactivate: [onExitReset(CharacterCreateUpdateStore)],
       },

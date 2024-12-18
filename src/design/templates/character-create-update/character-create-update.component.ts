@@ -18,10 +18,6 @@ import {
 } from 'src/app/_models/character';
 import { Organization } from 'src/app/_models/organization';
 import { OverviewItem } from 'src/app/_models/overview';
-import {
-  CharacterPlayerClassConnectionDetail,
-  PlayerClass,
-} from 'src/app/_models/playerclass';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
@@ -56,15 +52,12 @@ export class CharacterCreateUpdateComponent {
   campaignName = input.required<string>();
   userModel = input<Partial<CharacterDetails>>({});
   serverModel = input.required<CharacterDetails | undefined>();
-  classOptions = input.required<PlayerClass[]>();
   organizationOptions = input.required<OverviewItem[]>();
   lastVisitedPlaceOptions = input.required<OverviewItem[]>();
 
   @Output() create: EventEmitter<CharacterDetails> = new EventEmitter();
   @Output() update: EventEmitter<CharacterDetails> = new EventEmitter();
   @Output() cancel: EventEmitter<void> = new EventEmitter();
-  @Output() addClass: EventEmitter<PlayerClass> = new EventEmitter();
-  @Output() removeClass: EventEmitter<PlayerClass> = new EventEmitter();
   @Output() addOrganizationMembership: EventEmitter<OrganizationMembership> =
     new EventEmitter();
   @Output() removeOrganizationMembership: EventEmitter<OrganizationMembership> =
@@ -136,12 +129,7 @@ export class CharacterCreateUpdateComponent {
   ]);
 
   heading = computed(() => this.getHeading(this.state()));
-  characterClasses = computed<BadgeListEntry<PlayerClass>[]>(() => {
-    return (
-      this.userModel().player_class_connections?.map(this.toBadgeListEntry) ??
-      []
-    );
-  });
+
   characterOrganizations = computed<
     BadgeListEntry<CharacterOrganizationMembership>[]
   >(() => {
@@ -192,15 +180,6 @@ export class CharacterCreateUpdateComponent {
       member_id: this.userModel().pk as number,
     };
     this.removeOrganizationMembership.emit(membership);
-  }
-
-  private toBadgeListEntry(
-    connection: CharacterPlayerClassConnectionDetail,
-  ): BadgeListEntry<PlayerClass> {
-    return {
-      text: connection.player_class_details?.name ?? '',
-      badgeValue: connection.player_class_details as PlayerClass,
-    };
   }
 
   private toCharacterOrganization(

@@ -41,32 +41,6 @@
 
 <ng-template #updateForm>
   <div class="create-update__form form">
-    <div class="form__player-classes">
-      <h4 class="form__heading">{{ userModel().name }}'s Classes</h4>
-
-      <app-separator class="form__heading-separator" />
-
-      <!-- Add-Class-Badge -->
-      <h6>
-        <app-badge-list
-          [label]="'Class'"
-          [entries]="characterClasses()"
-          [createOptions]="{
-            kind: 'SELECT',
-            config: {
-              options: classOptions(),
-              valueProp: 'pk',
-              labelProp: 'name',
-            },
-          }"
-          [canCreate]="true"
-          [canDelete]="true"
-          (entryCreate)="addClass.emit($event)"
-          (entryDelete)="removeClass.emit($event)"
-        ></app-badge-list>
-      </h6>
-    </div>
-
     <!-- Memberships -->
     <div class="form__memberships">
       <!-- Form -->

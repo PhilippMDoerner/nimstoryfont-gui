@@ -288,7 +288,6 @@ export class GraphPageComponent {
   }
 
   onSettingsChange(newSettings: typeof GRAPH_SETTINGS) {
-    console.log('New settings: ', newSettings);
     this.graphSettings.set(newSettings);
   }
 

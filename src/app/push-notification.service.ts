@@ -29,7 +29,6 @@ export class PushNotificationService {
   private BADGE_IMG_URL = '/assets/icons/icon-96x96.webp';
 
   sendPushNotification(notificationConfig: PushNotification) {
-    console.log('Sending notification', Notification.permission);
     switch (Notification.permission) {
       case 'default':
         Notification.requestPermission().then(() =>

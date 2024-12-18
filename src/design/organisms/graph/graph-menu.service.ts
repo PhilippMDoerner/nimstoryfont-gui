@@ -1,7 +1,7 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select, selectAll, Selection } from 'd3';
-import { filter, Subject, take, tap } from 'rxjs';
+import { filter, Subject, take } from 'rxjs';
 import { ArticleNode, ArticleNodeKind, NodeLink } from 'src/app/_models/graph';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { ellipsize } from 'src/utils/string';
@@ -54,7 +54,6 @@ export class GraphMenuService implements OnDestroy {
       );
       return isClickOnDeleteOption;
     }),
-    tap((event) => console.log('DELETE THINGY', event)),
   );
   constructor() {
     this.initListeningToMenuClicks();

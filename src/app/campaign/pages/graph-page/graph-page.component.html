@@ -36,6 +36,7 @@
           class="col-6 col-lg-4 row-entry"
           [label]="category.label"
           [style]="{ '--border-color': category.color }"
+          [icon]="category.icon"
           [isActive]="category.active"
           [isSelectable]="true"
           (entryClick)="toggleLinkCategory(category, linkCategories, $event)"

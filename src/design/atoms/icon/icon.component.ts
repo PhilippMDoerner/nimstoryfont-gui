@@ -17,5 +17,5 @@ import { Icon, IconKind, toIconKind } from '../_models/icon';
 export class IconComponent {
   icon = input.required<Icon>();
 
-  iconType = computed<IconKind>(() => toIconKind(this.icon()));
+  iconType = computed<IconKind | undefined>(() => toIconKind(this.icon()));
 }

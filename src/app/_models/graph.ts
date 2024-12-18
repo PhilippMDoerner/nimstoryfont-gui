@@ -1,3 +1,4 @@
+import { Icon } from 'src/design/atoms/_models/icon';
 import { capitalize } from 'src/utils/string';
 
 export interface NodeLinkTypeRaw {
@@ -71,7 +72,7 @@ export interface NodeLink extends d3.SimulationLinkDatum<ArticleNode> {
   label: string;
   weight: number;
   color: string;
-  icon: string | null;
+  icon: Icon | null;
   linkKind: LinkKind;
 }
 

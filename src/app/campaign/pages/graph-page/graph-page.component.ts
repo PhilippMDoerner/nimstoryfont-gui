@@ -179,6 +179,7 @@ export class GraphPageComponent {
           active: false,
           color: firstLink?.color ?? DEFAULT_LINK_CATEGORY_COLOR,
           value: linkGroup.name,
+          icon: firstLink.icon ?? undefined,
           label: toGroupLabel(linkGroup.name),
         };
       }) ?? []

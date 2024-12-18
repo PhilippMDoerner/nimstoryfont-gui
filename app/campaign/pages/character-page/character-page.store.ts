@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
@@ -18,14 +19,17 @@ import {
 } from 'src/app/_models/character';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { Image } from 'src/app/_models/image';
+import { CharacterPlayerClassConnectionRaw } from 'src/app/_models/playerclass';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
-import { errorToast } from 'src/app/_models/toast';
+import { errorToast, httpErrorToast } from 'src/app/_models/toast';
+import { CharacterPlayerClassConnectionService } from 'src/app/_services/article/character-player-class-connection.service';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
 import { EncounterService } from 'src/app/_services/article/encounter.service';
 import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationMembershipService } from 'src/app/_services/article/organization-membership.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
+import { PlayerClassService } from 'src/app/_services/article/player-class.service';
 import { QuoteConnectionService } from 'src/app/_services/article/quote-connection.service';
 import { QuoteService } from 'src/app/_services/article/quote.service';
 import { SessionService } from 'src/app/_services/article/session.service';
@@ -65,6 +69,7 @@ export const CharacterStore = signalStore(
     const encounterService = inject(EncounterService);
     const organizationService = inject(OrganizationService);
     const sessionService = inject(SessionService);
+    const playerClassService = inject(PlayerClassService);
     const locationService = inject(LocationService);
     const globalStore = inject(GlobalStore);
 
@@ -90,7 +95,12 @@ export const CharacterStore = signalStore(
             characterService.campaignList(campaignName),
           ),
         ),
-
+      campaignPlayerClasses: () =>
+        campaignName$.pipe(
+          switchMap((campaignName) =>
+            playerClassService.campaignList(campaignName),
+          ),
+        ),
       campaignSessions: () =>
         campaignName$.pipe(
           switchMap((campaignName) =>
@@ -209,6 +219,9 @@ export const CharacterStore = signalStore(
     const encounterService = inject(EncounterService);
     const encounterConnectionService = inject(EncounterConnectionService);
     const toastService = inject(ToastService);
+    const playerClassConnectionService = inject(
+      CharacterPlayerClassConnectionService,
+    );
 
     return {
       reset: () => {
@@ -443,6 +456,55 @@ export const CharacterStore = signalStore(
             },
             error: () =>
               toastService.addToast(errorToast('Failed to delete membership')),
+          }),
+        ),
+      ),
+      addClass: rxMethod<number>(
+        pipe(
+          switchMap((classId) => {
+            const connection: CharacterPlayerClassConnectionRaw = {
+              character: state.character()?.pk as number,
+              player_class: classId,
+            };
+            return playerClassConnectionService.create(connection);
+          }),
+          tapResponse({
+            next: (newConnection) => {
+              const newCharacter = {
+                ...state.character(),
+                player_class_connections: [
+                  ...(state.character()?.player_class_connections ?? []),
+                  newConnection,
+                ],
+              } as CharacterDetails;
+              patchState(state, { character: newCharacter });
+            },
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(httpErrorToast(err)),
+          }),
+        ),
+      ),
+      removeClass: rxMethod<number>(
+        pipe(
+          switchMap((connectionId) =>
+            playerClassConnectionService
+              .delete(connectionId)
+              .pipe(map(() => connectionId)),
+          ),
+          tapResponse({
+            next: (connectionId) => {
+              const newCharacter = {
+                ...state.character(),
+                player_class_connections: state
+                  .character()
+                  ?.player_class_connections?.filter(
+                    (connection) => connection.pk !== connectionId,
+                  ),
+              } as CharacterDetails;
+              patchState(state, { character: newCharacter });
+            },
+            error: (err: HttpErrorResponse) =>
+              toastService.addToast(httpErrorToast(err)),
           }),
         ),
       ),

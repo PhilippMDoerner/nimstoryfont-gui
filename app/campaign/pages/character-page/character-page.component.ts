@@ -25,18 +25,6 @@ export class CharacterPageComponent {
   private routingService = inject(RoutingService);
 
   serverUrl = environment.backendDomain;
-  character$ = this.store.character;
-  campaignCharacters = this.store.campaignCharacters;
-  campaignNPCCharacters = this.store.campaignNPCCharacters;
-  campaignSessions = this.store.campaignSessions;
-  campaignEncounters = this.store.campaignEncounters;
-  campaignOrganizations = this.store.campaignOrganizations;
-  campaignLocations = this.store.campaignLocations;
-  characterQuote$ = this.store.characterQuote;
-  quoteServerModel$ = this.store.quoteServerModel;
-  imageServerModel$ = this.store.imageServerModel;
-  encounterServerModel$ = this.store.encounterServerModel;
-  hasWritePermission$ = this.store.hasWritePermission;
 
   constructor() {
     this.routeToOverviewOnMissingCharacter();
@@ -104,6 +92,15 @@ export class CharacterPageComponent {
 
   onCharacterUpdate(char: CharacterDetails) {
     this.store.updateCharacter(char);
+  }
+
+  removeClass(classId: number | undefined) {
+    const connection = this.store
+      .character()
+      ?.player_class_connections?.find(
+        (connection) => connection.player_class === classId,
+      );
+    this.store.removeClass(connection?.pk as number);
   }
 
   private routeToOverviewOnMissingCharacter() {

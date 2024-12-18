@@ -36,7 +36,6 @@ export class SearchFieldComponent {
     if (this.searchString == null || this.searchString === '') {
       return;
     }
-    console.log('Emit with', this.searchString);
     this.appSearch.emit(this.searchString);
   }
 

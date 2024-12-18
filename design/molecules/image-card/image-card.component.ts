@@ -18,7 +18,6 @@ import {
   merge,
   startWith,
   Subject,
-  tap,
 } from 'rxjs';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
@@ -60,22 +59,18 @@ export class ImageCardComponent {
     merge(
       fromEvent<FocusEvent>(this.elementRef.nativeElement, 'focusin').pipe(
         map(() => true),
-        tap(() => console.log('focusin')),
       ),
       fromEvent<FocusEvent>(this.elementRef.nativeElement, 'focusout').pipe(
         filter((event) =>
           this.hasDataAttributeInTree(event, '[data-register-focus]'),
         ),
-        tap((evt) => console.log('focusout', evt)),
         map(() => false),
       ),
       fromEvent(this.elementRef.nativeElement, 'mouseenter').pipe(
         map(() => true),
-        tap(() => console.log('mouseenter')),
       ),
       fromEvent(this.elementRef.nativeElement, 'mouseleave').pipe(
         map(() => false),
-        tap(() => console.log('mouseleave')),
       ),
       fromEvent<MouseEvent>(this.elementRef.nativeElement, 'click').pipe(
         filter(
@@ -84,18 +79,9 @@ export class ImageCardComponent {
         ),
         map(() => true),
       ),
-      this.selectorClicked$.pipe(
-        map(() => true),
-        tap(() => console.log('selector-click')),
-      ),
-      this.openBtnClicked$.pipe(
-        map(() => true),
-        tap(() => console.log('open-click')),
-      ),
-      this.closeBtnClicked$.pipe(
-        map(() => false),
-        tap(() => console.log('close-click')),
-      ),
+      this.selectorClicked$.pipe(map(() => true)),
+      this.openBtnClicked$.pipe(map(() => true)),
+      this.closeBtnClicked$.pipe(map(() => false)),
     ).pipe(debounceTime(50), startWith(false)),
   );
 

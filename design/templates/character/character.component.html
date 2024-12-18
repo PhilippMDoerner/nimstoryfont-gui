@@ -33,7 +33,6 @@
             {{ character().gender }}
           }
           {{ character().race }}
-          {{ playerClasses() }}
         </h5>
 
         <!-- Current Location -->
@@ -85,7 +84,7 @@
       ></app-quote-field>
     </div>
 
-    <div class="character__organizations">
+    <div class="character__badge-list">
       <app-badge-list
         [canCreate]="canCreate()"
         [canDelete]="canDelete()"
@@ -101,6 +100,25 @@
         }"
         (entryCreate)="onMembershipCreate($event)"
         (entryDelete)="organizationMembershipDelete.emit($event)"
+      ></app-badge-list>
+    </div>
+
+    <div class="character__badge-list">
+      <app-badge-list
+        [label]="'Class'"
+        [entries]="characterClasses()"
+        [createOptions]="{
+          kind: 'SELECT',
+          config: {
+            options: campaignClasses(),
+            valueProp: 'pk',
+            labelProp: 'name',
+          },
+        }"
+        [canCreate]="true"
+        [canDelete]="true"
+        (entryCreate)="addClass.emit($event)"
+        (entryDelete)="removeClass.emit($event)"
       ></app-badge-list>
     </div>
 

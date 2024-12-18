@@ -183,7 +183,6 @@ export class GraphService {
         takeUntilDestroyed(),
       )
       .subscribe((event) => {
-        console.log(event);
         if (!event.clickedLink) return;
         this.graphMenuService.showLinkContextMenu(
           event.event,

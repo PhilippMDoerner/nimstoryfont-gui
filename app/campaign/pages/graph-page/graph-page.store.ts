@@ -66,18 +66,21 @@ export const GraphPageStore = signalStore(
   }),
   withComputed((state) => {
     return {
-      customLinks: computed(() => {
-        const customLinks = state
+      customLinkGroups: computed(() => {
+        const customGroups = state
           .graph()
           ?.links.filter(
             (linkGroup) => !NORMAL_LINK_KIND_SET.has(linkGroup.name),
-          )
-          .flatMap((group) => group.links);
-
-        return customLinks?.map((link) => ({
-          link,
-          label: toLinkLabel(link),
-        }));
+          );
+        return customGroups
+          ?.map((group) => ({
+            ...group,
+            links: group.links.map((link) => ({
+              link,
+              label: toLinkLabel(link),
+            })),
+          }))
+          .sort((a, b) => (a.name > b.name ? 1 : -1));
       }),
     };
   }),
@@ -108,11 +111,17 @@ export const GraphPageStore = signalStore(
                 links: [...(oldLinkGroup?.links ?? []), newLink],
               };
 
+              const newLinkGroups = replaceItem(
+                state.graph()?.links ?? [],
+                newLinkGroup,
+                'name',
+              );
+
               patchState(state, {
                 createLinkState: 'success',
                 graph: {
                   nodes: state.graph()?.nodes ?? [],
-                  links: [...(state.graph()?.links ?? []), newLinkGroup],
+                  links: newLinkGroups,
                 },
               });
             },

@@ -61,6 +61,8 @@ export const ALL_SOLID_ICONS = [
   'hat-wizard',
   'diagram-project',
   'hand-fist',
+  'house',
+  'handshake',
   'hotel',
   'hourglass-half',
   'info-circle',

@@ -153,20 +153,30 @@
   <app-collapsible-panel class="d-block mt-5" [isOpen]="isPanelOpen()">
     <ng-container heading> Custom Links </ng-container>
     <ng-container body>
-      @for (item of store.customLinks(); track item.link.id) {
-        <div class="w-100 d-flex justify-content-between">
-          {{ item.label }}
+      <div class="w-100 d-flex flex-column row-gap-3">
+        @for (linkGroup of store.customLinkGroups(); track linkGroup.name) {
+          <div>
+            <h2 class="fs-4 border-left border-5">
+              {{ linkGroup.name }}
+            </h2>
 
-          <app-confirmation-toggle-button
-            class="user-group__remove-button"
-            [icon]="'trash'"
-            [toggleSize]="'SMALL'"
-            [confirmationQuestion]="'Delete link?'"
-            [cancelButtonType]="'DARK'"
-            (confirm)="onDeleteLink(item.link.id!)"
-          ></app-confirmation-toggle-button>
-        </div>
-      }
+            @for (item of linkGroup.links; track item.link.id) {
+              <div class="w-100 d-flex justify-content-between">
+                {{ item.label }}
+
+                <app-confirmation-toggle-button
+                  class="user-group__remove-button"
+                  [icon]="'trash'"
+                  [toggleSize]="'SMALL'"
+                  [confirmationQuestion]="'Delete link?'"
+                  [cancelButtonType]="'DARK'"
+                  (confirm)="onDeleteLink(item.link.id!)"
+                ></app-confirmation-toggle-button>
+              </div>
+            }
+          </div>
+        }
+      </div>
     </ng-container>
   </app-collapsible-panel>
 </ng-template>

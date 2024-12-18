@@ -68,3 +68,7 @@ export function chunk<T>(items: T[], chunkSize: number): T[][] {
 
   return accs;
 }
+
+export function sortAlphabetically(a: string, b: string): number {
+  return a.toLowerCase() > b.toLowerCase() ? 1 : -1;
+}

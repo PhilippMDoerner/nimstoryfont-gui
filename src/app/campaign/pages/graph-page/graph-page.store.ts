@@ -22,7 +22,7 @@ import { RelationshipTypeService } from 'src/app/_services/article/relationship-
 import { RelationshipService } from 'src/app/_services/article/relationship.service';
 import { GlobalStore } from 'src/app/global.store';
 import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
-import { replaceItem } from 'src/utils/array';
+import { replaceItem, sortAlphabetically } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
@@ -80,7 +80,7 @@ export const GraphPageStore = signalStore(
               label: toLinkLabel(link),
             })),
           }))
-          .sort((a, b) => (a.name > b.name ? 1 : -1));
+          .sort((a, b) => sortAlphabetically(a.name, b.name));
       }),
     };
   }),

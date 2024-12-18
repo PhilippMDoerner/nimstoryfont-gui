@@ -50,6 +50,7 @@
             <button
               btn
               class="field__control"
+              [attr.aria-label]="control.title"
               [title]="control.title"
               [kind]="control.type"
               [text]="control.label"
@@ -62,6 +63,7 @@
               <button
                 btn
                 class="field__control"
+                [attr.aria-label]="control.title"
                 [title]="control.title"
                 [kind]="control.type"
                 [text]="control.label"

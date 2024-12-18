@@ -49,6 +49,7 @@ import {
 import { GRAPH_SETTINGS } from 'src/design/organisms/_model/graph';
 import { GraphMenuService } from 'src/design/organisms/graph/graph-menu.service';
 import { GraphService } from 'src/design/organisms/graph/graph.service';
+import { sortAlphabetically } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
 import { CardComponent } from '../../../../design/atoms/card/card.component';
@@ -194,7 +195,7 @@ export class GraphPageComponent {
           ...option,
           active: activeLinkCategories.has(option.value),
         }))
-        .sort((a, b) => (a.label > b.label ? 1 : -1)),
+        .sort((a, b) => sortAlphabetically(a.label, b.label)),
     ),
   );
 

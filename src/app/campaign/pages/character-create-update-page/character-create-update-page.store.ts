@@ -5,11 +5,7 @@ import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, switchMap, tap } from 'rxjs';
-import {
-  CharacterDetails,
-  CharacterRaw,
-  OrganizationMembership,
-} from 'src/app/_models/character';
+import { CharacterDetails, CharacterRaw } from 'src/app/_models/character';
 import { httpErrorToast } from 'src/app/_models/toast';
 import { CharacterPlayerClassConnectionService } from 'src/app/_services/article/character-player-class-connection.service';
 import { CharacterService } from 'src/app/_services/article/character.service';
@@ -108,42 +104,6 @@ export const CharacterCreateUpdateStore = signalStore(
                 character: createdData,
                 characterQueryState: 'success',
               }),
-            error: (err: HttpErrorResponse) =>
-              toastService.addToast(httpErrorToast(err)),
-          }),
-        ),
-      ),
-      addOrganizationMembership: rxMethod<OrganizationMembership>(
-        pipe(
-          switchMap((membership) =>
-            organizationMembershipService.create(membership),
-          ),
-          tapResponse({
-            next: (character) => patchState(store, { character }),
-            error: (err: HttpErrorResponse) =>
-              toastService.addToast(httpErrorToast(err)),
-          }),
-        ),
-      ),
-      removeOrganizationMembership: rxMethod<OrganizationMembership>(
-        pipe(
-          switchMap((membership) =>
-            organizationMembershipService
-              .delete(membership.pk as number)
-              .pipe(map(() => membership)),
-          ),
-          tapResponse({
-            next: (membership) => {
-              const newCharacter: CharacterDetails = {
-                ...(store.character() as CharacterDetails),
-                organizations: store
-                  .character()
-                  ?.organizations?.filter(
-                    (org) => org.organization_id !== membership.organization_id,
-                  ),
-              };
-              patchState(store, { character: newCharacter });
-            },
             error: (err: HttpErrorResponse) =>
               toastService.addToast(httpErrorToast(err)),
           }),

@@ -21,6 +21,7 @@ export const ALL_SOLID_ICONS = [
   'arrow-right',
   'arrow-up-long',
   'bars',
+  'bolt',
   'book-open',
   'book',
   'calendar-alt',
@@ -59,6 +60,7 @@ export const ALL_SOLID_ICONS = [
   'hand-sparkles',
   'hat-wizard',
   'diagram-project',
+  'hand-fist',
   'hotel',
   'hourglass-half',
   'info-circle',
@@ -132,6 +134,6 @@ export function toIconKind(icon: Icon): IconKind | undefined {
   } else {
     const e = new Error('Invalid icon: ' + icon);
     console.error(e);
-    return undefined;
+    return 'fa-solid';
   }
 }

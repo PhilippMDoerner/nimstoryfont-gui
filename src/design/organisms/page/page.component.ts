@@ -64,7 +64,8 @@ export class PageComponent {
     .getSwipeEvents(this.host)
     .pipe(filter((swipeDistance) => swipeDistance > SWIPE_X_THRESHOLD));
 
-  hasCampaignAdminPrivileges = this.globalStore.hasRoleOrBetter('admin');
+  hasCampaignAdminPrivileges =
+    this.globalStore.canPerformActionsOfRole('admin');
   showSidebar = signal(this.isMobile() ? false : true);
   canShowSidebar = computed(() => {
     const hasCampaign = !!this.globalStore.currentCampaign();

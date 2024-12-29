@@ -96,7 +96,7 @@ export const DiaryentryPageStore = signalStore(
   withComputed((store) => {
     const globalStore = inject(GlobalStore);
     return {
-      hasWritePermission: globalStore.hasRoleOrBetter('member'),
+      hasWritePermission: globalStore.canPerformActionsOfRole('member'),
       diaryEntryEncounters: computed<DiaryEntryEncounter[]>(() => {
         const allEncounters = [
           ...(store.diaryentry()?.encounters ?? []),

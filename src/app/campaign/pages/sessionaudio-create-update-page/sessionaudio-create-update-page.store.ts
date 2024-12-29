@@ -52,7 +52,7 @@ export const SessionaudioCreateUpdatePageStore = signalStore(
   withComputed((store) => {
     const globalStore = inject(GlobalStore);
     return {
-      hasWritePermission: globalStore.hasRoleOrBetter('member'),
+      hasWritePermission: globalStore.canPerformActionsOfRole('member'),
       uploadProgress: computed(() => {
         const event = store.latestProgressEvent();
         if (event?.type !== HttpEventType.UploadProgress) return undefined;

@@ -33,7 +33,7 @@ export const ConfigAdministrationPageStore = signalStore(
   withComputed(() => {
     const globalStore = inject(GlobalStore);
     return {
-      hasCampaignWritePermission: globalStore.hasRoleOrBetter('member'),
+      hasCampaignWritePermission: globalStore.canPerformActionsOfRole('member'),
     };
   }),
   withQueries(() => {

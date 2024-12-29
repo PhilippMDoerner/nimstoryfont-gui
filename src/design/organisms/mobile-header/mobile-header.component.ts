@@ -2,12 +2,13 @@ import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   input,
   output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { fromEvent, map, merge, startWith } from 'rxjs';
+import { OnlineService } from 'src/app/_services/online.service';
 import { environment } from 'src/environments/environment';
 import { IconComponent } from '../../atoms/icon/icon.component';
 
@@ -28,8 +29,5 @@ export class MobileHeaderComponent {
   openSidebar = output<void>();
   serverUrl = environment.backendDomain;
 
-  online$ = merge(
-    fromEvent(window, 'online').pipe(map(() => true)),
-    fromEvent(window, 'offline').pipe(map(() => false)),
-  ).pipe(startWith(window.navigator.onLine));
+  online$ = inject(OnlineService).online$;
 }

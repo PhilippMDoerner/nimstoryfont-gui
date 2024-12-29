@@ -11,8 +11,10 @@ import {
   withState,
 } from '@ngrx/signals';
 import { Observable, shareReplay, take } from 'rxjs';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { CampaignOverview } from './_models/campaign';
 import { Login } from './_models/login';
+import { httpErrorToast } from './_models/toast';
 import { CampaignRole, TokenData, UserData } from './_models/token';
 import { RoutingService } from './_services/routing.service';
 import { CampaignService } from './_services/utils/campaign.service';
@@ -130,6 +132,7 @@ export const GlobalStore = signalStore(
   withMethods((state) => {
     const tokenService = inject(TokenService);
     const campaignService = inject(CampaignService);
+    const toastService = inject(ToastService);
     return {
       getCampaignRole: (campaignName: string) => {
         const userData = state.userData();
@@ -157,13 +160,24 @@ export const GlobalStore = signalStore(
         return refresh$;
       },
       logout: () => {
-        tokenService.logout();
-        patchState(state, {
-          userData: undefined,
-          campaigns: undefined,
-          currentCampaign: undefined,
-          contentScrollEvents: undefined,
-        });
+        tokenService
+          .logout()
+          .pipe(
+            tapResponse({
+              next: () => {
+                patchState(state, {
+                  userData: undefined,
+                  campaigns: undefined,
+                  currentCampaign: undefined,
+                  contentScrollEvents: undefined,
+                });
+              },
+              error: (err: HttpErrorResponse) =>
+                toastService.addToast(httpErrorToast(err)),
+            }),
+            take(1),
+          )
+          .subscribe();
       },
       isCampaignMember: (campaignName?: string): boolean => {
         campaignName = campaignName ?? state.campaignName();

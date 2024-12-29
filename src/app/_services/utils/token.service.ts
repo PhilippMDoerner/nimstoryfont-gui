@@ -30,7 +30,7 @@ export class TokenService {
   }
 
   public logout() {
-    // No backend call implemented
+    return this.http.get<void>(`${this.jwtTokenUrl}/logout`);
   }
 
   public refreshUserData() {

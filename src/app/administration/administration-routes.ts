@@ -1,5 +1,5 @@
 import { siteAdminGuard } from '../_guards/admin.guard';
-import { onExitReset } from '../_guards/onExitReset';
+import { onExitReset } from '../_guards/onExitReset.guard';
 import { AdminRoute } from '../_models/route';
 import { ConfigAdministrationPageComponent } from './pages/config-administration-page/config-administration-page.component';
 import { ConfigAdministrationPageStore } from './pages/config-administration-page/config-administration-page.store';

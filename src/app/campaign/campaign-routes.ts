@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
-import { onExitReset } from '../_guards/onExitReset';
+import { onExitReset } from '../_guards/onExitReset.guard';
 import { CampaignOverviewRoute } from '../_models/route';
 import { ConfigAdministrationPageStore } from '../administration/pages/config-administration-page/config-administration-page.store';
 import { CharacterCreateUpdateStore } from './pages/character-create-update-page/character-create-update-page.store';

@@ -68,7 +68,6 @@ export function errorInterceptor(
               notFoundToast(routingService, globalStore.campaignName()),
             );
             break;
-          case 0:
           case 500:
           case 502:
             toastService.addToast(httpErrorToast(err));

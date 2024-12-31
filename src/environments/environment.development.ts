@@ -1,11 +1,11 @@
-import { Environment } from "./environment.interface";
+import { Environment } from './environment.interface';
 
-const backendDomain = "https://www.aldrune.com";
+const backendDomain = 'https://www.aldrune.com';
 
 export const environment: Environment = {
-  kind: "DEVELOPMENT",
+  kind: 'DEVELOPMENT',
   backendDomain: backendDomain,
-  apiUrl: `${backendDomain}/wiki1/api`,
-  defaultTitle: "StoryFont",
+  apiUrl: `/wiki1/api`,
+  defaultTitle: 'StoryFont',
   frontendPrefix: 'wiki2',
 };

@@ -7,6 +7,7 @@ export interface ArticleMetaData {
   color: string;
   article_types: string[];
   showInSidebar: boolean;
+  availableOffline: boolean;
 }
 
 export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
@@ -17,6 +18,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'red',
     article_types: ['creature'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Characters',
@@ -25,6 +27,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'blue',
     article_types: ['character'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'DiaryEntries',
@@ -33,6 +36,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'darkgreen',
     article_types: ['diaryentry'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Items',
@@ -41,6 +45,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'yellow',
     article_types: ['item'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Locations',
@@ -49,6 +54,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'brown',
     article_types: ['location'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Maps',
@@ -57,6 +63,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'beige',
     article_types: ['map'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Organizations',
@@ -65,6 +72,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'purple',
     article_types: ['organization'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Quests',
@@ -73,6 +81,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'white',
     article_types: ['quest'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Recordings',
@@ -81,6 +90,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'green',
     article_types: ['sessionaudio', 'recording'],
     showInSidebar: true,
+    availableOffline: false,
   },
   {
     title: 'Rules',
@@ -89,6 +99,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'orange',
     article_types: ['rule', 'rules'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Spells',
@@ -97,6 +108,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'violet',
     article_types: ['spell', 'spells'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Sessions',
@@ -105,6 +117,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'green',
     article_types: ['session', 'sessions'],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Wiki-Overview',
@@ -113,6 +126,7 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'white',
     article_types: [],
     showInSidebar: true,
+    availableOffline: true,
   },
   {
     title: 'Wiki Configuration',
@@ -121,5 +135,6 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     color: 'black',
     article_types: [],
     showInSidebar: true,
+    availableOffline: false,
   },
 ];

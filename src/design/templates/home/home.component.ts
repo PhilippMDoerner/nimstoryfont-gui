@@ -15,6 +15,8 @@ import {
 } from 'src/app/_models/overview';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
+import { AsyncPipe } from '@angular/common';
+import { OnlineService } from 'src/app/_services/online.service';
 import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
 import { Icon } from 'src/design/atoms/_models/icon';
 import { PlaceholderComponent } from 'src/design/atoms/placeholder/placeholder.component';
@@ -34,6 +36,7 @@ import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-
     SearchFieldComponent,
     IconCardListComponent,
     PlaceholderComponent,
+    AsyncPipe,
   ],
 })
 export class HomeComponent {
@@ -61,6 +64,7 @@ export class HomeComponent {
   articles = input.required<OverviewItem[] | undefined>();
   isLoading = input.required<boolean>();
   canLoadMore = input.required<boolean>();
+  isOnline$ = inject(OnlineService).online$;
 
   @Output() appSearch: EventEmitter<string> = new EventEmitter();
   @Output() loadArticlePage: EventEmitter<number> = new EventEmitter();

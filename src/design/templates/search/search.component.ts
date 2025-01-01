@@ -1,11 +1,13 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SidebarOption } from '../../molecules';
 import { SidebarLegendComponent } from '../../molecules/sidebar-legend/sidebar-legend.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
+import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { OnlineService } from 'src/app/_services/online.service';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { SearchHitComponent } from '../../organisms/search-hit/search-hit.component';
@@ -22,9 +24,12 @@ import { SearchHitComponent } from '../../organisms/search-hit/search-hit.compon
     RouterLink,
     ButtonComponent,
     SearchFieldComponent,
+    AsyncPipe,
   ],
 })
 export class SearchComponent {
+  isOnline$ = inject(OnlineService).online$;
+
   foundArticles = input.required<OverviewItem[]>();
   emptySearchSubtitle = input.required<string>();
   searchString = input.required<string>();

@@ -41,7 +41,7 @@ export function offlineInterceptor(
     take(1),
     switchMap((isOnline) => {
       if (req.method !== 'GET') return next(req);
-      // if (isOnline) return next(req);
+      if (isOnline) return next(req);
 
       return offlineRequestService.getRequestData(req.url).pipe(
         switchMap((offlineResponseData) => {
@@ -50,7 +50,7 @@ export function offlineInterceptor(
             toastService.addToast(offlineReadToast);
             return next(req);
           }
-          console.log('offline data:', offlineResponseData);
+
           return of(
             new HttpResponse({
               body: offlineResponseData,

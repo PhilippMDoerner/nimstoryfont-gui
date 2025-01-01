@@ -32,6 +32,8 @@
     {
       "name": "aldruneWikiOverview",
       "urls": [
+        "https://www.aldrune.com/wiki1/api/campaign/",
+        "https://www.aldrune.com/wiki1/api/campaign/overview/",
         "https://www.aldrune.com/wiki1/api/character/*/overview/",
         "https://www.aldrune.com/wiki1/api/location/*/overview/",
         "https://www.aldrune.com/wiki1/api/item/*/overview/",

@@ -18,6 +18,7 @@ This is a re-built Angular frontend client of Storyfont, a PWA-ready webpage bui
 Beyond that it contains the following features:
 
 1. A visual graph representation of Characters, Organizations, Locations and Items using an interactive d3js graph
+2. Read-only offline mode. By downloading dumps of all data of a campaign you have access to and storing those in an indexed db + storing global data via service worker, the project allows for a read-only offline mode of _most_ data.
 
 It is multi-tenant, therefore can house multiple campaigns side-by-side.
 Permissions are handled on a per-campaign basis where campaign-admins can add/remove users from campaigns.

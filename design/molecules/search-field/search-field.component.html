@@ -1,14 +1,19 @@
 <div class="search" id="search-area">
   <form class="search__form" (submit)="startSearch()">
-    <div class="d-flex search__bar">
+    <div
+      class="d-flex search__bar"
+      [class.search__bar--disabled]="!canSearch()"
+    >
       <input
         class="search__input"
+        [class.search__input--disabled]="!canSearch()"
         type="search"
         name="search"
         title="search"
         id="search"
+        [disabled]="!canSearch()"
         [(ngModel)]="searchString"
-        [placeholder]="placeholder()"
+        [placeholder]="_placeholder()"
         aria-label="Search"
       />
 
@@ -16,6 +21,7 @@
         btn
         class="search__button"
         [attr.aria-label]="btnAriaLabel()"
+        [disabled]="!canSearch()"
         [kind]="'PRIMARY'"
         [icon]="'search'"
       ></button>

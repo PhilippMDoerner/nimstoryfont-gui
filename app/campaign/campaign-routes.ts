@@ -1,7 +1,8 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
-import { onExitReset } from '../_guards/onExitReset';
+import { onExitReset } from '../_guards/onExitReset.guard';
+import { onlyOnlineGuard } from '../_guards/only-online.guard';
 import { CampaignOverviewRoute } from '../_models/route';
 import { ConfigAdministrationPageStore } from '../administration/pages/config-administration-page/config-administration-page.store';
 import { CharacterCreateUpdateStore } from './pages/character-create-update-page/character-create-update-page.store';
@@ -101,6 +102,7 @@ const detailRoutes: Route[] = [
         (m) => m.CampaignAdminPageComponent,
       ),
     data: { name: 'campaign-admin', requiredMinimumRole: 'admin' },
+    canActivate: [onlyOnlineGuard],
   },
   {
     path: 'admin/update',
@@ -109,6 +111,7 @@ const detailRoutes: Route[] = [
         './pages/campaign-update-page/campaign-update-page.component'
       ).then((m) => m.CampaignUpdatePageComponent),
     data: { name: 'campaign-update', requiredMinimumRole: 'admin' },
+    canActivate: [onlyOnlineGuard],
   },
   //Home Routes
   {
@@ -140,6 +143,7 @@ const detailRoutes: Route[] = [
           route.params['searchString'],
         ),
     },
+    canActivate: [onlyOnlineGuard],
   },
   // Character Routes
   {
@@ -159,6 +163,7 @@ const detailRoutes: Route[] = [
             inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
         },
         canDeactivate: [onExitReset(CharacterCreateUpdateStore)],
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':name',
@@ -198,6 +203,7 @@ const detailRoutes: Route[] = [
             inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
         },
         canDeactivate: [onExitReset(CharacterCreateUpdateStore)],
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -214,6 +220,7 @@ const detailRoutes: Route[] = [
         data: { name: 'creature-create', requiredMinimumRole: 'member' },
         resolve: {},
         canDeactivate: [onExitReset(CreatureUpdateCreateStore)],
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':name',
@@ -242,6 +249,7 @@ const detailRoutes: Route[] = [
             ),
         },
         canDeactivate: [onExitReset(CreatureUpdateCreateStore)],
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -262,6 +270,7 @@ const detailRoutes: Route[] = [
             inject(ItemCreateUpdateStore).loadCampaignCharacters(),
         },
         canDeactivate: [onExitReset(ItemCreateUpdateStore)],
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':name',
@@ -291,6 +300,7 @@ const detailRoutes: Route[] = [
             inject(ItemCreateUpdateStore).loadCampaignCharacters(),
         },
         canDeactivate: [onExitReset(ItemCreateUpdateStore)],
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -312,6 +322,7 @@ const detailRoutes: Route[] = [
           loadAuthors: () =>
             inject(DiaryEntryCreateUpdatePageStore).loadAuthors(),
         },
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':sessionNumber/:isMainSession/:authorName',
@@ -370,6 +381,7 @@ const detailRoutes: Route[] = [
           loadAuthors: () =>
             inject(DiaryEntryCreateUpdatePageStore).loadAuthors(),
         },
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -389,6 +401,7 @@ const detailRoutes: Route[] = [
           loadLocations: () =>
             inject(LocationCreateUpdateStore).loadCampaignLocations(),
         },
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':parent_name/:name',
@@ -425,6 +438,7 @@ const detailRoutes: Route[] = [
               parentLocationName: route.params['parent_name'],
             }),
         },
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -446,6 +460,7 @@ const detailRoutes: Route[] = [
             inject(OrganizationCreateUpdatePageStore).loadCampaignLocations(),
         },
         canDeactivate: [onExitReset(OrganizationCreateUpdatePageStore)],
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':name',
@@ -478,6 +493,7 @@ const detailRoutes: Route[] = [
             inject(OrganizationCreateUpdatePageStore).loadCampaignLocations(),
         },
         canDeactivate: [onExitReset(OrganizationCreateUpdatePageStore)],
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -515,6 +531,7 @@ const detailRoutes: Route[] = [
             inject(QuestCreateUpdatePageStore).loadCampaignSessions(),
         },
         canDeactivate: [onExitReset(QuestCreateUpdatePageStore)],
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':name',
@@ -548,6 +565,7 @@ const detailRoutes: Route[] = [
             inject(QuestCreateUpdatePageStore).loadQuest(route.params['name']),
         },
         canDeactivate: [onExitReset(QuestCreateUpdatePageStore)],
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -649,6 +667,7 @@ const detailRoutes: Route[] = [
           ).then((m) => m.MapCreateUpdatePageComponent),
         data: { name: 'map-create', requiredMinimumRole: 'member' },
         canDeactivate: [onExitReset(MapPageStore)],
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: 'default',
@@ -689,6 +708,7 @@ const detailRoutes: Route[] = [
             inject(MapCreateUpdateStore).loadMap(route.params['name']),
         },
         canDeactivate: [onExitReset(MapPageStore)],
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -727,6 +747,7 @@ const detailRoutes: Route[] = [
             inject(MarkerCreateUpdateStore).loadCampaignLocations(),
           markerTypes: () => inject(MarkerCreateUpdateStore).loadMarkerTypes(),
         },
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':parent_location_name/:location_name/:map_name',
@@ -745,6 +766,7 @@ const detailRoutes: Route[] = [
               name: route.params['map_name'],
             }),
         },
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':parent_location_name/:location_name/:map_name/update',
@@ -767,6 +789,7 @@ const detailRoutes: Route[] = [
               name: route.params['map_name'],
             }),
         },
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },
@@ -802,6 +825,7 @@ const detailRoutes: Route[] = [
             inject(SessionaudioCreateUpdatePageStore).loadCampaignSessions(),
         },
         canDeactivate: [onExitReset(SessionaudioCreateUpdatePageStore)],
+        canActivate: [onlyOnlineGuard],
       },
       {
         path: ':isMainSession/:sessionNumber',
@@ -842,6 +866,7 @@ const detailRoutes: Route[] = [
             }),
         },
         canDeactivate: [onExitReset(SessionaudioCreateUpdatePageStore)],
+        canActivate: [onlyOnlineGuard],
       },
     ],
   },

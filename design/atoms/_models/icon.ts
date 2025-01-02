@@ -21,6 +21,7 @@ export const ALL_SOLID_ICONS = [
   'arrow-right',
   'arrow-up-long',
   'bars',
+  'ban',
   'bolt',
   'book-open',
   'book',

@@ -51,6 +51,7 @@
         [btnAriaLabel]="
           'Searches for an article node in the graph and centers it if it can find one'
         "
+        [canSearch]="true"
         (appSearch)="nodeQuery$.next($event)"
       ></app-search-field>
 

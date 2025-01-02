@@ -1,5 +1,6 @@
 import { siteAdminGuard } from '../_guards/admin.guard';
-import { onExitReset } from '../_guards/onExitReset';
+import { onExitReset } from '../_guards/onExitReset.guard';
+import { onlyOnlineGuard } from '../_guards/only-online.guard';
 import { AdminRoute } from '../_models/route';
 import { ConfigAdministrationPageComponent } from './pages/config-administration-page/config-administration-page.component';
 import { ConfigAdministrationPageStore } from './pages/config-administration-page/config-administration-page.store';
@@ -11,7 +12,7 @@ export const adminRoutes: AdminRoute[] = [
     path: ``,
     component: SiteAdministrationPageComponent,
     data: { name: 'admin' },
-    canActivate: [siteAdminGuard],
+    canActivate: [siteAdminGuard, onlyOnlineGuard],
   },
   {
     path: `configtables`,

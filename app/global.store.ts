@@ -11,9 +11,12 @@ import {
   withState,
 } from '@ngrx/signals';
 import { Observable, shareReplay, take } from 'rxjs';
+import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { CampaignOverview } from './_models/campaign';
 import { Login } from './_models/login';
+import { httpErrorToast } from './_models/toast';
 import { CampaignRole, TokenData, UserData } from './_models/token';
+import { OnlineService } from './_services/online.service';
 import { RoutingService } from './_services/routing.service';
 import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
@@ -130,6 +133,9 @@ export const GlobalStore = signalStore(
   withMethods((state) => {
     const tokenService = inject(TokenService);
     const campaignService = inject(CampaignService);
+    const toastService = inject(ToastService);
+    const isOnline = toSignal(inject(OnlineService).online$);
+
     return {
       getCampaignRole: (campaignName: string) => {
         const userData = state.userData();
@@ -157,13 +163,24 @@ export const GlobalStore = signalStore(
         return refresh$;
       },
       logout: () => {
-        tokenService.logout();
-        patchState(state, {
-          userData: undefined,
-          campaigns: undefined,
-          currentCampaign: undefined,
-          contentScrollEvents: undefined,
-        });
+        tokenService
+          .logout()
+          .pipe(
+            tapResponse({
+              next: () => {
+                patchState(state, {
+                  userData: undefined,
+                  campaigns: undefined,
+                  currentCampaign: undefined,
+                  contentScrollEvents: undefined,
+                });
+              },
+              error: (err: HttpErrorResponse) =>
+                toastService.addToast(httpErrorToast(err)),
+            }),
+            take(1),
+          )
+          .subscribe();
       },
       isCampaignMember: (campaignName?: string): boolean => {
         campaignName = campaignName ?? state.campaignName();
@@ -194,12 +211,13 @@ export const GlobalStore = signalStore(
             patchState(state, { campaigns: campaigns }),
           );
       },
-      hasRoleOrBetter: (minimumRole: CampaignRole) => {
-        return computed(() => {
+      canPerformActionsOfRole: (minimumRole: CampaignRole) => {
+        const hasRolePermissions = computed<boolean>(() => {
           const currentRole = state.currentCampaignRole();
           if (currentRole == null) return false;
           return hasRoleOrBetter(currentRole, minimumRole);
         });
+        return computed<boolean>(() => hasRolePermissions() && !!isOnline());
       },
       fireScrollEvent: (event: ContentScrollEvent) => {
         patchState(state, { contentScrollEvents: event });

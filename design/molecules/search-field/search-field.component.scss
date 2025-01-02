@@ -23,6 +23,10 @@ input[type="search"]::-webkit-search-results-decoration {
     border-color: var(--bs-white);
     border: solid 2px var(--bs-white);
     border-radius: var(--bs-border-radius);
+
+    &--disabled {
+      cursor: not-allowed;
+    }
   }
 
   &__input {
@@ -32,5 +36,9 @@ input[type="search"]::-webkit-search-results-decoration {
     width: 100%;
     padding: var(--spacer-2);
     color: var(--bs-white);
+
+    &--disabled {
+      cursor: not-allowed;
+    }
   }
 }

@@ -48,13 +48,23 @@
 
       <!-- Campaign Overview Entries -->
       @for (entry of sidebarEntries(); track $index) {
+        @let isEntryDisabled =
+          (online$ | async) === false && !entry.availableOffline;
         <li
           class="sidebar__entry entry"
-          [class.disabled-entry]="campaign() == null"
+          [ngbTooltip]="isEntryDisabled ? 'Not available offline' : undefined"
         >
-          <a [routerLink]="entry.route" class="entry__link">
+          <a
+            [routerLink]="isEntryDisabled ? '' : entry.route"
+            class="entry__link"
+            [ariaDisabled]="isEntryDisabled"
+            [class.entry__link--disabled]="isEntryDisabled"
+          >
             <app-icon class="entry__icon" [icon]="entry.iconClass"></app-icon>
             <span class="entry__text">{{ entry.title }}</span>
+            @if (isEntryDisabled) {
+              <app-icon class="entry__icon" [icon]="'ban'"></app-icon>
+            }
           </a>
         </li>
       }

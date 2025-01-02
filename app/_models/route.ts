@@ -2,6 +2,7 @@ import { Route } from '@angular/router';
 import { GeneralOverviewType } from 'src/design/templates/_models/generalOverviewType';
 import { siteAdminGuard } from '../_guards/admin.guard';
 import { loginGuard } from '../_guards/login.guard';
+import { onlyOnlineGuard } from '../_guards/only-online.guard';
 import { CampaignRole } from './token';
 
 //Route Data Models
@@ -19,11 +20,11 @@ export interface BaseNamedRoute extends Route {
 
 //Route Models
 export interface GeneralRoute extends BaseNamedRoute {
-  canActivate?: [typeof loginGuard];
+  canActivate?: [typeof loginGuard, ...(typeof onlyOnlineGuard)[]];
 }
 
 export interface AdminRoute extends BaseNamedRoute {
-  canActivate: [typeof siteAdminGuard];
+  canActivate: [typeof siteAdminGuard, ...(typeof onlyOnlineGuard)[]];
 }
 
 export interface CampaignRoute extends BaseNamedRoute {

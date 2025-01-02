@@ -2,19 +2,28 @@ import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   input,
   output,
+  TemplateRef,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { fromEvent, map, merge, startWith } from 'rxjs';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { OnlineService } from 'src/app/_services/online.service';
+import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { environment } from 'src/environments/environment';
 import { IconComponent } from '../../atoms/icon/icon.component';
 
 @Component({
   selector: 'app-mobile-header',
   standalone: true,
-  imports: [IconComponent, RouterLink, AsyncPipe, NgbTooltipModule],
+  imports: [
+    IconComponent,
+    RouterLink,
+    AsyncPipe,
+    NgbTooltipModule,
+    ButtonComponent,
+  ],
   templateUrl: './mobile-header.component.html',
   styleUrl: './mobile-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,8 +37,13 @@ export class MobileHeaderComponent {
   openSidebar = output<void>();
   serverUrl = environment.backendDomain;
 
-  online$ = merge(
-    fromEvent(window, 'online').pipe(map(() => true)),
-    fromEvent(window, 'offline').pipe(map(() => false)),
-  ).pipe(startWith(window.navigator.onLine));
+  online$ = inject(OnlineService).online$;
+  modalService = inject(NgbModal);
+
+  openModal(content: TemplateRef<any>) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-title',
+      modalDialogClass: 'border border-info border-3 rounded mymodal',
+    });
+  }
 }

@@ -35,7 +35,7 @@ export const LocationPageStore = signalStore(
   withComputed(() => {
     const globalStore = inject(GlobalStore);
     return {
-      hasWritePermission: globalStore.hasRoleOrBetter('member'),
+      hasWritePermission: globalStore.canPerformActionsOfRole('member'),
     };
   }),
   withQueries(() => {

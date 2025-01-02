@@ -15,6 +15,7 @@
       [btnAriaLabel]="
         'Triggers a search for any articles matching the query in this campaign'
       "
+      [canSearch]="(isOnline$ | async) === true"
       (appSearch)="search($event)"
     ></app-search-field>
 

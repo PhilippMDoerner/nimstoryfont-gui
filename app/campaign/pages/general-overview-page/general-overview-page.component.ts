@@ -39,7 +39,7 @@ export class GeneralOverviewPageComponent {
   serverUrl = environment.backendDomain;
 
   campaignName$ = toObservable(this.globalStore.campaignName).pipe(filterNil());
-  canCreate = this.globalStore.hasRoleOrBetter('member');
+  canCreate = this.globalStore.canPerformActionsOfRole('member');
   overviewType$ = this.route.data.pipe(
     map((data) => data['overviewType'] as GeneralOverviewType),
   );

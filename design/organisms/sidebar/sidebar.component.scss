@@ -41,10 +41,6 @@ a {
   }
 
   &__entry {
-    :hover {
-      color: var(--entry-hover-color);
-      background-color: var(--entry-hover-bg-color);
-    }
   }
 
   &__footer {
@@ -56,6 +52,11 @@ a {
 }
 
 .entry {
+  :hover {
+    color: var(--entry-hover-color);
+    background-color: var(--entry-hover-bg-color);
+  }
+
   &__link {
     display: flex;
     align-items: center;
@@ -64,6 +65,11 @@ a {
     height: 2.75rem;
     font-weight: bold;
     font-size: large;
+
+    &--disabled {
+      color: var(--bs-gray-600);
+      pointer-events: none;
+    }
 
     &--button {
       width: 100%;

@@ -8,6 +8,7 @@ import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { errorInterceptor } from './app/_interceptors/errorInterceptor';
+import { offlineInterceptor } from './app/_interceptors/offlineInterceptor';
 import { addTokenInterceptor } from './app/_interceptors/tokenInterceptor';
 import { FORMLY_MODULE } from './app/_modules/formly_constants';
 import { ROUTES } from './app/app-routing.module';
@@ -21,7 +22,11 @@ bootstrapApplication(AppComponent, {
     provideRouter(ROUTES, withViewTransitions()),
     { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' },
     provideHttpClient(
-      withInterceptors([addTokenInterceptor, errorInterceptor]),
+      withInterceptors([
+        addTokenInterceptor,
+        offlineInterceptor,
+        errorInterceptor,
+      ]),
     ),
     GlobalStore,
     NavigationStore,

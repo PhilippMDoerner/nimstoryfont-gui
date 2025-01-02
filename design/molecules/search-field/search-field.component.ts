@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   EventEmitter,
   input,
   Output,
@@ -22,6 +23,11 @@ export class SearchFieldComponent {
 
   placeholder = input('Enter Search Query');
   btnAriaLabel = input('Trigger a search');
+  canSearch = input.required<boolean>();
+  _placeholder = computed(() =>
+    this.canSearch() ? this.placeholder() : 'Search is currently disabled',
+  );
+
   @Output() appSearch: EventEmitter<string> = new EventEmitter();
 
   searchString: string = '';

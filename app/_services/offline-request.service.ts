@@ -76,7 +76,7 @@ export class OfflineRequestService {
   loadCampaignData(
     campaignName: string,
   ): Observable<Download<OfflineCampaignData>> {
-    const url = `${environment.apiUrl}/db_dumps/${campaignName}.json`;
+    const url = `${environment.apiUrl}/db_dumps/${campaignName}-data.json`;
     return this.client
       .get<OfflineCampaignData>(url, {
         responseType: 'json',

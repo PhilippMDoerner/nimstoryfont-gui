@@ -9,15 +9,14 @@ export default {
   },
 } as Meta<ArrowButtonComponent>;
 
-const Template: StoryFn<ArrowButtonComponent> = (args: any) => ({
+const Template: StoryFn<ArrowButtonComponent> = (args) => ({
   props: args,
   template: `
-    <div class="d-flex flex-column">
+    <div class="d-flex flex-column" style="color: black;">
       <div>
-        Button Size: {{size}}
-        <app-arrow-button [icon]="'up'" [kind]="type">
+        <app-arrow-button [icon]="'up'" [kind]="kind">
         </app-arrow-button>
-        <app-arrow-button [icon]="'down'" [kind]="type"[outline]="true">
+        <app-arrow-button [icon]="'down'" [kind]="kind+'-OUTLINE'">
         </app-arrow-button>
       </div>
     </div>

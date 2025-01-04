@@ -19,25 +19,25 @@ const Template: StoryFn<ButtonComponent> = (args: any) => ({
     <div class="d-flex flex-column">
       <div>
         Button Size: {{size}}
-        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="size">
+        <button btn [text]="text" [icon]="icon" [kind]="kind" [size]="size">
         </button>
-        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="size" [outline]="true">
+        <button btn [text]="text" [icon]="icon" [kind]="kind + '-OUTLINE'" [size]="size">
         </button>
       </div>
       
       <div class="my-4">
         Button Size: SMALL
-        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="'SMALL'">
+        <button btn [text]="text" [icon]="icon" [kind]="kind" [size]="'SMALL'">
         </button>
-        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="'SMALL'" [outline]="true">
+        <button btn [text]="text" [icon]="icon" [kind]="kind + '-OUTLINE'" [size]="'SMALL'">
         </button>
       </div>
       
       <div>
         Button Size: LARGE
-        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="'LARGE'">
+        <button btn [text]="text" [icon]="icon" [kind]="kind" [size]="'LARGE'">
         </button>
-        <button btn [text]="text" [icon]="icon" [kind]="type" [size]="'LARGE'" [outline]="true">
+        <button btn [text]="text" [icon]="icon" [kind]="kind + '-OUTLINE'" [size]="'LARGE'">
         </button>
       </div>
       

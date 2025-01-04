@@ -1,11 +1,16 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { action } from '@storybook/addon-actions';
-import { Meta, StoryFn } from '@storybook/angular';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { ConfirmationToggleButtonComponent } from './confirmation-toggle-button.component';
 
 export default {
   title: 'DesignSystem/Molecules/ConfirmationToggleButtonComponent',
   component: ConfirmationToggleButtonComponent,
-
+  decorators: [
+    moduleMetadata({
+      imports: [BrowserAnimationsModule],
+    }),
+  ],
   args: {
     confirmationQuestion: 'Are you sure?',
     toggleType: 'DANGER',

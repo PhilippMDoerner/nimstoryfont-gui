@@ -4,6 +4,7 @@ import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { Observable, of } from 'rxjs';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { CreateUpdateComponent } from './create-update.component';
 
@@ -235,8 +236,10 @@ const dummySelectDisableConfig: FormlyFieldConfig = {
     labelProp: 'username',
     valueProp: 'username',
     options: of(dummyData) as unknown as Observable<any[]>,
-    disabledExpression: (selectOption: any) =>
-      isInGroup(selectOption, 'group a'),
+    additionalProperties: {
+      disabledExpression: (selectOption: any) =>
+        of(isInGroup(selectOption, 'group a')),
+    },
     tooltipMessage:
       'Members typically represent the individual player characters + the GM(s)',
     warningMessage: 'The user you selected is already member of this campaign',
@@ -281,7 +284,7 @@ export default {
   component: CreateUpdateComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, FORMLY_MODULE],
+      imports: [RouterTestingModule, FORMLY_MODULE, BrowserAnimationsModule],
       declarations: [],
     }),
   ],

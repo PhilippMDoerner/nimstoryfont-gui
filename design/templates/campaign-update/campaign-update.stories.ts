@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, moduleMetadata, StoryObj } from '@storybook/angular';
 import { FORMLY_CHILD_MODULE } from 'src/app/_modules/formly_constants';
 import { dummyMaps } from 'src/app/_services/article/map.service.mock';
@@ -10,7 +11,7 @@ export default {
 
   decorators: [
     moduleMetadata({
-      imports: [FORMLY_CHILD_MODULE],
+      imports: [FORMLY_CHILD_MODULE, BrowserAnimationsModule],
     }),
   ],
   args: {

@@ -4,6 +4,8 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
 
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
+import { RoutingServiceMock } from 'src/app/_services/routing.mock.service';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { CharacterDetails } from '../../../app/_models/character';
 import { Quote } from '../../../app/_models/quote';
 import { QuoteFieldComponent } from './quote-field.component';
@@ -303,6 +305,12 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [RouterTestingModule, FORMLY_MODULE],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceMock,
+        },
+      ],
     }),
   ],
   args: {

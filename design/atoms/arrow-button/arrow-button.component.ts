@@ -7,14 +7,13 @@ import {
 import { ElementKind } from '../_models/button';
 import { Icon } from '../_models/icon';
 import { ButtonComponent } from '../button/button.component';
-import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'app-arrow-button',
   templateUrl: './arrow-button.component.html',
   styleUrls: ['./arrow-button.component.scss'],
   standalone: true,
-  imports: [IconComponent, ButtonComponent],
+  imports: [ButtonComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ArrowButtonComponent {

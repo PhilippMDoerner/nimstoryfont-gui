@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
@@ -67,7 +68,7 @@ export default {
   component: SessionaudioComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, FORMLY_MODULE],
+      imports: [RouterTestingModule, FORMLY_MODULE, BrowserAnimationsModule],
       declarations: [],
     }),
   ],

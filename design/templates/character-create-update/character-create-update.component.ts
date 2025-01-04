@@ -13,10 +13,8 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { CharacterDetails } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { BadgeComponent } from '../../atoms/badge/badge.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
-import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
 import { CompareFormComponent } from '../../molecules/compare-form/compare-form.component';
 import { FormComponent } from '../../molecules/form/form.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
@@ -35,8 +33,6 @@ type MembershipFormState = 'CREATE' | 'DISPLAY';
     NgTemplateOutlet,
     FormComponent,
     SeparatorComponent,
-    BadgeListComponent,
-    BadgeComponent,
     CompareFormComponent,
   ],
 })

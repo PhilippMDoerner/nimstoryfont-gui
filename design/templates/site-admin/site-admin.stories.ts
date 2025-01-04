@@ -10,6 +10,7 @@ import {
   dummyStatistics,
 } from 'src/app/_services/utils/campaign.mock.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { SiteAdminComponent } from './site-admin.component';
 
@@ -18,7 +19,13 @@ export default {
   component: SiteAdminComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonModule, NgbModule, RouterTestingModule, FORMLY_MODULE],
+      imports: [
+        CommonModule,
+        NgbModule,
+        RouterTestingModule,
+        FORMLY_MODULE,
+        BrowserAnimationsModule,
+      ],
       declarations: [],
     }),
   ],

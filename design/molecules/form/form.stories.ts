@@ -243,8 +243,9 @@ const dummySelectDisableConfig: FormlyFieldConfig = {
     labelProp: 'username',
     valueProp: 'username',
     options: of(dummyData) as unknown as Observable<any[]>,
-    disabledExpression: (selectOption: any) =>
-      isInGroup(selectOption, 'group a'),
+    additionalProperties: {
+      disabledExpression: (selectOption: any) => of(false),
+    },
     tooltipMessage:
       'Members typically represent the individual player characters + the GM(s)',
     warningMessage: 'The user you selected is already member of this campaign',

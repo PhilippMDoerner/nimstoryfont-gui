@@ -1,6 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
+import { TitleService } from 'src/app/_services/utils/title.service';
 import { SidebarComponent } from './sidebar.component';
 
 // Add MockTokenService
@@ -12,6 +13,12 @@ export default {
     moduleMetadata({
       imports: [RouterTestingModule],
       declarations: [],
+      providers: [
+        {
+          provide: TitleService,
+          useValue: { currentPageTitle: () => 'Some Title' },
+        },
+      ],
     }),
   ],
   args: {

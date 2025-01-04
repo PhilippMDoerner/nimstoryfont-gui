@@ -5,6 +5,7 @@ import { CharacterDetails } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Quote } from 'src/app/_models/quote';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { CharacterComponent } from './character.component';
 
@@ -726,7 +727,7 @@ export default {
   component: CharacterComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, FORMLY_MODULE],
+      imports: [RouterTestingModule, BrowserAnimationsModule, FORMLY_MODULE],
       declarations: [],
     }),
   ],
@@ -740,6 +741,14 @@ export default {
     canDelete: true,
     campaignNPCCharacters: dummyCharacters,
     character: dummyCharacter,
+    characterServerModel: undefined,
+    campaignCharacters: dummyCharacters,
+    campaignLocations: [],
+    campaignOrganizations: [],
+    campaignClasses: [],
+    sessions: [],
+    encounters: [],
+
     characterQuote: dummyQuote,
   },
 } as Meta<CharacterComponent>;

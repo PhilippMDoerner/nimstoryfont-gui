@@ -1,9 +1,12 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { EditorModule } from '@tinymce/tinymce-angular';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
+import { RoutingServiceMock } from 'src/app/_services/routing.mock.service';
+import { RoutingService } from 'src/app/_services/routing.service';
 import * as all from 'tinymce/tinymce';
 import { Encounter, EncounterConnection } from '../../../app/_models/encounter';
 import { EncounterComponent } from './encounter.component';
@@ -260,7 +263,18 @@ export default {
   component: EncounterComponent,
   decorators: [
     moduleMetadata({
-      imports: [EditorModule, RouterTestingModule, FORMLY_MODULE],
+      imports: [
+        EditorModule,
+        BrowserAnimationsModule,
+        RouterTestingModule,
+        FORMLY_MODULE,
+      ],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceMock,
+        },
+      ],
     }),
   ],
   args: {

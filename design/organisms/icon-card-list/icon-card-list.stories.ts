@@ -92,6 +92,7 @@ export default {
   component: IconCardListComponent,
   args: {
     articles: dummyArticles,
+    isLoading: false,
   },
   decorators: [
     moduleMetadata({

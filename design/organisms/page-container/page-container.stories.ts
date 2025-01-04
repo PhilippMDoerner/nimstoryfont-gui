@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { PageContainerComponent } from './page-container.component';
 
@@ -7,6 +8,7 @@ export default {
   decorators: [
     moduleMetadata({
       declarations: [],
+      imports: [BrowserAnimationsModule],
     }),
   ],
   parameters: {

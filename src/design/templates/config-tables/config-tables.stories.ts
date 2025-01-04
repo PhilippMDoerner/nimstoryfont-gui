@@ -2,10 +2,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { dummyMarkerTypes } from 'src/app/_services/article/marker-type.service.mock';
-import { dummyOrganizations } from 'src/app/_services/article/organization.service.mock';
 import { dummyClasses } from 'src/app/_services/article/player-class.service.mock';
 import { FormlyProvider } from 'src/app/_services/formly/formly-service.mock';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { ConfigTablesComponent } from './config-tables.component';
 
@@ -14,18 +14,17 @@ export default {
   component: ConfigTablesComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, FORMLY_MODULE],
+      imports: [RouterTestingModule, FORMLY_MODULE, BrowserAnimationsModule],
       declarations: [],
       providers: [FormlyProvider],
     }),
   ],
   args: {
+    currentCampaignId: 1,
     campaignName: 'Aldrune',
-    state: 'CREATE',
-    userModel: {},
-    serverModel: undefined,
-    classOptions: dummyClasses,
-    organizations: dummyOrganizations,
+    tableData: {},
+    canDeleteGlobalEntries: true,
+    hasCampaignWritePermission: true,
   },
 } as Meta<ConfigTablesComponent>;
 

@@ -1,6 +1,10 @@
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { RoutingServiceMock } from 'src/app/_services/routing.mock.service';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
+import { TitleService } from 'src/app/_services/utils/title.service';
+import { GlobalStore } from 'src/app/global.store';
 import { PageComponent } from './page.component';
 
 const dummyUserData = {
@@ -30,6 +34,17 @@ export default {
   decorators: [
     moduleMetadata({
       imports: [RouterTestingModule],
+      providers: [
+        {
+          provide: TitleService,
+          useValue: { currentPageTitle: () => 'Some Title' },
+        },
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceMock,
+        },
+        GlobalStore,
+      ],
     }),
   ],
   parameters: {

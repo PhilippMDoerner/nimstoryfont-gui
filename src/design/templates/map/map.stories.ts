@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { action } from '@storybook/addon-actions';
@@ -108,7 +109,7 @@ export default {
   component: MapComponent,
   decorators: [
     moduleMetadata({
-      imports: [LeafletModule, RouterTestingModule],
+      imports: [LeafletModule, RouterTestingModule, BrowserAnimationsModule],
       declarations: [],
     }),
   ],

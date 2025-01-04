@@ -12,7 +12,7 @@ import {
   componentWrapperDecorator,
   moduleMetadata,
 } from '@storybook/angular';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { User } from 'src/app/_models/user';
 import {
   requiredMessage,
@@ -259,17 +259,20 @@ const dummyConfig: FormlyFieldConfig = {
   },
 };
 
-const isInGroup = (selectOption: any, groupName: string): boolean => {
+const isInGroup = (
+  selectOption: any,
+  groupName: string,
+): Observable<boolean> => {
   const groupsOfUser: any[] = selectOption.group_details;
   const hasGroups = groupsOfUser != null;
   if (!hasGroups) {
-    return false;
+    return of(false);
   }
 
   const isMember = groupsOfUser.some(
     (group) => group.name.toLowerCase() === groupName,
   );
-  return isMember;
+  return of(isMember);
 };
 
 export default {

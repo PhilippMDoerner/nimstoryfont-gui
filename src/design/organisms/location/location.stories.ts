@@ -1,6 +1,9 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { OverviewItem } from 'src/app/_models/overview';
+import { RoutingServiceMock } from 'src/app/_services/routing.mock.service';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { Location, LocationCharacter } from '../../../app/_models/location';
 import { LocationComponent } from './location.component';
 
@@ -182,7 +185,13 @@ export default {
   component: LocationComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, BrowserAnimationsModule],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceMock,
+        },
+      ],
     }),
   ],
   args: {

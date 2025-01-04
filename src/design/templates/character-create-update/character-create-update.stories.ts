@@ -2,10 +2,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { dummyCharacter } from 'src/app/_services/article/character-service.mock';
-import { dummyOrganizations } from 'src/app/_services/article/organization.service.mock';
-import { dummyClasses } from 'src/app/_services/article/player-class.service.mock';
 import { FormlyProvider } from 'src/app/_services/formly/formly-service.mock';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { CharacterCreateUpdateComponent } from './character-create-update.component';
 
@@ -14,7 +13,7 @@ export default {
   component: CharacterCreateUpdateComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, FORMLY_MODULE],
+      imports: [RouterTestingModule, FORMLY_MODULE, BrowserAnimationsModule],
       declarations: [],
       providers: [FormlyProvider],
     }),
@@ -24,8 +23,7 @@ export default {
     state: 'CREATE',
     userModel: {},
     serverModel: undefined,
-    classOptions: dummyClasses,
-    organizations: dummyOrganizations,
+    lastVisitedPlaceOptions: [],
   },
 } as Meta<CharacterCreateUpdateComponent>;
 

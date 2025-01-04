@@ -1,9 +1,12 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { Location } from 'src/app/_models/location';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { dummyOverviewCharacters } from 'src/app/_services/article/character-service.mock';
+import { RoutingServiceMock } from 'src/app/_services/routing.mock.service';
+import { RoutingService } from 'src/app/_services/routing.service';
 import { LocationAccordionComponent } from './location-accordion.component';
 
 const dummyLocations: Location[] = [
@@ -159,13 +162,20 @@ export default {
   component: LocationAccordionComponent,
   decorators: [
     moduleMetadata({
-      imports: [RouterTestingModule, FORMLY_MODULE],
+      imports: [RouterTestingModule, BrowserAnimationsModule, FORMLY_MODULE],
+      providers: [
+        {
+          provide: RoutingService,
+          useClass: RoutingServiceMock,
+        },
+      ],
     }),
   ],
   args: {
     locations: dummyLocations,
     campaignCharacters: dummyOverviewCharacters,
     canCreate: true,
+    campaignName: 'Aldrune',
   },
 } as Meta<LocationAccordionComponent>;
 

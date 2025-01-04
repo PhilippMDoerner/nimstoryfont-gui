@@ -1,12 +1,18 @@
-import { Meta, StoryFn } from '@storybook/angular';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { ImageCardComponent } from './image-card.component';
 
 export default {
   title: 'DesignSystem/Molecules/ImageCardComponent',
   component: ImageCardComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [RouterTestingModule],
+    }),
+  ],
   args: {
     serverUrl: 'https://images.dog.ceo',
-    imageUrl: '/breeds/malinois/n02105162_1572.jpg',
+    imageUrls: '/breeds/malinois/n02105162_1572.jpg',
     text: 'Cute Doggo',
     alt: 'A cute little doggo',
   },

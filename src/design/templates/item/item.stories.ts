@@ -1,3 +1,4 @@
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormlyModule } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';
@@ -60,6 +61,7 @@ export default {
     moduleMetadata({
       imports: [
         RouterTestingModule,
+        BrowserAnimationsModule,
         FormlyModule.forRoot({
           types: [
             {

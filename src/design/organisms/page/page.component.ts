@@ -28,19 +28,18 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 export const showSidebarSignal = signal(true);
 
 @Component({
-  selector: 'app-page',
-  templateUrl: './page.component.html',
-  styleUrls: ['./page.component.scss'],
-  standalone: true,
-  imports: [
-    SidebarComponent,
-    PageBackgroundComponent,
-    RouterOutlet,
-    AsyncPipe,
-    NgTemplateOutlet,
-    MobileHeaderComponent,
-  ],
-  providers: [NgbOffcanvas],
+    selector: 'app-page',
+    templateUrl: './page.component.html',
+    styleUrls: ['./page.component.scss'],
+    imports: [
+        SidebarComponent,
+        PageBackgroundComponent,
+        RouterOutlet,
+        AsyncPipe,
+        NgTemplateOutlet,
+        MobileHeaderComponent,
+    ],
+    providers: [NgbOffcanvas]
 })
 export class PageComponent {
   titleService = inject(TitleService);

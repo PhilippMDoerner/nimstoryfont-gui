@@ -23,18 +23,17 @@ import { CreateUpdateState } from '../_models/create-update-states';
 type MembershipFormState = 'CREATE' | 'DISPLAY';
 
 @Component({
-  selector: 'app-character-create-update',
-  templateUrl: './character-create-update.component.html',
-  styleUrls: ['./character-create-update.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    ButtonComponent,
-    NgTemplateOutlet,
-    FormComponent,
-    SeparatorComponent,
-    CompareFormComponent,
-  ],
+    selector: 'app-character-create-update',
+    templateUrl: './character-create-update.component.html',
+    styleUrls: ['./character-create-update.component.scss'],
+    imports: [
+        PageContainerComponent,
+        ButtonComponent,
+        NgTemplateOutlet,
+        FormComponent,
+        SeparatorComponent,
+        CompareFormComponent,
+    ]
 })
 export class CharacterCreateUpdateComponent {
   state = input.required<CreateUpdateState>();

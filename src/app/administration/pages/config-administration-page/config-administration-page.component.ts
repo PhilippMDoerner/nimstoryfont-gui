@@ -11,12 +11,11 @@ import { ConfigTablesComponent } from '../../../../design/templates/config-table
 import { ConfigAdministrationPageStore } from './config-administration-page.store';
 
 @Component({
-  selector: 'app-config-administration-page',
-  templateUrl: './config-administration-page.component.html',
-  styleUrls: ['./config-administration-page.component.scss'],
-  standalone: true,
-  providers: [ConfigAdministrationPageStore],
-  imports: [ConfigTablesComponent],
+    selector: 'app-config-administration-page',
+    templateUrl: './config-administration-page.component.html',
+    styleUrls: ['./config-administration-page.component.scss'],
+    providers: [ConfigAdministrationPageStore],
+    imports: [ConfigTablesComponent]
 })
 export class ConfigAdministrationPageComponent {
   store = inject(ConfigAdministrationPageStore);

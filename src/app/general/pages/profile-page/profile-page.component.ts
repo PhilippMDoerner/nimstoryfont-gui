@@ -8,12 +8,11 @@ import { ProfileComponent } from '../../../../design/templates/profile/profile.c
 import { ProfilePageStore } from './profile-page.store';
 
 @Component({
-  selector: 'app-profile-page',
-  templateUrl: './profile-page.component.html',
-  styleUrls: ['./profile-page.component.scss'],
-  standalone: true,
-  providers: [ProfilePageStore],
-  imports: [ProfileComponent],
+    selector: 'app-profile-page',
+    templateUrl: './profile-page.component.html',
+    styleUrls: ['./profile-page.component.scss'],
+    providers: [ProfilePageStore],
+    imports: [ProfileComponent]
 })
 export class ProfilePageComponent {
   globalStore = inject(GlobalStore);

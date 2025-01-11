@@ -23,21 +23,20 @@ import { TINYMCE_SETTINGS } from '../formly-editor-field/formly-editor-field.con
 type State = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
 
 @Component({
-  selector: 'app-editable-text',
-  standalone: true,
-  imports: [
-    NgTemplateOutlet,
-    HtmlTextComponent,
-    IconComponent,
-    EditorComponent,
-    FormsModule,
-    AlertComponent,
-    SeparatorComponent,
-    ButtonComponent,
-  ],
-  templateUrl: './editable-text.component.html',
-  styleUrl: './editable-text.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-editable-text',
+    imports: [
+        NgTemplateOutlet,
+        HtmlTextComponent,
+        IconComponent,
+        EditorComponent,
+        FormsModule,
+        AlertComponent,
+        SeparatorComponent,
+        ButtonComponent,
+    ],
+    templateUrl: './editable-text.component.html',
+    styleUrl: './editable-text.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditableTextComponent {
   text = input.required<string>();

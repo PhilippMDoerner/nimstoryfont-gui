@@ -16,13 +16,12 @@ import { QuestTableComponent } from '../../organisms/quest-table/quest-table.com
     templateUrl: './quest-overview.component.html',
     styleUrls: ['./quest-overview.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
     imports: [
         PageContainerComponent,
         RouterLink,
         ButtonComponent,
         QuestTableComponent,
-    ],
+    ]
 })
 export class QuestOverviewComponent {
   quests = input.required<OverviewItem[]>();

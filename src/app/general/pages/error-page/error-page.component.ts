@@ -62,12 +62,11 @@ const ERROR_CONTENT: { [key: number]: ErrorType } = {
 };
 
 @Component({
-  selector: 'app-error-page',
-  standalone: true,
-  imports: [AsyncPipe, RouterLink, NgTemplateOutlet, ButtonComponent],
-  templateUrl: './error-page.component.html',
-  styleUrl: './error-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-error-page',
+    imports: [AsyncPipe, RouterLink, NgTemplateOutlet, ButtonComponent],
+    templateUrl: './error-page.component.html',
+    styleUrl: './error-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorPageComponent {
   routingService = inject(RoutingService);

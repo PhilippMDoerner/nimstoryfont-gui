@@ -9,12 +9,11 @@ import { CampaignUpdateComponent } from '../../../../design/templates/campaign-u
 import { CampaignUpdatePageStore } from './campaign-update-page.store';
 
 @Component({
-  selector: 'app-campaign-update-page',
-  standalone: true,
-  imports: [CampaignUpdateComponent],
-  providers: [CampaignUpdatePageStore],
-  templateUrl: './campaign-update-page.component.html',
-  styleUrl: './campaign-update-page.component.scss',
+    selector: 'app-campaign-update-page',
+    imports: [CampaignUpdateComponent],
+    providers: [CampaignUpdatePageStore],
+    templateUrl: './campaign-update-page.component.html',
+    styleUrl: './campaign-update-page.component.scss'
 })
 export class CampaignUpdatePageComponent {
   globalStore = inject(GlobalStore);

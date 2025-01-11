@@ -32,24 +32,23 @@ type UserState = 'CREATE' | 'DISPLAY';
 type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
 
 @Component({
-  selector: 'app-site-admin',
-  templateUrl: './site-admin.component.html',
-  styleUrls: ['./site-admin.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    RouterLink,
-    ButtonComponent,
-    IconComponent,
-    SeparatorComponent,
-    CardComponent,
-    FormComponent,
-    CollapsiblePanelComponent,
-    UserRowComponent,
-    SpinnerComponent,
-    TitleCasePipe,
-    KeyValuePipe,
-  ],
+    selector: 'app-site-admin',
+    templateUrl: './site-admin.component.html',
+    styleUrls: ['./site-admin.component.scss'],
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        IconComponent,
+        SeparatorComponent,
+        CardComponent,
+        FormComponent,
+        CollapsiblePanelComponent,
+        UserRowComponent,
+        SpinnerComponent,
+        TitleCasePipe,
+        KeyValuePipe,
+    ]
 })
 export class SiteAdminComponent implements OnInit, OnChanges {
   @Input() users?: User[];

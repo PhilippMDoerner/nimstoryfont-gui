@@ -21,16 +21,15 @@ import { ConfigTableComponent } from '../../organisms/config-table/config-table.
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 @Component({
-  selector: 'app-config-tables',
-  templateUrl: './config-tables.component.html',
-  styleUrls: ['./config-tables.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    RouterLink,
-    ButtonComponent,
-    ConfigTableComponent,
-  ],
+    selector: 'app-config-tables',
+    templateUrl: './config-tables.component.html',
+    styleUrls: ['./config-tables.component.scss'],
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        ConfigTableComponent,
+    ]
 })
 export class ConfigTablesComponent {
   currentCampaignId = input.required<number | undefined>();

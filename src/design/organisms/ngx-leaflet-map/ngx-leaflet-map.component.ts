@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import {
   LeafletControlLayersConfig,
   LeafletModule,
-} from '@asymmetrik/ngx-leaflet';
+} from '@bluehalo/ngx-leaflet';
 import {
   CRS,
   DivIcon,
@@ -31,7 +31,6 @@ type TextColor = 'black' | 'white';
   selector: 'app-ngx-leaflet-map',
   templateUrl: './ngx-leaflet-map.component.html',
   styleUrls: ['./ngx-leaflet-map.component.scss'],
-  standalone: true,
   imports: [LeafletModule],
 })
 export class NgxLeafletMapComponent {

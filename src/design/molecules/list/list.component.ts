@@ -4,11 +4,10 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { ListEntry } from '../_models/list';
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
-  standalone: true,
-  imports: [ButtonComponent, RouterLink],
+    selector: 'app-list',
+    templateUrl: './list.component.html',
+    styleUrls: ['./list.component.scss'],
+    imports: [ButtonComponent, RouterLink]
 })
 export class ListComponent {
   heading = input.required<string>();

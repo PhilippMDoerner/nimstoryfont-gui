@@ -12,12 +12,11 @@ import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 import { FormComponent } from '../form/form.component';
 @Component({
-  selector: 'app-compare-form',
-  templateUrl: './compare-form.component.html',
-  styleUrls: ['./compare-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [AlertComponent, SeparatorComponent, FormComponent, IconComponent],
+    selector: 'app-compare-form',
+    templateUrl: './compare-form.component.html',
+    styleUrls: ['./compare-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [AlertComponent, SeparatorComponent, FormComponent, IconComponent]
 })
 export class CompareFormComponent<T> implements OnInit {
   fields = input.required<FormlyFieldConfig[]>();

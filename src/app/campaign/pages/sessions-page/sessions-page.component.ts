@@ -4,12 +4,11 @@ import { SessionsTemplateComponent } from '../../../../design/templates/sessions
 import { SessionsPageStore } from './sessions-page.store';
 
 @Component({
-  selector: 'app-sessions-page',
-  standalone: true,
-  imports: [SessionsTemplateComponent],
-  templateUrl: './sessions-page.component.html',
-  styleUrl: './sessions-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-sessions-page',
+    imports: [SessionsTemplateComponent],
+    templateUrl: './sessions-page.component.html',
+    styleUrl: './sessions-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionsPageComponent {
   store = inject(SessionsPageStore);

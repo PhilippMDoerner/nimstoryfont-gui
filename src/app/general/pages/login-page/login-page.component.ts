@@ -11,12 +11,11 @@ import { LoginComponent } from '../../../../design/templates/login/login.compone
 import { LoginPageStore } from './login-page.store';
 
 @Component({
-  selector: 'app-login-page',
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss'],
-  standalone: true,
-  imports: [LoginComponent, AsyncPipe, FormlyModule],
-  providers: [LoginPageStore],
+    selector: 'app-login-page',
+    templateUrl: './login-page.component.html',
+    styleUrls: ['./login-page.component.scss'],
+    imports: [LoginComponent, AsyncPipe, FormlyModule],
+    providers: [LoginPageStore]
 })
 export class LoginPageComponent {
   public readonly globalStore = inject(GlobalStore);

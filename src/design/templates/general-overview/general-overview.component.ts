@@ -16,20 +16,19 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 import { GeneralOverviewType } from '../_models/generalOverviewType';
 
 @Component({
-  selector: 'app-general-overview',
-  templateUrl: './general-overview.component.html',
-  styleUrls: ['./general-overview.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    NgTemplateOutlet,
-    RouterLink,
-    ButtonComponent,
-    ImageCardComponent,
-    FilterListComponent,
-    TitleCasePipe,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-general-overview',
+    templateUrl: './general-overview.component.html',
+    styleUrls: ['./general-overview.component.scss'],
+    imports: [
+        PageContainerComponent,
+        NgTemplateOutlet,
+        RouterLink,
+        ButtonComponent,
+        ImageCardComponent,
+        FilterListComponent,
+        TitleCasePipe,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GeneralOverviewComponent {
   OVERVIEW_IMAGE_MAP: { [key in GeneralOverviewType]: string } = {

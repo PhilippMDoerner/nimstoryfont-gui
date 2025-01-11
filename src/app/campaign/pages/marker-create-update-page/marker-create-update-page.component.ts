@@ -20,12 +20,11 @@ import { CreateUpdateComponent } from '../../../../design/templates/create-updat
 import { MarkerCreateUpdateStore } from './marker-create-update-page.store';
 
 @Component({
-  selector: 'app-marker-create-update-page',
-  standalone: true,
-  imports: [CreateUpdateComponent],
-  templateUrl: './marker-create-update-page.component.html',
-  styleUrl: './marker-create-update-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-marker-create-update-page',
+    imports: [CreateUpdateComponent],
+    templateUrl: './marker-create-update-page.component.html',
+    styleUrl: './marker-create-update-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MarkerCreateUpdatePageComponent {
   formlyService = inject(FormlyService);

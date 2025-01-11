@@ -10,12 +10,11 @@ import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
-  selector: 'app-search-field',
-  templateUrl: './search-field.component.html',
-  styleUrls: ['./search-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [ButtonComponent, FormsModule],
+    selector: 'app-search-field',
+    templateUrl: './search-field.component.html',
+    styleUrls: ['./search-field.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonComponent, FormsModule]
 })
 export class SearchFieldComponent {
   NON_NORMAL_CHARACTER_REGEXP: RegExp = /[^a-zA-Z0-9']/g;

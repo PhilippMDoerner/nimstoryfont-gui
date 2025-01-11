@@ -12,12 +12,11 @@ import {
 } from '../_models/search-preferences';
 
 @Component({
-  selector: 'app-sidebar-legend',
-  templateUrl: './sidebar-legend.component.html',
-  styleUrls: ['./sidebar-legend.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [SelectableEntryComponent],
+    selector: 'app-sidebar-legend',
+    templateUrl: './sidebar-legend.component.html',
+    styleUrls: ['./sidebar-legend.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [SelectableEntryComponent]
 })
 export class SidebarLegendComponent {
   interactable = input(false);

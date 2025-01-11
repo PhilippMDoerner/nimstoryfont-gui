@@ -18,12 +18,11 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { OrganizationCreateUpdatePageStore } from './organization-create-update-page.store';
 
 @Component({
-  selector: 'app-organization-create-update-page',
-  standalone: true,
-  imports: [CreateUpdateComponent],
-  templateUrl: './organization-create-update-page.component.html',
-  styleUrl: './organization-create-update-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-organization-create-update-page',
+    imports: [CreateUpdateComponent],
+    templateUrl: './organization-create-update-page.component.html',
+    styleUrl: './organization-create-update-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class OrganizationCreateUpdatePageComponent {
   globalStore = inject(GlobalStore);

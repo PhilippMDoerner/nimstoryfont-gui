@@ -14,18 +14,17 @@ type LoginViewState = 'LOGIN' | 'PASSWORD_RESET';
 type LoginMessageMap = { [key in SpecialLoginState]: string };
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    FormsModule,
-    FormlyModule,
-    FormlyBootstrapModule,
-    ButtonComponent,
-  ],
-  animations: [backInUp, flipInY],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    imports: [
+        PageContainerComponent,
+        FormsModule,
+        FormlyModule,
+        FormlyBootstrapModule,
+        ButtonComponent,
+    ],
+    animations: [backInUp, flipInY]
 })
 export class LoginComponent {
   @Input() loginState?: SpecialLoginState;

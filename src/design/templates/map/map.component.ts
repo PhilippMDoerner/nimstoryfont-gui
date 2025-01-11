@@ -18,20 +18,19 @@ import { NgxLeafletMapComponent } from '../../organisms/ngx-leaflet-map/ngx-leaf
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    RouterLink,
-    ButtonComponent,
-    ChoiceSelectComponent,
-    NgxLeafletMapComponent,
-    NgTemplateOutlet,
-    ArticleFooterComponent,
-    SpinnerComponent,
-  ],
+    selector: 'app-map',
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss'],
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        ChoiceSelectComponent,
+        NgxLeafletMapComponent,
+        NgTemplateOutlet,
+        ArticleFooterComponent,
+        SpinnerComponent,
+    ]
 })
 export class MapComponent {
   mapChoices = input.required<OverviewItem[]>();

@@ -15,18 +15,17 @@ import { environment } from 'src/environments/environment';
 import { IconComponent } from '../../atoms/icon/icon.component';
 
 @Component({
-  selector: 'app-mobile-header',
-  standalone: true,
-  imports: [
-    IconComponent,
-    RouterLink,
-    AsyncPipe,
-    NgbTooltipModule,
-    ButtonComponent,
-  ],
-  templateUrl: './mobile-header.component.html',
-  styleUrl: './mobile-header.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-mobile-header',
+    imports: [
+        IconComponent,
+        RouterLink,
+        AsyncPipe,
+        NgbTooltipModule,
+        ButtonComponent,
+    ],
+    templateUrl: './mobile-header.component.html',
+    styleUrl: './mobile-header.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MobileHeaderComponent {
   currentCampaignIconUrl = input.required<string | undefined>();

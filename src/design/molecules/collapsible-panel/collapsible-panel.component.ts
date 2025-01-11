@@ -11,12 +11,11 @@ import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/design/atoms/separator/separator.component';
 
 @Component({
-  selector: 'app-collapsible-panel',
-  templateUrl: './collapsible-panel.component.html',
-  styleUrls: ['./collapsible-panel.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [SeparatorComponent, IconComponent, NgbCollapse],
+    selector: 'app-collapsible-panel',
+    templateUrl: './collapsible-panel.component.html',
+    styleUrls: ['./collapsible-panel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [SeparatorComponent, IconComponent, NgbCollapse]
 })
 export class CollapsiblePanelComponent implements OnInit {
   isOpen = input(false);

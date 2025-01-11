@@ -16,12 +16,11 @@ import { IconComponent } from '../../../../design/atoms/icon/icon.component';
 import { FormComponent } from '../../../../design/molecules/form/form.component';
 
 @Component({
-  selector: 'app-graph-settings-modal',
-  standalone: true,
-  imports: [ButtonComponent, FormComponent, IconComponent],
-  templateUrl: './graph-settings-modal.component.html',
-  styleUrl: './graph-settings-modal.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-graph-settings-modal',
+    imports: [ButtonComponent, FormComponent, IconComponent],
+    templateUrl: './graph-settings-modal.component.html',
+    styleUrl: './graph-settings-modal.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GraphSettingsModalComponent {
   modalService = inject(NgbModal);

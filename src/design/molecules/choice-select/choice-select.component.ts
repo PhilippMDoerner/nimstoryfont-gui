@@ -7,12 +7,11 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'app-choice-select',
-  templateUrl: './choice-select.component.html',
-  styleUrls: ['./choice-select.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [],
+    selector: 'app-choice-select',
+    templateUrl: './choice-select.component.html',
+    styleUrls: ['./choice-select.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: []
 })
 export class ChoiceSelectComponent {
   choices = input.required<any[]>();

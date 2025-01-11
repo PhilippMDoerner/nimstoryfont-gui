@@ -14,17 +14,16 @@ import { SessionaudioCardComponent } from '../../../../design/organisms/sessiona
 import { SessionAudioOverviewPageStore } from './session-audio-overview-page.store';
 
 @Component({
-  selector: 'app-session-audio-overview-page',
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    SessionaudioCardComponent,
-    ButtonComponent,
-    RouterLink,
-  ],
-  templateUrl: './session-audio-overview-page.component.html',
-  styleUrl: './session-audio-overview-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-session-audio-overview-page',
+    imports: [
+        PageContainerComponent,
+        SessionaudioCardComponent,
+        ButtonComponent,
+        RouterLink,
+    ],
+    templateUrl: './session-audio-overview-page.component.html',
+    styleUrl: './session-audio-overview-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionAudioOverviewPageComponent {
   serverUrl = environment.backendDomain;

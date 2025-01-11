@@ -16,12 +16,11 @@ import { CreateUpdateComponent } from 'src/design/templates/create-update/create
 import { CreatureUpdateCreateStore } from './creature-update-create-page.store';
 
 @Component({
-  selector: 'app-creature-update-create',
-  standalone: true,
-  imports: [CreateUpdateComponent],
-  templateUrl: './creature-update-create-page.component.html',
-  styleUrl: './creature-update-create-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-creature-update-create',
+    imports: [CreateUpdateComponent],
+    templateUrl: './creature-update-create-page.component.html',
+    styleUrl: './creature-update-create-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreatureUpdateCreateComponent {
   store = inject(CreatureUpdateCreateStore);

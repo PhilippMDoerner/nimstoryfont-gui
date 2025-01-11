@@ -19,12 +19,11 @@ import { GRAPH_SETTINGS } from '../_model/graph';
 import { GraphService } from './graph.service';
 
 @Component({
-  selector: 'app-graph',
-  standalone: true,
-  imports: [AsyncPipe, ButtonComponent],
-  templateUrl: './graph.component.html',
-  styleUrl: './graph.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-graph',
+    imports: [AsyncPipe, ButtonComponent],
+    templateUrl: './graph.component.html',
+    styleUrl: './graph.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GraphComponent {
   articleService = inject(ArticleService);

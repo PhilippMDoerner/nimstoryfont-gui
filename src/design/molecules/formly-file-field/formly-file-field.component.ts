@@ -9,16 +9,15 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
 // WARNING: DO NOT USE IN FORMS THAT UPDATE
 // THIS FIELD DOES NOT TOLERATE RECEIVING EXISTING VALUES
 @Component({
-  selector: 'app-formly-file-field',
-  templateUrl: './formly-file-field.component.html',
-  styleUrls: ['./formly-file-field.component.scss'],
-  standalone: true,
-  imports: [
-    ButtonComponent,
-    FormlyModule,
-    FormlyBootstrapModule,
-    ReactiveFormsModule,
-  ],
+    selector: 'app-formly-file-field',
+    templateUrl: './formly-file-field.component.html',
+    styleUrls: ['./formly-file-field.component.scss'],
+    imports: [
+        ButtonComponent,
+        FormlyModule,
+        FormlyBootstrapModule,
+        ReactiveFormsModule,
+    ]
 })
 export class FormlyFileFieldComponent
   extends FieldType<FieldTypeConfig>

@@ -22,16 +22,15 @@ interface CanDisableOption {
 let counter = 0;
 
 @Component({
-  selector: 'app-formly-select-disable',
-  templateUrl: './formly-select-disable-field.component.html',
-  styleUrls: ['./formly-select-disable-field.component.scss'],
-  standalone: true,
-  imports: [
-    InfoCircleTooltipComponent,
-    ReactiveFormsModule,
-    FormlyModule,
-    AsyncPipe,
-  ],
+    selector: 'app-formly-select-disable',
+    templateUrl: './formly-select-disable-field.component.html',
+    styleUrls: ['./formly-select-disable-field.component.scss'],
+    imports: [
+        InfoCircleTooltipComponent,
+        ReactiveFormsModule,
+        FormlyModule,
+        AsyncPipe,
+    ]
 })
 export class FormlySelectDisableFieldComponent
   extends FieldType<FieldTypeConfig>

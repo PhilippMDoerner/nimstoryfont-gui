@@ -4,12 +4,11 @@ import { environment } from 'src/environments/environment';
 import { CampaignAdminPageStore } from './campaign-admin-page.store';
 
 @Component({
-  selector: 'app-campaign-admin-page',
-  standalone: true,
-  imports: [CampaignAdminComponent],
-  providers: [CampaignAdminPageStore],
-  templateUrl: './campaign-admin-page.component.html',
-  styleUrl: './campaign-admin-page.component.scss',
+    selector: 'app-campaign-admin-page',
+    imports: [CampaignAdminComponent],
+    providers: [CampaignAdminPageStore],
+    templateUrl: './campaign-admin-page.component.html',
+    styleUrl: './campaign-admin-page.component.scss'
 })
 export class CampaignAdminPageComponent {
   readonly store = inject(CampaignAdminPageStore);

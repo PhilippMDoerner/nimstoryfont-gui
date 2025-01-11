@@ -26,18 +26,17 @@ import { SearchFieldComponent } from '../../molecules/search-field/search-field.
 import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-list.component';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    HtmlTextComponent,
-    SearchFieldComponent,
-    IconCardListComponent,
-    PlaceholderComponent,
-    AsyncPipe,
-  ],
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    imports: [
+        PageContainerComponent,
+        HtmlTextComponent,
+        SearchFieldComponent,
+        IconCardListComponent,
+        PlaceholderComponent,
+        AsyncPipe,
+    ]
 })
 export class HomeComponent {
   globalStore = inject(GlobalStore);

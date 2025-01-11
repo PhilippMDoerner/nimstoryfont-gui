@@ -26,17 +26,16 @@ import { CreateUpdateComponent } from '../../../../design/templates/create-updat
 import { SessionaudioCreateUpdatePageStore } from './sessionaudio-create-update-page.store';
 
 @Component({
-  selector: 'app-sessionaudio-create-update-page',
-  standalone: true,
-  imports: [
-    CreateUpdateComponent,
-    NgbProgressbarModule,
-    PageContainerComponent,
-    DecimalPipe,
-  ],
-  templateUrl: './sessionaudio-create-update-page.component.html',
-  styleUrl: './sessionaudio-create-update-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-sessionaudio-create-update-page',
+    imports: [
+        CreateUpdateComponent,
+        NgbProgressbarModule,
+        PageContainerComponent,
+        DecimalPipe,
+    ],
+    templateUrl: './sessionaudio-create-update-page.component.html',
+    styleUrl: './sessionaudio-create-update-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionaudioCreateUpdatePageComponent {
   private route = inject(ActivatedRoute);

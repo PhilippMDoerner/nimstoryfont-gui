@@ -9,12 +9,11 @@ import { Icon } from '../_models/icon';
 import { ButtonComponent } from '../button/button.component';
 
 @Component({
-  selector: 'app-arrow-button',
-  templateUrl: './arrow-button.component.html',
-  styleUrls: ['./arrow-button.component.scss'],
-  standalone: true,
-  imports: [ButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-arrow-button',
+    templateUrl: './arrow-button.component.html',
+    styleUrls: ['./arrow-button.component.scss'],
+    imports: [ButtonComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArrowButtonComponent {
   icon = input.required<'up' | 'down'>();

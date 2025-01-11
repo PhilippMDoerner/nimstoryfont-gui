@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -26,8 +25,7 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
   templateUrl: './image-card.component.html',
   styleUrls: ['./image-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [RouterLink, ButtonComponent, AsyncPipe],
+  imports: [RouterLink, ButtonComponent],
   host: {
     '[class.card--active]': 'inFocus()',
   },

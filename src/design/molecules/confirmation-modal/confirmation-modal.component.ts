@@ -12,12 +12,11 @@ import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
-  selector: 'app-confirmation-modal',
-  templateUrl: './confirmation-modal.component.html',
-  styleUrls: ['./confirmation-modal.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, NgbModule],
+    selector: 'app-confirmation-modal',
+    templateUrl: './confirmation-modal.component.html',
+    styleUrls: ['./confirmation-modal.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonComponent, NgbModule]
 })
 export class ConfirmationModalComponent<T> {
   heading = input.required<string>();

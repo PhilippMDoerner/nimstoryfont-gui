@@ -13,12 +13,11 @@ import { BadgeListComponent, BadgeListEntry } from 'src/design/molecules';
 import { Location, LocationCharacter } from '../../../app/_models/location';
 
 @Component({
-  selector: 'app-location',
-  templateUrl: './location.component.html',
-  styleUrls: ['./location.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [SeparatorComponent, HtmlTextComponent, BadgeListComponent],
+    selector: 'app-location',
+    templateUrl: './location.component.html',
+    styleUrls: ['./location.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [SeparatorComponent, HtmlTextComponent, BadgeListComponent]
 })
 export class LocationComponent {
   routingService = inject(RoutingService);

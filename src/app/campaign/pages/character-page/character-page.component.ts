@@ -13,11 +13,10 @@ import { environment } from 'src/environments/environment';
 import { CharacterStore } from './character-page.store';
 
 @Component({
-  selector: 'app-character-page',
-  standalone: true,
-  imports: [CharacterComponent],
-  templateUrl: './character-page.component.html',
-  styleUrl: './character-page.component.scss',
+    selector: 'app-character-page',
+    imports: [CharacterComponent],
+    templateUrl: './character-page.component.html',
+    styleUrl: './character-page.component.scss'
 })
 export class CharacterPageComponent {
   store = inject(CharacterStore);

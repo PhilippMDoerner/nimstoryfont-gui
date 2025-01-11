@@ -29,13 +29,12 @@ import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
-  standalone: true,
-  imports: [RouterLink, IconComponent, AsyncPipe, NgbTooltipModule],
-  providers: [NgbActiveOffcanvas],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    imports: [RouterLink, IconComponent, AsyncPipe, NgbTooltipModule],
+    providers: [NgbActiveOffcanvas],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
   routingService = inject(RoutingService);

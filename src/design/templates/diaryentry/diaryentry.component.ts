@@ -27,19 +27,18 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 type DiaryEntryState = 'DISPLAY' | 'EDIT';
 
 @Component({
-  selector: 'app-diaryentry',
-  templateUrl: './diaryentry.component.html',
-  styleUrls: ['./diaryentry.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    RouterLink,
-    ButtonComponent,
-    NgTemplateOutlet,
-    DiaryentryEncountersComponent,
-    ArticleFooterComponent,
-    DatePipe,
-  ],
+    selector: 'app-diaryentry',
+    templateUrl: './diaryentry.component.html',
+    styleUrls: ['./diaryentry.component.scss'],
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        NgTemplateOutlet,
+        DiaryentryEncountersComponent,
+        ArticleFooterComponent,
+        DatePipe,
+    ]
 })
 export class DiaryentryComponent {
   diaryentry = input.required<DiaryEntry>();

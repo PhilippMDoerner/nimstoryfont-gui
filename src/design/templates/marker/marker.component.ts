@@ -16,17 +16,16 @@ import { IconComponent } from '../../atoms/icon/icon.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 
 @Component({
-  selector: 'app-marker',
-  templateUrl: './marker.component.html',
-  styleUrls: ['./marker.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    RouterLink,
-    ButtonComponent,
-    IconComponent,
-    ArticleFooterComponent,
-  ],
+    selector: 'app-marker',
+    templateUrl: './marker.component.html',
+    styleUrls: ['./marker.component.scss'],
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        IconComponent,
+        ArticleFooterComponent,
+    ]
 })
 export class MarkerComponent implements OnInit, OnChanges {
   @Input() marker!: MapMarker;

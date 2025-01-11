@@ -21,18 +21,17 @@ import { PlayerComponent } from '../player/player.component';
 type TimestampState = 'CREATE' | 'DISPLAY';
 
 @Component({
-  selector: 'app-sessionaudio-player',
-  templateUrl: './sessionaudio-player.component.html',
-  styleUrls: ['./sessionaudio-player.component.scss'],
-  standalone: true,
-  imports: [
-    PlayerComponent,
-    LinkEntryComponent,
-    ButtonComponent,
-    FormComponent,
-    CardComponent,
-    NgTemplateOutlet,
-  ],
+    selector: 'app-sessionaudio-player',
+    templateUrl: './sessionaudio-player.component.html',
+    styleUrls: ['./sessionaudio-player.component.scss'],
+    imports: [
+        PlayerComponent,
+        LinkEntryComponent,
+        ButtonComponent,
+        FormComponent,
+        CardComponent,
+        NgTemplateOutlet,
+    ]
 })
 export class SessionaudioPlayerComponent {
   sessionAudioPk = input.required<number>();

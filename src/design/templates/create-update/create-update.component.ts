@@ -8,17 +8,16 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 import { CreateUpdateState } from '../_models/create-update-states';
 
 @Component({
-  selector: 'app-create-update',
-  templateUrl: './create-update.component.html',
-  styleUrls: ['./create-update.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    ButtonComponent,
-    NgTemplateOutlet,
-    FormComponent,
-    CompareFormComponent,
-  ],
+    selector: 'app-create-update',
+    templateUrl: './create-update.component.html',
+    styleUrls: ['./create-update.component.scss'],
+    imports: [
+        PageContainerComponent,
+        ButtonComponent,
+        NgTemplateOutlet,
+        FormComponent,
+        CompareFormComponent,
+    ]
 })
 export class CreateUpdateComponent<Full, Raw> {
   heading = input.required<string>();

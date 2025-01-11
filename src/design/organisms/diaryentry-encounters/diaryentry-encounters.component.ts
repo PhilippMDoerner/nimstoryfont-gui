@@ -37,20 +37,19 @@ import { EncounterComponent } from '../encounter/encounter.component';
 type ListState = 'READ' | 'EDIT';
 
 @Component({
-  selector: 'app-diaryentry-encounters',
-  templateUrl: './diaryentry-encounters.component.html',
-  styleUrls: ['./diaryentry-encounters.component.scss'],
-  standalone: true,
-  imports: [
-    ButtonComponent,
-    CardComponent,
-    HtmlTextComponent,
-    EncounterComponent,
-    ArrowButtonComponent,
-    SpinnerComponent,
-    NgTemplateOutlet,
-  ],
-  animations: [slideUpFromBottom],
+    selector: 'app-diaryentry-encounters',
+    templateUrl: './diaryentry-encounters.component.html',
+    styleUrls: ['./diaryentry-encounters.component.scss'],
+    imports: [
+        ButtonComponent,
+        CardComponent,
+        HtmlTextComponent,
+        EncounterComponent,
+        ArrowButtonComponent,
+        SpinnerComponent,
+        NgTemplateOutlet,
+    ],
+    animations: [slideUpFromBottom]
 })
 export class DiaryentryEncountersComponent {
   store = inject(DiaryentryPageStore);

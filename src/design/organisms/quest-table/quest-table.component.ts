@@ -16,11 +16,10 @@ type DisplayState =
 type TableType = 'success' | 'warning' | 'danger';
 
 @Component({
-  selector: 'app-quest-table',
-  templateUrl: './quest-table.component.html',
-  styleUrls: ['./quest-table.component.scss'],
-  standalone: true,
-  imports: [FormsModule, RouterLink, IconComponent, NgTemplateOutlet],
+    selector: 'app-quest-table',
+    templateUrl: './quest-table.component.html',
+    styleUrls: ['./quest-table.component.scss'],
+    imports: [FormsModule, RouterLink, IconComponent, NgTemplateOutlet]
 })
 export class QuestTableComponent implements OnInit, OnChanges {
   DISPLAY_STATES: DisplayState[] = [

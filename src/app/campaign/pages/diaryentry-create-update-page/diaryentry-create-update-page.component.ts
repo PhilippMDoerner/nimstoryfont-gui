@@ -36,12 +36,11 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { DiaryEntryCreateUpdatePageStore } from './diaryentry-create-update-page.store';
 
 @Component({
-  selector: 'app-diaryentry-create-update-page',
-  standalone: true,
-  imports: [CreateUpdateComponent],
-  templateUrl: './diaryentry-create-update-page.component.html',
-  styleUrl: './diaryentry-create-update-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.Default,
+    selector: 'app-diaryentry-create-update-page',
+    imports: [CreateUpdateComponent],
+    templateUrl: './diaryentry-create-update-page.component.html',
+    styleUrl: './diaryentry-create-update-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class DiaryentryCreateUpdatePageComponent {
   private formlyService = inject(FormlyService);

@@ -16,12 +16,11 @@ import {
 import { ConfigTablesComponent } from '../../../../design/templates/config-tables/config-tables.component';
 
 @Component({
-  selector: 'app-campaign-config-administration-page',
-  standalone: true,
-  imports: [ConfigTablesComponent],
-  templateUrl: './campaign-config-administration-page.component.html',
-  styleUrl: './campaign-config-administration-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-campaign-config-administration-page',
+    imports: [ConfigTablesComponent],
+    templateUrl: './campaign-config-administration-page.component.html',
+    styleUrl: './campaign-config-administration-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CampaignConfigAdministrationPageComponent {
   store = inject(ConfigAdministrationPageStore);

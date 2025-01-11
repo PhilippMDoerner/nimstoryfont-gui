@@ -38,21 +38,20 @@ import {
 type EncounterState = 'DISPLAY' | 'UPDATE' | 'OUTDATEDUPDATE' | 'CREATE';
 
 @Component({
-  selector: 'app-encounter',
-  templateUrl: './encounter.component.html',
-  styleUrls: ['./encounter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    NgTemplateOutlet,
-    EditToggleComponent,
-    HtmlTextComponent,
-    SeparatorComponent,
-    BadgeListComponent,
-    ConfirmationToggleButtonComponent,
-    FormComponent,
-    CompareFormComponent,
-  ],
+    selector: 'app-encounter',
+    templateUrl: './encounter.component.html',
+    styleUrls: ['./encounter.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgTemplateOutlet,
+        EditToggleComponent,
+        HtmlTextComponent,
+        SeparatorComponent,
+        BadgeListComponent,
+        ConfirmationToggleButtonComponent,
+        FormComponent,
+        CompareFormComponent,
+    ]
 })
 export class EncounterComponent implements OnInit {
   characters = input.required<OverviewItem[]>();

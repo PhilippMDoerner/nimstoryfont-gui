@@ -20,23 +20,22 @@ export interface PasswordModel {
 }
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    IconComponent,
-    ButtonComponent,
-    SeparatorComponent,
-    NgTemplateOutlet,
-    CardComponent,
-    FormComponent,
-    RouterLink,
-    ConfirmationToggleButtonComponent,
-    AlertComponent,
-    TitleCasePipe,
-  ],
+    selector: 'app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    imports: [
+        PageContainerComponent,
+        IconComponent,
+        ButtonComponent,
+        SeparatorComponent,
+        NgTemplateOutlet,
+        CardComponent,
+        FormComponent,
+        RouterLink,
+        ConfirmationToggleButtonComponent,
+        AlertComponent,
+        TitleCasePipe,
+    ]
 })
 export class ProfileComponent {
   @Input() user!: User;

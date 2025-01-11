@@ -11,12 +11,11 @@ import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
-  selector: 'app-badge',
-  templateUrl: './badge.component.html',
-  styleUrls: ['./badge.component.scss'],
-  standalone: true,
-  imports: [NgTemplateOutlet, NgClass, IconComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-badge',
+    templateUrl: './badge.component.html',
+    styleUrls: ['./badge.component.scss'],
+    imports: [NgTemplateOutlet, NgClass, IconComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BadgeComponent {
   kind = input.required<ElementKind>();

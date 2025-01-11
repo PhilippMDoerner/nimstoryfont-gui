@@ -10,7 +10,7 @@ import { AllNewMethods, withUpdateMethods } from './withUpdateMethods';
 import { AllNewProperties, withUpdateState } from './withUpdateState';
 
 export type UpdateFeatureResult<Requests extends RequestMap> = {
-  computed: {};
+  props: {};
   methods: MethodsDictionary & AllNewMethods<Requests>;
   state: {} & AllNewProperties<Requests>;
 };
@@ -18,7 +18,7 @@ export type UpdateFeatureResult<Requests extends RequestMap> = {
 export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
   Input['state']
 > &
-  Input['computed'] &
+  Input['props'] &
   Input['methods'] &
   WritableStateSource<Input['state']>;
 
@@ -31,7 +31,7 @@ export function withUpdates<
   return ((store) => {
     const updates = updatesFactory({
       ...store.stateSignals,
-      ...store.computedSignals,
+      ...store.props,
       ...store.methods,
     } as InnerStore<Input>);
 

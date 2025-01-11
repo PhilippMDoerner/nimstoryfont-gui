@@ -13,19 +13,18 @@ import { SearchFieldComponent } from '../../molecules/search-field/search-field.
 import { SearchHitComponent } from '../../organisms/search-hit/search-hit.component';
 
 @Component({
-  selector: 'app-search',
-  templateUrl: './search.component.html',
-  styleUrls: ['./search.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    SidebarLegendComponent,
-    SearchHitComponent,
-    RouterLink,
-    ButtonComponent,
-    SearchFieldComponent,
-    AsyncPipe,
-  ],
+    selector: 'app-search',
+    templateUrl: './search.component.html',
+    styleUrls: ['./search.component.scss'],
+    imports: [
+        PageContainerComponent,
+        SidebarLegendComponent,
+        SearchHitComponent,
+        RouterLink,
+        ButtonComponent,
+        SearchFieldComponent,
+        AsyncPipe,
+    ]
 })
 export class SearchComponent {
   isOnline$ = inject(OnlineService).online$;

@@ -41,19 +41,18 @@ interface SpellCard {
 }
 
 @Component({
-  selector: 'app-spells',
-  templateUrl: './spells.component.html',
-  styleUrls: ['./spells.component.scss'],
-  animations: [slideUpFromBottom, slideOutFromBottom],
-  standalone: true,
-  imports: [
-    ButtonComponent,
-    CollapsiblePanelComponent,
-    SpellComponent,
-    BadgeComponent,
-    SpinnerComponent,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-spells',
+    templateUrl: './spells.component.html',
+    styleUrls: ['./spells.component.scss'],
+    animations: [slideUpFromBottom, slideOutFromBottom],
+    imports: [
+        ButtonComponent,
+        CollapsiblePanelComponent,
+        SpellComponent,
+        BadgeComponent,
+        SpinnerComponent,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpellsComponent {
   DEFAULT_TITLE = 'New Article Item';

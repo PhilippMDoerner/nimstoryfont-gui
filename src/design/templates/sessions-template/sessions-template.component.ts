@@ -15,17 +15,16 @@ import { PageContainerComponent } from 'src/design/organisms/page-container/page
 import { SessionsComponent } from 'src/design/organisms/sessions/sessions.component';
 
 @Component({
-  selector: 'app-sessions-template',
-  standalone: true,
-  imports: [
-    SessionsComponent,
-    PageContainerComponent,
-    ButtonComponent,
-    RouterLink,
-  ],
-  templateUrl: './sessions-template.component.html',
-  styleUrl: './sessions-template.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-sessions-template',
+    imports: [
+        SessionsComponent,
+        PageContainerComponent,
+        ButtonComponent,
+        RouterLink,
+    ],
+    templateUrl: './sessions-template.component.html',
+    styleUrl: './sessions-template.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionsTemplateComponent {
   campaignName = input.required<string>();

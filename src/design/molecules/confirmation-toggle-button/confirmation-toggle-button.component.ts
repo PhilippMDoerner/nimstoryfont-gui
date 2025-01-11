@@ -19,13 +19,12 @@ import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
-  selector: 'app-confirmation-toggle-button',
-  templateUrl: './confirmation-toggle-button.component.html',
-  styleUrls: ['./confirmation-toggle-button.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, NgTemplateOutlet],
-  animations: [flipInY],
+    selector: 'app-confirmation-toggle-button',
+    templateUrl: './confirmation-toggle-button.component.html',
+    styleUrls: ['./confirmation-toggle-button.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonComponent, NgTemplateOutlet],
+    animations: [flipInY]
 })
 export class ConfirmationToggleButtonComponent {
   confirmationQuestion = input.required<string>();

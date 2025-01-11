@@ -32,20 +32,19 @@ interface DiaryEntry {
 }
 
 @Component({
-  selector: 'app-session',
-  templateUrl: './session.component.html',
-  styleUrls: ['./session.component.scss'],
-  standalone: true,
-  imports: [
-    NgTemplateOutlet,
-    EditToggleComponent,
-    IconComponent,
-    RouterLink,
-    ConfirmationToggleButtonComponent,
-    FormComponent,
-    CompareFormComponent,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-session',
+    templateUrl: './session.component.html',
+    styleUrls: ['./session.component.scss'],
+    imports: [
+        NgTemplateOutlet,
+        EditToggleComponent,
+        IconComponent,
+        RouterLink,
+        ConfirmationToggleButtonComponent,
+        FormComponent,
+        CompareFormComponent,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionComponent implements OnInit {
   session = input.required<Session>();

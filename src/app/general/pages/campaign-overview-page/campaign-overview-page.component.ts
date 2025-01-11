@@ -7,15 +7,14 @@ import { environment } from 'src/environments/environment';
 import { CampaignOverviewComponent } from '../../../../design/templates/campaign-overview/campaign-overview.component';
 
 @Component({
-  selector: 'app-campaign-overview-page',
-  templateUrl: './campaign-overview-page.component.html',
-  styleUrls: ['./campaign-overview-page.component.scss'],
-  host: {
-    '[@slideInOut]': '',
-  },
-  animations: [slideInOut],
-  standalone: true,
-  imports: [CampaignOverviewComponent],
+    selector: 'app-campaign-overview-page',
+    templateUrl: './campaign-overview-page.component.html',
+    styleUrls: ['./campaign-overview-page.component.scss'],
+    host: {
+        '[@slideInOut]': '',
+    },
+    animations: [slideInOut],
+    imports: [CampaignOverviewComponent]
 })
 export class CampaignOverviewPageComponent {
   public readonly globalStore = inject(GlobalStore);

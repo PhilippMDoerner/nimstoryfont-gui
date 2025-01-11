@@ -11,17 +11,16 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { ConfirmationToggleButtonComponent } from '../confirmation-toggle-button/confirmation-toggle-button.component';
 
 @Component({
-  selector: 'app-article-footer',
-  templateUrl: './article-footer.component.html',
-  styleUrls: ['./article-footer.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    ButtonComponent,
-    RouterLink,
-    NgTemplateOutlet,
-    ConfirmationToggleButtonComponent,
-  ],
+    selector: 'app-article-footer',
+    templateUrl: './article-footer.component.html',
+    styleUrls: ['./article-footer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        ButtonComponent,
+        RouterLink,
+        NgTemplateOutlet,
+        ConfirmationToggleButtonComponent,
+    ]
 })
 export class ArticleFooterComponent {
   buttonLabel = input.required<string>();

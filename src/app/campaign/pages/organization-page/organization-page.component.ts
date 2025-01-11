@@ -5,12 +5,11 @@ import { environment } from 'src/environments/environment';
 import { OrganizationStore } from './organization-page.store';
 
 @Component({
-  selector: 'app-organization-page',
-  standalone: true,
-  imports: [OrganizationComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './organization-page.component.html',
-  styleUrl: './organization-page.component.scss',
+    selector: 'app-organization-page',
+    imports: [OrganizationComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './organization-page.component.html',
+    styleUrl: './organization-page.component.scss'
 })
 export class OrganizationPageComponent {
   serverUrl = environment.backendDomain;

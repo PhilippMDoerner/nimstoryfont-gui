@@ -4,12 +4,11 @@ import { SpellsTemplateComponent } from 'src/design/templates/spells-template/sp
 import { SpellsPageStore } from './spells-page.store';
 
 @Component({
-  selector: 'app-spells-page',
-  standalone: true,
-  imports: [SpellsTemplateComponent],
-  templateUrl: './spells-page.component.html',
-  styleUrl: './spells-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-spells-page',
+    imports: [SpellsTemplateComponent],
+    templateUrl: './spells-page.component.html',
+    styleUrl: './spells-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpellsPageComponent {
   store = inject(SpellsPageStore);

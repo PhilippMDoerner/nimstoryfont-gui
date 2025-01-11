@@ -30,18 +30,17 @@ interface RuleCard {
 }
 
 @Component({
-  selector: 'app-rules',
-  templateUrl: './rules.component.html',
-  styleUrls: ['./rules.component.scss'],
-  animations: [slideOutFromBottom, slideUpFromBottom],
-  standalone: true,
-  imports: [
-    ButtonComponent,
-    CollapsiblePanelComponent,
-    RuleComponent,
-    SpinnerComponent,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-rules',
+    templateUrl: './rules.component.html',
+    styleUrls: ['./rules.component.scss'],
+    animations: [slideOutFromBottom, slideUpFromBottom],
+    imports: [
+        ButtonComponent,
+        CollapsiblePanelComponent,
+        RuleComponent,
+        SpinnerComponent,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RulesComponent {
   DEFAULT_TITLE = 'New Rule';

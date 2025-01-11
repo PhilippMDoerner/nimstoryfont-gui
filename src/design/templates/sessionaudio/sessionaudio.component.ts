@@ -16,19 +16,18 @@ import { PageContainerComponent } from 'src/design/organisms/page-container/page
 import { SessionaudioPlayerComponent } from 'src/design/organisms/sessionaudio-player/sessionaudio-player.component';
 
 @Component({
-  selector: 'app-sessionaudio',
-  templateUrl: './sessionaudio.component.html',
-  styleUrls: ['./sessionaudio.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    IconComponent,
-    ButtonComponent,
-    RouterLink,
-    SessionaudioPlayerComponent,
-    ArticleFooterComponent,
-  ],
+    selector: 'app-sessionaudio',
+    templateUrl: './sessionaudio.component.html',
+    styleUrls: ['./sessionaudio.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        PageContainerComponent,
+        IconComponent,
+        ButtonComponent,
+        RouterLink,
+        SessionaudioPlayerComponent,
+        ArticleFooterComponent,
+    ]
 })
 export class SessionaudioComponent {
   sessionaudio = input.required<SessionAudio>();

@@ -12,12 +12,11 @@ import { environment } from 'src/environments/environment';
 import { CreaturePageStore } from './creature-page.store';
 
 @Component({
-  selector: 'app-creature-page',
-  standalone: true,
-  imports: [CreatureComponent],
-  templateUrl: './creature-page.component.html',
-  styleUrl: './creature-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-creature-page',
+    imports: [CreatureComponent],
+    templateUrl: './creature-page.component.html',
+    styleUrl: './creature-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreaturePageComponent {
   serverUrl = environment.backendDomain;

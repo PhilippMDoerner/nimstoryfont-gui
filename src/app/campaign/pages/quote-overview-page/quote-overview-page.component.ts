@@ -13,18 +13,17 @@ import { QuotesComponent } from '../../../../design/organisms/quotes/quotes.comp
 import { QuoteOverviewPageStore } from './quote-overview-page.store';
 
 @Component({
-  selector: 'app-quote-overview-page',
-  standalone: true,
-  imports: [
-    QuotesComponent,
-    PageContainerComponent,
-    RouterLink,
-    ButtonComponent,
-  ],
-  templateUrl: './quote-overview-page.component.html',
-  styleUrl: './quote-overview-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [],
+    selector: 'app-quote-overview-page',
+    imports: [
+        QuotesComponent,
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+    ],
+    templateUrl: './quote-overview-page.component.html',
+    styleUrl: './quote-overview-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: []
 })
 export class QuoteOverviewPageComponent {
   store = inject(QuoteOverviewPageStore);

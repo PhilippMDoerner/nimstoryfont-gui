@@ -13,12 +13,11 @@ import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
-  selector: 'app-interactive-badge',
-  templateUrl: './interactive-badge.component.html',
-  styleUrls: ['./interactive-badge.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [RouterLink, NgClass, IconComponent],
+    selector: 'app-interactive-badge',
+    templateUrl: './interactive-badge.component.html',
+    styleUrls: ['./interactive-badge.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [RouterLink, NgClass, IconComponent]
 })
 export class InteractiveBadgeComponent {
   kind = input.required<ElementKind>();

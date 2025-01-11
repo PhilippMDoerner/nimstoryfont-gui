@@ -18,12 +18,11 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { MapCreateUpdateStore } from './map-create-update-page.store';
 
 @Component({
-  selector: 'app-map-create-update-page',
-  standalone: true,
-  imports: [CreateUpdateComponent],
-  templateUrl: './map-create-update-page.component.html',
-  styleUrl: './map-create-update-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-map-create-update-page',
+    imports: [CreateUpdateComponent],
+    templateUrl: './map-create-update-page.component.html',
+    styleUrl: './map-create-update-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapCreateUpdatePageComponent {
   globalStore = inject(GlobalStore);

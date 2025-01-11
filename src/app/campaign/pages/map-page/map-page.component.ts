@@ -7,12 +7,11 @@ import { environment } from 'src/environments/environment';
 import { MapPageStore } from './map-page.store';
 
 @Component({
-  selector: 'app-map-page',
-  templateUrl: './map-page.component.html',
-  styleUrls: ['./map-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [MapComponent],
+    selector: 'app-map-page',
+    templateUrl: './map-page.component.html',
+    styleUrls: ['./map-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MapComponent]
 })
 export class MapPageComponent {
   serverUrl = environment.backendDomain;

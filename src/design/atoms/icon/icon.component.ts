@@ -7,12 +7,11 @@ import {
 import { Icon, IconKind, toIconKind } from '../_models/icon';
 
 @Component({
-  selector: 'app-icon',
-  templateUrl: './icon.component.html',
-  styleUrls: ['./icon.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
-  standalone: true,
+    selector: 'app-icon',
+    templateUrl: './icon.component.html',
+    styleUrls: ['./icon.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: []
 })
 export class IconComponent {
   icon = input.required<Icon>();

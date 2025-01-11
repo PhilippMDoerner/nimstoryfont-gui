@@ -33,24 +33,23 @@ import {
 import { PageContainerComponent } from 'src/design/organisms/page-container/page-container.component';
 
 @Component({
-  selector: 'app-campaign-admin',
-  templateUrl: './campaign-admin.component.html',
-  styleUrls: ['./campaign-admin.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    ButtonComponent,
-    RouterLink,
-    KeyValuePipe,
-    IconComponent,
-    CardComponent,
-    HtmlTextComponent,
-    InfoCircleTooltipComponent,
-    ConfirmationToggleButtonComponent,
-    FormComponent,
-    ArticleFooterComponent,
-    NgTemplateOutlet,
-  ],
+    selector: 'app-campaign-admin',
+    templateUrl: './campaign-admin.component.html',
+    styleUrls: ['./campaign-admin.component.scss'],
+    imports: [
+        PageContainerComponent,
+        ButtonComponent,
+        RouterLink,
+        KeyValuePipe,
+        IconComponent,
+        CardComponent,
+        HtmlTextComponent,
+        InfoCircleTooltipComponent,
+        ConfirmationToggleButtonComponent,
+        FormComponent,
+        ArticleFooterComponent,
+        NgTemplateOutlet,
+    ]
 })
 export class CampaignAdminComponent implements OnChanges {
   @Input() campaign!: Campaign;

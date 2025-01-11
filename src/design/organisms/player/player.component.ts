@@ -4,11 +4,10 @@ import Plyr from 'plyr';
 type HotKey = 'Space' | 'Enter' | 'KeyM' | 'ArrowRight' | 'ArrowLeft';
 
 @Component({
-  selector: 'app-player',
-  templateUrl: './player.component.html',
-  styleUrls: ['./player.component.scss'],
-  standalone: true,
-  imports: [],
+    selector: 'app-player',
+    templateUrl: './player.component.html',
+    styleUrls: ['./player.component.scss'],
+    imports: []
 })
 export class PlayerComponent {
   private SEEK_TIME = 5;

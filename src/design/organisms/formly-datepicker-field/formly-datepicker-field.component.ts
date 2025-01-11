@@ -69,23 +69,22 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
 }
 
 @Component({
-  selector: 'app-formly-datepicker',
-  templateUrl: './formly-datepicker-field.component.html',
-  styleUrls: ['./formly-datepicker-field.component.scss'],
-  // NOTE: For this example we are only providing current component, but probably
-  // NOTE: you will want to provide your main App Module
-  providers: [
-    { provide: NgbDateAdapter, useClass: CustomAdapter },
-    { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
-  ],
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    ButtonComponent,
-    FormlyModule,
-    NgbDatepickerModule,
-    IconComponent,
-  ],
+    selector: 'app-formly-datepicker',
+    templateUrl: './formly-datepicker-field.component.html',
+    styleUrls: ['./formly-datepicker-field.component.scss'],
+    // NOTE: For this example we are only providing current component, but probably
+    // NOTE: you will want to provide your main App Module
+    providers: [
+        { provide: NgbDateAdapter, useClass: CustomAdapter },
+        { provide: NgbDateParserFormatter, useClass: CustomDateParserFormatter },
+    ],
+    imports: [
+        ReactiveFormsModule,
+        ButtonComponent,
+        FormlyModule,
+        NgbDatepickerModule,
+        IconComponent,
+    ]
 })
 export class FormlyDatepickerFieldComponent extends FieldType<FieldTypeConfig> {
   constructor(

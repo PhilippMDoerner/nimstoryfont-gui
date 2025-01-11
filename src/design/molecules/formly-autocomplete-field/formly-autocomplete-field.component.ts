@@ -43,18 +43,17 @@ type AutocompleteSelectEvent<T> = {
 };
 
 @Component({
-  selector: 'app-formly-autocomplete-field',
-  standalone: true,
-  imports: [
-    AsyncPipe,
-    ReactiveFormsModule,
-    FormlyModule,
-    SpinnerComponent,
-    BadgeComponent,
-  ],
-  templateUrl: './formly-autocomplete-field.component.html',
-  styleUrl: './formly-autocomplete-field.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-formly-autocomplete-field',
+    imports: [
+        AsyncPipe,
+        ReactiveFormsModule,
+        FormlyModule,
+        SpinnerComponent,
+        BadgeComponent,
+    ],
+    templateUrl: './formly-autocomplete-field.component.html',
+    styleUrl: './formly-autocomplete-field.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormlyAutocompleteFieldComponent<T>
   extends FieldType<FieldTypeConfig>

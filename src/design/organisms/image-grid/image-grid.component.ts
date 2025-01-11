@@ -10,11 +10,10 @@ import {
 type ColumnCount = 1 | 2 | 3;
 
 @Component({
-  selector: 'app-image-grid',
-  templateUrl: './image-grid.component.html',
-  styleUrls: ['./image-grid.component.scss'],
-  standalone: true,
-  imports: [NgClass],
+    selector: 'app-image-grid',
+    templateUrl: './image-grid.component.html',
+    styleUrls: ['./image-grid.component.scss'],
+    imports: [NgClass]
 })
 export class ImageGridComponent<T> {
   EMPTY_IMAGE_URL: string = '';

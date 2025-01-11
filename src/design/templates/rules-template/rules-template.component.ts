@@ -17,13 +17,12 @@ import { ButtonComponent } from '../../atoms/button/button.component';
     selector: 'app-rules-template',
     templateUrl: './rules-template.component.html',
     styleUrls: ['./rules-template.component.scss'],
-    standalone: true,
     imports: [
         PageContainerComponent,
         RulesComponent,
         RouterLink,
         ButtonComponent,
-    ],
+    ]
 })
 export class RulesTemplateComponent {
   campaignName = input.required<string>();

@@ -23,18 +23,17 @@ interface SessionCard {
 }
 
 @Component({
-  selector: 'app-sessions',
-  standalone: true,
-  imports: [
-    ButtonComponent,
-    CollapsiblePanelComponent,
-    SessionComponent,
-    SpinnerComponent,
-  ],
-  templateUrl: './sessions.component.html',
-  styleUrl: './sessions.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [slideOutFromBottom, slideUpFromBottom],
+    selector: 'app-sessions',
+    imports: [
+        ButtonComponent,
+        CollapsiblePanelComponent,
+        SessionComponent,
+        SpinnerComponent,
+    ],
+    templateUrl: './sessions.component.html',
+    styleUrl: './sessions.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [slideOutFromBottom, slideUpFromBottom]
 })
 export class SessionsComponent {
   DEFAULT_TITLE = 'New Session';

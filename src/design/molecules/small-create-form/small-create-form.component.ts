@@ -15,11 +15,10 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
 type State = 'DISPLAY' | 'CREATE';
 export type DisableableOption<T> = { value: T; disabled: boolean };
 @Component({
-  selector: 'app-small-create-form',
-  templateUrl: './small-create-form.component.html',
-  styleUrls: ['./small-create-form.component.scss'],
-  standalone: true,
-  imports: [BadgeComponent, NgTemplateOutlet, ButtonComponent],
+    selector: 'app-small-create-form',
+    templateUrl: './small-create-form.component.html',
+    styleUrls: ['./small-create-form.component.scss'],
+    imports: [BadgeComponent, NgTemplateOutlet, ButtonComponent]
 })
 export class SmallCreateFormComponent<T> {
   options = input.required<T[]>();

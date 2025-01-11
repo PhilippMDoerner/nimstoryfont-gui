@@ -19,12 +19,11 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { LocationCreateUpdateStore } from './location-create-update-page.store';
 
 @Component({
-  selector: 'app-location-create-update-page',
-  standalone: true,
-  imports: [CreateUpdateComponent],
-  templateUrl: './location-create-update-page.component.html',
-  styleUrl: './location-create-update-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-location-create-update-page',
+    imports: [CreateUpdateComponent],
+    templateUrl: './location-create-update-page.component.html',
+    styleUrl: './location-create-update-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocationCreateUpdatePageComponent {
   globalStore = inject(GlobalStore);

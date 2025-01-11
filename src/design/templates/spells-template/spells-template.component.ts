@@ -23,14 +23,13 @@ import { ButtonComponent } from '../../atoms/button/button.component';
     selector: 'app-spells-template',
     templateUrl: './spells-template.component.html',
     styleUrls: ['./spells-template.component.scss'],
-    standalone: true,
     imports: [
         PageContainerComponent,
         BadgeComponent,
         SpellsComponent,
         RouterLink,
         ButtonComponent,
-    ],
+    ]
 })
 export class SpellsTemplateComponent {
   campaignName = input.required<string>();

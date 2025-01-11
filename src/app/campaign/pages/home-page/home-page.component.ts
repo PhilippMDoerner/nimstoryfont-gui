@@ -6,11 +6,10 @@ import { HomeComponent } from '../../../../design/templates/home/home.component'
 import { HomePageStore } from './home-page.store';
 
 @Component({
-  selector: 'app-home-page',
-  templateUrl: './home-page.component.html',
-  styleUrls: ['./home-page.component.scss'],
-  standalone: true,
-  imports: [HomeComponent],
+    selector: 'app-home-page',
+    templateUrl: './home-page.component.html',
+    styleUrls: ['./home-page.component.scss'],
+    imports: [HomeComponent]
 })
 export class HomePageComponent {
   globalStore = inject(GlobalStore);

@@ -12,12 +12,11 @@ import { LinkEntry } from '../_models/link-entry';
 type State = 'DISPLAY' | 'DELETE';
 
 @Component({
-  selector: 'app-link-entry',
-  templateUrl: './link-entry.component.html',
-  styleUrls: ['./link-entry.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, NgTemplateOutlet],
+    selector: 'app-link-entry',
+    templateUrl: './link-entry.component.html',
+    styleUrls: ['./link-entry.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonComponent, NgTemplateOutlet]
 })
 export class LinkEntryComponent<T> {
   entry = input.required<LinkEntry<T>>();

@@ -37,13 +37,12 @@ export class ToastService {
 }
 
 @Component({
-  selector: 'app-toast-overlay',
-  standalone: true,
-  imports: [NgbToastModule, ButtonComponent, IconComponent, NgTemplateOutlet],
-  animations: [slideRight],
-  templateUrl: './toast-overlay.component.html',
-  styleUrl: './toast-overlay.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-toast-overlay',
+    imports: [NgbToastModule, ButtonComponent, IconComponent, NgTemplateOutlet],
+    animations: [slideRight],
+    templateUrl: './toast-overlay.component.html',
+    styleUrl: './toast-overlay.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ToastOverlayComponent {
   toastService = inject(ToastService);

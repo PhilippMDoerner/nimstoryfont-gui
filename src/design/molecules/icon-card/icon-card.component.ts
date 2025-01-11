@@ -10,12 +10,11 @@ import { IconComponent } from 'src/design/atoms/icon/icon.component';
 import { ellipsize } from 'src/utils/string';
 
 @Component({
-  selector: 'app-icon-card',
-  templateUrl: './icon-card.component.html',
-  styleUrls: ['./icon-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [IconComponent, DatePipe, TitleCasePipe],
+    selector: 'app-icon-card',
+    templateUrl: './icon-card.component.html',
+    styleUrls: ['./icon-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [IconComponent, DatePipe, TitleCasePipe]
 })
 export class IconCardComponent {
   icon = input.required<Icon>();

@@ -36,23 +36,22 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.component';
 
 @Component({
-  selector: 'app-character',
-  templateUrl: './character.component.html',
-  styleUrls: ['./character.component.scss'],
-  standalone: true,
-  imports: [
-    PageContainerComponent,
-    RouterLink,
-    ButtonComponent,
-    ImageCarouselCardComponent,
-    QuoteFieldComponent,
-    BadgeListComponent,
-    EditableTextComponent,
-    ListComponent,
-    InfoCircleTooltipComponent,
-    EncounterAccordionComponent,
-    ArticleFooterComponent,
-  ],
+    selector: 'app-character',
+    templateUrl: './character.component.html',
+    styleUrls: ['./character.component.scss'],
+    imports: [
+        PageContainerComponent,
+        RouterLink,
+        ButtonComponent,
+        ImageCarouselCardComponent,
+        QuoteFieldComponent,
+        BadgeListComponent,
+        EditableTextComponent,
+        ListComponent,
+        InfoCircleTooltipComponent,
+        EncounterAccordionComponent,
+        ArticleFooterComponent,
+    ]
 })
 export class CharacterComponent {
   character = input.required<CharacterDetails>();

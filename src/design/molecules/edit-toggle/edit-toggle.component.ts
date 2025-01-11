@@ -11,12 +11,11 @@ import { ElementKind } from 'src/design/atoms/_models/button';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
-  selector: 'app-edit-toggle',
-  templateUrl: './edit-toggle.component.html',
-  styleUrls: ['./edit-toggle.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [ButtonComponent],
+    selector: 'app-edit-toggle',
+    templateUrl: './edit-toggle.component.html',
+    styleUrls: ['./edit-toggle.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonComponent]
 })
 export class EditToggleComponent {
   buttonKind = input<ElementKind>('SECONDARY');

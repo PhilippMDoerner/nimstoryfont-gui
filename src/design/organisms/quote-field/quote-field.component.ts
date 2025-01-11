@@ -36,20 +36,19 @@ type QuoteState =
   | 'UPDATE_OUTDATED';
 
 @Component({
-  selector: 'app-quote-field',
-  templateUrl: './quote-field.component.html',
-  styleUrls: ['./quote-field.component.scss'],
-  standalone: true,
-  imports: [
-    NgTemplateOutlet,
-    QuoteComponent,
-    CardComponent,
-    FormComponent,
-    CompareFormComponent,
-    HtmlTextComponent,
-    ButtonComponent,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-quote-field',
+    templateUrl: './quote-field.component.html',
+    styleUrls: ['./quote-field.component.scss'],
+    imports: [
+        NgTemplateOutlet,
+        QuoteComponent,
+        CardComponent,
+        FormComponent,
+        CompareFormComponent,
+        HtmlTextComponent,
+        ButtonComponent,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuoteFieldComponent {
   quote = input.required<Quote | undefined>();

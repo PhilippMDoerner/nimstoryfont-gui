@@ -9,12 +9,11 @@ import { environment } from 'src/environments/environment';
 import { LocationPageStore } from './location-page.store';
 
 @Component({
-  selector: 'app-location-page',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [LocationTemplateComponent],
-  templateUrl: './location-page.component.html',
-  styleUrl: './location-page.component.scss',
+    selector: 'app-location-page',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [LocationTemplateComponent],
+    templateUrl: './location-page.component.html',
+    styleUrl: './location-page.component.scss'
 })
 export class LocationPageComponent {
   serverUrl = environment.backendDomain;

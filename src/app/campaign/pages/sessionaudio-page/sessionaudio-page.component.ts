@@ -5,12 +5,11 @@ import { SessionaudioComponent } from '../../../../design/templates/sessionaudio
 import { SessionaudioPageStore } from './sessionaudio-page.store';
 
 @Component({
-  selector: 'app-sessionaudio-page',
-  standalone: true,
-  imports: [SessionaudioComponent],
-  templateUrl: './sessionaudio-page.component.html',
-  styleUrl: './sessionaudio-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-sessionaudio-page',
+    imports: [SessionaudioComponent],
+    templateUrl: './sessionaudio-page.component.html',
+    styleUrl: './sessionaudio-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionaudioPageComponent {
   serverUrl = environment.backendDomain;

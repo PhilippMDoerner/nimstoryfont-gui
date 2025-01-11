@@ -18,12 +18,11 @@ interface AccordionEntry {
 }
 
 @Component({
-  selector: 'app-location-accordion',
-  templateUrl: './location-accordion.component.html',
-  styleUrls: ['./location-accordion.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [ButtonComponent, RouterLink, NgbAccordionModule, LocationComponent],
+    selector: 'app-location-accordion',
+    templateUrl: './location-accordion.component.html',
+    styleUrls: ['./location-accordion.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonComponent, RouterLink, NgbAccordionModule, LocationComponent]
 })
 export class LocationAccordionComponent {
   locations = input.required<Location[]>();

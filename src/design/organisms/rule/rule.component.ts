@@ -22,18 +22,17 @@ import { Rule, RuleRaw } from '../../../app/_models/rule';
 type RuleState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
 
 @Component({
-  selector: 'app-rule',
-  templateUrl: './rule.component.html',
-  styleUrls: ['./rule.component.scss'],
-  standalone: true,
-  imports: [
-    NgTemplateOutlet,
-    EditToggleComponent,
-    HtmlTextComponent,
-    ConfirmationToggleButtonComponent,
-    FormComponent,
-    CompareFormComponent,
-  ],
+    selector: 'app-rule',
+    templateUrl: './rule.component.html',
+    styleUrls: ['./rule.component.scss'],
+    imports: [
+        NgTemplateOutlet,
+        EditToggleComponent,
+        HtmlTextComponent,
+        ConfirmationToggleButtonComponent,
+        FormComponent,
+        CompareFormComponent,
+    ]
 })
 export class RuleComponent implements OnInit {
   rule = input.required<Rule | undefined>();

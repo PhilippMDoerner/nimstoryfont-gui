@@ -10,17 +10,16 @@ import { IconComponent } from '../icon/icon.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
-  selector: 'button[btn]',
-  templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [IconComponent, SpinnerComponent],
-  host: {
-    '[class]': 'classes()',
-    '[type]': 'type()',
-    '[disabled]': 'isLoading() || disabled()',
-  },
+    selector: 'button[btn]',
+    templateUrl: './button.component.html',
+    styleUrls: ['./button.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [IconComponent, SpinnerComponent],
+    host: {
+        '[class]': 'classes()',
+        '[type]': 'type()',
+        '[disabled]': 'isLoading() || disabled()',
+    }
 })
 export class ButtonComponent {
   kind = input.required<ButtonKind>();

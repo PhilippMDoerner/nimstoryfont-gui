@@ -5,12 +5,11 @@ import { PlaceholderComponent } from '../../atoms/placeholder/placeholder.compon
 import { IconCardEntry } from '../_model/icon-card-list';
 
 @Component({
-  selector: 'app-icon-card-list',
-  templateUrl: './icon-card-list.component.html',
-  styleUrls: ['./icon-card-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [IconCardComponent, RouterLink, PlaceholderComponent],
+    selector: 'app-icon-card-list',
+    templateUrl: './icon-card-list.component.html',
+    styleUrls: ['./icon-card-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [IconCardComponent, RouterLink, PlaceholderComponent]
 })
 export class IconCardListComponent {
   isLoading = input.required<boolean>();

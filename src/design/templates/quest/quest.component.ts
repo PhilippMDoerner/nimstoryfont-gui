@@ -19,7 +19,6 @@ import { ArticleFooterComponent } from '../../molecules/article-footer/article-f
     selector: 'app-quest',
     templateUrl: './quest.component.html',
     styleUrls: ['./quest.component.scss'],
-    standalone: true,
     imports: [
         PageContainerComponent,
         RouterLink,
@@ -27,7 +26,7 @@ import { ArticleFooterComponent } from '../../molecules/article-footer/article-f
         NgTemplateOutlet,
         EditableTextComponent,
         ArticleFooterComponent,
-    ],
+    ]
 })
 export class QuestComponent {
   quest = input.required<Quest>();

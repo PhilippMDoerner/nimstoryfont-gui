@@ -18,12 +18,11 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { QuestCreateUpdatePageStore } from './quest-create-update-page.store';
 
 @Component({
-  selector: 'app-quest-create-update-page',
-  standalone: true,
-  imports: [CreateUpdateComponent],
-  templateUrl: './quest-create-update-page.component.html',
-  styleUrl: './quest-create-update-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-quest-create-update-page',
+    imports: [CreateUpdateComponent],
+    templateUrl: './quest-create-update-page.component.html',
+    styleUrl: './quest-create-update-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestCreateUpdatePageComponent {
   globalStore = inject(GlobalStore);

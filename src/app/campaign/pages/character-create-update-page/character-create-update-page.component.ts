@@ -15,13 +15,12 @@ import { CharacterCreateUpdateComponent } from 'src/design/templates/character-c
 import { CharacterCreateUpdateStore } from './character-create-update-page.store';
 
 @Component({
-  selector: 'app-character-create-update-page',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CharacterCreateUpdateComponent],
-  providers: [],
-  templateUrl: './character-create-update-page.component.html',
-  styleUrl: './character-create-update-page.component.scss',
+    selector: 'app-character-create-update-page',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [CharacterCreateUpdateComponent],
+    providers: [],
+    templateUrl: './character-create-update-page.component.html',
+    styleUrl: './character-create-update-page.component.scss'
 })
 export class CharacterUpdatePageComponent {
   readonly globalStore = inject(GlobalStore);

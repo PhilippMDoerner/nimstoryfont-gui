@@ -17,11 +17,10 @@ import { environment } from 'src/environments/environment';
 import { filterNil } from 'src/utils/rxjs-operators';
 
 @Component({
-  selector: 'app-general-overview-page',
-  standalone: true,
-  imports: [GeneralOverviewComponent, AsyncPipe],
-  templateUrl: './general-overview-page.component.html',
-  styleUrl: './general-overview-page.component.scss',
+    selector: 'app-general-overview-page',
+    imports: [GeneralOverviewComponent, AsyncPipe],
+    templateUrl: './general-overview-page.component.html',
+    styleUrl: './general-overview-page.component.scss'
 })
 export class GeneralOverviewPageComponent {
   globalStore = inject(GlobalStore);

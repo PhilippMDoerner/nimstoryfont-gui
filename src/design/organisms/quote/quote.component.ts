@@ -56,18 +56,17 @@ type QuoteControl = {
 };
 
 @Component({
-  selector: 'app-quote',
-  templateUrl: './quote.component.html',
-  styleUrls: ['./quote.component.scss'],
-  standalone: true,
-  imports: [
-    HtmlTextComponent,
-    BadgeListComponent,
-    SeparatorComponent,
-    ButtonComponent,
-    RouterLink,
-    SpinnerComponent,
-  ],
+    selector: 'app-quote',
+    templateUrl: './quote.component.html',
+    styleUrls: ['./quote.component.scss'],
+    imports: [
+        HtmlTextComponent,
+        BadgeListComponent,
+        SeparatorComponent,
+        ButtonComponent,
+        RouterLink,
+        SpinnerComponent,
+    ]
 })
 export class QuoteComponent implements OnChanges {
   quote = input<Quote>();

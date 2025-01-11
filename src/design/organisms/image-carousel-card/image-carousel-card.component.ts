@@ -21,18 +21,17 @@ import { ImageCarouselComponent } from '../image-carousel/image-carousel.compone
 type State = 'DISPLAY' | 'DELETE' | 'UPDATE' | 'UPDATE_OUTDATED' | 'CREATE';
 
 @Component({
-  selector: 'app-image-carousel-card',
-  templateUrl: './image-carousel-card.component.html',
-  styleUrls: ['./image-carousel-card.component.scss'],
-  standalone: true,
-  imports: [
-    ImageCarouselComponent,
-    SpinnerComponent,
-    IconComponent,
-    FormComponent,
-    ButtonComponent,
-    NgTemplateOutlet,
-  ],
+    selector: 'app-image-carousel-card',
+    templateUrl: './image-carousel-card.component.html',
+    styleUrls: ['./image-carousel-card.component.scss'],
+    imports: [
+        ImageCarouselComponent,
+        SpinnerComponent,
+        IconComponent,
+        FormComponent,
+        ButtonComponent,
+        NgTemplateOutlet,
+    ]
 })
 export class ImageCarouselCardComponent implements OnInit, OnChanges {
   @Input() images!: Image[];

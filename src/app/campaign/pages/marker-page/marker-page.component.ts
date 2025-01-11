@@ -3,12 +3,11 @@ import { MarkerComponent } from '../../../../design/templates/marker/marker.comp
 import { MarkerPageStore } from './marker-page.store';
 
 @Component({
-  selector: 'app-marker-page',
-  standalone: true,
-  imports: [MarkerComponent],
-  templateUrl: './marker-page.component.html',
-  styleUrl: './marker-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-marker-page',
+    imports: [MarkerComponent],
+    templateUrl: './marker-page.component.html',
+    styleUrl: './marker-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MarkerPageComponent {
   store = inject(MarkerPageStore);

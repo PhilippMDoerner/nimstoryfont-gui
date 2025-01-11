@@ -28,18 +28,17 @@ type CreateOptions<T> =
   | { kind: 'NONE' };
 
 @Component({
-  selector: 'app-badge-list',
-  templateUrl: './badge-list.component.html',
-  styleUrls: ['./badge-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    SmallCreateFormComponent,
-    InteractiveBadgeComponent,
-    NgTemplateOutlet,
-    BadgeComponent,
-    RouterLink,
-  ],
-  standalone: true,
+    selector: 'app-badge-list',
+    templateUrl: './badge-list.component.html',
+    styleUrls: ['./badge-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        SmallCreateFormComponent,
+        InteractiveBadgeComponent,
+        NgTemplateOutlet,
+        BadgeComponent,
+        RouterLink,
+    ]
 })
 export class BadgeListComponent<T, O> {
   entries = input.required<BadgeListEntry<T>[]>();

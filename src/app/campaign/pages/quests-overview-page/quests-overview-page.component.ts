@@ -4,12 +4,11 @@ import { QuestOverviewComponent } from 'src/design/templates/quest-overview/ques
 import { QuestOverviewPageStore } from './quests-overview-page.store';
 
 @Component({
-  selector: 'app-quests-overview-page',
-  standalone: true,
-  imports: [QuestOverviewComponent],
-  templateUrl: './quests-overview-page.component.html',
-  styleUrl: './quests-overview-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-quests-overview-page',
+    imports: [QuestOverviewComponent],
+    templateUrl: './quests-overview-page.component.html',
+    styleUrl: './quests-overview-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuestsOverviewPageComponent {
   store = inject(QuestOverviewPageStore);

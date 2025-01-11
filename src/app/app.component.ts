@@ -10,15 +10,14 @@ import { TokenService } from './_services/utils/token.service';
 import { GlobalStore } from './global.store';
 import { ServiceWorkerService } from './service-worker.service';
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [PageComponent, ToastOverlayComponent],
-  host: {
-    '[@.disabled]': 'disableAnimation()',
-  },
-  animations: [fadeOut],
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    imports: [PageComponent, ToastOverlayComponent],
+    host: {
+        '[@.disabled]': 'disableAnimation()',
+    },
+    animations: [fadeOut]
 })
 export class AppComponent {
   readonly globalStore = inject(GlobalStore);

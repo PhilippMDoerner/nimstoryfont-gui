@@ -15,18 +15,17 @@ import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
 import { ImageGridComponent } from 'src/design/organisms/image-grid/image-grid.component';
 
 @Component({
-  selector: 'app-campaign-overview',
-  templateUrl: './campaign-overview.component.html',
-  styleUrls: ['./campaign-overview.component.scss'],
-  standalone: true,
-  imports: [
-    NgTemplateOutlet,
-    ButtonComponent,
-    RouterLink,
-    ImageGridComponent,
-    SpinnerComponent,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-campaign-overview',
+    templateUrl: './campaign-overview.component.html',
+    styleUrls: ['./campaign-overview.component.scss'],
+    imports: [
+        NgTemplateOutlet,
+        ButtonComponent,
+        RouterLink,
+        ImageGridComponent,
+        SpinnerComponent,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CampaignOverviewComponent {
   serverUrl = input.required<string>();

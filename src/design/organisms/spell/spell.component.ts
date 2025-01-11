@@ -38,21 +38,20 @@ import {
 type SpellState = 'DISPLAY' | 'CREATE' | 'UPDATE' | 'OUTDATED_UPDATE';
 
 @Component({
-  selector: 'app-spell',
-  templateUrl: './spell.component.html',
-  styleUrls: ['./spell.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [
-    NgTemplateOutlet,
-    EditToggleComponent,
-    HtmlTextComponent,
-    SeparatorComponent,
-    BadgeListComponent,
-    ConfirmationToggleButtonComponent,
-    FormComponent,
-    CompareFormComponent,
-  ],
+    selector: 'app-spell',
+    templateUrl: './spell.component.html',
+    styleUrls: ['./spell.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        NgTemplateOutlet,
+        EditToggleComponent,
+        HtmlTextComponent,
+        SeparatorComponent,
+        BadgeListComponent,
+        ConfirmationToggleButtonComponent,
+        FormComponent,
+        CompareFormComponent,
+    ]
 })
 export class SpellComponent implements OnInit {
   spell = input.required<Spell | undefined>();

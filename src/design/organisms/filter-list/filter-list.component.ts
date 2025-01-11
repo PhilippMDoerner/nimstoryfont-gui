@@ -16,18 +16,17 @@ import { FilterListEntry } from '../_model/filterListEntry';
 type GroupMode = 'PROPERTY' | 'LETTER';
 
 @Component({
-  selector: 'app-filter-list',
-  templateUrl: './filter-list.component.html',
-  styleUrls: ['./filter-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    GroupByFirstLetterPipe,
-    NgClass,
-    GroupByPipe,
-    RouterLink,
-    NgTemplateOutlet,
-  ],
+    selector: 'app-filter-list',
+    templateUrl: './filter-list.component.html',
+    styleUrls: ['./filter-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        GroupByFirstLetterPipe,
+        NgClass,
+        GroupByPipe,
+        RouterLink,
+        NgTemplateOutlet,
+    ]
 })
 export class FilterListComponent<T> {
   entries = input.required<FilterListEntry<T>[]>();

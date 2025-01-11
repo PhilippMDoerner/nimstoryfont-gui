@@ -5,12 +5,11 @@ import { DiaryentryComponent } from 'src/design/templates/diaryentry/diaryentry.
 import { DiaryentryPageStore } from './diaryentry-page.store';
 
 @Component({
-  selector: 'app-diaryentry-page',
-  standalone: true,
-  imports: [DiaryentryComponent],
-  templateUrl: './diaryentry-page.component.html',
-  styleUrl: './diaryentry-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-diaryentry-page',
+    imports: [DiaryentryComponent],
+    templateUrl: './diaryentry-page.component.html',
+    styleUrl: './diaryentry-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DiaryentryPageComponent {
   globalStore = inject(GlobalStore);

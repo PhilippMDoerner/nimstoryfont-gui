@@ -12,10 +12,8 @@ import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { GroupByPipe } from 'src/design/atoms/_pipes/groupObjects.pipe';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/design/atoms/spinner/spinner.component';
-import { CollapsiblePanelComponent } from 'src/design/molecules';
-import { CardComponent } from '../../atoms/card/card.component';
 import { QuoteFieldComponent } from '../quote-field/quote-field.component';
-import { QuoteComponent, QuoteControlKind } from '../quote/quote.component';
+import { QuoteControlKind } from '../quote/quote.component';
 
 interface QuoteCard {
   quote: Quote;
@@ -24,13 +22,9 @@ interface QuoteCard {
 
 @Component({
   selector: 'app-quotes',
-  standalone: true,
   imports: [
     ButtonComponent,
-    QuoteComponent,
-    CollapsiblePanelComponent,
     SpinnerComponent,
-    CardComponent,
     GroupByPipe,
     QuoteFieldComponent,
   ],

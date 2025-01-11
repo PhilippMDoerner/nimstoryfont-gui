@@ -17,17 +17,16 @@ import {
 } from '../../molecules';
 
 @Component({
-  selector: 'app-user-row',
-  templateUrl: './user-row.component.html',
-  styleUrls: ['./user-row.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    IconComponent,
-    BadgeListComponent,
-    TitleCasePipe,
-    ConfirmationToggleButtonComponent,
-  ],
+    selector: 'app-user-row',
+    templateUrl: './user-row.component.html',
+    styleUrls: ['./user-row.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        IconComponent,
+        BadgeListComponent,
+        TitleCasePipe,
+        ConfirmationToggleButtonComponent,
+    ]
 })
 export class UserRowComponent {
   user = input.required<User>();

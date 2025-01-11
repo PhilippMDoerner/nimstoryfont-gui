@@ -7,11 +7,10 @@ import { CreateUpdateState } from '../_models/create-update-states';
 import { CreateUpdateComponent } from '../create-update/create-update.component';
 
 @Component({
-  selector: 'app-campaign-update',
-  standalone: true,
-  imports: [CreateUpdateComponent],
-  templateUrl: './campaign-update.component.html',
-  styleUrl: './campaign-update.component.scss',
+    selector: 'app-campaign-update',
+    imports: [CreateUpdateComponent],
+    templateUrl: './campaign-update.component.html',
+    styleUrl: './campaign-update.component.scss'
 })
 export class CampaignUpdateComponent {
   userModel = input.required<Partial<Campaign>>();

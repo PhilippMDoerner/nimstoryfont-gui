@@ -17,18 +17,17 @@ import { ImageCarouselCardComponent } from 'src/design/organisms/image-carousel-
 import { PageContainerComponent } from 'src/design/organisms/page-container/page-container.component';
 
 @Component({
-  selector: 'app-creature',
-  templateUrl: './creature.component.html',
-  styleUrls: ['./creature.component.scss'],
-  standalone: true,
-  imports: [
-    EditableTextComponent,
-    PageContainerComponent,
-    ButtonComponent,
-    RouterLink,
-    ImageCarouselCardComponent,
-    ArticleFooterComponent,
-  ],
+    selector: 'app-creature',
+    templateUrl: './creature.component.html',
+    styleUrls: ['./creature.component.scss'],
+    imports: [
+        EditableTextComponent,
+        PageContainerComponent,
+        ButtonComponent,
+        RouterLink,
+        ImageCarouselCardComponent,
+        ArticleFooterComponent,
+    ]
 })
 export class CreatureComponent {
   creature = input.required<Creature>();

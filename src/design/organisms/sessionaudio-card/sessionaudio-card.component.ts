@@ -10,12 +10,11 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
-  selector: 'app-sessionaudio-card',
-  templateUrl: './sessionaudio-card.component.html',
-  styleUrls: ['./sessionaudio-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [ButtonComponent, RouterLink],
+    selector: 'app-sessionaudio-card',
+    templateUrl: './sessionaudio-card.component.html',
+    styleUrls: ['./sessionaudio-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonComponent, RouterLink]
 })
 export class SessionaudioCardComponent {
   serverUrl = input.required<string>();

@@ -86,12 +86,11 @@ const GRAPH_INTERACTIONS = [
 ];
 
 @Component({
-  selector: 'app-graph-help-modal',
-  standalone: true,
-  imports: [IconComponent, SeparatorComponent, ButtonComponent],
-  templateUrl: './graph-help-modal.component.html',
-  styleUrl: './graph-help-modal.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-graph-help-modal',
+    imports: [IconComponent, SeparatorComponent, ButtonComponent],
+    templateUrl: './graph-help-modal.component.html',
+    styleUrl: './graph-help-modal.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GraphHelpModalComponent {
   modalService = inject(NgbModal);

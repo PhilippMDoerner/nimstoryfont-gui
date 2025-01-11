@@ -19,19 +19,18 @@ import { Icon } from 'src/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
-  imports: [
-    ButtonComponent,
-    FormlyModule,
-    NgbTooltip,
-    FormlyBootstrapModule,
-    ReactiveFormsModule,
-    NgTemplateOutlet,
-  ],
+    selector: 'app-form',
+    templateUrl: './form.component.html',
+    styleUrls: ['./form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        ButtonComponent,
+        FormlyModule,
+        NgbTooltip,
+        FormlyBootstrapModule,
+        ReactiveFormsModule,
+        NgTemplateOutlet,
+    ]
 })
 export class FormComponent<T> {
   form = new FormGroup({});

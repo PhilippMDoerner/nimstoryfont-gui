@@ -11,12 +11,11 @@ import { ButtonComponent } from 'src/design/atoms/button/button.component';
 import { Image } from '../../../app/_models/image';
 
 @Component({
-  selector: 'app-image-carousel',
-  templateUrl: './image-carousel.component.html',
-  styleUrls: ['./image-carousel.component.scss'],
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgbCarouselModule, ButtonComponent, NgTemplateOutlet],
+    selector: 'app-image-carousel',
+    templateUrl: './image-carousel.component.html',
+    styleUrls: ['./image-carousel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgbCarouselModule, ButtonComponent, NgTemplateOutlet]
 })
 export class ImageCarouselComponent {
   images = input.required<Image[]>();

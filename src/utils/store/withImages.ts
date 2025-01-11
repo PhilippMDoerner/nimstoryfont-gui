@@ -37,7 +37,7 @@ function addArticleId(
 }
 
 export type ImageFeatureResult = {
-  computed: {};
+  props: {};
   methods: {
     createImage: (img: Image, articleId: number) => void;
     deleteImage: (imgPk: number) => void;

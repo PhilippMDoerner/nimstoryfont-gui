@@ -20,7 +20,6 @@ import { ArticleFooterComponent } from '../../molecules/article-footer/article-f
     selector: 'app-item',
     templateUrl: './item.component.html',
     styleUrls: ['./item.component.scss'],
-    standalone: true,
     imports: [
         PageContainerComponent,
         RouterLink,
@@ -28,7 +27,7 @@ import { ArticleFooterComponent } from '../../molecules/article-footer/article-f
         ImageCarouselCardComponent,
         EditableTextComponent,
         ArticleFooterComponent,
-    ],
+    ]
 })
 export class ItemComponent {
   item = input.required<Item>();

@@ -23,7 +23,6 @@ import { ArticleFooterComponent } from '../../molecules/article-footer/article-f
     selector: 'app-organization',
     templateUrl: './organization.component.html',
     styleUrls: ['./organization.component.scss'],
-    standalone: true,
     imports: [
         PageContainerComponent,
         RouterLink,
@@ -33,7 +32,7 @@ import { ArticleFooterComponent } from '../../molecules/article-footer/article-f
         EditableTextComponent,
         ListComponent,
         ArticleFooterComponent,
-    ],
+    ]
 })
 export class OrganizationComponent {
   organization = input.required<Organization>();

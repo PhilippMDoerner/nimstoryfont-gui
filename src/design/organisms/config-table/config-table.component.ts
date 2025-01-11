@@ -20,19 +20,18 @@ type TableEntry = {
 };
 
 @Component({
-  selector: 'app-config-table',
-  standalone: true,
-  imports: [
-    IconComponent,
-    SeparatorComponent,
-    ConfirmationToggleButtonComponent,
-    FormComponent,
-    CardComponent,
-    ButtonComponent,
-  ],
-  templateUrl: './config-table.component.html',
-  styleUrl: './config-table.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-config-table',
+    imports: [
+        IconComponent,
+        SeparatorComponent,
+        ConfirmationToggleButtonComponent,
+        FormComponent,
+        CardComponent,
+        ButtonComponent,
+    ],
+    templateUrl: './config-table.component.html',
+    styleUrl: './config-table.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfigTableComponent<
   FullObj extends object,

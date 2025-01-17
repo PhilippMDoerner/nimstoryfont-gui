@@ -11,18 +11,18 @@ import { filter, mergeMap, skip, take } from 'rxjs';
 import { Map, MapRaw } from 'src/app/_models/map';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { CreateUpdateState } from 'src/app/design/templates/_models/create-update-states';
+import { CreateUpdateComponent } from 'src/app/design/templates/create-update/create-update.component';
 import { GlobalStore } from 'src/app/global.store';
-import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
-import { CreateUpdateComponent } from 'src/design/templates/create-update/create-update.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { MapCreateUpdateStore } from './map-create-update-page.store';
 
 @Component({
-    selector: 'app-map-create-update-page',
-    imports: [CreateUpdateComponent],
-    templateUrl: './map-create-update-page.component.html',
-    styleUrl: './map-create-update-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-map-create-update-page',
+  imports: [CreateUpdateComponent],
+  templateUrl: './map-create-update-page.component.html',
+  styleUrl: './map-create-update-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MapCreateUpdatePageComponent {
   globalStore = inject(GlobalStore);

@@ -8,19 +8,19 @@ import { NodeLinkTypeRaw } from 'src/app/_models/graph';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { ConfigAdministrationPageStore } from 'src/app/administration/pages/config-administration-page/config-administration-page.store';
-import { GlobalStore } from 'src/app/global.store';
+import { ConfigTablesComponent } from 'src/app/design//templates/config-tables/config-tables.component';
 import {
   ConfigTableData,
   ConfigTableKind,
-} from 'src/design/organisms/_model/config-table';
-import { ConfigTablesComponent } from '../../../../design/templates/config-tables/config-tables.component';
+} from 'src/app/design/organisms/_model/config-table';
+import { GlobalStore } from 'src/app/global.store';
 
 @Component({
-    selector: 'app-campaign-config-administration-page',
-    imports: [ConfigTablesComponent],
-    templateUrl: './campaign-config-administration-page.component.html',
-    styleUrl: './campaign-config-administration-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-campaign-config-administration-page',
+  imports: [ConfigTablesComponent],
+  templateUrl: './campaign-config-administration-page.component.html',
+  styleUrl: './campaign-config-administration-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CampaignConfigAdministrationPageComponent {
   store = inject(ConfigAdministrationPageStore);

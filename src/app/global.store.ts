@@ -11,7 +11,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { Observable, shareReplay, take } from 'rxjs';
-import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
+import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { CampaignOverview } from './_models/campaign';
 import { Login } from './_models/login';
 import { httpErrorToast } from './_models/toast';

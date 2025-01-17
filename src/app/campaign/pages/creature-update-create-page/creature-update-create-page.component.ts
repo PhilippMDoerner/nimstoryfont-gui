@@ -10,17 +10,17 @@ import { filter, skip, take } from 'rxjs';
 import { Creature, CreatureRaw } from 'src/app/_models/creature';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { CreateUpdateState } from 'src/app/design/templates/_models/create-update-states';
+import { CreateUpdateComponent } from 'src/app/design/templates/create-update/create-update.component';
 import { GlobalStore } from 'src/app/global.store';
-import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
-import { CreateUpdateComponent } from 'src/design/templates/create-update/create-update.component';
 import { CreatureUpdateCreateStore } from './creature-update-create-page.store';
 
 @Component({
-    selector: 'app-creature-update-create',
-    imports: [CreateUpdateComponent],
-    templateUrl: './creature-update-create-page.component.html',
-    styleUrl: './creature-update-create-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-creature-update-create',
+  imports: [CreateUpdateComponent],
+  templateUrl: './creature-update-create-page.component.html',
+  styleUrl: './creature-update-create-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreatureUpdateCreateComponent {
   store = inject(CreatureUpdateCreateStore);

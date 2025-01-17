@@ -5,7 +5,7 @@ import { patchState, signalStoreFeature, withMethods } from '@ngrx/signals';
 import { MethodsDictionary } from '@ngrx/signals/src/signal-store-models';
 import { Observable, take } from 'rxjs';
 import { successToast } from 'src/app/_models/toast';
-import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
+import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import {
   Request,
   RequestMap,

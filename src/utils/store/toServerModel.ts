@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { patchState } from '@ngrx/signals';
 import { httpErrorToast } from 'src/app/_models/toast';
-import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
+import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 
 export function handleError(
   store: any,

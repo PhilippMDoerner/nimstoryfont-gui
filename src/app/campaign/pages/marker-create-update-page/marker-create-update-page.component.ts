@@ -12,19 +12,19 @@ import { MapMarker, MapMarkerRaw } from 'src/app/_models/mapMarker';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { CreateUpdateComponent } from 'src/app/design//templates/create-update/create-update.component';
+import { CreateUpdateState } from 'src/app/design/templates/_models/create-update-states';
 import { GlobalStore } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
-import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
 import { filterNil } from 'src/utils/rxjs-operators';
-import { CreateUpdateComponent } from '../../../../design/templates/create-update/create-update.component';
 import { MarkerCreateUpdateStore } from './marker-create-update-page.store';
 
 @Component({
-    selector: 'app-marker-create-update-page',
-    imports: [CreateUpdateComponent],
-    templateUrl: './marker-create-update-page.component.html',
-    styleUrl: './marker-create-update-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-marker-create-update-page',
+  imports: [CreateUpdateComponent],
+  templateUrl: './marker-create-update-page.component.html',
+  styleUrl: './marker-create-update-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MarkerCreateUpdatePageComponent {
   formlyService = inject(FormlyService);

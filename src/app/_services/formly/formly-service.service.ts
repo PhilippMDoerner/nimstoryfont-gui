@@ -16,7 +16,7 @@ import {
   FormlyCustomStringSelectConfig as FormlyStaticStringSelectConfig,
   StaticOption,
 } from 'src/app/_models/formly';
-import { FormlySelectDisableFieldComponent } from 'src/design/organisms/formly-select-disable/formly-select-disable-field.component';
+import { FormlySelectDisableFieldComponent } from 'src/app/design/organisms/formly-select-disable/formly-select-disable-field.component';
 import { sortByProp } from 'src/utils/array';
 import { capitalize } from 'src/utils/string';
 

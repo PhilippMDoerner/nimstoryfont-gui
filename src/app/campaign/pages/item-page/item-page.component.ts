@@ -8,17 +8,17 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take } from 'rxjs';
 import { Item } from 'src/app/_models/item';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ItemComponent } from 'src/app/design/templates/item/item.component';
 import { GlobalStore } from 'src/app/global.store';
-import { ItemComponent } from 'src/design/templates/item/item.component';
 import { environment } from 'src/environments/environment';
 import { ItemPageStore } from './item-page.store';
 
 @Component({
-    selector: 'app-item-page',
-    imports: [ItemComponent],
-    templateUrl: './item-page.component.html',
-    styleUrl: './item-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-item-page',
+  imports: [ItemComponent],
+  templateUrl: './item-page.component.html',
+  styleUrl: './item-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ItemPageComponent {
   serverUrl = environment.backendDomain;

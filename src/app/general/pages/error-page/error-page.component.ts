@@ -8,9 +8,9 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { ErrorType } from 'src/app/general/_models/error';
 import { GlobalStore } from 'src/app/global.store';
-import { ButtonComponent } from 'src/design/atoms/button/button.component';
 
 const FALLBACK_ERROR: ErrorType = {
   htmlBody: 'Something went wrong',
@@ -62,11 +62,11 @@ const ERROR_CONTENT: { [key: number]: ErrorType } = {
 };
 
 @Component({
-    selector: 'app-error-page',
-    imports: [AsyncPipe, RouterLink, NgTemplateOutlet, ButtonComponent],
-    templateUrl: './error-page.component.html',
-    styleUrl: './error-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-error-page',
+  imports: [AsyncPipe, RouterLink, NgTemplateOutlet, ButtonComponent],
+  templateUrl: './error-page.component.html',
+  styleUrl: './error-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ErrorPageComponent {
   routingService = inject(RoutingService);

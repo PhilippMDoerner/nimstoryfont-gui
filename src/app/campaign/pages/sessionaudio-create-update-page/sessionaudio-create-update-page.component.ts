@@ -18,24 +18,24 @@ import { SessionAudio, SessionAudioRaw } from 'src/app/_models/sessionAudio';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { PROLOGUE_FORBIDDEN_CHARACTERS } from 'src/app/app.constants';
+import { PageContainerComponent } from 'src/app/design//organisms/page-container/page-container.component';
+import { CreateUpdateComponent } from 'src/app/design//templates/create-update/create-update.component';
+import { CreateUpdateState } from 'src/app/design/templates/_models/create-update-states';
 import { GlobalStore } from 'src/app/global.store';
-import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
 import { filterNil } from 'src/utils/rxjs-operators';
-import { PageContainerComponent } from '../../../../design/organisms/page-container/page-container.component';
-import { CreateUpdateComponent } from '../../../../design/templates/create-update/create-update.component';
 import { SessionaudioCreateUpdatePageStore } from './sessionaudio-create-update-page.store';
 
 @Component({
-    selector: 'app-sessionaudio-create-update-page',
-    imports: [
-        CreateUpdateComponent,
-        NgbProgressbarModule,
-        PageContainerComponent,
-        DecimalPipe,
-    ],
-    templateUrl: './sessionaudio-create-update-page.component.html',
-    styleUrl: './sessionaudio-create-update-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-sessionaudio-create-update-page',
+  imports: [
+    CreateUpdateComponent,
+    NgbProgressbarModule,
+    PageContainerComponent,
+    DecimalPipe,
+  ],
+  templateUrl: './sessionaudio-create-update-page.component.html',
+  styleUrl: './sessionaudio-create-update-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SessionaudioCreateUpdatePageComponent {
   private route = inject(ActivatedRoute);

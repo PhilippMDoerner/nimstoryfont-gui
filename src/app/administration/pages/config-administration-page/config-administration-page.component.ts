@@ -2,20 +2,20 @@ import { Component, computed, inject } from '@angular/core';
 import { NodeLinkTypeRaw } from 'src/app/_models/graph';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
-import { GlobalStore } from 'src/app/global.store';
 import {
   ConfigTableData,
   ConfigTableKind,
-} from 'src/design/organisms/_model/config-table';
-import { ConfigTablesComponent } from '../../../../design/templates/config-tables/config-tables.component';
+} from 'src/app/design/organisms/_model/config-table';
+import { ConfigTablesComponent } from 'src/app/design/templates/config-tables/config-tables.component';
+import { GlobalStore } from 'src/app/global.store';
 import { ConfigAdministrationPageStore } from './config-administration-page.store';
 
 @Component({
-    selector: 'app-config-administration-page',
-    templateUrl: './config-administration-page.component.html',
-    styleUrls: ['./config-administration-page.component.scss'],
-    providers: [ConfigAdministrationPageStore],
-    imports: [ConfigTablesComponent]
+  selector: 'app-config-administration-page',
+  templateUrl: './config-administration-page.component.html',
+  styleUrls: ['./config-administration-page.component.scss'],
+  providers: [ConfigAdministrationPageStore],
+  imports: [ConfigTablesComponent],
 })
 export class ConfigAdministrationPageComponent {
   store = inject(ConfigAdministrationPageStore);

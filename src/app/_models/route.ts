@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { GeneralOverviewType } from 'src/design/templates/_models/generalOverviewType';
+import { GeneralOverviewType } from 'src/app/design/templates/_models/generalOverviewType';
 import { siteAdminGuard } from '../_guards/admin.guard';
 import { loginGuard } from '../_guards/login.guard';
 import { onlyOnlineGuard } from '../_guards/only-online.guard';

@@ -8,16 +8,16 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take } from 'rxjs';
 import { Quest } from 'src/app/_models/quest';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { QuestComponent } from 'src/app/design/templates/quest/quest.component';
 import { GlobalStore } from 'src/app/global.store';
-import { QuestComponent } from 'src/design/templates/quest/quest.component';
 import { QuestPageStore } from './quest-page.store';
 
 @Component({
-    selector: 'app-quest-page',
-    imports: [QuestComponent],
-    templateUrl: './quest-page.component.html',
-    styleUrl: './quest-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-quest-page',
+  imports: [QuestComponent],
+  templateUrl: './quest-page.component.html',
+  styleUrl: './quest-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestPageComponent {
   store = inject(QuestPageStore);

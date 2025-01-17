@@ -10,17 +10,17 @@ import { ItemService } from 'src/app/_services/article/item.service';
 import { LocationService } from 'src/app/_services/article/location.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
 import { BaseService } from 'src/app/_services/base.service';
+import { GeneralOverviewType } from 'src/app/design/templates/_models/generalOverviewType';
+import { GeneralOverviewComponent } from 'src/app/design/templates/general-overview/general-overview.component';
 import { GlobalStore } from 'src/app/global.store';
-import { GeneralOverviewType } from 'src/design/templates/_models/generalOverviewType';
-import { GeneralOverviewComponent } from 'src/design/templates/general-overview/general-overview.component';
 import { environment } from 'src/environments/environment';
 import { filterNil } from 'src/utils/rxjs-operators';
 
 @Component({
-    selector: 'app-general-overview-page',
-    imports: [GeneralOverviewComponent, AsyncPipe],
-    templateUrl: './general-overview-page.component.html',
-    styleUrl: './general-overview-page.component.scss'
+  selector: 'app-general-overview-page',
+  imports: [GeneralOverviewComponent, AsyncPipe],
+  templateUrl: './general-overview-page.component.html',
+  styleUrl: './general-overview-page.component.scss',
 })
 export class GeneralOverviewPageComponent {
   globalStore = inject(GlobalStore);

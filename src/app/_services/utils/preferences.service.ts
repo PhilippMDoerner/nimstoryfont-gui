@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SidebarOption } from 'src/design/molecules';
+import { SidebarOption } from 'src/app/design/molecules';
 
 @Injectable({
   providedIn: 'root',

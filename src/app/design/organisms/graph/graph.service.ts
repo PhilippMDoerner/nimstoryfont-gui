@@ -113,7 +113,10 @@ export class GraphService {
         tap(() => this._elements$.next(undefined)),
         takeUntilDestroyed(),
       )
-      .subscribe((data) => this.createGraph(data.data, data.settings));
+      .subscribe((data) => {
+        const clonedNodeData = structuredClone(data.data); // Required because signal-store will freeze and non-extend the data
+        this.createGraph(clonedNodeData, data.settings);
+      });
   }
 
   /**

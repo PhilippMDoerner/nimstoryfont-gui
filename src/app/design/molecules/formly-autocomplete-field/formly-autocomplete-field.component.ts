@@ -13,6 +13,7 @@ import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import {
   combineLatest,
   debounceTime,
+  distinctUntilChanged,
   filter,
   fromEvent,
   map,
@@ -43,17 +44,17 @@ type AutocompleteSelectEvent<T> = {
 };
 
 @Component({
-    selector: 'app-formly-autocomplete-field',
-    imports: [
-        AsyncPipe,
-        ReactiveFormsModule,
-        FormlyModule,
-        SpinnerComponent,
-        BadgeComponent,
-    ],
-    templateUrl: './formly-autocomplete-field.component.html',
-    styleUrl: './formly-autocomplete-field.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-formly-autocomplete-field',
+  imports: [
+    AsyncPipe,
+    ReactiveFormsModule,
+    FormlyModule,
+    SpinnerComponent,
+    BadgeComponent,
+  ],
+  templateUrl: './formly-autocomplete-field.component.html',
+  styleUrl: './formly-autocomplete-field.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormlyAutocompleteFieldComponent<T>
   extends FieldType<FieldTypeConfig>
@@ -177,6 +178,7 @@ export class FormlyAutocompleteFieldComponent<T>
     this.formControl.valueChanges
       .pipe(
         startWith(this.formControl.value),
+        distinctUntilChanged(),
         withLatestFrom(this.selectedOption$, this.options$),
         takeUntil(this.destroy$),
       )

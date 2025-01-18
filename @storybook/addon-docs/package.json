@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-docs",
-  "version": "8.4.4",
+  "version": "8.4.7",
   "description": "Document component usage and properties in Markdown",
   "keywords": [
     "addon",
@@ -98,9 +98,9 @@
   },
   "dependencies": {
     "@mdx-js/react": "^3.0.0",
-    "@storybook/blocks": "8.4.4",
-    "@storybook/csf-plugin": "8.4.4",
-    "@storybook/react-dom-shim": "8.4.4",
+    "@storybook/blocks": "8.4.7",
+    "@storybook/csf-plugin": "8.4.7",
+    "@storybook/react-dom-shim": "8.4.7",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0",
     "ts-dedent": "^2.0.0"
@@ -117,7 +117,7 @@
     "vite": "^4.0.4"
   },
   "peerDependencies": {
-    "storybook": "^8.4.4"
+    "storybook": "^8.4.7"
   },
   "publishConfig": {
     "access": "public"

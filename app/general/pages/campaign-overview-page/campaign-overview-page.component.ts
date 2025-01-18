@@ -1,10 +1,10 @@
 import { AnimationEvent } from '@angular/animations';
 import { Component, HostListener, inject } from '@angular/core';
+import { CampaignOverviewComponent } from 'src/app/design//templates/campaign-overview/campaign-overview.component';
+import { slideInOut } from 'src/app/design/animations/slideInOut';
+import { showSidebarSignal } from 'src/app/design/organisms/page/page.component';
 import { GlobalStore } from 'src/app/global.store';
-import { slideInOut } from 'src/design/animations/slideInOut';
-import { showSidebarSignal } from 'src/design/organisms/page/page.component';
 import { environment } from 'src/environments/environment';
-import { CampaignOverviewComponent } from '../../../../design/templates/campaign-overview/campaign-overview.component';
 
 @Component({
   selector: 'app-campaign-overview-page',
@@ -14,7 +14,6 @@ import { CampaignOverviewComponent } from '../../../../design/templates/campaign
     '[@slideInOut]': '',
   },
   animations: [slideInOut],
-  standalone: true,
   imports: [CampaignOverviewComponent],
 })
 export class CampaignOverviewPageComponent {

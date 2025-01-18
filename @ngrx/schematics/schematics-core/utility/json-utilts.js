@@ -10,8 +10,8 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-exports.__esModule = true;
-exports.findPropertyInAstObject = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.findPropertyInAstObject = findPropertyInAstObject;
 // https://github.com/angular/angular-cli/blob/master/packages/schematics/angular/utility/json-utils.ts
 function findPropertyInAstObject(node, propertyName) {
     var e_1, _a;
@@ -27,11 +27,10 @@ function findPropertyInAstObject(node, propertyName) {
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
-            if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
         finally { if (e_1) throw e_1.error; }
     }
     return maybeNode;
 }
-exports.findPropertyInAstObject = findPropertyInAstObject;
 //# sourceMappingURL=json-utilts.js.map

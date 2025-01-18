@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/operators",
-  "version": "18.1.1",
+  "version": "19.0.0",
   "description": "Shared RxJS Operators for NgRx libraries",
   "repository": {
     "type": "git",
@@ -52,8 +52,6 @@
     },
     ".": {
       "types": "./index.d.ts",
-      "esm2022": "./esm2022/ngrx-operators.mjs",
-      "esm": "./esm2022/ngrx-operators.mjs",
       "default": "./fesm2022/ngrx-operators.mjs"
     }
   }

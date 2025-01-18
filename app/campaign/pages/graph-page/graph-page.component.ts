@@ -39,37 +39,36 @@ import {
 } from 'src/app/_models/graph';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { GlobalStore } from 'src/app/global.store';
-import { ButtonComponent } from 'src/design/atoms/button/button.component';
-import { SidebarOption } from 'src/design/molecules';
+import { CardComponent } from 'src/app/design//atoms/card/card.component';
+import { InfoCircleTooltipComponent } from 'src/app/design//atoms/info-circle-tooltip/info-circle-tooltip.component';
+import { PlaceholderComponent } from 'src/app/design//atoms/placeholder/placeholder.component';
+import { SelectableEntryComponent } from 'src/app/design//atoms/selectable-entry/selectable-entry.component';
+import { ArticleFooterComponent } from 'src/app/design//molecules/article-footer/article-footer.component';
+import { CollapsiblePanelComponent } from 'src/app/design//molecules/collapsible-panel/collapsible-panel.component';
+import { ConfirmationToggleButtonComponent } from 'src/app/design//molecules/confirmation-toggle-button/confirmation-toggle-button.component';
+import { FormComponent } from 'src/app/design//molecules/form/form.component';
+import { SearchFieldComponent } from 'src/app/design//molecules/search-field/search-field.component';
+import { GraphComponent } from 'src/app/design//organisms/graph/graph.component';
+import { PageContainerComponent } from 'src/app/design//organisms/page-container/page-container.component';
+import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { SidebarOption } from 'src/app/design/molecules';
 import {
   ItemCategory,
   NODE_TYPE_OPTIONS,
-} from 'src/design/molecules/_models/search-preferences';
-import { GRAPH_SETTINGS } from 'src/design/organisms/_model/graph';
-import { GraphMenuService } from 'src/design/organisms/graph/graph-menu.service';
-import { GraphService } from 'src/design/organisms/graph/graph.service';
+} from 'src/app/design/molecules/_models/search-preferences';
+import { GRAPH_SETTINGS } from 'src/app/design/organisms/_model/graph';
+import { GraphMenuService } from 'src/app/design/organisms/graph/graph-menu.service';
+import { GraphService } from 'src/app/design/organisms/graph/graph.service';
+import { GlobalStore } from 'src/app/global.store';
 import { sortAlphabetically } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { capitalize } from 'src/utils/string';
-import { CardComponent } from '../../../../design/atoms/card/card.component';
-import { InfoCircleTooltipComponent } from '../../../../design/atoms/info-circle-tooltip/info-circle-tooltip.component';
-import { PlaceholderComponent } from '../../../../design/atoms/placeholder/placeholder.component';
-import { SelectableEntryComponent } from '../../../../design/atoms/selectable-entry/selectable-entry.component';
-import { ArticleFooterComponent } from '../../../../design/molecules/article-footer/article-footer.component';
-import { CollapsiblePanelComponent } from '../../../../design/molecules/collapsible-panel/collapsible-panel.component';
-import { ConfirmationToggleButtonComponent } from '../../../../design/molecules/confirmation-toggle-button/confirmation-toggle-button.component';
-import { FormComponent } from '../../../../design/molecules/form/form.component';
-import { SearchFieldComponent } from '../../../../design/molecules/search-field/search-field.component';
-import { GraphComponent } from '../../../../design/organisms/graph/graph.component';
-import { PageContainerComponent } from '../../../../design/organisms/page-container/page-container.component';
 import { GraphHelpModalComponent } from '../../components/graph-help-modal/graph-help-modal.component';
 import { GraphSettingsModalComponent } from '../../components/graph-settings-modal/graph-settings-modal.component';
 import { GraphPageStore } from './graph-page.store';
 
 @Component({
   selector: 'app-graph-page',
-  standalone: true,
   imports: [
     PageContainerComponent,
     GraphComponent,

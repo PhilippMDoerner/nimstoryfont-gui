@@ -10,7 +10,7 @@ import { AllNewMethods, withDeleteMethods } from './withDeleteMethods';
 import { AllNewProperties, withCreateState } from './withDeleteState';
 
 export type DeleteFeatureResult<Requests extends RequestMap> = {
-  computed: {};
+  props: {};
   methods: MethodsDictionary & AllNewMethods<Requests>;
   state: {} & AllNewProperties<Requests>;
 };
@@ -18,7 +18,7 @@ export type DeleteFeatureResult<Requests extends RequestMap> = {
 export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
   Input['state']
 > &
-  Input['computed'] &
+  Input['props'] &
   Input['methods'] &
   WritableStateSource<Input['state']>;
 
@@ -31,7 +31,7 @@ export function withCreates<
   return ((store) => {
     const deletes = createsFactory({
       ...store.stateSignals,
-      ...store.computedSignals,
+      ...store.props,
       ...store.methods,
     } as InnerStore<Input>);
 

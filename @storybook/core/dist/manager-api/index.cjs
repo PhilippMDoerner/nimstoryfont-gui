@@ -9547,7 +9547,7 @@ V(Bt, {
 var Ge = M(W(), 1), ar = M(Ve(), 1), j = M(require("semver"), 1);
 
 // src/manager-api/version.ts
-var nr = "8.4.4";
+var nr = "8.4.7";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: p1 } = Ge.global, or = (0, ar.default)(1)(() => {

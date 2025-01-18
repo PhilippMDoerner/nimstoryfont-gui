@@ -4,11 +4,11 @@ import { dirname as ESM_COMPAT_dirname } from 'node:path';
 const __filename = ESM_COMPAT_fileURLToPath(import.meta.url);
 const __dirname = ESM_COMPAT_dirname(__filename);
 const require = ESM_COMPAT_Module.createRequire(import.meta.url);
-var Ni = Object.create;
+var Bi = Object.create;
 var Je = Object.defineProperty;
-var Bi = Object.getOwnPropertyDescriptor;
-var Di = Object.getOwnPropertyNames;
-var Mi = Object.getPrototypeOf, Li = Object.prototype.hasOwnProperty;
+var Di = Object.getOwnPropertyDescriptor;
+var Li = Object.getOwnPropertyNames;
+var Mi = Object.getPrototypeOf, Fi = Object.prototype.hasOwnProperty;
 var o = (e, t) => Je(e, "name", { value: t, configurable: !0 }), y = /* @__PURE__ */ ((e) => typeof require < "u" ? require : typeof Proxy <
 "u" ? new Proxy(e, {
   get: (t, r) => (typeof require < "u" ? require : t)[r]
@@ -17,13 +17,13 @@ var o = (e, t) => Je(e, "name", { value: t, configurable: !0 }), y = /* @__PURE_
   throw Error('Dynamic require of "' + e + '" is not supported');
 });
 var d = (e, t) => () => (t || e((t = { exports: {} }).exports, t), t.exports);
-var Fi = (e, t, r, n) => {
+var Ui = (e, t, r, n) => {
   if (t && typeof t == "object" || typeof t == "function")
-    for (let i of Di(t))
-      !Li.call(e, i) && i !== r && Je(e, i, { get: () => t[i], enumerable: !(n = Bi(t, i)) || n.enumerable });
+    for (let i of Li(t))
+      !Fi.call(e, i) && i !== r && Je(e, i, { get: () => t[i], enumerable: !(n = Di(t, i)) || n.enumerable });
   return e;
 };
-var A = (e, t, r) => (r = e != null ? Ni(Mi(e)) : {}, Fi(
+var A = (e, t, r) => (r = e != null ? Bi(Mi(e)) : {}, Ui(
   // If the importer is in node compatibility mode or this is not an ESM
   // file that has been converted to a CommonJS file using a Babel-
   // compatible transform (i.e. "__esModule" has not been set), then set
@@ -33,20 +33,20 @@ var A = (e, t, r) => (r = e != null ? Ni(Mi(e)) : {}, Fi(
 ));
 
 // ../node_modules/picocolors/picocolors.js
-var ar = d((vl, Ye) => {
-  var ir = process.argv || [], ae = process.env, Ui = !("NO_COLOR" in ae || ir.includes("--no-color")) && ("FORCE_COLOR" in ae || ir.includes(
-  "--color") || process.platform === "win32" || y != null && y("tty").isatty(1) && ae.TERM !== "dumb" || "CI" in ae), $i = /* @__PURE__ */ o(
+var cr = d((El, Ye) => {
+  var sr = process.argv || [], ae = process.env, $i = !("NO_COLOR" in ae || sr.includes("--no-color")) && ("FORCE_COLOR" in ae || sr.includes(
+  "--color") || process.platform === "win32" || y != null && y("tty").isatty(1) && ae.TERM !== "dumb" || "CI" in ae), qi = /* @__PURE__ */ o(
   (e, t, r = e) => (n) => {
     let i = "" + n, s = i.indexOf(t, e.length);
-    return ~s ? e + qi(i, t, r, s) + t : e + i + t;
-  }, "formatter"), qi = /* @__PURE__ */ o((e, t, r, n) => {
+    return ~s ? e + Wi(i, t, r, s) + t : e + i + t;
+  }, "formatter"), Wi = /* @__PURE__ */ o((e, t, r, n) => {
     let i = "", s = 0;
     do
       i += e.substring(s, n) + r, s = n + t.length, n = e.indexOf(t, s);
     while (~n);
     return i + e.substring(s);
-  }, "replaceClose"), sr = /* @__PURE__ */ o((e = Ui) => {
-    let t = e ? $i : () => String;
+  }, "replaceClose"), ar = /* @__PURE__ */ o((e = $i) => {
+    let t = e ? qi : () => String;
     return {
       isColorSupported: e,
       reset: t("\x1B[0m", "\x1B[0m"),
@@ -92,16 +92,16 @@ var ar = d((vl, Ye) => {
       bgWhiteBright: t("\x1B[107m", "\x1B[49m")
     };
   }, "createColors");
-  Ye.exports = sr();
-  Ye.exports.createColors = sr;
+  Ye.exports = ar();
+  Ye.exports.createColors = ar;
 });
 
 // ../node_modules/isexe/windows.js
-var br = d((Al, gr) => {
-  gr.exports = yr;
-  yr.sync = Hi;
-  var mr = y("fs");
-  function Wi(e, t) {
+var xr = d((_l, br) => {
+  br.exports = gr;
+  gr.sync = Vi;
+  var hr = y("fs");
+  function Hi(e, t) {
     var r = t.pathExt !== void 0 ? t.pathExt : process.env.PATHEXT;
     if (!r || (r = r.split(";"), r.indexOf("") !== -1))
       return !0;
@@ -112,57 +112,57 @@ var br = d((Al, gr) => {
     }
     return !1;
   }
-  o(Wi, "checkPathExt");
-  function hr(e, t, r) {
-    return !e.isSymbolicLink() && !e.isFile() ? !1 : Wi(t, r);
-  }
-  o(hr, "checkStat");
+  o(Hi, "checkPathExt");
   function yr(e, t, r) {
-    mr.stat(e, function(n, i) {
-      r(n, n ? !1 : hr(i, e, t));
+    return !e.isSymbolicLink() && !e.isFile() ? !1 : Hi(t, r);
+  }
+  o(yr, "checkStat");
+  function gr(e, t, r) {
+    hr.stat(e, function(n, i) {
+      r(n, n ? !1 : yr(i, e, t));
     });
   }
-  o(yr, "isexe");
-  function Hi(e, t) {
-    return hr(mr.statSync(e), e, t);
+  o(gr, "isexe");
+  function Vi(e, t) {
+    return yr(hr.statSync(e), e, t);
   }
-  o(Hi, "sync");
+  o(Vi, "sync");
 });
 
 // ../node_modules/isexe/mode.js
-var Pr = d((_l, vr) => {
-  vr.exports = Sr;
-  Sr.sync = Vi;
-  var xr = y("fs");
-  function Sr(e, t, r) {
-    xr.stat(e, function(n, i) {
-      r(n, n ? !1 : wr(i, t));
+var Er = d((jl, Pr) => {
+  Pr.exports = wr;
+  wr.sync = zi;
+  var Sr = y("fs");
+  function wr(e, t, r) {
+    Sr.stat(e, function(n, i) {
+      r(n, n ? !1 : vr(i, t));
     });
   }
-  o(Sr, "isexe");
-  function Vi(e, t) {
-    return wr(xr.statSync(e), t);
-  }
-  o(Vi, "sync");
-  function wr(e, t) {
-    return e.isFile() && zi(e, t);
-  }
-  o(wr, "checkStat");
+  o(wr, "isexe");
   function zi(e, t) {
+    return vr(Sr.statSync(e), t);
+  }
+  o(zi, "sync");
+  function vr(e, t) {
+    return e.isFile() && Ki(e, t);
+  }
+  o(vr, "checkStat");
+  function Ki(e, t) {
     var r = e.mode, n = e.uid, i = e.gid, s = t.uid !== void 0 ? t.uid : process.getuid && process.getuid(), a = t.gid !== void 0 ? t.gid : process.
     getgid && process.getgid(), c = parseInt("100", 8), u = parseInt("010", 8), l = parseInt("001", 8), f = c | u, w = r & l || r & u && i ===
     a || r & c && n === s || r & f && s === 0;
     return w;
   }
-  o(zi, "checkMode");
+  o(Ki, "checkMode");
 });
 
 // ../node_modules/isexe/index.js
-var Tr = d((Nl, Er) => {
-  var jl = y("fs"), le;
-  process.platform === "win32" || global.TESTING_WINDOWS ? le = br() : le = Pr();
-  Er.exports = Xe;
-  Xe.sync = Ki;
+var Ir = d((Dl, Tr) => {
+  var Bl = y("fs"), le;
+  process.platform === "win32" || global.TESTING_WINDOWS ? le = xr() : le = Er();
+  Tr.exports = Xe;
+  Xe.sync = Ji;
   function Xe(e, t, r) {
     if (typeof t == "function" && (r = t, t = {}), !r) {
       if (typeof Promise != "function")
@@ -178,7 +178,7 @@ var Tr = d((Nl, Er) => {
     });
   }
   o(Xe, "isexe");
-  function Ki(e, t) {
+  function Ji(e, t) {
     try {
       return le.sync(e, t || {});
     } catch (r) {
@@ -187,15 +187,15 @@ var Tr = d((Nl, Er) => {
       throw r;
     }
   }
-  o(Ki, "sync");
+  o(Ji, "sync");
 });
 
 // ../node_modules/cross-spawn/node_modules/which/which.js
-var _r = d((Dl, Rr) => {
-  var D = process.platform === "win32" || process.env.OSTYPE === "cygwin" || process.env.OSTYPE === "msys", Ir = y("path"), Ji = D ? ";" : "\
-:", kr = Tr(), Cr = /* @__PURE__ */ o((e) => Object.assign(new Error(`not found: ${e}`), { code: "ENOENT" }), "getNotFoundError"), Or = /* @__PURE__ */ o(
+var Gr = d((Ml, _r) => {
+  var D = process.platform === "win32" || process.env.OSTYPE === "cygwin" || process.env.OSTYPE === "msys", kr = y("path"), Yi = D ? ";" : "\
+:", Cr = Ir(), Or = /* @__PURE__ */ o((e) => Object.assign(new Error(`not found: ${e}`), { code: "ENOENT" }), "getNotFoundError"), Ar = /* @__PURE__ */ o(
   (e, t) => {
-    let r = t.colon || Ji, n = e.match(/\//) || D && e.match(/\\/) ? [""] : [
+    let r = t.colon || Yi, n = e.match(/\//) || D && e.match(/\\/) ? [""] : [
       // windows always checks the cwd first
       ...D ? [process.cwd()] : [],
       ...(t.path || process.env.PATH || /* istanbul ignore next: very unusual */
@@ -206,18 +206,18 @@ var _r = d((Dl, Rr) => {
       pathExt: s,
       pathExtExe: i
     };
-  }, "getPathInfo"), Ar = /* @__PURE__ */ o((e, t, r) => {
+  }, "getPathInfo"), Rr = /* @__PURE__ */ o((e, t, r) => {
     typeof t == "function" && (r = t, t = {}), t || (t = {});
-    let { pathEnv: n, pathExt: i, pathExtExe: s } = Or(e, t), a = [], c = /* @__PURE__ */ o((l) => new Promise((f, w) => {
+    let { pathEnv: n, pathExt: i, pathExtExe: s } = Ar(e, t), a = [], c = /* @__PURE__ */ o((l) => new Promise((f, w) => {
       if (l === n.length)
-        return t.all && a.length ? f(a) : w(Cr(e));
-      let g = n[l], p = /^".*"$/.test(g) ? g.slice(1, -1) : g, b = Ir.join(p, e), h = !p && /^\.[\\\/]/.test(e) ? e.slice(0, 2) + b : b;
+        return t.all && a.length ? f(a) : w(Or(e));
+      let g = n[l], p = /^".*"$/.test(g) ? g.slice(1, -1) : g, b = kr.join(p, e), h = !p && /^\.[\\\/]/.test(e) ? e.slice(0, 2) + b : b;
       f(u(h, l, 0));
     }), "step"), u = /* @__PURE__ */ o((l, f, w) => new Promise((g, p) => {
       if (w === i.length)
         return g(c(f + 1));
       let b = i[w];
-      kr(l + b, { pathExt: s }, (h, x) => {
+      Cr(l + b, { pathExt: s }, (h, x) => {
         if (!h && x)
           if (t.all)
             a.push(l + b);
@@ -227,15 +227,15 @@ var _r = d((Dl, Rr) => {
       });
     }), "subStep");
     return r ? c(0).then((l) => r(null, l), r) : c(0);
-  }, "which"), Yi = /* @__PURE__ */ o((e, t) => {
+  }, "which"), Xi = /* @__PURE__ */ o((e, t) => {
     t = t || {};
-    let { pathEnv: r, pathExt: n, pathExtExe: i } = Or(e, t), s = [];
+    let { pathEnv: r, pathExt: n, pathExtExe: i } = Ar(e, t), s = [];
     for (let a = 0; a < r.length; a++) {
-      let c = r[a], u = /^".*"$/.test(c) ? c.slice(1, -1) : c, l = Ir.join(u, e), f = !u && /^\.[\\\/]/.test(e) ? e.slice(0, 2) + l : l;
+      let c = r[a], u = /^".*"$/.test(c) ? c.slice(1, -1) : c, l = kr.join(u, e), f = !u && /^\.[\\\/]/.test(e) ? e.slice(0, 2) + l : l;
       for (let w = 0; w < n.length; w++) {
         let g = f + n[w];
         try {
-          if (kr.sync(g, { pathExt: i }))
+          if (Cr.sync(g, { pathExt: i }))
             if (t.all)
               s.push(g);
             else
@@ -248,28 +248,28 @@ var _r = d((Dl, Rr) => {
       return s;
     if (t.nothrow)
       return null;
-    throw Cr(e);
+    throw Or(e);
   }, "whichSync");
-  Rr.exports = Ar;
-  Ar.sync = Yi;
+  _r.exports = Rr;
+  Rr.sync = Xi;
 });
 
 // ../node_modules/path-key/index.js
-var Qe = d((Ll, Ze) => {
+var Qe = d((Ul, Ze) => {
   "use strict";
-  var Gr = /* @__PURE__ */ o((e = {}) => {
+  var jr = /* @__PURE__ */ o((e = {}) => {
     let t = e.env || process.env;
     return (e.platform || process.platform) !== "win32" ? "PATH" : Object.keys(t).reverse().find((n) => n.toUpperCase() === "PATH") || "Path";
   }, "pathKey");
-  Ze.exports = Gr;
-  Ze.exports.default = Gr;
+  Ze.exports = jr;
+  Ze.exports.default = jr;
 });
 
 // ../node_modules/cross-spawn/lib/util/resolveCommand.js
-var Dr = d((Ul, Br) => {
+var Lr = d((ql, Dr) => {
   "use strict";
-  var jr = y("path"), Xi = _r(), Zi = Qe();
-  function Nr(e, t) {
+  var Nr = y("path"), Zi = Gr(), Qi = Qe();
+  function Br(e, t) {
     let r = e.options.env || process.env, n = process.cwd(), i = e.options.cwd != null, s = i && process.chdir !== void 0 && !process.chdir.
     disabled;
     if (s)
@@ -279,53 +279,53 @@ var Dr = d((Ul, Br) => {
       }
     let a;
     try {
-      a = Xi.sync(e.command, {
-        path: r[Zi({ env: r })],
-        pathExt: t ? jr.delimiter : void 0
+      a = Zi.sync(e.command, {
+        path: r[Qi({ env: r })],
+        pathExt: t ? Nr.delimiter : void 0
       });
     } catch {
     } finally {
       s && process.chdir(n);
     }
-    return a && (a = jr.resolve(i ? e.options.cwd : "", a)), a;
+    return a && (a = Nr.resolve(i ? e.options.cwd : "", a)), a;
   }
-  o(Nr, "resolveCommandAttempt");
-  function Qi(e) {
-    return Nr(e) || Nr(e, !0);
+  o(Br, "resolveCommandAttempt");
+  function es(e) {
+    return Br(e) || Br(e, !0);
   }
-  o(Qi, "resolveCommand");
-  Br.exports = Qi;
+  o(es, "resolveCommand");
+  Dr.exports = es;
 });
 
 // ../node_modules/cross-spawn/lib/util/escape.js
-var Mr = d((ql, tt) => {
+var Mr = d((Hl, tt) => {
   "use strict";
   var et = /([()\][%!^"`<>&|;, *?])/g;
-  function es(e) {
+  function ts(e) {
     return e = e.replace(et, "^$1"), e;
   }
-  o(es, "escapeCommand");
-  function ts(e, t) {
+  o(ts, "escapeCommand");
+  function rs(e, t) {
     return e = `${e}`, e = e.replace(/(\\*)"/g, '$1$1\\"'), e = e.replace(/(\\*)$/, "$1$1"), e = `"${e}"`, e = e.replace(et, "^$1"), t && (e =
     e.replace(et, "^$1")), e;
   }
-  o(ts, "escapeArgument");
-  tt.exports.command = es;
-  tt.exports.argument = ts;
+  o(rs, "escapeArgument");
+  tt.exports.command = ts;
+  tt.exports.argument = rs;
 });
 
 // ../node_modules/shebang-regex/index.js
-var Fr = d((Hl, Lr) => {
+var Ur = d((zl, Fr) => {
   "use strict";
-  Lr.exports = /^#!(.*)/;
+  Fr.exports = /^#!(.*)/;
 });
 
 // ../node_modules/shebang-command/index.js
-var $r = d((Vl, Ur) => {
+var qr = d((Kl, $r) => {
   "use strict";
-  var rs = Fr();
-  Ur.exports = (e = "") => {
-    let t = e.match(rs);
+  var ns = Ur();
+  $r.exports = (e = "") => {
+    let t = e.match(ns);
     if (!t)
       return null;
     let [r, n] = t[0].replace(/#! ?/, "").split(" "), i = r.split("/").pop();
@@ -334,45 +334,45 @@ var $r = d((Vl, Ur) => {
 });
 
 // ../node_modules/cross-spawn/lib/util/readShebang.js
-var Wr = d((zl, qr) => {
+var Hr = d((Jl, Wr) => {
   "use strict";
-  var rt = y("fs"), ns = $r();
-  function os(e) {
+  var rt = y("fs"), os = qr();
+  function is(e) {
     let r = Buffer.alloc(150), n;
     try {
       n = rt.openSync(e, "r"), rt.readSync(n, r, 0, 150, 0), rt.closeSync(n);
     } catch {
     }
-    return ns(r.toString());
+    return os(r.toString());
   }
-  o(os, "readShebang");
-  qr.exports = os;
+  o(is, "readShebang");
+  Wr.exports = is;
 });
 
 // ../node_modules/cross-spawn/lib/parse.js
-var Kr = d((Jl, zr) => {
+var Jr = d((Xl, Kr) => {
   "use strict";
-  var is = y("path"), Hr = Dr(), Vr = Mr(), ss = Wr(), as = process.platform === "win32", cs = /\.(?:com|exe)$/i, us = /node_modules[\\/].bin[\\/][^\\/]+\.cmd$/i;
-  function ls(e) {
-    e.file = Hr(e);
-    let t = e.file && ss(e.file);
-    return t ? (e.args.unshift(e.file), e.command = t, Hr(e)) : e.file;
-  }
-  o(ls, "detectShebang");
+  var ss = y("path"), Vr = Lr(), zr = Mr(), as = Hr(), cs = process.platform === "win32", us = /\.(?:com|exe)$/i, ls = /node_modules[\\/].bin[\\/][^\\/]+\.cmd$/i;
   function fs(e) {
-    if (!as)
+    e.file = Vr(e);
+    let t = e.file && as(e.file);
+    return t ? (e.args.unshift(e.file), e.command = t, Vr(e)) : e.file;
+  }
+  o(fs, "detectShebang");
+  function ds(e) {
+    if (!cs)
       return e;
-    let t = ls(e), r = !cs.test(t);
+    let t = fs(e), r = !us.test(t);
     if (e.options.forceShell || r) {
-      let n = us.test(t);
-      e.command = is.normalize(e.command), e.command = Vr.command(e.command), e.args = e.args.map((s) => Vr.argument(s, n));
+      let n = ls.test(t);
+      e.command = ss.normalize(e.command), e.command = zr.command(e.command), e.args = e.args.map((s) => zr.argument(s, n));
       let i = [e.command].concat(e.args).join(" ");
       e.args = ["/d", "/s", "/c", `"${i}"`], e.command = process.env.comspec || "cmd.exe", e.options.windowsVerbatimArguments = !0;
     }
     return e;
   }
-  o(fs, "parseNonShell");
-  function ds(e, t, r) {
+  o(ds, "parseNonShell");
+  function ps(e, t, r) {
     t && !Array.isArray(t) && (r = t, t = null), t = t ? t.slice(0) : [], r = Object.assign({}, r);
     let n = {
       command: e,
@@ -384,14 +384,14 @@ var Kr = d((Jl, zr) => {
         args: t
       }
     };
-    return r.shell ? n : fs(n);
+    return r.shell ? n : ds(n);
   }
-  o(ds, "parse");
-  zr.exports = ds;
+  o(ps, "parse");
+  Kr.exports = ps;
 });
 
 // ../node_modules/cross-spawn/lib/enoent.js
-var Xr = d((Xl, Yr) => {
+var Zr = d((Ql, Xr) => {
   "use strict";
   var nt = process.platform === "win32";
   function ot(e, t) {
@@ -404,61 +404,61 @@ var Xr = d((Xl, Yr) => {
     });
   }
   o(ot, "notFoundError");
-  function ps(e, t) {
+  function ms(e, t) {
     if (!nt)
       return;
     let r = e.emit;
     e.emit = function(n, i) {
       if (n === "exit") {
-        let s = Jr(i, t, "spawn");
+        let s = Yr(i, t, "spawn");
         if (s)
           return r.call(e, "error", s);
       }
       return r.apply(e, arguments);
     };
   }
-  o(ps, "hookChildProcess");
-  function Jr(e, t) {
+  o(ms, "hookChildProcess");
+  function Yr(e, t) {
     return nt && e === 1 && !t.file ? ot(t.original, "spawn") : null;
   }
-  o(Jr, "verifyENOENT");
-  function ms(e, t) {
+  o(Yr, "verifyENOENT");
+  function hs(e, t) {
     return nt && e === 1 && !t.file ? ot(t.original, "spawnSync") : null;
   }
-  o(ms, "verifyENOENTSync");
-  Yr.exports = {
-    hookChildProcess: ps,
-    verifyENOENT: Jr,
-    verifyENOENTSync: ms,
+  o(hs, "verifyENOENTSync");
+  Xr.exports = {
+    hookChildProcess: ms,
+    verifyENOENT: Yr,
+    verifyENOENTSync: hs,
     notFoundError: ot
   };
 });
 
 // ../node_modules/cross-spawn/index.js
-var at = d((Ql, M) => {
+var at = d((tf, L) => {
   "use strict";
-  var Zr = y("child_process"), it = Kr(), st = Xr();
-  function Qr(e, t, r) {
-    let n = it(e, t, r), i = Zr.spawn(n.command, n.args, n.options);
+  var Qr = y("child_process"), it = Jr(), st = Zr();
+  function en(e, t, r) {
+    let n = it(e, t, r), i = Qr.spawn(n.command, n.args, n.options);
     return st.hookChildProcess(i, n), i;
   }
-  o(Qr, "spawn");
-  function hs(e, t, r) {
-    let n = it(e, t, r), i = Zr.spawnSync(n.command, n.args, n.options);
+  o(en, "spawn");
+  function ys(e, t, r) {
+    let n = it(e, t, r), i = Qr.spawnSync(n.command, n.args, n.options);
     return i.error = i.error || st.verifyENOENTSync(i.status, n), i;
   }
-  o(hs, "spawnSync");
-  M.exports = Qr;
-  M.exports.spawn = Qr;
-  M.exports.sync = hs;
-  M.exports._parse = it;
-  M.exports._enoent = st;
+  o(ys, "spawnSync");
+  L.exports = en;
+  L.exports.spawn = en;
+  L.exports.sync = ys;
+  L.exports._parse = it;
+  L.exports._enoent = st;
 });
 
 // ../node_modules/execa/node_modules/strip-final-newline/index.js
-var tn = d((tf, en) => {
+var rn = d((nf, tn) => {
   "use strict";
-  en.exports = (e) => {
+  tn.exports = (e) => {
     let t = typeof e == "string" ? `
 ` : 10, r = typeof e == "string" ? "\r" : 13;
     return e[e.length - 1] === t && (e = e.slice(0, e.length - 1)), e[e.length - 1] === r && (e = e.slice(0, e.length - 1)), e;
@@ -466,12 +466,12 @@ var tn = d((tf, en) => {
 });
 
 // ../node_modules/npm-run-path/index.js
-var on = d((rf, J) => {
+var sn = d((of, J) => {
   "use strict";
-  var K = y("path"), rn = Qe(), nn = /* @__PURE__ */ o((e) => {
+  var K = y("path"), nn = Qe(), on = /* @__PURE__ */ o((e) => {
     e = {
       cwd: process.cwd(),
-      path: process.env[rn()],
+      path: process.env[nn()],
       execPath: process.execPath,
       ...e
     };
@@ -481,34 +481,34 @@ var on = d((rf, J) => {
     let i = K.resolve(e.cwd, e.execPath, "..");
     return n.push(i), n.concat(e.path).join(K.delimiter);
   }, "npmRunPath");
-  J.exports = nn;
-  J.exports.default = nn;
+  J.exports = on;
+  J.exports.default = on;
   J.exports.env = (e) => {
     e = {
       env: process.env,
       ...e
     };
-    let t = { ...e.env }, r = rn({ env: t });
+    let t = { ...e.env }, r = nn({ env: t });
     return e.path = t[r], t[r] = J.exports(e), t;
   };
 });
 
 // ../node_modules/mimic-fn/index.js
-var an = d((of, ct) => {
+var cn = d((af, ct) => {
   "use strict";
-  var sn = /* @__PURE__ */ o((e, t) => {
+  var an = /* @__PURE__ */ o((e, t) => {
     for (let r of Reflect.ownKeys(t))
       Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r));
     return e;
   }, "mimicFn");
-  ct.exports = sn;
-  ct.exports.default = sn;
+  ct.exports = an;
+  ct.exports.default = an;
 });
 
 // ../node_modules/onetime/index.js
-var un = d((af, de) => {
+var ln = d((uf, de) => {
   "use strict";
-  var ys = an(), fe = /* @__PURE__ */ new WeakMap(), cn = /* @__PURE__ */ o((e, t = {}) => {
+  var gs = cn(), fe = /* @__PURE__ */ new WeakMap(), un = /* @__PURE__ */ o((e, t = {}) => {
     if (typeof e != "function")
       throw new TypeError("Expected a function");
     let r, n = 0, i = e.displayName || e.name || "<anonymous>", s = /* @__PURE__ */ o(function(...a) {
@@ -518,10 +518,10 @@ var un = d((af, de) => {
         throw new Error(`Function \`${i}\` can only be called once`);
       return r;
     }, "onetime");
-    return ys(s, e), fe.set(s, n), s;
+    return gs(s, e), fe.set(s, n), s;
   }, "onetime");
-  de.exports = cn;
-  de.exports.default = cn;
+  de.exports = un;
+  de.exports.default = un;
   de.exports.callCount = (e) => {
     if (!fe.has(e))
       throw new Error(`The given function \`${e.name}\` is not wrapped by the \`onetime\` package`);
@@ -530,11 +530,11 @@ var un = d((af, de) => {
 });
 
 // ../node_modules/execa/node_modules/human-signals/build/src/core.js
-var ln = d((pe) => {
+var fn = d((pe) => {
   "use strict";
   Object.defineProperty(pe, "__esModule", { value: !0 });
   pe.SIGNALS = void 0;
-  var gs = [
+  var bs = [
     {
       name: "SIGHUP",
       number: 1,
@@ -805,42 +805,42 @@ var ln = d((pe) => {
       standard: "other"
     }
   ];
-  pe.SIGNALS = gs;
+  pe.SIGNALS = bs;
 });
 
 // ../node_modules/execa/node_modules/human-signals/build/src/realtime.js
-var ut = d((L) => {
+var ut = d((M) => {
   "use strict";
-  Object.defineProperty(L, "__esModule", { value: !0 });
-  L.SIGRTMAX = L.getRealtimeSignals = void 0;
-  var bs = /* @__PURE__ */ o(function() {
-    let e = dn - fn + 1;
-    return Array.from({ length: e }, xs);
+  Object.defineProperty(M, "__esModule", { value: !0 });
+  M.SIGRTMAX = M.getRealtimeSignals = void 0;
+  var xs = /* @__PURE__ */ o(function() {
+    let e = pn - dn + 1;
+    return Array.from({ length: e }, Ss);
   }, "getRealtimeSignals");
-  L.getRealtimeSignals = bs;
-  var xs = /* @__PURE__ */ o(function(e, t) {
+  M.getRealtimeSignals = xs;
+  var Ss = /* @__PURE__ */ o(function(e, t) {
     return {
       name: `SIGRT${t + 1}`,
-      number: fn + t,
+      number: dn + t,
       action: "terminate",
       description: "Application-specific signal (realtime)",
       standard: "posix"
     };
-  }, "getRealtimeSignal"), fn = 34, dn = 64;
-  L.SIGRTMAX = dn;
+  }, "getRealtimeSignal"), dn = 34, pn = 64;
+  M.SIGRTMAX = pn;
 });
 
 // ../node_modules/execa/node_modules/human-signals/build/src/signals.js
-var pn = d((me) => {
+var mn = d((me) => {
   "use strict";
   Object.defineProperty(me, "__esModule", { value: !0 });
   me.getSignals = void 0;
-  var Ss = y("os"), ws = ln(), vs = ut(), Ps = /* @__PURE__ */ o(function() {
-    let e = (0, vs.getRealtimeSignals)();
-    return [...ws.SIGNALS, ...e].map(Es);
+  var ws = y("os"), vs = fn(), Ps = ut(), Es = /* @__PURE__ */ o(function() {
+    let e = (0, Ps.getRealtimeSignals)();
+    return [...vs.SIGNALS, ...e].map(Ts);
   }, "getSignals");
-  me.getSignals = Ps;
-  var Es = /* @__PURE__ */ o(function({
+  me.getSignals = Es;
+  var Ts = /* @__PURE__ */ o(function({
     name: e,
     number: t,
     description: r,
@@ -850,30 +850,30 @@ var pn = d((me) => {
   }) {
     let {
       signals: { [e]: a }
-    } = Ss.constants, c = a !== void 0;
+    } = ws.constants, c = a !== void 0;
     return { name: e, number: c ? a : t, description: r, supported: c, action: n, forced: i, standard: s };
   }, "normalizeSignal");
 });
 
 // ../node_modules/execa/node_modules/human-signals/build/src/main.js
-var hn = d((F) => {
+var yn = d((F) => {
   "use strict";
   Object.defineProperty(F, "__esModule", { value: !0 });
   F.signalsByNumber = F.signalsByName = void 0;
-  var Ts = y("os"), mn = pn(), Is = ut(), ks = /* @__PURE__ */ o(function() {
-    return (0, mn.getSignals)().reduce(Cs, {});
-  }, "getSignalsByName"), Cs = /* @__PURE__ */ o(function(e, { name: t, number: r, description: n, supported: i, action: s, forced: a, standard: c }) {
+  var Is = y("os"), hn = mn(), ks = ut(), Cs = /* @__PURE__ */ o(function() {
+    return (0, hn.getSignals)().reduce(Os, {});
+  }, "getSignalsByName"), Os = /* @__PURE__ */ o(function(e, { name: t, number: r, description: n, supported: i, action: s, forced: a, standard: c }) {
     return {
       ...e,
       [t]: { name: t, number: r, description: n, supported: i, action: s, forced: a, standard: c }
     };
-  }, "getSignalByName"), Os = ks();
-  F.signalsByName = Os;
-  var As = /* @__PURE__ */ o(function() {
-    let e = (0, mn.getSignals)(), t = Is.SIGRTMAX + 1, r = Array.from({ length: t }, (n, i) => Rs(i, e));
+  }, "getSignalByName"), As = Cs();
+  F.signalsByName = As;
+  var Rs = /* @__PURE__ */ o(function() {
+    let e = (0, hn.getSignals)(), t = ks.SIGRTMAX + 1, r = Array.from({ length: t }, (n, i) => _s(i, e));
     return Object.assign({}, ...r);
-  }, "getSignalsByNumber"), Rs = /* @__PURE__ */ o(function(e, t) {
-    let r = _s(e, t);
+  }, "getSignalsByNumber"), _s = /* @__PURE__ */ o(function(e, t) {
+    let r = Gs(e, t);
     if (r === void 0)
       return {};
     let { name: n, description: i, supported: s, action: a, forced: c, standard: u } = r;
@@ -888,19 +888,19 @@ var hn = d((F) => {
         standard: u
       }
     };
-  }, "getSignalByNumber"), _s = /* @__PURE__ */ o(function(e, t) {
-    let r = t.find(({ name: n }) => Ts.constants.signals[n] === e);
+  }, "getSignalByNumber"), Gs = /* @__PURE__ */ o(function(e, t) {
+    let r = t.find(({ name: n }) => Is.constants.signals[n] === e);
     return r !== void 0 ? r : t.find((n) => n.number === e);
-  }, "findSignalByNumber"), Gs = As();
-  F.signalsByNumber = Gs;
+  }, "findSignalByNumber"), js = Rs();
+  F.signalsByNumber = js;
 });
 
 // ../node_modules/execa/lib/error.js
-var gn = d((yf, yn) => {
+var bn = d((bf, gn) => {
   "use strict";
-  var { signalsByName: js } = hn(), Ns = /* @__PURE__ */ o(({ timedOut: e, timeout: t, errorCode: r, signal: n, signalDescription: i, exitCode: s,
+  var { signalsByName: Ns } = yn(), Bs = /* @__PURE__ */ o(({ timedOut: e, timeout: t, errorCode: r, signal: n, signalDescription: i, exitCode: s,
   isCanceled: a }) => e ? `timed out after ${t} milliseconds` : a ? "was canceled" : r !== void 0 ? `failed with ${r}` : n !== void 0 ? `was\
- killed with ${n} (${i})` : s !== void 0 ? `failed with exit code ${s}` : "failed", "getErrorPrefix"), Bs = /* @__PURE__ */ o(({
+ killed with ${n} (${i})` : s !== void 0 ? `failed with exit code ${s}` : "failed", "getErrorPrefix"), Ds = /* @__PURE__ */ o(({
     stdout: e,
     stderr: t,
     all: r,
@@ -915,7 +915,7 @@ var gn = d((yf, yn) => {
     parsed: { options: { timeout: w } }
   }) => {
     s = s === null ? void 0 : s, i = i === null ? void 0 : i;
-    let g = i === void 0 ? void 0 : js[i].description, p = n && n.code, h = `Command ${Ns({ timedOut: u, timeout: w, errorCode: p, signal: i,
+    let g = i === void 0 ? void 0 : Ns[i].description, p = n && n.code, h = `Command ${Bs({ timedOut: u, timeout: w, errorCode: p, signal: i,
     signalDescription: g, exitCode: s, isCanceled: l })}: ${a}`, x = Object.prototype.toString.call(n) === "[object Error]", E = x ? `${h}
 ${n.message}` : h, T = [E, t, e].filter(Boolean).join(`
 `);
@@ -923,20 +923,20 @@ ${n.message}` : h, T = [E, t, e].filter(Boolean).join(`
     exitCode = s, n.signal = i, n.signalDescription = g, n.stdout = e, n.stderr = t, r !== void 0 && (n.all = r), "bufferedData" in n && delete n.
     bufferedData, n.failed = !0, n.timedOut = !!u, n.isCanceled = l, n.killed = f && !u, n;
   }, "makeError");
-  yn.exports = Bs;
+  gn.exports = Ds;
 });
 
 // ../node_modules/execa/lib/stdio.js
-var xn = d((bf, lt) => {
+var Sn = d((Sf, lt) => {
   "use strict";
-  var he = ["stdin", "stdout", "stderr"], Ds = /* @__PURE__ */ o((e) => he.some((t) => e[t] !== void 0), "hasAlias"), bn = /* @__PURE__ */ o(
+  var he = ["stdin", "stdout", "stderr"], Ls = /* @__PURE__ */ o((e) => he.some((t) => e[t] !== void 0), "hasAlias"), xn = /* @__PURE__ */ o(
   (e) => {
     if (!e)
       return;
     let { stdio: t } = e;
     if (t === void 0)
       return he.map((n) => e[n]);
-    if (Ds(e))
+    if (Ls(e))
       throw new Error(`It's not possible to provide \`stdio\` in combination with one of ${he.map((n) => `\`${n}\``).join(", ")}`);
     if (typeof t == "string")
       return t;
@@ -945,15 +945,15 @@ var xn = d((bf, lt) => {
     let r = Math.max(t.length, he.length);
     return Array.from({ length: r }, (n, i) => t[i]);
   }, "normalizeStdio");
-  lt.exports = bn;
+  lt.exports = xn;
   lt.exports.node = (e) => {
-    let t = bn(e);
+    let t = xn(e);
     return t === "ipc" ? "ipc" : t === void 0 || typeof t == "string" ? [t, t, t, "ipc"] : t.includes("ipc") ? t : [...t, "ipc"];
   };
 });
 
 // ../node_modules/signal-exit/signals.js
-var Sn = d((Sf, ye) => {
+var wn = d((vf, ye) => {
   ye.exports = [
     "SIGABRT",
     "SIGALRM",
@@ -984,18 +984,18 @@ var Sn = d((Sf, ye) => {
 });
 
 // ../node_modules/signal-exit/index.js
-var Tn = d((wf, q) => {
+var In = d((Pf, q) => {
   var S = global.process, R = /* @__PURE__ */ o(function(e) {
     return e && typeof e == "object" && typeof e.removeListener == "function" && typeof e.emit == "function" && typeof e.reallyExit == "func\
 tion" && typeof e.listeners == "function" && typeof e.kill == "function" && typeof e.pid == "number" && typeof e.on == "function";
   }, "processOk");
-  R(S) ? (wn = y("assert"), U = Sn(), vn = /^win/i.test(S.platform), Y = y("events"), typeof Y != "function" && (Y = Y.EventEmitter), S.__signal_exit_emitter__ ?
+  R(S) ? (vn = y("assert"), U = wn(), Pn = /^win/i.test(S.platform), Y = y("events"), typeof Y != "function" && (Y = Y.EventEmitter), S.__signal_exit_emitter__ ?
   P = S.__signal_exit_emitter__ : (P = S.__signal_exit_emitter__ = new Y(), P.count = 0, P.emitted = {}), P.infinite || (P.setMaxListeners(1 / 0),
   P.infinite = !0), q.exports = function(e, t) {
     if (!R(global.process))
       return function() {
       };
-    wn.equal(typeof e, "function", "a callback must be provided for exit handler"), $ === !1 && ft();
+    vn.equal(typeof e, "function", "a callback must be provided for exit handler"), $ === !1 && ft();
     var r = "exit";
     t && t.alwaysLast && (r = "afterexit");
     var n = /* @__PURE__ */ o(function() {
@@ -1015,7 +1015,7 @@ tion" && typeof e.listeners == "function" && typeof e.kill == "function" && type
     be[e] = /* @__PURE__ */ o(function() {
       if (R(global.process)) {
         var r = S.listeners(e);
-        r.length === P.count && (ge(), _("exit", null, e), _("afterexit", null, e), vn && e === "SIGHUP" && (e = "SIGINT"), S.kill(S.pid, e));
+        r.length === P.count && (ge(), _("exit", null, e), _("afterexit", null, e), Pn && e === "SIGHUP" && (e = "SIGINT"), S.kill(S.pid, e));
       }
     }, "listener");
   }), q.exports.signals = function() {
@@ -1027,11 +1027,11 @@ tion" && typeof e.listeners == "function" && typeof e.kill == "function" && type
       } catch {
         return !1;
       }
-    }), S.emit = En, S.reallyExit = Pn);
-  }, "load"), q.exports.load = ft, dt = S.reallyExit, Pn = /* @__PURE__ */ o(function(t) {
+    }), S.emit = Tn, S.reallyExit = En);
+  }, "load"), q.exports.load = ft, dt = S.reallyExit, En = /* @__PURE__ */ o(function(t) {
     R(global.process) && (S.exitCode = t || /* istanbul ignore next */
     0, _("exit", S.exitCode, null), _("afterexit", S.exitCode, null), dt.call(S, S.exitCode));
-  }, "processReallyExit"), xe = S.emit, En = /* @__PURE__ */ o(function(t, r) {
+  }, "processReallyExit"), xe = S.emit, Tn = /* @__PURE__ */ o(function(t, r) {
     if (t === "exit" && R(global.process)) {
       r !== void 0 && (S.exitCode = r);
       var n = xe.apply(this, arguments);
@@ -1042,87 +1042,87 @@ tion" && typeof e.listeners == "function" && typeof e.kill == "function" && type
     return function() {
     };
   };
-  var wn, U, vn, Y, P, ge, _, be, $, ft, dt, Pn, xe, En;
+  var vn, U, Pn, Y, P, ge, _, be, $, ft, dt, En, xe, Tn;
 });
 
 // ../node_modules/execa/lib/kill.js
-var kn = d((Pf, In) => {
+var Cn = d((Tf, kn) => {
   "use strict";
-  var Ms = y("os"), Ls = Tn(), Fs = 1e3 * 5, Us = /* @__PURE__ */ o((e, t = "SIGTERM", r = {}) => {
+  var Ms = y("os"), Fs = In(), Us = 1e3 * 5, $s = /* @__PURE__ */ o((e, t = "SIGTERM", r = {}) => {
     let n = e(t);
-    return $s(e, t, r, n), n;
-  }, "spawnedKill"), $s = /* @__PURE__ */ o((e, t, r, n) => {
-    if (!qs(t, r, n))
+    return qs(e, t, r, n), n;
+  }, "spawnedKill"), qs = /* @__PURE__ */ o((e, t, r, n) => {
+    if (!Ws(t, r, n))
       return;
-    let i = Hs(r), s = setTimeout(() => {
+    let i = Vs(r), s = setTimeout(() => {
       e("SIGKILL");
     }, i);
     s.unref && s.unref();
-  }, "setKillTimeout"), qs = /* @__PURE__ */ o((e, { forceKillAfterTimeout: t }, r) => Ws(e) && t !== !1 && r, "shouldForceKill"), Ws = /* @__PURE__ */ o(
-  (e) => e === Ms.constants.signals.SIGTERM || typeof e == "string" && e.toUpperCase() === "SIGTERM", "isSigterm"), Hs = /* @__PURE__ */ o(({
+  }, "setKillTimeout"), Ws = /* @__PURE__ */ o((e, { forceKillAfterTimeout: t }, r) => Hs(e) && t !== !1 && r, "shouldForceKill"), Hs = /* @__PURE__ */ o(
+  (e) => e === Ms.constants.signals.SIGTERM || typeof e == "string" && e.toUpperCase() === "SIGTERM", "isSigterm"), Vs = /* @__PURE__ */ o(({
   forceKillAfterTimeout: e = !0 }) => {
     if (e === !0)
-      return Fs;
+      return Us;
     if (!Number.isFinite(e) || e < 0)
       throw new TypeError(`Expected the \`forceKillAfterTimeout\` option to be a non-negative integer, got \`${e}\` (${typeof e})`);
     return e;
-  }, "getForceKillAfterTimeout"), Vs = /* @__PURE__ */ o((e, t) => {
+  }, "getForceKillAfterTimeout"), zs = /* @__PURE__ */ o((e, t) => {
     e.kill() && (t.isCanceled = !0);
-  }, "spawnedCancel"), zs = /* @__PURE__ */ o((e, t, r) => {
+  }, "spawnedCancel"), Ks = /* @__PURE__ */ o((e, t, r) => {
     e.kill(t), r(Object.assign(new Error("Timed out"), { timedOut: !0, signal: t }));
-  }, "timeoutKill"), Ks = /* @__PURE__ */ o((e, { timeout: t, killSignal: r = "SIGTERM" }, n) => {
+  }, "timeoutKill"), Js = /* @__PURE__ */ o((e, { timeout: t, killSignal: r = "SIGTERM" }, n) => {
     if (t === 0 || t === void 0)
       return n;
     let i, s = new Promise((c, u) => {
       i = setTimeout(() => {
-        zs(e, r, u);
+        Ks(e, r, u);
       }, t);
     }), a = n.finally(() => {
       clearTimeout(i);
     });
     return Promise.race([s, a]);
-  }, "setupTimeout"), Js = /* @__PURE__ */ o(({ timeout: e }) => {
+  }, "setupTimeout"), Ys = /* @__PURE__ */ o(({ timeout: e }) => {
     if (e !== void 0 && (!Number.isFinite(e) || e < 0))
       throw new TypeError(`Expected the \`timeout\` option to be a non-negative integer, got \`${e}\` (${typeof e})`);
-  }, "validateTimeout"), Ys = /* @__PURE__ */ o(async (e, { cleanup: t, detached: r }, n) => {
+  }, "validateTimeout"), Xs = /* @__PURE__ */ o(async (e, { cleanup: t, detached: r }, n) => {
     if (!t || r)
       return n;
-    let i = Ls(() => {
+    let i = Fs(() => {
       e.kill();
     });
     return n.finally(() => {
       i();
     });
   }, "setExitHandler");
-  In.exports = {
-    spawnedKill: Us,
-    spawnedCancel: Vs,
-    setupTimeout: Ks,
-    validateTimeout: Js,
-    setExitHandler: Ys
+  kn.exports = {
+    spawnedKill: $s,
+    spawnedCancel: zs,
+    setupTimeout: Js,
+    validateTimeout: Ys,
+    setExitHandler: Xs
   };
 });
 
 // ../node_modules/is-stream/index.js
-var On = d((Tf, Cn) => {
+var An = d((kf, On) => {
   "use strict";
   var k = /* @__PURE__ */ o((e) => e !== null && typeof e == "object" && typeof e.pipe == "function", "isStream");
   k.writable = (e) => k(e) && e.writable !== !1 && typeof e._write == "function" && typeof e._writableState == "object";
   k.readable = (e) => k(e) && e.readable !== !1 && typeof e._read == "function" && typeof e._readableState == "object";
   k.duplex = (e) => k.writable(e) && k.readable(e);
   k.transform = (e) => k.duplex(e) && typeof e._transform == "function";
-  Cn.exports = k;
+  On.exports = k;
 });
 
 // ../node_modules/get-stream/buffer-stream.js
-var Rn = d((kf, An) => {
+var _n = d((Of, Rn) => {
   "use strict";
-  var { PassThrough: Xs } = y("stream");
-  An.exports = (e) => {
+  var { PassThrough: Zs } = y("stream");
+  Rn.exports = (e) => {
     e = { ...e };
     let { array: t } = e, { encoding: r } = e, n = r === "buffer", i = !1;
     t ? i = !(r || n) : r = r || "utf8", n && (r = null);
-    let s = new Xs({ objectMode: i });
+    let s = new Zs({ objectMode: i });
     r && s.setEncoding(r);
     let a = 0, c = [];
     return s.on("data", (u) => {
@@ -1132,9 +1132,9 @@ var Rn = d((kf, An) => {
 });
 
 // ../node_modules/get-stream/index.js
-var _n = d((Cf, X) => {
+var Gn = d((Af, X) => {
   "use strict";
-  var { constants: Zs } = y("buffer"), Qs = y("stream"), { promisify: ea } = y("util"), ta = Rn(), ra = ea(Qs.pipeline), Se = class extends Error {
+  var { constants: Qs } = y("buffer"), ea = y("stream"), { promisify: ta } = y("util"), ra = _n(), na = ta(ea.pipeline), Se = class extends Error {
     static {
       o(this, "MaxBufferError");
     }
@@ -1149,14 +1149,14 @@ var _n = d((Cf, X) => {
       maxBuffer: 1 / 0,
       ...t
     };
-    let { maxBuffer: r } = t, n = ta(t);
+    let { maxBuffer: r } = t, n = ra(t);
     return await new Promise((i, s) => {
       let a = /* @__PURE__ */ o((c) => {
-        c && n.getBufferedLength() <= Zs.MAX_LENGTH && (c.bufferedData = n.getBufferedValue()), s(c);
+        c && n.getBufferedLength() <= Qs.MAX_LENGTH && (c.bufferedData = n.getBufferedValue()), s(c);
       }, "rejectPromise");
       (async () => {
         try {
-          await ra(e, n), i();
+          await na(e, n), i();
         } catch (c) {
           a(c);
         }
@@ -1173,11 +1173,11 @@ var _n = d((Cf, X) => {
 });
 
 // ../node_modules/merge-stream/index.js
-var mt = d((Af, Gn) => {
+var mt = d((_f, jn) => {
   "use strict";
-  var { PassThrough: na } = y("stream");
-  Gn.exports = function() {
-    var e = [], t = new na({ objectMode: !0 });
+  var { PassThrough: oa } = y("stream");
+  jn.exports = function() {
+    var e = [], t = new oa({ objectMode: !0 });
     return t.setMaxListeners(0), t.add = r, t.isEmpty = n, t.on("unpipe", i), Array.prototype.slice.call(arguments).forEach(r), t;
     function r(s) {
       return Array.isArray(s) ? (s.forEach(r), this) : (e.push(s), s.once("end", i.bind(null, s)), s.once("error", t.emit.bind(t, "error")),
@@ -1198,14 +1198,14 @@ var mt = d((Af, Gn) => {
 });
 
 // ../node_modules/execa/lib/stream.js
-var Dn = d((_f, Bn) => {
+var Ln = d((jf, Dn) => {
   "use strict";
-  var Nn = On(), jn = _n(), oa = mt(), ia = /* @__PURE__ */ o((e, t) => {
-    t === void 0 || e.stdin === void 0 || (Nn(t) ? t.pipe(e.stdin) : e.stdin.end(t));
-  }, "handleInput"), sa = /* @__PURE__ */ o((e, { all: t }) => {
+  var Bn = An(), Nn = Gn(), ia = mt(), sa = /* @__PURE__ */ o((e, t) => {
+    t === void 0 || e.stdin === void 0 || (Bn(t) ? t.pipe(e.stdin) : e.stdin.end(t));
+  }, "handleInput"), aa = /* @__PURE__ */ o((e, { all: t }) => {
     if (!t || !e.stdout && !e.stderr)
       return;
-    let r = oa();
+    let r = ia();
     return e.stdout && r.add(e.stdout), e.stderr && r.add(e.stderr), r;
   }, "makeAllStream"), ht = /* @__PURE__ */ o(async (e, t) => {
     if (e) {
@@ -1218,8 +1218,8 @@ var Dn = d((_f, Bn) => {
     }
   }, "getBufferedData"), yt = /* @__PURE__ */ o((e, { encoding: t, buffer: r, maxBuffer: n }) => {
     if (!(!e || !r))
-      return t ? jn(e, { encoding: t, maxBuffer: n }) : jn.buffer(e, { maxBuffer: n });
-  }, "getStreamPromise"), aa = /* @__PURE__ */ o(async ({ stdout: e, stderr: t, all: r }, { encoding: n, buffer: i, maxBuffer: s }, a) => {
+      return t ? Nn(e, { encoding: t, maxBuffer: n }) : Nn.buffer(e, { maxBuffer: n });
+  }, "getStreamPromise"), ca = /* @__PURE__ */ o(async ({ stdout: e, stderr: t, all: r }, { encoding: n, buffer: i, maxBuffer: s }, a) => {
     let c = yt(e, { encoding: n, buffer: i, maxBuffer: s }), u = yt(t, { encoding: n, buffer: i, maxBuffer: s }), l = yt(r, { encoding: n, buffer: i,
     maxBuffer: s * 2 });
     try {
@@ -1232,32 +1232,32 @@ var Dn = d((_f, Bn) => {
         ht(r, l)
       ]);
     }
-  }, "getSpawnedResult"), ca = /* @__PURE__ */ o(({ input: e }) => {
-    if (Nn(e))
+  }, "getSpawnedResult"), ua = /* @__PURE__ */ o(({ input: e }) => {
+    if (Bn(e))
       throw new TypeError("The `input` option cannot be a stream in sync mode");
   }, "validateInputSync");
-  Bn.exports = {
-    handleInput: ia,
-    makeAllStream: sa,
-    getSpawnedResult: aa,
-    validateInputSync: ca
+  Dn.exports = {
+    handleInput: sa,
+    makeAllStream: aa,
+    getSpawnedResult: ca,
+    validateInputSync: ua
   };
 });
 
 // ../node_modules/execa/lib/promise.js
-var Ln = d((jf, Mn) => {
+var Fn = d((Bf, Mn) => {
   "use strict";
-  var ua = (async () => {
-  })().constructor.prototype, la = ["then", "catch", "finally"].map((e) => [
+  var la = (async () => {
+  })().constructor.prototype, fa = ["then", "catch", "finally"].map((e) => [
     e,
-    Reflect.getOwnPropertyDescriptor(ua, e)
-  ]), fa = /* @__PURE__ */ o((e, t) => {
-    for (let [r, n] of la) {
+    Reflect.getOwnPropertyDescriptor(la, e)
+  ]), da = /* @__PURE__ */ o((e, t) => {
+    for (let [r, n] of fa) {
       let i = typeof t == "function" ? (...s) => Reflect.apply(n.value, t(), s) : n.value.bind(t);
       Reflect.defineProperty(e, r, { ...n, value: i });
     }
     return e;
-  }, "mergePromise"), da = /* @__PURE__ */ o((e) => new Promise((t, r) => {
+  }, "mergePromise"), pa = /* @__PURE__ */ o((e) => new Promise((t, r) => {
     e.on("exit", (n, i) => {
       t({ exitCode: n, signal: i });
     }), e.on("error", (n) => {
@@ -1267,45 +1267,45 @@ var Ln = d((jf, Mn) => {
     });
   }), "getSpawnedPromise");
   Mn.exports = {
-    mergePromise: fa,
-    getSpawnedPromise: da
+    mergePromise: da,
+    getSpawnedPromise: pa
   };
 });
 
 // ../node_modules/execa/lib/command.js
-var $n = d((Bf, Un) => {
+var qn = d((Lf, $n) => {
   "use strict";
-  var Fn = /* @__PURE__ */ o((e, t = []) => Array.isArray(t) ? [e, ...t] : [e], "normalizeArgs"), pa = /^[\w.-]+$/, ma = /"/g, ha = /* @__PURE__ */ o(
-  (e) => typeof e != "string" || pa.test(e) ? e : `"${e.replace(ma, '\\"')}"`, "escapeArg"), ya = /* @__PURE__ */ o((e, t) => Fn(e, t).join(
-  " "), "joinCommand"), ga = /* @__PURE__ */ o((e, t) => Fn(e, t).map((r) => ha(r)).join(" "), "getEscapedCommand"), ba = / +/g, xa = /* @__PURE__ */ o(
+  var Un = /* @__PURE__ */ o((e, t = []) => Array.isArray(t) ? [e, ...t] : [e], "normalizeArgs"), ma = /^[\w.-]+$/, ha = /"/g, ya = /* @__PURE__ */ o(
+  (e) => typeof e != "string" || ma.test(e) ? e : `"${e.replace(ha, '\\"')}"`, "escapeArg"), ga = /* @__PURE__ */ o((e, t) => Un(e, t).join(
+  " "), "joinCommand"), ba = /* @__PURE__ */ o((e, t) => Un(e, t).map((r) => ya(r)).join(" "), "getEscapedCommand"), xa = / +/g, Sa = /* @__PURE__ */ o(
   (e) => {
     let t = [];
-    for (let r of e.trim().split(ba)) {
+    for (let r of e.trim().split(xa)) {
       let n = t[t.length - 1];
       n && n.endsWith("\\") ? t[t.length - 1] = `${n.slice(0, -1)} ${r}` : t.push(r);
     }
     return t;
   }, "parseCommand");
-  Un.exports = {
-    joinCommand: ya,
-    getEscapedCommand: ga,
-    parseCommand: xa
+  $n.exports = {
+    joinCommand: ga,
+    getEscapedCommand: ba,
+    parseCommand: Sa
   };
 });
 
 // ../node_modules/execa/index.js
-var Jn = d((Mf, W) => {
+var Yn = d((Ff, W) => {
   "use strict";
-  var Sa = y("path"), gt = y("child_process"), wa = at(), va = tn(), Pa = on(), Ea = un(), we = gn(), Wn = xn(), { spawnedKill: Ta, spawnedCancel: Ia,
-  setupTimeout: ka, validateTimeout: Ca, setExitHandler: Oa } = kn(), { handleInput: Aa, getSpawnedResult: Ra, makeAllStream: _a, validateInputSync: Ga } = Dn(),
-  { mergePromise: qn, getSpawnedPromise: ja } = Ln(), { joinCommand: Hn, parseCommand: Vn, getEscapedCommand: zn } = $n(), Na = 1e3 * 1e3 * 100,
-  Ba = /* @__PURE__ */ o(({ env: e, extendEnv: t, preferLocal: r, localDir: n, execPath: i }) => {
+  var wa = y("path"), gt = y("child_process"), va = at(), Pa = rn(), Ea = sn(), Ta = ln(), we = bn(), Hn = Sn(), { spawnedKill: Ia, spawnedCancel: ka,
+  setupTimeout: Ca, validateTimeout: Oa, setExitHandler: Aa } = Cn(), { handleInput: Ra, getSpawnedResult: _a, makeAllStream: Ga, validateInputSync: ja } = Ln(),
+  { mergePromise: Wn, getSpawnedPromise: Na } = Fn(), { joinCommand: Vn, parseCommand: zn, getEscapedCommand: Kn } = qn(), Ba = 1e3 * 1e3 * 100,
+  Da = /* @__PURE__ */ o(({ env: e, extendEnv: t, preferLocal: r, localDir: n, execPath: i }) => {
     let s = t ? { ...process.env, ...e } : e;
-    return r ? Pa.env({ env: s, cwd: n, execPath: i }) : s;
-  }, "getEnv"), Kn = /* @__PURE__ */ o((e, t, r = {}) => {
-    let n = wa._parse(e, t, r);
+    return r ? Ea.env({ env: s, cwd: n, execPath: i }) : s;
+  }, "getEnv"), Jn = /* @__PURE__ */ o((e, t, r = {}) => {
+    let n = va._parse(e, t, r);
     return e = n.command, t = n.args, r = n.options, r = {
-      maxBuffer: Na,
+      maxBuffer: Ba,
       buffer: !0,
       stripFinalNewline: !0,
       extendEnv: !0,
@@ -1318,12 +1318,12 @@ var Jn = d((Mf, W) => {
       all: !1,
       windowsHide: !0,
       ...r
-    }, r.env = Ba(r), r.stdio = Wn(r), process.platform === "win32" && Sa.basename(e, ".exe") === "cmd" && t.unshift("/q"), { file: e, args: t,
+    }, r.env = Da(r), r.stdio = Hn(r), process.platform === "win32" && wa.basename(e, ".exe") === "cmd" && t.unshift("/q"), { file: e, args: t,
     options: r, parsed: n };
   }, "handleArguments"), Z = /* @__PURE__ */ o((e, t, r) => typeof t != "string" && !Buffer.isBuffer(t) ? r === void 0 ? void 0 : "" : e.stripFinalNewline ?
-  va(t) : t, "handleOutput"), ve = /* @__PURE__ */ o((e, t, r) => {
-    let n = Kn(e, t, r), i = Hn(e, t), s = zn(e, t);
-    Ca(n.options);
+  Pa(t) : t, "handleOutput"), ve = /* @__PURE__ */ o((e, t, r) => {
+    let n = Jn(e, t, r), i = Vn(e, t), s = Kn(e, t);
+    Oa(n.options);
     let a;
     try {
       a = gt.spawn(n.file, n.args, n.options);
@@ -1340,12 +1340,12 @@ var Jn = d((Mf, W) => {
         isCanceled: !1,
         killed: !1
       }));
-      return qn(b, h);
+      return Wn(b, h);
     }
-    let c = ja(a), u = ka(a, n.options, c), l = Oa(a, n.options, u), f = { isCanceled: !1 };
-    a.kill = Ta.bind(null, a.kill.bind(a)), a.cancel = Ia.bind(null, a, f);
-    let g = Ea(/* @__PURE__ */ o(async () => {
-      let [{ error: p, exitCode: b, signal: h, timedOut: x }, E, T, C] = await Ra(a, n.options, l), m = Z(n.options, E), v = Z(n.options, T),
+    let c = Na(a), u = Ca(a, n.options, c), l = Aa(a, n.options, u), f = { isCanceled: !1 };
+    a.kill = Ia.bind(null, a.kill.bind(a)), a.cancel = ka.bind(null, a, f);
+    let g = Ta(/* @__PURE__ */ o(async () => {
+      let [{ error: p, exitCode: b, signal: h, timedOut: x }, E, T, C] = await _a(a, n.options, l), m = Z(n.options, E), v = Z(n.options, T),
       I = Z(n.options, C);
       if (p || b !== 0 || h !== null) {
         let V = we({
@@ -1379,12 +1379,12 @@ var Jn = d((Mf, W) => {
         killed: !1
       };
     }, "handlePromise"));
-    return Aa(a, n.options.input), a.all = _a(a, n.options), qn(a, g);
+    return Ra(a, n.options.input), a.all = Ga(a, n.options), Wn(a, g);
   }, "execa");
   W.exports = ve;
   W.exports.sync = (e, t, r) => {
-    let n = Kn(e, t, r), i = Hn(e, t), s = zn(e, t);
-    Ga(n.options);
+    let n = Jn(e, t, r), i = Vn(e, t), s = Kn(e, t);
+    ja(n.options);
     let a;
     try {
       a = gt.spawnSync(n.file, n.args, n.options);
@@ -1434,16 +1434,16 @@ var Jn = d((Mf, W) => {
     };
   };
   W.exports.command = (e, t) => {
-    let [r, ...n] = Vn(e);
+    let [r, ...n] = zn(e);
     return ve(r, n, t);
   };
   W.exports.commandSync = (e, t) => {
-    let [r, ...n] = Vn(e);
+    let [r, ...n] = zn(e);
     return ve.sync(r, n, t);
   };
   W.exports.node = (e, t, r = {}) => {
     t && !Array.isArray(t) && typeof t == "object" && (r = t, t = []);
-    let n = Wn.node(r), i = process.execArgv.filter((c) => !c.startsWith("--inspect")), {
+    let n = Hn.node(r), i = process.execArgv.filter((c) => !c.startsWith("--inspect")), {
       nodePath: s = process.execPath,
       nodeOptions: a = i
     } = r;
@@ -1467,29 +1467,29 @@ var Jn = d((Mf, W) => {
 });
 
 // ../node_modules/detect-package-manager/dist/index.js
-var Qn = d((Zn) => {
-  var Da = Object.create, Te = Object.defineProperty, Ma = Object.getOwnPropertyDescriptor, La = Object.getOwnPropertyNames, Fa = Object.getPrototypeOf,
-  Ua = Object.prototype.hasOwnProperty, Yn = /* @__PURE__ */ o((e) => Te(e, "__esModule", { value: !0 }), "__markAsModule"), $a = /* @__PURE__ */ o(
+var eo = d((Qn) => {
+  var La = Object.create, Te = Object.defineProperty, Ma = Object.getOwnPropertyDescriptor, Fa = Object.getOwnPropertyNames, Ua = Object.getPrototypeOf,
+  $a = Object.prototype.hasOwnProperty, Xn = /* @__PURE__ */ o((e) => Te(e, "__esModule", { value: !0 }), "__markAsModule"), qa = /* @__PURE__ */ o(
   (e, t) => {
-    Yn(e);
+    Xn(e);
     for (var r in t)
       Te(e, r, { get: t[r], enumerable: !0 });
-  }, "__export"), qa = /* @__PURE__ */ o((e, t, r) => {
+  }, "__export"), Wa = /* @__PURE__ */ o((e, t, r) => {
     if (t && typeof t == "object" || typeof t == "function")
-      for (let n of La(t))
-        !Ua.call(e, n) && n !== "default" && Te(e, n, { get: /* @__PURE__ */ o(() => t[n], "get"), enumerable: !(r = Ma(t, n)) || r.enumerable });
+      for (let n of Fa(t))
+        !$a.call(e, n) && n !== "default" && Te(e, n, { get: /* @__PURE__ */ o(() => t[n], "get"), enumerable: !(r = Ma(t, n)) || r.enumerable });
     return e;
-  }, "__reExport"), xt = /* @__PURE__ */ o((e) => qa(Yn(Te(e != null ? Da(Fa(e)) : {}, "default", e && e.__esModule && "default" in e ? { get: /* @__PURE__ */ o(
+  }, "__reExport"), xt = /* @__PURE__ */ o((e) => Wa(Xn(Te(e != null ? La(Ua(e)) : {}, "default", e && e.__esModule && "default" in e ? { get: /* @__PURE__ */ o(
   () => e.default, "get"), enumerable: !0 } : { value: e, enumerable: !0 })), e), "__toModule");
-  $a(Zn, {
-    clearCache: /* @__PURE__ */ o(() => Ka, "clearCache"),
-    detect: /* @__PURE__ */ o(() => Va, "detect"),
-    getNpmVersion: /* @__PURE__ */ o(() => za, "getNpmVersion")
+  qa(Qn, {
+    clearCache: /* @__PURE__ */ o(() => Ja, "clearCache"),
+    detect: /* @__PURE__ */ o(() => za, "detect"),
+    getNpmVersion: /* @__PURE__ */ o(() => Ka, "getNpmVersion")
   });
-  var Wa = xt(y("fs")), Pe = xt(y("path")), Xn = xt(Jn());
+  var Ha = xt(y("fs")), Pe = xt(y("path")), Zn = xt(Yn());
   async function Ee(e) {
     try {
-      return await Wa.promises.access(e), !0;
+      return await Ha.promises.access(e), !0;
     } catch {
       return !1;
     }
@@ -1498,11 +1498,11 @@ var Qn = d((Zn) => {
   var G = /* @__PURE__ */ new Map();
   function bt(e) {
     let t = `has_global_${e}`;
-    return G.has(t) ? Promise.resolve(G.get(t)) : (0, Xn.default)(e, ["--version"]).then((r) => /^\d+.\d+.\d+$/.test(r.stdout)).then((r) => (G.
+    return G.has(t) ? Promise.resolve(G.get(t)) : (0, Zn.default)(e, ["--version"]).then((r) => /^\d+.\d+.\d+$/.test(r.stdout)).then((r) => (G.
     set(t, r), r)).catch(() => !1);
   }
   o(bt, "hasGlobalInstallation");
-  function Ha(e = ".") {
+  function Va(e = ".") {
     let t = `lockfile_${e}`;
     return G.has(t) ? Promise.resolve(G.get(t)) : Promise.all([
       Ee((0, Pe.resolve)(e, "yarn.lock")),
@@ -1514,12 +1514,12 @@ var Qn = d((Zn) => {
       return r ? a = "yarn" : i ? a = "pnpm" : s ? a = "bun" : n && (a = "npm"), G.set(t, a), a;
     });
   }
-  o(Ha, "getTypeofLockFile");
-  var Va = /* @__PURE__ */ o(async ({
+  o(Va, "getTypeofLockFile");
+  var za = /* @__PURE__ */ o(async ({
     cwd: e,
     includeGlobalBun: t
   } = {}) => {
-    let r = await Ha(e);
+    let r = await Va(e);
     if (r)
       return r;
     let [n, i, s] = await Promise.all([
@@ -1529,44 +1529,44 @@ var Qn = d((Zn) => {
     ]);
     return n ? "yarn" : i ? "pnpm" : s ? "bun" : "npm";
   }, "detect");
-  function za(e) {
-    return (0, Xn.default)(e || "npm", ["--version"]).then((t) => t.stdout);
+  function Ka(e) {
+    return (0, Zn.default)(e || "npm", ["--version"]).then((t) => t.stdout);
   }
-  o(za, "getNpmVersion");
-  function Ka() {
+  o(Ka, "getNpmVersion");
+  function Ja() {
     return G.clear();
   }
-  o(Ka, "clearCache");
+  o(Ja, "clearCache");
 });
 
 // ../node_modules/walk-up-path/dist/cjs/index.js
-var to = d((Ie) => {
+var ro = d((Ie) => {
   "use strict";
   Object.defineProperty(Ie, "__esModule", { value: !0 });
   Ie.walkUp = void 0;
-  var eo = y("path"), Ja = /* @__PURE__ */ o(function* (e) {
-    for (e = (0, eo.resolve)(e); e; ) {
+  var to = y("path"), Ya = /* @__PURE__ */ o(function* (e) {
+    for (e = (0, to.resolve)(e); e; ) {
       yield e;
-      let t = (0, eo.dirname)(e);
+      let t = (0, to.dirname)(e);
       if (t === e)
         break;
       e = t;
     }
   }, "walkUp");
-  Ie.walkUp = Ja;
+  Ie.walkUp = Ya;
 });
 
 // ../node_modules/common-path-prefix/index.js
-var si = d((Im, ii) => {
+var ai = d((Am, si) => {
   "use strict";
-  var { sep: ju } = y("path"), Nu = /* @__PURE__ */ o((e) => {
+  var { sep: Nu } = y("path"), Bu = /* @__PURE__ */ o((e) => {
     for (let t of e) {
       let r = /(\/|\\)/.exec(t);
       if (r !== null) return r[0];
     }
-    return ju;
+    return Nu;
   }, "determineSeparator");
-  ii.exports = /* @__PURE__ */ o(function(t, r = Nu(t)) {
+  si.exports = /* @__PURE__ */ o(function(t, r = Bu(t)) {
     let [n = "", ...i] = t;
     if (n === "" || i.length === 0) return "";
     let s = n.split(r), a = s.length;
@@ -1582,9 +1582,9 @@ var si = d((Im, ii) => {
 });
 
 // ../node_modules/fetch-retry/index.js
-var Pi = d((Ey, vi) => {
+var Ei = d((Cy, Pi) => {
   "use strict";
-  vi.exports = function(e, t) {
+  Pi.exports = function(e, t) {
     if (t = t || {}, typeof e != "function")
       throw new O("fetch must be a function");
     if (typeof t != "object")
@@ -1668,13 +1668,13 @@ var Pi = d((Ey, vi) => {
 });
 
 // src/telemetry/index.ts
-import { logger as ji } from "@storybook/core/node-logger";
+import { logger as Ni } from "@storybook/core/node-logger";
 
 // src/telemetry/notify.ts
-var ce = A(ar(), 1);
-import { cache as cr } from "@storybook/core/common";
-var ur = "telemetry-notification-date", B = console, lr = /* @__PURE__ */ o(async () => {
-  await cr.get(ur, null) || (cr.set(ur, Date.now()), B.log(), B.log(
+var ce = A(cr(), 1);
+import { cache as ur } from "@storybook/core/common";
+var lr = "telemetry-notification-date", B = console, fr = /* @__PURE__ */ o(async () => {
+  await ur.get(lr, null) || (ur.set(lr, Date.now()), B.log(), B.log(
     `${ce.default.magenta(
       ce.default.bold("attention")
     )} => Storybook now collects completely anonymous telemetry regarding usage.`
@@ -1684,34 +1684,34 @@ var ur = "telemetry-notification-date", B = console, lr = /* @__PURE__ */ o(asyn
 }, "notify");
 
 // src/telemetry/sanitize.ts
-import pr from "node:path";
-function fr(e) {
+import mr from "node:path";
+function dr(e) {
   return e.replace(/[-[/{}()*+?.\\^$|]/g, "\\$&");
 }
-o(fr, "regexpEscape");
-function dr(e = "") {
+o(dr, "regexpEscape");
+function pr(e = "") {
   return e.replace(/\u001B\[[0-9;]*m/g, "");
 }
-o(dr, "removeAnsiEscapeCodes");
-function z(e, t = pr.sep) {
+o(pr, "removeAnsiEscapeCodes");
+function z(e, t = mr.sep) {
   if (!e)
     return e;
   let r = process.cwd().split(t);
   for (; r.length > 1; ) {
-    let n = r.join(t), i = new RegExp(fr(n), "gi");
+    let n = r.join(t), i = new RegExp(dr(n), "gi");
     e = e.replace(i, "$SNIP");
-    let s = r.join(t + t), a = new RegExp(fr(s), "gi");
+    let s = r.join(t + t), a = new RegExp(dr(s), "gi");
     e = e.replace(a, "$SNIP"), r.pop();
   }
   return e;
 }
 o(z, "cleanPaths");
-function ue(e, t = pr.sep) {
+function ue(e, t = mr.sep) {
   try {
     e = {
       ...JSON.parse(JSON.stringify(e)),
-      message: dr(e.message),
-      stack: dr(e.stack),
+      message: pr(e.message),
+      stack: pr(e.stack),
       cause: e.cause,
       name: e.name
     };
@@ -1724,64 +1724,64 @@ function ue(e, t = pr.sep) {
 o(ue, "sanitizeError");
 
 // src/telemetry/storybook-metadata.ts
-var He = A(Qn(), 1);
+var He = A(eo(), 1);
 import {
-  getProjectRoot as Xu,
-  getStorybookConfiguration as Zu,
-  getStorybookInfo as Qu,
-  loadMainConfig as el
+  getProjectRoot as Zu,
+  getStorybookConfiguration as Qu,
+  getStorybookInfo as el,
+  loadMainConfig as tl
 } from "@storybook/core/common";
-import { readConfig as tl } from "@storybook/core/csf-tools";
+import { readConfig as rl } from "@storybook/core/csf-tools";
 
 // ../node_modules/fd-package-json/dist/esm/main.js
-var ro = A(to(), 1);
-import { resolve as Ya } from "node:path";
-import { stat as Xa, readFile as Za } from "node:fs/promises";
-import { statSync as zf, readFileSync as Kf } from "node:fs";
-async function Qa(e) {
+var no = A(ro(), 1);
+import { resolve as Xa } from "node:path";
+import { stat as Za, readFile as Qa } from "node:fs/promises";
+import { statSync as Jf, readFileSync as Yf } from "node:fs";
+async function ec(e) {
   try {
-    return (await Xa(e)).isFile();
+    return (await Za(e)).isFile();
   } catch {
     return !1;
   }
 }
-o(Qa, "fileExists");
-async function ec(e) {
-  for (let t of (0, ro.walkUp)(e)) {
-    let r = Ya(t, "package.json");
-    if (await Qa(r))
+o(ec, "fileExists");
+async function tc(e) {
+  for (let t of (0, no.walkUp)(e)) {
+    let r = Xa(t, "package.json");
+    if (await ec(r))
       return r;
   }
   return null;
 }
-o(ec, "findPackagePath");
-async function no(e) {
-  let t = await ec(e);
+o(tc, "findPackagePath");
+async function oo(e) {
+  let t = await tc(e);
   if (!t)
     return null;
   try {
-    let r = await Za(t, { encoding: "utf8" });
+    let r = await Qa(t, { encoding: "utf8" });
     return JSON.parse(r);
   } catch {
     return null;
   }
 }
-o(no, "findPackage");
+o(oo, "findPackage");
 
 // src/telemetry/get-chromatic-version.ts
-function oo(e) {
+function io(e) {
   let t = e.dependencies?.chromatic || e.devDependencies?.chromatic || e.peerDependencies?.chromatic;
   return t || (e.scripts && Object.values(e.scripts).find((r) => r?.match(/chromatic/)) ? "latest" : void 0);
 }
-o(oo, "getChromaticVersionSpecifier");
+o(io, "getChromaticVersionSpecifier");
 
 // src/telemetry/get-framework-info.ts
-import { normalize as nc } from "node:path";
-import { frameworkPackages as oc } from "@storybook/core/common";
+import { normalize as oc } from "node:path";
+import { frameworkPackages as ic } from "@storybook/core/common";
 
 // src/telemetry/package-json.ts
-import { readFile as tc } from "node:fs/promises";
-import { join as rc } from "node:path";
+import { readFile as rc } from "node:fs/promises";
+import { join as nc } from "node:path";
 var St = /* @__PURE__ */ o(async (e) => {
   let t = Object.keys(e);
   return Promise.all(t.map(ke));
@@ -1796,14 +1796,14 @@ var St = /* @__PURE__ */ o(async (e) => {
     return { name: e, version: null };
   }
 }, "getActualPackageVersion"), wt = /* @__PURE__ */ o(async (e) => {
-  let t = y.resolve(rc(e, "package.json"), {
+  let t = y.resolve(nc(e, "package.json"), {
     paths: [process.cwd()]
   });
-  return JSON.parse(await tc(t, { encoding: "utf8" }));
+  return JSON.parse(await rc(t, { encoding: "utf8" }));
 }, "getActualPackageJson");
 
 // src/telemetry/get-framework-info.ts
-var ic = [
+var sc = [
   "html",
   "react",
   "svelte",
@@ -1814,8 +1814,8 @@ var ic = [
   "web-components",
   "angular",
   "ember"
-], sc = ["builder-webpack5", "builder-vite"];
-function io(e, t) {
+], ac = ["builder-webpack5", "builder-vite"];
+function so(e, t) {
   let { name: r = "", version: n, dependencies: i, devDependencies: s, peerDependencies: a } = e, c = {
     // We include the framework itself because it may be a renderer too (e.g. angular)
     [r]: n,
@@ -1825,12 +1825,12 @@ function io(e, t) {
   };
   return t.map((u) => `@storybook/${u}`).find((u) => c[u]);
 }
-o(io, "findMatchingPackage");
-var ac = /* @__PURE__ */ o((e) => {
-  let t = nc(e).replace(new RegExp(/\\/, "g"), "/");
-  return Object.keys(oc).find((n) => t.endsWith(n)) || z(e).replace(/.*node_modules[\\/]/, "");
+o(so, "findMatchingPackage");
+var cc = /* @__PURE__ */ o((e) => {
+  let t = oc(e).replace(new RegExp(/\\/, "g"), "/");
+  return Object.keys(ic).find((n) => t.endsWith(n)) || z(e).replace(/.*node_modules[\\/]/, "");
 }, "getFrameworkPackageName");
-async function so(e) {
+async function ao(e) {
   if (!e?.framework)
     return {};
   let t = typeof e.framework == "string" ? e.framework : e.framework?.name;
@@ -1839,7 +1839,7 @@ async function so(e) {
   let r = await wt(t);
   if (!r)
     return {};
-  let n = io(r, sc), i = io(r, ic), s = ac(t), a = typeof e.framework == "object" ? e.framework.options : {};
+  let n = so(r, ac), i = so(r, sc), s = cc(t), a = typeof e.framework == "object" ? e.framework.options : {};
   return {
     framework: {
       name: s,
@@ -1849,40 +1849,40 @@ async function so(e) {
     renderer: i
   };
 }
-o(so, "getFrameworkInfo");
+o(ao, "getFrameworkInfo");
 
 // src/telemetry/get-monorepo-type.ts
-import { existsSync as ao, readFileSync as cc } from "node:fs";
+import { existsSync as co, readFileSync as uc } from "node:fs";
 import { join as vt } from "node:path";
-import { getProjectRoot as uc } from "@storybook/core/common";
-var co = {
+import { getProjectRoot as lc } from "@storybook/core/common";
+var uo = {
   Nx: "nx.json",
   Turborepo: "turbo.json",
   Lerna: "lerna.json",
   Rush: "rush.json",
   Lage: "lage.config.json"
-}, uo = /* @__PURE__ */ o(() => {
-  let e = uc();
+}, lo = /* @__PURE__ */ o(() => {
+  let e = lc();
   if (!e)
     return;
-  let r = Object.keys(co).find((i) => {
-    let s = vt(e, co[i]);
-    return ao(s);
+  let r = Object.keys(uo).find((i) => {
+    let s = vt(e, uo[i]);
+    return co(s);
   });
   if (r)
     return r;
-  if (!ao(vt(e, "package.json")))
+  if (!co(vt(e, "package.json")))
     return;
   if (JSON.parse(
-    cc(vt(e, "package.json"), { encoding: "utf8" })
+    uc(vt(e, "package.json"), { encoding: "utf8" })
   )?.workspaces)
     return "Workspaces";
 }, "getMonorepoType");
 
 // node_modules/execa/index.js
-var Jo = A(at(), 1);
-import { Buffer as vu } from "node:buffer";
-import Pu from "node:path";
+var Yo = A(at(), 1);
+import { Buffer as Pu } from "node:buffer";
+import Eu from "node:path";
 import zt from "node:child_process";
 import Ue from "node:process";
 
@@ -1897,7 +1897,7 @@ o(Pt, "stripFinalNewline");
 // node_modules/npm-run-path/index.js
 import Oe from "node:process";
 import Q from "node:path";
-import lc from "node:url";
+import fc from "node:url";
 
 // node_modules/path-key/index.js
 function Ce(e = {}) {
@@ -1910,52 +1910,52 @@ function Ce(e = {}) {
 o(Ce, "pathKey");
 
 // node_modules/npm-run-path/index.js
-function fc(e = {}) {
+function dc(e = {}) {
   let {
     cwd: t = Oe.cwd(),
     path: r = Oe.env[Ce()],
     execPath: n = Oe.execPath
-  } = e, i, s = t instanceof URL ? lc.fileURLToPath(t) : t, a = Q.resolve(s), c = [];
+  } = e, i, s = t instanceof URL ? fc.fileURLToPath(t) : t, a = Q.resolve(s), c = [];
   for (; i !== a; )
     c.push(Q.join(a, "node_modules/.bin")), i = a, a = Q.resolve(a, "..");
   return c.push(Q.resolve(s, n, "..")), [...c, r].join(Q.delimiter);
 }
-o(fc, "npmRunPath");
-function lo({ env: e = Oe.env, ...t } = {}) {
+o(dc, "npmRunPath");
+function fo({ env: e = Oe.env, ...t } = {}) {
   e = { ...e };
   let r = Ce({ env: e });
-  return t.path = e[r], e[r] = fc(t), e;
+  return t.path = e[r], e[r] = dc(t), e;
 }
-o(lo, "npmRunPathEnv");
+o(fo, "npmRunPathEnv");
 
 // node_modules/mimic-fn/index.js
-var dc = /* @__PURE__ */ o((e, t, r, n) => {
+var pc = /* @__PURE__ */ o((e, t, r, n) => {
   if (r === "length" || r === "prototype" || r === "arguments" || r === "caller")
     return;
   let i = Object.getOwnPropertyDescriptor(e, r), s = Object.getOwnPropertyDescriptor(t, r);
-  !pc(i, s) && n || Object.defineProperty(e, r, s);
-}, "copyProperty"), pc = /* @__PURE__ */ o(function(e, t) {
+  !mc(i, s) && n || Object.defineProperty(e, r, s);
+}, "copyProperty"), mc = /* @__PURE__ */ o(function(e, t) {
   return e === void 0 || e.configurable || e.writable === t.writable && e.enumerable === t.enumerable && e.configurable === t.configurable &&
   (e.writable || e.value === t.value);
-}, "canCopyProperty"), mc = /* @__PURE__ */ o((e, t) => {
+}, "canCopyProperty"), hc = /* @__PURE__ */ o((e, t) => {
   let r = Object.getPrototypeOf(t);
   r !== Object.getPrototypeOf(e) && Object.setPrototypeOf(e, r);
-}, "changePrototype"), hc = /* @__PURE__ */ o((e, t) => `/* Wrapped ${e}*/
-${t}`, "wrappedToString"), yc = Object.getOwnPropertyDescriptor(Function.prototype, "toString"), gc = Object.getOwnPropertyDescriptor(Function.
-prototype.toString, "name"), bc = /* @__PURE__ */ o((e, t, r) => {
-  let n = r === "" ? "" : `with ${r.trim()}() `, i = hc.bind(null, n, t.toString());
-  Object.defineProperty(i, "name", gc), Object.defineProperty(e, "toString", { ...yc, value: i });
+}, "changePrototype"), yc = /* @__PURE__ */ o((e, t) => `/* Wrapped ${e}*/
+${t}`, "wrappedToString"), gc = Object.getOwnPropertyDescriptor(Function.prototype, "toString"), bc = Object.getOwnPropertyDescriptor(Function.
+prototype.toString, "name"), xc = /* @__PURE__ */ o((e, t, r) => {
+  let n = r === "" ? "" : `with ${r.trim()}() `, i = yc.bind(null, n, t.toString());
+  Object.defineProperty(i, "name", bc), Object.defineProperty(e, "toString", { ...gc, value: i });
 }, "changeToString");
 function Et(e, t, { ignoreNonConfigurable: r = !1 } = {}) {
   let { name: n } = e;
   for (let i of Reflect.ownKeys(t))
-    dc(e, t, i, r);
-  return mc(e, t), bc(e, t, n), e;
+    pc(e, t, i, r);
+  return hc(e, t), xc(e, t, n), e;
 }
 o(Et, "mimicFunction");
 
 // node_modules/onetime/index.js
-var Ae = /* @__PURE__ */ new WeakMap(), fo = /* @__PURE__ */ o((e, t = {}) => {
+var Ae = /* @__PURE__ */ new WeakMap(), po = /* @__PURE__ */ o((e, t = {}) => {
   if (typeof e != "function")
     throw new TypeError("Expected a function");
   let r, n = 0, i = e.displayName || e.name || "<anonymous>", s = /* @__PURE__ */ o(function(...a) {
@@ -1967,36 +1967,36 @@ var Ae = /* @__PURE__ */ new WeakMap(), fo = /* @__PURE__ */ o((e, t = {}) => {
   }, "onetime");
   return Et(s, e), Ae.set(s, n), s;
 }, "onetime");
-fo.callCount = (e) => {
+po.callCount = (e) => {
   if (!Ae.has(e))
     throw new Error(`The given function \`${e.name}\` is not wrapped by the \`onetime\` package`);
   return Ae.get(e);
 };
-var po = fo;
+var mo = po;
 
 // node_modules/execa/lib/error.js
-import Cc from "node:process";
+import Oc from "node:process";
 
 // node_modules/human-signals/build/src/main.js
-import { constants as vc } from "node:os";
+import { constants as Pc } from "node:os";
 
 // node_modules/human-signals/build/src/realtime.js
-var mo = /* @__PURE__ */ o(() => {
-  let e = Tt - ho + 1;
-  return Array.from({ length: e }, xc);
-}, "getRealtimeSignals"), xc = /* @__PURE__ */ o((e, t) => ({
+var ho = /* @__PURE__ */ o(() => {
+  let e = Tt - yo + 1;
+  return Array.from({ length: e }, Sc);
+}, "getRealtimeSignals"), Sc = /* @__PURE__ */ o((e, t) => ({
   name: `SIGRT${t + 1}`,
-  number: ho + t,
+  number: yo + t,
   action: "terminate",
   description: "Application-specific signal (realtime)",
   standard: "posix"
-}), "getRealtimeSignal"), ho = 34, Tt = 64;
+}), "getRealtimeSignal"), yo = 34, Tt = 64;
 
 // node_modules/human-signals/build/src/signals.js
-import { constants as Sc } from "node:os";
+import { constants as wc } from "node:os";
 
 // node_modules/human-signals/build/src/core.js
-var yo = [
+var go = [
   {
     name: "SIGHUP",
     number: 1,
@@ -2270,9 +2270,9 @@ var yo = [
 
 // node_modules/human-signals/build/src/signals.js
 var It = /* @__PURE__ */ o(() => {
-  let e = mo();
-  return [...yo, ...e].map(wc);
-}, "getSignals"), wc = /* @__PURE__ */ o(({
+  let e = ho();
+  return [...go, ...e].map(vc);
+}, "getSignals"), vc = /* @__PURE__ */ o(({
   name: e,
   number: t,
   description: r,
@@ -2282,15 +2282,15 @@ var It = /* @__PURE__ */ o(() => {
 }) => {
   let {
     signals: { [e]: a }
-  } = Sc, c = a !== void 0;
+  } = wc, c = a !== void 0;
   return { name: e, number: c ? a : t, description: r, supported: c, action: n, forced: i, standard: s };
 }, "normalizeSignal");
 
 // node_modules/human-signals/build/src/main.js
-var Pc = /* @__PURE__ */ o(() => {
+var Ec = /* @__PURE__ */ o(() => {
   let e = It();
-  return Object.fromEntries(e.map(Ec));
-}, "getSignalsByName"), Ec = /* @__PURE__ */ o(({
+  return Object.fromEntries(e.map(Tc));
+}, "getSignalsByName"), Tc = /* @__PURE__ */ o(({
   name: e,
   number: t,
   description: r,
@@ -2298,15 +2298,15 @@ var Pc = /* @__PURE__ */ o(() => {
   action: i,
   forced: s,
   standard: a
-}) => [e, { name: e, number: t, description: r, supported: n, action: i, forced: s, standard: a }], "getSignalByName"), go = Pc(), Tc = /* @__PURE__ */ o(
+}) => [e, { name: e, number: t, description: r, supported: n, action: i, forced: s, standard: a }], "getSignalByName"), bo = Ec(), Ic = /* @__PURE__ */ o(
 () => {
   let e = It(), t = Tt + 1, r = Array.from(
     { length: t },
-    (n, i) => Ic(i, e)
+    (n, i) => kc(i, e)
   );
   return Object.assign({}, ...r);
-}, "getSignalsByNumber"), Ic = /* @__PURE__ */ o((e, t) => {
-  let r = kc(e, t);
+}, "getSignalsByNumber"), kc = /* @__PURE__ */ o((e, t) => {
+  let r = Cc(e, t);
   if (r === void 0)
     return {};
   let { name: n, description: i, supported: s, action: a, forced: c, standard: u } = r;
@@ -2321,13 +2321,13 @@ var Pc = /* @__PURE__ */ o(() => {
       standard: u
     }
   };
-}, "getSignalByNumber"), kc = /* @__PURE__ */ o((e, t) => {
-  let r = t.find(({ name: n }) => vc.signals[n] === e);
+}, "getSignalByNumber"), Cc = /* @__PURE__ */ o((e, t) => {
+  let r = t.find(({ name: n }) => Pc.signals[n] === e);
   return r !== void 0 ? r : t.find((n) => n.number === e);
-}, "findSignalByNumber"), Fd = Tc();
+}, "findSignalByNumber"), $d = Ic();
 
 // node_modules/execa/lib/error.js
-var Oc = /* @__PURE__ */ o(({ timedOut: e, timeout: t, errorCode: r, signal: n, signalDescription: i, exitCode: s, isCanceled: a }) => e ? `\
+var Ac = /* @__PURE__ */ o(({ timedOut: e, timeout: t, errorCode: r, signal: n, signalDescription: i, exitCode: s, isCanceled: a }) => e ? `\
 timed out after ${t} milliseconds` : a ? "was canceled" : r !== void 0 ? `failed with ${r}` : n !== void 0 ? `was killed with ${n} (${i})` :
 s !== void 0 ? `failed with exit code ${s}` : "failed", "getErrorPrefix"), ee = /* @__PURE__ */ o(({
   stdout: e,
@@ -2341,10 +2341,10 @@ s !== void 0 ? `failed with exit code ${s}` : "failed", "getErrorPrefix"), ee = 
   timedOut: u,
   isCanceled: l,
   killed: f,
-  parsed: { options: { timeout: w, cwd: g = Cc.cwd() } }
+  parsed: { options: { timeout: w, cwd: g = Oc.cwd() } }
 }) => {
   s = s === null ? void 0 : s, i = i === null ? void 0 : i;
-  let p = i === void 0 ? void 0 : go[i].description, b = n && n.code, x = `Command ${Oc({ timedOut: u, timeout: w, errorCode: b, signal: i, signalDescription: p,
+  let p = i === void 0 ? void 0 : bo[i].description, b = n && n.code, x = `Command ${Ac({ timedOut: u, timeout: w, errorCode: b, signal: i, signalDescription: p,
   exitCode: s, isCanceled: l })}: ${a}`, E = Object.prototype.toString.call(n) === "[object Error]", T = E ? `${x}
 ${n.message}` : x, C = [T, t, e].filter(Boolean).join(`
 `);
@@ -2354,13 +2354,13 @@ ${n.message}` : x, C = [T, t, e].filter(Boolean).join(`
 }, "makeError");
 
 // node_modules/execa/lib/stdio.js
-var Re = ["stdin", "stdout", "stderr"], Ac = /* @__PURE__ */ o((e) => Re.some((t) => e[t] !== void 0), "hasAlias"), bo = /* @__PURE__ */ o((e) => {
+var Re = ["stdin", "stdout", "stderr"], Rc = /* @__PURE__ */ o((e) => Re.some((t) => e[t] !== void 0), "hasAlias"), xo = /* @__PURE__ */ o((e) => {
   if (!e)
     return;
   let { stdio: t } = e;
   if (t === void 0)
     return Re.map((n) => e[n]);
-  if (Ac(e))
+  if (Rc(e))
     throw new Error(`It's not possible to provide \`stdio\` in combination with one of ${Re.map((n) => `\`${n}\``).join(", ")}`);
   if (typeof t == "string")
     return t;
@@ -2371,7 +2371,7 @@ var Re = ["stdin", "stdout", "stderr"], Ac = /* @__PURE__ */ o((e) => Re.some((t
 }, "normalizeStdio");
 
 // node_modules/execa/lib/kill.js
-import Gc from "node:os";
+import jc from "node:os";
 
 // node_modules/signal-exit/dist/mjs/signals.js
 var j = [];
@@ -2396,7 +2396,7 @@ process.platform === "linux" && j.push("SIGIO", "SIGPOLL", "SIGPWR", "SIGSTKFLT"
 // node_modules/signal-exit/dist/mjs/index.js
 var _e = /* @__PURE__ */ o((e) => !!e && typeof e == "object" && typeof e.removeListener == "function" && typeof e.emit == "function" && typeof e.
 reallyExit == "function" && typeof e.listeners == "function" && typeof e.kill == "function" && typeof e.pid == "number" && typeof e.on == "f\
-unction", "processOk"), kt = Symbol.for("signal-exit emitter"), Ct = globalThis, Rc = Object.defineProperty.bind(Object), Ot = class {
+unction", "processOk"), kt = Symbol.for("signal-exit emitter"), Ct = globalThis, _c = Object.defineProperty.bind(Object), Ot = class {
   static {
     o(this, "Emitter");
   }
@@ -2413,7 +2413,7 @@ unction", "processOk"), kt = Symbol.for("signal-exit emitter"), Ct = globalThis,
   constructor() {
     if (Ct[kt])
       return Ct[kt];
-    Rc(Ct, kt, {
+    _c(Ct, kt, {
       value: this,
       writable: !1,
       enumerable: !1,
@@ -2440,7 +2440,7 @@ unction", "processOk"), kt = Symbol.for("signal-exit emitter"), Ct = globalThis,
   static {
     o(this, "SignalExitBase");
   }
-}, _c = /* @__PURE__ */ o((e) => ({
+}, Gc = /* @__PURE__ */ o((e) => ({
   onExit(t, r) {
     return e.onExit(t, r);
   },
@@ -2547,7 +2547,7 @@ unction", "processOk"), kt = Symbol.for("signal-exit emitter"), Ct = globalThis,
    *
    * Returns a function that may be used to unload signal-exit.
    */
-  onExit: xo,
+  onExit: So,
   /**
    * Load the listeners.  Likely you never need to call this, unless
    * doing a rather deep integration with signal-exit functionality.
@@ -2555,7 +2555,7 @@ unction", "processOk"), kt = Symbol.for("signal-exit emitter"), Ct = globalThis,
    *
    * @internal
    */
-  load: Xd,
+  load: Qd,
   /**
    * Unload the listeners.  Likely you never need to call this, unless
    * doing a rather deep integration with signal-exit functionality.
@@ -2563,49 +2563,49 @@ unction", "processOk"), kt = Symbol.for("signal-exit emitter"), Ct = globalThis,
    *
    * @internal
    */
-  unload: Zd
-} = _c(_e(_t) ? new Rt(_t) : new At());
+  unload: ep
+} = Gc(_e(_t) ? new Rt(_t) : new At());
 
 // node_modules/execa/lib/kill.js
-var jc = 1e3 * 5, So = /* @__PURE__ */ o((e, t = "SIGTERM", r = {}) => {
+var Nc = 1e3 * 5, wo = /* @__PURE__ */ o((e, t = "SIGTERM", r = {}) => {
   let n = e(t);
-  return Nc(e, t, r, n), n;
-}, "spawnedKill"), Nc = /* @__PURE__ */ o((e, t, r, n) => {
-  if (!Bc(t, r, n))
+  return Bc(e, t, r, n), n;
+}, "spawnedKill"), Bc = /* @__PURE__ */ o((e, t, r, n) => {
+  if (!Dc(t, r, n))
     return;
   let i = Mc(r), s = setTimeout(() => {
     e("SIGKILL");
   }, i);
   s.unref && s.unref();
-}, "setKillTimeout"), Bc = /* @__PURE__ */ o((e, { forceKillAfterTimeout: t }, r) => Dc(e) && t !== !1 && r, "shouldForceKill"), Dc = /* @__PURE__ */ o(
-(e) => e === Gc.constants.signals.SIGTERM || typeof e == "string" && e.toUpperCase() === "SIGTERM", "isSigterm"), Mc = /* @__PURE__ */ o(({ forceKillAfterTimeout: e = !0 }) => {
+}, "setKillTimeout"), Dc = /* @__PURE__ */ o((e, { forceKillAfterTimeout: t }, r) => Lc(e) && t !== !1 && r, "shouldForceKill"), Lc = /* @__PURE__ */ o(
+(e) => e === jc.constants.signals.SIGTERM || typeof e == "string" && e.toUpperCase() === "SIGTERM", "isSigterm"), Mc = /* @__PURE__ */ o(({ forceKillAfterTimeout: e = !0 }) => {
   if (e === !0)
-    return jc;
+    return Nc;
   if (!Number.isFinite(e) || e < 0)
     throw new TypeError(`Expected the \`forceKillAfterTimeout\` option to be a non-negative integer, got \`${e}\` (${typeof e})`);
   return e;
-}, "getForceKillAfterTimeout"), wo = /* @__PURE__ */ o((e, t) => {
+}, "getForceKillAfterTimeout"), vo = /* @__PURE__ */ o((e, t) => {
   e.kill() && (t.isCanceled = !0);
-}, "spawnedCancel"), Lc = /* @__PURE__ */ o((e, t, r) => {
+}, "spawnedCancel"), Fc = /* @__PURE__ */ o((e, t, r) => {
   e.kill(t), r(Object.assign(new Error("Timed out"), { timedOut: !0, signal: t }));
-}, "timeoutKill"), vo = /* @__PURE__ */ o((e, { timeout: t, killSignal: r = "SIGTERM" }, n) => {
+}, "timeoutKill"), Po = /* @__PURE__ */ o((e, { timeout: t, killSignal: r = "SIGTERM" }, n) => {
   if (t === 0 || t === void 0)
     return n;
   let i, s = new Promise((c, u) => {
     i = setTimeout(() => {
-      Lc(e, r, u);
+      Fc(e, r, u);
     }, t);
   }), a = n.finally(() => {
     clearTimeout(i);
   });
   return Promise.race([s, a]);
-}, "setupTimeout"), Po = /* @__PURE__ */ o(({ timeout: e }) => {
+}, "setupTimeout"), Eo = /* @__PURE__ */ o(({ timeout: e }) => {
   if (e !== void 0 && (!Number.isFinite(e) || e < 0))
     throw new TypeError(`Expected the \`timeout\` option to be a non-negative integer, got \`${e}\` (${typeof e})`);
-}, "validateTimeout"), Eo = /* @__PURE__ */ o(async (e, { cleanup: t, detached: r }, n) => {
+}, "validateTimeout"), To = /* @__PURE__ */ o(async (e, { cleanup: t, detached: r }, n) => {
   if (!t || r)
     return n;
-  let i = xo(() => {
+  let i = So(() => {
     e.kill();
   });
   return n.finally(() => {
@@ -2614,8 +2614,8 @@ var jc = 1e3 * 5, So = /* @__PURE__ */ o((e, t = "SIGTERM", r = {}) => {
 }, "setExitHandler");
 
 // node_modules/execa/lib/pipe.js
-import { createWriteStream as Fc } from "node:fs";
-import { ChildProcess as Uc } from "node:child_process";
+import { createWriteStream as Uc } from "node:fs";
+import { ChildProcess as $c } from "node:child_process";
 
 // node_modules/is-stream/index.js
 function je(e) {
@@ -2628,56 +2628,56 @@ function Gt(e) {
 o(Gt, "isWritableStream");
 
 // node_modules/execa/lib/pipe.js
-var $c = /* @__PURE__ */ o((e) => e instanceof Uc && typeof e.then == "function", "isExecaChildProcess"), jt = /* @__PURE__ */ o((e, t, r) => {
+var qc = /* @__PURE__ */ o((e) => e instanceof $c && typeof e.then == "function", "isExecaChildProcess"), jt = /* @__PURE__ */ o((e, t, r) => {
   if (typeof r == "string")
-    return e[t].pipe(Fc(r)), e;
+    return e[t].pipe(Uc(r)), e;
   if (Gt(r))
     return e[t].pipe(r), e;
-  if (!$c(r))
+  if (!qc(r))
     throw new TypeError("The second argument must be a string, a stream or an Execa child process.");
   if (!Gt(r.stdin))
     throw new TypeError("The target child process's stdin must be available.");
   return e[t].pipe(r.stdin), r;
-}, "pipeToTarget"), To = /* @__PURE__ */ o((e) => {
+}, "pipeToTarget"), Io = /* @__PURE__ */ o((e) => {
   e.stdout !== null && (e.pipeStdout = jt.bind(void 0, e, "stdout")), e.stderr !== null && (e.pipeStderr = jt.bind(void 0, e, "stderr")), e.
   all !== void 0 && (e.pipeAll = jt.bind(void 0, e, "all"));
 }, "addPipeMethods");
 
 // node_modules/execa/lib/stream.js
-import { createReadStream as su, readFileSync as au } from "node:fs";
-import { setTimeout as cu } from "node:timers/promises";
+import { createReadStream as au, readFileSync as cu } from "node:fs";
+import { setTimeout as uu } from "node:timers/promises";
 
 // node_modules/get-stream/source/contents.js
 var te = /* @__PURE__ */ o(async (e, { init: t, convertChunk: r, getSize: n, truncateChunk: i, addChunk: s, getFinalChunk: a, finalize: c }, {
 maxBuffer: u = Number.POSITIVE_INFINITY } = {}) => {
-  if (!Wc(e))
+  if (!Hc(e))
     throw new Error("The first argument must be a Readable, a ReadableStream, or an async iterable.");
   let l = t();
   l.length = 0;
   try {
     for await (let f of e) {
-      let w = Hc(f), g = r[w](f, l);
-      Co({ convertedChunk: g, state: l, getSize: n, truncateChunk: i, addChunk: s, maxBuffer: u });
+      let w = Vc(f), g = r[w](f, l);
+      Oo({ convertedChunk: g, state: l, getSize: n, truncateChunk: i, addChunk: s, maxBuffer: u });
     }
-    return qc({ state: l, convertChunk: r, getSize: n, truncateChunk: i, addChunk: s, getFinalChunk: a, maxBuffer: u }), c(l);
+    return Wc({ state: l, convertChunk: r, getSize: n, truncateChunk: i, addChunk: s, getFinalChunk: a, maxBuffer: u }), c(l);
   } catch (f) {
     throw f.bufferedData = c(l), f;
   }
-}, "getStreamContents"), qc = /* @__PURE__ */ o(({ state: e, getSize: t, truncateChunk: r, addChunk: n, getFinalChunk: i, maxBuffer: s }) => {
+}, "getStreamContents"), Wc = /* @__PURE__ */ o(({ state: e, getSize: t, truncateChunk: r, addChunk: n, getFinalChunk: i, maxBuffer: s }) => {
   let a = i(e);
-  a !== void 0 && Co({ convertedChunk: a, state: e, getSize: t, truncateChunk: r, addChunk: n, maxBuffer: s });
-}, "appendFinalChunk"), Co = /* @__PURE__ */ o(({ convertedChunk: e, state: t, getSize: r, truncateChunk: n, addChunk: i, maxBuffer: s }) => {
+  a !== void 0 && Oo({ convertedChunk: a, state: e, getSize: t, truncateChunk: r, addChunk: n, maxBuffer: s });
+}, "appendFinalChunk"), Oo = /* @__PURE__ */ o(({ convertedChunk: e, state: t, getSize: r, truncateChunk: n, addChunk: i, maxBuffer: s }) => {
   let a = r(e), c = t.length + a;
   if (c <= s) {
-    Io(e, t, i, c);
+    ko(e, t, i, c);
     return;
   }
   let u = n(e, s - t.length);
-  throw u !== void 0 && Io(u, t, i, s), new Ne();
-}, "appendChunk"), Io = /* @__PURE__ */ o((e, t, r, n) => {
+  throw u !== void 0 && ko(u, t, i, s), new Ne();
+}, "appendChunk"), ko = /* @__PURE__ */ o((e, t, r, n) => {
   t.contents = r(e, t, n), t.length = n;
-}, "addNewChunk"), Wc = /* @__PURE__ */ o((e) => typeof e == "object" && e !== null && typeof e[Symbol.asyncIterator] == "function", "isAsyn\
-cIterable"), Hc = /* @__PURE__ */ o((e) => {
+}, "addNewChunk"), Hc = /* @__PURE__ */ o((e) => typeof e == "object" && e !== null && typeof e[Symbol.asyncIterator] == "function", "isAsyn\
+cIterable"), Vc = /* @__PURE__ */ o((e) => {
   let t = typeof e;
   if (t === "string")
     return "string";
@@ -2685,10 +2685,10 @@ cIterable"), Hc = /* @__PURE__ */ o((e) => {
     return "others";
   if (globalThis.Buffer?.isBuffer(e))
     return "buffer";
-  let r = ko.call(e);
+  let r = Co.call(e);
   return r === "[object ArrayBuffer]" ? "arrayBuffer" : r === "[object DataView]" ? "dataView" : Number.isInteger(e.byteLength) && Number.isInteger(
-  e.byteOffset) && ko.call(e.buffer) === "[object ArrayBuffer]" ? "typedArray" : "others";
-}, "getChunkType"), { toString: ko } = Object.prototype, Ne = class extends Error {
+  e.byteOffset) && Co.call(e.buffer) === "[object ArrayBuffer]" ? "typedArray" : "others";
+}, "getChunkType"), { toString: Co } = Object.prototype, Ne = class extends Error {
   static {
     o(this, "MaxBufferError");
   }
@@ -2705,108 +2705,108 @@ var Nt = /* @__PURE__ */ o((e) => e, "identity"), Bt = /* @__PURE__ */ o(() => {
 }, "throwObjectStream"), De = /* @__PURE__ */ o((e) => e.length, "getLengthProp");
 
 // node_modules/get-stream/source/array-buffer.js
-async function Mt(e, t) {
-  return te(e, eu, t);
+async function Lt(e, t) {
+  return te(e, tu, t);
 }
-o(Mt, "getStreamAsArrayBuffer");
-var Vc = /* @__PURE__ */ o(() => ({ contents: new ArrayBuffer(0) }), "initArrayBuffer"), zc = /* @__PURE__ */ o((e) => Kc.encode(e), "useTex\
-tEncoder"), Kc = new TextEncoder(), Oo = /* @__PURE__ */ o((e) => new Uint8Array(e), "useUint8Array"), Ao = /* @__PURE__ */ o((e) => new Uint8Array(
-e.buffer, e.byteOffset, e.byteLength), "useUint8ArrayWithOffset"), Jc = /* @__PURE__ */ o((e, t) => e.slice(0, t), "truncateArrayBufferChunk"),
-Yc = /* @__PURE__ */ o((e, { contents: t, length: r }, n) => {
-  let i = Go() ? Zc(t, n) : Xc(t, n);
+o(Lt, "getStreamAsArrayBuffer");
+var zc = /* @__PURE__ */ o(() => ({ contents: new ArrayBuffer(0) }), "initArrayBuffer"), Kc = /* @__PURE__ */ o((e) => Jc.encode(e), "useTex\
+tEncoder"), Jc = new TextEncoder(), Ao = /* @__PURE__ */ o((e) => new Uint8Array(e), "useUint8Array"), Ro = /* @__PURE__ */ o((e) => new Uint8Array(
+e.buffer, e.byteOffset, e.byteLength), "useUint8ArrayWithOffset"), Yc = /* @__PURE__ */ o((e, t) => e.slice(0, t), "truncateArrayBufferChunk"),
+Xc = /* @__PURE__ */ o((e, { contents: t, length: r }, n) => {
+  let i = jo() ? Qc(t, n) : Zc(t, n);
   return new Uint8Array(i).set(e, r), i;
-}, "addArrayBufferChunk"), Xc = /* @__PURE__ */ o((e, t) => {
+}, "addArrayBufferChunk"), Zc = /* @__PURE__ */ o((e, t) => {
   if (t <= e.byteLength)
     return e;
-  let r = new ArrayBuffer(_o(t));
+  let r = new ArrayBuffer(Go(t));
   return new Uint8Array(r).set(new Uint8Array(e), 0), r;
-}, "resizeArrayBufferSlow"), Zc = /* @__PURE__ */ o((e, t) => {
+}, "resizeArrayBufferSlow"), Qc = /* @__PURE__ */ o((e, t) => {
   if (t <= e.maxByteLength)
     return e.resize(t), e;
-  let r = new ArrayBuffer(t, { maxByteLength: _o(t) });
+  let r = new ArrayBuffer(t, { maxByteLength: Go(t) });
   return new Uint8Array(r).set(new Uint8Array(e), 0), r;
-}, "resizeArrayBuffer"), _o = /* @__PURE__ */ o((e) => Ro ** Math.ceil(Math.log(e) / Math.log(Ro)), "getNewContentsLength"), Ro = 2, Qc = /* @__PURE__ */ o(
-({ contents: e, length: t }) => Go() ? e : e.slice(0, t), "finalizeArrayBuffer"), Go = /* @__PURE__ */ o(() => "resize" in ArrayBuffer.prototype,
-"hasArrayBufferResize"), eu = {
-  init: Vc,
+}, "resizeArrayBuffer"), Go = /* @__PURE__ */ o((e) => _o ** Math.ceil(Math.log(e) / Math.log(_o)), "getNewContentsLength"), _o = 2, eu = /* @__PURE__ */ o(
+({ contents: e, length: t }) => jo() ? e : e.slice(0, t), "finalizeArrayBuffer"), jo = /* @__PURE__ */ o(() => "resize" in ArrayBuffer.prototype,
+"hasArrayBufferResize"), tu = {
+  init: zc,
   convertChunk: {
-    string: zc,
-    buffer: Oo,
-    arrayBuffer: Oo,
-    dataView: Ao,
-    typedArray: Ao,
+    string: Kc,
+    buffer: Ao,
+    arrayBuffer: Ao,
+    dataView: Ro,
+    typedArray: Ro,
     others: Be
   },
   getSize: De,
-  truncateChunk: Jc,
-  addChunk: Yc,
+  truncateChunk: Yc,
+  addChunk: Xc,
   getFinalChunk: Bt,
-  finalize: Qc
+  finalize: eu
 };
 
 // node_modules/get-stream/source/buffer.js
-async function Me(e, t) {
+async function Le(e, t) {
   if (!("Buffer" in globalThis))
     throw new Error("getStreamAsBuffer() is only supported in Node.js");
   try {
-    return jo(await Mt(e, t));
+    return No(await Lt(e, t));
   } catch (r) {
-    throw r.bufferedData !== void 0 && (r.bufferedData = jo(r.bufferedData)), r;
+    throw r.bufferedData !== void 0 && (r.bufferedData = No(r.bufferedData)), r;
   }
 }
-o(Me, "getStreamAsBuffer");
-var jo = /* @__PURE__ */ o((e) => globalThis.Buffer.from(e), "arrayBufferToNodeBuffer");
+o(Le, "getStreamAsBuffer");
+var No = /* @__PURE__ */ o((e) => globalThis.Buffer.from(e), "arrayBufferToNodeBuffer");
 
 // node_modules/get-stream/source/string.js
-async function Lt(e, t) {
-  return te(e, iu, t);
+async function Mt(e, t) {
+  return te(e, su, t);
 }
-o(Lt, "getStreamAsString");
-var tu = /* @__PURE__ */ o(() => ({ contents: "", textDecoder: new TextDecoder() }), "initString"), Le = /* @__PURE__ */ o((e, { textDecoder: t }) => t.
-decode(e, { stream: !0 }), "useTextDecoder"), ru = /* @__PURE__ */ o((e, { contents: t }) => t + e, "addStringChunk"), nu = /* @__PURE__ */ o(
-(e, t) => e.slice(0, t), "truncateStringChunk"), ou = /* @__PURE__ */ o(({ textDecoder: e }) => {
+o(Mt, "getStreamAsString");
+var ru = /* @__PURE__ */ o(() => ({ contents: "", textDecoder: new TextDecoder() }), "initString"), Me = /* @__PURE__ */ o((e, { textDecoder: t }) => t.
+decode(e, { stream: !0 }), "useTextDecoder"), nu = /* @__PURE__ */ o((e, { contents: t }) => t + e, "addStringChunk"), ou = /* @__PURE__ */ o(
+(e, t) => e.slice(0, t), "truncateStringChunk"), iu = /* @__PURE__ */ o(({ textDecoder: e }) => {
   let t = e.decode();
   return t === "" ? void 0 : t;
-}, "getFinalStringChunk"), iu = {
-  init: tu,
+}, "getFinalStringChunk"), su = {
+  init: ru,
   convertChunk: {
     string: Nt,
-    buffer: Le,
-    arrayBuffer: Le,
-    dataView: Le,
-    typedArray: Le,
+    buffer: Me,
+    arrayBuffer: Me,
+    dataView: Me,
+    typedArray: Me,
     others: Be
   },
   getSize: De,
-  truncateChunk: nu,
-  addChunk: ru,
-  getFinalChunk: ou,
+  truncateChunk: ou,
+  addChunk: nu,
+  getFinalChunk: iu,
   finalize: Dt
 };
 
 // node_modules/execa/lib/stream.js
-var No = A(mt(), 1);
-var Bo = /* @__PURE__ */ o((e) => {
+var Bo = A(mt(), 1);
+var Do = /* @__PURE__ */ o((e) => {
   if (e !== void 0)
     throw new TypeError("The `input` and `inputFile` options cannot be both set.");
-}, "validateInputOptions"), uu = /* @__PURE__ */ o(({ input: e, inputFile: t }) => typeof t != "string" ? e : (Bo(e), au(t)), "getInputSync"),
-Do = /* @__PURE__ */ o((e) => {
-  let t = uu(e);
+}, "validateInputOptions"), lu = /* @__PURE__ */ o(({ input: e, inputFile: t }) => typeof t != "string" ? e : (Do(e), cu(t)), "getInputSync"),
+Lo = /* @__PURE__ */ o((e) => {
+  let t = lu(e);
   if (je(t))
     throw new TypeError("The `input` option cannot be a stream in sync mode");
   return t;
-}, "handleInputSync"), lu = /* @__PURE__ */ o(({ input: e, inputFile: t }) => typeof t != "string" ? e : (Bo(e), su(t)), "getInput"), Mo = /* @__PURE__ */ o(
+}, "handleInputSync"), fu = /* @__PURE__ */ o(({ input: e, inputFile: t }) => typeof t != "string" ? e : (Do(e), au(t)), "getInput"), Mo = /* @__PURE__ */ o(
 (e, t) => {
-  let r = lu(t);
+  let r = fu(t);
   r !== void 0 && (je(r) ? r.pipe(e.stdin) : e.stdin.end(r));
-}, "handleInput"), Lo = /* @__PURE__ */ o((e, { all: t }) => {
+}, "handleInput"), Fo = /* @__PURE__ */ o((e, { all: t }) => {
   if (!t || !e.stdout && !e.stderr)
     return;
-  let r = (0, No.default)();
+  let r = (0, Bo.default)();
   return e.stdout && r.add(e.stdout), e.stderr && r.add(e.stderr), r;
 }, "makeAllStream"), Ft = /* @__PURE__ */ o(async (e, t) => {
   if (!(!e || t === void 0)) {
-    await cu(0), e.destroy();
+    await uu(0), e.destroy();
     try {
       return await t;
     } catch (r) {
@@ -2815,8 +2815,8 @@ Do = /* @__PURE__ */ o((e) => {
   }
 }, "getBufferedData"), Ut = /* @__PURE__ */ o((e, { encoding: t, buffer: r, maxBuffer: n }) => {
   if (!(!e || !r))
-    return t === "utf8" || t === "utf-8" ? Lt(e, { maxBuffer: n }) : t === null || t === "buffer" ? Me(e, { maxBuffer: n }) : fu(e, n, t);
-}, "getStreamPromise"), fu = /* @__PURE__ */ o(async (e, t, r) => (await Me(e, { maxBuffer: t })).toString(r), "applyEncoding"), Fo = /* @__PURE__ */ o(
+    return t === "utf8" || t === "utf-8" ? Mt(e, { maxBuffer: n }) : t === null || t === "buffer" ? Le(e, { maxBuffer: n }) : du(e, n, t);
+}, "getStreamPromise"), du = /* @__PURE__ */ o(async (e, t, r) => (await Le(e, { maxBuffer: t })).toString(r), "applyEncoding"), Uo = /* @__PURE__ */ o(
 async ({ stdout: e, stderr: t, all: r }, { encoding: n, buffer: i, maxBuffer: s }, a) => {
   let c = Ut(e, { encoding: n, buffer: i, maxBuffer: s }), u = Ut(t, { encoding: n, buffer: i, maxBuffer: s }), l = Ut(r, { encoding: n, buffer: i,
   maxBuffer: s * 2 });
@@ -2833,16 +2833,16 @@ async ({ stdout: e, stderr: t, all: r }, { encoding: n, buffer: i, maxBuffer: s 
 }, "getSpawnedResult");
 
 // node_modules/execa/lib/promise.js
-var du = (async () => {
-})().constructor.prototype, pu = ["then", "catch", "finally"].map((e) => [
+var pu = (async () => {
+})().constructor.prototype, mu = ["then", "catch", "finally"].map((e) => [
   e,
-  Reflect.getOwnPropertyDescriptor(du, e)
+  Reflect.getOwnPropertyDescriptor(pu, e)
 ]), $t = /* @__PURE__ */ o((e, t) => {
-  for (let [r, n] of pu) {
+  for (let [r, n] of mu) {
     let i = typeof t == "function" ? (...s) => Reflect.apply(n.value, t(), s) : n.value.bind(t);
     Reflect.defineProperty(e, r, { ...n, value: i });
   }
-}, "mergePromise"), Uo = /* @__PURE__ */ o((e) => new Promise((t, r) => {
+}, "mergePromise"), $o = /* @__PURE__ */ o((e) => new Promise((t, r) => {
   e.on("exit", (n, i) => {
     t({ exitCode: n, signal: i });
   }), e.on("error", (n) => {
@@ -2853,46 +2853,46 @@ var du = (async () => {
 }), "getSpawnedPromise");
 
 // node_modules/execa/lib/command.js
-import { Buffer as mu } from "node:buffer";
-import { ChildProcess as hu } from "node:child_process";
-var Wo = /* @__PURE__ */ o((e, t = []) => Array.isArray(t) ? [e, ...t] : [e], "normalizeArgs"), yu = /^[\w.-]+$/, gu = /* @__PURE__ */ o((e) => typeof e !=
-"string" || yu.test(e) ? e : `"${e.replaceAll('"', '\\"')}"`, "escapeArg"), qt = /* @__PURE__ */ o((e, t) => Wo(e, t).join(" "), "joinComman\
-d"), Wt = /* @__PURE__ */ o((e, t) => Wo(e, t).map((r) => gu(r)).join(" "), "getEscapedCommand"), Ho = / +/g, Vo = /* @__PURE__ */ o((e) => {
+import { Buffer as hu } from "node:buffer";
+import { ChildProcess as yu } from "node:child_process";
+var Ho = /* @__PURE__ */ o((e, t = []) => Array.isArray(t) ? [e, ...t] : [e], "normalizeArgs"), gu = /^[\w.-]+$/, bu = /* @__PURE__ */ o((e) => typeof e !=
+"string" || gu.test(e) ? e : `"${e.replaceAll('"', '\\"')}"`, "escapeArg"), qt = /* @__PURE__ */ o((e, t) => Ho(e, t).join(" "), "joinComman\
+d"), Wt = /* @__PURE__ */ o((e, t) => Ho(e, t).map((r) => bu(r)).join(" "), "getEscapedCommand"), Vo = / +/g, zo = /* @__PURE__ */ o((e) => {
   let t = [];
-  for (let r of e.trim().split(Ho)) {
+  for (let r of e.trim().split(Vo)) {
     let n = t.at(-1);
     n && n.endsWith("\\") ? t[t.length - 1] = `${n.slice(0, -1)} ${r}` : t.push(r);
   }
   return t;
-}, "parseCommand"), $o = /* @__PURE__ */ o((e) => {
+}, "parseCommand"), qo = /* @__PURE__ */ o((e) => {
   let t = typeof e;
   if (t === "string")
     return e;
   if (t === "number")
     return String(e);
-  if (t === "object" && e !== null && !(e instanceof hu) && "stdout" in e) {
+  if (t === "object" && e !== null && !(e instanceof yu) && "stdout" in e) {
     let r = typeof e.stdout;
     if (r === "string")
       return e.stdout;
-    if (mu.isBuffer(e.stdout))
+    if (hu.isBuffer(e.stdout))
       return e.stdout.toString();
     throw new TypeError(`Unexpected "${r}" stdout in template expression`);
   }
   throw new TypeError(`Unexpected "${t}" in template expression`);
-}, "parseExpression"), qo = /* @__PURE__ */ o((e, t, r) => r || e.length === 0 || t.length === 0 ? [...e, ...t] : [
+}, "parseExpression"), Wo = /* @__PURE__ */ o((e, t, r) => r || e.length === 0 || t.length === 0 ? [...e, ...t] : [
   ...e.slice(0, -1),
   `${e.at(-1)}${t[0]}`,
   ...t.slice(1)
-], "concatTokens"), bu = /* @__PURE__ */ o(({ templates: e, expressions: t, tokens: r, index: n, template: i }) => {
-  let s = i ?? e.raw[n], a = s.split(Ho).filter(Boolean), c = qo(
+], "concatTokens"), xu = /* @__PURE__ */ o(({ templates: e, expressions: t, tokens: r, index: n, template: i }) => {
+  let s = i ?? e.raw[n], a = s.split(Vo).filter(Boolean), c = Wo(
     r,
     a,
     s.startsWith(" ")
   );
   if (n === t.length)
     return c;
-  let u = t[n], l = Array.isArray(u) ? u.map((f) => $o(f)) : [$o(u)];
-  return qo(
+  let u = t[n], l = Array.isArray(u) ? u.map((f) => qo(f)) : [qo(u)];
+  return Wo(
     c,
     l,
     s.endsWith(" ")
@@ -2900,29 +2900,29 @@ d"), Wt = /* @__PURE__ */ o((e, t) => Wo(e, t).map((r) => gu(r)).join(" "), "get
 }, "parseTemplate"), Ht = /* @__PURE__ */ o((e, t) => {
   let r = [];
   for (let [n, i] of e.entries())
-    r = bu({ templates: e, expressions: t, tokens: r, index: n, template: i });
+    r = xu({ templates: e, expressions: t, tokens: r, index: n, template: i });
   return r;
 }, "parseTemplates");
 
 // node_modules/execa/lib/verbose.js
-import { debuglog as xu } from "node:util";
-import Su from "node:process";
-var zo = xu("execa").enabled, Fe = /* @__PURE__ */ o((e, t) => String(e).padStart(t, "0"), "padField"), wu = /* @__PURE__ */ o(() => {
+import { debuglog as Su } from "node:util";
+import wu from "node:process";
+var Ko = Su("execa").enabled, Fe = /* @__PURE__ */ o((e, t) => String(e).padStart(t, "0"), "padField"), vu = /* @__PURE__ */ o(() => {
   let e = /* @__PURE__ */ new Date();
   return `${Fe(e.getHours(), 2)}:${Fe(e.getMinutes(), 2)}:${Fe(e.getSeconds(), 2)}.${Fe(e.getMilliseconds(), 3)}`;
 }, "getTimestamp"), Vt = /* @__PURE__ */ o((e, { verbose: t }) => {
-  t && Su.stderr.write(`[${wu()}] ${e}
+  t && wu.stderr.write(`[${vu()}] ${e}
 `);
 }, "logCommand");
 
 // node_modules/execa/index.js
-var Eu = 1e3 * 1e3 * 100, Tu = /* @__PURE__ */ o(({ env: e, extendEnv: t, preferLocal: r, localDir: n, execPath: i }) => {
+var Tu = 1e3 * 1e3 * 100, Iu = /* @__PURE__ */ o(({ env: e, extendEnv: t, preferLocal: r, localDir: n, execPath: i }) => {
   let s = t ? { ...Ue.env, ...e } : e;
-  return r ? lo({ env: s, cwd: n, execPath: i }) : s;
-}, "getEnv"), Yo = /* @__PURE__ */ o((e, t, r = {}) => {
-  let n = Jo.default._parse(e, t, r);
+  return r ? fo({ env: s, cwd: n, execPath: i }) : s;
+}, "getEnv"), Xo = /* @__PURE__ */ o((e, t, r = {}) => {
+  let n = Yo.default._parse(e, t, r);
   return e = n.command, t = n.args, r = n.options, r = {
-    maxBuffer: Eu,
+    maxBuffer: Tu,
     buffer: !0,
     stripFinalNewline: !0,
     extendEnv: !0,
@@ -2934,15 +2934,15 @@ var Eu = 1e3 * 1e3 * 100, Tu = /* @__PURE__ */ o(({ env: e, extendEnv: t, prefer
     cleanup: !0,
     all: !1,
     windowsHide: !0,
-    verbose: zo,
+    verbose: Ko,
     ...r
-  }, r.env = Tu(r), r.stdio = bo(r), Ue.platform === "win32" && Pu.basename(e, ".exe") === "cmd" && t.unshift("/q"), { file: e, args: t, options: r,
+  }, r.env = Iu(r), r.stdio = xo(r), Ue.platform === "win32" && Eu.basename(e, ".exe") === "cmd" && t.unshift("/q"), { file: e, args: t, options: r,
   parsed: n };
-}, "handleArguments"), re = /* @__PURE__ */ o((e, t, r) => typeof t != "string" && !vu.isBuffer(t) ? r === void 0 ? void 0 : "" : e.stripFinalNewline ?
+}, "handleArguments"), re = /* @__PURE__ */ o((e, t, r) => typeof t != "string" && !Pu.isBuffer(t) ? r === void 0 ? void 0 : "" : e.stripFinalNewline ?
 Pt(t) : t, "handleOutput");
-function Xo(e, t, r) {
-  let n = Yo(e, t, r), i = qt(e, t), s = Wt(e, t);
-  Vt(s, n.options), Po(n.options);
+function Zo(e, t, r) {
+  let n = Xo(e, t, r), i = qt(e, t), s = Wt(e, t);
+  Vt(s, n.options), Eo(n.options);
   let a;
   try {
     a = zt.spawn(n.file, n.args, n.options);
@@ -2961,10 +2961,10 @@ function Xo(e, t, r) {
     }));
     return $t(b, h), b;
   }
-  let c = Uo(a), u = vo(a, n.options, c), l = Eo(a, n.options, u), f = { isCanceled: !1 };
-  a.kill = So.bind(null, a.kill.bind(a)), a.cancel = wo.bind(null, a, f);
-  let g = po(/* @__PURE__ */ o(async () => {
-    let [{ error: p, exitCode: b, signal: h, timedOut: x }, E, T, C] = await Fo(a, n.options, l), m = re(n.options, E), v = re(n.options, T),
+  let c = $o(a), u = Po(a, n.options, c), l = To(a, n.options, u), f = { isCanceled: !1 };
+  a.kill = wo.bind(null, a.kill.bind(a)), a.cancel = vo.bind(null, a, f);
+  let g = mo(/* @__PURE__ */ o(async () => {
+    let [{ error: p, exitCode: b, signal: h, timedOut: x }, E, T, C] = await Uo(a, n.options, l), m = re(n.options, E), v = re(n.options, T),
     I = re(n.options, C);
     if (p || b !== 0 || h !== null) {
       let V = ee({
@@ -2998,13 +2998,13 @@ function Xo(e, t, r) {
       killed: !1
     };
   }, "handlePromise"));
-  return Mo(a, n.options), a.all = Lo(a, n.options), To(a), $t(a, g), a;
+  return Mo(a, n.options), a.all = Fo(a, n.options), Io(a), $t(a, g), a;
 }
-o(Xo, "execa");
-function Iu(e, t, r) {
-  let n = Yo(e, t, r), i = qt(e, t), s = Wt(e, t);
+o(Zo, "execa");
+function ku(e, t, r) {
+  let n = Xo(e, t, r), i = qt(e, t), s = Wt(e, t);
   Vt(s, n.options);
-  let a = Do(n.options), c;
+  let a = Lo(n.options), c;
   try {
     c = zt.spawnSync(n.file, n.args, { ...n.options, input: a });
   } catch (f) {
@@ -3052,51 +3052,57 @@ function Iu(e, t, r) {
     killed: !1
   };
 }
-o(Iu, "execaSync");
-var ku = /* @__PURE__ */ o(({ input: e, inputFile: t, stdio: r }) => e === void 0 && t === void 0 && r === void 0 ? { stdin: "inherit" } : {},
-"normalizeScriptStdin"), Ko = /* @__PURE__ */ o((e = {}) => ({
+o(ku, "execaSync");
+var Cu = /* @__PURE__ */ o(({ input: e, inputFile: t, stdio: r }) => e === void 0 && t === void 0 && r === void 0 ? { stdin: "inherit" } : {},
+"normalizeScriptStdin"), Jo = /* @__PURE__ */ o((e = {}) => ({
   preferLocal: !0,
-  ...ku(e),
+  ...Cu(e),
   ...e
 }), "normalizeScriptOptions");
-function Zo(e) {
+function Qo(e) {
   function t(r, ...n) {
     if (!Array.isArray(r))
-      return Zo({ ...e, ...r });
+      return Qo({ ...e, ...r });
     let [i, ...s] = Ht(r, n);
-    return Xo(i, s, Ko(e));
+    return Zo(i, s, Jo(e));
   }
   return o(t, "$"), t.sync = (r, ...n) => {
     if (!Array.isArray(r))
       throw new TypeError("Please use $(options).sync`command` instead of $.sync(options)`command`.");
     let [i, ...s] = Ht(r, n);
-    return Iu(i, s, Ko(e));
+    return ku(i, s, Jo(e));
   }, t;
 }
-o(Zo, "create$");
-var ym = Zo();
-function Qo(e, t) {
-  let [r, ...n] = Vo(e);
-  return Xo(r, n, t);
+o(Qo, "create$");
+var bm = Qo();
+function ei(e, t) {
+  let [r, ...n] = zo(e);
+  return Zo(r, n, t);
 }
-o(Qo, "execaCommand");
+o(ei, "execaCommand");
+
+// ../node_modules/slash/index.js
+function Kt(e) {
+  return e.startsWith("\\\\?\\") ? e : e.replace(/\\/g, "/");
+}
+o(Kt, "slash");
 
 // src/common/utils/file-cache.ts
-import { createHash as ei, randomBytes as Cu } from "node:crypto";
-import { mkdirSync as Kt, readFileSync as Ou, readdirSync as Au, rmSync as ti, writeFileSync as Ru } from "node:fs";
-import { readFile as ri, readdir as ni, rm as oi, writeFile as _u } from "node:fs/promises";
-import { tmpdir as Gu } from "node:os";
+import { createHash as ti, randomBytes as Ou } from "node:crypto";
+import { mkdirSync as Jt, readFileSync as Au, readdirSync as Ru, rmSync as ri, writeFileSync as _u } from "node:fs";
+import { readFile as ni, readdir as oi, rm as ii, writeFile as Gu } from "node:fs/promises";
+import { tmpdir as ju } from "node:os";
 import { join as ne } from "node:path";
-var Jt = class {
+var Yt = class {
   static {
     o(this, "FileSystemCache");
   }
   constructor(t = {}) {
-    this.prefix = (t.ns || t.prefix || "") + "-", this.hash_alg = t.hash_alg || "md5", this.cache_dir = t.basePath || ne(Gu(), Cu(15).toString(
-    "base64").replace(/\//g, "-")), this.ttl = t.ttl || 0, ei(this.hash_alg), Kt(this.cache_dir, { recursive: !0 });
+    this.prefix = (t.ns || t.prefix || "") + "-", this.hash_alg = t.hash_alg || "md5", this.cache_dir = t.basePath || ne(ju(), Ou(15).toString(
+    "base64").replace(/\//g, "-")), this.ttl = t.ttl || 0, ti(this.hash_alg), Jt(this.cache_dir, { recursive: !0 });
   }
   generateHash(t) {
-    return ne(this.cache_dir, this.prefix + ei(this.hash_alg).update(t).digest("hex"));
+    return ne(this.cache_dir, this.prefix + ti(this.hash_alg).update(t).digest("hex"));
   }
   isExpired(t, r) {
     return t.ttl != null && r > t.ttl;
@@ -3111,7 +3117,7 @@ var Jt = class {
   }
   async get(t, r) {
     try {
-      let n = await ri(this.generateHash(t), "utf8");
+      let n = await ni(this.generateHash(t), "utf8");
       return this.parseCacheData(n, r);
     } catch {
       return r;
@@ -3119,7 +3125,7 @@ var Jt = class {
   }
   getSync(t, r) {
     try {
-      let n = Ou(this.generateHash(t), "utf8");
+      let n = Au(this.generateHash(t), "utf8");
       return this.parseCacheData(n, r);
     } catch {
       return r;
@@ -3127,13 +3133,13 @@ var Jt = class {
   }
   async set(t, r, n = {}) {
     let i = typeof n == "number" ? { ttl: n } : n;
-    Kt(this.cache_dir, { recursive: !0 }), await _u(this.generateHash(t), this.parseSetData(t, r, i), {
+    Jt(this.cache_dir, { recursive: !0 }), await Gu(this.generateHash(t), this.parseSetData(t, r, i), {
       encoding: i.encoding || "utf8"
     });
   }
   setSync(t, r, n = {}) {
     let i = typeof n == "number" ? { ttl: n } : n;
-    Kt(this.cache_dir, { recursive: !0 }), Ru(this.generateHash(t), this.parseSetData(t, r, i), {
+    Jt(this.cache_dir, { recursive: !0 }), _u(this.generateHash(t), this.parseSetData(t, r, i), {
       encoding: i.encoding || "utf8"
     });
   }
@@ -3144,24 +3150,24 @@ var Jt = class {
     t.forEach((n) => this.setSync(n.key, n.content ?? n.value, r));
   }
   async remove(t) {
-    await oi(this.generateHash(t), { force: !0 });
+    await ii(this.generateHash(t), { force: !0 });
   }
   removeSync(t) {
-    ti(this.generateHash(t), { force: !0 });
+    ri(this.generateHash(t), { force: !0 });
   }
   async clear() {
-    let t = await ni(this.cache_dir);
+    let t = await oi(this.cache_dir);
     await Promise.all(
-      t.filter((r) => r.startsWith(this.prefix)).map((r) => oi(ne(this.cache_dir, r), { force: !0 }))
+      t.filter((r) => r.startsWith(this.prefix)).map((r) => ii(ne(this.cache_dir, r), { force: !0 }))
     );
   }
   clearSync() {
-    Au(this.cache_dir).filter((t) => t.startsWith(this.prefix)).forEach((t) => ti(ne(this.cache_dir, t), { force: !0 }));
+    Ru(this.cache_dir).filter((t) => t.startsWith(this.prefix)).forEach((t) => ri(ne(this.cache_dir, t), { force: !0 }));
   }
   async getAll() {
-    let t = Date.now(), r = await ni(this.cache_dir);
+    let t = Date.now(), r = await oi(this.cache_dir);
     return (await Promise.all(
-      r.filter((i) => i.startsWith(this.prefix)).map((i) => ri(ne(this.cache_dir, i), "utf8"))
+      r.filter((i) => i.startsWith(this.prefix)).map((i) => ni(ne(this.cache_dir, i), "utf8"))
     )).map((i) => JSON.parse(i)).filter((i) => i.content && !this.isExpired(i, t));
   }
   async load() {
@@ -3174,154 +3180,154 @@ var Jt = class {
     };
   }
 };
-function Yt(e) {
-  return new Jt(e);
+function Xt(e) {
+  return new Yt(e);
 }
-o(Yt, "createFileSystemCache");
+o(Xt, "createFileSystemCache");
 
 // src/common/utils/resolve-path-in-sb-cache.ts
-import { join as mi } from "node:path";
+import { join as hi } from "node:path";
 
 // ../node_modules/find-cache-dir/index.js
-var pi = A(si(), 1);
-import zu from "node:process";
+var mi = A(ai(), 1);
+import Ku from "node:process";
 import oe from "node:path";
 import qe from "node:fs";
 
 // ../node_modules/pkg-dir/index.js
-import Vu from "node:path";
+import zu from "node:path";
 
 // ../node_modules/pkg-dir/node_modules/find-up/index.js
 import $e from "node:path";
-import { fileURLToPath as $u } from "node:url";
+import { fileURLToPath as qu } from "node:url";
 
 // ../node_modules/locate-path/index.js
-import Bu from "node:process";
-import Du from "node:path";
-import ai, { promises as $m } from "node:fs";
+import Du from "node:process";
+import Lu from "node:path";
+import ci, { promises as Vm } from "node:fs";
 import { fileURLToPath as Mu } from "node:url";
-var ci = {
+var ui = {
   directory: "isDirectory",
   file: "isFile"
 };
-function Lu(e) {
-  if (!Object.hasOwnProperty.call(ci, e))
+function Fu(e) {
+  if (!Object.hasOwnProperty.call(ui, e))
     throw new Error(`Invalid type specified: ${e}`);
 }
-o(Lu, "checkType");
-var Fu = /* @__PURE__ */ o((e, t) => t[ci[e]](), "matchType"), Uu = /* @__PURE__ */ o((e) => e instanceof URL ? Mu(e) : e, "toPath");
-function Xt(e, {
-  cwd: t = Bu.cwd(),
+o(Fu, "checkType");
+var Uu = /* @__PURE__ */ o((e, t) => t[ui[e]](), "matchType"), $u = /* @__PURE__ */ o((e) => e instanceof URL ? Mu(e) : e, "toPath");
+function Zt(e, {
+  cwd: t = Du.cwd(),
   type: r = "file",
   allowSymlinks: n = !0
 } = {}) {
-  Lu(r), t = Uu(t);
-  let i = n ? ai.statSync : ai.lstatSync;
+  Fu(r), t = $u(t);
+  let i = n ? ci.statSync : ci.lstatSync;
   for (let s of e)
     try {
-      let a = i(Du.resolve(t, s), {
+      let a = i(Lu.resolve(t, s), {
         throwIfNoEntry: !1
       });
       if (!a)
         continue;
-      if (Fu(r, a))
+      if (Uu(r, a))
         return s;
     } catch {
     }
 }
-o(Xt, "locatePathSync");
+o(Zt, "locatePathSync");
 
 // ../node_modules/pkg-dir/node_modules/path-exists/index.js
-import Km, { promises as Jm } from "node:fs";
+import Zm, { promises as Qm } from "node:fs";
 
 // ../node_modules/pkg-dir/node_modules/find-up/index.js
-var qu = /* @__PURE__ */ o((e) => e instanceof URL ? $u(e) : e, "toPath"), Wu = Symbol("findUpStop");
-function Hu(e, t = {}) {
-  let r = $e.resolve(qu(t.cwd) || ""), { root: n } = $e.parse(r), i = t.stopAt || n, s = t.limit || Number.POSITIVE_INFINITY, a = [e].flat(),
+var Wu = /* @__PURE__ */ o((e) => e instanceof URL ? qu(e) : e, "toPath"), Hu = Symbol("findUpStop");
+function Vu(e, t = {}) {
+  let r = $e.resolve(Wu(t.cwd) || ""), { root: n } = $e.parse(r), i = t.stopAt || n, s = t.limit || Number.POSITIVE_INFINITY, a = [e].flat(),
   c = /* @__PURE__ */ o((l) => {
     if (typeof e != "function")
-      return Xt(a, l);
+      return Zt(a, l);
     let f = e(l.cwd);
-    return typeof f == "string" ? Xt([f], l) : f;
+    return typeof f == "string" ? Zt([f], l) : f;
   }, "runMatcher"), u = [];
   for (; ; ) {
     let l = c({ ...t, cwd: r });
-    if (l === Wu || (l && u.push($e.resolve(r, l)), r === i || u.length >= s))
+    if (l === Hu || (l && u.push($e.resolve(r, l)), r === i || u.length >= s))
       break;
     r = $e.dirname(r);
   }
   return u;
 }
-o(Hu, "findUpMultipleSync");
-function ui(e, t = {}) {
-  return Hu(e, { ...t, limit: 1 })[0];
+o(Vu, "findUpMultipleSync");
+function li(e, t = {}) {
+  return Vu(e, { ...t, limit: 1 })[0];
 }
-o(ui, "findUpSync");
+o(li, "findUpSync");
 
 // ../node_modules/pkg-dir/index.js
-function li({ cwd: e } = {}) {
-  let t = ui("package.json", { cwd: e });
-  return t && Vu.dirname(t);
+function fi({ cwd: e } = {}) {
+  let t = li("package.json", { cwd: e });
+  return t && zu.dirname(t);
 }
-o(li, "packageDirectorySync");
+o(fi, "packageDirectorySync");
 
 // ../node_modules/find-cache-dir/index.js
-var { env: Zt, cwd: Ku } = zu, fi = /* @__PURE__ */ o((e) => {
+var { env: Qt, cwd: Ju } = Ku, di = /* @__PURE__ */ o((e) => {
   try {
     return qe.accessSync(e, qe.constants.W_OK), !0;
   } catch {
     return !1;
   }
 }, "isWritable");
-function di(e, t) {
+function pi(e, t) {
   return t.create && qe.mkdirSync(e, { recursive: !0 }), e;
 }
-o(di, "useDirectory");
-function Ju(e) {
+o(pi, "useDirectory");
+function Yu(e) {
   let t = oe.join(e, "node_modules");
-  if (!(!fi(t) && (qe.existsSync(t) || !fi(oe.join(e)))))
+  if (!(!di(t) && (qe.existsSync(t) || !di(oe.join(e)))))
     return t;
 }
-o(Ju, "getNodeModuleDirectory");
-function Qt(e = {}) {
-  if (Zt.CACHE_DIR && !["true", "false", "1", "0"].includes(Zt.CACHE_DIR))
-    return di(oe.join(Zt.CACHE_DIR, e.name), e);
-  let { cwd: t = Ku(), files: r } = e;
+o(Yu, "getNodeModuleDirectory");
+function er(e = {}) {
+  if (Qt.CACHE_DIR && !["true", "false", "1", "0"].includes(Qt.CACHE_DIR))
+    return pi(oe.join(Qt.CACHE_DIR, e.name), e);
+  let { cwd: t = Ju(), files: r } = e;
   if (r) {
     if (!Array.isArray(r))
       throw new TypeError(`Expected \`files\` option to be an array, got \`${typeof r}\`.`);
-    t = (0, pi.default)(r.map((i) => oe.resolve(t, i)));
+    t = (0, mi.default)(r.map((i) => oe.resolve(t, i)));
   }
-  if (t = li({ cwd: t }), !(!t || !Ju(t)))
-    return di(oe.join(t, "node_modules", ".cache", e.name), e);
+  if (t = fi({ cwd: t }), !(!t || !Yu(t)))
+    return pi(oe.join(t, "node_modules", ".cache", e.name), e);
 }
-o(Qt, "findCacheDirectory");
+o(er, "findCacheDirectory");
 
 // src/common/utils/resolve-path-in-sb-cache.ts
-function hi(e, t = "default") {
-  let r = Qt({ name: "storybook" });
-  return r ||= mi(process.cwd(), ".cache", "storybook"), mi(r, t, e);
+function yi(e, t = "default") {
+  let r = er({ name: "storybook" });
+  return r ||= hi(process.cwd(), ".cache", "storybook"), hi(r, t, e);
 }
-o(hi, "resolvePathInStorybookCache");
+o(yi, "resolvePathInStorybookCache");
 
 // src/telemetry/get-portable-stories-usage.ts
-var yi = Yt({
-  basePath: hi("portable-stories"),
+var gi = Xt({
+  basePath: yi("portable-stories"),
   ns: "storybook",
   ttl: 24 * 60 * 60 * 1e3
   // 24h
-}), Yu = /* @__PURE__ */ o(async (e) => {
-  let t = "git grep -l composeStor" + (e ? ` -- ${e}` : ""), { stdout: r } = await Qo(t, {
+}), Xu = /* @__PURE__ */ o(async (e) => {
+  let t = "git grep -l composeStor" + (e ? ` -- ${e}` : ""), { stdout: r } = await ei(t, {
     cwd: process.cwd(),
     shell: !0
   });
   return r.split(`
 `).filter(Boolean).length;
-}, "getPortableStoriesFileCountUncached"), gi = "portableStories", bi = /* @__PURE__ */ o(async (e) => {
-  let t = await yi.get(gi);
+}, "getPortableStoriesFileCountUncached"), bi = "portableStories", xi = /* @__PURE__ */ o(async (e) => {
+  let t = await gi.get(bi);
   if (!t)
     try {
-      t = { count: await Yu() }, await yi.set(gi, t);
+      t = { count: await Xu() }, await gi.set(bi, t);
     } catch (r) {
       t = { count: r.exitCode === 1 ? 0 : null };
     }
@@ -3329,7 +3335,7 @@ var yi = Yt({
 }, "getPortableStoriesFileCount");
 
 // src/telemetry/storybook-metadata.ts
-var xi = {
+var Si = {
   next: "Next",
   "react-scripts": "CRA",
   gatsby: "Gatsby",
@@ -3337,8 +3343,8 @@ var xi = {
   "@nrwl/storybook": "nx",
   "@vue/cli-service": "vue-cli",
   "@sveltejs/kit": "sveltekit"
-}, Si = /* @__PURE__ */ o((e) => z(e).replace(/\/dist\/.*/, "").replace(/\.[mc]?[tj]?s[x]?$/, "").replace(/\/register$/, "").replace(/\/manager$/,
-"").replace(/\/preset$/, ""), "sanitizeAddonName"), rl = /* @__PURE__ */ o(async ({
+}, wi = /* @__PURE__ */ o((e) => z(e).replace(/\/dist\/.*/, "").replace(/\.[mc]?[tj]?s[x]?$/, "").replace(/\/register$/, "").replace(/\/manager$/,
+"").replace(/\/preset$/, ""), "sanitizeAddonName"), nl = /* @__PURE__ */ o(async ({
   packageJson: e,
   mainConfig: t
 }) => {
@@ -3353,11 +3359,11 @@ var xi = {
     ...e?.dependencies,
     ...e?.devDependencies,
     ...e?.peerDependencies
-  }, i = Object.keys(n).find((m) => !!xi[m]);
+  }, i = Object.keys(n).find((m) => !!Si[m]);
   if (i) {
     let { version: m } = await ke(i);
     r.metaFramework = {
-      name: xi[i],
+      name: Si[i],
       packageName: i,
       version: m
     };
@@ -3388,10 +3394,10 @@ var xi = {
       a.map(async (m) => [m, (await ke(m))?.version])
     )
   );
-  let c = uo();
+  let c = lo();
   c && (r.monorepo = c);
   try {
-    let m = await (0, He.detect)({ cwd: Xu() }), v = await (0, He.getNpmVersion)(m);
+    let m = await (0, He.detect)({ cwd: Zu() }), v = await (0, He.getNpmVersion)(m);
     r.packageManager = {
       type: m,
       version: v
@@ -3400,17 +3406,17 @@ var xi = {
   }
   r.hasCustomBabel = !!t.babel, r.hasCustomWebpack = !!t.webpackFinal, r.hasStaticDirs = !!t.staticDirs, typeof t.typescript == "object" && (r.
   typescriptOptions = t.typescript);
-  let u = await so(t);
+  let u = await ao(t);
   typeof t.refs == "object" && (r.refCount = Object.keys(t.refs).length), typeof t.features == "object" && (r.features = t.features);
   let l = {};
   t.addons && t.addons.forEach((m) => {
     let v, I;
-    typeof m == "string" ? v = Si(m) : (m.name.includes("addon-essentials") && (I = m.options), v = Si(m.name)), l[v] = {
+    typeof m == "string" ? v = wi(m) : (m.name.includes("addon-essentials") && (I = m.options), v = wi(m.name)), l[v] = {
       options: I,
       version: void 0
     };
   });
-  let f = oo(e);
+  let f = io(e);
   f && (l.chromatic = {
     version: void 0,
     versionSpecifier: f,
@@ -3425,16 +3431,16 @@ var xi = {
   (await St(p)).forEach(({ name: m, version: v }) => {
     p[m].version = v;
   });
-  let h = n.typescript ? "typescript" : "javascript", x = !!n["eslint-plugin-storybook"], E = Qu(e);
+  let h = n.typescript ? "typescript" : "javascript", x = !!n["eslint-plugin-storybook"], E = el(e);
   try {
     let { previewConfig: m } = E;
     if (m) {
-      let v = await tl(m), I = !!(v.getFieldNode(["globals"]) || v.getFieldNode(["globalTypes"]));
+      let v = await rl(m), I = !!(v.getFieldNode(["globals"]) || v.getFieldNode(["globalTypes"]));
       r.preview = { ...r.preview, usesGlobals: I };
     }
   } catch {
   }
-  let T = p[E.frameworkPackage]?.version, C = await bi();
+  let T = p[E.frameworkPackage]?.version, C = await xi();
   return {
     ...r,
     ...u,
@@ -3446,78 +3452,82 @@ var xi = {
     addons: l,
     hasStorybookEslint: x
   };
-}, "computeStorybookMetadata"), We, wi = /* @__PURE__ */ o(async (e) => {
+}, "computeStorybookMetadata"), We, vi = /* @__PURE__ */ o(async (e) => {
   if (We)
     return We;
-  let t = await no(process.cwd()) || {}, r = (e || Zu(
+  let t = await oo(process.cwd()) || {}, r = (e || Qu(
     String(t?.scripts?.storybook || ""),
     "-c",
     "--config-dir"
-  )) ?? ".storybook", n = await el({ configDir: r });
-  return We = await rl({ mainConfig: n, packageJson: t }), We;
+  )) ?? ".storybook", n = await tl({ configDir: r });
+  return We = await nl({ mainConfig: n, packageJson: t }), We;
 }, "getStorybookMetadata");
 
 // src/telemetry/telemetry.ts
-var _i = A(Pi(), 1);
-import * as Ri from "node:os";
+var Gi = A(Ei(), 1);
+import * as _i from "node:os";
 
 // ../node_modules/nanoid/index.js
-import { randomFillSync as Ti } from "crypto";
+import { randomFillSync as Ii } from "crypto";
 
 // ../node_modules/nanoid/url-alphabet/index.js
-var Ei = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
+var Ti = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
 
 // ../node_modules/nanoid/index.js
-var nl = 128, N, H, ol = /* @__PURE__ */ o((e) => {
-  !N || N.length < e ? (N = Buffer.allocUnsafe(e * nl), Ti(N), H = 0) : H + e > N.length && (Ti(N), H = 0), H += e;
+var ol = 128, N, H, il = /* @__PURE__ */ o((e) => {
+  !N || N.length < e ? (N = Buffer.allocUnsafe(e * ol), Ii(N), H = 0) : H + e > N.length && (Ii(N), H = 0), H += e;
 }, "fillPool");
 var ie = /* @__PURE__ */ o((e = 21) => {
-  ol(e -= 0);
+  il(e -= 0);
   let t = "";
   for (let r = H - e; r < H; r++)
-    t += Ei[N[r] & 63];
+    t += Ti[N[r] & 63];
   return t;
 }, "nanoid");
 
 // src/telemetry/anonymous-id.ts
-import { relative as sl } from "node:path";
-import { getProjectRoot as al } from "@storybook/core/common";
-import { execSync as cl } from "child_process";
+import { relative as al } from "node:path";
+import { getProjectRoot as cl } from "@storybook/core/common";
+import { execSync as ul } from "child_process";
 
 // src/telemetry/one-way-hash.ts
-import { createHash as il } from "crypto";
-var er = /* @__PURE__ */ o((e) => {
-  let t = il("sha256");
+import { createHash as sl } from "crypto";
+var tr = /* @__PURE__ */ o((e) => {
+  let t = sl("sha256");
   return t.update("storybook-telemetry-salt"), t.update(e), t.digest("hex");
 }, "oneWayHash");
 
 // src/telemetry/anonymous-id.ts
-function ul(e) {
-  return e.trim().replace(/#.*$/, "").replace(/^.*@/, "").replace(/^.*\/\//, "").replace(":", "/");
+function ll(e) {
+  let n = e.trim().replace(/#.*$/, "").replace(/^.*@/, "").replace(/^.*\/\//, "");
+  return (n.endsWith(".git") ? n : `${n}.git`).replace(":", "/");
 }
-o(ul, "normalizeGitUrl");
-var ze, Ii = /* @__PURE__ */ o(() => {
+o(ll, "normalizeGitUrl");
+function fl(e, t) {
+  return `${ll(e)}${Kt(t)}`;
+}
+o(fl, "unhashedProjectId");
+var ze, ki = /* @__PURE__ */ o(() => {
   if (ze)
     return ze;
-  let e;
   try {
-    let t = al(), r = sl(t, process.cwd()), n = cl("git config --local --get remote.origin.url", {
+    let e = cl(), t = al(e, process.cwd()), r = ul("git config --local --get remote.origin.url", {
       timeout: 1e3,
       stdio: "pipe"
     });
-    e = `${ul(String(n))}${r}`, ze = er(e);
+    ze = tr(fl(String(r), t));
   } catch {
   }
   return ze;
 }, "getAnonymousProjectId");
 
 // src/telemetry/event-cache.ts
-import { cache as rr } from "@storybook/core/common";
-var tr = Promise.resolve(), ll = /* @__PURE__ */ o(async (e, t) => {
-  let r = await rr.get("lastEvents") || {};
-  r[e] = { body: t, timestamp: Date.now() }, await rr.set("lastEvents", r);
-}, "setHelper"), Ci = /* @__PURE__ */ o(async (e, t) => (await tr, tr = ll(e, t), tr), "set");
-var fl = /* @__PURE__ */ o((e) => {
+import { cache as nr } from "@storybook/core/common";
+var rr = Promise.resolve(), dl = /* @__PURE__ */ o(async (e, t) => {
+  let r = await nr.get("lastEvents") || {};
+  r[e] = { body: t, timestamp: Date.now() }, await nr.set("lastEvents", r);
+}, "setHelper"), Oi = /* @__PURE__ */ o(async (e, t) => (await rr, rr = dl(e, t), rr), "set");
+var pl = /* @__PURE__ */ o((e) => {
   let { body: t, timestamp: r } = e;
   return {
     timestamp: r,
@@ -3525,50 +3535,50 @@ var fl = /* @__PURE__ */ o((e) => {
     eventId: t?.eventId,
     sessionId: t?.sessionId
   };
-}, "upgradeFields"), dl = ["init", "upgrade"], pl = ["build", "dev", "error"], ki = /* @__PURE__ */ o((e, t) => {
+}, "upgradeFields"), ml = ["init", "upgrade"], hl = ["build", "dev", "error"], Ci = /* @__PURE__ */ o((e, t) => {
   let r = t.map((n) => e?.[n]).filter(Boolean).sort((n, i) => i.timestamp - n.timestamp);
   return r.length > 0 ? r[0] : void 0;
-}, "lastEvent"), ml = /* @__PURE__ */ o(async (e = void 0) => {
-  let t = e || await rr.get("lastEvents") || {}, r = ki(t, dl), n = ki(t, pl);
+}, "lastEvent"), yl = /* @__PURE__ */ o(async (e = void 0) => {
+  let t = e || await nr.get("lastEvents") || {}, r = Ci(t, ml), n = Ci(t, hl);
   if (r)
-    return !n?.timestamp || r.timestamp > n.timestamp ? fl(r) : void 0;
+    return !n?.timestamp || r.timestamp > n.timestamp ? pl(r) : void 0;
 }, "getPrecedingUpgrade");
 
 // src/telemetry/fetch.ts
-var Oi = global.fetch;
+var Ai = global.fetch;
 
 // src/telemetry/session-id.ts
-import { cache as Ai } from "@storybook/core/common";
-var hl = 1e3 * 60 * 60 * 2, se;
-var nr = /* @__PURE__ */ o(async () => {
+import { cache as Ri } from "@storybook/core/common";
+var gl = 1e3 * 60 * 60 * 2, se;
+var or = /* @__PURE__ */ o(async () => {
   let e = Date.now();
   if (!se) {
-    let t = await Ai.get("session");
-    t && t.lastUsed >= e - hl ? se = t.id : se = ie();
+    let t = await Ri.get("session");
+    t && t.lastUsed >= e - gl ? se = t.id : se = ie();
   }
-  return await Ai.set("session", { id: se, lastUsed: e }), se;
+  return await Ri.set("session", { id: se, lastUsed: e }), se;
 }, "getSessionId");
 
 // src/telemetry/telemetry.ts
-var yl = (0, _i.default)(Oi), gl = process.env.STORYBOOK_TELEMETRY_URL || "https://storybook.js.org/event-log", Ke = [], bl = /* @__PURE__ */ o(
+var bl = (0, Gi.default)(Ai), xl = process.env.STORYBOOK_TELEMETRY_URL || "https://storybook.js.org/event-log", Ke = [], Sl = /* @__PURE__ */ o(
 (e, t) => {
-  or[e] = t;
-}, "addToGlobalContext"), xl = /* @__PURE__ */ o(() => {
+  ir[e] = t;
+}, "addToGlobalContext"), wl = /* @__PURE__ */ o(() => {
   try {
-    let e = Ri.platform();
+    let e = _i.platform();
     return e === "win32" ? "Windows" : e === "darwin" ? "macOS" : e === "linux" ? "Linux" : `Other: ${e}`;
   } catch {
     return "Unknown";
   }
-}, "getOperatingSystem"), or = {
+}, "getOperatingSystem"), ir = {
   inCI: !!process.env.CI,
   isTTY: process.stdout.isTTY,
-  platform: xl(),
+  platform: wl(),
   nodeVersion: process.versions.node
-}, Sl = /* @__PURE__ */ o(async (e, t, r) => {
-  let { eventType: n, payload: i, metadata: s, ...a } = e, c = await nr(), u = ie(), l = { ...a, eventType: n, eventId: u, sessionId: c, metadata: s,
+}, vl = /* @__PURE__ */ o(async (e, t, r) => {
+  let { eventType: n, payload: i, metadata: s, ...a } = e, c = await or(), u = ie(), l = { ...a, eventType: n, eventId: u, sessionId: c, metadata: s,
   payload: i, context: t };
-  return yl(gl, {
+  return bl(xl, {
     method: "post",
     body: JSON.stringify(l),
     headers: { "Content-Type": "application/json" },
@@ -3578,48 +3588,48 @@ var yl = (0, _i.default)(Oi), gl = process.env.STORYBOOK_TELEMETRY_URL || "https
 retryDelay")
   });
 }, "prepareRequest");
-async function Gi(e, t = { retryDelay: 1e3, immediate: !1 }) {
-  let { eventType: r, payload: n, metadata: i, ...s } = e, a = t.stripMetadata ? or : {
-    ...or,
-    anonymousId: Ii()
+async function ji(e, t = { retryDelay: 1e3, immediate: !1 }) {
+  let { eventType: r, payload: n, metadata: i, ...s } = e, a = t.stripMetadata ? ir : {
+    ...ir,
+    anonymousId: ki()
   }, c;
   try {
-    c = Sl(e, a, t), Ke.push(c), t.immediate ? await Promise.all(Ke) : await c;
-    let u = await nr(), l = ie(), f = { ...s, eventType: r, eventId: l, sessionId: u, metadata: i, payload: n, context: a };
-    await Ci(r, f);
+    c = vl(e, a, t), Ke.push(c), t.immediate ? await Promise.all(Ke) : await c;
+    let u = await or(), l = ie(), f = { ...s, eventType: r, eventId: l, sessionId: u, metadata: i, payload: n, context: a };
+    await Oi(r, f);
   } catch {
   } finally {
     Ke = Ke.filter((u) => u !== c);
   }
 }
-o(Gi, "sendTelemetry");
+o(ji, "sendTelemetry");
 
 // src/telemetry/index.ts
-var sg = /* @__PURE__ */ o((e) => e.startsWith("example-button--") || e.startsWith("example-header--") || e.startsWith("example-page--"), "i\
-sExampleStoryId"), ag = /* @__PURE__ */ o(async (e, t = {}, r = {}) => {
-  e !== "boot" && await lr();
+var fg = /* @__PURE__ */ o((e) => e.startsWith("example-button--") || e.startsWith("example-header--") || e.startsWith("example-page--"), "i\
+sExampleStoryId"), dg = /* @__PURE__ */ o(async (e, t = {}, r = {}) => {
+  e !== "boot" && await fr();
   let n = {
     eventType: e,
     payload: t
   };
   try {
-    r?.stripMetadata || (n.metadata = await wi(r?.configDir));
+    r?.stripMetadata || (n.metadata = await vi(r?.configDir));
   } catch (i) {
     n.payload.metadataErrorMessage = ue(i).message, r?.enableCrashReports && (n.payload.metadataError = ue(i));
   } finally {
     let { error: i } = n.payload;
-    i && (n.payload.error = ue(i)), (!n.payload.error || r?.enableCrashReports) && (process.env?.STORYBOOK_TELEMETRY_DEBUG && (ji.info(`
-[telemetry]`), ji.info(JSON.stringify(n, null, 2))), await Gi(n, r));
+    i && (n.payload.error = ue(i)), (!n.payload.error || r?.enableCrashReports) && (process.env?.STORYBOOK_TELEMETRY_DEBUG && (Ni.info(`
+[telemetry]`), Ni.info(JSON.stringify(n, null, 2))), await ji(n, r));
   }
 }, "telemetry");
 export {
-  bl as addToGlobalContext,
-  rl as computeStorybookMetadata,
-  ml as getPrecedingUpgrade,
-  wi as getStorybookMetadata,
-  sg as isExampleStoryId,
-  xi as metaFrameworks,
-  er as oneWayHash,
-  Si as sanitizeAddonName,
-  ag as telemetry
+  Sl as addToGlobalContext,
+  nl as computeStorybookMetadata,
+  yl as getPrecedingUpgrade,
+  vi as getStorybookMetadata,
+  fg as isExampleStoryId,
+  Si as metaFrameworks,
+  tr as oneWayHash,
+  wi as sanitizeAddonName,
+  dg as telemetry
 };

@@ -3,7 +3,7 @@ var ur = Object.defineProperty;
 var Dn = Object.getOwnPropertyDescriptor;
 var kn = Object.getOwnPropertyNames;
 var jn = Object.getPrototypeOf, Mn = Object.prototype.hasOwnProperty;
-var s = (r, e) => ur(r, "name", { value: e, configurable: !0 }), xe = /* @__PURE__ */ ((r) => typeof require < "u" ? require : typeof Proxy <
+var s = (r, e) => ur(r, "name", { value: e, configurable: !0 }), Re = /* @__PURE__ */ ((r) => typeof require < "u" ? require : typeof Proxy <
 "u" ? new Proxy(r, {
   get: (e, t) => (typeof require < "u" ? require : e)[t]
 }) : r)(function(r) {
@@ -43,7 +43,7 @@ var Ir = O((Kt, Fr) => {
       function l(p, u) {
         if (!i[p]) {
           if (!n[p]) {
-            var m = typeof xe == "function" && xe;
+            var m = typeof Re == "function" && Re;
             if (!u && m) return m(p, !0);
             if (c) return c(p, !0);
             var h = new Error("Cannot find module '" + p + "'");
@@ -58,7 +58,7 @@ var Ir = O((Kt, Fr) => {
         return i[p].exports;
       }
       s(l, "s");
-      for (var c = typeof xe == "function" && xe, d = 0; d < a.length; d++) l(a[d]);
+      for (var c = typeof Re == "function" && Re, d = 0; d < a.length; d++) l(a[d]);
       return l;
     }, "e"))({ 1: [function(o, n, i) {
       n.exports = function(a) {
@@ -872,27 +872,27 @@ var qo = O((W) => {
     if (typeof r != "string")
       return u;
     let m = r.length, h = "", b = -1, y = -1, S = -1, x = u, f, g = "", R = "", T = !1, E = !1, C = !1, A = !1, j = !1, Z = !1, Le = !1, V = 0,
-    be = -1, Se = -1, bt = -1;
+    Se = -1, Te = -1, bt = -1;
     for (let I = 0; I < m + 1; I++) {
       if (V = I !== m ? r.charCodeAt(I) : d, V === d) {
-        if (Le = y > b, Le || (y = I), S !== y - 1 && (R = rr(r, S + 1, be > -1 ? be : y, C, T), g = o(R), f !== void 0 && (x = (0, er.getDeepObject)(
+        if (Le = y > b, Le || (y = I), S !== y - 1 && (R = rr(r, S + 1, Se > -1 ? Se : y, C, T), g = o(R), f !== void 0 && (x = (0, er.getDeepObject)(
         x, f, g, p && j, p && Z))), Le || g !== "") {
           Le && (h = r.slice(y + 1, I), A && (h = h.replace(Lo, " ")), E && (h = (0, _o.default)(h) || h));
-          let Te = t(h, g);
+          let xe = t(h, g);
           if (a) {
             let Ne = x[g];
-            Ne === void 0 ? be > -1 ? x[g] = [Te] : x[g] = Te : Ne.pop ? Ne.push(Te) : x[g] = [Ne, Te];
+            Ne === void 0 ? Se > -1 ? x[g] = [xe] : x[g] = xe : Ne.pop ? Ne.push(xe) : x[g] = [Ne, xe];
           } else
-            x[g] = Te;
+            x[g] = xe;
         }
-        h = "", b = I, y = I, T = !1, E = !1, C = !1, A = !1, j = !1, Z = !1, be = -1, S = I, x = u, f = void 0, g = "";
-      } else V === 93 ? (a && n === "bracket" && bt === 91 && (be = Se), i && (l === "index" || p) && y <= b && (S !== Se && (R = rr(r, S + 1,
+        h = "", b = I, y = I, T = !1, E = !1, C = !1, A = !1, j = !1, Z = !1, Se = -1, S = I, x = u, f = void 0, g = "";
+      } else V === 93 ? (a && n === "bracket" && bt === 91 && (Se = Te), i && (l === "index" || p) && y <= b && (S !== Te && (R = rr(r, S + 1,
       I, C, T), g = o(R), f !== void 0 && (x = (0, er.getDeepObject)(x, f, g, void 0, p)), f = g, C = !1, T = !1), S = I, Z = !0, j = !1)) :
-      V === 46 ? i && (l === "dot" || p) && y <= b && (S !== Se && (R = rr(r, S + 1, I, C, T), g = o(R), f !== void 0 && (x = (0, er.getDeepObject)(
-      x, f, g, p)), f = g, C = !1, T = !1), j = !0, Z = !1, S = I) : V === 91 ? i && (l === "index" || p) && y <= b && (S !== Se && (R = rr(
+      V === 46 ? i && (l === "dot" || p) && y <= b && (S !== Te && (R = rr(r, S + 1, I, C, T), g = o(R), f !== void 0 && (x = (0, er.getDeepObject)(
+      x, f, g, p)), f = g, C = !1, T = !1), j = !0, Z = !1, S = I) : V === 91 ? i && (l === "index" || p) && y <= b && (S !== Te && (R = rr(
       r, S + 1, I, C, T), g = o(R), p && f !== void 0 && (x = (0, er.getDeepObject)(x, f, g, p)), f = g, C = !1, T = !1, j = !1, Z = !0), S =
       I) : V === 61 ? y <= b ? y = I : E = !0 : V === 43 ? y > b ? A = !0 : C = !0 : V === 37 && (y > b ? E = !0 : T = !0);
-      Se = I, bt = V;
+      Te = I, bt = V;
     }
     return u;
   }
@@ -1921,7 +1921,7 @@ s(Nn, "getAddonsStore");
 var q = Nn();
 
 // src/preview-api/modules/addons/hooks.ts
-import { logger as Re } from "@storybook/core/client-logger";
+import { logger as we } from "@storybook/core/client-logger";
 import {
   FORCE_RE_RENDER as qn,
   RESET_STORY_ARGS as Bn,
@@ -2028,7 +2028,7 @@ s(Tr, "getHooksContextOrThrow");
 function Hn(r, e, t) {
   let o = Tr();
   if (o.currentPhase === "MOUNT") {
-    t != null && !Array.isArray(t) && Re.warn(
+    t != null && !Array.isArray(t) && we.warn(
       `${r} received a final argument that is not an array (instead, received ${t}). When specified, the final argument must be an array.`
     );
     let n = { name: r, deps: t };
@@ -2038,13 +2038,13 @@ function Hn(r, e, t) {
     let n = o.getNextHook();
     if (n == null)
       throw new Error("Rendered more hooks than during the previous render.");
-    return n.name !== r && Re.warn(
+    return n.name !== r && we.warn(
       `Storybook has detected a change in the order of Hooks${o.currentDecoratorName ? ` called by ${o.currentDecoratorName}` : ""}. This wi\
 ll lead to bugs and errors if not fixed.`
-    ), t != null && n.deps == null && Re.warn(
+    ), t != null && n.deps == null && we.warn(
       `${r} received a final argument during this render, but not during the previous render. Even though the final argument is optional, it\
 s type cannot change between renders.`
-    ), t != null && n.deps != null && t.length !== n.deps.length && Re.warn(`The final argument passed to ${r} changed size between renders.\
+    ), t != null && n.deps != null && t.length !== n.deps.length && we.warn(`The final argument passed to ${r} changed size between renders.\
  The order and size of this array must remain constant.
 Previous: ${n.deps}
 Incoming: ${t}`), (t == null || n.deps == null || !Un(t, n.deps)) && (e(n), n.deps = t), n;
@@ -2067,10 +2067,10 @@ function Wn(r, e) {
   return qe("useMemo", r, e);
 }
 s(Wn, "useMemo");
-function we(r, e) {
+function Ee(r, e) {
   return qe("useCallback", () => r, e);
 }
-s(we, "useCallback");
+s(Ee, "useCallback");
 function Rt(r, e) {
   return qe(r, () => ({ current: e }), []);
 }
@@ -2087,7 +2087,7 @@ function Yn() {
     try {
       q.getChannel().emit(qn);
     } catch {
-      Re.warn("State updates of Storybook preview hooks work only in browser");
+      we.warn("State updates of Storybook preview hooks work only in browser");
     }
 }
 s(Yn, "triggerUpdate");
@@ -2122,7 +2122,7 @@ function Jn(r, e = []) {
     Object.entries(r).forEach(
       ([o, n]) => t.removeListener(o, n)
     );
-  }), [...Object.keys(r), ...e]), we(t.emit.bind(t), [t]);
+  }), [...Object.keys(r), ...e]), Ee(t.emit.bind(t), [t]);
 }
 s(Jn, "useChannel");
 function Be() {
@@ -2139,10 +2139,10 @@ function Qn(r, e) {
 }
 s(Qn, "useParameter");
 function Zn() {
-  let r = q.getChannel(), { id: e, args: t } = Be(), o = we(
+  let r = q.getChannel(), { id: e, args: t } = Be(), o = Ee(
     (i) => r.emit(Gn, { storyId: e, updatedArgs: i }),
     [r, e]
-  ), n = we(
+  ), n = Ee(
     (i) => r.emit(Bn, { storyId: e, argNames: i }),
     [r, e]
   );
@@ -2150,7 +2150,7 @@ function Zn() {
 }
 s(Zn, "useArgs");
 function es() {
-  let r = q.getChannel(), { globals: e } = Be(), t = we(
+  let r = q.getChannel(), { globals: e } = Be(), t = Ee(
     (o) => r.emit(zn, { globals: o }),
     [r]
   );
@@ -2459,12 +2459,12 @@ var de = Symbol("incompatible"), Dr = /* @__PURE__ */ s((r, e) => {
     return t;
   let i = Dr(n, e[o]);
   return i === de ? t : Object.assign(t, { [o]: i });
-}, {}), "mapArgsToTypes"), Ee = /* @__PURE__ */ s((r, e) => Array.isArray(r) && Array.isArray(e) ? e.reduce(
-  (t, o, n) => (t[n] = Ee(r[n], e[n]), t),
+}, {}), "mapArgsToTypes"), Ae = /* @__PURE__ */ s((r, e) => Array.isArray(r) && Array.isArray(e) ? e.reduce(
+  (t, o, n) => (t[n] = Ae(r[n], e[n]), t),
   [...r]
 ).filter((t) => t !== void 0) : !k(r) || !k(e) ? e : Object.keys({ ...r, ...e }).reduce((t, o) => {
   if (o in e) {
-    let n = Ee(r[o], e[o]);
+    let n = Ae(r[o], e[o]);
     n !== void 0 && (t[o] = n);
   } else
     t[o] = r[o];
@@ -2546,7 +2546,7 @@ var jr = class jr {
   }
   updateFromDelta(e, t) {
     let o = Jt(t, e.argTypes);
-    this.argsByStoryId[e.id] = Ee(this.argsByStoryId[e.id], o);
+    this.argsByStoryId[e.id] = Ae(this.argsByStoryId[e.id], o);
   }
   updateFromPersisted(e, t) {
     let o = Xt(t, e.argTypes);
@@ -2662,7 +2662,7 @@ CSF .story annotations deprecated; annotate story functions directly:
 - StoryFn.story.(parameters|decorators) => StoryFn.(parameters|decorators)
 See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#hoisted-csf-annotations for details and codemod.
 `;
-function Ae(r, e, t) {
+function ve(r, e, t) {
   let o = e, n = typeof e == "function" ? e : null, { story: i } = o;
   i && (us.debug("deprecated story", i), ps(fs));
   let a = cs(r), l = typeof o != "function" && o.name || o.storyName || i?.name || a, c = [
@@ -2690,7 +2690,7 @@ function Ae(r, e, t) {
     ...y && { play: y }
   };
 }
-s(Ae, "normalizeStory");
+s(ve, "normalizeStory");
 
 // src/preview-api/modules/store/csf/processCSFFile.ts
 import { isExportStory as ms } from "@storybook/csf";
@@ -2739,7 +2739,7 @@ function to(r, e, t) {
   let l = { meta: a, stories: {}, moduleExports: r };
   return Object.keys(i).forEach((c) => {
     if (ms(c, a)) {
-      let d = Ae(c, i[c], a);
+      let d = ve(c, i[c], a);
       eo(d.parameters), l.stories[d.id] = d;
     }
   }), l;
@@ -2832,7 +2832,7 @@ var M = /* @__PURE__ */ s((...r) => {
 }, "combineParameters");
 
 // src/preview-api/modules/store/csf/prepareStory.ts
-function ve(r, e, t) {
+function Ce(r, e, t) {
   let { moduleExport: o, id: n, name: i } = r || {}, a = ao(
     r,
     e,
@@ -2895,7 +2895,7 @@ function ve(r, e, t) {
     usesMount: x
   };
 }
-s(ve, "prepareStory");
+s(Ce, "prepareStory");
 function Nr(r, e, t) {
   return {
     ...ao(void 0, r, e),
@@ -3078,7 +3078,7 @@ var Es = /* @__PURE__ */ s((r, e, t) => {
         return { control: { type: n ? "select" : "object" } };
     }
   }
-}, "inferControl"), Ce = /* @__PURE__ */ s((r) => {
+}, "inferControl"), Pe = /* @__PURE__ */ s((r) => {
   let {
     argTypes: e,
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -3089,10 +3089,10 @@ var Es = /* @__PURE__ */ s((r, e, t) => {
   let a = Ye(e, o, n), l = L(a, (c, d) => c?.type && Es(c, d.toString(), i));
   return M(l, a);
 }, "inferControls");
-Ce.secondPass = !0;
+Pe.secondPass = !0;
 
 // src/preview-api/modules/store/csf/normalizeProjectAnnotations.ts
-function Pe({
+function Fe({
   argTypes: r,
   globalTypes: e,
   argTypesEnhancers: t,
@@ -3121,13 +3121,13 @@ function Pe({
       // and so should be added by a preset there. However, as it seems some code relies on controls
       // annotations (in particular the angular implementation's `cleanArgsDecorator`), for backwards
       // compatibility reasons, we will leave this in the store until 7.0
-      Ce
+      Pe
     ],
     initialGlobals: M(l, a),
     ...c
   };
 }
-s(Pe, "normalizeProjectAnnotations");
+s(Fe, "normalizeProjectAnnotations");
 
 // src/preview-api/modules/store/csf/beforeAll.ts
 var co = /* @__PURE__ */ s((r) => async () => {
@@ -3154,42 +3154,42 @@ function zr(r) {
 s(zr, "composeStepRunners");
 
 // src/preview-api/modules/store/csf/composeConfigs.ts
-function Ie(r, e) {
+function Oe(r, e) {
   return r.map((t) => t.default?.[e] ?? t[e]).filter(Boolean);
 }
-s(Ie, "getField");
+s(Oe, "getField");
 function oe(r, e, t = {}) {
-  return Ie(r, e).reduce((o, n) => {
+  return Oe(r, e).reduce((o, n) => {
     let i = P(n);
     return t.reverseFileOrder ? [...i, ...o] : [...o, ...i];
   }, []);
 }
 s(oe, "getArrayField");
-function Fe(r, e) {
-  return Object.assign({}, ...Ie(r, e));
+function Ie(r, e) {
+  return Object.assign({}, ...Oe(r, e));
 }
-s(Fe, "getObjectField");
+s(Ie, "getObjectField");
 function ue(r, e) {
-  return Ie(r, e).pop();
+  return Oe(r, e).pop();
 }
 s(ue, "getSingletonField");
-function Oe(r) {
-  let e = oe(r, "argTypesEnhancers"), t = Ie(r, "runStep"), o = oe(r, "beforeAll");
+function fe(r) {
+  let e = oe(r, "argTypesEnhancers"), t = Oe(r, "runStep"), o = oe(r, "beforeAll");
   return {
-    parameters: M(...Ie(r, "parameters")),
+    parameters: M(...Oe(r, "parameters")),
     decorators: oe(r, "decorators", {
       reverseFileOrder: !(v.FEATURES?.legacyDecoratorFileOrder ?? !1)
     }),
-    args: Fe(r, "args"),
+    args: Ie(r, "args"),
     argsEnhancers: oe(r, "argsEnhancers"),
-    argTypes: Fe(r, "argTypes"),
+    argTypes: Ie(r, "argTypes"),
     argTypesEnhancers: [
       ...e.filter((n) => !n.secondPass),
       ...e.filter((n) => n.secondPass)
     ],
-    globals: Fe(r, "globals"),
-    initialGlobals: Fe(r, "initialGlobals"),
-    globalTypes: Fe(r, "globalTypes"),
+    globals: Ie(r, "globals"),
+    initialGlobals: Ie(r, "initialGlobals"),
+    globalTypes: Ie(r, "globalTypes"),
     loaders: oe(r, "loaders"),
     beforeAll: co(o),
     beforeEach: oe(r, "beforeEach"),
@@ -3204,7 +3204,7 @@ function Oe(r) {
     testingLibraryRender: ue(r, "testingLibraryRender")
   };
 }
-s(Oe, "composeConfigs");
+s(fe, "composeConfigs");
 
 // src/preview-api/modules/store/csf/portable-stories.ts
 import { isExportStory as vs } from "@storybook/csf";
@@ -3215,12 +3215,12 @@ function Ps(r) {
 s(Ps, "setDefaultProjectAnnotations");
 var Fs = "ComposedStory", Is = "Unnamed Story";
 function Os(r) {
-  return r ? "default" in r ? r.default : r : {};
+  return r ? fe([r]) : {};
 }
 s(Os, "extractAnnotation");
 function Ds(r) {
   let e = Array.isArray(r) ? r : [r];
-  return globalThis.globalProjectAnnotations = Oe(e.map(Os)), Oe([
+  return globalThis.globalProjectAnnotations = fe(e.map(Os)), fe([
     globalThis.defaultProjectAnnotations ?? {},
     globalThis.globalProjectAnnotations ?? {}
   ]);
@@ -3231,17 +3231,17 @@ function po(r, e, t, o, n) {
   if (r === void 0)
     throw new Error("Expected a story but received undefined.");
   e.title = e.title ?? Fs;
-  let i = We(e), a = n || r.storyName || r.story?.name || r.name || Is, l = Ae(
+  let i = We(e), a = n || r.storyName || r.story?.name || r.name || Is, l = ve(
     a,
     r,
     i
-  ), c = Pe(
-    Oe([
+  ), c = Fe(
+    fe([
       o && Object.keys(o).length > 0 ? o : globalThis.defaultProjectAnnotations ?? {},
       globalThis.globalProjectAnnotations ?? {},
       t ?? {}
     ])
-  ), d = ve(
+  ), d = Ce(
     l,
     i,
     c
@@ -3425,13 +3425,13 @@ var yo = 1e3, qs = 1e4, Gr = class Gr {
         })
       };
     }, "getStoriesJsonData");
-    this.storyIndex = new He(e), this.projectAnnotations = Pe(o);
+    this.storyIndex = new He(e), this.projectAnnotations = Fe(o);
     let { initialGlobals: n, globalTypes: i } = this.projectAnnotations;
     this.args = new Ge(), this.userGlobals = new Ue({ globals: n, globalTypes: i }), this.hooks = {}, this.cleanupCallbacks = {}, this.processCSFFileWithCache =
-    (0, Ke.default)(yo)(to), this.prepareMetaWithCache = (0, Ke.default)(yo)(Nr), this.prepareStoryWithCache = (0, Ke.default)(qs)(ve);
+    (0, Ke.default)(yo)(to), this.prepareMetaWithCache = (0, Ke.default)(yo)(Nr), this.prepareStoryWithCache = (0, Ke.default)(qs)(Ce);
   }
   setProjectAnnotations(e) {
-    this.projectAnnotations = Pe(e);
+    this.projectAnnotations = Fe(e);
     let { initialGlobals: t, globalTypes: o } = e;
     this.userGlobals.set({ globals: t, globalTypes: o });
   }
@@ -3613,7 +3613,7 @@ var yo = 1e3, qs = 1e4, Gr = class Gr {
   }
 };
 s(Gr, "StoryStore");
-var fe = Gr;
+var ye = Gr;
 
 // src/preview-api/modules/store/autoTitle.ts
 import { once as Bs } from "@storybook/core/client-logger";
@@ -4042,7 +4042,7 @@ var { fetch: di } = v, pi = "./index.json", Hr = class Hr {
   initializeWithStoryIndex(e) {
     if (!this.projectAnnotationsBeforeInitialization)
       throw new Error("Cannot call initializeWithStoryIndex until project annotations resolve");
-    this.storyStoreValue = new fe(
+    this.storyStoreValue = new ye(
       e,
       this.importFn,
       this.projectAnnotationsBeforeInitialization
@@ -4224,7 +4224,7 @@ var { fetch: di } = v, pi = "./index.json", Hr = class Hr {
   }
 };
 s(Hr, "Preview");
-var ye = Hr;
+var me = Hr;
 
 // src/preview-api/modules/preview-web/PreviewWithSelection.tsx
 import { logger as Je } from "@storybook/core/client-logger";
@@ -4564,7 +4564,7 @@ function ji(r) {
   return ki(r) && r.subtype === "csf";
 }
 s(ji, "isCsfDocsRender");
-var Qr = class Qr extends ye {
+var Qr = class Qr extends me {
   constructor(t, o, n, i) {
     super(t, o, void 0, !1);
     this.importFn = t;
@@ -4795,7 +4795,7 @@ rored", storyId: t }), this.view.showErrorDisplay({
   }
 };
 s(Qr, "PreviewWithSelection");
-var me = Qr;
+var he = Qr;
 
 // src/preview-api/modules/preview-web/UrlStore.ts
 var Me = ce(tr(), 1);
@@ -4904,7 +4904,7 @@ string" ? it(e.globals) : void 0, n = je(e.viewMode);
   }
 };
 s(at, "UrlStore");
-var he = at;
+var ge = at;
 
 // src/preview-api/modules/preview-web/WebView.ts
 var An = ce(Rn(), 1), vn = ce(tr(), 1);
@@ -5012,12 +5012,12 @@ RING_DOCS"), wn);
   }
 };
 s(ht, "WebView");
-var ge = ht;
+var be = ht;
 
 // src/preview-api/modules/preview-web/PreviewWeb.tsx
-var gt = class gt extends me {
+var gt = class gt extends he {
   constructor(t, o) {
-    super(t, o, new he(), new ge());
+    super(t, o, new ge(), new be());
     this.importFn = t;
     this.getProjectAnnotations = o;
     v.__STORYBOOK_PREVIEW__ = this;
@@ -5081,17 +5081,17 @@ s(In, "simulatePageLoad");
 export {
   K as DocsContext,
   ee as HooksContext,
-  ye as Preview,
+  me as Preview,
   dr as PreviewWeb,
-  me as PreviewWithSelection,
-  fe as StoryStore,
-  he as UrlStore,
-  ge as WebView,
+  he as PreviewWithSelection,
+  ye as StoryStore,
+  ge as UrlStore,
+  be as WebView,
   q as addons,
   br as applyHooks,
-  Ee as combineArgs,
+  Ae as combineArgs,
   M as combineParameters,
-  Oe as composeConfigs,
+  fe as composeConfigs,
   zr as composeStepRunners,
   js as composeStories,
   po as composeStory,
@@ -5099,12 +5099,12 @@ export {
   so as decorateStory,
   Lr as defaultDecorateStory,
   Ye as filterArgTypes,
-  Ce as inferControls,
+  Pe as inferControls,
   rs as makeDecorator,
   fr as mockChannel,
-  Ae as normalizeStory,
+  ve as normalizeStory,
   Nr as prepareMeta,
-  ve as prepareStory,
+  Ce as prepareStory,
   io as sanitizeStoryContextUpdate,
   Ps as setDefaultProjectAnnotations,
   Ds as setProjectAnnotations,
@@ -5112,7 +5112,7 @@ export {
   In as simulatePageLoad,
   Us as sortStoriesV7,
   Zn as useArgs,
-  we as useCallback,
+  Ee as useCallback,
   Jn as useChannel,
   Et as useEffect,
   es as useGlobals,

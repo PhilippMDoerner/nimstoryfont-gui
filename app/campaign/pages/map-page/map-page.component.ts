@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { MapComponent } from 'src/app/design/templates/map/map.component';
 import { GlobalStore } from 'src/app/global.store';
-import { MapComponent } from 'src/design/templates/map/map.component';
 import { environment } from 'src/environments/environment';
 import { MapPageStore } from './map-page.store';
 
@@ -11,7 +11,6 @@ import { MapPageStore } from './map-page.store';
   templateUrl: './map-page.component.html',
   styleUrls: ['./map-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  standalone: true,
   imports: [MapComponent],
 })
 export class MapPageComponent {

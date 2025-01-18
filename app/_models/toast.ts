@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ElementKind } from 'src/design/atoms/_models/button';
-import { Icon } from 'src/design/atoms/_models/icon';
+import { ElementKind } from 'src/app/design/atoms/_models/button';
+import { Icon } from 'src/app/design/atoms/_models/icon';
 import { copyToClipboard } from 'src/utils/clipboard';
 
 export type ToastButton = {

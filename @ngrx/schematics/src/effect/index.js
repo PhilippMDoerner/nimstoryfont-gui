@@ -37,7 +37,8 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
 var ts = require("typescript");
 var schematics_1 = require("@angular-devkit/schematics");
 var schematics_core_1 = require("../../schematics-core");
@@ -84,7 +85,7 @@ function addImportToNgModule(options) {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (changes_1_1 && !changes_1_1.done && (_a = changes_1["return"])) _a.call(changes_1);
+                if (changes_1_1 && !changes_1_1.done && (_a = changes_1.return)) _a.call(changes_1);
             }
             finally { if (e_1) throw e_1.error; }
         }
@@ -96,18 +97,18 @@ function getEffectStart(name, effectPrefix) {
     var effectName = schematics_core_1.stringUtils.classify(name);
     var effectMethodPrefix = schematics_core_1.stringUtils.camelize(effectPrefix);
     return ("".concat(effectMethodPrefix).concat(effectName, "s$ = createEffect(() => {") +
-        '\n    return this.actions$.pipe( \n');
+        '\n    return this.actions$.pipe(\n');
 }
 function default_1(options) {
     return function (host, context) {
         options.path = (0, schematics_core_1.getProjectPath)(host, options);
+        var parsedPath = (0, schematics_core_1.parseName)(options.path, options.name || '');
+        options.name = parsedPath.name;
+        options.path = parsedPath.path;
         options.prefix = (0, schematics_core_1.getPrefix)(options);
         if (options.module) {
             options.module = (0, schematics_core_1.findModuleFromOptions)(host, options);
         }
-        var parsedPath = (0, schematics_core_1.parseName)(options.path, options.name || '');
-        options.name = parsedPath.name;
-        options.path = parsedPath.path;
         var templateSource = (0, schematics_1.apply)((0, schematics_1.url)('./files'), [
             options.skipTests
                 ? (0, schematics_1.filter)(function (path) { return !path.endsWith('.spec.ts.template'); })
@@ -123,5 +124,4 @@ function default_1(options) {
         ])(host, context);
     };
 }
-exports["default"] = default_1;
 //# sourceMappingURL=index.js.map

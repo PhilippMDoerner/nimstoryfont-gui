@@ -9,7 +9,7 @@ import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { filter, map, mergeMap, retry, take, tap } from 'rxjs/operators';
-import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
+import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
 import { log } from 'src/utils/logging';
 import { ToastConfig } from '../_models/toast';

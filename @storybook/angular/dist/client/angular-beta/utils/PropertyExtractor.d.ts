@@ -24,7 +24,7 @@ export declare class PropertyExtractor implements NgModuleMetadata {
     static analyzeRestricted: (ngModule: NgModule) => [boolean] | [boolean, Provider];
     static analyzeDecorators: (component: any) => {
         isDeclarable: boolean;
-        isStandalone: boolean;
+        isStandalone: any;
     };
     static isDecoratorInstanceOf: (decorator: any, name: string) => boolean;
 }

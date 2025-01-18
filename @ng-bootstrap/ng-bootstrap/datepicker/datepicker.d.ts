@@ -161,7 +161,7 @@ export declare class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, 
     dayTemplateData: (date: NgbDateStruct, current?: {
         year: number;
         month: number;
-    } | undefined) => any;
+    }) => any;
     /**
      * The number of months to display.
      */
@@ -188,7 +188,7 @@ export declare class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, 
     markDisabled: (date: NgbDateStruct, current?: {
         year: number;
         month: number;
-    } | undefined) => boolean;
+    }) => boolean;
     /**
      * The latest date that can be displayed or selected.
      *
@@ -208,7 +208,7 @@ export declare class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, 
      * * `"arrows"` - only navigation arrows
      * * `"none"` - no navigation visible at all
      */
-    navigation: "select" | "none" | "arrows";
+    navigation: "none" | "select" | "arrows";
     /**
      * The way of displaying days that don't belong to the current month.
      *
@@ -218,7 +218,7 @@ export declare class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, 
      *
      * For the 2+ months view, days in between months are never shown.
      */
-    outsideDays: "visible" | "collapsed" | "hidden";
+    outsideDays: "hidden" | "visible" | "collapsed";
     /**
      * If `true`, week numbers will be displayed.
      */
@@ -234,7 +234,7 @@ export declare class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, 
     startDate: {
         year: number;
         month: number;
-        day?: number | undefined;
+        day?: number;
     };
     /**
      * The way weekdays should be displayed.
@@ -245,7 +245,7 @@ export declare class NgbDatepicker implements AfterViewInit, OnChanges, OnInit, 
      *
      * @since 9.1.0
      */
-    weekdays: boolean | "narrow" | "long" | "short";
+    weekdays: boolean | "short" | "narrow" | "long";
     /**
      * An event emitted right before the navigation happens and displayed month changes.
      *

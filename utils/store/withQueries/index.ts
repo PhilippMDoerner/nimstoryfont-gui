@@ -11,7 +11,7 @@ import { AllNewProperties, withQueriesState } from './withQueryState';
 
 // The types below are useless as `AllNewMethods` and `AllNewProperties` inside them get evaluated to unknown
 export type QueriesFeatureResult<Queries extends RequestMap> = {
-  computed: {};
+  props: {};
   methods: MethodsDictionary & AllNewMethods<Queries>;
   state: {} & AllNewProperties<Queries>;
 };
@@ -19,7 +19,7 @@ export type QueriesFeatureResult<Queries extends RequestMap> = {
 export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
   Input['state']
 > &
-  Input['computed'] &
+  Input['props'] &
   Input['methods'] &
   WritableStateSource<Input['state']>;
 
@@ -32,7 +32,7 @@ export function withQueries<
   return ((store) => {
     const queries = queriesFactory({
       ...store.stateSignals,
-      ...store.computedSignals,
+      ...store.props,
       ...store.methods,
     } as InnerStore<Input>);
 

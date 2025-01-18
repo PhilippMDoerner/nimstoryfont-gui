@@ -37,8 +37,10 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-exports.__esModule = true;
-exports.addComponentStoreProviderToComponent = exports.addComponentStoreProviderToNgModule = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.addComponentStoreProviderToNgModule = addComponentStoreProviderToNgModule;
+exports.addComponentStoreProviderToComponent = addComponentStoreProviderToComponent;
+exports.default = default_1;
 var schematics_1 = require("@angular-devkit/schematics");
 var ts = require("typescript");
 var schematics_core_1 = require("../../schematics-core");
@@ -51,7 +53,7 @@ function createProvidingContext(options, providingPath) {
     var componentStoreRelativePath = (0, schematics_core_1.buildRelativePath)(providingPath, componentStorePath);
     return {
         componentStoreRelativePath: componentStoreRelativePath,
-        componentStoreName: componentStoreName
+        componentStoreName: componentStoreName,
     };
 }
 /**
@@ -89,7 +91,7 @@ function addComponentStoreProviderToNgModule(options) {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (changes_1_1 && !changes_1_1.done && (_a = changes_1["return"])) _a.call(changes_1);
+                if (changes_1_1 && !changes_1_1.done && (_a = changes_1.return)) _a.call(changes_1);
             }
             finally { if (e_1) throw e_1.error; }
         }
@@ -97,7 +99,6 @@ function addComponentStoreProviderToNgModule(options) {
         return host;
     };
 }
-exports.addComponentStoreProviderToNgModule = addComponentStoreProviderToNgModule;
 /**
  * Add component store to Component
  */
@@ -133,7 +134,7 @@ function addComponentStoreProviderToComponent(options) {
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
         finally {
             try {
-                if (changes_2_1 && !changes_2_1.done && (_a = changes_2["return"])) _a.call(changes_2);
+                if (changes_2_1 && !changes_2_1.done && (_a = changes_2.return)) _a.call(changes_2);
             }
             finally { if (e_2) throw e_2.error; }
         }
@@ -141,7 +142,6 @@ function addComponentStoreProviderToComponent(options) {
         return host;
     };
 }
-exports.addComponentStoreProviderToComponent = addComponentStoreProviderToComponent;
 function default_1(options) {
     return function (host, context) {
         options.path = (0, schematics_core_1.getProjectPath)(host, options);
@@ -170,5 +170,4 @@ function default_1(options) {
         ])(host, context);
     };
 }
-exports["default"] = default_1;
 //# sourceMappingURL=index.js.map

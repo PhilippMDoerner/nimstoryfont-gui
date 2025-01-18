@@ -1,5 +1,5 @@
 import * as i0 from '@angular/core';
-import { untracked, isSignal, computed, assertInInjectionContext, inject, Injector, DestroyRef, signal, Injectable } from '@angular/core';
+import { untracked, isSignal, computed, assertInInjectionContext, inject, Injector, effect, DestroyRef, signal, Injectable } from '@angular/core';
 
 function toDeepSignal(signal) {
     const value = untracked(() => signal());
@@ -21,18 +21,112 @@ function toDeepSignal(signal) {
         },
     });
 }
+const nonRecords = [
+    WeakSet,
+    WeakMap,
+    Promise,
+    Date,
+    Error,
+    RegExp,
+    ArrayBuffer,
+    DataView,
+    Function,
+];
 function isRecord(value) {
-    return value?.constructor === Object;
+    if (value === null || typeof value !== 'object' || isIterable(value)) {
+        return false;
+    }
+    let proto = Object.getPrototypeOf(value);
+    if (proto === Object.prototype) {
+        return true;
+    }
+    while (proto && proto !== Object.prototype) {
+        if (nonRecords.includes(proto.constructor)) {
+            return false;
+        }
+        proto = Object.getPrototypeOf(proto);
+    }
+    return proto === Object.prototype;
+}
+function isIterable(value) {
+    return typeof value?.[Symbol.iterator] === 'function';
 }
 
 function deepComputed(computation) {
     return toDeepSignal(computed(computation));
 }
 
+function signalMethod(processingFn, config) {
+    if (!config?.injector) {
+        assertInInjectionContext(signalMethod);
+    }
+    const watchers = [];
+    const sourceInjector = config?.injector ?? inject(Injector);
+    const signalMethodFn = (input, config) => {
+        if (isSignal(input)) {
+            const instanceInjector = config?.injector ?? getCallerInjector() ?? sourceInjector;
+            const watcher = effect((onCleanup) => {
+                const value = input();
+                untracked(() => processingFn(value));
+                onCleanup(() => watchers.splice(watchers.indexOf(watcher), 1));
+            }, { injector: instanceInjector });
+            watchers.push(watcher);
+            return watcher;
+        }
+        else {
+            processingFn(input);
+            return { destroy: () => void true };
+        }
+    };
+    signalMethodFn.destroy = () => watchers.forEach((watcher) => watcher.destroy());
+    return signalMethodFn;
+}
+function getCallerInjector() {
+    try {
+        return inject(Injector);
+    }
+    catch {
+        return null;
+    }
+}
+
+function deepFreeze(target) {
+    Object.freeze(target);
+    const targetIsFunction = typeof target === 'function';
+    Object.getOwnPropertyNames(target).forEach((prop) => {
+        // Ignore Ivy properties, ref: https://github.com/ngrx/platform/issues/2109#issuecomment-582689060
+        if (prop.startsWith('ɵ')) {
+            return;
+        }
+        if (hasOwnProperty(target, prop) &&
+            (targetIsFunction
+                ? prop !== 'caller' && prop !== 'callee' && prop !== 'arguments'
+                : true)) {
+            const propValue = target[prop];
+            if ((isObjectLike(propValue) || typeof propValue === 'function') &&
+                !Object.isFrozen(propValue)) {
+                deepFreeze(propValue);
+            }
+        }
+    });
+    return target;
+}
+function freezeInDevMode(target) {
+    return ngDevMode ? deepFreeze(target) : target;
+}
+function hasOwnProperty(target, propertyName) {
+    return isObjectLike(target)
+        ? Object.prototype.hasOwnProperty.call(target, propertyName)
+        : false;
+}
+function isObjectLike(target) {
+    return typeof target === 'object' && target !== null;
+}
+
 const STATE_WATCHERS = new WeakMap();
 const STATE_SOURCE = Symbol('STATE_SOURCE');
 function patchState(stateSource, ...updaters) {
-    stateSource[STATE_SOURCE].update((currentState) => updaters.reduce((nextState, updater) => ({
+    stateSource[STATE_SOURCE].update((currentState) => updaters.reduce((nextState, updater) => freezeInDevMode({
         ...nextState,
         ...(typeof updater === 'function' ? updater(nextState) : updater),
     }), currentState));
@@ -73,7 +167,7 @@ function removeWatcher(stateSource, watcher) {
 }
 
 function signalState(initialState) {
-    const stateSource = signal(initialState);
+    const stateSource = signal(freezeInDevMode(initialState));
     const signalState = toDeepSignal(stateSource.asReadonly());
     Object.defineProperty(signalState, STATE_SOURCE, {
         value: stateSource,
@@ -90,8 +184,8 @@ function signalStore(...args) {
     class SignalStore {
         constructor() {
             const innerStore = features.reduce((store, feature) => feature(store), getInitialInnerStore());
-            const { stateSignals, computedSignals, methods, hooks } = innerStore;
-            const storeMembers = { ...stateSignals, ...computedSignals, ...methods };
+            const { stateSignals, props, methods, hooks } = innerStore;
+            const storeMembers = { ...stateSignals, ...props, ...methods };
             this[STATE_SOURCE] = innerStore[STATE_SOURCE];
             for (const key in storeMembers) {
                 this[key] = storeMembers[key];
@@ -104,10 +198,10 @@ function signalStore(...args) {
                 inject(DestroyRef).onDestroy(onDestroy);
             }
         }
-        /** @nocollapse */ static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "18.2.5", ngImport: i0, type: SignalStore, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
-        /** @nocollapse */ static ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "18.2.5", ngImport: i0, type: SignalStore, providedIn: config.providedIn || null });
+        /** @nocollapse */ static ɵfac = i0.ɵɵngDeclareFactory({ minVersion: "12.0.0", version: "19.0.0", ngImport: i0, type: SignalStore, deps: [], target: i0.ɵɵFactoryTarget.Injectable });
+        /** @nocollapse */ static ɵprov = i0.ɵɵngDeclareInjectable({ minVersion: "12.0.0", version: "19.0.0", ngImport: i0, type: SignalStore, providedIn: config.providedIn || null });
     }
-    i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "18.2.5", ngImport: i0, type: SignalStore, decorators: [{
+    i0.ɵɵngDeclareClassMetadata({ minVersion: "12.0.0", version: "19.0.0", ngImport: i0, type: SignalStore, decorators: [{
                 type: Injectable,
                 args: [{ providedIn: config.providedIn || null }]
             }], ctorParameters: () => [] });
@@ -117,7 +211,7 @@ function getInitialInnerStore() {
     return {
         [STATE_SOURCE]: signal({}),
         stateSignals: {},
-        computedSignals: {},
+        props: {},
         methods: {},
         hooks: {},
     };
@@ -139,7 +233,7 @@ function assertUniqueStoreMembers(store, newMemberKeys) {
     }
     const storeMembers = {
         ...store.stateSignals,
-        ...store.computedSignals,
+        ...store.props,
         ...store.methods,
     };
     const overriddenKeys = Object.keys(storeMembers).filter((memberKey) => newMemberKeys.includes(memberKey));
@@ -148,18 +242,24 @@ function assertUniqueStoreMembers(store, newMemberKeys) {
     }
 }
 
-function withComputed(signalsFactory) {
+function withProps(propsFactory) {
     return (store) => {
-        const computedSignals = signalsFactory({
+        const props = propsFactory({
+            [STATE_SOURCE]: store[STATE_SOURCE],
             ...store.stateSignals,
-            ...store.computedSignals,
+            ...store.props,
+            ...store.methods,
         });
-        assertUniqueStoreMembers(store, Object.keys(computedSignals));
+        assertUniqueStoreMembers(store, Object.keys(props));
         return {
             ...store,
-            computedSignals: { ...store.computedSignals, ...computedSignals },
+            props: { ...store.props, ...props },
         };
     };
+}
+
+function withComputed(signalsFactory) {
+    return withProps(signalsFactory);
 }
 
 function withHooks(hooksOrFactory) {
@@ -167,7 +267,7 @@ function withHooks(hooksOrFactory) {
         const storeMembers = {
             [STATE_SOURCE]: store[STATE_SOURCE],
             ...store.stateSignals,
-            ...store.computedSignals,
+            ...store.props,
             ...store.methods,
         };
         const hooks = typeof hooksOrFactory === 'function'
@@ -200,7 +300,7 @@ function withMethods(methodsFactory) {
         const methods = methodsFactory({
             [STATE_SOURCE]: store[STATE_SOURCE],
             ...store.stateSignals,
-            ...store.computedSignals,
+            ...store.props,
             ...store.methods,
         });
         assertUniqueStoreMembers(store, Object.keys(methods));
@@ -216,7 +316,7 @@ function withState(stateOrFactory) {
         const state = typeof stateOrFactory === 'function' ? stateOrFactory() : stateOrFactory;
         const stateKeys = Object.keys(state);
         assertUniqueStoreMembers(store, stateKeys);
-        store[STATE_SOURCE].update((currentState) => ({
+        store[STATE_SOURCE].update((currentState) => freezeInDevMode({
             ...currentState,
             ...state,
         }));
@@ -235,5 +335,5 @@ function withState(stateOrFactory) {
  * Generated bundle index. Do not edit.
  */
 
-export { deepComputed, getState, patchState, signalState, signalStore, signalStoreFeature, type, watchState, withComputed, withHooks, withMethods, withState };
+export { deepComputed, getState, patchState, signalMethod, signalState, signalStore, signalStoreFeature, type, watchState, withComputed, withHooks, withMethods, withProps, withState };
 //# sourceMappingURL=ngrx-signals.mjs.map

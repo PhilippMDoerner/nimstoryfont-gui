@@ -1,11 +1,11 @@
 "use strict";
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g = Object.create((typeof Iterator === "function" ? Iterator : Object).prototype);
+    return g.next = verb(0), g["throw"] = verb(1), g["return"] = verb(2), typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
+        while (g && (g = 0, op[0] && (_ = 0)), _) try {
             if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
             if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
@@ -53,8 +53,19 @@ var __read = (this && this.__read) || function (o, n) {
     }
     return ar;
 };
-exports.__esModule = true;
-exports.visitDecorator = exports.visitNgModules = exports.visitComponents = exports.visitNgModuleExports = exports.visitNgModuleImports = exports.visitTemplates = exports.visitTSSourceFiles = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.visitTSSourceFiles = visitTSSourceFiles;
+exports.visitTemplates = visitTemplates;
+exports.visitNgModuleImports = visitNgModuleImports;
+exports.visitNgModuleExports = visitNgModuleExports;
+exports.visitComponents = visitComponents;
+exports.visitNgModules = visitNgModules;
+exports.visitDecorator = visitDecorator;
+exports.visitImportDeclaration = visitImportDeclaration;
+exports.visitImportSpecifier = visitImportSpecifier;
+exports.visitTypeReference = visitTypeReference;
+exports.visitTypeLiteral = visitTypeLiteral;
+exports.visitCallExpression = visitCallExpression;
 var ts = require("typescript");
 var core_1 = require("@angular-devkit/core");
 function visitTSSourceFiles(tree, visitor) {
@@ -69,13 +80,12 @@ function visitTSSourceFiles(tree, visitor) {
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
-            if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+            if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
         }
         finally { if (e_1) throw e_1.error; }
     }
     return result;
 }
-exports.visitTSSourceFiles = visitTSSourceFiles;
 function visitTemplates(tree, visitor) {
     visitTSSourceFiles(tree, function (source) {
         visitComponents(source, function (_, decoratorExpressionNode) {
@@ -90,7 +100,7 @@ function visitTemplates(tree, visitor) {
                             fileName: source.fileName,
                             content: n.initializer.text,
                             inline: true,
-                            start: templateStartIdx
+                            start: templateStartIdx,
                         }, tree);
                         return;
                     }
@@ -109,7 +119,7 @@ function visitTemplates(tree, visitor) {
                             fileName: templatePath,
                             content: fileContent.toString(),
                             inline: false,
-                            start: 0
+                            start: 0,
                         }, tree);
                         return;
                     }
@@ -119,15 +129,12 @@ function visitTemplates(tree, visitor) {
         });
     });
 }
-exports.visitTemplates = visitTemplates;
 function visitNgModuleImports(sourceFile, callback) {
     visitNgModuleProperty(sourceFile, callback, 'imports');
 }
-exports.visitNgModuleImports = visitNgModuleImports;
 function visitNgModuleExports(sourceFile, callback) {
     visitNgModuleProperty(sourceFile, callback, 'exports');
 }
-exports.visitNgModuleExports = visitNgModuleExports;
 function visitNgModuleProperty(sourceFile, callback, property) {
     visitNgModules(sourceFile, function (_, decoratorExpressionNode) {
         ts.forEachChild(decoratorExpressionNode, function findTemplates(n) {
@@ -145,11 +152,9 @@ function visitNgModuleProperty(sourceFile, callback, property) {
 function visitComponents(sourceFile, callback) {
     visitDecorator(sourceFile, 'Component', callback);
 }
-exports.visitComponents = visitComponents;
 function visitNgModules(sourceFile, callback) {
     visitDecorator(sourceFile, 'NgModule', callback);
 }
-exports.visitNgModules = visitNgModules;
 function visitDecorator(sourceFile, decoratorName, callback) {
     ts.forEachChild(sourceFile, function findClassDeclaration(node) {
         if (!ts.isClassDeclaration(node)) {
@@ -179,10 +184,81 @@ function visitDecorator(sourceFile, decoratorName, callback) {
         callback(classDeclarationNode, arg);
     });
 }
-exports.visitDecorator = visitDecorator;
+function visitImportDeclaration(node, callback) {
+    if (ts.isImportDeclaration(node)) {
+        var moduleSpecifier = node.moduleSpecifier.getText();
+        var moduleName = moduleSpecifier.replaceAll('"', '').replaceAll("'", '');
+        callback(node, moduleName);
+    }
+    ts.forEachChild(node, function (child) {
+        visitImportDeclaration(child, callback);
+    });
+}
+function visitImportSpecifier(node, callback) {
+    var e_2, _a, e_3, _b;
+    var importClause = node.importClause;
+    if (!importClause) {
+        return;
+    }
+    var importClauseChildren = importClause.getChildren();
+    try {
+        for (var importClauseChildren_1 = __values(importClauseChildren), importClauseChildren_1_1 = importClauseChildren_1.next(); !importClauseChildren_1_1.done; importClauseChildren_1_1 = importClauseChildren_1.next()) {
+            var namedImport = importClauseChildren_1_1.value;
+            if (ts.isNamedImports(namedImport)) {
+                var namedImportChildren = namedImport.elements;
+                try {
+                    for (var namedImportChildren_1 = (e_3 = void 0, __values(namedImportChildren)), namedImportChildren_1_1 = namedImportChildren_1.next(); !namedImportChildren_1_1.done; namedImportChildren_1_1 = namedImportChildren_1.next()) {
+                        var importSpecifier = namedImportChildren_1_1.value;
+                        if (ts.isImportSpecifier(importSpecifier)) {
+                            callback(importSpecifier);
+                        }
+                    }
+                }
+                catch (e_3_1) { e_3 = { error: e_3_1 }; }
+                finally {
+                    try {
+                        if (namedImportChildren_1_1 && !namedImportChildren_1_1.done && (_b = namedImportChildren_1.return)) _b.call(namedImportChildren_1);
+                    }
+                    finally { if (e_3) throw e_3.error; }
+                }
+            }
+        }
+    }
+    catch (e_2_1) { e_2 = { error: e_2_1 }; }
+    finally {
+        try {
+            if (importClauseChildren_1_1 && !importClauseChildren_1_1.done && (_a = importClauseChildren_1.return)) _a.call(importClauseChildren_1);
+        }
+        finally { if (e_2) throw e_2.error; }
+    }
+}
+function visitTypeReference(node, callback) {
+    if (ts.isTypeReferenceNode(node)) {
+        callback(node);
+    }
+    ts.forEachChild(node, function (child) {
+        visitTypeReference(child, callback);
+    });
+}
+function visitTypeLiteral(node, callback) {
+    if (ts.isTypeLiteralNode(node)) {
+        callback(node);
+    }
+    ts.forEachChild(node, function (child) {
+        visitTypeLiteral(child, callback);
+    });
+}
+function visitCallExpression(node, callback) {
+    if (ts.isCallExpression(node)) {
+        callback(node);
+    }
+    ts.forEachChild(node, function (child) {
+        visitCallExpression(child, callback);
+    });
+}
 function visit(directory) {
-    var _a, _b, path, entry, content, source, e_2_1, _c, _d, path, e_3_1;
-    var e_2, _e, e_3, _f;
+    var _a, _b, path, entry, content, source, e_4_1, _c, _d, path, e_5_1;
+    var e_4, _e, e_5, _f;
     return __generator(this, function (_g) {
         switch (_g.label) {
             case 0:
@@ -206,14 +282,14 @@ function visit(directory) {
                 return [3 /*break*/, 1];
             case 4: return [3 /*break*/, 7];
             case 5:
-                e_2_1 = _g.sent();
-                e_2 = { error: e_2_1 };
+                e_4_1 = _g.sent();
+                e_4 = { error: e_4_1 };
                 return [3 /*break*/, 7];
             case 6:
                 try {
-                    if (_b && !_b.done && (_e = _a["return"])) _e.call(_a);
+                    if (_b && !_b.done && (_e = _a.return)) _e.call(_a);
                 }
-                finally { if (e_2) throw e_2.error; }
+                finally { if (e_4) throw e_4.error; }
                 return [7 /*endfinally*/];
             case 7:
                 _g.trys.push([7, 12, 13, 14]);
@@ -234,14 +310,14 @@ function visit(directory) {
                 return [3 /*break*/, 8];
             case 11: return [3 /*break*/, 14];
             case 12:
-                e_3_1 = _g.sent();
-                e_3 = { error: e_3_1 };
+                e_5_1 = _g.sent();
+                e_5 = { error: e_5_1 };
                 return [3 /*break*/, 14];
             case 13:
                 try {
-                    if (_d && !_d.done && (_f = _c["return"])) _f.call(_c);
+                    if (_d && !_d.done && (_f = _c.return)) _f.call(_c);
                 }
-                finally { if (e_3) throw e_3.error; }
+                finally { if (e_5) throw e_5.error; }
                 return [7 /*endfinally*/];
             case 14: return [2 /*return*/];
         }

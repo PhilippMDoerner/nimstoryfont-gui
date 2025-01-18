@@ -1,6 +1,6 @@
 "use strict";
-exports.__esModule = true;
-exports.addPackageToPackageJson = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.addPackageToPackageJson = addPackageToPackageJson;
 /**
  * Adds a package to the package.json
  */
@@ -19,5 +19,4 @@ function addPackageToPackageJson(host, type, pkg, version) {
     }
     return host;
 }
-exports.addPackageToPackageJson = addPackageToPackageJson;
 //# sourceMappingURL=package.js.map

@@ -35,8 +35,13 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-exports.__esModule = true;
-exports.getPrefix = exports.omit = exports.addReducerImportToNgModule = exports.addReducerToActionReducerMap = exports.addReducerToStateInterface = exports.addReducerToState = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.addReducerToState = addReducerToState;
+exports.addReducerToStateInterface = addReducerToStateInterface;
+exports.addReducerToActionReducerMap = addReducerToActionReducerMap;
+exports.addReducerImportToNgModule = addReducerImportToNgModule;
+exports.omit = omit;
+exports.getPrefix = getPrefix;
 var ts = require("typescript");
 var stringUtils = require("./strings");
 var change_1 = require("./change");
@@ -82,7 +87,7 @@ function addReducerToState(options) {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (changes_1_1 && !changes_1_1.done && (_a = changes_1["return"])) _a.call(changes_1);
+                if (changes_1_1 && !changes_1_1.done && (_a = changes_1.return)) _a.call(changes_1);
             }
             finally { if (e_1) throw e_1.error; }
         }
@@ -90,7 +95,6 @@ function addReducerToState(options) {
         return host;
     };
 }
-exports.addReducerToState = addReducerToState;
 /**
  * Insert the reducer into the first defined top level interface
  */
@@ -126,7 +130,6 @@ function addReducerToStateInterface(source, reducersPath, options) {
     }
     return new change_1.InsertChange(reducersPath, position, toInsert);
 }
-exports.addReducerToStateInterface = addReducerToStateInterface;
 /**
  * Insert the reducer into the ActionReducerMap
  */
@@ -176,7 +179,6 @@ function addReducerToActionReducerMap(source, reducersPath, options) {
     }
     return new change_1.InsertChange(reducersPath, position, toInsert);
 }
-exports.addReducerToActionReducerMap = addReducerToActionReducerMap;
 /**
  * Add reducer feature to NgModule
  */
@@ -223,7 +225,7 @@ function addReducerImportToNgModule(options) {
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
         finally {
             try {
-                if (changes_2_1 && !changes_2_1.done && (_a = changes_2["return"])) _a.call(changes_2);
+                if (changes_2_1 && !changes_2_1.done && (_a = changes_2.return)) _a.call(changes_2);
             }
             finally { if (e_2) throw e_2.error; }
         }
@@ -231,7 +233,6 @@ function addReducerImportToNgModule(options) {
         return host;
     };
 }
-exports.addReducerImportToNgModule = addReducerImportToNgModule;
 function omit(object, keyToRemove) {
     return Object.keys(object)
         .filter(function (key) { return key !== keyToRemove; })
@@ -240,9 +241,7 @@ function omit(object, keyToRemove) {
         return Object.assign(result, (_a = {}, _a[key] = object[key], _a));
     }, {});
 }
-exports.omit = omit;
 function getPrefix(options) {
     return stringUtils.camelize(options.prefix || 'load');
 }
-exports.getPrefix = getPrefix;
 //# sourceMappingURL=ngrx-utils.js.map

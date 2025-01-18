@@ -9,14 +9,13 @@ import { ActivatedRoute } from '@angular/router';
 import { filter, skip, take } from 'rxjs';
 import { CharacterDetails, CharacterRaw } from 'src/app/_models/character';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { CreateUpdateState } from 'src/app/design/templates/_models/create-update-states';
+import { CharacterCreateUpdateComponent } from 'src/app/design/templates/character-create-update/character-create-update.component';
 import { GlobalStore } from 'src/app/global.store';
-import { CreateUpdateState } from 'src/design/templates/_models/create-update-states';
-import { CharacterCreateUpdateComponent } from 'src/design/templates/character-create-update/character-create-update.component';
 import { CharacterCreateUpdateStore } from './character-create-update-page.store';
 
 @Component({
   selector: 'app-character-create-update-page',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CharacterCreateUpdateComponent],
   providers: [],

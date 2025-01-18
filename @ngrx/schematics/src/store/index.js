@@ -46,7 +46,8 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-exports.__esModule = true;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = default_1;
 var schematics_1 = require("@angular-devkit/schematics");
 var ts = require("typescript");
 var schematics_core_1 = require("../../schematics-core");
@@ -117,7 +118,7 @@ function addImportToNgModule(options) {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (changes_1_1 && !changes_1_1.done && (_a = changes_1["return"])) _a.call(changes_1);
+                if (changes_1_1 && !changes_1_1.done && (_a = changes_1.return)) _a.call(changes_1);
             }
             finally { if (e_1) throw e_1.error; }
         }
@@ -152,5 +153,4 @@ function default_1(options) {
         ])(host, context);
     };
 }
-exports["default"] = default_1;
 //# sourceMappingURL=index.js.map

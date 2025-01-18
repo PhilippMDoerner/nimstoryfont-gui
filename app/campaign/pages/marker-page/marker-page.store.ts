@@ -13,9 +13,9 @@ import { shareReplay, switchMap, take } from 'rxjs';
 import { httpErrorToast } from 'src/app/_models/toast';
 import { MarkerService } from 'src/app/_services/article/marker.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { GlobalStore } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
-import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
 

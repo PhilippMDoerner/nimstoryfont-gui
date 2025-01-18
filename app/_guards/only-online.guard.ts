@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
+import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { ToastConfig } from '../_models/toast';
 import { OnlineService } from '../_services/online.service';
 

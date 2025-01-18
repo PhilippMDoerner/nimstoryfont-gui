@@ -10,8 +10,12 @@ var __values = (this && this.__values) || function(o) {
     };
     throw new TypeError(s ? "Object is not iterable." : "Symbol.iterator is not defined.");
 };
-exports.__esModule = true;
-exports.commitChanges = exports.createChangeRecorder = exports.createRemoveChange = exports.createReplaceChange = exports.ReplaceChange = exports.RemoveChange = exports.InsertChange = exports.NoopChange = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ReplaceChange = exports.RemoveChange = exports.InsertChange = exports.NoopChange = void 0;
+exports.createReplaceChange = createReplaceChange;
+exports.createRemoveChange = createRemoveChange;
+exports.createChangeRecorder = createChangeRecorder;
+exports.commitChanges = commitChanges;
 /**
  * An operation that does nothing.
  */
@@ -115,13 +119,11 @@ exports.ReplaceChange = ReplaceChange;
 function createReplaceChange(sourceFile, node, oldText, newText) {
     return new ReplaceChange(sourceFile.fileName, node.getStart(sourceFile), oldText, newText);
 }
-exports.createReplaceChange = createReplaceChange;
 function createRemoveChange(sourceFile, node, from, to) {
     if (from === void 0) { from = node.getStart(sourceFile); }
     if (to === void 0) { to = node.getEnd(); }
     return new RemoveChange(sourceFile.fileName, from, to);
 }
-exports.createRemoveChange = createRemoveChange;
 function createChangeRecorder(tree, path, changes) {
     var e_1, _a;
     var recorder = tree.beginUpdate(path);
@@ -143,13 +145,12 @@ function createChangeRecorder(tree, path, changes) {
     catch (e_1_1) { e_1 = { error: e_1_1 }; }
     finally {
         try {
-            if (changes_1_1 && !changes_1_1.done && (_a = changes_1["return"])) _a.call(changes_1);
+            if (changes_1_1 && !changes_1_1.done && (_a = changes_1.return)) _a.call(changes_1);
         }
         finally { if (e_1) throw e_1.error; }
     }
     return recorder;
 }
-exports.createChangeRecorder = createChangeRecorder;
 function commitChanges(tree, path, changes) {
     if (changes.length === 0) {
         return false;
@@ -158,5 +159,4 @@ function commitChanges(tree, path, changes) {
     tree.commitUpdate(recorder);
     return true;
 }
-exports.commitChanges = commitChanges;
 //# sourceMappingURL=change.js.map

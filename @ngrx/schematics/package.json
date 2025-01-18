@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/schematics",
-  "version": "15.4.0",
+  "version": "19.0.0",
   "description": "NgRx Schematics for Angular",
   "repository": {
     "type": "git",
@@ -35,10 +35,13 @@
       "@ngrx/store-devtools",
       "@ngrx/component-store",
       "@ngrx/component",
-      "@ngrx/eslint-plugin"
+      "@ngrx/eslint-plugin",
+      "@ngrx/operators",
+      "@ngrx/signals"
     ],
     "migrations": "./migrations/migration.json"
   },
+  "types": "./src/index.d.ts",
   "main": "./src/index.js",
-  "types": "./src/index.d.ts"
+  "type": "commonjs"
 }

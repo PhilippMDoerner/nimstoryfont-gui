@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { DiaryentryComponent } from 'src/app/design/templates/diaryentry/diaryentry.component';
 import { GlobalStore } from 'src/app/global.store';
-import { DiaryentryComponent } from 'src/design/templates/diaryentry/diaryentry.component';
 import { DiaryentryPageStore } from './diaryentry-page.store';
 
 @Component({
   selector: 'app-diaryentry-page',
-  standalone: true,
   imports: [DiaryentryComponent],
   templateUrl: './diaryentry-page.component.html',
   styleUrl: './diaryentry-page.component.scss',

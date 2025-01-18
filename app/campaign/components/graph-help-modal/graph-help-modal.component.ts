@@ -6,9 +6,9 @@ import {
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { toGroupLabel } from 'src/app/_models/graph';
-import { ButtonComponent } from 'src/design/atoms/button/button.component';
-import { IconComponent } from '../../../../design/atoms/icon/icon.component';
-import { SeparatorComponent } from '../../../../design/atoms/separator/separator.component';
+import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
+import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
 
 const GRAPH_INFO_RULES = [
   {
@@ -87,7 +87,6 @@ const GRAPH_INTERACTIONS = [
 
 @Component({
   selector: 'app-graph-help-modal',
-  standalone: true,
   imports: [IconComponent, SeparatorComponent, ButtonComponent],
   templateUrl: './graph-help-modal.component.html',
   styleUrl: './graph-help-modal.component.scss',

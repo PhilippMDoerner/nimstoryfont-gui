@@ -1,0 +1,152 @@
+<app-page-container>
+  <article class="overview">
+    <!-- Heading -->
+    @if (overviewTypeName()) {
+      <div>
+        <h1 class="overview__page-heading">
+          @switch (overviewType()) {
+            @case ("CHARACTER") {
+              Characters
+            }
+            @case ("LOCATION") {
+              Locations
+            }
+            @case ("ITEM") {
+              Items
+            }
+            @case ("ORGANIZATION") {
+              Organizations
+            }
+            @case ("CREATURE") {
+              Creatures
+            }
+            @case ("DIARYENTRY") {
+              Diaryentries
+            }
+            @default {
+              Entries
+            }
+          }
+        </h1>
+      </div>
+    }
+
+    <div class="overview__subheading">
+      @switch (overviewType()) {
+        @case ("CHARACTER") {
+          <ng-container
+            [ngTemplateOutlet]="
+              (playerCharacters()?.length ?? 0 > 0)
+                ? characterHeading
+                : defaultHeading
+            "
+          />
+        }
+        @default {
+          <ng-container [ngTemplateOutlet]="defaultHeading" />
+        }
+      }
+    </div>
+
+    <!-- Adding Item button -->
+    @if (canCreate()) {
+      <div class="overview__create">
+        <a [routerLink]="'create'">
+          <button
+            btn
+            [icon]="'plus'"
+            [kind]="'PRIMARY'"
+            [text]="'Add ' + (overviewTypeName() | titlecase)"
+          ></button>
+        </a>
+      </div>
+    }
+
+    <div>
+      @switch (overviewType()) {
+        @case ("CHARACTER") {
+          <ng-container [ngTemplateOutlet]="characterBody" />
+        }
+        @case ("DIARYENTRY") {
+          <ng-container [ngTemplateOutlet]="diaryentryBody" />
+        }
+        @default {
+          <ng-container [ngTemplateOutlet]="defaultBody" />
+        }
+      }
+    </div>
+
+    <!-- Footer -->
+    <div class="mt-4">
+      <a [routerLink]="homeUrl()" class="overview__home">
+        <button btn [kind]="'SECONDARY'" [text]="'Back To Frontpage'"></button>
+      </a>
+    </div>
+  </article>
+</app-page-container>
+
+<ng-template #defaultHeading>
+  <!-- Image -->
+  <img
+    class="overview__image"
+    [src]="OVERVIEW_IMAGE_MAP[overviewType()]"
+    alt="Image describing the overview type {{ overviewType() }}"
+  />
+</ng-template>
+
+<ng-template #characterHeading>
+  <h3>Player Characters</h3>
+
+  <div class="row">
+    @for (playerCharacter of playerCharacters(); track playerCharacter.name) {
+      <div
+        class="col-xl-3 col-lg-4 col-md-6 col-sm-6 overview__player-card player-card"
+      >
+        <div class="player-card__link">
+          @if (playerCharacter.images) {
+            <app-image-card
+              class="player-card__card"
+              [serverUrl]="serverUrl()"
+              [fallbackUrl]="'/' + defaultPlayerCharacterImage"
+              [imageUrls]="playerCharacter.images"
+              [link]="playerCharacter.getAbsoluteRouterUrl()"
+              [alt]="
+                'An image displaying the player character ' +
+                playerCharacter.name
+              "
+              [text]="playerCharacter.name_full"
+            ></app-image-card>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</ng-template>
+
+<ng-template #characterBody>
+  <h3>Non-Player Characters</h3>
+
+  <app-filter-list
+    [entries]="displayEntries()"
+    [labelProp]="'name'"
+    [heading]="overviewTypeName()"
+  ></app-filter-list>
+</ng-template>
+
+<ng-template #diaryentryBody>
+  <app-filter-list
+    [entries]="displayEntries()"
+    [labelProp]="'name_full'"
+    [groupProp]="'author_details.name'"
+    [heading]="overviewTypeName()"
+    [forceSingleLine]="true"
+  ></app-filter-list>
+</ng-template>
+
+<ng-template #defaultBody>
+  <app-filter-list
+    [entries]="displayEntries()"
+    [labelProp]="'name_full'"
+    [heading]="overviewTypeName()"
+  ></app-filter-list>
+</ng-template>

@@ -407,7 +407,7 @@ var ut = O((wr) => {
   Object.defineProperty(wr, "__esModule", { value: !0 });
   wr.getDeepObject = Ai;
   wr.stringifyObject = bn;
-  var me = Rr(), wi = dt();
+  var he = Rr(), wi = dt();
   function Ei(r) {
     return r === "__proto__" || r === "constructor" || r === "prototype";
   }
@@ -422,9 +422,9 @@ var ut = O((wr) => {
   s(Ai, "getDeepObject");
   var vi = 20, Ci = "[]", Pi = "[", Fi = "]", Ii = ".";
   function bn(r, e, t = 0, o, n) {
-    let { nestingSyntax: i = me.defaultOptions.nestingSyntax, arrayRepeat: a = me.defaultOptions.arrayRepeat, arrayRepeatSyntax: l = me.defaultOptions.
-    arrayRepeatSyntax, nesting: c = me.defaultOptions.nesting, delimiter: d = me.defaultOptions.delimiter, valueSerializer: f = me.defaultOptions.
-    valueSerializer, shouldSerializeObject: p = me.defaultOptions.shouldSerializeObject } = e, g = typeof d == "number" ? String.fromCharCode(
+    let { nestingSyntax: i = he.defaultOptions.nestingSyntax, arrayRepeat: a = he.defaultOptions.arrayRepeat, arrayRepeatSyntax: l = he.defaultOptions.
+    arrayRepeatSyntax, nesting: c = he.defaultOptions.nesting, delimiter: d = he.defaultOptions.delimiter, valueSerializer: f = he.defaultOptions.
+    valueSerializer, shouldSerializeObject: p = he.defaultOptions.shouldSerializeObject } = e, g = typeof d == "number" ? String.fromCharCode(
     d) : d, h = n === !0 && a, v = i === "dot" || i === "js" && !n;
     if (t > vi)
       return "";
@@ -887,7 +887,7 @@ var vn = O((Z) => {
   Object.defineProperty(Z, "__esModule", { value: !0 });
   Z.numberValueDeserializer = Z.numberKeyDeserializer = void 0;
   Z.parse = Li;
-  var Er = ut(), he = Rr(), wn = _i(Rn()), ji = /* @__PURE__ */ s((r) => {
+  var Er = ut(), ge = Rr(), wn = _i(Rn()), ji = /* @__PURE__ */ s((r) => {
     let e = Number(r);
     return Number.isNaN(e) ? r : e;
   }, "numberKeyDeserializer");
@@ -906,9 +906,9 @@ var vn = O((Z) => {
   }
   s(Ar, "computeKeySlice");
   function Li(r, e) {
-    let { valueDeserializer: t = he.defaultOptions.valueDeserializer, keyDeserializer: o = he.defaultOptions.keyDeserializer, arrayRepeatSyntax: n = he.
-    defaultOptions.arrayRepeatSyntax, nesting: i = he.defaultOptions.nesting, arrayRepeat: a = he.defaultOptions.arrayRepeat, nestingSyntax: l = he.
-    defaultOptions.nestingSyntax, delimiter: c = he.defaultOptions.delimiter } = e ?? {}, d = typeof c == "string" ? c.charCodeAt(0) : c, f = l ===
+    let { valueDeserializer: t = ge.defaultOptions.valueDeserializer, keyDeserializer: o = ge.defaultOptions.keyDeserializer, arrayRepeatSyntax: n = ge.
+    defaultOptions.arrayRepeatSyntax, nesting: i = ge.defaultOptions.nesting, arrayRepeat: a = ge.defaultOptions.arrayRepeat, nestingSyntax: l = ge.
+    defaultOptions.nestingSyntax, delimiter: c = ge.defaultOptions.delimiter } = e ?? {}, d = typeof c == "string" ? c.charCodeAt(0) : c, f = l ===
     "js", p = new An();
     if (typeof r != "string")
       return p;
@@ -1462,27 +1462,27 @@ var es = O((x) => {
   }
   s(ma, "encode");
   x.encode = ma;
-  var be = Rt();
+  var Se = Rt();
   Object.defineProperty(x, "encodeXML", { enumerable: !0, get: /* @__PURE__ */ s(function() {
-    return be.encodeXML;
+    return Se.encodeXML;
   }, "get") });
   Object.defineProperty(x, "encodeHTML", { enumerable: !0, get: /* @__PURE__ */ s(function() {
-    return be.encodeHTML;
+    return Se.encodeHTML;
   }, "get") });
   Object.defineProperty(x, "encodeNonAsciiHTML", { enumerable: !0, get: /* @__PURE__ */ s(function() {
-    return be.encodeNonAsciiHTML;
+    return Se.encodeNonAsciiHTML;
   }, "get") });
   Object.defineProperty(x, "escape", { enumerable: !0, get: /* @__PURE__ */ s(function() {
-    return be.escape;
+    return Se.escape;
   }, "get") });
   Object.defineProperty(x, "escapeUTF8", { enumerable: !0, get: /* @__PURE__ */ s(function() {
-    return be.escapeUTF8;
+    return Se.escapeUTF8;
   }, "get") });
   Object.defineProperty(x, "encodeHTML4", { enumerable: !0, get: /* @__PURE__ */ s(function() {
-    return be.encodeHTML;
+    return Se.encodeHTML;
   }, "get") });
   Object.defineProperty(x, "encodeHTML5", { enumerable: !0, get: /* @__PURE__ */ s(function() {
-    return be.encodeHTML;
+    return Se.encodeHTML;
   }, "get") });
   var se = Tt();
   Object.defineProperty(x, "decodeXML", { enumerable: !0, get: /* @__PURE__ */ s(function() {
@@ -1918,17 +1918,17 @@ var ka = {};
 Fs(ka, {
   DocsContext: () => Q,
   HooksContext: () => ee,
-  Preview: () => fe,
+  Preview: () => ye,
   PreviewWeb: () => Xe,
-  PreviewWithSelection: () => ye,
-  StoryStore: () => pe,
-  UrlStore: () => ge,
-  WebView: () => Se,
+  PreviewWithSelection: () => me,
+  StoryStore: () => ue,
+  UrlStore: () => be,
+  WebView: () => Te,
   addons: () => B,
   applyHooks: () => tr,
-  combineArgs: () => Ee,
+  combineArgs: () => Ae,
   combineParameters: () => M,
-  composeConfigs: () => Ie,
+  composeConfigs: () => pe,
   composeStepRunners: () => gr,
   composeStories: () => Jo,
   composeStory: () => ot,
@@ -1936,12 +1936,12 @@ Fs(ka, {
   decorateStory: () => Zr,
   defaultDecorateStory: () => fr,
   filterArgTypes: () => qe,
-  inferControls: () => Pe,
+  inferControls: () => Fe,
   makeDecorator: () => Vt,
   mockChannel: () => er,
-  normalizeStory: () => ve,
+  normalizeStory: () => Ce,
   prepareMeta: () => mr,
-  prepareStory: () => Ce,
+  prepareStory: () => Pe,
   sanitizeStoryContextUpdate: () => et,
   setDefaultProjectAnnotations: () => Ko,
   setProjectAnnotations: () => Xo,
@@ -1949,7 +1949,7 @@ Fs(ka, {
   simulatePageLoad: () => At,
   sortStoriesV7: () => cn,
   useArgs: () => Gt,
-  useCallback: () => Re,
+  useCallback: () => we,
   useChannel: () => qt,
   useEffect: () => Br,
   useGlobals: () => zt,
@@ -2010,7 +2010,7 @@ s(Ns, "getAddonsStore");
 var B = Ns();
 
 // src/preview-api/modules/addons/hooks.ts
-var je = C(q(), 1), xe = require("@storybook/core/client-logger"), G = require("@storybook/core/core-events");
+var je = C(q(), 1), Re = require("@storybook/core/client-logger"), G = require("@storybook/core/core-events");
 var ee = class {
   constructor() {
     this.hookListsMap = void 0;
@@ -2111,7 +2111,7 @@ s(qr, "getHooksContextOrThrow");
 function Gs(r, e, t) {
   let o = qr();
   if (o.currentPhase === "MOUNT") {
-    t != null && !Array.isArray(t) && xe.logger.warn(
+    t != null && !Array.isArray(t) && Re.logger.warn(
       `${r} received a final argument that is not an array (instead, received ${t}). When specified, the final argument must be an array.`
     );
     let n = { name: r, deps: t };
@@ -2121,13 +2121,13 @@ function Gs(r, e, t) {
     let n = o.getNextHook();
     if (n == null)
       throw new Error("Rendered more hooks than during the previous render.");
-    return n.name !== r && xe.logger.warn(
+    return n.name !== r && Re.logger.warn(
       `Storybook has detected a change in the order of Hooks${o.currentDecoratorName ? ` called by ${o.currentDecoratorName}` : ""}. This wi\
 ll lead to bugs and errors if not fixed.`
-    ), t != null && n.deps == null && xe.logger.warn(
+    ), t != null && n.deps == null && Re.logger.warn(
       `${r} received a final argument during this render, but not during the previous render. Even though the final argument is optional, it\
 s type cannot change between renders.`
-    ), t != null && n.deps != null && t.length !== n.deps.length && xe.logger.warn(`The final argument passed to ${r} changed size between r\
+    ), t != null && n.deps != null && t.length !== n.deps.length && Re.logger.warn(`The final argument passed to ${r} changed size between r\
 enders. The order and size of this array must remain constant.
 Previous: ${n.deps}
 Incoming: ${t}`), (t == null || n.deps == null || !Bs(t, n.deps)) && (e(n), n.deps = t), n;
@@ -2150,10 +2150,10 @@ function kt(r, e) {
   return or("useMemo", r, e);
 }
 s(kt, "useMemo");
-function Re(r, e) {
+function we(r, e) {
   return or("useCallback", () => r, e);
 }
-s(Re, "useCallback");
+s(we, "useCallback");
 function _t(r, e) {
   return or(r, () => ({ current: e }), []);
 }
@@ -2170,7 +2170,7 @@ function zs() {
     try {
       B.getChannel().emit(G.FORCE_RE_RENDER);
     } catch {
-      xe.logger.warn("State updates of Storybook preview hooks work only in browser");
+      Re.logger.warn("State updates of Storybook preview hooks work only in browser");
     }
 }
 s(zs, "triggerUpdate");
@@ -2205,7 +2205,7 @@ function qt(r, e = []) {
     Object.entries(r).forEach(
       ([o, n]) => t.removeListener(o, n)
     );
-  }), [...Object.keys(r), ...e]), Re(t.emit.bind(t), [t]);
+  }), [...Object.keys(r), ...e]), we(t.emit.bind(t), [t]);
 }
 s(qt, "useChannel");
 function Me() {
@@ -2222,10 +2222,10 @@ function Bt(r, e) {
 }
 s(Bt, "useParameter");
 function Gt() {
-  let r = B.getChannel(), { id: e, args: t } = Me(), o = Re(
+  let r = B.getChannel(), { id: e, args: t } = Me(), o = we(
     (i) => r.emit(G.UPDATE_STORY_ARGS, { storyId: e, updatedArgs: i }),
     [r, e]
-  ), n = Re(
+  ), n = we(
     (i) => r.emit(G.RESET_STORY_ARGS, { storyId: e, argNames: i }),
     [r, e]
   );
@@ -2233,7 +2233,7 @@ function Gt() {
 }
 s(Gt, "useArgs");
 function zt() {
-  let r = B.getChannel(), { globals: e } = Me(), t = Re(
+  let r = B.getChannel(), { globals: e } = Me(), t = we(
     (o) => r.emit(G.UPDATE_GLOBALS, { globals: o }),
     [r]
   );
@@ -2471,7 +2471,7 @@ var br = C(Yr(), 1);
 // src/preview-api/modules/store/args.ts
 var sr = require("@storybook/core/client-logger");
 var Kr = C(V(), 1);
-var we = Symbol("incompatible"), Xr = /* @__PURE__ */ s((r, e) => {
+var Ee = Symbol("incompatible"), Xr = /* @__PURE__ */ s((r, e) => {
   let t = e.type;
   if (r == null || !t || e.mapping)
     return r;
@@ -2485,29 +2485,29 @@ var we = Symbol("incompatible"), Xr = /* @__PURE__ */ s((r, e) => {
     case "boolean":
       return String(r) === "true";
     case "array":
-      return !t.value || !Array.isArray(r) ? we : r.reduce((o, n, i) => {
+      return !t.value || !Array.isArray(r) ? Ee : r.reduce((o, n, i) => {
         let a = Xr(n, { type: t.value });
-        return a !== we && (o[i] = a), o;
+        return a !== Ee && (o[i] = a), o;
       }, new Array(r.length));
     case "object":
-      return typeof r == "string" || typeof r == "number" ? r : !t.value || typeof r != "object" ? we : Object.entries(r).reduce((o, [n, i]) => {
+      return typeof r == "string" || typeof r == "number" ? r : !t.value || typeof r != "object" ? Ee : Object.entries(r).reduce((o, [n, i]) => {
         let a = Xr(i, { type: t.value[n] });
-        return a === we ? o : Object.assign(o, { [n]: a });
+        return a === Ee ? o : Object.assign(o, { [n]: a });
       }, {});
     default:
-      return we;
+      return Ee;
   }
 }, "map"), Ro = /* @__PURE__ */ s((r, e) => Object.entries(r).reduce((t, [o, n]) => {
   if (!e[o])
     return t;
   let i = Xr(n, e[o]);
-  return i === we ? t : Object.assign(t, { [o]: i });
-}, {}), "mapArgsToTypes"), Ee = /* @__PURE__ */ s((r, e) => Array.isArray(r) && Array.isArray(e) ? e.reduce(
-  (t, o, n) => (t[n] = Ee(r[n], e[n]), t),
+  return i === Ee ? t : Object.assign(t, { [o]: i });
+}, {}), "mapArgsToTypes"), Ae = /* @__PURE__ */ s((r, e) => Array.isArray(r) && Array.isArray(e) ? e.reduce(
+  (t, o, n) => (t[n] = Ae(r[n], e[n]), t),
   [...r]
 ).filter((t) => t !== void 0) : !j(r) || !j(e) ? e : Object.keys({ ...r, ...e }).reduce((t, o) => {
   if (o in e) {
-    let n = Ee(r[o], e[o]);
+    let n = Ae(r[o], e[o]);
     n !== void 0 && (t[o] = n);
   } else
     t[o] = r[o];
@@ -2535,20 +2535,20 @@ var we = Symbol("incompatible"), Xr = /* @__PURE__ */ s((r, e) => {
     return i();
   let d = a ? `${o}[${l}]` : o, f = n.map((p) => typeof p == "string" ? `'${p}'` : String(p)).join(", ");
   return sr.once.warn(`Received illegal value for '${d}'. Supported options: ${f}`), t;
-}, {}), "validateOptions"), le = Symbol("Deeply equal"), Ae = /* @__PURE__ */ s((r, e) => {
+}, {}), "validateOptions"), le = Symbol("Deeply equal"), ve = /* @__PURE__ */ s((r, e) => {
   if (typeof r != typeof e)
     return e;
   if ($r(r, e))
     return le;
   if (Array.isArray(r) && Array.isArray(e)) {
     let t = e.reduce((o, n, i) => {
-      let a = Ae(r[i], n);
+      let a = ve(r[i], n);
       return a !== le && (o[i] = a), o;
     }, new Array(e.length));
     return e.length >= r.length ? t : t.concat(new Array(r.length - e.length).fill(void 0));
   }
   return j(r) && j(e) ? Object.keys({ ...r, ...e }).reduce((t, o) => {
-    let n = Ae(r?.[o], e?.[o]);
+    let n = ve(r?.[o], e?.[o]);
     return n === le ? t : Object.assign(t, { [o]: n });
   }, {}) : e;
 }, "deepDiff"), Jr = "UNTARGETED";
@@ -2586,13 +2586,13 @@ var ir = class {
     if (!this.initialArgsByStoryId[e.id])
       this.initialArgsByStoryId[e.id] = e.initialArgs, this.argsByStoryId[e.id] = e.initialArgs;
     else if (this.initialArgsByStoryId[e.id] !== e.initialArgs) {
-      let t = Ae(this.initialArgsByStoryId[e.id], this.argsByStoryId[e.id]);
+      let t = ve(this.initialArgsByStoryId[e.id], this.argsByStoryId[e.id]);
       this.initialArgsByStoryId[e.id] = e.initialArgs, this.argsByStoryId[e.id] = e.initialArgs, t !== le && this.updateFromDelta(e, t);
     }
   }
   updateFromDelta(e, t) {
     let o = wo(t, e.argTypes);
-    this.argsByStoryId[e.id] = Ee(this.argsByStoryId[e.id], o);
+    this.argsByStoryId[e.id] = Ae(this.argsByStoryId[e.id], o);
   }
   updateFromPersisted(e, t) {
     let o = Ro(t, e.argTypes);
@@ -2627,7 +2627,7 @@ var lr = class {
     this.set({ globals: e, globalTypes: t });
   }
   set({ globals: e = {}, globalTypes: t = {} }) {
-    let o = this.initialGlobals && Ae(this.initialGlobals, this.globals);
+    let o = this.initialGlobals && ve(this.initialGlobals, this.globals);
     this.allowedGlobalNames = /* @__PURE__ */ new Set([...Object.keys(e), ...Object.keys(t)]);
     let n = ar(t);
     this.initialGlobals = { ...n, ...e }, this.globals = this.initialGlobals, o && o !== le && this.updateFromPersisted(o);
@@ -2706,7 +2706,7 @@ CSF .story annotations deprecated; annotate story functions directly:
 - StoryFn.story.(parameters|decorators) => StoryFn.(parameters|decorators)
 See https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#hoisted-csf-annotations for details and codemod.
 `;
-function ve(r, e, t) {
+function Ce(r, e, t) {
   let o = e, n = typeof e == "function" ? e : null, { story: i } = o;
   i && (pr.logger.debug("deprecated story", i), (0, pr.deprecate)(Js));
   let a = (0, dr.storyNameFromExport)(r), l = typeof o != "function" && o.name || o.storyName || i?.name || a, c = [
@@ -2734,7 +2734,7 @@ function ve(r, e, t) {
     ...m && { play: m }
   };
 }
-s(ve, "normalizeStory");
+s(Ce, "normalizeStory");
 
 // src/preview-api/modules/store/csf/processCSFFile.ts
 var Oo = require("@storybook/csf"), Qr = require("@storybook/core/client-logger");
@@ -2782,7 +2782,7 @@ function Do(r, e, t) {
   let l = { meta: a, stories: {}, moduleExports: r };
   return Object.keys(i).forEach((c) => {
     if ((0, Oo.isExportStory)(c, a)) {
-      let d = ve(c, i[c], a);
+      let d = Ce(c, i[c], a);
       Io(d.parameters), l.stories[d.id] = d;
     }
   }), l;
@@ -2874,7 +2874,7 @@ var M = /* @__PURE__ */ s((...r) => {
 }, "combineParameters");
 
 // src/preview-api/modules/store/csf/prepareStory.ts
-function Ce(r, e, t) {
+function Pe(r, e, t) {
   let { moduleExport: o, id: n, name: i } = r || {}, a = Lo(
     r,
     e,
@@ -2938,7 +2938,7 @@ function Ce(r, e, t) {
     usesMount: b
   };
 }
-s(Ce, "prepareStory");
+s(Pe, "prepareStory");
 function mr(r, e, t) {
   return {
     ...Lo(void 0, r, e),
@@ -3122,7 +3122,7 @@ var ri = /* @__PURE__ */ s((r, e, t) => {
         return { control: { type: n ? "select" : "object" } };
     }
   }
-}, "inferControl"), Pe = /* @__PURE__ */ s((r) => {
+}, "inferControl"), Fe = /* @__PURE__ */ s((r) => {
   let {
     argTypes: e,
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -3133,7 +3133,7 @@ var ri = /* @__PURE__ */ s((r, e, t) => {
   let a = qe(e, o, n), l = z(a, (c, d) => c?.type && ri(c, d.toString(), i));
   return M(l, a);
 }, "inferControls");
-Pe.secondPass = !0;
+Fe.secondPass = !0;
 
 // src/preview-api/modules/store/csf/normalizeProjectAnnotations.ts
 function Be({
@@ -3165,7 +3165,7 @@ function Be({
       // and so should be added by a preset there. However, as it seems some code relies on controls
       // annotations (in particular the angular implementation's `cleanArgsDecorator`), for backwards
       // compatibility reasons, we will leave this in the store until 7.0
-      Pe
+      Fe
     ],
     initialGlobals: M(l, a),
     ...c
@@ -3216,11 +3216,11 @@ function Ge(r, e) {
   return Object.assign({}, ...ze(r, e));
 }
 s(Ge, "getObjectField");
-function Fe(r, e) {
+function Ie(r, e) {
   return ze(r, e).pop();
 }
-s(Fe, "getSingletonField");
-function Ie(r) {
+s(Ie, "getSingletonField");
+function pe(r) {
   let e = de(r, "argTypesEnhancers"), t = ze(r, "runStep"), o = de(r, "beforeAll");
   return {
     parameters: M(...ze(r, "parameters")),
@@ -3240,18 +3240,18 @@ function Ie(r) {
     loaders: de(r, "loaders"),
     beforeAll: Ho(o),
     beforeEach: de(r, "beforeEach"),
-    render: Fe(r, "render"),
-    renderToCanvas: Fe(r, "renderToCanvas"),
-    renderToDOM: Fe(r, "renderToDOM"),
+    render: Ie(r, "render"),
+    renderToCanvas: Ie(r, "renderToCanvas"),
+    renderToDOM: Ie(r, "renderToDOM"),
     // deprecated
-    applyDecorators: Fe(r, "applyDecorators"),
+    applyDecorators: Ie(r, "applyDecorators"),
     runStep: gr(t),
     tags: de(r, "tags"),
-    mount: Fe(r, "mount"),
-    testingLibraryRender: Fe(r, "testingLibraryRender")
+    mount: Ie(r, "mount"),
+    testingLibraryRender: Ie(r, "testingLibraryRender")
   };
 }
-s(Ie, "composeConfigs");
+s(pe, "composeConfigs");
 
 // src/preview-api/modules/store/csf/portable-stories.ts
 var Wo = require("@storybook/csf"), $o = require("@storybook/core/preview-errors"), Yo = C(V(), 1);
@@ -3261,12 +3261,12 @@ function Ko(r) {
 s(Ko, "setDefaultProjectAnnotations");
 var ti = "ComposedStory", oi = "Unnamed Story";
 function ni(r) {
-  return r ? "default" in r ? r.default : r : {};
+  return r ? pe([r]) : {};
 }
 s(ni, "extractAnnotation");
 function Xo(r) {
   let e = Array.isArray(r) ? r : [r];
-  return globalThis.globalProjectAnnotations = Ie(e.map(ni)), Ie([
+  return globalThis.globalProjectAnnotations = pe(e.map(ni)), pe([
     globalThis.defaultProjectAnnotations ?? {},
     globalThis.globalProjectAnnotations ?? {}
   ]);
@@ -3277,17 +3277,17 @@ function ot(r, e, t, o, n) {
   if (r === void 0)
     throw new Error("Expected a story but received undefined.");
   e.title = e.title ?? ti;
-  let i = ur(e), a = n || r.storyName || r.story?.name || r.name || oi, l = ve(
+  let i = ur(e), a = n || r.storyName || r.story?.name || r.name || oi, l = Ce(
     a,
     r,
     i
   ), c = Be(
-    Ie([
+    pe([
       o && Object.keys(o).length > 0 ? o : globalThis.defaultProjectAnnotations ?? {},
       globalThis.globalProjectAnnotations ?? {},
       t ?? {}
     ])
-  ), d = Ce(
+  ), d = Pe(
     l,
     i,
     c
@@ -3442,7 +3442,7 @@ function Zo(r, e) {
   return Gr(zr(r, e), (t) => t === void 0);
 }
 s(Zo, "picky");
-var en = 1e3, ai = 1e4, pe = class {
+var en = 1e3, ai = 1e4, ue = class {
   constructor(e, t, o) {
     this.importFn = t;
     // TODO: Remove in 9.0
@@ -3474,7 +3474,7 @@ var en = 1e3, ai = 1e4, pe = class {
     this.storyIndex = new cr(e), this.projectAnnotations = Be(o);
     let { initialGlobals: n, globalTypes: i } = this.projectAnnotations;
     this.args = new ir(), this.userGlobals = new lr({ globals: n, globalTypes: i }), this.hooks = {}, this.cleanupCallbacks = {}, this.processCSFFileWithCache =
-    (0, br.default)(en)(Do), this.prepareMetaWithCache = (0, br.default)(en)(mr), this.prepareStoryWithCache = (0, br.default)(ai)(Ce);
+    (0, br.default)(en)(Do), this.prepareMetaWithCache = (0, br.default)(en)(mr), this.prepareStoryWithCache = (0, br.default)(ai)(Pe);
   }
   static {
     s(this, "StoryStore");
@@ -3787,7 +3787,7 @@ function pn(r) {
   }
 }
 s(pn, "serializeError");
-var ue = class {
+var fe = class {
   constructor(e, t, o, n, i, a, l = { autoplay: !0, forceInitialArgs: !1 }, c) {
     this.channel = e;
     this.store = t;
@@ -3988,7 +3988,7 @@ var ue = class {
 };
 
 // src/preview-api/modules/preview-web/Preview.tsx
-var { fetch: di } = un.global, pi = "./index.json", fe = class {
+var { fetch: di } = un.global, pi = "./index.json", ye = class {
   constructor(e, t, o = B.getChannel(), n = !0) {
     this.importFn = e;
     this.getProjectAnnotations = t;
@@ -4074,7 +4074,7 @@ var { fetch: di } = un.global, pi = "./index.json", fe = class {
   initializeWithStoryIndex(e) {
     if (!this.projectAnnotationsBeforeInitialization)
       throw new Error("Cannot call initializeWithStoryIndex until project annotations resolve");
-    this.storyStoreValue = new pe(
+    this.storyStoreValue = new ue(
       e,
       this.importFn,
       this.projectAnnotationsBeforeInitialization
@@ -4215,7 +4215,7 @@ var { fetch: di } = un.global, pi = "./index.json", fe = class {
       throw new k.CalledPreviewMethodBeforeInitializationError({
         methodName: "renderStoryToElement"
       });
-    let i = new ue(
+    let i = new fe(
       this.channel,
       this.storyStoreValue,
       this.renderToCanvas,
@@ -4578,7 +4578,7 @@ function bi(r) {
   return gi(r) && r.subtype === "csf";
 }
 s(bi, "isCsfDocsRender");
-var ye = class extends fe {
+var me = class extends ye {
   constructor(t, o, n, i) {
     super(t, o, void 0, !1);
     this.importFn = t;
@@ -4662,7 +4662,7 @@ var ye = class extends fe {
     this.selectionStore.setQueryParams(t);
   }
   async onUpdateGlobals({ globals: t }) {
-    let o = this.currentRender instanceof ue && this.currentRender.story || void 0;
+    let o = this.currentRender instanceof fe && this.currentRender.story || void 0;
     super.onUpdateGlobals({ globals: t, currentStory: o }), (this.currentRender instanceof Ue || this.currentRender instanceof He) && await this.
     currentRender.rerender?.();
   }
@@ -4696,7 +4696,7 @@ var ye = class extends fe {
     a.type === "story" ? this.view.showPreparingStory({ immediate: c }) : this.view.showPreparingDocs({ immediate: c }), this.currentRender?.
     isPreparing() && await this.teardownRender(this.currentRender);
     let d;
-    a.type === "story" ? d = new ue(
+    a.type === "story" ? d = new fe(
       this.channel,
       this.storyStoreValue,
       o,
@@ -4907,7 +4907,7 @@ string" ? ht(e.globals) : void 0, n = $e(e.viewMode);
       return { storySpecifier: a, args: t, globals: o, viewMode: n };
   }
   return null;
-}, "getSelectionSpecifierFromPath"), ge = class {
+}, "getSelectionSpecifierFromPath"), be = class {
   static {
     s(this, "UrlStore");
   }
@@ -4938,7 +4938,7 @@ EPARING_STORY", i.PREPARING_DOCS = "PREPARING_DOCS", i.ERROR = "ERROR", i))(Ss |
   padded: "sb-main-padded"
 }, fs = new hs.default({
   escapeXML: !0
-}), Se = class {
+}), Te = class {
   constructor() {
     this.testing = !1;
     if (typeof _ < "u") {
@@ -5032,9 +5032,9 @@ RING_DOCS"), us);
 };
 
 // src/preview-api/modules/preview-web/PreviewWeb.tsx
-var Xe = class extends ye {
+var Xe = class extends me {
   constructor(t, o) {
-    super(t, o, new ge(), new Se());
+    super(t, o, new be(), new Te());
     this.importFn = t;
     this.getProjectAnnotations = o;
     Ts.global.__STORYBOOK_PREVIEW__ = this;
@@ -5046,7 +5046,7 @@ var Xe = class extends ye {
 
 // src/preview-api/modules/preview-web/simulate-pageload.ts
 var Rs = C(q(), 1);
-var { document: Te } = Rs.global, Ia = [
+var { document: xe } = Rs.global, Ia = [
   "application/javascript",
   "application/ecmascript",
   "application/x-ecmascript",
@@ -5067,14 +5067,14 @@ var { document: Te } = Rs.global, Ia = [
   "module"
 ], Oa = "script", xs = "scripts-root";
 function Je() {
-  let r = Te.createEvent("Event");
-  r.initEvent("DOMContentLoaded", !0, !0), Te.dispatchEvent(r);
+  let r = xe.createEvent("Event");
+  r.initEvent("DOMContentLoaded", !0, !0), xe.dispatchEvent(r);
 }
 s(Je, "simulateDOMContentLoaded");
 function Da(r, e, t) {
-  let o = Te.createElement("script");
+  let o = xe.createElement("script");
   o.type = r.type === "module" ? "module" : "text/javascript", r.src ? (o.onload = e, o.onerror = e, o.src = r.src) : o.textContent = r.innerText,
-  t ? t.appendChild(o) : Te.head.appendChild(o), r.parentNode.removeChild(r), r.src || e();
+  t ? t.appendChild(o) : xe.head.appendChild(o), r.parentNode.removeChild(r), r.src || e();
 }
 s(Da, "insertScript");
 function ws(r, e, t = 0) {
@@ -5084,8 +5084,8 @@ function ws(r, e, t = 0) {
 }
 s(ws, "insertScriptsSequentially");
 function At(r) {
-  let e = Te.getElementById(xs);
-  e ? e.innerHTML = "" : (e = Te.createElement("div"), e.id = xs, Te.body.appendChild(e));
+  let e = xe.getElementById(xs);
+  e ? e.innerHTML = "" : (e = xe.createElement("div"), e.id = xs, xe.body.appendChild(e));
   let t = Array.from(r.querySelectorAll(Oa));
   if (t.length) {
     let o = [];

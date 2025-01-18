@@ -2,13 +2,12 @@ import { AsyncPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
+import { SearchComponent } from 'src/app/design//templates/search/search.component';
 import { GlobalStore } from 'src/app/global.store';
-import { SearchComponent } from '../../../../design/templates/search/search.component';
 import { SearchPageStore } from './search-page.store';
 
 @Component({
   selector: 'app-search-page',
-  standalone: true,
   imports: [SearchComponent, AsyncPipe],
   templateUrl: './search-page.component.html',
   styleUrl: './search-page.component.scss',

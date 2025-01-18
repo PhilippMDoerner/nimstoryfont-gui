@@ -35,8 +35,21 @@ var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     }
     return to.concat(ar || Array.prototype.slice.call(from));
 };
-exports.__esModule = true;
-exports.containsProperty = exports.replaceImport = exports.insertImport = exports.addBootstrapToModule = exports.addExportToModule = exports.addProviderToComponent = exports.addProviderToModule = exports.addImportToModule = exports.addDeclarationToModule = exports.getDecoratorMetadata = exports.getContentOfKeyLiteral = exports.insertAfterLastOccurrence = exports.getSourceNodes = exports.findNodes = void 0;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.findNodes = findNodes;
+exports.getSourceNodes = getSourceNodes;
+exports.insertAfterLastOccurrence = insertAfterLastOccurrence;
+exports.getContentOfKeyLiteral = getContentOfKeyLiteral;
+exports.getDecoratorMetadata = getDecoratorMetadata;
+exports.addDeclarationToModule = addDeclarationToModule;
+exports.addImportToModule = addImportToModule;
+exports.addProviderToModule = addProviderToModule;
+exports.addProviderToComponent = addProviderToComponent;
+exports.addExportToModule = addExportToModule;
+exports.addBootstrapToModule = addBootstrapToModule;
+exports.insertImport = insertImport;
+exports.replaceImport = replaceImport;
+exports.containsProperty = containsProperty;
 /* istanbul ignore file */
 /**
  * @license
@@ -83,14 +96,13 @@ function findNodes(node, kind, max) {
         catch (e_1_1) { e_1 = { error: e_1_1 }; }
         finally {
             try {
-                if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
             }
             finally { if (e_1) throw e_1.error; }
         }
     }
     return arr;
 }
-exports.findNodes = findNodes;
 /**
  * Get all the nodes from a source.
  * @param sourceFile The source file object.
@@ -110,7 +122,6 @@ function getSourceNodes(sourceFile) {
     }
     return result;
 }
-exports.getSourceNodes = getSourceNodes;
 /**
  * Helper for sorting nodes.
  * @return function to sort nodes in increasing order of position in sourceFile
@@ -145,7 +156,6 @@ function insertAfterLastOccurrence(nodes, toInsert, file, fallbackPos, syntaxKin
     var lastItemPosition = lastItem ? lastItem.end : fallbackPos;
     return new change_1.InsertChange(file, lastItemPosition, toInsert);
 }
-exports.insertAfterLastOccurrence = insertAfterLastOccurrence;
 function getContentOfKeyLiteral(_source, node) {
     if (node.kind == ts.SyntaxKind.Identifier) {
         return node.text;
@@ -157,7 +167,6 @@ function getContentOfKeyLiteral(_source, node) {
         return null;
     }
 }
-exports.getContentOfKeyLiteral = getContentOfKeyLiteral;
 function _angularImportsFromNode(node, _sourceFile) {
     var _a;
     var ms = node.moduleSpecifier;
@@ -221,7 +230,7 @@ function getDecoratorMetadata(source, identifier, module) {
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
         finally {
             try {
-                if (_c && !_c.done && (_a = _b["return"])) _a.call(_b);
+                if (_c && !_c.done && (_a = _b.return)) _a.call(_b);
             }
             finally { if (e_2) throw e_2.error; }
         }
@@ -258,7 +267,6 @@ function getDecoratorMetadata(source, identifier, module) {
     })
         .map(function (expr) { return expr.arguments[0]; });
 }
-exports.getDecoratorMetadata = getDecoratorMetadata;
 function _addSymbolToNgModuleMetadata(source, ngModulePath, metadataField, symbolName, importPath) {
     var nodes = getDecoratorMetadata(source, 'NgModule', '@angular/core');
     var node = nodes[0]; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -541,7 +549,6 @@ function _addSymbolToComponentMetadata(source, componentPath, metadataField, sym
 function addDeclarationToModule(source, modulePath, classifiedName, importPath) {
     return _addSymbolToNgModuleMetadata(source, modulePath, 'declarations', classifiedName, importPath);
 }
-exports.addDeclarationToModule = addDeclarationToModule;
 /**
  * Custom function to insert a declaration (component, pipe, directive)
  * into NgModule declarations. It also imports the component.
@@ -549,35 +556,30 @@ exports.addDeclarationToModule = addDeclarationToModule;
 function addImportToModule(source, modulePath, classifiedName, importPath) {
     return _addSymbolToNgModuleMetadata(source, modulePath, 'imports', classifiedName, importPath);
 }
-exports.addImportToModule = addImportToModule;
 /**
  * Custom function to insert a provider into NgModule. It also imports it.
  */
 function addProviderToModule(source, modulePath, classifiedName, importPath) {
     return _addSymbolToNgModuleMetadata(source, modulePath, 'providers', classifiedName, importPath);
 }
-exports.addProviderToModule = addProviderToModule;
 /**
  * Custom function to insert a provider into Component. It also imports it.
  */
 function addProviderToComponent(source, componentPath, classifiedName, importPath) {
     return _addSymbolToComponentMetadata(source, componentPath, 'providers', classifiedName, importPath);
 }
-exports.addProviderToComponent = addProviderToComponent;
 /**
  * Custom function to insert an export into NgModule. It also imports it.
  */
 function addExportToModule(source, modulePath, classifiedName, importPath) {
     return _addSymbolToNgModuleMetadata(source, modulePath, 'exports', classifiedName, importPath);
 }
-exports.addExportToModule = addExportToModule;
 /**
  * Custom function to insert an export into NgModule. It also imports it.
  */
 function addBootstrapToModule(source, modulePath, classifiedName, importPath) {
     return _addSymbolToNgModuleMetadata(source, modulePath, 'bootstrap', classifiedName, importPath);
 }
-exports.addBootstrapToModule = addBootstrapToModule;
 /**
  * Add Import `import { symbolName } from fileName` if the import doesn't exit
  * already. Assumes fileToEdit can be resolved and accessed.
@@ -638,7 +640,6 @@ function insertImport(source, fileToEdit, symbolName, fileName, isDefault) {
         " from '".concat(fileName, "'").concat(insertAtBeginning ? ';\n' : '');
     return insertAfterLastOccurrence(allImports, toInsert, fileToEdit, fallbackPos, ts.SyntaxKind.StringLiteral);
 }
-exports.insertImport = insertImport;
 function replaceImport(sourceFile, path, importFrom, importAsIs, importToBe) {
     var imports = sourceFile.statements
         .filter(ts.isImportDeclaration)
@@ -692,7 +693,6 @@ function replaceImport(sourceFile, path, importFrom, importAsIs, importToBe) {
     });
     return changes.reduce(function (imports, curr) { return imports.concat(curr); }, []);
 }
-exports.replaceImport = replaceImport;
 function containsProperty(objectLiteral, propertyName) {
     return (objectLiteral &&
         objectLiteral.properties.some(function (prop) {
@@ -701,5 +701,4 @@ function containsProperty(objectLiteral, propertyName) {
                 prop.name.text === propertyName;
         }));
 }
-exports.containsProperty = containsProperty;
 //# sourceMappingURL=ast-utils.js.map

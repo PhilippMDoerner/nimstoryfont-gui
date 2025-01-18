@@ -143,7 +143,7 @@ export declare class NgbTooltip implements OnInit, OnDestroy, OnChanges {
      */
     toggle(): void;
     /**
-     * Returns `true`, if the popover is currently shown.
+     * Returns `true`, if the tooltip is currently shown.
      */
     isOpen(): boolean;
     ngOnInit(): void;

@@ -126,10 +126,14 @@ PropertyExtractor.analyzeDecorators = (component) => {
     const isPipe = decorators.some((d) => _a.isDecoratorInstanceOf(d, 'Pipe'));
     const isDeclarable = isComponent || isDirective || isPipe;
     // Check if the hierarchically lowest Component or Directive decorator (the only relevant for importing dependencies) is standalone.
-    const isStandalone = !!((isComponent || isDirective) &&
+    let isStandalone = (isComponent || isDirective) &&
         [...decorators]
             .reverse() // reflectionCapabilities returns decorators in a hierarchically top-down order
-            .find((d) => _a.isDecoratorInstanceOf(d, 'Component') || _a.isDecoratorInstanceOf(d, 'Directive'))?.standalone);
+            .find((d) => _a.isDecoratorInstanceOf(d, 'Component') || _a.isDecoratorInstanceOf(d, 'Directive'))?.standalone;
+    //Starting in Angular 19 the default (in case it's undefined) value for standalone is true
+    if (isStandalone === undefined) {
+        isStandalone = !!(core_1.VERSION.major && Number(core_1.VERSION.major) >= 19);
+    }
     return { isDeclarable, isStandalone };
 };
 PropertyExtractor.isDecoratorInstanceOf = (decorator, name) => {

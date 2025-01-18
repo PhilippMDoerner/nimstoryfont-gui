@@ -1,4 +1,4 @@
-import { Icon } from 'src/design/atoms/_models/icon';
+import { Icon } from 'src/app/design/atoms/_models/icon';
 import { capitalize } from 'src/utils/string';
 
 export interface NodeLinkTypeRaw {

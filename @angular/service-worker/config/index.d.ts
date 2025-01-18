@@ -1,5 +1,5 @@
 /**
- * @license Angular v18.2.12
+ * @license Angular v19.0.6
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -33,6 +33,7 @@ export declare interface Config {
     dataGroups?: DataGroup[];
     navigationUrls?: string[];
     navigationRequestStrategy?: 'freshness' | 'performance';
+    applicationMaxAge?: Duration;
 }
 
 /**
@@ -48,6 +49,7 @@ export declare interface DataGroup {
         maxSize: number;
         maxAge: Duration;
         timeout?: Duration;
+        refreshAhead?: Duration;
         strategy?: 'freshness' | 'performance';
         cacheOpaqueResponses?: boolean;
     };

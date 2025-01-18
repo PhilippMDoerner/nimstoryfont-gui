@@ -1,15 +1,14 @@
 import { Component, computed, inject } from '@angular/core';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { HomeComponent } from 'src/app/design//templates/home/home.component';
 import { GlobalStore } from 'src/app/global.store';
 import { environment } from 'src/environments/environment';
-import { HomeComponent } from '../../../../design/templates/home/home.component';
 import { HomePageStore } from './home-page.store';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
-  standalone: true,
   imports: [HomeComponent],
 })
 export class HomePageComponent {

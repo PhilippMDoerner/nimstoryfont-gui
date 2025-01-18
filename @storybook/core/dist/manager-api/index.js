@@ -2451,7 +2451,7 @@ var G0 = Pe(ze(), 1);
 import D from "semver";
 
 // src/manager-api/version.ts
-var j0 = "8.4.4";
+var j0 = "8.4.7";
 
 // src/manager-api/modules/versions.ts
 var { VERSIONCHECK: Wa } = A, U0 = (0, G0.default)(1)(() => {

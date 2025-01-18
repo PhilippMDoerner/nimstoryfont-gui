@@ -6,15 +6,14 @@ import { map, Observable, take } from 'rxjs';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { MailService } from 'src/app/_services/utils/mail.service';
+import { LoginComponent } from 'src/app/design//templates/login/login.component';
 import { GlobalStore } from 'src/app/global.store';
-import { LoginComponent } from '../../../../design/templates/login/login.component';
 import { LoginPageStore } from './login-page.store';
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
   styleUrls: ['./login-page.component.scss'],
-  standalone: true,
   imports: [LoginComponent, AsyncPipe, FormlyModule],
   providers: [LoginPageStore],
 })

@@ -3,14 +3,13 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, take } from 'rxjs';
 import { Location } from 'src/app/_models/location';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { LocationTemplateComponent } from 'src/app/design/templates/location-template/location-template.component';
 import { GlobalStore } from 'src/app/global.store';
-import { LocationTemplateComponent } from 'src/design/templates/location-template/location-template.component';
 import { environment } from 'src/environments/environment';
 import { LocationPageStore } from './location-page.store';
 
 @Component({
   selector: 'app-location-page',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [LocationTemplateComponent],
   templateUrl: './location-page.component.html',

@@ -1,6 +1,6 @@
 {
   "name": "@storybook/addon-a11y",
-  "version": "8.4.4",
+  "version": "8.4.7",
   "description": "Test component compliance with web accessibility standards",
   "keywords": [
     "a11y",
@@ -55,7 +55,7 @@
     "prep": "jiti ../../../scripts/prepare/addon-bundle.ts"
   },
   "dependencies": {
-    "@storybook/addon-highlight": "8.4.4",
+    "@storybook/addon-highlight": "8.4.7",
     "axe-core": "^4.2.0"
   },
   "devDependencies": {
@@ -69,7 +69,7 @@
     "typescript": "^5.3.2"
   },
   "peerDependencies": {
-    "storybook": "^8.4.4"
+    "storybook": "^8.4.7"
   },
   "publishConfig": {
     "access": "public"

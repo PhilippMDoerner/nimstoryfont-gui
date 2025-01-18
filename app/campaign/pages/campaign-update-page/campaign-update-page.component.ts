@@ -2,15 +2,14 @@ import { Component, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Campaign, CampaignRaw } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { CampaignUpdateComponent } from 'src/app/design//templates/campaign-update/campaign-update.component';
 import { GlobalStore } from 'src/app/global.store';
 import { environment } from 'src/environments/environment';
 import { takeFirstNonNil } from 'src/utils/rxjs-operators';
-import { CampaignUpdateComponent } from '../../../../design/templates/campaign-update/campaign-update.component';
 import { CampaignUpdatePageStore } from './campaign-update-page.store';
 
 @Component({
   selector: 'app-campaign-update-page',
-  standalone: true,
   imports: [CampaignUpdateComponent],
   providers: [CampaignUpdatePageStore],
   templateUrl: './campaign-update-page.component.html',

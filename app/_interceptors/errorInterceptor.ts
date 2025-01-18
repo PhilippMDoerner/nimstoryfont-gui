@@ -6,7 +6,7 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { ToastService } from 'src/design/organisms/toast-overlay/toast-overlay.component';
+import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { httpErrorToast, ToastButtons, ToastConfig } from '../_models/toast';
 import { RoutingService } from '../_services/routing.service';
 import { GlobalStore } from '../global.store';

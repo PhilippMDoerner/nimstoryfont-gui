@@ -10,7 +10,7 @@ import { AllNewMethods, withCreateMethods } from './withCreateMethods';
 import { AllNewProperties, withCreateState } from './withCreateState';
 
 export type CreateFeatureResult<Requests extends RequestMap> = {
-  computed: {};
+  props: {};
   methods: MethodsDictionary & AllNewMethods<Requests>;
   state: {} & AllNewProperties<Requests>;
 };
@@ -18,7 +18,7 @@ export type CreateFeatureResult<Requests extends RequestMap> = {
 export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
   Input['state']
 > &
-  Input['computed'] &
+  Input['props'] &
   Input['methods'] &
   WritableStateSource<Input['state']>;
 
@@ -31,7 +31,7 @@ export function withCreates<
   return ((store) => {
     const creates = createsFactory({
       ...store.stateSignals,
-      ...store.computedSignals,
+      ...store.props,
       ...store.methods,
     } as InnerStore<Input>);
 

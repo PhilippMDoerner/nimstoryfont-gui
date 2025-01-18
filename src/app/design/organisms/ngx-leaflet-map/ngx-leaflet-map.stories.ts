@@ -1,4 +1,4 @@
-import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { LeafletModule } from '@bluehalo/ngx-leaflet';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import * as x from 'leaflet';
 import { dummyMap } from 'src/app/_services/article/map.service.mock';

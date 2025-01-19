@@ -17,12 +17,12 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
-import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
-import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
-import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
-import { ListComponent } from '../../molecules/list/list.component';
-import { LocationAccordionComponent } from '../../organisms/location-accordion/location-accordion.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
+import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
+import { ListComponent } from '../../molecules/list/list.component';
+import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
+import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
+import { LocationAccordionComponent } from '../../organisms/location-accordion/location-accordion.component';
 
 interface ParentLocation {
   link: string;
@@ -30,21 +30,21 @@ interface ParentLocation {
 }
 
 @Component({
-    selector: 'app-location-template',
-    templateUrl: './location-template.component.html',
-    styleUrls: ['./location-template.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        IconComponent,
-        ImageCarouselCardComponent,
-        BadgeListComponent,
-        EditableTextComponent,
-        ListComponent,
-        LocationAccordionComponent,
-        ArticleFooterComponent
-    ]
+  selector: 'app-location-template',
+  templateUrl: './location-template.component.html',
+  styleUrls: ['./location-template.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    IconComponent,
+    ImageCarouselCardComponent,
+    BadgeListComponent,
+    EditableTextComponent,
+    ListComponent,
+    LocationAccordionComponent,
+    ArticleFooterComponent,
+  ],
 })
 export class LocationTemplateComponent implements OnInit, OnChanges {
   location = input.required<Location>();
@@ -120,7 +120,7 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
     const campaignName = this.location().campaign_details?.name;
     this.updateUrl = this.routingService.getRoutePath('location-update', {
       name: this.location().name,
-      parent_name: this.location().parent_location,
+      parent_name: this.location().parent_location_details?.name,
       campaign: campaignName,
     });
   }

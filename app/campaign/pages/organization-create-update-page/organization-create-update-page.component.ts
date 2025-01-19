@@ -68,7 +68,7 @@ export class OrganizationCreateUpdatePageComponent {
         } as Partial<OrganizationRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.organization();
+        return { ...this.store.organization() };
     }
   });
 

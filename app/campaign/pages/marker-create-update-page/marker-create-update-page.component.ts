@@ -129,7 +129,7 @@ export class MarkerCreateUpdatePageComponent {
         } as Partial<MapMarkerRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.marker();
+        return { ...this.store.marker() };
     }
   });
 

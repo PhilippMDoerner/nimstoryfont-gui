@@ -54,7 +54,7 @@ export class CharacterUpdatePageComponent {
         } as Partial<CharacterRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.character();
+        return { ...this.store.character() };
     }
   });
 

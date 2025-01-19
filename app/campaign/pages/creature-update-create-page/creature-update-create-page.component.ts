@@ -55,7 +55,7 @@ export class CreatureUpdateCreateComponent {
         } as Partial<CreatureRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.creature();
+        return { ...this.store.creature() };
     }
   });
 

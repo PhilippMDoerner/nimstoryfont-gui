@@ -36,22 +36,22 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.component';
 
 @Component({
-    selector: 'app-character',
-    templateUrl: './character.component.html',
-    styleUrls: ['./character.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        ImageCarouselCardComponent,
-        QuoteFieldComponent,
-        BadgeListComponent,
-        EditableTextComponent,
-        ListComponent,
-        InfoCircleTooltipComponent,
-        EncounterAccordionComponent,
-        ArticleFooterComponent,
-    ]
+  selector: 'app-character',
+  templateUrl: './character.component.html',
+  styleUrls: ['./character.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    ImageCarouselCardComponent,
+    QuoteFieldComponent,
+    BadgeListComponent,
+    EditableTextComponent,
+    ListComponent,
+    InfoCircleTooltipComponent,
+    EncounterAccordionComponent,
+    ArticleFooterComponent,
+  ],
 })
 export class CharacterComponent {
   character = input.required<CharacterDetails>();
@@ -160,10 +160,13 @@ export class CharacterComponent {
   constructor(private routingService: RoutingService) {}
 
   routeToItemCreate(): void {
-    this.routingService.routeToPath('item-character-create', {
-      character_name: this.character.name,
+    this.routingService.routeToPath('item-create', {
       campaign: this.campaignName(),
     });
+    // this.routingService.routeToPath('item-character-create', {
+    //   character_name: this.character.name,
+    //   campaign: this.campaignName(),
+    // });
   }
 
   onMembershipCreate(org: OverviewItem): void {

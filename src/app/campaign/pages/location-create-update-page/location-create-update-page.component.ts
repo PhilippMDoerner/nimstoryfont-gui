@@ -65,7 +65,7 @@ export class LocationCreateUpdatePageComponent {
         } as Partial<LocationRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.location();
+        return { ...this.store.location() } as Location;
     }
   });
 

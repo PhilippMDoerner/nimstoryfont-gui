@@ -39,6 +39,7 @@ export class LocationCreateUpdatePageComponent {
   );
   locationQueryState$ = toObservable(this.store.locationQueryState);
   locationCreateState$ = toObservable(this.store.createState);
+  locationUpdateState$ = toObservable(this.store.locationUpdateState);
 
   state = computed<CreateUpdateState>(() => {
     const pathSegments = this.routeUrlSegments()?.map(
@@ -138,7 +139,7 @@ export class LocationCreateUpdatePageComponent {
   update(location: Location) {
     this.store.updateLocation(location);
 
-    this.locationQueryState$
+    this.locationUpdateState$
       .pipe(
         skip(1),
         filter((state) => state === 'success'),

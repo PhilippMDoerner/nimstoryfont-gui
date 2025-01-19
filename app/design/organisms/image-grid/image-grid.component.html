@@ -44,8 +44,10 @@
   <div class="w-100 h-100 position-relative d-flex justify-content-center">
     <img
       class="w-100 h-100"
-      [src]="serverUrl() + EMPTY_IMAGE_URL"
+      [ngSrc]="serverUrl() + EMPTY_IMAGE_URL"
       alt="Image of a red dragon frame"
+      priority
+      fill
     />
     <div class="position-absolute frame-text">
       <h4 class="mb-1">You have not yet been invited into any campaign.</h4>

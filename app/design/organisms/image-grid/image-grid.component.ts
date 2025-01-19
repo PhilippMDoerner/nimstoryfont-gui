@@ -1,4 +1,4 @@
-import { NgClass } from '@angular/common';
+import { NgClass, NgOptimizedImage } from '@angular/common';
 import {
   Component,
   computed,
@@ -10,10 +10,10 @@ import {
 type ColumnCount = 1 | 2 | 3;
 
 @Component({
-    selector: 'app-image-grid',
-    templateUrl: './image-grid.component.html',
-    styleUrls: ['./image-grid.component.scss'],
-    imports: [NgClass]
+  selector: 'app-image-grid',
+  templateUrl: './image-grid.component.html',
+  styleUrls: ['./image-grid.component.scss'],
+  imports: [NgClass, NgOptimizedImage],
 })
 export class ImageGridComponent<T> {
   EMPTY_IMAGE_URL: string = '';

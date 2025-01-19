@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -32,7 +32,13 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  imports: [RouterLink, IconComponent, AsyncPipe, NgbTooltipModule],
+  imports: [
+    RouterLink,
+    NgOptimizedImage,
+    IconComponent,
+    AsyncPipe,
+    NgbTooltipModule,
+  ],
   providers: [NgbActiveOffcanvas],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

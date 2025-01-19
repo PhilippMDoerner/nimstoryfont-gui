@@ -62,7 +62,7 @@ export class MapCreateUpdatePageComponent {
         } as Partial<MapRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.map();
+        return { ...this.store.map() };
     }
   });
 

@@ -65,7 +65,7 @@ export class ItemCreateUpdatePageComponent {
         } as Partial<ItemRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.item();
+        return { ...this.store.item() };
     }
   });
 

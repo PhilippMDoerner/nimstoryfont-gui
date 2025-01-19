@@ -79,7 +79,7 @@ export class SessionaudioCreateUpdatePageComponent {
         } as Partial<SessionAudioRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.sessionaudio();
+        return { ...this.store.sessionaudio() };
     }
   });
 

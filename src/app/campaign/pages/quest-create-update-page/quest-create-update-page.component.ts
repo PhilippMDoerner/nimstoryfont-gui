@@ -125,7 +125,7 @@ export class QuestCreateUpdatePageComponent {
         } as Partial<QuestRaw>;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        return this.store.quest();
+        return { ...this.store.quest() };
     }
   });
 

@@ -3,7 +3,7 @@
     @for (encounter of encounters(); track encounter.pk) {
       <div ngbAccordionItem [id]="'static-' + $index">
         <header ngbAccordionHeader>
-          <button btn ngbAccordionButton class="panel-title">
+          <button ngbAccordionButton class="panel-title">
             <strong
               class="encounter-title"
               [innerHTML]="encounter.name"

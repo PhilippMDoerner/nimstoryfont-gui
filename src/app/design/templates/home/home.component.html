@@ -5,7 +5,10 @@
       <header class="home__heading-container heading-container">
         <img
           class="heading-container__icon"
-          [src]="serverUrl() + campaignData()?.icon"
+          [ngSrc]="serverUrl() + campaignData()?.icon"
+          [width]="128"
+          [height]="128"
+          priority
           [alt]="DEFAULT_ICON"
         />
         <h1 class="heading-container__heading">

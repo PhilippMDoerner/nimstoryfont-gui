@@ -15,7 +15,7 @@ import {
 } from 'src/app/_models/overview';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgOptimizedImage } from '@angular/common';
 import { OnlineService } from 'src/app/_services/online.service';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { PlaceholderComponent } from 'src/app/design/atoms/placeholder/placeholder.component';
@@ -36,6 +36,7 @@ import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-
     IconCardListComponent,
     PlaceholderComponent,
     AsyncPipe,
+    NgOptimizedImage,
   ],
 })
 export class HomeComponent {

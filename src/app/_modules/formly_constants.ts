@@ -26,6 +26,7 @@ import {
   specialCharacterValidator,
   timeValidator,
 } from '../_services/formly/validators';
+import { FormlyTypeaheadFieldComponent } from '../design/molecules/formly-typeahead-field/formly-typeahead-field.component';
 
 export const FORMLY_CONFIG: ConfigOption = {
   types: [
@@ -43,6 +44,11 @@ export const FORMLY_CONFIG: ConfigOption = {
     {
       name: 'autocomplete',
       component: FormlyAutocompleteFieldComponent,
+    },
+    {
+      name: 'typeahead',
+      component: FormlyTypeaheadFieldComponent,
+      wrappers: ['form-field'],
     },
   ],
   validationMessages: [

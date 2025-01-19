@@ -1,5 +1,5 @@
 @if (clickable()) {
-  <button btn class="badge-button" (click)="badgeClick.emit()">
+  <button type="button" class="badge-button" (click)="badgeClick.emit()">
     <ng-container [ngTemplateOutlet]="content" />
   </button>
 } @else {
@@ -24,6 +24,6 @@
     @if (iconVal) {
       <app-icon [icon]="iconVal"></app-icon>
     }
-    {{ text() }}
+    {{ displayedText() }}
   </div>
 </ng-template>

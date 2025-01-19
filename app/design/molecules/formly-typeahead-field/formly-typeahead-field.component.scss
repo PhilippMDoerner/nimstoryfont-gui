@@ -1,0 +1,14 @@
+.form-control {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacer-2);
+
+  &__input {
+    width: 100%;
+    background-color: unset;
+    border: unset;
+    outline: unset;
+    color: var(--bs-body-color);
+  }
+}

@@ -1,0 +1,21 @@
+<nav class="navigation" [attr.aria-label]="'breadcrumb'">
+  <ol class="breadcrumb">
+    @for (entry of linkEntries(); track entry; let last = $last) {
+      <li
+        class="breadcrumb-item"
+        [class.active]="last"
+        [attr.aria-current]="last ? 'page' : null"
+      >
+        <a [routerLink]="entry.url" class="breadcrumb-item__link">
+          {{ entry.label }}
+        </a>
+      </li>
+    }
+  </ol>
+</nav>
+
+<ng-template #link let-entry>
+  <a [routerLink]="entry.url">
+    {{ entry.label }}
+  </a>
+</ng-template>

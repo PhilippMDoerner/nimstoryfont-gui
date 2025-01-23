@@ -11,12 +11,20 @@ export const adminRoutes: AdminRoute[] = [
   {
     path: ``,
     component: SiteAdministrationPageComponent,
+    loadComponent: () =>
+      import(
+        './pages/site-administration-page/site-administration-page.component'
+      ).then((m) => m.SiteAdministrationPageComponent),
     data: { name: 'admin' },
     canActivate: [siteAdminGuard, onlyOnlineGuard],
   },
   {
     path: `configtables`,
     component: ConfigAdministrationPageComponent,
+    loadComponent: () =>
+      import(
+        './pages/config-administration-page/config-administration-page.component'
+      ).then((m) => m.ConfigAdministrationPageComponent),
     data: { name: 'config-tables' },
     canActivate: [siteAdminGuard],
     providers: [ConfigAdministrationPageStore],

@@ -11,7 +11,6 @@ import { CreaturePageStore } from './pages/creature-page/creature-page.store';
 import { CreatureUpdateCreateStore } from './pages/creature-update-create-page/creature-update-create-page.store';
 import { DiaryEntryCreateUpdatePageStore } from './pages/diaryentry-create-update-page/diaryentry-create-update-page.store';
 import { DiaryentryPageStore } from './pages/diaryentry-page/diaryentry-page.store';
-import { GeneralOverviewPageComponent } from './pages/general-overview-page/general-overview-page.component';
 import { GraphPageStore } from './pages/graph-page/graph-page.store';
 import { HomePageStore } from './pages/home-page/home-page.store';
 import { ItemCreateUpdateStore } from './pages/item-create-update-page/item-create-update-page.store';
@@ -39,7 +38,10 @@ import { SpellsPageStore } from './pages/spells-page/spells-page.store';
 const overviewRoutes: CampaignOverviewRoute[] = [
   {
     path: 'character',
-    component: GeneralOverviewPageComponent,
+    loadComponent: () =>
+      import(
+        './pages/general-overview-page/general-overview-page.component'
+      ).then((m) => m.GeneralOverviewPageComponent),
     data: {
       name: 'character-overview',
       requiredMinimumRole: 'guest',
@@ -48,7 +50,10 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   },
   {
     path: 'creature',
-    component: GeneralOverviewPageComponent,
+    loadComponent: () =>
+      import(
+        './pages/general-overview-page/general-overview-page.component'
+      ).then((m) => m.GeneralOverviewPageComponent),
     data: {
       name: 'creature-overview',
       requiredMinimumRole: 'guest',
@@ -57,7 +62,10 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   },
   {
     path: 'diaryentry',
-    component: GeneralOverviewPageComponent,
+    loadComponent: () =>
+      import(
+        './pages/general-overview-page/general-overview-page.component'
+      ).then((m) => m.GeneralOverviewPageComponent),
     data: {
       name: 'diaryentry-overview',
       requiredMinimumRole: 'guest',
@@ -66,7 +74,10 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   },
   {
     path: 'item',
-    component: GeneralOverviewPageComponent,
+    loadComponent: () =>
+      import(
+        './pages/general-overview-page/general-overview-page.component'
+      ).then((m) => m.GeneralOverviewPageComponent),
     data: {
       name: 'item-overview',
       requiredMinimumRole: 'guest',
@@ -75,7 +86,10 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   },
   {
     path: 'location',
-    component: GeneralOverviewPageComponent,
+    loadComponent: () =>
+      import(
+        './pages/general-overview-page/general-overview-page.component'
+      ).then((m) => m.GeneralOverviewPageComponent),
     data: {
       name: 'location-overview',
       requiredMinimumRole: 'guest',
@@ -84,7 +98,10 @@ const overviewRoutes: CampaignOverviewRoute[] = [
   },
   {
     path: 'organization',
-    component: GeneralOverviewPageComponent,
+    loadComponent: () =>
+      import(
+        './pages/general-overview-page/general-overview-page.component'
+      ).then((m) => m.GeneralOverviewPageComponent),
     data: {
       name: 'organization-overview',
       requiredMinimumRole: 'guest',

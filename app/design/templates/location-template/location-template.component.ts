@@ -1,5 +1,6 @@
 import {
   Component,
+  computed,
   EventEmitter,
   input,
   OnChanges,
@@ -16,18 +17,14 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
-import { IconComponent } from '../../atoms/icon/icon.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
+import { BreadcrumbListComponent } from '../../molecules/breadcrumb-list/breadcrumb-list.component';
 import { ListComponent } from '../../molecules/list/list.component';
 import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
 import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
 import { LocationAccordionComponent } from '../../organisms/location-accordion/location-accordion.component';
-
-interface ParentLocation {
-  link: string;
-  label: string;
-}
+import { BreadcrumbEntry } from '../_models/breadcrumb-entry';
 
 @Component({
   selector: 'app-location-template',
@@ -37,13 +34,13 @@ interface ParentLocation {
     PageContainerComponent,
     RouterLink,
     ButtonComponent,
-    IconComponent,
     ImageCarouselCardComponent,
     BadgeListComponent,
     EditableTextComponent,
     ListComponent,
     LocationAccordionComponent,
     ArticleFooterComponent,
+    BreadcrumbListComponent,
   ],
 })
 export class LocationTemplateComponent implements OnInit, OnChanges {
@@ -65,7 +62,16 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
   overviewUrl!: string;
   updateUrl!: string;
   locationCharacters!: ListEntry[];
-  parentLocations!: ParentLocation[];
+  parentLocations = computed<BreadcrumbEntry[]>(() => {
+    const parentNames = this.location().parent_location_list;
+    return (
+      parentNames?.map((parent) => ({
+        label: parent,
+        url: this.buildLocationUrl(parent, parentNames),
+      })) ?? []
+    );
+  });
+
   markerEntries!: BadgeListEntry<string>[];
   markerCreateUrl!: string;
 
@@ -84,14 +90,12 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
       campaign: campaignName,
     });
 
-    this.setParentLocations();
     this.setLocationCharacters();
     this.setMarkerEntries();
     this.setUrls();
   }
 
   ngOnChanges(): void {
-    this.setParentLocations();
     this.setLocationCharacters();
     this.setMarkerEntries();
     this.setUrls();
@@ -150,15 +154,6 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
           campaign: campaignName,
         }),
         badgeValue: marker.map,
-      })) ?? [];
-  }
-
-  private setParentLocations(): void {
-    const parentNames = this.location().parent_location_list;
-    this.parentLocations =
-      parentNames?.map((parent) => ({
-        label: parent,
-        link: this.buildLocationUrl(parent, parentNames),
       })) ?? [];
   }
 

@@ -1,11 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
+  computed,
   EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
+  input,
   Output,
+  signal,
 } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -32,24 +33,25 @@ type State = 'DISPLAY' | 'DELETE' | 'UPDATE' | 'UPDATE_OUTDATED' | 'CREATE';
     ButtonComponent,
     NgTemplateOutlet,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageCarouselCardComponent implements OnInit, OnChanges {
-  @Input() images!: Image[];
-  @Input() serverUrl!: string;
-  @Input() serverModel?: Image;
-  @Input() canUpdate: boolean = false;
-  @Input() canCreate: boolean = false;
-  @Input() canDelete: boolean = false;
+export class ImageCarouselCardComponent {
+  images = input.required<Image[]>();
+  serverUrl = input.required<string>();
+  serverModel = input.required<Image | undefined>();
+  canUpdate = input.required<boolean>();
+  canCreate = input.required<boolean>();
+  canDelete = input.required<boolean>();
 
   @Output() createImage: EventEmitter<Image> = new EventEmitter();
   @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
   @Output() updateImage: EventEmitter<Image> = new EventEmitter();
 
-  currentImageIndex: number = 0;
-  currentImage!: Image;
-  state: State = 'DISPLAY';
-  userModel?: Image = {} as Image;
-  isLoading: boolean = false;
+  currentImageIndex = signal(0);
+  currentImage = computed(() => this.images()[this.currentImageIndex()]);
+  state = signal<State>('DISPLAY');
+  userModel = signal<Partial<Image> | null>({});
+  isLoading = signal(false);
 
   createFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
@@ -114,22 +116,13 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges {
 
   constructor(private formlyService: FormlyService) {}
 
-  ngOnInit(): void {
-    this.currentImage = this.images[this.currentImageIndex];
-  }
-
-  ngOnChanges(): void {
-    this.currentImage = this.images[this.currentImageIndex];
-  }
-
   changeState(event: any, newState: State) {
-    this.userModel = event ?? null;
-    this.state = newState;
+    this.userModel.set(event ?? null);
+    this.state.set(newState);
   }
 
   onSlide(slideEvent: { event: NgbSlideEvent; index: number }) {
-    this.currentImageIndex = slideEvent.index;
-    this.currentImage = this.images[this.currentImageIndex];
+    this.currentImageIndex.set(slideEvent.index);
   }
 
   onCancel(): void {
@@ -137,22 +130,22 @@ export class ImageCarouselCardComponent implements OnInit, OnChanges {
   }
 
   onSubmit(event: any): void {
-    switch (this.state) {
+    switch (this.state()) {
       case 'DELETE':
-        this.deleteImage.emit(this.currentImage);
+        this.deleteImage.emit(this.currentImage());
         break;
       case 'UPDATE':
       case 'UPDATE_OUTDATED':
-        this.updateImage.emit(this.userModel);
+        this.updateImage.emit(this.userModel() as Image);
         break;
       case 'CREATE':
-        this.createImage.emit(this.userModel);
+        this.createImage.emit(this.userModel() as Image);
         break;
       default:
         throw `ImageCarouselCard - Submitted form while in state '${this.state}', which is not possible.`;
     }
 
-    this.userModel = {} as Image;
+    this.userModel.set({});
     this.changeState(null, 'DISPLAY');
   }
 }

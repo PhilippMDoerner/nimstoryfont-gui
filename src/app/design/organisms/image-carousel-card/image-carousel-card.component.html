@@ -1,4 +1,4 @@
-@switch (state) {
+@switch (state()) {
   @case ("DISPLAY") {
     <ng-container *ngTemplateOutlet="displayState" />
   }
@@ -15,14 +15,14 @@
 
 <ng-template #displayState>
   <app-image-carousel
-    [images]="images"
-    [serverUrl]="serverUrl"
-    [canDelete]="canDelete"
-    [canUpdate]="canUpdate"
-    [canCreate]="canCreate"
-    [currentSlideIndex]="currentImageIndex"
-    (deleteImage)="changeState(currentImage, 'DELETE')"
-    (updateImage)="changeState(currentImage, 'UPDATE')"
+    [images]="images()"
+    [serverUrl]="serverUrl()"
+    [canDelete]="canDelete()"
+    [canUpdate]="canUpdate()"
+    [canCreate]="canCreate()"
+    [currentSlideIndex]="currentImageIndex()"
+    (deleteImage)="changeState(currentImage(), 'DELETE')"
+    (updateImage)="changeState(currentImage(), 'UPDATE')"
     (createImage)="changeState({}, 'CREATE')"
     (slide)="onSlide($event)"
   ></app-image-carousel>
@@ -33,7 +33,7 @@
     <h5 class="form-card__heading">
       <app-icon [icon]="'pencil'"></app-icon>
       Updating:
-      @if (isLoading) {
+      @if (isLoading()) {
         <app-spinner />
       }
     </h5>
@@ -42,14 +42,14 @@
       <img
         title="None"
         class="form-card__image"
-        [src]="serverUrl + currentImage.image"
+        [src]="serverUrl() + currentImage().image"
         alt=""
       />
     </div>
 
     <app-form
       class="form-card__form"
-      [model]="userModel"
+      [model]="userModel()"
       [fields]="updateFields"
       [enctype]="'multipart/form-data'"
       [cancelButtonType]="'DARK'"
@@ -64,7 +64,7 @@
     <h5 class="form-card__heading">
       <app-icon [icon]="'plus-square'" />
       Upload new image
-      @if (isLoading) {
+      @if (isLoading()) {
         <app-spinner />
       }
     </h5>
@@ -86,7 +86,7 @@
     <h5 class="form-card__heading">
       <app-icon [icon]="'trash'" />
       Deleting:
-      @if (isLoading) {
+      @if (isLoading()) {
         <app-spinner />
       }
     </h5>
@@ -95,7 +95,7 @@
       <img
         title="None"
         class="form-card__image"
-        [src]="serverUrl + currentImage.image"
+        [src]="serverUrl() + currentImage().image"
         alt="image to delete"
       />
     </div>

@@ -55,3 +55,19 @@
   justify-content: center;
   --thickness: 30px;
 }
+
+.filter {
+  justify-content: end;
+  margin-bottom: var(--spacer-3);
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+
+  &__select {
+    height: 2rem;
+    border: 1px solid var(--bs-secondary);
+    background-color: var(--bs-secondary);
+    border-radius: var(--bs-border-radius);
+    color: var(--bs-white);
+  }
+}

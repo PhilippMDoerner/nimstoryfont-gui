@@ -117,7 +117,7 @@ export class ImageCarouselCardComponent {
   constructor(private formlyService: FormlyService) {}
 
   changeState(event: any, newState: State) {
-    this.userModel.set(event ?? null);
+    this.userModel.set(event ? { ...event } : null);
     this.state.set(newState);
   }
 

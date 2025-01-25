@@ -1,7 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
+import { filter, fromEvent, map, tap } from 'rxjs';
 import { FileFieldKind } from 'src/app/_models/formly';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
@@ -17,6 +27,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
     FormlyModule,
     FormlyBootstrapModule,
     ReactiveFormsModule,
+    NgbTooltipModule,
   ],
 })
 export class FormlyFileFieldComponent
@@ -31,6 +42,12 @@ export class FormlyFileFieldComponent
   selectedFileName?: string;
   buttonType!: ElementKind;
   fieldKind!: FileFieldKind;
+  window = inject(DOCUMENT).defaultView;
+
+  constructor() {
+    super();
+    this.updateModelOnFilePaste();
+  }
 
   ngOnInit(): void {
     this.buttonType = this.props['buttonType'];
@@ -42,17 +59,14 @@ export class FormlyFileFieldComponent
     const hasSelectedFile = files.length > 0;
     if (!hasSelectedFile) return;
     const file: File = files[0];
-    this.model[this.key as string] = file;
-
-    const filePath: string = event.target.value;
-    this.setModelValue(filePath);
+    this.setModelValue(file);
   }
 
-  private setModelValue(filePath: string): void {
-    const isWindowsPath = filePath.includes('\\');
-    const splitter = isWindowsPath ? '\\' : '/';
-
-    this.selectedFileName = filePath?.split(splitter).pop();
+  private setModelValue(file: File): void {
+    this.model[this.key as string] = file;
+    this.selectedFileName = `${file.name}`;
+    this.formControl.setValue(file);
+    this.formControl.markAsDirty();
   }
 
   // Required as only clicking on the label counts as clicking on the file-field button
@@ -63,5 +77,18 @@ export class FormlyFileFieldComponent
     const element: HTMLElement = this.fileInputElement.nativeElement;
     const newClick = new MouseEvent('click', { bubbles: false });
     element.dispatchEvent(newClick);
+  }
+
+  private updateModelOnFilePaste() {
+    if (this.window) {
+      fromEvent<ClipboardEvent>(this.window, 'paste')
+        .pipe(
+          tap((e) => console.log('PASTE', e)),
+          map((event) => event.clipboardData?.files?.[0]),
+          filter((pastedFile) => !!pastedFile),
+          takeUntilDestroyed(),
+        )
+        .subscribe((pastedFile) => this.setModelValue(pastedFile));
+    }
   }
 }

@@ -35,6 +35,20 @@
     ></app-search-field>
 
     <!-- News -->
+    <div class="row filter">
+      <select
+        class="col-sm-3 col-md-4 col-lg-2 filter__select"
+        (change)="updateFilter($event.target)"
+        [value]="timeFilter()"
+      >
+        @for (option of timeFilterOptions; track option.value) {
+          <option [value]="option.value">
+            {{ option.label }}
+          </option>
+        }
+      </select>
+    </div>
+
     <app-icon-card-list
       class="home__recently-updated-articles"
       [isLoading]="isLoading()"

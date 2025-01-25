@@ -2,7 +2,7 @@
   [serverUrl]="serverUrl"
   [campaignData]="campaignData()"
   [articles]="recentlyUpdatedArticles()"
-  [canLoadMore]="hasMoreArticles() === true"
+  [hasMoreArticles]="hasMoreArticles() === true"
   [isLoading]="store.isLoading()"
   (appSearch)="search($event)"
   (loadArticlePage)="loadArticlePage($event)"

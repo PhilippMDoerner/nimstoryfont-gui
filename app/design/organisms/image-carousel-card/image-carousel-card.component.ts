@@ -38,7 +38,7 @@ type State = 'DISPLAY' | 'DELETE' | 'UPDATE' | 'UPDATE_OUTDATED' | 'CREATE';
 export class ImageCarouselCardComponent {
   images = input.required<Image[]>();
   serverUrl = input.required<string>();
-  serverModel = input.required<Image>();
+  serverModel = input.required<Image | undefined>();
   canUpdate = input.required<boolean>();
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();

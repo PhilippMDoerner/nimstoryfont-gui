@@ -135,22 +135,37 @@ export const CharacterStore = signalStore(
   }),
   withImages('character', {
     onCreateSuccess: (state, newImage) => {
-      const updatedChar = state.character();
-      updatedChar?.images?.push(newImage);
+      const character = state.character();
+      if (character == null) return;
+      const updatedChar = {
+        ...character,
+        images: [...(character.images ?? []), newImage],
+      };
       patchState(state, { character: updatedChar });
     },
     onDeleteSuccess: (state, imgPk) => {
-      const updatedChar = state.character();
-      if (updatedChar == null) return;
+      const character = state.character();
+      if (character == null) return;
+
+      const updatedChar = {
+        ...character,
+        images: [
+          ...(character.images?.filter((img) => img.pk !== imgPk) ?? []),
+        ],
+      };
       updatedChar.images = updatedChar.images?.filter(
         (img) => img.pk !== imgPk,
       );
       patchState(state, { character: updatedChar });
     },
     onUpdateSuccess: (state, newImg) => {
-      const updatedChar = state.character();
-      if (updatedChar == null) return;
-      updatedChar.images = replaceItem(updatedChar.images ?? [], newImg, 'pk');
+      const character = state.character();
+      if (character == null) return;
+
+      const updatedChar = {
+        ...character,
+        images: replaceItem(character.images ?? [], newImg, 'pk'),
+      };
       patchState(state, { character: updatedChar });
     },
   }),

@@ -17,10 +17,15 @@ import { SmallCreateFormComponent } from '../small-create-form/small-create-form
 
 type CreateBadgeKind = 'LINK' | 'SELECT' | 'NONE';
 
-type LinkCreateOptions = { kind: 'LINK'; link: string };
+type LinkCreateOptions = {
+  kind: 'LINK';
+  link: string;
+  createBadgeLabel?: string;
+};
 type BadgeCreateOptions<T> = {
   kind: 'SELECT';
   config: BadgeListSelectOptions<T>;
+  createBadgeLabel?: string;
 };
 type CreateOptions<T> =
   | BadgeCreateOptions<T>
@@ -60,6 +65,14 @@ export class BadgeListComponent<T, O> {
       ? (this.createOptions() as LinkCreateOptions).link
       : undefined,
   );
+  createBadgeLabel = computed(() => {
+    if (this.createKind() === 'NONE') return undefined;
+    const options = this.createOptions() as
+      | BadgeCreateOptions<O>
+      | LinkCreateOptions;
+
+    return options.createBadgeLabel ?? `Add ${this.label()}`;
+  });
   options = computed(() =>
     this.createKind() === 'SELECT'
       ? (this.createOptions() as BadgeCreateOptions<O>).config.options

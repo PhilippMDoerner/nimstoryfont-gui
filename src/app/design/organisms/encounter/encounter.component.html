@@ -59,6 +59,7 @@
   <!-- Encounter Connections -->
   <div class="card__connections">
     <app-badge-list
+      [label]="'Characters'"
       [entries]="badgeEntries()"
       [createOptions]="{
         kind: 'SELECT',
@@ -67,6 +68,7 @@
           valueProp: 'pk',
           labelProp: 'name',
         },
+        createBadgeLabel: 'Add character',
       }"
       [canCreate]="canCreate()"
       [canDelete]="canDelete()"

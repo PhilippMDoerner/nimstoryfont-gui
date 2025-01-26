@@ -19,12 +19,14 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs';
 import { Campaign } from 'src/app/_models/campaign';
+import { NamedRouteData } from 'src/app/_models/route';
 import { OnlineService } from 'src/app/_services/online.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
 import { SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
+import { NavigationStore } from 'src/app/navigation.store';
 import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 
@@ -52,7 +54,10 @@ export class SidebarComponent {
   sidebarSwipesLeft$ = this.swipeService
     .getSwipeEvents(this.host)
     .pipe(filter((swipeDistance) => swipeDistance < SWIPE_X_THRESHOLD * -1));
-
+  currentRoute = inject(NavigationStore).currentRoute;
+  activeRouteName = computed(
+    () => (this.currentRoute()?.data as NamedRouteData | undefined)?.name,
+  );
   campaign = input<Campaign | undefined>(undefined);
   hasCampaignAdminPrivileges = input<boolean>(false);
 
@@ -67,9 +72,14 @@ export class SidebarComponent {
             campaign: this.campaign()?.name,
           })
         : entry.route;
+      const activeRouteName = this.activeRouteName();
+      console.log('Active route: ', activeRouteName);
       return {
         ...entry,
         route,
+        isActiveTab: activeRouteName
+          ? entry.associatedRoutes.has(activeRouteName)
+          : false,
       };
     }),
   );

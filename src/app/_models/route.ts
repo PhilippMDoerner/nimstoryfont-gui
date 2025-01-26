@@ -6,8 +6,71 @@ import { onlyOnlineGuard } from '../_guards/only-online.guard';
 import { CampaignRole } from './token';
 
 //Route Data Models
-interface NamedRouteData {
-  name: string;
+const ROUTE_NAMES = [
+  'login',
+  'login-state',
+  'direct-profile',
+  'admin',
+  'config-tables',
+  'character-overview',
+  'creature-overview',
+  'diaryentry-overview',
+  'item-overview',
+  'location-overview',
+  'organization-overview',
+  'campaign-admin',
+  'campaign-update',
+  'home',
+  'search',
+  'character-create',
+  'character',
+  'character-update',
+  'creature-create',
+  'creature',
+  'creature-update',
+  'item-create',
+  'item',
+  'item-update',
+  'diaryentry-create',
+  'diaryentry',
+  'diaryentry-update',
+  'diaryentry-encounter',
+  'location-create',
+  'location',
+  'location-update',
+  'organization-create',
+  'organization',
+  'organization-update',
+  'quest-overview',
+  'quest-create',
+  'quest',
+  'quest-update',
+  'spells',
+  'spell',
+  'rules',
+  'rule',
+  'sessions',
+  'quote-overview',
+  'map-create',
+  'default-map',
+  'map',
+  'map-update',
+  'marker-create',
+  'marker-map-create',
+  'marker',
+  'marker-update',
+  'sessionaudio-overview',
+  'sessionaudio-create',
+  'sessionaudio',
+  'sessionaudio-update',
+  'graph',
+  'campaign-config-tables',
+] as const;
+
+export type RouteName = (typeof ROUTE_NAMES)[number];
+
+export interface NamedRouteData {
+  name: RouteName;
 }
 
 interface RoleRouteData extends NamedRouteData {

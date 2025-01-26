@@ -55,6 +55,7 @@
           (online$ | async) === false && !entry.availableOffline;
         <li
           class="sidebar__entry entry"
+          [class.entry--active]="entry.isActiveTab"
           [ngbTooltip]="isEntryDisabled ? 'Not available offline' : undefined"
         >
           <a
@@ -64,7 +65,7 @@
             [class.entry__link--disabled]="isEntryDisabled"
           >
             <app-icon class="entry__icon" [icon]="entry.iconClass"></app-icon>
-            <span class="entry__text">{{ entry.title }}</span>
+            {{ entry.title }}
             @if (isEntryDisabled) {
               <app-icon class="entry__icon" [icon]="'ban'"></app-icon>
             }

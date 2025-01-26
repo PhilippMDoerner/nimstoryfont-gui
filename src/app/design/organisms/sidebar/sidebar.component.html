@@ -36,19 +36,6 @@
   </div>
   <div class="offcanvas-body">
     <ul class="sidebar__entries">
-      <!-- Admin Section -->
-      @if (hasCampaignAdminPrivileges()) {
-        <li
-          class="sidebar__entry entry"
-          [class.disabled-entry]="campaign() == null"
-        >
-          <a class="entry__link" [routerLink]="campaignAdminUrl()">
-            <app-icon class="entry__icon" [icon]="'hammer'"></app-icon>
-            <span class="entry__text"> Campaign Admin </span>
-          </a>
-        </li>
-      }
-
       <!-- Campaign Overview Entries -->
       @for (entry of sidebarEntries(); track $index) {
         @let isEntryDisabled =

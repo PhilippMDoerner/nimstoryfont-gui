@@ -26,6 +26,7 @@ import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
 import { SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
+import { GlobalStore, hasRoleOrBetter } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
 import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
@@ -45,6 +46,7 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
+  globalStore = inject(GlobalStore);
   routingService = inject(RoutingService);
   swipeService = inject(SwipeService);
   titleService = inject(TitleService);
@@ -65,15 +67,22 @@ export class SidebarComponent {
   closeSidebar = output<void>();
 
   serverUrl = environment.backendDomain;
-  sidebarEntries: Signal<ArticleMetaData[]> = computed(() =>
-    SIDEBAR_ENTRIES.map((entry) => {
+  sidebarEntries: Signal<ArticleMetaData[]> = computed(() => {
+    const campaignName = this.campaign()?.name;
+    if (!campaignName) return [];
+    const currentRole = this.globalStore.getCampaignRole(campaignName);
+    if (!currentRole) return [];
+
+    const activeRouteName = this.activeRouteName();
+
+    return SIDEBAR_ENTRIES.filter((entry) =>
+      hasRoleOrBetter(currentRole, entry.requiresRole),
+    ).map((entry) => {
       const route = this.routingService.hasRoutePath(entry.route)
         ? this.routingService.getRoutePath(entry.route, {
             campaign: this.campaign()?.name,
           })
         : entry.route;
-      const activeRouteName = this.activeRouteName();
-      console.log('Active route: ', activeRouteName);
       return {
         ...entry,
         route,
@@ -81,8 +90,8 @@ export class SidebarComponent {
           ? entry.associatedRoutes.has(activeRouteName)
           : false,
       };
-    }),
-  );
+    });
+  });
 
   campaignOverviewUrl: string =
     this.routingService.getRoutePath('campaign-overview');

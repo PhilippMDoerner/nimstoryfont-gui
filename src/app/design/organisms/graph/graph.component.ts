@@ -41,15 +41,11 @@ export class GraphComponent {
   zoomSliderEvents$ = new Subject<string>();
 
   constructor() {
-    effect(
-      () =>
-        this.graphService.createGraphEvents$.next({
-          data: this.data(),
-          settings: this.graphSettings(),
-        }),
-      {
-        allowSignalWrites: true,
-      },
+    effect(() =>
+      this.graphService.createGraphEvents$.next({
+        data: this.data(),
+        settings: this.graphSettings(),
+      }),
     );
 
     // Replace graph in HTML if graph changes

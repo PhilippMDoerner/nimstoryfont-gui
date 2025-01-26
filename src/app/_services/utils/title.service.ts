@@ -31,15 +31,12 @@ export class TitleService {
       this.updateFavicon(newFaviconUrl);
     });
 
-    effect(
-      () => {
-        const params = this.navStore.currentRoute()?.params;
-        if (params) {
-          this.updatePageTitle(params);
-        }
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      const params = this.navStore.currentRoute()?.params;
+      if (params) {
+        this.updatePageTitle(params);
+      }
+    });
     effect(() => this.titleService.setTitle(this.currentPageTitle()));
   }
 

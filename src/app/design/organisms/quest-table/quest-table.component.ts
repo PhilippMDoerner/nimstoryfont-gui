@@ -1,5 +1,11 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -13,15 +19,15 @@ type DisplayState =
   | 'Failed'
   | 'On hold'
   | 'In progress';
-type TableType = 'success' | 'warning' | 'danger';
 
 @Component({
   selector: 'app-quest-table',
   templateUrl: './quest-table.component.html',
   styleUrls: ['./quest-table.component.scss'],
   imports: [FormsModule, RouterLink, IconComponent, NgTemplateOutlet],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuestTableComponent implements OnInit, OnChanges {
+export class QuestTableComponent {
   DISPLAY_STATES: DisplayState[] = [
     'Default',
     'All',
@@ -44,39 +50,35 @@ export class QuestTableComponent implements OnInit, OnChanges {
     'In progress': '',
   };
 
-  @Input() questTaker!: string;
-  @Input() quests!: OverviewItem[];
+  questTaker = input.required<string>();
+  quests = input.required<OverviewItem[]>();
 
-  state: DisplayState = 'Default';
-  displayQuests!: OverviewItem[];
+  state = signal<DisplayState>('Default');
+  displayQuests = computed<OverviewItem[]>(() =>
+    this.quests().filter((quest) =>
+      this.shouldDisplayQuest(quest, this.state()),
+    ),
+  );
 
-  ngOnInit(): void {
-    this.filterQuests();
+  updateDisplayState(event: Event) {
+    const newDisplayState = (event.target as HTMLSelectElement)
+      .value as DisplayState;
+    this.state.set(newDisplayState);
   }
 
-  ngOnChanges(): void {
-    this.filterQuests();
-  }
-
-  filterQuests() {
-    this.displayQuests = this.quests.filter((quest) =>
-      this.shouldDisplayQuest(quest),
-    );
-  }
-
-  shouldDisplayQuest(quest: OverviewItem): boolean {
-    const isShowingAllQuests = this.state.toLowerCase() === 'all';
+  shouldDisplayQuest(quest: OverviewItem, displayState: DisplayState): boolean {
+    const isShowingAllQuests = displayState.toLowerCase() === 'all';
     if (isShowingAllQuests) {
       return true;
     }
 
     const isMatchingDesiredState =
-      this.state.toLowerCase() === quest.status?.toLowerCase();
+      displayState.toLowerCase() === quest.status?.toLowerCase();
     if (isMatchingDesiredState) {
       return true;
     }
 
-    const isDefaultState = this.state === 'Default';
+    const isDefaultState = displayState === 'Default';
     const isMatchingDefault = ['in progress', 'on hold'].includes(
       quest.status?.toLowerCase() as string,
     );

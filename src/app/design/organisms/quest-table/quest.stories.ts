@@ -32,7 +32,7 @@ export default {
   },
 } as Meta<QuestTableComponent>;
 
-const Template: StoryFn<QuestTableComponent> = (args: QuestTableComponent) => ({
+const Template: StoryFn<QuestTableComponent> = (args) => ({
   props: {
     ...args,
   },

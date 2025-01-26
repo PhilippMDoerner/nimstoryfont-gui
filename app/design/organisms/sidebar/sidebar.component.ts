@@ -19,12 +19,15 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { filter } from 'rxjs';
 import { Campaign } from 'src/app/_models/campaign';
+import { NamedRouteData } from 'src/app/_models/route';
 import { OnlineService } from 'src/app/_services/online.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
 import { SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
+import { GlobalStore, hasRoleOrBetter } from 'src/app/global.store';
+import { NavigationStore } from 'src/app/navigation.store';
 import { environment } from 'src/environments/environment';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 
@@ -43,6 +46,7 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
+  globalStore = inject(GlobalStore);
   routingService = inject(RoutingService);
   swipeService = inject(SwipeService);
   titleService = inject(TitleService);
@@ -52,7 +56,10 @@ export class SidebarComponent {
   sidebarSwipesLeft$ = this.swipeService
     .getSwipeEvents(this.host)
     .pipe(filter((swipeDistance) => swipeDistance < SWIPE_X_THRESHOLD * -1));
-
+  currentRoute = inject(NavigationStore).currentRoute;
+  activeRouteName = computed(
+    () => (this.currentRoute()?.data as NamedRouteData | undefined)?.name,
+  );
   campaign = input<Campaign | undefined>(undefined);
   hasCampaignAdminPrivileges = input<boolean>(false);
 
@@ -60,8 +67,17 @@ export class SidebarComponent {
   closeSidebar = output<void>();
 
   serverUrl = environment.backendDomain;
-  sidebarEntries: Signal<ArticleMetaData[]> = computed(() =>
-    SIDEBAR_ENTRIES.map((entry) => {
+  sidebarEntries: Signal<ArticleMetaData[]> = computed(() => {
+    const campaignName = this.campaign()?.name;
+    if (!campaignName) return [];
+    const currentRole = this.globalStore.getCampaignRole(campaignName);
+    if (!currentRole) return [];
+
+    const activeRouteName = this.activeRouteName();
+
+    return SIDEBAR_ENTRIES.filter((entry) =>
+      hasRoleOrBetter(currentRole, entry.requiresRole),
+    ).map((entry) => {
       const route = this.routingService.hasRoutePath(entry.route)
         ? this.routingService.getRoutePath(entry.route, {
             campaign: this.campaign()?.name,
@@ -70,9 +86,12 @@ export class SidebarComponent {
       return {
         ...entry,
         route,
+        isActiveTab: activeRouteName
+          ? entry.associatedRoutes.has(activeRouteName)
+          : false,
       };
-    }),
-  );
+    });
+  });
 
   campaignOverviewUrl: string =
     this.routingService.getRoutePath('campaign-overview');

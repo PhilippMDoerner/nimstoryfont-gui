@@ -1,13 +1,12 @@
 <div class="container">
   <div class="row heading">
     <!-- Outer Table Heading -->
-    <h5 class="col-sm-9 heading__text">{{ questTaker }}'s Quests</h5>
+    <h5 class="col-sm-9 heading__text">{{ questTaker() }}'s Quests</h5>
 
     <!-- Filterselect -->
     <select
       class="col-sm-3 heading__select"
-      [(ngModel)]="state"
-      (change)="filterQuests()"
+      (change)="updateDisplayState($event)"
     >
       @for (state of DISPLAY_STATES; track state) {
         <option [value]="state">
@@ -38,7 +37,7 @@
 
       <!-- Table Body -->
       <tbody [id]="questTaker + '-quests'">
-        @for (quest of displayQuests; track $index) {
+        @for (quest of displayQuests(); track $index) {
           <tr>
             <!-- Quest Name Column -->
             <td class="table__element">

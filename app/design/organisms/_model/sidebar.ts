@@ -1,3 +1,5 @@
+import { RouteName } from 'src/app/_models/route';
+import { CampaignRole } from 'src/app/_models/token';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 
 export interface ArticleMetaData {
@@ -8,9 +10,24 @@ export interface ArticleMetaData {
   article_types: string[];
   showInSidebar: boolean;
   availableOffline: boolean;
+  associatedRoutes: Set<RouteName>;
+  isActiveTab: boolean;
+  requiresRole: CampaignRole;
 }
 
 export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
+  {
+    title: 'Campaign Admin',
+    iconClass: 'hammer',
+    route: 'campaign-admin',
+    color: '',
+    article_types: [],
+    showInSidebar: true,
+    availableOffline: false,
+    associatedRoutes: new Set(['campaign-admin', 'campaign-update']),
+    isActiveTab: false,
+    requiresRole: 'admin',
+  },
   {
     title: 'Creatures',
     iconClass: 'dragon',
@@ -19,6 +36,14 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['creature'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set([
+      'creature-create',
+      'creature-update',
+      'creature',
+      'creature-overview',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Characters',
@@ -28,6 +53,15 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['character'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set([
+      'character-create',
+      'character-update',
+      'character',
+      'character-overview',
+      'quote-overview',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'DiaryEntries',
@@ -37,6 +71,15 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['diaryentry'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set([
+      'diaryentry-create',
+      'diaryentry-update',
+      'diaryentry',
+      'diaryentry-overview',
+      'diaryentry-encounter',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Items',
@@ -46,6 +89,14 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['item'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set([
+      'item-create',
+      'item-update',
+      'item',
+      'item-overview',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Locations',
@@ -55,6 +106,17 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['location'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set([
+      'location-create',
+      'location-update',
+      'location',
+      'location-overview',
+      'marker',
+      'marker-create',
+      'marker-update',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Maps',
@@ -64,6 +126,15 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['map'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set([
+      'map-create',
+      'map-update',
+      'map',
+      'default-map',
+      'marker-map-create',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Organizations',
@@ -73,6 +144,14 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['organization'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set([
+      'organization-create',
+      'organization-update',
+      'organization',
+      'organization-overview',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Quests',
@@ -82,6 +161,14 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['quest'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set([
+      'quest-create',
+      'quest-update',
+      'quest',
+      'quest-overview',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Recordings',
@@ -91,6 +178,14 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['sessionaudio', 'recording'],
     showInSidebar: true,
     availableOffline: false,
+    associatedRoutes: new Set([
+      'sessionaudio-create',
+      'sessionaudio',
+      'sessionaudio-update',
+      'sessionaudio-overview',
+    ]),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Rules',
@@ -100,6 +195,9 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['rule', 'rules'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set(['rule', 'rules']),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Spells',
@@ -109,6 +207,9 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['spell', 'spells'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set(['spell', 'spells']),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Sessions',
@@ -118,6 +219,9 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: ['session', 'sessions'],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set(['sessions']),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Wiki-Overview',
@@ -127,6 +231,9 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: [],
     showInSidebar: true,
     availableOffline: true,
+    associatedRoutes: new Set(['graph']),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
   {
     title: 'Wiki Configuration',
@@ -136,5 +243,8 @@ export const SIDEBAR_ENTRIES: ArticleMetaData[] = [
     article_types: [],
     showInSidebar: true,
     availableOffline: false,
+    associatedRoutes: new Set(['campaign-config-tables']),
+    isActiveTab: false,
+    requiresRole: 'guest',
   },
 ];

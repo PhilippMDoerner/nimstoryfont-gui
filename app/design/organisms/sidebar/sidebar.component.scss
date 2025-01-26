@@ -52,6 +52,7 @@ a {
 }
 
 .entry {
+  &--active,
   :hover {
     color: var(--entry-hover-color);
     background-color: var(--entry-hover-bg-color);

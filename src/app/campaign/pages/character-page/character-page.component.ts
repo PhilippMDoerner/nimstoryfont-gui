@@ -62,7 +62,8 @@ export class CharacterPageComponent {
   }
 
   onRefreshQuote() {
-    this.store.loadCharacterQuote(this.store.character()?.name as string);
+    const name = this.store.character()?.name as string;
+    this.store.loadCharacterQuote(name);
   }
 
   onCreateQuoteConnection(connection: QuoteConnection) {

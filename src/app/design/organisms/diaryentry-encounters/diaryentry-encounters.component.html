@@ -3,11 +3,11 @@
     <!-- Insert new first Encounter -->
     @if (state() === "EDIT") {
       <div class="row">
-        <div class="list__buttons buttons">
+        <div class="list__buttons list__buttons--first buttons">
           @if (canCreate()) {
             <button
               btn
-              class="col-12 col-md-4 buttons__button buttons__button--left"
+              class="col-12 col-md-6 col-lg-4 buttons__button buttons__button--left"
               title="Add Encounter to Diaryentry"
               [kind]="'PRIMARY'"
               [size]="'LARGE'"
@@ -20,7 +20,7 @@
           @if (canUpdate()) {
             <button
               btn
-              class="col-6 col-md-4 buttons__button buttons__button--right"
+              class="col-6 col-md-6 col-lg-4 buttons__button buttons__button--right"
               title="Insert Cut Encounter"
               [size]="'LARGE'"
               [icon]="'file-import'"
@@ -39,7 +39,7 @@
     }
 
     <!-- Diaryentry - Encounters -->
-    <div class="row">
+    <div class="row list__inner">
       @for (entryEncounter of diaryEntryEncounters(); track entryEncounter) {
         <!-- Encounter -->
         <div
@@ -74,7 +74,7 @@
               @if (canCreate()) {
                 <button
                   btn
-                  class="col-12 col-md-4 buttons__button buttons__button--left"
+                  class="col-12 col-md-6 col-lg-4 buttons__button buttons__button--left"
                   title="Add Encounter to DiaryEntry"
                   [kind]="'PRIMARY'"
                   [size]="'LARGE'"
@@ -87,7 +87,7 @@
               @if (canUpdate()) {
                 <button
                   btn
-                  class="col-6 col-md-4 buttons__button buttons__button--right"
+                  class="col-6 col-md-6 col-lg-4 buttons__button buttons__button--right"
                   title="Insert Cut Encounter"
                   [size]="'LARGE'"
                   [icon]="'file-import'"

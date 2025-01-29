@@ -1,7 +1,17 @@
 import { DOCUMENT } from '@angular/common';
 import { afterNextRender, DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter, fromEvent, Observable, tap } from 'rxjs';
+import {
+  filter,
+  fromEvent,
+  map,
+  merge,
+  Observable,
+  shareReplay,
+  startWith,
+  takeUntil,
+  tap,
+} from 'rxjs';
 
 const UNBINDABLE_HOTKEYS = [
   '',
@@ -40,18 +50,19 @@ const UNBINDABLE_HOTKEYS = [
   'z',
   'Z',
 ] as const;
-const UNBINDABLE_KEYSET = new Set<string>(UNBINDABLE_HOTKEYS);
+export const UNBINDABLE_KEYSET = new Set<string>(UNBINDABLE_HOTKEYS);
 type UnbindableHotkey = (typeof UNBINDABLE_HOTKEYS)[number];
 
 type NotA<T> = T extends UnbindableHotkey ? never : T;
 type NotB<T> = UnbindableHotkey extends T ? never : T;
-type BindableHotkey<T> = NotA<T> & NotB<T>;
+export type BindableHotkey<T> = NotA<T> & NotB<T>;
 
 @Injectable({
   providedIn: 'root',
 })
 export class HotkeyService {
   private hotkeyDown$: Observable<KeyboardEvent> | undefined;
+  public isHotkeyActive$: Observable<boolean> | undefined; //Undefined on Server
 
   constructor() {
     const window = inject(DOCUMENT).defaultView;
@@ -60,12 +71,15 @@ export class HotkeyService {
     afterNextRender(() => {
       if (window) {
         const keydownEvents$ = fromEvent<KeyboardEvent>(window, 'keydown');
+        const keyupEvents$ = fromEvent<KeyboardEvent>(window, 'keyup');
 
-        this.hotkeyDown$ = keydownEvents$.pipe(
-          // tap((event) => console.log('keydown', event)),
-          filter((event) => event.altKey && !UNBINDABLE_KEYSET.has(event.key)),
+        this.hotkeyDown$ = this.toHotkeydownEvents(keydownEvents$).pipe(
           takeUntilDestroyed(destroyRef),
         );
+        this.isHotkeyActive$ = this.toIsHotkeyActive(
+          keydownEvents$,
+          keyupEvents$,
+        ).pipe(takeUntilDestroyed(destroyRef));
       }
     });
   }
@@ -79,18 +93,46 @@ export class HotkeyService {
   registerHotkey<T>(
     key: BindableHotkey<T>,
     onKeydown: (key: KeyboardEvent) => void,
-    destroyRef: DestroyRef,
+    destroyer: DestroyRef | Observable<unknown>,
   ) {
-    afterNextRender(() => {
-      console.log('Registering hotkey: ', key, !!this.hotkeyDown$);
-      if (!this.hotkeyDown$) return;
-      this.hotkeyDown$
-        .pipe(
-          takeUntilDestroyed(destroyRef),
-          filter((event) => event.key === key),
-          tap((event) => event.preventDefault()),
-        )
-        .subscribe(onKeydown);
-    });
+    if (!window || !this.hotkeyDown$) return;
+
+    console.log('Registering hotkey: ', key, !!this.hotkeyDown$);
+    const isDestroyRef = destroyer instanceof DestroyRef;
+    this.hotkeyDown$
+      .pipe(
+        filter((event) => event.key === key),
+        tap((event) => event.preventDefault()),
+        isDestroyRef ? takeUntilDestroyed(destroyer) : takeUntil(destroyer),
+      )
+      .subscribe(onKeydown);
+  }
+
+  private toHotkeydownEvents(
+    keydownEvents$: Observable<KeyboardEvent>,
+  ): Observable<KeyboardEvent> {
+    return keydownEvents$.pipe(
+      tap((event) => console.log('keydown', event)),
+      filter((event) => event.altKey && !UNBINDABLE_KEYSET.has(event.key)),
+      shareReplay(1),
+    );
+  }
+
+  private toIsHotkeyActive(
+    keydownEvents$: Observable<KeyboardEvent>,
+    keyupEvents$: Observable<KeyboardEvent>,
+  ): Observable<boolean> {
+    const isAltKeyDown$ = keydownEvents$.pipe(
+      filter((event) => event.key === 'Alt'),
+      map(() => true),
+    );
+    const isAltKeyUp$ = keyupEvents$.pipe(
+      filter((event) => event.key === 'Alt'),
+      map(() => false),
+    );
+    return merge(isAltKeyDown$, isAltKeyUp$).pipe(
+      startWith(false),
+      shareReplay(1),
+    );
   }
 }

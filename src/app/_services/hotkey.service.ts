@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { afterNextRender, DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  EMPTY,
   filter,
   fromEvent,
   map,
@@ -9,7 +10,6 @@ import {
   Observable,
   shareReplay,
   startWith,
-  takeUntil,
   tap,
 } from 'rxjs';
 
@@ -90,22 +90,14 @@ export class HotkeyService {
    * - alt + @key
    * - alt + ctrl + @key (This is mostly relevant for firefox which displays a few menus when alt is pressed)
    */
-  registerHotkey<T>(
-    key: BindableHotkey<T>,
-    onKeydown: (key: KeyboardEvent) => void,
-    destroyer: DestroyRef | Observable<unknown>,
-  ) {
-    if (!window || !this.hotkeyDown$) return;
+  watch<T>(key: BindableHotkey<T>): Observable<KeyboardEvent> {
+    if (!window || !this.hotkeyDown$) return EMPTY;
 
     console.log('Registering hotkey: ', key, !!this.hotkeyDown$);
-    const isDestroyRef = destroyer instanceof DestroyRef;
-    this.hotkeyDown$
-      .pipe(
-        filter((event) => event.key === key),
-        tap((event) => event.preventDefault()),
-        isDestroyRef ? takeUntilDestroyed(destroyer) : takeUntil(destroyer),
-      )
-      .subscribe(onKeydown);
+    return this.hotkeyDown$.pipe(
+      filter((event) => event.key === key),
+      tap((event) => event.preventDefault()),
+    );
   }
 
   private toHotkeydownEvents(

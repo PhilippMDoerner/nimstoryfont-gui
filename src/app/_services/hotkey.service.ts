@@ -2,6 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { afterNextRender, DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
+  debounceTime,
   EMPTY,
   filter,
   fromEvent,
@@ -65,6 +66,7 @@ export class HotkeyService {
   public isHotkeyActive$: Observable<boolean> | undefined; //Undefined on Server
 
   constructor() {
+    const document = inject(DOCUMENT);
     const window = inject(DOCUMENT).defaultView;
     const destroyRef = inject(DestroyRef);
 
@@ -72,6 +74,12 @@ export class HotkeyService {
       if (window) {
         const keydownEvents$ = fromEvent<KeyboardEvent>(window, 'keydown');
         const keyupEvents$ = fromEvent<KeyboardEvent>(window, 'keyup');
+        const visibilityChangeEvents$ = merge(
+          fromEvent<Event>(document, 'blur'),
+          fromEvent<Event>(window, 'blur'),
+          fromEvent<Event>(document, 'visibilitychange'),
+          fromEvent<Event>(window, 'visibilitychange'),
+        ).pipe(debounceTime(10));
 
         this.hotkeyDown$ = this.toHotkeydownEvents(keydownEvents$).pipe(
           takeUntilDestroyed(destroyRef),
@@ -79,14 +87,15 @@ export class HotkeyService {
         this.isHotkeyActive$ = this.toIsHotkeyActive(
           keydownEvents$,
           keyupEvents$,
+          visibilityChangeEvents$,
         ).pipe(takeUntilDestroyed(destroyRef));
       }
     });
   }
 
   /**
-   * Registers a @key to trigger an @onKeydown callback for the lifetime of the given @destroyRef.
-   * @onKeyDown will get triggered everytime @key gets invoked as either:
+   * Creates an observable of keydown events on @key that happen while the hotkey is pressed.
+   * Event will get fired everytime @key gets invoked as either:
    * - alt + @key
    * - alt + ctrl + @key (This is mostly relevant for firefox which displays a few menus when alt is pressed)
    */
@@ -104,7 +113,6 @@ export class HotkeyService {
     keydownEvents$: Observable<KeyboardEvent>,
   ): Observable<KeyboardEvent> {
     return keydownEvents$.pipe(
-      tap((event) => console.log('keydown', event)),
       filter((event) => event.altKey && !UNBINDABLE_KEYSET.has(event.key)),
       shareReplay(1),
     );
@@ -113,16 +121,18 @@ export class HotkeyService {
   private toIsHotkeyActive(
     keydownEvents$: Observable<KeyboardEvent>,
     keyupEvents$: Observable<KeyboardEvent>,
+    visibilityChangeEvents$: Observable<Event>,
   ): Observable<boolean> {
-    const isAltKeyDown$ = keydownEvents$.pipe(
+    const isAltKeyDown1$ = keydownEvents$.pipe(
       filter((event) => event.key === 'Alt'),
       map(() => true),
     );
-    const isAltKeyUp$ = keyupEvents$.pipe(
-      filter((event) => event.key === 'Alt'),
-      map(() => false),
-    );
-    return merge(isAltKeyDown$, isAltKeyUp$).pipe(
+    const isAltKeyDown2 = merge(
+      keyupEvents$.pipe(filter((event) => event.key === 'Alt')),
+      visibilityChangeEvents$,
+    ).pipe(map(() => false));
+
+    return merge(isAltKeyDown1$, isAltKeyDown2).pipe(
       startWith(false),
       shareReplay(1),
     );

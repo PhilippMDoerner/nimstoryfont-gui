@@ -4,12 +4,11 @@ import {
   ElementRef,
   inject,
   input,
-  OnDestroy,
   output,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { map, merge, skip, Subject, switchMap, tap } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs';
 import {
   BindableHotkey,
   HotkeyService,
@@ -20,7 +19,7 @@ import {
   selector: '[hotkey]',
   providers: [NgbTooltip],
 })
-export class HotkeyDirective implements OnDestroy {
+export class HotkeyDirective {
   private tooltip = inject(NgbTooltip);
   private hotkeyService = inject(HotkeyService);
 
@@ -30,14 +29,6 @@ export class HotkeyDirective implements OnDestroy {
   hotkeyPressed = output<KeyboardEvent>();
 
   private tooltipText = computed(() => `Alt + ${this.hotkey()}`);
-  private destroyDirective$ = new Subject<void>();
-  private teardownHotkeyBehavior$ = merge(
-    toObservable(this.hotkey).pipe(
-      skip(1),
-      map(() => void 0),
-    ),
-    this.destroyDirective$,
-  );
 
   constructor() {
     const element = inject(ElementRef<HTMLElement>);
@@ -62,12 +53,6 @@ export class HotkeyDirective implements OnDestroy {
     toObservable(this.tooltipText)
       .pipe(takeUntilDestroyed())
       .subscribe((tooltipText) => (this.tooltip.ngbTooltip = tooltipText));
-  }
-
-  ngOnDestroy(): void {
-    console.log('Destroying hotkey directive');
-    this.destroyDirective$.next();
-    this.destroyDirective$.complete();
   }
 
   private configureTooltip(element: ElementRef<HTMLElement>) {

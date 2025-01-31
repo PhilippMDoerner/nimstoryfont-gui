@@ -41,6 +41,8 @@
       [valueProp]="optionValuePropVal"
       [badgeText]="badgeLabel"
       [cancelButtonType]="'DARK'"
+      [createHotkey]="hotkey()"
+      [showHotkeyTooltip]="showHotkeyTooltip()"
       (create)="onEntryCreate($event)"
     ></app-small-create-form>
   }

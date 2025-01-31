@@ -20,8 +20,6 @@ const UNBINDABLE_HOTKEYS = [
   'A',
   'b',
   'B',
-  'c',
-  'C',
   'd',
   'D',
   'f',
@@ -38,8 +36,6 @@ const UNBINDABLE_HOTKEYS = [
   'L',
   'n',
   'N',
-  'q',
-  'Q',
   'r',
   'R',
   't',
@@ -99,8 +95,8 @@ export class HotkeyService {
    * - alt + @key
    * - alt + ctrl + @key (This is mostly relevant for firefox which displays a few menus when alt is pressed)
    */
-  watch<T>(key: BindableHotkey<T>): Observable<KeyboardEvent> {
-    if (!window || !this.hotkeyDown$) return EMPTY;
+  watch<T>(key: BindableHotkey<T> | undefined): Observable<KeyboardEvent> {
+    if (!window || !this.hotkeyDown$ || !key) return EMPTY;
 
     console.log('Registering hotkey: ', key, !!this.hotkeyDown$);
     return this.hotkeyDown$.pipe(

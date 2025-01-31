@@ -21,11 +21,13 @@ type LinkCreateOptions = {
   kind: 'LINK';
   link: string;
   createBadgeLabel?: string;
+  hotkey?: string | undefined;
 };
 type BadgeCreateOptions<T> = {
   kind: 'SELECT';
   config: BadgeListSelectOptions<T>;
   createBadgeLabel?: string;
+  hotkey?: string | undefined;
 };
 type CreateOptions<T> =
   | BadgeCreateOptions<T>
@@ -48,6 +50,7 @@ type CreateOptions<T> =
 export class BadgeListComponent<T, O> {
   entries = input.required<BadgeListEntry<T>[]>();
   createOptions = input<CreateOptions<O>>();
+  showHotkeyTooltip = input<boolean>(false);
   label = input('Entry');
   canCreate = input(false);
   canDelete = input(false);
@@ -87,6 +90,9 @@ export class BadgeListComponent<T, O> {
     this.createKind() === 'SELECT'
       ? (this.createOptions() as BadgeCreateOptions<O>).config.valueProp
       : undefined,
+  );
+  hotkey = computed<string | undefined>(
+    () => (this.createOptions() as any)?.hotkey,
   );
 
   onEntryDelete(entry: BadgeListEntry<T>) {

@@ -16,7 +16,10 @@
     [icon]="'plus'"
     [text]="badgeText()"
     [clickable]="true"
-    (badgeClick)="changeState('CREATE')"
+    [hotkey]="createHotkey()"
+    [showTooltip]="showHotkeyTooltip()"
+    (hotkeyPressed)="toggleForm()"
+    (badgeClick)="toggleForm()"
   ></app-badge>
 </ng-template>
 
@@ -59,7 +62,10 @@
       [kind]="cancelButtonType()"
       [size]="'SMALL'"
       [icon]="'times'"
-      (click)="onCancel()"
+      [hotkey]="'q'"
+      [showTooltip]="showHotkeyTooltip()"
+      (hotkeyPressed)="toggleForm()"
+      (click)="toggleForm()"
     ></button>
   </form>
 </ng-template>

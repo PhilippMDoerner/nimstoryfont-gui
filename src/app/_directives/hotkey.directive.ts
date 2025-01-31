@@ -23,12 +23,14 @@ export class HotkeyDirective {
   private tooltip = inject(NgbTooltip);
   private hotkeyService = inject(HotkeyService);
 
-  hotkey = input.required<string>();
+  hotkey = input.required<string | undefined>();
   showTooltip = input.required<boolean>();
 
   hotkeyPressed = output<KeyboardEvent>();
 
-  private tooltipText = computed(() => `Alt + ${this.hotkey()}`);
+  private tooltipText = computed(() =>
+    this.hotkey() ? `Alt + ${this.hotkey()}` : undefined,
+  );
 
   constructor() {
     const element = inject(ElementRef<HTMLElement>);
@@ -41,7 +43,7 @@ export class HotkeyDirective {
     toObservable(this.hotkey)
       .pipe(
         map((key) => this.checkKey(key)),
-        switchMap((key) =>
+        switchMap((key: BindableHotkey<any> | undefined) =>
           this.hotkeyService
             .watch(key)
             .pipe(tap((event) => this.hotkeyPressed.emit(event))),
@@ -68,7 +70,9 @@ export class HotkeyDirective {
     }
   }
 
-  private checkKey(key: string): BindableHotkey<any> {
+  private checkKey(key: string | undefined): BindableHotkey<any> | undefined {
+    if (!key) return undefined;
+
     const canBindHotkey = !UNBINDABLE_KEYSET.has(key);
     if (!canBindHotkey) {
       throw new Error(`Tried to bind unbindable hotkey ${key}`);

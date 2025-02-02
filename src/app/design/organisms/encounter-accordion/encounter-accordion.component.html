@@ -22,6 +22,7 @@
               [canUpdate]="canUpdate()"
               [canDelete]="canDelete()"
               [canCreate]="canCreate()"
+              [isInFocus]="false"
               (connectionDelete)="connectionDelete.emit($event)"
               (connectionCreate)="connectionCreate.emit($event)"
               (encounterDelete)="encounterDelete.emit($event)"

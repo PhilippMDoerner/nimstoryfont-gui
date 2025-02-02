@@ -27,7 +27,6 @@ import {
   ReplaySubject,
   startWith,
   switchMap,
-  tap,
 } from 'rxjs';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
@@ -92,7 +91,6 @@ export class FormlyTypeaheadFieldComponent<T>
   ) => {
     const searchTerm$ = merge(searchTrigger$, this.focus$, this.click$).pipe(
       startWith(''),
-      tap(() => console.log('searchTerm$')),
     );
     const customProps = this.getCustomProps();
     const options$ = searchTerm$.pipe(
@@ -103,14 +101,12 @@ export class FormlyTypeaheadFieldComponent<T>
       searchTerm: searchTerm$,
       options: options$,
     }).pipe(
-      tap(() => console.log('init')),
       map(({ searchTerm, options }) => {
         if (!searchTerm) return options;
         return options.filter((opt) =>
           this.matchesSearchterm(searchTerm, opt[customProps.optionLabelProp]),
         );
       }),
-      tap((resp) => console.log('resp', resp)),
     );
   };
 

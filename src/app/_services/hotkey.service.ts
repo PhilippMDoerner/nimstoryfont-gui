@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { afterNextRender, DestroyRef, inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   debounceTime,
@@ -20,8 +20,6 @@ const UNBINDABLE_HOTKEYS = [
   'A',
   'b',
   'B',
-  'd',
-  'D',
   'f',
   'F',
   'g',
@@ -38,14 +36,6 @@ const UNBINDABLE_HOTKEYS = [
   'N',
   'r',
   'R',
-  't',
-  'T',
-  'w',
-  'W',
-  'x',
-  'X',
-  'z',
-  'Z',
 ] as const;
 export const UNBINDABLE_KEYSET = new Set<string>(UNBINDABLE_HOTKEYS);
 type UnbindableHotkey = (typeof UNBINDABLE_HOTKEYS)[number];
@@ -66,27 +56,25 @@ export class HotkeyService {
     const window = inject(DOCUMENT).defaultView;
     const destroyRef = inject(DestroyRef);
 
-    afterNextRender(() => {
-      if (window) {
-        const keydownEvents$ = fromEvent<KeyboardEvent>(window, 'keydown');
-        const keyupEvents$ = fromEvent<KeyboardEvent>(window, 'keyup');
-        const visibilityChangeEvents$ = merge(
-          fromEvent<Event>(document, 'blur'),
-          fromEvent<Event>(window, 'blur'),
-          fromEvent<Event>(document, 'visibilitychange'),
-          fromEvent<Event>(window, 'visibilitychange'),
-        ).pipe(debounceTime(10));
+    if (window) {
+      const keydownEvents$ = fromEvent<KeyboardEvent>(window, 'keydown');
+      const keyupEvents$ = fromEvent<KeyboardEvent>(window, 'keyup');
+      const visibilityChangeEvents$ = merge(
+        fromEvent<Event>(document, 'blur'),
+        fromEvent<Event>(window, 'blur'),
+        fromEvent<Event>(document, 'visibilitychange'),
+        fromEvent<Event>(window, 'visibilitychange'),
+      ).pipe(debounceTime(10));
 
-        this.hotkeyDown$ = this.toHotkeydownEvents(keydownEvents$).pipe(
-          takeUntilDestroyed(destroyRef),
-        );
-        this.isHotkeyActive$ = this.toIsHotkeyActive(
-          keydownEvents$,
-          keyupEvents$,
-          visibilityChangeEvents$,
-        ).pipe(takeUntilDestroyed(destroyRef));
-      }
-    });
+      this.hotkeyDown$ = this.toHotkeydownEvents(keydownEvents$).pipe(
+        takeUntilDestroyed(destroyRef),
+      );
+      this.isHotkeyActive$ = this.toIsHotkeyActive(
+        keydownEvents$,
+        keyupEvents$,
+        visibilityChangeEvents$,
+      ).pipe(takeUntilDestroyed(destroyRef));
+    }
   }
 
   /**
@@ -98,7 +86,6 @@ export class HotkeyService {
   watch<T>(key: BindableHotkey<T> | undefined): Observable<KeyboardEvent> {
     if (!window || !this.hotkeyDown$ || !key) return EMPTY;
 
-    console.log('Registering hotkey: ', key, !!this.hotkeyDown$);
     return this.hotkeyDown$.pipe(
       filter((event) => event.key === key),
       tap((event) => event.preventDefault()),

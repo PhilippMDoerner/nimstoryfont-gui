@@ -17,9 +17,15 @@
 
     @if (canUpdate()) {
       <app-edit-toggle
+        #toggleButton
         class="card__edit-button"
         [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
+        [hotkey]="'e'"
+        [showTooltip]="showHotkeyHelp()"
+        (hotkeyPressed)="
+          isInFocus() ? onToggle(toggleButton.toggled()) : undefined
+        "
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }
@@ -63,13 +69,15 @@
       [entries]="badgeEntries()"
       [createOptions]="{
         kind: 'SELECT',
+        hotkey: 'c',
+        createBadgeLabel: 'Add character',
         config: {
           options: characters(),
           valueProp: 'pk',
           labelProp: 'name',
         },
-        createBadgeLabel: 'Add character',
       }"
+      [showHotkeyTooltip]="showHotkeyHelp()"
       [canCreate]="canCreate()"
       [canDelete]="canDelete()"
       [cancelButtonType]="'DARK'"
@@ -84,6 +92,7 @@
       class="card__delete-confirmer"
       [confirmationQuestion]="'Delete this encounter?'"
       [icon]="'trash'"
+      [enableHotkey]="showHotkeyHelp()"
       (confirm)="onEncounterDelete()"
     ></app-confirmation-toggle-button>
   }

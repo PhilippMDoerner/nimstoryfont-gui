@@ -18,7 +18,7 @@
     [clickable]="true"
     [hotkey]="createHotkey()"
     [showTooltip]="showHotkeyTooltip()"
-    (hotkeyPressed)="toggleForm()"
+    (hotkeyPressed)="showHotkeyTooltip() ? toggleForm() : undefined"
     (badgeClick)="toggleForm()"
   ></app-badge>
 </ng-template>
@@ -26,8 +26,10 @@
 <ng-template #createState>
   <form class="form">
     <select
+      [autofocus]="true"
       class="form-select"
       style="width: unset"
+      [attr.aria-label]="badgeText()"
       [name]="selectFieldName()"
       [id]="'select'"
       (change)="onChange($event)"
@@ -49,6 +51,7 @@
     <button
       btn
       class="mx-2"
+      aria-label="submit form"
       [kind]="submitButtonType()"
       [size]="'SMALL'"
       [icon]="'check'"
@@ -59,6 +62,7 @@
     <!-- Cancel Button -->
     <button
       btn
+      aria-label="cancel form submission"
       [kind]="cancelButtonType()"
       [size]="'SMALL'"
       [icon]="'times'"

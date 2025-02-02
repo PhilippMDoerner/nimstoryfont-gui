@@ -1,110 +1,112 @@
 <div class="container list" [class.list--loading]="isUpdatingGlobally()">
   @if (!isUpdatingGlobally()) {
-    <!-- Insert new first Encounter -->
-    @if (state() === "EDIT") {
-      <div class="row">
-        <div class="list__buttons list__buttons--first buttons">
-          @if (canCreate()) {
-            <button
-              btn
-              class="col-12 col-md-6 col-lg-4 buttons__button buttons__button--left"
-              title="Add Encounter to Diaryentry"
-              [kind]="'PRIMARY'"
-              [size]="'LARGE'"
-              [icon]="'plus'"
-              [text]="'Add First Encounter'"
-              [disabled]="isUpdatingAnything()"
-              (click)="addEmptyEncounterAtIndex(-1)"
-            ></button>
-          }
-          @if (canUpdate()) {
-            <button
-              btn
-              class="col-6 col-md-6 col-lg-4 buttons__button buttons__button--right"
-              title="Insert Cut Encounter"
-              [size]="'LARGE'"
-              [icon]="'file-import'"
-              [text]="'Insert Cut Encounter'"
-              [kind]="'SECONDARY'"
-              [disabled]="
-                isUpdatingAnything() ||
-                cutEncounterIndex() == null ||
-                cutEncounterIndex() === 0
-              "
-              (click)="onInsertExcisedEncounter(-1 + 1)"
-            ></button>
-          }
-        </div>
-      </div>
-    }
-
     <!-- Diaryentry - Encounters -->
     <div class="row list__inner">
       @for (entryEncounter of diaryEntryEncounters(); track entryEncounter) {
-        <!-- Encounter -->
-        <div
-          class="repeated-unit"
-          [id]="entryEncounter.encounter.title"
-          #encounter
-        >
-          @switch (state()) {
-            @case ("READ") {
-              <ng-container
-                *ngTemplateOutlet="
-                  displayEncounter;
-                  context: { $implicit: entryEncounter }
-                "
-              />
-            }
-            @case ("EDIT") {
-              <ng-container
-                *ngTemplateOutlet="
-                  editEncounter;
-                  context: {
-                    $implicit: { entry: entryEncounter, index: $index },
-                  }
-                "
-              />
-            }
-          }
+        @let isBeingCut = $index === cutEncounterIndex();
+        @let isPriorBeingCut = $index === (cutEncounterIndex() ?? 0) - 1;
+        @let disabled = isUpdatingAnything() || entryEncounter.isUpdating;
+        @let isValidCutTarget =
+          isCutInProgress() && (!isBeingCut || !isPriorBeingCut);
 
-          <!-- Insert new Encounter -->
-          @if (state() === "EDIT" && (canCreate() || canUpdate())) {
-            <div class="list__buttons buttons">
-              @if (canCreate()) {
-                <button
-                  btn
-                  class="col-12 col-md-6 col-lg-4 buttons__button buttons__button--left"
-                  title="Add Encounter to DiaryEntry"
-                  [kind]="'PRIMARY'"
-                  [size]="'LARGE'"
-                  [icon]="'plus'"
-                  [text]="'Add Encounter'"
-                  [disabled]="isUpdatingAnything()"
-                  (click)="addEmptyEncounterAtIndex($index)"
-                ></button>
-              }
-              @if (canUpdate()) {
-                <button
-                  btn
-                  class="col-6 col-md-6 col-lg-4 buttons__button buttons__button--right"
-                  title="Insert Cut Encounter"
-                  [size]="'LARGE'"
-                  [icon]="'file-import'"
-                  [text]="'Insert Cut Encounter'"
-                  [kind]="'SECONDARY'"
-                  [disabled]="
-                    isUpdatingAnything() ||
-                    cutEncounterIndex() == null ||
-                    cutEncounterIndex()! - 1 === $index ||
-                    cutEncounterIndex() === $index
-                  "
-                  (click)="onInsertExcisedEncounter($index + 1)"
-                ></button>
-              }
-            </div>
-          }
-        </div>
+        @if ($first && state() === "EDIT" && (canCreate() || canUpdate())) {
+          <div class="list__buttons list__buttons--first buttons">
+            @if (canCreate()) {
+              <button
+                btn
+                class="col-12 col-md-6 col-lg-4 buttons__button buttons__button--left"
+                title="Add Encounter to Diaryentry"
+                [kind]="'PRIMARY'"
+                [size]="'LARGE'"
+                [icon]="'plus'"
+                [text]="'Add First Encounter'"
+                [disabled]="isUpdatingAnything()"
+                (click)="addEmptyEncounterAtIndex(-1)"
+              ></button>
+            }
+            @if (canUpdate()) {
+              <button
+                btn
+                class="col-6 col-md-6 col-lg-4 buttons__button buttons__button--right"
+                title="Insert Cut Encounter"
+                [size]="'LARGE'"
+                [icon]="'file-import'"
+                [text]="'Insert Cut Encounter'"
+                [kind]="'SECONDARY'"
+                [disabled]="
+                  isUpdatingAnything() ||
+                  !isCutInProgress() ||
+                  cutEncounterIndex() === 0
+                "
+                (click)="onInsertExcisedEncounter(-1 + 1)"
+              ></button>
+            }
+          </div>
+        }
+
+        <app-encounter-card
+          #encounter
+          class="list__encounter"
+          [attr.tabindex]="state() === 'EDIT' ? 0 : null"
+          [encounter]="entryEncounter.encounter"
+          [characters]="campaignCharacters() ?? []"
+          [locations]="campaignLocations() ?? []"
+          [serverModel]="encounterServerModel()"
+          [canUpdate]="canUpdate()"
+          [canDelete]="canDelete()"
+          [canCreate]="canCreate()"
+          [canActivateCut]="!isCutInProgress()"
+          [isCutInProgress]="isCutInProgress()"
+          [disabled]="disabled"
+          [isValidCutTarget]="isValidCutTarget"
+          [isBeingCut]="cutEncounterIndex() === $index"
+          [state]="state()"
+          [isInFocus]="encounterIndexInFocus() === $index"
+          (connectionDelete)="connectionDelete.emit($event)"
+          (connectionCreate)="connectionCreate.emit($event)"
+          (encounterDelete)="onEncounterDelete($index)"
+          (encounterUpdate)="encounterUpdate.emit($event)"
+          (encounterCreate)="onEncounterCreate($event)"
+          (encounterCreateCancel)="onEncounterCreateCancel($index)"
+          (startCutEncounter)="onExcisionClick($index)"
+          (cutEncounterCancel)="cutEncounterIndex.set(undefined)"
+          (moveEncounter)="moveEncounter($event, $index)"
+          (focusin)="setEncounterFocusIndex($index)"
+          (focus)="setEncounterFocusIndex($index)"
+          (blur)="setEncounterFocusIndex(undefined)"
+        ></app-encounter-card>
+
+        <!-- Insert new Encounter -->
+        @if (state() === "EDIT" && (canCreate() || canUpdate())) {
+          <div class="list__buttons buttons">
+            @if (canCreate()) {
+              <button
+                btn
+                class="col-12 col-md-6 col-lg-4 buttons__button buttons__button--left"
+                title="Add Encounter to DiaryEntry"
+                [kind]="'PRIMARY'"
+                [size]="'LARGE'"
+                [icon]="'plus'"
+                [text]="'Add Encounter'"
+                [disabled]="disabled"
+                (click)="addEmptyEncounterAtIndex($index)"
+              ></button>
+            }
+            @if (canUpdate()) {
+              <button
+                btn
+                class="col-6 col-md-6 col-lg-4 buttons__button buttons__button--right"
+                title="Insert Cut Encounter"
+                [size]="'LARGE'"
+                [icon]="'file-import'"
+                [text]="'Insert Cut Encounter'"
+                [kind]="'SECONDARY'"
+                [disabled]="disabled || !isCutInProgress() || !isValidCutTarget"
+                (click)="onInsertExcisedEncounter($index + 1)"
+              ></button>
+            }
+          </div>
+        }
       }
     </div>
   } @else {
@@ -112,86 +114,5 @@
   }
 </div>
 
-<ng-template #displayEncounter let-entryEncounter>
-  <h4>
-    {{ entryEncounter.encounter?.title }}
-  </h4>
-  <app-html-text [text]="entryEncounter.encounter.description"></app-html-text>
-</ng-template>
-
-<ng-template #editEncounter let-context>
-  <app-card class="encounter-card">
-    @if (!context.entry.isUpdating) {
-      <app-encounter
-        class="encounter-card__encounter"
-        [encounter]="context.entry.encounter"
-        [characters]="campaignCharacters() ?? []"
-        [locations]="campaignLocations() ?? []"
-        [serverModel]="encounterServerModel()"
-        [canUpdate]="canUpdate()"
-        [canDelete]="canDelete()"
-        [canCreate]="canCreate()"
-        [initialState]="
-          context.entry.encounter.pk == null ? 'CREATE' : 'DISPLAY'
-        "
-        (connectionDelete)="connectionDelete.emit($event)"
-        (connectionCreate)="connectionCreate.emit($event)"
-        (encounterDelete)="onEncounterDelete(context.index)"
-        (encounterUpdate)="encounterUpdate.emit($event)"
-        (encounterCreate)="onEncounterCreate($event)"
-        (encounterCreateCancel)="onEncounterCreateCancel(context.index)"
-      ></app-encounter>
-      @if (canUpdate() && context.entry.encounter.pk != null) {
-        <div class="encounter-card__side-buttons side-buttons side-buttons">
-          <button
-            btn
-            class="side-buttons__button side-buttons__button--edit"
-            [disabled]="
-              cutEncounterIndex() != null &&
-              context.index !== cutEncounterIndex()
-            "
-            [kind]="
-              cutEncounterIndex() != null &&
-              context.index === cutEncounterIndex()
-                ? 'PRIMARY'
-                : 'DARK'
-            "
-            [icon]="
-              cutEncounterIndex() != null &&
-              context.index === cutEncounterIndex()
-                ? 'times'
-                : 'cut'
-            "
-            [disabled]="isUpdatingAnything()"
-            (click)="onExcisionClick(context.index)"
-          ></button>
-          <ng-container
-            *ngTemplateOutlet="orderArrows; context: { $implicit: context }"
-          />
-        </div>
-      }
-    } @else {
-      <ng-container *ngTemplateOutlet="loading" />
-    }
-  </app-card>
-</ng-template>
-
 <!-- Loading Spinner -->
 <ng-template #loading><app-spinner class="spinner"></app-spinner></ng-template>
-
-<ng-template #orderArrows let-context>
-  <app-arrow-button
-    class="side-buttons__button side-buttons__button--arrow"
-    [kind]="'DARK'"
-    [icon]="'up'"
-    [disabled]="isUpdatingAnything()"
-    (click)="onEncounterOrderDecrease(context.index)"
-  ></app-arrow-button>
-  <app-arrow-button
-    class="side-buttons__button side-buttons__button--arrow"
-    [kind]="'DARK'"
-    [icon]="'down'"
-    [disabled]="isUpdatingAnything()"
-    (click)="onEncounterOrderIncrease(context.index)"
-  ></app-arrow-button>
-</ng-template>

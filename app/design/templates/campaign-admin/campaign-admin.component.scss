@@ -10,9 +10,18 @@
   &__user-group {
     height: fit-content;
   }
+
+  &__settings {
+    display: block;
+    margin-bottom: var(--spacer-4);
+    margin-top: var(--spacer-4);
+  }
 }
 
 .user-group {
+  margin-top: var(--spacer-4);
+  margin-bottom: var(--spacer-4);
+
   &__heading {
     text-align: center;
   }

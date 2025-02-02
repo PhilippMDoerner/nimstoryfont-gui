@@ -11,8 +11,17 @@
   }
 
   &__buttons {
-    padding: 0;
-    margin-bottom: var(--spacer-2);
+    margin-bottom: var(--spacer-4);
+  }
+
+  &__encounter {
+    padding: unset;
+    border-radius: var(--bs-border-radius);
+    scroll-margin-top: calc(var(--spacer-5) * 2);
+
+    &:focus-within {
+      outline: var(--focus-outline);
+    }
   }
 }
 
@@ -20,9 +29,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 0;
+  margin-top: var(--spacer-4);
+  margin-bottom: var(--spacer-4);
+
+  &--first {
+    margin-top: unset;
+  }
 
   &__button {
     display: flex;
+
     &--left {
     }
 
@@ -79,14 +96,6 @@
     &--edit {
       display: none;
       margin-bottom: var(--spacer-4);
-
-      @include media-breakpoint-up(md) {
-        display: unset;
-      }
-    }
-
-    &--arrow {
-      padding: var(--spacer-1) var(--spacer-0);
     }
   }
 }

@@ -1,0 +1,89 @@
+<div class="repeated-unit" [id]="encounter().title">
+  @switch (state()) {
+    @case ("READ") {
+      <ng-container *ngTemplateOutlet="displayEncounter" />
+    }
+    @case ("EDIT") {
+      <ng-container *ngTemplateOutlet="editEncounter" />
+    }
+  }
+</div>
+
+<ng-template #displayEncounter>
+  <h4>
+    {{ encounter().title }}
+  </h4>
+  <app-html-text [text]="encounter().description"></app-html-text>
+</ng-template>
+
+<ng-template #editEncounter>
+  <app-card class="encounter-card">
+    @if (!disabled()) {
+      <app-encounter
+        class="encounter-card__encounter"
+        [encounter]="encounter()"
+        [characters]="characters()"
+        [locations]="locations()"
+        [serverModel]="serverModel()"
+        [canUpdate]="canUpdate()"
+        [canDelete]="canDelete()"
+        [canCreate]="canCreate()"
+        [isInFocus]="isInFocus()"
+        [initialState]="encounter().pk == null ? 'CREATE' : 'DISPLAY'"
+        (connectionDelete)="connectionDelete.emit($event)"
+        (connectionCreate)="connectionCreate.emit($event)"
+        (encounterDelete)="encounterDelete.emit($event)"
+        (encounterUpdate)="encounterUpdate.emit($event)"
+        (encounterCreate)="encounterCreate.emit($event)"
+        (encounterCreateCancel)="encounterCreateCancel.emit()"
+      ></app-encounter>
+      @if (canUpdate() && encounter().pk != null) {
+        <div class="encounter-card__side-buttons side-buttons side-buttons">
+          <button
+            btn
+            class="side-buttons__button side-buttons__button--edit"
+            aria-label="Cut Encounter to insert it elsewhere in the list"
+            [hotkey]="'x'"
+            [showTooltip]="showHotkeyHelp()"
+            [disabled]="isCutInProgress() && !isBeingCut()"
+            [kind]="isCutInProgress() && isBeingCut() ? 'PRIMARY' : 'DARK'"
+            [icon]="isCutInProgress() && isBeingCut() ? 'times' : 'cut'"
+            (hotkeyPressed)="
+              isCutInProgress()
+                ? cutEncounterCancel.emit()
+                : startCutEncounter.emit()
+            "
+            (click)="
+              isCutInProgress()
+                ? cutEncounterCancel.emit()
+                : startCutEncounter.emit()
+            "
+          ></button>
+          <ng-container *ngTemplateOutlet="orderArrows" />
+        </div>
+      }
+    } @else {
+      <ng-container *ngTemplateOutlet="loading" />
+    }
+  </app-card>
+</ng-template>
+
+<ng-template #orderArrows>
+  <app-arrow-button
+    class="side-buttons__button side-buttons__button--arrow"
+    [kind]="'DARK'"
+    [icon]="'up'"
+    [disabled]="disabled()"
+    (click)="moveEncounter.emit('up')"
+  ></app-arrow-button>
+  <app-arrow-button
+    class="side-buttons__button side-buttons__button--arrow"
+    [kind]="'DARK'"
+    [icon]="'down'"
+    [disabled]="disabled()"
+    (click)="moveEncounter.emit('down')"
+  ></app-arrow-button>
+</ng-template>
+
+<!-- Loading Spinner -->
+<ng-template #loading><app-spinner class="spinner"></app-spinner></ng-template>

@@ -17,10 +17,17 @@ import { SmallCreateFormComponent } from '../small-create-form/small-create-form
 
 type CreateBadgeKind = 'LINK' | 'SELECT' | 'NONE';
 
-type LinkCreateOptions = { kind: 'LINK'; link: string };
+type LinkCreateOptions = {
+  kind: 'LINK';
+  link: string;
+  createBadgeLabel?: string;
+  hotkey?: string | undefined;
+};
 type BadgeCreateOptions<T> = {
   kind: 'SELECT';
   config: BadgeListSelectOptions<T>;
+  createBadgeLabel?: string;
+  hotkey?: string | undefined;
 };
 type CreateOptions<T> =
   | BadgeCreateOptions<T>
@@ -43,6 +50,7 @@ type CreateOptions<T> =
 export class BadgeListComponent<T, O> {
   entries = input.required<BadgeListEntry<T>[]>();
   createOptions = input<CreateOptions<O>>();
+  showHotkeyTooltip = input<boolean>(false);
   label = input('Entry');
   canCreate = input(false);
   canDelete = input(false);
@@ -60,6 +68,14 @@ export class BadgeListComponent<T, O> {
       ? (this.createOptions() as LinkCreateOptions).link
       : undefined,
   );
+  createBadgeLabel = computed(() => {
+    if (this.createKind() === 'NONE') return undefined;
+    const options = this.createOptions() as
+      | BadgeCreateOptions<O>
+      | LinkCreateOptions;
+
+    return options.createBadgeLabel ?? `Add ${this.label()}`;
+  });
   options = computed(() =>
     this.createKind() === 'SELECT'
       ? (this.createOptions() as BadgeCreateOptions<O>).config.options
@@ -74,6 +90,9 @@ export class BadgeListComponent<T, O> {
     this.createKind() === 'SELECT'
       ? (this.createOptions() as BadgeCreateOptions<O>).config.valueProp
       : undefined,
+  );
+  hotkey = computed<string | undefined>(
+    () => (this.createOptions() as any)?.hotkey,
   );
 
   onEntryDelete(entry: BadgeListEntry<T>) {

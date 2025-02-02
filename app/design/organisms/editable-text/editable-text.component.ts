@@ -62,16 +62,13 @@ export class EditableTextComponent {
   editorField = viewChild<ElementRef>('editor');
 
   constructor() {
-    effect(
-      () => {
-        const hasUpdateFailed = this.serverModel() != undefined;
+    effect(() => {
+      const hasUpdateFailed = this.serverModel() != undefined;
 
-        if (hasUpdateFailed) {
-          this.state.set('OUTDATED_UPDATE');
-        }
-      },
-      { allowSignalWrites: true },
-    );
+      if (hasUpdateFailed) {
+        this.state.set('OUTDATED_UPDATE');
+      }
+    });
   }
 
   toggleEdit() {

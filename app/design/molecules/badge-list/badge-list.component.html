@@ -31,29 +31,39 @@
   @let optionsVal = options();
   @let optionLabelPropVal = optionLabelProp();
   @let optionValuePropVal = optionValueProp();
+  @let badgeLabel = createBadgeLabel();
 
-  @if (optionsVal && optionLabelPropVal && optionValuePropVal) {
+  @if (optionsVal && optionLabelPropVal && optionValuePropVal && badgeLabel) {
     <app-small-create-form
       class="badge-list__create-form"
       [options]="optionsVal"
       [labelProp]="optionLabelPropVal"
       [valueProp]="optionValuePropVal"
-      [badgeText]="'Add ' + label()"
+      [badgeText]="badgeLabel"
       [cancelButtonType]="'DARK'"
+      [createHotkey]="hotkey()"
+      [showHotkeyTooltip]="showHotkeyTooltip()"
       (create)="onEntryCreate($event)"
     ></app-small-create-form>
   }
 </ng-template>
 
 <ng-template #linkCreate>
-  <a [routerLink]="createLink()" class="badge-list__create-link" tabindex="-1">
-    <app-badge
-      class="badge-list__create-badge"
-      [kind]="'PRIMARY'"
-      [icon]="'plus'"
-      [text]="'Add ' + label()"
-      [clickable]="true"
+  @let badgeLabel = createBadgeLabel();
+  @if (badgeLabel) {
+    <a
+      [routerLink]="createLink()"
+      class="badge-list__create-link"
+      tabindex="-1"
     >
-    </app-badge>
-  </a>
+      <app-badge
+        class="badge-list__create-badge"
+        [kind]="'PRIMARY'"
+        [icon]="'plus'"
+        [text]="badgeLabel"
+        [clickable]="true"
+      >
+      </app-badge>
+    </a>
+  }
 </ng-template>

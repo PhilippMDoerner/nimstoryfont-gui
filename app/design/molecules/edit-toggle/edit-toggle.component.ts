@@ -24,12 +24,9 @@ export class EditToggleComponent {
   @Output() toggle: EventEmitter<boolean> = new EventEmitter();
 
   constructor() {
-    effect(
-      () => {
-        this._toggled.set(this.toggled());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this._toggled.set(this.toggled());
+    });
   }
 
   onClick() {

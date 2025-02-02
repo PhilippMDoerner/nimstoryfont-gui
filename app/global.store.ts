@@ -249,17 +249,14 @@ export const GlobalStore = signalStore(
         const campaignParam$ =
           paramsService.campaignNameParam$.pipe(takeUntilDestroyed());
         const campaignParam = toSignal(campaignParam$);
-        effect(
-          () => {
-            const campaigns = store.campaigns();
-            const currentCampaignName = campaignParam();
-            const currentCampaign = campaigns?.find(
-              (campaign) => campaign.name === currentCampaignName,
-            );
-            patchState(store, { campaigns, currentCampaign });
-          },
-          { allowSignalWrites: true },
-        );
+        effect(() => {
+          const campaigns = store.campaigns();
+          const currentCampaignName = campaignParam();
+          const currentCampaign = campaigns?.find(
+            (campaign) => campaign.name === currentCampaignName,
+          );
+          patchState(store, { campaigns, currentCampaign });
+        });
       },
     };
   }),

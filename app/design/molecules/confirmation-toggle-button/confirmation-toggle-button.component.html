@@ -8,11 +8,18 @@
   <button
     btn
     class="confirmation-toggle"
-    (click)="toggle()"
+    [attr.aria-label]="
+      'Toggle delete confirmation button as per this question: ' +
+      confirmationQuestion()
+    "
     [kind]="toggleType()"
     [icon]="icon()"
     [size]="toggleSize()"
     [text]="text()"
+    [hotkey]="'d'"
+    [showTooltip]="enableHotkey()"
+    (hotkeyPressed)="enableHotkey() ? toggle() : undefined"
+    (click)="toggle()"
   ></button>
 </ng-template>
 
@@ -32,6 +39,9 @@
         btn
         [kind]="cancelButtonType()"
         [text]="'No'"
+        [hotkey]="'q'"
+        [showTooltip]="enableHotkey()"
+        (hotkeyPressed)="enableHotkey() ? toggle() : undefined"
         (click)="toggle()"
       ></button>
     </div>

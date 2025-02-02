@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
-import { filter, fromEvent, map, tap } from 'rxjs';
+import { filter, fromEvent, map } from 'rxjs';
 import { FileFieldKind } from 'src/app/_models/formly';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
@@ -83,7 +83,6 @@ export class FormlyFileFieldComponent
     if (this.window) {
       fromEvent<ClipboardEvent>(this.window, 'paste')
         .pipe(
-          tap((e) => console.log('PASTE', e)),
           map((event) => event.clipboardData?.files?.[0]),
           filter((pastedFile) => !!pastedFile),
           takeUntilDestroyed(),

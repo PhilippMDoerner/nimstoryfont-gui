@@ -1,12 +1,13 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, inject, Injectable } from '@angular/core';
 import { filter, fromEvent, map, shareReplay, withLatestFrom } from 'rxjs';
-import { MOBILE_WIDTH, SWIPE_Y_THRESHOLD } from '../app.constants';
+import { SWIPE_Y_THRESHOLD } from '../app.constants';
+import { ScreenService } from './screen.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SwipeService {
-  constructor() {}
+  screenService = inject(ScreenService);
 
   /**
    * Listens to swipe events to the left and right that happen on or inside the element.
@@ -18,7 +19,7 @@ export class SwipeService {
       'touchstart',
       { passive: true },
     ).pipe(
-      filter(() => this.isMobile()),
+      filter(() => this.screenService.isMobile()),
       filter((event) => this.isInIgnoreZone(event)),
       shareReplay(1),
     );
@@ -27,7 +28,7 @@ export class SwipeService {
       'touchend',
       { passive: true },
     ).pipe(
-      filter(() => this.isMobile()),
+      filter(() => this.screenService.isMobile()),
       filter((event) => this.isInIgnoreZone(event)),
     );
 
@@ -47,10 +48,6 @@ export class SwipeService {
       }),
     );
     return swipe$;
-  }
-
-  private isMobile() {
-    return screen.width <= MOBILE_WIDTH;
   }
 
   private isInIgnoreZone(event: TouchEvent) {

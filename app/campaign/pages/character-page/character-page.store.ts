@@ -11,7 +11,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
-import { distinctUntilChanged, filter, map, pipe, switchMap } from 'rxjs';
+import { distinctUntilChanged, filter, map, pipe, switchMap, take } from 'rxjs';
 import {
   CharacterDetails,
   CharacterEncounter,
@@ -79,6 +79,7 @@ export const CharacterStore = signalStore(
     return {
       character: (name: string) =>
         campaignName$.pipe(
+          take(1),
           switchMap((campaign) =>
             characterService.readByParam(campaign, { name }),
           ),
@@ -127,6 +128,7 @@ export const CharacterStore = signalStore(
         ),
       characterQuote: (name: string) =>
         campaignName$.pipe(
+          take(1),
           switchMap((campaignName) =>
             quoteService.getRandomQuote(campaignName, name),
           ),

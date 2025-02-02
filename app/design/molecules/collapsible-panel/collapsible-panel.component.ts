@@ -22,7 +22,7 @@ export class CollapsiblePanelComponent implements OnInit {
   _isOpen = signal(false);
 
   constructor() {
-    effect(() => this._isOpen.set(this.isOpen()), { allowSignalWrites: true });
+    effect(() => this._isOpen.set(this.isOpen()));
   }
 
   ngOnInit(): void {

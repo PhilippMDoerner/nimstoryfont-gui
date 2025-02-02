@@ -1,7 +1,8 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
+  DestroyRef,
   ElementRef,
   EventEmitter,
   inject,
@@ -24,17 +25,25 @@ import { DiaryentryPageStore } from 'src/app/campaign/pages/diaryentry-page/diar
 
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { map, take } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  merge,
+  shareReplay,
+  take,
+  withLatestFrom,
+} from 'rxjs';
+import { HotkeyService } from 'src/app/_services/hotkey.service';
+import { ScreenService } from 'src/app/_services/screen.service';
 import { slideUpFromBottom } from 'src/app/design/animations/slideDown';
-import { ArrowButtonComponent } from 'src/app/design/atoms/arrow-button/arrow-button.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
-import { CardComponent } from 'src/app/design/atoms/card/card.component';
-import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import { filterNil } from 'src/utils/rxjs-operators';
-import { EncounterComponent } from '../encounter/encounter.component';
-
-type ListState = 'READ' | 'EDIT';
+import {
+  EncounterCardComponent,
+  EncounterCardState,
+} from '../encounter-card/encounter-card.component';
 
 @Component({
   selector: 'app-diaryentry-encounters',
@@ -42,18 +51,18 @@ type ListState = 'READ' | 'EDIT';
   styleUrls: ['./diaryentry-encounters.component.scss'],
   imports: [
     ButtonComponent,
-    CardComponent,
-    HtmlTextComponent,
-    EncounterComponent,
-    ArrowButtonComponent,
     SpinnerComponent,
     NgTemplateOutlet,
+    EncounterCardComponent,
   ],
   animations: [slideUpFromBottom],
 })
 export class DiaryentryEncountersComponent {
   store = inject(DiaryentryPageStore);
   route = inject(ActivatedRoute);
+  hotkeyService = inject(HotkeyService);
+  document = inject(DOCUMENT);
+  destroyRef = inject(DestroyRef);
 
   diaryEntryPk = computed(() => this.store.diaryentry()?.pk);
   campaignCharacters = this.store.campaignCharacters;
@@ -62,8 +71,15 @@ export class DiaryentryEncountersComponent {
   canUpdate = this.store.hasWritePermission;
   canDelete = this.store.hasWritePermission;
   canCreate = this.store.hasWritePermission;
-  state = input<ListState>('READ');
-  encounterElements = viewChildren<ElementRef<HTMLDivElement>>('encounter');
+  state = input<EncounterCardState>('READ');
+  state$ = toObservable(this.state);
+  encounterElements = viewChildren<
+    ElementRef<HTMLElement>,
+    ElementRef<HTMLElement>
+  >('encounter', {
+    read: ElementRef<HTMLElement>,
+  });
+  encounterElements$ = toObservable(this.encounterElements);
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();
@@ -80,16 +96,26 @@ export class DiaryentryEncountersComponent {
     new EventEmitter();
   addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
+  encounterIndexInFocus = signal<number | undefined>(undefined);
+  encounterIndexInFocus$ = toObservable(this.encounterIndexInFocus).pipe(
+    shareReplay(),
+  );
   encountersToAdd = signal<EncounterRaw[]>([]);
   isUpdatingGlobally = this.store.isUpdatingGlobally;
   isUpdatingAnything = this.store.isUpdatingAnyEncounters;
   cutEncounterIndex = signal<number | undefined>(undefined);
+  isCutInProgress = computed(() => this.cutEncounterIndex() != null);
   diaryEntryEncounters = this.store.diaryEntryEncounters;
 
   constructor() {
     const encounterTitle = this.route.snapshot.params['encounterTitle'];
     if (encounterTitle) {
       this.scrollToEncounter(encounterTitle);
+    }
+
+    if (!inject(ScreenService).isMobile()) {
+      this.startHotkeyNavigation();
+      this.startScrollToEncounterOnFocus();
     }
   }
 
@@ -150,29 +176,13 @@ export class DiaryentryEncountersComponent {
     }
   }
 
-  onEncounterOrderIncrease(encounterIndex: number): void {
-    const isLastEncounter =
-      encounterIndex === this.diaryEntryEncounters().length - 1;
-    if (isLastEncounter) return; //encounter is already last, can't increase more
-
-    const encounter = this.diaryEntryEncounters()[encounterIndex]
-      .encounter as Encounter;
-    const nextEncounter = this.nextRealEncounter(encounterIndex + 1);
-    if (!nextEncounter) return;
-
-    this.store.swapEncounters(encounter.pk, nextEncounter.pk);
-  }
-
-  onEncounterOrderDecrease(encounterIndex: number): void {
-    const isFirstEncounter = encounterIndex === 0;
-    if (isFirstEncounter) return; //encounter is already first, can't decrease more
-
-    const encounter = this.diaryEntryEncounters()[encounterIndex]
-      .encounter as Encounter;
-    const priorEncounter = this.priorRealEncounter(encounterIndex - 1);
-    if (!priorEncounter) return;
-
-    this.store.swapEncounters(encounter.pk, priorEncounter.pk);
+  moveEncounter(event: 'up' | 'down', encounterIndex: number) {
+    switch (event) {
+      case 'up':
+        return this.onEncounterOrderDecrease(encounterIndex);
+      case 'down':
+        return this.onEncounterOrderIncrease(encounterIndex);
+    }
   }
 
   onEncounterCreateCancel(encounterIndex: number) {
@@ -194,6 +204,118 @@ export class DiaryentryEncountersComponent {
     };
     this.encounterCreate.emit(newEncounter);
     this.store.removeEmptyEncounterForCreation(encounter);
+  }
+
+  setEncounterFocusIndex(index: number | undefined) {
+    if (this.state() === 'EDIT') {
+      this.encounterIndexInFocus.set(index);
+    }
+  }
+
+  private startScrollToEncounterOnFocus() {
+    this.encounterIndexInFocus$
+      .pipe(
+        filter(() => this.state() === 'EDIT'),
+        filterNil(),
+        distinctUntilChanged(),
+        withLatestFrom(this.encounterElements$),
+        map(([index, elements]) => elements[index].nativeElement),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe((elementToFocus) =>
+        elementToFocus.scrollIntoView({ behavior: 'smooth' }),
+      );
+  }
+
+  private startHotkeyNavigation() {
+    const arrowPress$ = merge(
+      this.hotkeyService.watch('ArrowDown').pipe(map(() => 'down' as const)),
+      this.hotkeyService.watch('ArrowUp').pipe(map(() => 'up' as const)),
+    );
+
+    const htmlElements$ = this.encounterElements$.pipe(
+      map((elements) => {
+        return elements.map((el) => el.nativeElement);
+      }),
+    );
+
+    arrowPress$
+      .pipe(
+        filter((arrowPress) => !!arrowPress),
+        withLatestFrom(htmlElements$, this.encounterIndexInFocus$, this.state$),
+        filter(([_, __, ___, state]) => state === 'EDIT'),
+        map(([arrowPress, elements, focusedElementIndex, _]) => {
+          const alreadyHasFocus =
+            focusedElementIndex != null && focusedElementIndex >= 0;
+          if (alreadyHasFocus) {
+            const nextFocusedElementIndex = this.toNextIndex(
+              focusedElementIndex,
+              arrowPress,
+            );
+            return {
+              nextFocusElement: elements[nextFocusedElementIndex],
+              nextFocusIndex: focusedElementIndex,
+            };
+          }
+
+          switch (arrowPress) {
+            case 'down':
+              const firstElementIndex = 0;
+              return {
+                nextFocusElement: elements[firstElementIndex],
+                nextFocusIndex: firstElementIndex,
+              };
+            case 'up':
+              const lastElementIndex = elements.length - 1;
+              return {
+                nextFocusElement: elements[lastElementIndex],
+                nextFocusIndex: lastElementIndex,
+              };
+          }
+        }),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
+      )
+      .subscribe(({ nextFocusElement, nextFocusIndex }) => {
+        this.encounterIndexInFocus.set(nextFocusIndex);
+        if (!nextFocusElement) return;
+        nextFocusElement.focus();
+        nextFocusElement.scrollIntoView({ behavior: 'smooth' });
+      });
+  }
+
+  private toNextIndex(index: number, direction: 'up' | 'down'): number {
+    switch (direction) {
+      case 'up':
+        return index - 1;
+      case 'down':
+        return index + 1;
+    }
+  }
+
+  private onEncounterOrderIncrease(encounterIndex: number): void {
+    const isLastEncounter =
+      encounterIndex === this.diaryEntryEncounters().length - 1;
+    if (isLastEncounter) return; //encounter is already last, can't increase more
+
+    const encounter = this.diaryEntryEncounters()[encounterIndex]
+      .encounter as Encounter;
+    const nextEncounter = this.nextRealEncounter(encounterIndex + 1);
+    if (!nextEncounter) return;
+
+    this.store.swapEncounters(encounter.pk, nextEncounter.pk);
+  }
+
+  private onEncounterOrderDecrease(encounterIndex: number): void {
+    const isFirstEncounter = encounterIndex === 0;
+    if (isFirstEncounter) return; //encounter is already first, can't decrease more
+
+    const encounter = this.diaryEntryEncounters()[encounterIndex]
+      .encounter as Encounter;
+    const priorEncounter = this.priorRealEncounter(encounterIndex - 1);
+    if (!priorEncounter) return;
+
+    this.store.swapEncounters(encounter.pk, priorEncounter.pk);
   }
 
   private scrollToEncounter(encounterTitle: string): void {

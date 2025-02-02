@@ -16,9 +16,10 @@ import { RouterOutlet } from '@angular/router';
 import { NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, filter, fromEvent, map, switchMap } from 'rxjs';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ScreenService } from 'src/app/_services/screen.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
-import { MOBILE_WIDTH, SWIPE_X_THRESHOLD } from 'src/app/app.constants';
+import { SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { PageBackgroundComponent } from 'src/app/design/molecules';
 import { GlobalStore } from 'src/app/global.store';
 import { delayFalsy, filterNil } from 'src/utils/rxjs-operators';
@@ -46,6 +47,7 @@ export class PageComponent {
   globalStore = inject(GlobalStore);
   sidebarService = inject(NgbOffcanvas);
   swipeService = inject(SwipeService);
+  screenService = inject(ScreenService);
   routingService = inject(RoutingService);
   host = inject(ElementRef);
 
@@ -65,7 +67,7 @@ export class PageComponent {
 
   hasCampaignAdminPrivileges =
     this.globalStore.canPerformActionsOfRole('admin');
-  showSidebar = signal(this.isMobile() ? false : true);
+  showSidebar = signal(this.screenService.isMobile() ? false : true);
   canShowSidebar = computed(() => {
     const hasCampaign = !!this.globalStore.currentCampaign();
     const allowSidebarVisibility = showSidebarSignal();
@@ -110,22 +112,18 @@ export class PageComponent {
   }
 
   closeSidebar() {
-    if (!this.isMobile()) return;
+    if (!this.screenService.isMobile()) return;
 
     this.sidebarService.dismiss();
     this.showSidebar.set(false);
   }
 
   openSidebar() {
-    if (!this.isMobile() || !this.canShowSidebar()) return;
+    if (!this.screenService.isMobile() || !this.canShowSidebar()) return;
     this.sidebarService.open(this.sidebarTemplate(), {
       ariaLabelledBy: 'offcanvas-basic-title',
     });
     this.showSidebar.set(true);
-  }
-
-  private isMobile() {
-    return window.innerWidth <= MOBILE_WIDTH;
   }
 
   private dispatchCustomPageScrollEvent(event: Event): void {

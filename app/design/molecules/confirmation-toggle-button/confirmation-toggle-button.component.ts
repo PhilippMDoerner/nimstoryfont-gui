@@ -8,6 +8,7 @@ import {
   Output,
   signal,
 } from '@angular/core';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { flipInY } from 'src/app/design/animations/flip';
 import {
   ButtonKind,
@@ -23,13 +24,14 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
   templateUrl: './confirmation-toggle-button.component.html',
   styleUrls: ['./confirmation-toggle-button.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, NgTemplateOutlet],
+  imports: [ButtonComponent, NgTemplateOutlet, HotkeyDirective],
   animations: [flipInY],
 })
 export class ConfirmationToggleButtonComponent {
   confirmationQuestion = input.required<string>();
   icon = input<Icon>();
   text = input<string>();
+  enableHotkey = input<boolean>(false);
   toggleType = input<ButtonKind>('DANGER-OUTLINE');
   toggleSize = input<ElementSize>('MEDIUM');
   confirmButtonType = computed<ElementKind>(

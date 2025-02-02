@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { BadgeComponent } from 'src/app/design/atoms/badge/badge.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
@@ -18,7 +19,7 @@ export type DisableableOption<T> = { value: T; disabled: boolean };
   selector: 'app-small-create-form',
   templateUrl: './small-create-form.component.html',
   styleUrls: ['./small-create-form.component.scss'],
-  imports: [BadgeComponent, NgTemplateOutlet, ButtonComponent],
+  imports: [BadgeComponent, NgTemplateOutlet, ButtonComponent, HotkeyDirective],
 })
 export class SmallCreateFormComponent<T> {
   options = input.required<T[]>();
@@ -27,6 +28,8 @@ export class SmallCreateFormComponent<T> {
   valueProp = input.required<keyof T>();
   submitButtonType = input<ElementKind>('PRIMARY');
   cancelButtonType = input<ElementKind>('SECONDARY');
+  createHotkey = input<string | undefined>();
+  showHotkeyTooltip = input<boolean>(false);
 
   @Output() create: EventEmitter<T> = new EventEmitter();
 
@@ -57,5 +60,14 @@ export class SmallCreateFormComponent<T> {
       this.create.emit(this.userModel as T);
     }
     this.userModel = {};
+  }
+
+  toggleForm() {
+    switch (this.state()) {
+      case 'DISPLAY':
+        return this.changeState('CREATE');
+      case 'CREATE':
+        return this.onCancel();
+    }
   }
 }

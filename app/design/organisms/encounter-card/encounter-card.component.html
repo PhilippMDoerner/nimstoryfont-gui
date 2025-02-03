@@ -18,7 +18,7 @@
 
 <ng-template #editEncounter>
   <app-card class="encounter-card">
-    @if (!disabled()) {
+    @if (!isUpdating()) {
       <app-encounter
         class="encounter-card__encounter"
         [encounter]="encounter()"
@@ -86,4 +86,8 @@
 </ng-template>
 
 <!-- Loading Spinner -->
-<ng-template #loading><app-spinner class="spinner"></app-spinner></ng-template>
+<ng-template #loading>
+  <div class="d-flex justify-content-center w-100">
+    <app-spinner class="spinner"></app-spinner>
+  </div>
+</ng-template>

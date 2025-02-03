@@ -115,7 +115,6 @@ export class DiaryentryEncountersComponent {
 
     if (!inject(ScreenService).isMobile()) {
       this.startHotkeyNavigation();
-      this.startScrollToEncounterOnFocus();
     }
   }
 
@@ -212,21 +211,6 @@ export class DiaryentryEncountersComponent {
     }
   }
 
-  private startScrollToEncounterOnFocus() {
-    this.encounterIndexInFocus$
-      .pipe(
-        filter(() => this.state() === 'EDIT'),
-        filterNil(),
-        distinctUntilChanged(),
-        withLatestFrom(this.encounterElements$),
-        map(([index, elements]) => elements[index].nativeElement),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe((elementToFocus) =>
-        elementToFocus.scrollIntoView({ behavior: 'smooth' }),
-      );
-  }
-
   private startHotkeyNavigation() {
     const arrowPress$ = merge(
       this.hotkeyService.watch('ArrowDown').pipe(map(() => 'down' as const)),
@@ -280,7 +264,10 @@ export class DiaryentryEncountersComponent {
         this.encounterIndexInFocus.set(nextFocusIndex);
         if (!nextFocusElement) return;
         nextFocusElement.focus();
-        nextFocusElement.scrollIntoView({ behavior: 'smooth' });
+        nextFocusElement.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center',
+        });
       });
   }
 

@@ -24,7 +24,7 @@
         [hotkey]="'e'"
         [showTooltip]="showHotkeyHelp()"
         (hotkeyPressed)="
-          isInFocus() ? onToggle(toggleButton.toggled()) : undefined
+          isInFocus() ? onToggle(!toggleButton.toggled()) : undefined
         "
         (toggle)="onToggle($event)"
       ></app-edit-toggle>

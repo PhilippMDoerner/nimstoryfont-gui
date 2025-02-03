@@ -58,6 +58,7 @@
           [canActivateCut]="!isCutInProgress()"
           [isCutInProgress]="isCutInProgress()"
           [disabled]="disabled"
+          [isUpdating]="entryEncounter.isUpdating"
           [isValidCutTarget]="isValidCutTarget"
           [isBeingCut]="cutEncounterIndex() === $index"
           [state]="state()"

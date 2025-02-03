@@ -53,6 +53,7 @@ export class EncounterCardComponent {
   isBeingCut = input.required<boolean>();
   isCutInProgress = input.required<boolean>();
   disabled = input.required<boolean>();
+  isUpdating = input.required<boolean>();
   canActivateCut = input.required<boolean>();
   isValidCutTarget = input.required<boolean>();
   canUpdate = input.required<boolean>();

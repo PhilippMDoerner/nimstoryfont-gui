@@ -1,4 +1,4 @@
-.input-group{
+.input-group {
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -6,25 +6,26 @@
   width: 100%;
 }
 
-.disabled{
+.disabled {
   cursor: not-allowed;
 }
 
-.btn-outline-light{
+.btn-outline-light {
   border-color: var(--bs-white);
   color: var(--bs-white);
   display: flex;
   align-items: center;
+  height: unset;
 }
 
-div.datepicker-day{
+div.datepicker-day {
   background-color: var(--wiki-bg-solid);
   color: var(--bs-white);
   text-align: center;
   transition: background-color 0.2s ease-in-out;
   transition: color 0.2s ease-in-out;
-  
-  &:hover{
+
+  &:hover {
     color: var(--bs-black);
     background-color: grey;
   }

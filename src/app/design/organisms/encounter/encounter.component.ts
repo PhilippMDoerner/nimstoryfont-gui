@@ -172,6 +172,7 @@ export class EncounterComponent implements OnInit {
   }
 
   onToggle(toggled: boolean) {
+    console.log('onToggle: ', toggled);
     const isCancellingCreation = this.state() === 'CREATE';
     if (isCancellingCreation) {
       this.encounterCreateCancel.emit();

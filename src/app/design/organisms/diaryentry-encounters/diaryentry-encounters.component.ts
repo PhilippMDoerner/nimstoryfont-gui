@@ -115,7 +115,6 @@ export class DiaryentryEncountersComponent {
 
     if (!inject(ScreenService).isMobile()) {
       this.startHotkeyNavigation();
-      this.startScrollToEncounterOnFocus();
     }
   }
 
@@ -210,21 +209,6 @@ export class DiaryentryEncountersComponent {
     if (this.state() === 'EDIT') {
       this.encounterIndexInFocus.set(index);
     }
-  }
-
-  private startScrollToEncounterOnFocus() {
-    this.encounterIndexInFocus$
-      .pipe(
-        filter(() => this.state() === 'EDIT'),
-        filterNil(),
-        distinctUntilChanged(),
-        withLatestFrom(this.encounterElements$),
-        map(([index, elements]) => elements[index].nativeElement),
-        takeUntilDestroyed(this.destroyRef),
-      )
-      .subscribe((elementToFocus) =>
-        elementToFocus.scrollIntoView({ behavior: 'smooth' }),
-      );
   }
 
   private startHotkeyNavigation() {

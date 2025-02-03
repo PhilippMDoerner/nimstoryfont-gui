@@ -17,7 +17,6 @@
   &__encounter {
     padding: unset;
     border-radius: var(--bs-border-radius);
-    scroll-margin-top: var(--spacer-3);
 
     &:focus-within {
       outline: var(--focus-outline);

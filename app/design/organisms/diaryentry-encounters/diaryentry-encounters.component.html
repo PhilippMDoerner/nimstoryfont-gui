@@ -47,6 +47,7 @@
         <app-encounter-card
           #encounter
           class="list__encounter"
+          [id]="entryEncounter.encounter.title"
           [attr.tabindex]="state() === 'EDIT' ? 0 : null"
           [encounter]="entryEncounter.encounter"
           [characters]="campaignCharacters() ?? []"

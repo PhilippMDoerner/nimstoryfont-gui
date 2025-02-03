@@ -4,6 +4,7 @@ import {
   computed,
   EventEmitter,
   input,
+  linkedSignal,
   Output,
   signal,
 } from '@angular/core';
@@ -50,13 +51,17 @@ export class SessionsComponent {
   @Output() sessionCreate: EventEmitter<SessionRaw> = new EventEmitter();
 
   isCreatingSession = signal(false);
-  createSessionData = computed(
-    () =>
-      ({
-        name: this.DEFAULT_TITLE,
-        campaign: this.campaignId(),
-      }) as Session,
-  );
+  createSessionData = linkedSignal(() => {
+    const lastSession = this.sessions()[0];
+    return {
+      name: this.DEFAULT_TITLE,
+      campaign: this.campaignId(),
+      session_date: new Date().toISOString(),
+      is_main_session: true,
+      session_number: lastSession.session_number + 1,
+      start_day: lastSession.end_day,
+    } as Session;
+  });
 
   sessionCards = computed<SessionCard[]>(() =>
     this.sessions().map((session) => ({ session: session, isOpen: false })),

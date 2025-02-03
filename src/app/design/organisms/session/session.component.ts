@@ -117,7 +117,7 @@ export class SessionComponent implements OnInit {
   ngOnInit(): void {
     const isInCreateScenario = this.session()?.pk == null && this.canCreate();
     if (isInCreateScenario) {
-      this.changeState('CREATE', {} as Session);
+      this.changeState('CREATE', this.session());
     }
   }
 

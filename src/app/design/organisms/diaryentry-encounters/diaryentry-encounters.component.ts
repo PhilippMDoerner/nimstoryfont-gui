@@ -308,15 +308,18 @@ export class DiaryentryEncountersComponent {
   private scrollToEncounter(encounterTitle: string): void {
     toObservable(this.encounterElements)
       .pipe(
-        takeUntilDestroyed(),
         map((elements) =>
           elements.find((el) => el.nativeElement.id === encounterTitle),
         ),
         filterNil(),
+        takeUntilDestroyed(),
         take(1),
       )
       .subscribe((encounterElement) =>
-        encounterElement.nativeElement.scrollIntoView({ behavior: 'instant' }),
+        encounterElement.nativeElement.scrollIntoView({
+          behavior: 'instant',
+          block: 'start',
+        }),
       );
   }
 

@@ -29,7 +29,7 @@ export class HotkeyDirective {
   hotkeyPressed = output<KeyboardEvent>();
 
   private tooltipText = computed(() =>
-    this.hotkey() ? `Alt + ${this.hotkey()}` : undefined,
+    this.hotkey() ? `Alt + ${this.hotkey()?.toUpperCase()}` : undefined,
   );
 
   constructor() {

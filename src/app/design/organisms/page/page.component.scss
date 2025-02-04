@@ -60,7 +60,8 @@
     right: var(--spacer-2);
     background-color: var(--bs-secondary);
     border-radius: 0 0 var(--bs-border-radius-xl) var(--bs-border-radius-xl);
-    border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    border: calc(2 * var(--bs-border-width)) var(--bs-border-style)
+      var(--bs-border-color);
     border-top-width: 0px;
     transform: translateY(-1000%);
     transition: transform 0.2s ease-in-out;

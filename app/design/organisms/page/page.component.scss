@@ -20,6 +20,7 @@
 
 .mobile {
   width: 100%;
+  z-index: 2;
 
   @include media-breakpoint-up(md) {
     display: none;
@@ -49,6 +50,24 @@
     position: unset;
     height: 100%;
     max-height: unset;
+  }
+
+  &__scrollup-indicator {
+    display: block;
+    position: fixed;
+    width: var(--spacer-5);
+    height: var(--spacer-5);
+    right: var(--spacer-2);
+    background-color: var(--bs-secondary);
+    border-radius: 0 0 var(--bs-border-radius-xl) var(--bs-border-radius-xl);
+    border: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
+    border-top-width: 0px;
+    transform: translateY(-1000%);
+    transition: transform 0.2s ease-in-out;
+    z-index: 1;
+    &--visible {
+      transform: translateY(0%);
+    }
   }
 
   &__content {

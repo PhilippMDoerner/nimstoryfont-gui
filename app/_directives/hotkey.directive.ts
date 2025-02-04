@@ -14,6 +14,7 @@ import {
   HotkeyService,
   UNBINDABLE_KEYSET,
 } from '../_services/hotkey.service';
+import { ScreenService } from '../_services/screen.service';
 
 @Directive({
   selector: '[hotkey]',
@@ -33,6 +34,8 @@ export class HotkeyDirective {
   );
 
   constructor() {
+    if (inject(ScreenService).isMobile()) return;
+
     const element = inject(ElementRef<HTMLElement>);
     this.configureTooltip(element);
 

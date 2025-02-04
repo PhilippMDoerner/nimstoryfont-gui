@@ -107,7 +107,7 @@ export class PageComponent {
       ),
     );
     contentScrolls$
-      .pipe(takeUntilDestroyed(), debounceTime(50))
+      .pipe(debounceTime(50), takeUntilDestroyed())
       .subscribe((event) => this.dispatchCustomPageScrollEvent(event));
   }
 

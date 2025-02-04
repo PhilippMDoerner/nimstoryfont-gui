@@ -71,6 +71,7 @@
 
   &-img-top {
     object-fit: cover;
+    object-position: top;
     max-height: 7rem;
     transition: 0.5s height;
   }

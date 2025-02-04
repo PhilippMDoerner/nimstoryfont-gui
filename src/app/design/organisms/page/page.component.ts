@@ -19,10 +19,11 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { ScreenService } from 'src/app/_services/screen.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
-import { SWIPE_X_THRESHOLD } from 'src/app/app.constants';
+import { SCROLL_UP_DISTANCE, SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { PageBackgroundComponent } from 'src/app/design/molecules';
 import { GlobalStore } from 'src/app/global.store';
 import { delayFalsy, filterNil } from 'src/utils/rxjs-operators';
+import { IconComponent } from '../../atoms/icon/icon.component';
 import { MobileHeaderComponent } from '../mobile-header/mobile-header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -39,6 +40,7 @@ export const showSidebarSignal = signal(true);
     AsyncPipe,
     NgTemplateOutlet,
     MobileHeaderComponent,
+    IconComponent,
   ],
   providers: [NgbOffcanvas],
 })
@@ -58,8 +60,26 @@ export class PageComponent {
   contentElement = viewChild.required<ElementRef<HTMLDivElement>>('content');
   innerContentElement =
     viewChild.required<ElementRef<HTMLDivElement>>('innerContent');
+  contentScrollEvents$ = toObservable(this.innerContentElement).pipe(
+    filterNil(),
+    switchMap((innerContent) =>
+      fromEvent<Event>(innerContent.nativeElement, 'scroll', {
+        passive: true,
+      }),
+    ),
+  );
+  showScrollupIndicator$ = this.contentScrollEvents$.pipe(
+    debounceTime(100),
+    map((event) => {
+      const scrollTop = (event.target as HTMLDivElement | undefined)?.scrollTop;
+      console.log(scrollTop);
+      return (scrollTop ?? 0) > SCROLL_UP_DISTANCE;
+    }),
+  );
+
   sidebarTemplate = viewChild.required<TemplateRef<any>>('sidebar');
   sidebarElement = viewChild<ElementRef<HTMLElement>>('sidebarElement');
+  showScrollUpIndicator = signal(true);
 
   pageSwipesRight$ = this.swipeService
     .getSwipeEvents(this.host)
@@ -98,15 +118,7 @@ export class PageComponent {
      * This propagates a scroll-event to the window, making it "global" in a sense.
      * That way, all child components (e.g. home.component) can listen to scroll events.
      */
-    const contentScrolls$ = toObservable(this.innerContentElement).pipe(
-      filterNil(),
-      switchMap((innerContent) =>
-        fromEvent<Event>(innerContent.nativeElement, 'scroll', {
-          passive: true,
-        }),
-      ),
-    );
-    contentScrolls$
+    this.contentScrollEvents$
       .pipe(debounceTime(50), takeUntilDestroyed())
       .subscribe((event) => this.dispatchCustomPageScrollEvent(event));
   }
@@ -124,6 +136,13 @@ export class PageComponent {
       ariaLabelledBy: 'offcanvas-basic-title',
     });
     this.showSidebar.set(true);
+  }
+
+  scrollToTop() {
+    this.innerContentElement().nativeElement.scrollTo({
+      top: 0,
+      behavior: 'instant',
+    });
   }
 
   private dispatchCustomPageScrollEvent(event: Event): void {

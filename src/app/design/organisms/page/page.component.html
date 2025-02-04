@@ -19,6 +19,16 @@
 
 <div class="page" #content>
   <div class="page__content" #innerContent>
+    <button
+      class="page__scrollup-indicator"
+      [class.page__scrollup-indicator--visible]="
+        (showScrollupIndicator$ | async) === true
+      "
+      (click)="scrollToTop()"
+      aria-label="Scroll to top"
+    >
+      <app-icon [icon]="'arrow-up-long'" />
+    </button>
     <router-outlet #routerOutlet></router-outlet>
   </div>
 

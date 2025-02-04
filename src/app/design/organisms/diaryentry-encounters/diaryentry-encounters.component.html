@@ -37,7 +37,10 @@
         </div>
       }
 
-      @for (entryEncounter of diaryEntryEncounters(); track entryEncounter) {
+      @for (
+        entryEncounter of diaryEntryEncounters();
+        track entryEncounter.encounter.title
+      ) {
         @let isBeingCut = $index === cutEncounterIndex();
         @let isPriorBeingCut = $index === (cutEncounterIndex() ?? 0) - 1;
         @let disabled = isUpdatingAnything() || entryEncounter.isUpdating;

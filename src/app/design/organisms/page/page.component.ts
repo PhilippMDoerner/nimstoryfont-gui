@@ -72,7 +72,6 @@ export class PageComponent {
     debounceTime(100),
     map((event) => {
       const scrollTop = (event.target as HTMLDivElement | undefined)?.scrollTop;
-      console.log(scrollTop);
       return (scrollTop ?? 0) > SCROLL_UP_DISTANCE;
     }),
   );

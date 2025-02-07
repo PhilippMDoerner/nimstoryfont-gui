@@ -51,7 +51,7 @@
     <!-- Adding Item button -->
     @if (canCreate()) {
       <div class="overview__create">
-        <a [routerLink]="'create'">
+        <a [routerLink]="'create'" tabindex="-1">
           <button
             btn
             [icon]="'plus'"

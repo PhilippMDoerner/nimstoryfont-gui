@@ -26,6 +26,8 @@
       "
       (click)="scrollToTop()"
       aria-label="Scroll to top"
+      [hotkey]="'t'"
+      (hotkeyPressed)="scrollToTop()"
     >
       <app-icon [icon]="'arrow-up-long'" />
     </button>

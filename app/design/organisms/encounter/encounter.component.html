@@ -19,6 +19,7 @@
       <app-edit-toggle
         #toggleButton
         class="card__edit-button"
+        aria-label="Edit Encounter"
         [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
         [hotkey]="'e'"
@@ -90,6 +91,7 @@
   @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
+      aria-label="Delete Encounter"
       [confirmationQuestion]="'Delete this encounter?'"
       [icon]="'trash'"
       [enableHotkey]="showHotkeyHelp()"

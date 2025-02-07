@@ -71,6 +71,7 @@
 <ng-template #orderArrows>
   <app-arrow-button
     class="side-buttons__button side-buttons__button--arrow"
+    aria-label="Move Encounter Up"
     [kind]="'DARK'"
     [icon]="'up'"
     [disabled]="disabled()"
@@ -78,6 +79,7 @@
   ></app-arrow-button>
   <app-arrow-button
     class="side-buttons__button side-buttons__button--arrow"
+    aria-label="Move Encounter Down"
     [kind]="'DARK'"
     [icon]="'down'"
     [disabled]="disabled()"
@@ -88,6 +90,6 @@
 <!-- Loading Spinner -->
 <ng-template #loading>
   <div class="d-flex justify-content-center w-100">
-    <app-spinner class="spinner"></app-spinner>
+    <app-spinner aria-label="Loading" class="spinner"></app-spinner>
   </div>
 </ng-template>

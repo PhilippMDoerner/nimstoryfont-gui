@@ -18,6 +18,8 @@
             [text]="
               state() === 'DISPLAY' ? 'Edit Encounters' : 'Read Diaryentry'
             "
+            [hotkey]="'r'"
+            (hotkeyPressed)="toggleState()"
             (click)="toggleState()"
           ></button>
         </div>

@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { DiaryEntry, DiaryEntryStump } from 'src/app/_models/diaryentry';
 import {
   Encounter,
@@ -27,18 +28,19 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 type DiaryEntryState = 'DISPLAY' | 'EDIT';
 
 @Component({
-    selector: 'app-diaryentry',
-    templateUrl: './diaryentry.component.html',
-    styleUrls: ['./diaryentry.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        NgTemplateOutlet,
-        DiaryentryEncountersComponent,
-        ArticleFooterComponent,
-        DatePipe,
-    ]
+  selector: 'app-diaryentry',
+  templateUrl: './diaryentry.component.html',
+  styleUrls: ['./diaryentry.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    NgTemplateOutlet,
+    DiaryentryEncountersComponent,
+    ArticleFooterComponent,
+    DatePipe,
+    HotkeyDirective,
+  ],
 })
 export class DiaryentryComponent {
   diaryentry = input.required<DiaryEntry>();

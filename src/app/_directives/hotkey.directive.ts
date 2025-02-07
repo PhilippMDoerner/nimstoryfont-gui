@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { map, switchMap, tap } from 'rxjs';
+import { map, of, switchMap, tap } from 'rxjs';
 import {
   BindableHotkey,
   HotkeyService,
@@ -25,7 +25,7 @@ export class HotkeyDirective {
   private hotkeyService = inject(HotkeyService);
 
   hotkey = input.required<string | undefined>();
-  showTooltip = input.required<boolean>();
+  showTooltip = input<boolean | undefined>(undefined);
 
   hotkeyPressed = output<KeyboardEvent>();
 
@@ -40,7 +40,15 @@ export class HotkeyDirective {
     this.configureTooltip(element);
 
     toObservable(this.showTooltip)
-      .pipe(takeUntilDestroyed())
+      .pipe(
+        switchMap((showTooltip) => {
+          if (showTooltip === undefined) {
+            return this.hotkeyService.isHotkeyActive$ ?? of(false);
+          }
+          return of(showTooltip);
+        }),
+        takeUntilDestroyed(),
+      )
       .subscribe((showTooltip) => this.syncTooltipOpenState(showTooltip));
 
     toObservable(this.hotkey)

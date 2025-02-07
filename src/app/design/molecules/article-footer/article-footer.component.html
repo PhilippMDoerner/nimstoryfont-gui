@@ -5,6 +5,7 @@
 
   @if (showDelete()) {
     <app-confirmation-toggle-button
+      aria-label="Delete current page"
       [confirmationQuestion]="deleteMessage()"
       [icon]="'trash'"
       (confirm)="delete.emit()"

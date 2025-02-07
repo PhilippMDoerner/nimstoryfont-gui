@@ -26,6 +26,21 @@ const UNBINDABLE_HOTKEYS = [
   '8',
   '9',
   '0',
+  '-',
+  '=',
+  'Escape',
+  'F1',
+  'F2',
+  'F3',
+  'F4',
+  'F5',
+  'F6',
+  'F7',
+  'F8',
+  'F9',
+  'F10',
+  'F11',
+  'F12',
 ] as const;
 export const UNBINDABLE_KEYSET = new Set<string>(UNBINDABLE_HOTKEYS);
 type UnbindableHotkey = (typeof UNBINDABLE_HOTKEYS)[number];

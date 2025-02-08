@@ -24,6 +24,7 @@ import { ExtendedMap } from 'src/app/_models/map';
 import { MapMarker } from 'src/app/_models/mapMarker';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { Icon, toIconKind } from 'src/app/design/atoms/_models/icon';
+import { stripTags } from 'src/utils/string';
 
 type TextColor = 'black' | 'white';
 
@@ -71,6 +72,7 @@ export class NgxLeafletMapComponent {
   constructor(private routingService: RoutingService) {}
 
   onMapReady(map: Map) {
+    console.log('Init map');
     this.leafletMap = map;
     this.leafletMap.fitBounds(this.MAP_BOUNDS);
 
@@ -136,14 +138,12 @@ export class NgxLeafletMapComponent {
     return marker([mapMarker.latitude, mapMarker.longitude], {
       icon: divIcon({
         html: `
-        <div class="leaflet-text-marker" style="background-color: ${markerColor}; color: ${textColor}">
+        <button class="leaflet-text-marker" style="background-color: ${markerColor}; color: ${textColor}">
           <strong>${locationName}</strong>
-        </div>
+        </button>
         `,
       }),
-    })
-      .bindPopup(this.getPopupText(mapMarker))
-      .bindTooltip(locationName);
+    }).bindPopup(this.getPopupText(mapMarker));
   }
 
   private createAwesomeMarker(mapMarker: MapMarker): Marker {
@@ -190,14 +190,16 @@ export class NgxLeafletMapComponent {
     if (description == null) {
       return '';
     }
+    description = stripTags(description);
 
-    let maxDescriptionWordCount = 35;
+    let maxDescriptionWordCount = 20;
     let descriptionTooLong: boolean =
       description.split(' ').length >= maxDescriptionWordCount;
     if (descriptionTooLong) {
       let shortenedDescription = description
         .split(' ')
-        .slice(0, maxDescriptionWordCount);
+        .slice(0, maxDescriptionWordCount)
+        .join(' ');
       return `${shortenedDescription} ...`;
     }
 
@@ -244,8 +246,11 @@ export class NgxLeafletMapComponent {
     const markerIcon = divIcon({
       className: 'custom-div-icon',
       html: `
-        <div style="background-color:${color};" class="marker-pin"></div>
-        <i class='d-flex justify-content-center ${iconKind} fa-${typeIcon}'></i>`,
+        <button class="w-100 h-100 d-flex justify-content-center">
+          <div style="background-color:${color};" class="marker-pin"></div>
+          <i class='${iconKind} fa-${typeIcon}'></i>
+        </button>
+      `,
       iconSize: [30, 42],
       iconAnchor: [15, 42],
     });

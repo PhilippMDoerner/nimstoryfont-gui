@@ -6,6 +6,7 @@ import {
   ElementRef,
   EventEmitter,
   inject,
+  Injector,
   input,
   output,
   Output,
@@ -26,6 +27,7 @@ import { DiaryentryPageStore } from 'src/app/campaign/pages/diaryentry-page/diar
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import {
+  combineLatest,
   distinctUntilChanged,
   filter,
   map,
@@ -63,6 +65,7 @@ export class DiaryentryEncountersComponent {
   hotkeyService = inject(HotkeyService);
   document = inject(DOCUMENT);
   destroyRef = inject(DestroyRef);
+  injectorRef = inject(Injector);
 
   diaryEntryPk = computed(() => this.store.diaryentry()?.pk);
   campaignCharacters = this.store.campaignCharacters;
@@ -114,7 +117,7 @@ export class DiaryentryEncountersComponent {
     }
 
     if (!inject(ScreenService).isMobile()) {
-      this.startHotkeyNavigation();
+      this.startHotkeyBehavior();
     }
   }
 
@@ -209,6 +212,32 @@ export class DiaryentryEncountersComponent {
     if (this.state() === 'EDIT') {
       this.encounterIndexInFocus.set(index);
     }
+  }
+
+  private startHotkeyBehavior() {
+    this.navigateToFocusedEncounter();
+    this.startHotkeyNavigation();
+  }
+
+  private navigateToFocusedEncounter() {
+    const focusedEncounter$ = combineLatest({
+      encounters: toObservable(this.encounterElements, {
+        injector: this.injectorRef,
+      }),
+      index: this.encounterIndexInFocus$.pipe(filterNil()),
+    }).pipe(
+      map(({ encounters, index }) => {
+        return encounters[index].nativeElement;
+      }),
+    );
+
+    this.hotkeyService
+      .watch('f')
+      .pipe(withLatestFrom(focusedEncounter$), takeUntilDestroyed())
+      .subscribe(([_, element]) => {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.focus();
+      });
   }
 
   private startHotkeyNavigation() {

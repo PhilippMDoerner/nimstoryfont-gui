@@ -22,3 +22,7 @@ export function camelToSnake(str: string): string {
 export function snakeToCamel(str: string): string {
   return str.replace(/_([a-z])/g, (match, group) => group.toUpperCase());
 }
+
+export function stripTags(str: string): string {
+  return str.replace(/<\/?[^>]+(>|$)/g, '').trim();
+}

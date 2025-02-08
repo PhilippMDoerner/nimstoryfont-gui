@@ -95,7 +95,7 @@ export class OrganizationCreateUpdatePageComponent {
     this.formlyService.buildOverviewSelectConfig({
       key: 'headquarter',
       sortProp: 'name_full',
-      labelProp: 'name',
+      labelProp: 'name_full',
       options$: this.campaignLocations$,
       campaign: this.globalStore.campaignName(),
       required: false,

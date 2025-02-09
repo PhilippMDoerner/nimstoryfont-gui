@@ -24,6 +24,7 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map, take } from 'rxjs';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { BadgeComponent } from 'src/app/design/atoms/badge/badge.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
@@ -51,6 +52,7 @@ interface SpellCard {
     SpellComponent,
     BadgeComponent,
     SpinnerComponent,
+    HotkeyDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

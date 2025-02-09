@@ -44,7 +44,7 @@
             class="side-buttons__button side-buttons__button--edit"
             aria-label="Cut Encounter to insert it elsewhere in the list"
             [hotkey]="'x'"
-            [showTooltip]="showHotkeyHelp()"
+            [disabledHotkey]="!isInFocus()"
             [disabled]="isCutInProgress() && !isBeingCut()"
             [kind]="isCutInProgress() && isBeingCut() ? 'PRIMARY' : 'DARK'"
             [icon]="isCutInProgress() && isBeingCut() ? 'times' : 'cut'"

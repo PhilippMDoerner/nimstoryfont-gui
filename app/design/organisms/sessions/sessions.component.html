@@ -7,6 +7,8 @@
         [text]="'Add Session'"
         [icon]="'plus'"
         (click)="addSession()"
+        [hotkey]="'c'"
+        (hotkeyPressed)="addSession()"
       ></button>
     </div>
   }

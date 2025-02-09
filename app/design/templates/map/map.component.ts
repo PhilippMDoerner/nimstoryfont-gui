@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -18,19 +19,20 @@ import { NgxLeafletMapComponent } from '../../organisms/ngx-leaflet-map/ngx-leaf
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 @Component({
-    selector: 'app-map',
-    templateUrl: './map.component.html',
-    styleUrls: ['./map.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        ChoiceSelectComponent,
-        NgxLeafletMapComponent,
-        NgTemplateOutlet,
-        ArticleFooterComponent,
-        SpinnerComponent,
-    ]
+  selector: 'app-map',
+  templateUrl: './map.component.html',
+  styleUrls: ['./map.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    ChoiceSelectComponent,
+    NgxLeafletMapComponent,
+    NgTemplateOutlet,
+    ArticleFooterComponent,
+    SpinnerComponent,
+    HotkeyDirective,
+  ],
 })
 export class MapComponent {
   mapChoices = input.required<OverviewItem[]>();

@@ -5,6 +5,7 @@
       [class.search__bar--disabled]="!canSearch()"
     >
       <input
+        #searchInput
         class="search__input"
         [class.search__input--disabled]="!canSearch()"
         type="search"
@@ -15,6 +16,8 @@
         [(ngModel)]="searchString"
         [placeholder]="_placeholder()"
         aria-label="Search"
+        [hotkey]="'f'"
+        (hotkeyPressed)="searchInput.focus()"
       />
 
       <button

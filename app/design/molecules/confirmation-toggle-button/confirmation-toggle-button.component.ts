@@ -31,7 +31,7 @@ export class ConfirmationToggleButtonComponent {
   confirmationQuestion = input.required<string>();
   icon = input<Icon>();
   text = input<string>();
-  enableHotkey = input<boolean>(false);
+  enableHotkey = input<boolean>(true);
   toggleType = input<ButtonKind>('DANGER-OUTLINE');
   toggleSize = input<ElementSize>('MEDIUM');
   confirmButtonType = computed<ElementKind>(

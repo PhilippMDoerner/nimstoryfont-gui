@@ -5,6 +5,7 @@ import {
   inject,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { ButtonComponent } from 'src/app/design//atoms/button/button.component';
 import { SessionaudioCardComponent } from 'src/app/design//organisms/sessionaudio-card/sessionaudio-card.component';
@@ -20,6 +21,7 @@ import { SessionAudioOverviewPageStore } from './session-audio-overview-page.sto
     SessionaudioCardComponent,
     ButtonComponent,
     RouterLink,
+    HotkeyDirective,
   ],
   templateUrl: './session-audio-overview-page.component.html',
   styleUrl: './session-audio-overview-page.component.scss',

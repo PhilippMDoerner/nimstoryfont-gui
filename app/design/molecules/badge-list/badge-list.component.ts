@@ -50,7 +50,7 @@ type CreateOptions<T> =
 export class BadgeListComponent<T, O> {
   entries = input.required<BadgeListEntry<T>[]>();
   createOptions = input<CreateOptions<O>>();
-  showHotkeyTooltip = input<boolean>(false);
+  disableHotkeys = input<boolean>(false);
   label = input('Entry');
   canCreate = input(false);
   canDelete = input(false);

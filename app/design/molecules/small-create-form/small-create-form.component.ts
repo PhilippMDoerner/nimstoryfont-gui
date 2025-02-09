@@ -29,7 +29,7 @@ export class SmallCreateFormComponent<T> {
   submitButtonType = input<ElementKind>('PRIMARY');
   cancelButtonType = input<ElementKind>('SECONDARY');
   createHotkey = input<string | undefined>();
-  showHotkeyTooltip = input<boolean>(false);
+  disableHotkeys = input<boolean>(false);
 
   @Output() create: EventEmitter<T> = new EventEmitter();
 

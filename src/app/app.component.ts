@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
+import { HotkeyModalComponent } from './design/organisms/hotkey-modal/hotkey-modal.component';
 import { PageComponent } from './design/organisms/page/page.component';
 import { ToastOverlayComponent } from './design/organisms/toast-overlay/toast-overlay.component';
 import { GlobalStore } from './global.store';
@@ -13,7 +14,7 @@ import { ServiceWorkerService } from './service-worker.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [PageComponent, ToastOverlayComponent],
+  imports: [PageComponent, ToastOverlayComponent, HotkeyModalComponent],
   host: {
     '[@.disabled]': 'disableAnimation()',
   },

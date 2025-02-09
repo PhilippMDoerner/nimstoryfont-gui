@@ -4,12 +4,14 @@
     <h1 class="quests__heading">Quests</h1>
 
     <div class="row mb-3 quests__create">
-      <a class="quests__create-link" [routerLink]="createUrl()">
+      <a class="quests__create-link" [routerLink]="createUrl()" #createLink>
         <button
           btn
           [kind]="'PRIMARY'"
           [icon]="'plus'"
           [text]="'Add quest'"
+          [hotkey]="'c'"
+          (hotkeyPressed)="createLink.click()"
         ></button>
       </a>
     </div>

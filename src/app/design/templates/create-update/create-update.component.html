@@ -11,6 +11,8 @@
           (click)="cancel.emit()"
           [icon]="'times'"
           [kind]="'SECONDARY'"
+          [hotkey]="'q'"
+          (hotkeyPressed)="cancel.emit()"
         ></button>
       </div>
     </h1>

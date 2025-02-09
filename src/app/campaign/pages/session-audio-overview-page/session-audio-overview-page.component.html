@@ -3,12 +3,14 @@
     <h1 class="heading">Recordings</h1>
 
     @if (store.hasWritePermission()) {
-      <a class="create-button" [routerLink]="createUrl()">
+      <a class="create-button" [routerLink]="createUrl()" #createLink>
         <button
           btn
           [kind]="'PRIMARY'"
           [icon]="'plus'"
           [text]="'Add Recording'"
+          [hotkey]="'c'"
+          (hotkeyPressed)="createLink.click()"
         ></button>
       </a>
     }

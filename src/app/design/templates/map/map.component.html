@@ -2,8 +2,14 @@
   <article class="container map">
     @if (canUpdate()) {
       <div class="map__edit-container">
-        <a [routerLink]="updateUrl()" tabindex="-1">
-          <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
+        <a [routerLink]="updateUrl()" tabindex="-1" #editLink>
+          <button
+            btn
+            [icon]="'pencil'"
+            [kind]="'SECONDARY'"
+            [hotkey]="'e'"
+            (hotkeyPressed)="editLink.click()"
+          ></button>
         </a>
       </div>
     }
@@ -21,12 +27,14 @@
       </h3>
     }
 
-    <a [routerLink]="createUrl()" class="map__create" tabindex="-1">
+    <a [routerLink]="createUrl()" class="map__create" tabindex="-1" #createLink>
       <button
         btn
         [kind]="'PRIMARY'"
         [icon]="'plus'"
         [text]="'Add Map'"
+        [hotkey]="'c'"
+        (hotkeyPressed)="createLink.click()"
       ></button>
     </a>
 

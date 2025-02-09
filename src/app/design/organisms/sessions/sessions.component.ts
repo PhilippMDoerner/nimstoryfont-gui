@@ -8,6 +8,7 @@ import {
   Output,
   signal,
 } from '@angular/core';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Session, SessionRaw } from 'src/app/_models/session';
 import {
   slideOutFromBottom,
@@ -30,6 +31,7 @@ interface SessionCard {
     CollapsiblePanelComponent,
     SessionComponent,
     SpinnerComponent,
+    HotkeyDirective,
   ],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss',

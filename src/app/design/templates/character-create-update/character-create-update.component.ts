@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { CharacterDetails } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
@@ -23,17 +24,18 @@ import { CreateUpdateState } from '../_models/create-update-states';
 type MembershipFormState = 'CREATE' | 'DISPLAY';
 
 @Component({
-    selector: 'app-character-create-update',
-    templateUrl: './character-create-update.component.html',
-    styleUrls: ['./character-create-update.component.scss'],
-    imports: [
-        PageContainerComponent,
-        ButtonComponent,
-        NgTemplateOutlet,
-        FormComponent,
-        SeparatorComponent,
-        CompareFormComponent,
-    ]
+  selector: 'app-character-create-update',
+  templateUrl: './character-create-update.component.html',
+  styleUrls: ['./character-create-update.component.scss'],
+  imports: [
+    PageContainerComponent,
+    ButtonComponent,
+    NgTemplateOutlet,
+    FormComponent,
+    SeparatorComponent,
+    CompareFormComponent,
+    HotkeyDirective,
+  ],
 })
 export class CharacterCreateUpdateComponent {
   state = input.required<CreateUpdateState>();

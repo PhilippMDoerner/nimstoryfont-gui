@@ -6,6 +6,7 @@ import {
   input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { ButtonComponent } from '../../atoms/button/button.component';
@@ -16,19 +17,20 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 import { GeneralOverviewType } from '../_models/generalOverviewType';
 
 @Component({
-    selector: 'app-general-overview',
-    templateUrl: './general-overview.component.html',
-    styleUrls: ['./general-overview.component.scss'],
-    imports: [
-        PageContainerComponent,
-        NgTemplateOutlet,
-        RouterLink,
-        ButtonComponent,
-        ImageCardComponent,
-        FilterListComponent,
-        TitleCasePipe,
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'app-general-overview',
+  templateUrl: './general-overview.component.html',
+  styleUrls: ['./general-overview.component.scss'],
+  imports: [
+    PageContainerComponent,
+    NgTemplateOutlet,
+    RouterLink,
+    ButtonComponent,
+    ImageCardComponent,
+    FilterListComponent,
+    TitleCasePipe,
+    HotkeyDirective,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralOverviewComponent {
   OVERVIEW_IMAGE_MAP: { [key in GeneralOverviewType]: string } = {

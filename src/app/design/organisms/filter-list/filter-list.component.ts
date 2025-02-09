@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import {
   GroupByFirstLetterPipe,
   GroupByPipe,
@@ -26,6 +27,7 @@ type GroupMode = 'PROPERTY' | 'LETTER';
     GroupByPipe,
     RouterLink,
     NgTemplateOutlet,
+    HotkeyDirective,
   ],
 })
 export class FilterListComponent<T> {

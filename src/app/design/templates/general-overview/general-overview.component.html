@@ -51,12 +51,14 @@
     <!-- Adding Item button -->
     @if (canCreate()) {
       <div class="overview__create">
-        <a [routerLink]="'create'" tabindex="-1">
+        <a [routerLink]="'create'" tabindex="-1" #createLink>
           <button
             btn
             [icon]="'plus'"
             [kind]="'PRIMARY'"
             [text]="'Add ' + (overviewTypeName() | titlecase)"
+            [hotkey]="'c'"
+            (hotkeyPressed)="createLink.click()"
           ></button>
         </a>
       </div>

@@ -4,24 +4,26 @@ import {
   computed,
   input,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { RouterLink } from '@angular/router';
 import { ButtonComponent } from '../../atoms/button/button.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { QuestTableComponent } from '../../organisms/quest-table/quest-table.component';
 
 @Component({
-    selector: 'app-quest-overview',
-    templateUrl: './quest-overview.component.html',
-    styleUrls: ['./quest-overview.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        QuestTableComponent,
-    ]
+  selector: 'app-quest-overview',
+  templateUrl: './quest-overview.component.html',
+  styleUrls: ['./quest-overview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    QuestTableComponent,
+    HotkeyDirective,
+  ],
 })
 export class QuestOverviewComponent {
   quests = input.required<OverviewItem[]>();

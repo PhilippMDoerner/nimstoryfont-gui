@@ -13,6 +13,7 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { map, take } from 'rxjs';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Rule, RuleRaw } from 'src/app/_models/rule';
 import {
   slideOutFromBottom,
@@ -39,6 +40,7 @@ interface RuleCard {
     CollapsiblePanelComponent,
     RuleComponent,
     SpinnerComponent,
+    HotkeyDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

@@ -9,6 +9,7 @@ import {
   map,
   merge,
   Observable,
+  share,
   shareReplay,
   startWith,
   tap,
@@ -77,6 +78,7 @@ export class HotkeyService {
 
       this.hotkeyDown$ = this.toHotkeydownEvents(keydownEvents$).pipe(
         takeUntilDestroyed(destroyRef),
+        share(),
       );
       this.isHotkeyModifierPressed$ = this.toIsHotkeyActive(
         keydownEvents$,

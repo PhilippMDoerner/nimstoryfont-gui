@@ -4,16 +4,15 @@ import {
   Component,
   computed,
   EventEmitter,
-  inject,
   input,
   OnInit,
   Output,
   signal,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { map, of } from 'rxjs';
+import { map } from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import {
@@ -25,7 +24,6 @@ import {
 import { FormState } from 'src/app/_models/form';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { HotkeyService } from 'src/app/_services/hotkey.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
@@ -68,10 +66,6 @@ export class EncounterComponent implements OnInit {
   canDelete = input(false);
   initialState = input<FormState>('DISPLAY');
   isInFocus = input.required<boolean>();
-  isHotkeyActive = toSignal(inject(HotkeyService).isHotkeyActive$ ?? of(false));
-  showHotkeyHelp = computed<boolean>(
-    () => !!this.isHotkeyActive() && this.isInFocus(),
-  );
 
   @Output() connectionDelete: EventEmitter<EncounterConnection> =
     new EventEmitter();

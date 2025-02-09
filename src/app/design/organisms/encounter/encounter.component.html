@@ -23,7 +23,7 @@
         [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
         [hotkey]="'e'"
-        [showTooltip]="showHotkeyHelp()"
+        [disabledHotkey]="!isInFocus()"
         (hotkeyPressed)="
           isInFocus() ? onToggle(!toggleButton.toggled()) : undefined
         "
@@ -78,7 +78,7 @@
           labelProp: 'name',
         },
       }"
-      [showHotkeyTooltip]="showHotkeyHelp()"
+      [disableHotkeys]="!isInFocus()"
       [canCreate]="canCreate()"
       [canDelete]="canDelete()"
       [cancelButtonType]="'DARK'"
@@ -94,7 +94,7 @@
       aria-label="Delete Encounter"
       [confirmationQuestion]="'Delete this encounter?'"
       [icon]="'trash'"
-      [enableHotkey]="showHotkeyHelp()"
+      [enableHotkey]="isInFocus()"
       (confirm)="onEncounterDelete()"
     ></app-confirmation-toggle-button>
   }

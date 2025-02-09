@@ -17,8 +17,8 @@
     [text]="badgeText()"
     [clickable]="true"
     [hotkey]="createHotkey()"
-    [showTooltip]="showHotkeyTooltip()"
-    (hotkeyPressed)="showHotkeyTooltip() ? toggleForm() : undefined"
+    [disabledHotkey]="disableHotkeys()"
+    (hotkeyPressed)="toggleForm()"
     (badgeClick)="toggleForm()"
   ></app-badge>
 </ng-template>
@@ -67,7 +67,7 @@
       [size]="'SMALL'"
       [icon]="'times'"
       [hotkey]="'q'"
-      [showTooltip]="showHotkeyTooltip()"
+      [disabledHotkey]="disableHotkeys()"
       (hotkeyPressed)="toggleForm()"
       (click)="toggleForm()"
     ></button>

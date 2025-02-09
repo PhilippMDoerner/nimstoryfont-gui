@@ -8,13 +8,15 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
-import { map, of, switchMap, tap } from 'rxjs';
+import { filter, map, of, switchMap, tap } from 'rxjs';
 import {
   BindableHotkey,
   HotkeyService,
   UNBINDABLE_KEYSET,
 } from '../_services/hotkey.service';
 import { ScreenService } from '../_services/screen.service';
+
+export type TooltipBehavior = 'OnHotkey' | 'Always' | 'Never';
 
 @Directive({
   selector: '[hotkey]',
@@ -25,7 +27,7 @@ export class HotkeyDirective {
   private hotkeyService = inject(HotkeyService);
 
   hotkey = input.required<string | undefined>();
-  showTooltip = input<boolean | undefined>(undefined);
+  disabledHotkey = input<boolean>(false);
 
   hotkeyPressed = output<KeyboardEvent>();
 
@@ -39,13 +41,12 @@ export class HotkeyDirective {
     const element = inject(ElementRef<HTMLElement>);
     this.configureTooltip(element);
 
-    toObservable(this.showTooltip)
+    toObservable(this.disabledHotkey)
       .pipe(
-        switchMap((showTooltip) => {
-          if (showTooltip === undefined) {
-            return this.hotkeyService.isHotkeyActive$ ?? of(false);
-          }
-          return of(showTooltip);
+        switchMap((isDisabled) => {
+          if (isDisabled) return of(false);
+
+          return this.hotkeyService.isHotkeyModifierPressed$ ?? of(false);
         }),
         takeUntilDestroyed(),
       )
@@ -55,9 +56,10 @@ export class HotkeyDirective {
       .pipe(
         map((key) => this.checkKey(key)),
         switchMap((key: BindableHotkey<any> | undefined) =>
-          this.hotkeyService
-            .watch(key)
-            .pipe(tap((event) => this.hotkeyPressed.emit(event))),
+          this.hotkeyService.watch(key).pipe(
+            filter(() => !this.disabledHotkey()),
+            tap((event) => this.hotkeyPressed.emit(event)),
+          ),
         ),
         takeUntilDestroyed(),
       )

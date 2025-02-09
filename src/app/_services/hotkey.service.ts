@@ -58,7 +58,7 @@ export type BindableHotkey<T> = NotA<T> & NotB<T>;
 })
 export class HotkeyService {
   private hotkeyDown$: Observable<KeyboardEvent> | undefined;
-  public isHotkeyActive$: Observable<boolean> | undefined; //Undefined on Server
+  public isHotkeyModifierPressed$: Observable<boolean> | undefined; //Undefined on Server
 
   constructor() {
     const document = inject(DOCUMENT);
@@ -78,7 +78,7 @@ export class HotkeyService {
       this.hotkeyDown$ = this.toHotkeydownEvents(keydownEvents$).pipe(
         takeUntilDestroyed(destroyRef),
       );
-      this.isHotkeyActive$ = this.toIsHotkeyActive(
+      this.isHotkeyModifierPressed$ = this.toIsHotkeyActive(
         keydownEvents$,
         keyupEvents$,
         visibilityChangeEvents$,

@@ -7,12 +7,16 @@
             class="edit-container__button"
             [routerLink]="updateUrl()"
             tabindex="-1"
+            #editDiaryentryLink
           >
             <button
               aria-label="Edit Diaryentry"
               btn
               [icon]="'pencil'"
               [kind]="'SECONDARY'"
+              [hotkey]="'e'"
+              [disabledHotkey]="state() !== 'DISPLAY'"
+              (hotkeyPressed)="editDiaryentryLink.click()"
             ></button>
           </a>
           <button

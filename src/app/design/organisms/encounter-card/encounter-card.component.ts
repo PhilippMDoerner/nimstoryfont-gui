@@ -2,13 +2,9 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
-  inject,
   input,
   output,
 } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { of } from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import {
@@ -18,7 +14,6 @@ import {
   EncounterRaw,
 } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
-import { HotkeyService } from 'src/app/_services/hotkey.service';
 import { ArrowButtonComponent } from '../../atoms/arrow-button/arrow-button.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { CardComponent } from '../../atoms/card/card.component';
@@ -60,10 +55,6 @@ export class EncounterCardComponent {
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
   isInFocus = input.required<boolean>();
-  isHotkeyActive = toSignal(inject(HotkeyService).isHotkeyActive$ ?? of(false));
-  showHotkeyHelp = computed<boolean>(
-    () => !!this.isHotkeyActive() && this.isInFocus(),
-  );
 
   connectionDelete = output<EncounterConnection>();
   connectionCreate = output<EncounterConnectionRaw>();

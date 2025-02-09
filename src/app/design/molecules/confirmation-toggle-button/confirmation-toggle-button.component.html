@@ -17,8 +17,8 @@
     [size]="toggleSize()"
     [text]="text()"
     [hotkey]="'d'"
-    [showTooltip]="enableHotkey()"
-    (hotkeyPressed)="enableHotkey() ? toggle() : undefined"
+    [disabledHotkey]="!enableHotkey()"
+    (hotkeyPressed)="toggle()"
     (click)="toggle()"
   ></button>
 </ng-template>
@@ -40,8 +40,8 @@
         [kind]="cancelButtonType()"
         [text]="'No'"
         [hotkey]="'q'"
-        [showTooltip]="enableHotkey()"
-        (hotkeyPressed)="enableHotkey() ? toggle() : undefined"
+        [disabledHotkey]="!enableHotkey()"
+        (hotkeyPressed)="toggle()"
         (click)="toggle()"
       ></button>
     </div>

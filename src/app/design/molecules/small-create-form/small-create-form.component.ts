@@ -1,24 +1,23 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  afterNextRender,
   Component,
   computed,
-  DestroyRef,
   ElementRef,
   EventEmitter,
   inject,
+  Injector,
   input,
   Output,
   signal,
   viewChild,
 } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { FormGroup } from '@angular/forms';
-import { take } from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { BadgeComponent } from 'src/app/design/atoms/badge/badge.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
-import { filterNil } from 'src/utils/rxjs-operators';
 
 type State = 'DISPLAY' | 'CREATE';
 export type DisableableOption<T> = { value: T; disabled: boolean };
@@ -40,7 +39,7 @@ export class SmallCreateFormComponent<T> {
 
   @Output() create: EventEmitter<T> = new EventEmitter();
 
-  destroyRef = inject(DestroyRef);
+  injector = inject(Injector);
   selectFieldName = computed(() => `select-' + ${String(this.labelProp())}`);
   selectElement = viewChild<ElementRef<HTMLElement>>('select');
   selectElement$ = toObservable(this.selectElement);
@@ -50,10 +49,12 @@ export class SmallCreateFormComponent<T> {
 
   changeState(newState: State) {
     this.state.set(newState);
-    if (newState === 'CREATE') {
-      this.selectElement$
-        .pipe(filterNil(), takeUntilDestroyed(this.destroyRef), take(1))
-        .subscribe((element) => element.nativeElement.focus());
+
+    const isFormBecomingVisible = newState === 'CREATE';
+    if (isFormBecomingVisible) {
+      afterNextRender(() => this.selectElement()?.nativeElement.focus(), {
+        injector: this.injector,
+      });
     }
   }
 

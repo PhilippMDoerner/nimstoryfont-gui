@@ -52,6 +52,7 @@ export class SessionComponent implements OnInit {
   canDelete = input.required<boolean>();
   canCreate = input.required<boolean>();
   serverModel = input.required<Session | undefined>();
+  disabledHotkeys = input<boolean>(false);
 
   @Output() sessionDelete: EventEmitter<Session> = new EventEmitter();
   @Output() sessionCreate: EventEmitter<Session> = new EventEmitter();

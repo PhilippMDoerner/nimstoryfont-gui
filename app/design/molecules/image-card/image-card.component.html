@@ -4,8 +4,11 @@
       <a class="card__img-link" [routerLink]="link()">
         <img
           class="card-img-top"
-          [src]="serverUrl() + currentImage()"
+          [ngSrc]="serverUrl() + currentImage()"
           [alt]="alt()"
+          [height]="300"
+          [width]="100"
+          priority
         />
       </a>
 

@@ -91,6 +91,7 @@
       class="card__delete-confirmer"
       [confirmationQuestion]="'Delete this session?'"
       [icon]="'trash'"
+      [enableHotkey]="!disabledHotkeys()"
       (confirm)="onSessionDelete()"
     ></app-confirmation-toggle-button>
   }

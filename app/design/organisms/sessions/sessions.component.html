@@ -39,27 +39,31 @@
         </app-collapsible-panel>
       </div>
     }
-    @for (card of sessionCards(); track card.session.pk) {
-      <div class="list__session-card session-card" [@slideOutFromBottom]>
-        <app-collapsible-panel [isOpen]="card.isOpen">
-          <span heading>
-            {{ card.session.name }}
-          </span>
 
-          <app-session
-            body
-            class="session-card__session"
-            [session]="card.session"
-            [serverModel]="serverModel()"
-            [canUpdate]="canUpdate()"
-            [canDelete]="canDelete()"
-            [canCreate]="canCreate()"
-            (sessionDelete)="onSessionDelete($event)"
-            (sessionUpdate)="sessionUpdate.emit($event)"
-          ></app-session>
-        </app-collapsible-panel>
-      </div>
-    }
+    <app-focus-list [entries]="sessionCards()">
+      <ng-template #itemTemplate let-focusEntry>
+        <div class="list__session-card session-card" [@slideOutFromBottom]>
+          <app-collapsible-panel [isOpen]="focusEntry.data.isOpen">
+            <span heading>
+              {{ focusEntry.data.session.name }}
+            </span>
+
+            <app-session
+              body
+              class="session-card__session"
+              [session]="focusEntry.data.session"
+              [serverModel]="serverModel()"
+              [canUpdate]="canUpdate()"
+              [canDelete]="canDelete()"
+              [canCreate]="canCreate()"
+              [disabledHotkeys]="!focusEntry.isInFocus"
+              (sessionDelete)="onSessionDelete($event)"
+              (sessionUpdate)="sessionUpdate.emit($event)"
+            ></app-session>
+          </app-collapsible-panel>
+        </div>
+      </ng-template>
+    </app-focus-list>
   </div>
 </div>
 

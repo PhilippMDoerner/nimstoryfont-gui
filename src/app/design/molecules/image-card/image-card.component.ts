@@ -1,3 +1,4 @@
+import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -25,7 +26,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
   templateUrl: './image-card.component.html',
   styleUrls: ['./image-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, ButtonComponent],
+  imports: [RouterLink, ButtonComponent, NgOptimizedImage],
   host: {
     '[class.card--active]': 'inFocus()',
   },

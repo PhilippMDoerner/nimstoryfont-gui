@@ -32,7 +32,12 @@ import {
   BadgeListEntry,
   CollapsiblePanelComponent,
 } from 'src/app/design/molecules';
+import { getPseudoRandomId } from 'src/utils/math';
 import { filterNil } from 'src/utils/rxjs-operators';
+import {
+  FocusItem,
+  FocusListComponent,
+} from '../focus-list/focus-list.component';
 import { SpellComponent } from '../spell/spell.component';
 
 interface SpellCard {
@@ -53,6 +58,7 @@ interface SpellCard {
     BadgeComponent,
     SpinnerComponent,
     HotkeyDirective,
+    FocusListComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -81,11 +87,14 @@ export class SpellsComponent {
     () => ({ name: this.DEFAULT_TITLE, campaign: this.campaignId() }) as Spell,
   );
 
-  spellCards = computed<SpellCard[]>(() => {
+  spellCards = computed<FocusItem<SpellCard>[]>(() => {
     const spells = this.spells().map((spell) => ({
-      spell: spell,
-      isOpen: false,
-      classes: this.parsePlayerClasses(spell.player_class_connections),
+      id: spell.pk ?? getPseudoRandomId(),
+      data: {
+        spell: spell,
+        isOpen: false,
+        classes: this.parsePlayerClasses(spell.player_class_connections),
+      },
     }));
 
     return spells;

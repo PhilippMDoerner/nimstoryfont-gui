@@ -22,7 +22,12 @@ import {
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import { CollapsiblePanelComponent } from 'src/app/design/molecules';
+import { getPseudoRandomId } from 'src/utils/math';
 import { filterNil } from 'src/utils/rxjs-operators';
+import {
+  FocusItem,
+  FocusListComponent,
+} from '../focus-list/focus-list.component';
 import { RuleComponent } from '../rule/rule.component';
 
 interface RuleCard {
@@ -41,6 +46,7 @@ interface RuleCard {
     RuleComponent,
     SpinnerComponent,
     HotkeyDirective,
+    FocusListComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -68,8 +74,11 @@ export class RulesComponent {
       }) as Rule,
   );
 
-  ruleCards = computed<RuleCard[]>(() =>
-    this.rules().map((rule) => ({ rule: rule, isOpen: false })),
+  ruleCards = computed<FocusItem<RuleCard>[]>(() =>
+    this.rules().map((rule) => ({
+      id: rule.pk ?? getPseudoRandomId(),
+      data: { rule: rule, isOpen: false },
+    })),
   );
 
   constructor() {

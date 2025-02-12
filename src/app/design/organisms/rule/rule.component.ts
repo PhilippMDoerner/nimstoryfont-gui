@@ -39,6 +39,7 @@ export class RuleComponent implements OnInit {
   canUpdate = input.required<boolean>();
   canDelete = input.required<boolean>();
   canCreate = input.required<boolean>();
+  disabledHotkeys = input<boolean>(false);
   serverModel = input.required<Rule | undefined>();
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitButtonType = input<ElementKind>('PRIMARY');

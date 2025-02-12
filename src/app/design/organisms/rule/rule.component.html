@@ -21,6 +21,7 @@
       <app-edit-toggle
         [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
+        [disabledHotkey]="disabledHotkeys()"
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }
@@ -57,6 +58,7 @@
       class="card__delete-confirmer"
       [confirmationQuestion]="'Delete this rule?'"
       [icon]="'trash'"
+      [enableHotkey]="!disabledHotkeys()"
       (confirm)="onRuleDelete()"
     ></app-confirmation-toggle-button>
   }

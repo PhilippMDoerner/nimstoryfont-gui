@@ -62,6 +62,7 @@ export class SpellComponent implements OnInit {
   serverModel = input.required<Spell | undefined>();
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitButtonType = input<ElementKind>('PRIMARY');
+  disabledHotkeys = input<boolean>(false);
 
   @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
   @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();

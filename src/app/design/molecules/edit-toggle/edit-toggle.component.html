@@ -2,6 +2,9 @@
   btn
   class="edit-toggle"
   [kind]="buttonKind()"
-  (click)="onClick()"
   [icon]="_toggled() ? 'times' : 'pencil'"
+  (click)="onClick()"
+  [hotkey]="'e'"
+  [disabledHotkey]="disabledHotkey()"
+  (hotkeyPressed)="onClick()"
 ></button>

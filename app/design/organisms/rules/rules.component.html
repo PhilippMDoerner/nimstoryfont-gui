@@ -58,6 +58,7 @@
               [canDelete]="canDelete()"
               [canCreate]="canCreate()"
               [cancelButtonType]="'DARK'"
+              [disabledHotkeys]="!focusEntry.isInFocus"
               (ruleDelete)="onRuleDelete($event)"
               (ruleUpdate)="ruleUpdate.emit($event)"
               (ruleCreateCancel)="cancelRuleCreation()"

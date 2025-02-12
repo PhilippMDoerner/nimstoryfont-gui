@@ -21,6 +21,7 @@
       <app-edit-toggle
         [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
+        [disabledHotkey]="disabledHotkeys()"
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }
@@ -149,6 +150,7 @@
       class="card__delete-confirmer"
       [confirmationQuestion]="'Delete this spell?'"
       [icon]="'trash'"
+      [enableHotkey]="!disabledHotkeys()"
       (confirm)="onSpellDelete()"
     ></app-confirmation-toggle-button>
   }

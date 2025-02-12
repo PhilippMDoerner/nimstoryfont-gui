@@ -2,11 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   effect,
-  EventEmitter,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 
@@ -15,13 +15,15 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
   templateUrl: './edit-toggle.component.html',
   styleUrls: ['./edit-toggle.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent],
+  imports: [ButtonComponent, HotkeyDirective],
 })
 export class EditToggleComponent {
   buttonKind = input<ElementKind>('SECONDARY');
   toggled = input<boolean>(false);
+  disabledHotkey = input(false);
   _toggled = signal(false);
-  @Output() toggle: EventEmitter<boolean> = new EventEmitter();
+
+  toggle = output<boolean>();
 
   constructor() {
     effect(() => {

@@ -24,9 +24,6 @@
         [toggled]="state() !== 'DISPLAY'"
         [hotkey]="'e'"
         [disabledHotkey]="!isInFocus()"
-        (hotkeyPressed)="
-          isInFocus() ? onToggle(!toggleButton.toggled()) : undefined
-        "
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }

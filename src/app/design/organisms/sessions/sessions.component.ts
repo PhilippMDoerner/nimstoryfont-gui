@@ -17,6 +17,11 @@ import {
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import { CollapsiblePanelComponent } from 'src/app/design/molecules';
+import { getPseudoRandomId } from 'src/utils/math';
+import {
+  FocusItem,
+  FocusListComponent,
+} from '../focus-list/focus-list.component';
 import { SessionComponent } from '../session/session.component';
 
 interface SessionCard {
@@ -32,6 +37,7 @@ interface SessionCard {
     SessionComponent,
     SpinnerComponent,
     HotkeyDirective,
+    FocusListComponent,
   ],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss',
@@ -65,8 +71,11 @@ export class SessionsComponent {
     } as Session;
   });
 
-  sessionCards = computed<SessionCard[]>(() =>
-    this.sessions().map((session) => ({ session: session, isOpen: false })),
+  sessionCards = computed<FocusItem<SessionCard>[]>(() =>
+    this.sessions().map((session) => ({
+      id: session.pk ?? getPseudoRandomId(),
+      data: { session: session, isOpen: false },
+    })),
   );
 
   onSessionDelete(sessionToDelete: Session) {

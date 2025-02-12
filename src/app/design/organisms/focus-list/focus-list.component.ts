@@ -1,0 +1,144 @@
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChild,
+  DestroyRef,
+  ElementRef,
+  inject,
+  input,
+  Signal,
+  TemplateRef,
+  viewChildren,
+} from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import {
+  combineLatest,
+  distinctUntilChanged,
+  filter,
+  map,
+  merge,
+  Observable,
+  scan,
+  share,
+  Subject,
+  tap,
+  withLatestFrom,
+} from 'rxjs';
+import { HotkeyService } from 'src/app/_services/hotkey.service';
+import { getFirstFocusableChild } from 'src/utils/DOM';
+import { filterNil } from 'src/utils/rxjs-operators';
+
+export type FocusItem<T> = { id: number; data: T };
+
+@Component({
+  selector: 'app-focus-list',
+  imports: [NgTemplateOutlet, AsyncPipe],
+  templateUrl: './focus-list.component.html',
+  styleUrl: './focus-list.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class FocusListComponent<T> {
+  entries = input.required<FocusItem<T>[]>();
+  disableHotkeyNavigation = input(false);
+
+  itemTemplate =
+    contentChild.required<
+      TemplateRef<{ $implicit: { data: T; index: number } }>
+    >('itemTemplate');
+  separatorTemplate =
+    contentChild<TemplateRef<{ $implicit: { data: T; index: number } }>>(
+      'separator',
+    );
+
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly hotkeyService = inject(HotkeyService);
+  itemContainers: Signal<readonly ElementRef<HTMLDivElement>[]> =
+    viewChildren('itemContainer');
+  focusItemEvent$ = new Subject<number>();
+  private arrowEvents$ = merge(
+    this.hotkeyService
+      .watch('ArrowDown')
+      .pipe(map(() => ({ type: 'down' }) as const)),
+    this.hotkeyService
+      .watch('ArrowUp')
+      .pipe(map(() => ({ type: 'up' }) as const)),
+  );
+  focusIndex$ = this.deriveFocusItemIndex();
+
+  constructor() {
+    this.scrollAndFocusOnArrowNavigation(
+      this.focusIndex$,
+      toObservable(this.itemContainers),
+      toObservable(this.disableHotkeyNavigation),
+    );
+  }
+
+  private deriveFocusItemIndex(): Observable<number | undefined> {
+    const lastItemIndex = computed(() => this.entries().length);
+
+    const focusEvents$ = this.focusItemEvent$.pipe(
+      map((index) => ({ type: 'selection', nextIndex: index }) as const),
+    );
+
+    const focusIndex$ = merge(this.arrowEvents$, focusEvents$).pipe(
+      tap((event) => console.log('listevent: ', event)),
+      withLatestFrom(toObservable(lastItemIndex)),
+      scan(
+        (priorFocusIndex, [event, lastItemIndex]) => {
+          switch (event.type) {
+            case 'down':
+              const firstIndex = 0;
+              return priorFocusIndex != null ? priorFocusIndex + 1 : firstIndex;
+            case 'up':
+              return priorFocusIndex != null
+                ? priorFocusIndex - 1
+                : lastItemIndex;
+            case 'selection':
+              return event.nextIndex;
+          }
+        },
+        undefined as number | undefined,
+      ),
+      share(),
+    );
+
+    return focusIndex$;
+  }
+
+  private scrollAndFocusOnArrowNavigation(
+    focusIndex$: Observable<number | undefined>,
+    itemContainers$: Observable<readonly ElementRef<HTMLDivElement>[]>,
+    disableHotkeyNavigation$: Observable<boolean>,
+  ): void {
+    const itemWithFocus = combineLatest({
+      focusIndex: focusIndex$,
+      itemContainers: itemContainers$,
+    }).pipe(
+      filter(({ focusIndex }) => focusIndex != null),
+      map(
+        ({ focusIndex, itemContainers }): HTMLDivElement | undefined =>
+          itemContainers[focusIndex as number]?.nativeElement,
+      ),
+    );
+
+    this.arrowEvents$
+      .pipe(
+        withLatestFrom(disableHotkeyNavigation$),
+        filter(([_, disableHotkeyNavigation]) => !disableHotkeyNavigation),
+        withLatestFrom(itemWithFocus),
+        map(([_, itemWithFocus]) => itemWithFocus),
+        filterNil(),
+        distinctUntilChanged(),
+        takeUntilDestroyed(),
+      )
+      .subscribe((itemWithFocus) => {
+        itemWithFocus.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        const elementToFocus =
+          getFirstFocusableChild(itemWithFocus) ?? itemWithFocus;
+        elementToFocus.focus();
+      });
+  }
+}

@@ -23,7 +23,6 @@ import {
   scan,
   share,
   Subject,
-  tap,
   withLatestFrom,
 } from 'rxjs';
 import { HotkeyService } from 'src/app/_services/hotkey.service';
@@ -83,7 +82,6 @@ export class FocusListComponent<T> {
     );
 
     const focusIndex$ = merge(this.arrowEvents$, focusEvents$).pipe(
-      tap((event) => console.log('listevent: ', event)),
       withLatestFrom(toObservable(lastItemIndex)),
       scan(
         (priorFocusIndex, [event, lastItemIndex]) => {

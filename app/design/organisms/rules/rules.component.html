@@ -36,34 +36,36 @@
         </app-collapsible-panel>
       </div>
     }
-    @for (card of ruleCards(); track card.rule.pk) {
-      <div
-        class="list__rule-card rule-card"
-        [@slideOutFromBottom]
-        [id]="card.rule.name"
-        #rule
-      >
-        <app-collapsible-panel [isOpen]="card.isOpen">
-          <span heading>
-            {{ card.rule.name }}
-          </span>
+    <app-focus-list [entries]="ruleCards()">
+      <ng-template #itemTemplate let-focusEntry>
+        <div
+          class="list__rule-card rule-card"
+          [@slideOutFromBottom]
+          [id]="focusEntry.data.rule.name"
+          #rule
+        >
+          <app-collapsible-panel [isOpen]="focusEntry.data.isOpen">
+            <span heading>
+              {{ focusEntry.data.rule.name }}
+            </span>
 
-          <app-rule
-            body
-            class="rule-card__rule"
-            [rule]="card.rule"
-            [serverModel]="serverModel()"
-            [canUpdate]="canUpdate()"
-            [canDelete]="canDelete()"
-            [canCreate]="canCreate()"
-            [cancelButtonType]="'DARK'"
-            (ruleDelete)="onRuleDelete($event)"
-            (ruleUpdate)="ruleUpdate.emit($event)"
-            (ruleCreateCancel)="cancelRuleCreation()"
-          ></app-rule>
-        </app-collapsible-panel>
-      </div>
-    }
+            <app-rule
+              body
+              class="rule-card__rule"
+              [rule]="focusEntry.data.rule"
+              [serverModel]="serverModel()"
+              [canUpdate]="canUpdate()"
+              [canDelete]="canDelete()"
+              [canCreate]="canCreate()"
+              [cancelButtonType]="'DARK'"
+              (ruleDelete)="onRuleDelete($event)"
+              (ruleUpdate)="ruleUpdate.emit($event)"
+              (ruleCreateCancel)="cancelRuleCreation()"
+            ></app-rule>
+          </app-collapsible-panel>
+        </div>
+      </ng-template>
+    </app-focus-list>
   </div>
 </div>
 

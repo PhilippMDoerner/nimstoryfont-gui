@@ -4,7 +4,6 @@ import {
   Component,
   computed,
   contentChild,
-  DestroyRef,
   ElementRef,
   inject,
   input,
@@ -51,7 +50,6 @@ export class FocusListComponent<T> {
       'separator',
     );
 
-  private readonly destroyRef = inject(DestroyRef);
   private readonly hotkeyService = inject(HotkeyService);
   itemContainers: Signal<readonly ElementRef<HTMLDivElement>[]> =
     viewChildren('itemContainer');
@@ -85,14 +83,19 @@ export class FocusListComponent<T> {
       withLatestFrom(toObservable(lastItemIndex)),
       scan(
         (priorFocusIndex, [event, lastItemIndex]) => {
+          const firstItemIndex = 0;
+          let isNextIndexOutOfBounds = false;
           switch (event.type) {
             case 'down':
-              const firstIndex = 0;
-              return priorFocusIndex != null ? priorFocusIndex + 1 : firstIndex;
+              if (priorFocusIndex == null) return firstItemIndex;
+              isNextIndexOutOfBounds = priorFocusIndex + 1 > lastItemIndex;
+              if (isNextIndexOutOfBounds) return lastItemIndex;
+              return priorFocusIndex + 1;
             case 'up':
-              return priorFocusIndex != null
-                ? priorFocusIndex - 1
-                : lastItemIndex;
+              if (priorFocusIndex == null) return lastItemIndex;
+              isNextIndexOutOfBounds = priorFocusIndex - 1 < firstItemIndex;
+              if (isNextIndexOutOfBounds) return firstItemIndex;
+              return priorFocusIndex - 1;
             case 'selection':
               return event.nextIndex;
           }

@@ -30,17 +30,25 @@
       ></app-info-circle-tooltip>
     </h2>
     <div class="row mb-3">
-      @let linkCategories = (linkCategories$ | async) ?? [];
-      @for (category of linkCategories; track category) {
-        <app-selectable-entry
-          class="col-12 col-sm-6 col-lg-4 row-entry"
-          [label]="category.label"
-          [style]="{ '--border-color': category.color }"
-          [icon]="category.icon"
-          [isActive]="category.active"
-          [isSelectable]="true"
-          (entryClick)="toggleLinkCategory(category, linkCategories, $event)"
-        ></app-selectable-entry>
+      @let linkCategories = linkCategories$ | async;
+      @if (linkCategories) {
+        @for (category of linkCategories; track category) {
+          <app-selectable-entry
+            class="col-12 col-sm-6 col-lg-4 row-entry"
+            [label]="category.label"
+            [style]="{ '--border-color': category.color }"
+            [icon]="category.icon"
+            [isActive]="category.active"
+            [isSelectable]="true"
+            (entryClick)="toggleLinkCategory(category, linkCategories, $event)"
+          ></app-selectable-entry>
+        }
+      } @else {
+        @for (_ of linkCategoryFallbackList; track $index) {
+          <app-placeholder
+            class="rounded-0 col-12 col-sm-6 col-lg-4 row-entry entry-height"
+          />
+        }
       }
     </div>
 

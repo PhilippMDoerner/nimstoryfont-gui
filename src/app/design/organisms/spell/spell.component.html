@@ -164,6 +164,7 @@
     [fields]="formlyFields"
     [cancelButtonType]="cancelButtonType()"
     [submitButtonType]="submitButtonType()"
+    [disabledHotkeys]="disabledHotkeys()"
     (formlySubmit)="onSpellUpdate($event)"
     (formlyCancel)="changeState('DISPLAY', undefined)"
   ></app-form>

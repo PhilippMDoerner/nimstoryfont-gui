@@ -107,6 +107,7 @@
     [model]="userModel()"
     [fields]="formlyFields"
     [cancelButtonType]="'DARK'"
+    [disabledHotkeys]="disabledHotkeys()"
     (formlySubmit)="onSubmit()"
     (formlyCancel)="changeState('DISPLAY', undefined)"
   ></app-form>

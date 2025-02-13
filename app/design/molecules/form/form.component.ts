@@ -14,6 +14,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { distinctUntilChanged, interval, map, startWith } from 'rxjs';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
@@ -30,6 +31,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
     FormlyBootstrapModule,
     ReactiveFormsModule,
     NgTemplateOutlet,
+    HotkeyDirective,
   ],
 })
 export class FormComponent<T> {
@@ -44,6 +46,7 @@ export class FormComponent<T> {
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitIcon = input<Icon>();
   isLoading = input<boolean>(false);
+  disabledHotkeys = input<boolean>(false);
 
   @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
   @Output() formlyCancel: EventEmitter<null> = new EventEmitter();

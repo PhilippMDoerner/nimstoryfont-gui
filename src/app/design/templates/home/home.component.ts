@@ -17,11 +17,15 @@ import {
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { of } from 'rxjs';
+import { HotkeyService } from 'src/app/_services/hotkey.service';
 import { OnlineService } from 'src/app/_services/online.service';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { PlaceholderComponent } from 'src/app/design/atoms/placeholder/placeholder.component';
 import { IconCardEntry } from 'src/app/design/organisms/_model/icon-card-list';
 import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
+import { ButtonComponent } from '../../atoms/button/button.component';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-list.component';
@@ -46,6 +50,7 @@ const FILTER_LABEL: { [key in FilterMode]: string } = {
     PlaceholderComponent,
     AsyncPipe,
     NgOptimizedImage,
+    ButtonComponent,
   ],
 })
 export class HomeComponent {
@@ -76,6 +81,9 @@ export class HomeComponent {
 
   isOnline$ = inject(OnlineService).online$;
 
+  isHotkeyModifierPressed = toSignal(
+    inject(HotkeyService).isHotkeyModifierPressed$ ?? of(false),
+  );
   timeFilterOptions = FILTER_MODES.map((mode) => ({
     value: mode,
     label: FILTER_LABEL[mode],

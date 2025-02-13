@@ -72,6 +72,7 @@ export class HotkeyDirective {
 
   private configureTooltip(element: ElementRef<HTMLElement>) {
     this.tooltip.triggers = '';
+    this.tooltip.tooltipClass = 'z-1001';
     this.tooltip.positionTarget = element.nativeElement;
   }
 

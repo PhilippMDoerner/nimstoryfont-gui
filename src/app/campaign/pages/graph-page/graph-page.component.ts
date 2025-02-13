@@ -171,33 +171,35 @@ export class GraphPageComponent {
     })),
   );
 
-  private linkTypeOptions = computed<ItemCategory[]>(() => {
-    return (
-      this.store.graph()?.links.map((linkGroup) => {
-        const firstLink: NodeLink | undefined = linkGroup.links[0];
-        return {
-          active: false,
-          color: firstLink?.color ?? DEFAULT_LINK_CATEGORY_COLOR,
-          value: linkGroup.name,
-          icon: firstLink.icon ?? undefined,
-          label: toGroupLabel(linkGroup.name),
-        };
-      }) ?? []
-    );
+  private linkTypeOptions = computed<ItemCategory[] | undefined>(() => {
+    return this.store.graph()?.links.map((linkGroup) => {
+      const firstLink: NodeLink | undefined = linkGroup.links[0];
+      return {
+        active: false,
+        color: firstLink?.color ?? DEFAULT_LINK_CATEGORY_COLOR,
+        value: linkGroup.name,
+        icon: firstLink.icon ?? undefined,
+        label: toGroupLabel(linkGroup.name),
+      };
+    });
   });
   private activeLinkCategories$ = new ReplaySubject<Set<LinkKind>>(1);
   private activeLinkCategories = toSignal(this.activeLinkCategories$);
-  linkCategories$: Observable<ItemCategory[]> = this.activeLinkCategories$.pipe(
-    map((activeLinkCategories) =>
-      this.linkTypeOptions()
-        .map((option) => ({
-          ...option,
-          active: activeLinkCategories.has(option.value),
-        }))
-        .sort((a, b) => sortAlphabetically(a.label, b.label)),
-    ),
-  );
+  linkCategories$: Observable<ItemCategory[] | undefined> =
+    this.activeLinkCategories$.pipe(
+      map((activeLinkCategories) => {
+        const linkTypeOptions = this.linkTypeOptions();
+        if (!linkTypeOptions) return undefined;
 
+        return linkTypeOptions
+          .map((option) => ({
+            ...option,
+            active: activeLinkCategories.has(option.value),
+          }))
+          .sort((a, b) => sortAlphabetically(a.label, b.label));
+      }),
+    );
+  linkCategoryFallbackList = Array(6).fill(0); // Any nodemap is guaranteed to have at least 6 entries
   private createLinkState$ = toObservable(this.store.createLinkState);
   private destructor = inject(DestroyRef);
 

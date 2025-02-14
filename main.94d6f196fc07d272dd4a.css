@@ -24071,6 +24071,10 @@ div.ngb-dp-day .btn-light:hover {
   color: var(--bs-black) !important;
 }
 
+.z-1001 {
+  z-index: 1001;
+}
+
 .form-label,
 .form-check-label {
   font-weight: bold;

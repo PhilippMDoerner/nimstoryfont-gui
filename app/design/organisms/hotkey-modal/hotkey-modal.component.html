@@ -7,6 +7,8 @@
     type="button"
     aria-label="Close"
     (click)="dismiss()"
+    [hotkey]="'q'"
+    (hotkeyPressed)="dismiss()"
   >
     <app-icon [icon]="'times'"></app-icon>
   </button>

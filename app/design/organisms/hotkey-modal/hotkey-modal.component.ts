@@ -2,7 +2,7 @@ import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { filter } from 'rxjs';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { HotkeyService } from 'src/app/_services/hotkey.service';
 import { Icon } from '../../atoms/_models/icon';
 import { IconComponent } from '../../atoms/icon/icon.component';
@@ -22,7 +22,7 @@ type Hotkey = {
 
 @Component({
   selector: 'app-hotkey-modal',
-  imports: [IconComponent, TitleCasePipe, SeparatorComponent],
+  imports: [IconComponent, TitleCasePipe, SeparatorComponent, HotkeyDirective],
   templateUrl: './hotkey-modal.component.html',
   styleUrl: './hotkey-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -107,11 +107,14 @@ export class HotkeyModalComponent {
   constructor(hotkeyService: HotkeyService) {
     hotkeyService
       .watch('h')
-      .pipe(
-        filter(() => !this.modalService.hasOpenModals()),
-        takeUntilDestroyed(),
-      )
-      .subscribe(() => this.modalService.open(HotkeyModalComponent));
+      .pipe(takeUntilDestroyed())
+      .subscribe(() => this.openModal());
+  }
+
+  openModal() {
+    if (this.modalService.hasOpenModals()) return;
+
+    this.modalService.open(HotkeyModalComponent);
   }
 
   dismiss() {

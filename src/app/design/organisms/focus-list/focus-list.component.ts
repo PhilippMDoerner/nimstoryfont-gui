@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   contentChild,
+  Directive,
   ElementRef,
   inject,
   input,
@@ -141,5 +142,31 @@ export class FocusListComponent<T> {
           getFirstFocusableChild(itemWithFocus) ?? itemWithFocus;
         elementToFocus.focus();
       });
+  }
+}
+
+export interface ContextValue<T> {
+  data: T;
+  index: number;
+  first: boolean;
+  last: boolean;
+  isInFocus: boolean;
+}
+
+export interface ChildTemplateContext<T> {
+  $implicit: ContextValue<T>;
+}
+
+@Directive({
+  selector: '[inferContextTypeFrom]',
+})
+export class FocusListContextTypecastDirective<T> {
+  inferContextTypeFrom = input.required<FocusListComponent<T>>();
+
+  static ngTemplateContextGuard<T>(
+    directive: FocusListContextTypecastDirective<T>,
+    ctx: any,
+  ): ctx is ChildTemplateContext<T> {
+    return true;
   }
 }

@@ -36,8 +36,12 @@
         </app-collapsible-panel>
       </div>
     }
-    <app-focus-list [entries]="ruleCards()">
-      <ng-template #itemTemplate let-focusEntry>
+    <app-focus-list [entries]="ruleCards()" #focusListComponent>
+      <ng-template
+        #itemTemplate
+        let-focusEntry
+        [inferContextTypeFrom]="focusListComponent"
+      >
         <div
           class="list__rule-card rule-card"
           [@slideOutFromBottom]

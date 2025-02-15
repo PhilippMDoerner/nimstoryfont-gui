@@ -21,6 +21,7 @@ import { getPseudoRandomId } from 'src/utils/math';
 import {
   FocusItem,
   FocusListComponent,
+  FocusListContextTypecastDirective,
 } from '../focus-list/focus-list.component';
 import { SessionComponent } from '../session/session.component';
 
@@ -38,6 +39,7 @@ interface SessionCard {
     SpinnerComponent,
     HotkeyDirective,
     FocusListComponent,
+    FocusListContextTypecastDirective,
   ],
   templateUrl: './sessions.component.html',
   styleUrl: './sessions.component.scss',

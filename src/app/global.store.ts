@@ -1,5 +1,12 @@
+import { isPlatformServer } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { computed, effect, ElementRef, inject } from '@angular/core';
+import {
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  PLATFORM_ID,
+} from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { tapResponse } from '@ngrx/operators';
 import {
@@ -89,11 +96,11 @@ export const GlobalStore = signalStore(
   withState(initialAuthState),
   withComputed((state) => {
     const tokenService = inject(TokenService);
+    const isInServer = isPlatformServer(inject(PLATFORM_ID));
 
-    const isInBrowser = !!document;
-
-    const screenSize$ = isInBrowser
-      ? new Observable<ScreenSize>((observer) => {
+    const screenSize$ = isInServer
+      ? SSRDefaultScreenSize$
+      : new Observable<ScreenSize>((observer) => {
           const resizeObserver = new ResizeObserver((entries) => {
             for (const entry of entries) {
               observer.next({
@@ -106,9 +113,7 @@ export const GlobalStore = signalStore(
           resizeObserver.observe(document.body);
 
           return () => resizeObserver.disconnect();
-        })
-      : SSRDefaultScreenSize$;
-
+        });
     return {
       screenSize: toSignal(screenSize$),
       campaignName: computed(() => state.currentCampaign()?.name),
@@ -239,7 +244,7 @@ export const GlobalStore = signalStore(
     const paramsService = inject(GlobalUrlParamsService);
     return {
       onInit: () => {
-        const localUserData = TokenService.getUserData();
+        const localUserData = tokenService.getUserData();
         patchState(store, { userData: localUserData });
         effect(() => tokenService.setUserData(store.userData()));
         effect(() => {

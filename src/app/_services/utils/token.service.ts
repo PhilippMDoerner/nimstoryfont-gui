@@ -1,5 +1,6 @@
+import { isPlatformServer } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Login } from 'src/app/_models/login';
 import {
   CampaignMemberships,
@@ -19,6 +20,7 @@ export class TokenService {
 
   apiUrl = environment.apiUrl;
 
+  private isInServer = isPlatformServer(inject(PLATFORM_ID));
   private jwtTokenUrl: string = `${this.apiUrl}/token`;
   private refreshTokenUrl: string = `${this.apiUrl}/token/refresh`;
   private ID_IDENTIFIER_PREFIX: string = 'id_';
@@ -35,7 +37,7 @@ export class TokenService {
 
   public refreshUserData() {
     log(this.refreshUserData.name);
-    const refreshToken = TokenService.getRefreshToken()?.token;
+    const refreshToken = this.getRefreshToken()?.token;
     if (!refreshToken) return;
 
     const httpHeaders = new HttpHeaders().set(
@@ -56,23 +58,26 @@ export class TokenService {
   }
 
   //static for permissionDecorator.ts
-  public static getUserData(): UserData | undefined {
+  public getUserData(): UserData | undefined {
+    if (this.isInServer) return undefined;
+
     const rawUserData = localStorage.getItem(TokenService.USER_DATA_KEY);
     const hasUserData = rawUserData != null && rawUserData !== 'undefined';
     return hasUserData ? JSON.parse(rawUserData) : undefined;
   }
 
   //static for permissionDecorator.ts
-  public static getAccessToken(): TokenData | undefined {
+  public getAccessToken(): TokenData | undefined {
     return this.getUserData()?.accessToken;
   }
 
   //static for permissionDecorator.ts
-  public static getRefreshToken(): TokenData | undefined {
+  public getRefreshToken(): TokenData | undefined {
     return this.getUserData()?.refreshToken;
   }
 
   public setUserData(data: UserData | undefined): void {
+    if (this.isInServer) return;
     localStorage.setItem(TokenService.USER_DATA_KEY, JSON.stringify(data));
   }
 
@@ -110,11 +115,11 @@ export class TokenService {
   }
 
   public isAccessTokenExpired(): boolean {
-    return this.isTokenExpired(TokenService.getAccessToken());
+    return this.isTokenExpired(this.getAccessToken());
   }
 
   public isRefreshTokenExpired(): boolean {
-    return this.isTokenExpired(TokenService.getRefreshToken());
+    return this.isTokenExpired(this.getRefreshToken());
   }
 
   public isTokenExpired(token: TokenData | undefined): boolean {

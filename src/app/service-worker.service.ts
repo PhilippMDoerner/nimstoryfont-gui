@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { SwUpdate, UnrecoverableStateEvent } from '@angular/service-worker';
 import { switchMap, take, timer } from 'rxjs';
@@ -9,8 +9,9 @@ import { ToastConfig } from './_models/toast';
   providedIn: 'root',
 })
 export class ServiceWorkerService {
-  readonly toastService = inject(ToastService);
-  readonly serviceWorkerUpdate = inject(SwUpdate);
+  private readonly toastService = inject(ToastService);
+  private readonly serviceWorkerUpdate = inject(SwUpdate);
+  private readonly destroyRef = inject(DestroyRef);
 
   private newVersionInstalledToast: ToastConfig = {
     type: 'INFO',
@@ -35,7 +36,7 @@ export class ServiceWorkerService {
 
   private initErrorListening() {
     this.serviceWorkerUpdate.unrecoverable
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((event) =>
         this.toastService.addToast(unrecoverableErrorToast(event)),
       );
@@ -43,7 +44,7 @@ export class ServiceWorkerService {
 
   private initUpdateEventListening() {
     this.serviceWorkerUpdate.versionUpdates
-      .pipe(takeUntilDestroyed())
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((event) => {
         switch (event.type) {
           case 'VERSION_DETECTED':
@@ -72,7 +73,7 @@ export class ServiceWorkerService {
       .pipe(
         take(1),
         switchMap(() => timer(twelveHours)),
-        takeUntilDestroyed(),
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => this.serviceWorkerUpdate.checkForUpdate());
   }

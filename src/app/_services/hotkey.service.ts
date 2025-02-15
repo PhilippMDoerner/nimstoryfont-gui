@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { DestroyRef, inject, Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformServer } from '@angular/common';
+import { DestroyRef, inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   debounceTime,
@@ -59,6 +59,7 @@ export type BindableHotkey<T> = NotA<T> & NotB<T>;
 })
 export class HotkeyService {
   private hotkeyDown$: Observable<KeyboardEvent> | undefined;
+  private isInServer = isPlatformServer(inject(PLATFORM_ID));
   public isHotkeyModifierPressed$: Observable<boolean> | undefined; //Undefined on Server
 
   constructor() {
@@ -95,7 +96,7 @@ export class HotkeyService {
    * - alt + ctrl + @key (This is mostly relevant for firefox which displays a few menus when alt is pressed)
    */
   watch<T>(key: BindableHotkey<T> | undefined): Observable<KeyboardEvent> {
-    if (!window || !this.hotkeyDown$ || !key) return EMPTY;
+    if (this.isInServer || !this.hotkeyDown$ || !key) return EMPTY;
 
     return this.hotkeyDown$.pipe(
       filter((event) => event.key === key),

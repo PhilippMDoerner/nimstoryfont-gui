@@ -44,8 +44,10 @@ export class AppComponent {
   disableAnimation = signal(false);
 
   constructor() {
-    this.trackAnimationSetting();
-    this.serviceWorkerService.initializeServiceWorkerInteractions();
+    afterNextRender(() => {
+      this.trackAnimationSetting();
+      this.serviceWorkerService.initializeServiceWorkerInteractions();
+    });
   }
 
   logout(): void {
@@ -53,11 +55,9 @@ export class AppComponent {
   }
 
   private trackAnimationSetting() {
-    afterNextRender(() => {
-      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-      mediaQuery.addEventListener('change', (event) => {
-        this.disableAnimation.set(event.matches);
-      });
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    mediaQuery.addEventListener('change', (event) => {
+      this.disableAnimation.set(event.matches);
     });
   }
 }

@@ -1,7 +1,9 @@
 import { isDevMode } from '@angular/core';
 
+const isInServer = typeof document === 'undefined';
+
 export function log(debugSymbol?: string, ...data: any[]) {
-  if (!isDevMode()) return;
+  if (!isDevMode() || isInServer) return;
 
   console.groupCollapsed(`[DEBUG] ${debugSymbol}:`, data);
   console.trace();

@@ -37,6 +37,7 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import {
   FocusItem,
   FocusListComponent,
+  FocusListContextTypecastDirective,
 } from '../focus-list/focus-list.component';
 import { SpellComponent } from '../spell/spell.component';
 
@@ -59,6 +60,7 @@ interface SpellCard {
     SpinnerComponent,
     HotkeyDirective,
     FocusListComponent,
+    FocusListContextTypecastDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

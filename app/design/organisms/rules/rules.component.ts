@@ -27,6 +27,7 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import {
   FocusItem,
   FocusListComponent,
+  FocusListContextTypecastDirective,
 } from '../focus-list/focus-list.component';
 import { RuleComponent } from '../rule/rule.component';
 
@@ -47,6 +48,7 @@ interface RuleCard {
     SpinnerComponent,
     HotkeyDirective,
     FocusListComponent,
+    FocusListContextTypecastDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

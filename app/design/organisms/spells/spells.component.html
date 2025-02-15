@@ -39,8 +39,12 @@
         </app-collapsible-panel>
       </div>
     }
-    <app-focus-list [entries]="spellCards()">
-      <ng-template #itemTemplate let-focusEntry>
+    <app-focus-list [entries]="spellCards()" #focusListComponent>
+      <ng-template
+        #itemTemplate
+        let-focusEntry
+        [inferContextTypeFrom]="focusListComponent"
+      >
         <div
           class="list__spell-card spell-card"
           [@slideOutFromBottom]

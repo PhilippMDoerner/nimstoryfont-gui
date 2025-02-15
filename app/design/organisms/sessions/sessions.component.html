@@ -40,8 +40,12 @@
       </div>
     }
 
-    <app-focus-list [entries]="sessionCards()">
-      <ng-template #itemTemplate let-focusEntry>
+    <app-focus-list [entries]="sessionCards()" #focusListComponent>
+      <ng-template
+        #itemTemplate
+        let-focusEntry
+        [inferContextTypeFrom]="focusListComponent"
+      >
         <div class="list__session-card session-card" [@slideOutFromBottom]>
           <app-collapsible-panel [isOpen]="focusEntry.data.isOpen">
             <span heading>

@@ -46,6 +46,9 @@ export class TitleService {
   }
 
   private updateFavicon(newFaviconUrl: string | undefined): void {
+    const isInBrowser = !!this.document;
+    if (!isInBrowser) return;
+
     const faviconElement = this.document.querySelector<HTMLLinkElement>(
       `#${this.FAVICON_ELEMENT_ID}`,
     );

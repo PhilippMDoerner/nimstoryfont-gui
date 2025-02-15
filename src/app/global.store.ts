@@ -10,7 +10,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Observable, shareReplay, take } from 'rxjs';
+import { Observable, of, shareReplay, take } from 'rxjs';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { CampaignOverview } from './_models/campaign';
 import { Login } from './_models/login';
@@ -36,6 +36,11 @@ export type GlobalState = {
   campaigns: CampaignOverview[] | undefined;
   contentScrollEvents: ContentScrollEvent | undefined;
 };
+
+const SSRDefaultScreenSize$: Observable<ScreenSize> = of({
+  height: 600,
+  width: 600,
+});
 
 function isTokenExpired(token: TokenData | undefined): boolean {
   if (token == null) return true;
@@ -85,20 +90,24 @@ export const GlobalStore = signalStore(
   withComputed((state) => {
     const tokenService = inject(TokenService);
 
-    const screenSize$ = new Observable<ScreenSize>((observer) => {
-      const resizeObserver = new ResizeObserver((entries) => {
-        for (const entry of entries) {
-          observer.next({
-            width: entry.contentRect.width,
-            height: entry.contentRect.height,
+    const isInBrowser = !!document;
+
+    const screenSize$ = isInBrowser
+      ? new Observable<ScreenSize>((observer) => {
+          const resizeObserver = new ResizeObserver((entries) => {
+            for (const entry of entries) {
+              observer.next({
+                width: entry.contentRect.width,
+                height: entry.contentRect.height,
+              });
+            }
           });
-        }
-      });
 
-      resizeObserver.observe(document.body);
+          resizeObserver.observe(document.body);
 
-      return () => resizeObserver.disconnect();
-    });
+          return () => resizeObserver.disconnect();
+        })
+      : SSRDefaultScreenSize$;
 
     return {
       screenSize: toSignal(screenSize$),

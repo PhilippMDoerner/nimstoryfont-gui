@@ -1,4 +1,11 @@
-import { Component, computed, inject, NgZone, signal } from '@angular/core';
+import {
+  afterNextRender,
+  Component,
+  computed,
+  inject,
+  NgZone,
+  signal,
+} from '@angular/core';
 import { fadeOut } from 'src/app/design/animations/fadeIn';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
@@ -46,9 +53,11 @@ export class AppComponent {
   }
 
   private trackAnimationSetting() {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    mediaQuery.addEventListener('change', (event) => {
-      this.disableAnimation.set(event.matches);
+    afterNextRender(() => {
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+      mediaQuery.addEventListener('change', (event) => {
+        this.disableAnimation.set(event.matches);
+      });
     });
   }
 }

@@ -671,6 +671,9 @@ export function copy<T>(items: T[]): T[] {
 }
 
 export function getBreakpoint(): Breakpoint {
+  const isInBrowser = !!window;
+  if (!isInBrowser) return 'xl';
+
   const screenWidth = window.screen.availWidth;
   if (screenWidth < 767) return 'sm';
   if (screenWidth < 991) return 'md';

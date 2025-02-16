@@ -1,3 +1,4 @@
+import { isPlatformServer } from '@angular/common';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -5,7 +6,7 @@ import {
   HttpHeaders,
   HttpRequest,
 } from '@angular/common/http';
-import { inject } from '@angular/core';
+import { inject, PLATFORM_ID } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
 import { filter, map, mergeMap, retry, take, tap } from 'rxjs/operators';
@@ -27,10 +28,13 @@ const logoutInfoToast: ToastConfig = {
   onToastClick: (dismiss) => dismiss(),
 };
 
-export function addTokenInterceptor(
+export function addTokenInClientInterceptor(
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
 ): Observable<HttpEvent<unknown>> {
+  const isInServer = isPlatformServer(inject(PLATFORM_ID));
+  if (isInServer) return next(req); // We do not deal with HTTP requests done during SSR here.
+
   const globalStore = inject(GlobalStore);
   const toastService = inject(ToastService);
 

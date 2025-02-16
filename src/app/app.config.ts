@@ -18,7 +18,8 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { errorInterceptor } from './_interceptors/errorInterceptor';
 import { offlineInterceptor } from './_interceptors/offlineInterceptor';
-import { addTokenInterceptor } from './_interceptors/tokenInterceptor';
+import { addTokenInServerInterceptor } from './_interceptors/serverCookieInterceptor';
+import { addTokenInClientInterceptor } from './_interceptors/tokenInterceptor';
 import { FORMLY_MODULE } from './_modules/formly_constants';
 import { ROUTES } from './app-routing.module';
 import { GlobalStore } from './global.store';
@@ -32,7 +33,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withFetch(),
       withInterceptors([
-        addTokenInterceptor,
+        addTokenInClientInterceptor,
+        addTokenInServerInterceptor,
         offlineInterceptor,
         errorInterceptor,
       ]),

@@ -1,6 +1,6 @@
 'use strict';
 /**
- * @license Angular v19.0.6
+ * @license Angular v19.1.6
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -9,44 +9,28 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var schematics = require('@angular-devkit/schematics');
-require('os');
-var ts = require('typescript');
-var checker = require('./checker-99fcd356.js');
-var program = require('./program-2d2a3ded.js');
-var p = require('path');
+require('./index-4bb9c755.js');
 var fs = require('fs');
-var compiler_host = require('./compiler_host-6ebdb0ca.js');
-var project_tsconfig_paths = require('./project_tsconfig_paths-e9ccccbf.js');
-var nodes = require('./nodes-a9f0b985.js');
-var imports = require('./imports-abe29092.js');
+var p = require('path');
+var ts = require('typescript');
+var compiler_host = require('./compiler_host-dff4346e.js');
+var project_tsconfig_paths = require('./project_tsconfig_paths-6c9cde78.js');
+var nodes = require('./nodes-88c2157f.js');
+var imports = require('./imports-31a38653.js');
+var checker = require('./checker-58684f3f.js');
+require('os');
+var program = require('./program-721d697e.js');
+require('@angular-devkit/core');
 require('module');
 require('url');
-require('@angular-devkit/core');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var ts__default = /*#__PURE__*/_interopDefaultLegacy(ts);
 
-/**
- * @module
- * @description
- * Entry point for all public APIs of the compiler-cli package.
- */
-new checker.Version('19.0.6');
-
 function createProgram({ rootNames, options, host, oldProgram, }) {
     return new program.NgtscProgram(rootNames, options, host, oldProgram);
 }
-
-var LogLevel;
-(function (LogLevel) {
-    LogLevel[LogLevel["debug"] = 0] = "debug";
-    LogLevel[LogLevel["info"] = 1] = "info";
-    LogLevel[LogLevel["warn"] = 2] = "warn";
-    LogLevel[LogLevel["error"] = 3] = "error";
-})(LogLevel || (LogLevel = {}));
-
-checker.setFileSystem(new checker.NodeJSFileSystem());
 
 /** Checks whether a node is referring to a specific import specifier. */
 function isReferenceToImport(typeChecker, node, importSpecifier) {

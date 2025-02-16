@@ -4,16 +4,16 @@
       const require = __cjsCompatRequire(import.meta.url);
     
 
-// bazel-out/k8-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/main.mjs
+// bazel-out/darwin_arm64-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/main.mjs
 import { Generator } from "@angular/service-worker/config";
 import * as fs2 from "fs";
 import * as path2 from "path";
 
-// bazel-out/k8-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/filesystem.mjs
+// bazel-out/darwin_arm64-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/filesystem.mjs
 import * as fs from "fs";
 import * as path from "path";
 
-// bazel-out/k8-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/sha1.mjs
+// bazel-out/darwin_arm64-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/sha1.mjs
 function sha1Binary(buffer) {
   const words32 = arrayBufferToWords32(buffer, Endian.Big);
   return _sha1(words32, buffer.byteLength * 8);
@@ -115,7 +115,7 @@ function byteStringToHexString(str) {
   return hex.toLowerCase();
 }
 
-// bazel-out/k8-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/filesystem.mjs
+// bazel-out/darwin_arm64-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/filesystem.mjs
 var NodeFilesystem = class {
   base;
   constructor(base) {
@@ -145,7 +145,7 @@ var NodeFilesystem = class {
   }
 };
 
-// bazel-out/k8-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/main.mjs
+// bazel-out/darwin_arm64-fastbuild-ST-2e5f3376adb5/bin/packages/service-worker/cli/main.mjs
 var cwd = process.cwd();
 var distDir = path2.join(cwd, process.argv[2]);
 var config = path2.join(cwd, process.argv[3]);

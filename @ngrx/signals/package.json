@@ -1,6 +1,6 @@
 {
   "name": "@ngrx/signals",
-  "version": "19.0.0",
+  "version": "19.0.1",
   "description": "Reactive Store and Set of Utilities for Angular Signals",
   "repository": {
     "type": "git",
@@ -32,6 +32,7 @@
   "schematics": "./schematics/collection.json",
   "sideEffects": false,
   "ng-update": {
+    "packageGroupName": "@ngrx/signals",
     "packageGroup": [
       "@ngrx/store",
       "@ngrx/effects",

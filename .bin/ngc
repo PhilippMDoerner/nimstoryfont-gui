@@ -5,19 +5,19 @@
     
 import {
   main
-} from "../../chunk-SL3F2GV7.js";
-import "../../chunk-7QPTK5PP.js";
-import "../../chunk-SQM7WZRL.js";
-import "../../chunk-RWKKYPBC.js";
-import "../../chunk-WOH3O4B6.js";
-import "../../chunk-Q2WE7ECN.js";
+} from "../../chunk-QVVMVGOA.js";
+import "../../chunk-2MIQQ3RF.js";
+import "../../chunk-2NHOVPL3.js";
+import "../../chunk-K3P5YJTN.js";
+import "../../chunk-WKHF7UQD.js";
+import "../../chunk-I6R3GL3L.js";
 import {
   NodeJSFileSystem,
   setFileSystem
-} from "../../chunk-37JMVF7H.js";
+} from "../../chunk-STORTTKY.js";
 import "../../chunk-KPQ72R34.js";
 
-// bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/bin/ngc.mjs
+// bazel-out/darwin_arm64-fastbuild/bin/packages/compiler-cli/src/bin/ngc.mjs
 import "reflect-metadata";
 async function runNgcComamnd() {
   process.title = "Angular Compiler (ngc)";

@@ -65,12 +65,17 @@ function signalMethod(processingFn, config) {
     const signalMethodFn = (input, config) => {
         if (isSignal(input)) {
             const instanceInjector = config?.injector ?? getCallerInjector() ?? sourceInjector;
-            const watcher = effect((onCleanup) => {
+            const watcher = effect(() => {
                 const value = input();
                 untracked(() => processingFn(value));
-                onCleanup(() => watchers.splice(watchers.indexOf(watcher), 1));
             }, { injector: instanceInjector });
             watchers.push(watcher);
+            instanceInjector.get(DestroyRef).onDestroy(() => {
+                const ix = watchers.indexOf(watcher);
+                if (ix !== -1) {
+                    watchers.splice(ix, 1);
+                }
+            });
             return watcher;
         }
         else {
@@ -90,43 +95,10 @@ function getCallerInjector() {
     }
 }
 
-function deepFreeze(target) {
-    Object.freeze(target);
-    const targetIsFunction = typeof target === 'function';
-    Object.getOwnPropertyNames(target).forEach((prop) => {
-        // Ignore Ivy properties, ref: https://github.com/ngrx/platform/issues/2109#issuecomment-582689060
-        if (prop.startsWith('ɵ')) {
-            return;
-        }
-        if (hasOwnProperty(target, prop) &&
-            (targetIsFunction
-                ? prop !== 'caller' && prop !== 'callee' && prop !== 'arguments'
-                : true)) {
-            const propValue = target[prop];
-            if ((isObjectLike(propValue) || typeof propValue === 'function') &&
-                !Object.isFrozen(propValue)) {
-                deepFreeze(propValue);
-            }
-        }
-    });
-    return target;
-}
-function freezeInDevMode(target) {
-    return ngDevMode ? deepFreeze(target) : target;
-}
-function hasOwnProperty(target, propertyName) {
-    return isObjectLike(target)
-        ? Object.prototype.hasOwnProperty.call(target, propertyName)
-        : false;
-}
-function isObjectLike(target) {
-    return typeof target === 'object' && target !== null;
-}
-
 const STATE_WATCHERS = new WeakMap();
 const STATE_SOURCE = Symbol('STATE_SOURCE');
 function patchState(stateSource, ...updaters) {
-    stateSource[STATE_SOURCE].update((currentState) => updaters.reduce((nextState, updater) => freezeInDevMode({
+    stateSource[STATE_SOURCE].update((currentState) => updaters.reduce((nextState, updater) => ({
         ...nextState,
         ...(typeof updater === 'function' ? updater(nextState) : updater),
     }), currentState));
@@ -167,7 +139,7 @@ function removeWatcher(stateSource, watcher) {
 }
 
 function signalState(initialState) {
-    const stateSource = signal(freezeInDevMode(initialState));
+    const stateSource = signal(initialState);
     const signalState = toDeepSignal(stateSource.asReadonly());
     Object.defineProperty(signalState, STATE_SOURCE, {
         value: stateSource,
@@ -185,9 +157,13 @@ function signalStore(...args) {
         constructor() {
             const innerStore = features.reduce((store, feature) => feature(store), getInitialInnerStore());
             const { stateSignals, props, methods, hooks } = innerStore;
-            const storeMembers = { ...stateSignals, ...props, ...methods };
+            const storeMembers = {
+                ...stateSignals,
+                ...props,
+                ...methods,
+            };
             this[STATE_SOURCE] = innerStore[STATE_SOURCE];
-            for (const key in storeMembers) {
+            for (const key of Reflect.ownKeys(storeMembers)) {
                 this[key] = storeMembers[key];
             }
             const { onInit, onDestroy } = hooks;
@@ -236,9 +212,9 @@ function assertUniqueStoreMembers(store, newMemberKeys) {
         ...store.props,
         ...store.methods,
     };
-    const overriddenKeys = Object.keys(storeMembers).filter((memberKey) => newMemberKeys.includes(memberKey));
+    const overriddenKeys = Reflect.ownKeys(storeMembers).filter((memberKey) => newMemberKeys.includes(memberKey));
     if (overriddenKeys.length > 0) {
-        console.warn('@ngrx/signals: SignalStore members cannot be overridden.', 'Trying to override:', overriddenKeys.join(', '));
+        console.warn('@ngrx/signals: SignalStore members cannot be overridden.', 'Trying to override:', overriddenKeys.map((key) => String(key)).join(', '));
     }
 }
 
@@ -250,7 +226,7 @@ function withProps(propsFactory) {
             ...store.props,
             ...store.methods,
         });
-        assertUniqueStoreMembers(store, Object.keys(props));
+        assertUniqueStoreMembers(store, Reflect.ownKeys(props));
         return {
             ...store,
             props: { ...store.props, ...props },
@@ -303,7 +279,7 @@ function withMethods(methodsFactory) {
             ...store.props,
             ...store.methods,
         });
-        assertUniqueStoreMembers(store, Object.keys(methods));
+        assertUniqueStoreMembers(store, Reflect.ownKeys(methods));
         return {
             ...store,
             methods: { ...store.methods, ...methods },
@@ -314,9 +290,9 @@ function withMethods(methodsFactory) {
 function withState(stateOrFactory) {
     return (store) => {
         const state = typeof stateOrFactory === 'function' ? stateOrFactory() : stateOrFactory;
-        const stateKeys = Object.keys(state);
+        const stateKeys = Reflect.ownKeys(state);
         assertUniqueStoreMembers(store, stateKeys);
-        store[STATE_SOURCE].update((currentState) => freezeInDevMode({
+        store[STATE_SOURCE].update((currentState) => ({
             ...currentState,
             ...state,
         }));

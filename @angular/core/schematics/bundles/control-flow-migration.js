@@ -1,6 +1,6 @@
 'use strict';
 /**
- * @license Angular v19.0.6
+ * @license Angular v19.1.6
  * (c) 2010-2024 Google LLC. https://angular.io/
  * License: MIT
  */
@@ -10,8 +10,8 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var schematics = require('@angular-devkit/schematics');
 var p = require('path');
-var compiler_host = require('./compiler_host-6ebdb0ca.js');
-var checker = require('./checker-99fcd356.js');
+var compiler_host = require('./compiler_host-dff4346e.js');
+var checker = require('./checker-58684f3f.js');
 var ts = require('typescript');
 require('os');
 require('fs');
@@ -297,11 +297,18 @@ class CommonCollector extends checker.RecursiveVisitor {
                 this.count++;
             }
         }
+        super.visitBlock(ast, null);
     }
     visitText(ast) {
         if (this.hasPipes(ast.value)) {
             this.count++;
         }
+    }
+    visitLetDeclaration(decl) {
+        if (this.hasPipes(decl.value)) {
+            this.count++;
+        }
+        super.visitLetDeclaration(decl, null);
     }
     hasDirectives(input) {
         return commonModuleDirectives.has(input);

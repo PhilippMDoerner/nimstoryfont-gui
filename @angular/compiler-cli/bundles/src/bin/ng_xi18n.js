@@ -6,24 +6,24 @@
 import {
   main,
   readCommandLineAndConfiguration
-} from "../../chunk-SL3F2GV7.js";
+} from "../../chunk-QVVMVGOA.js";
 import {
   EmitFlags
-} from "../../chunk-7QPTK5PP.js";
-import "../../chunk-SQM7WZRL.js";
-import "../../chunk-RWKKYPBC.js";
-import "../../chunk-WOH3O4B6.js";
-import "../../chunk-Q2WE7ECN.js";
+} from "../../chunk-2MIQQ3RF.js";
+import "../../chunk-2NHOVPL3.js";
+import "../../chunk-K3P5YJTN.js";
+import "../../chunk-WKHF7UQD.js";
+import "../../chunk-I6R3GL3L.js";
 import {
   NodeJSFileSystem,
   setFileSystem
-} from "../../chunk-37JMVF7H.js";
+} from "../../chunk-STORTTKY.js";
 import "../../chunk-KPQ72R34.js";
 
-// bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/bin/ng_xi18n.mjs
+// bazel-out/darwin_arm64-fastbuild/bin/packages/compiler-cli/src/bin/ng_xi18n.mjs
 import "reflect-metadata";
 
-// bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/extract_i18n.mjs
+// bazel-out/darwin_arm64-fastbuild/bin/packages/compiler-cli/src/extract_i18n.mjs
 import yargs from "yargs";
 function mainXi18n(args2, consoleError = console.error) {
   const config = readXi18nCommandLineAndConfiguration(args2);
@@ -46,7 +46,7 @@ function readXi18nCommandLineAndConfiguration(args2) {
   return { ...config, emitFlags: EmitFlags.I18nBundle };
 }
 
-// bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/bin/ng_xi18n.mjs
+// bazel-out/darwin_arm64-fastbuild/bin/packages/compiler-cli/src/bin/ng_xi18n.mjs
 process.title = "Angular i18n Message Extractor (ng-xi18n)";
 var args = process.argv.slice(2);
 setFileSystem(new NodeJSFileSystem());

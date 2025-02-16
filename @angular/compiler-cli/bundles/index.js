@@ -6,7 +6,7 @@ import {
   GLOBAL_DEFS_FOR_TERSER,
   GLOBAL_DEFS_FOR_TERSER_WITH_AOT,
   constructorParametersDownlevelTransform
-} from "./chunk-ZYXXMSS5.js";
+} from "./chunk-3Q7JGQD2.js";
 import {
   DEFAULT_ERROR_CODE,
   DecoratorType,
@@ -33,27 +33,29 @@ import {
   isTsDiagnostic,
   performCompilation,
   readConfiguration
-} from "./chunk-7QPTK5PP.js";
+} from "./chunk-2MIQQ3RF.js";
 import {
   angularJitApplicationTransform,
   getDownlevelDecoratorsTransform,
   getInitializerApiJitTransform
-} from "./chunk-SQM7WZRL.js";
+} from "./chunk-2NHOVPL3.js";
 import {
   OptimizeFor,
   TsCreateProgramDriver
-} from "./chunk-RWKKYPBC.js";
+} from "./chunk-K3P5YJTN.js";
 import {
-  isLocalCompilationDiagnostics
-} from "./chunk-WOH3O4B6.js";
+  ErrorCode,
+  isLocalCompilationDiagnostics,
+  ngErrorCode
+} from "./chunk-WKHF7UQD.js";
 import {
   ActivePerfRecorder,
   PerfPhase
-} from "./chunk-Q2WE7ECN.js";
+} from "./chunk-I6R3GL3L.js";
 import {
   ConsoleLogger,
   LogLevel
-} from "./chunk-FKXFEX7K.js";
+} from "./chunk-GBKXY6BH.js";
 import {
   LogicalFileSystem,
   LogicalProjectPath,
@@ -75,14 +77,14 @@ import {
   resolve,
   setFileSystem,
   toRelativeImport
-} from "./chunk-37JMVF7H.js";
+} from "./chunk-STORTTKY.js";
 import "./chunk-KPQ72R34.js";
 
-// bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/version.mjs
+// bazel-out/darwin_arm64-fastbuild/bin/packages/compiler-cli/src/version.mjs
 import { Version } from "@angular/compiler";
-var VERSION = new Version("19.0.6");
+var VERSION = new Version("19.1.6");
 
-// bazel-out/k8-fastbuild/bin/packages/compiler-cli/src/ngtsc/tsc_plugin.mjs
+// bazel-out/darwin_arm64-fastbuild/bin/packages/compiler-cli/src/ngtsc/tsc_plugin.mjs
 var NgTscPlugin = class {
   ngOptions;
   name = "ngtsc";
@@ -159,7 +161,7 @@ var NgTscPlugin = class {
   }
 };
 
-// bazel-out/k8-fastbuild/bin/packages/compiler-cli/index.mjs
+// bazel-out/darwin_arm64-fastbuild/bin/packages/compiler-cli/index.mjs
 setFileSystem(new NodeJSFileSystem());
 export {
   ConsoleLogger,
@@ -168,6 +170,7 @@ export {
   DocsExtractor,
   EmitFlags,
   EntryType,
+  ErrorCode,
   GLOBAL_DEFS_FOR_TERSER,
   GLOBAL_DEFS_FOR_TERSER_WITH_AOT,
   LogLevel,
@@ -207,6 +210,7 @@ export {
   isRooted,
   isTsDiagnostic,
   join,
+  ngErrorCode,
   performCompilation,
   readConfiguration,
   relative,

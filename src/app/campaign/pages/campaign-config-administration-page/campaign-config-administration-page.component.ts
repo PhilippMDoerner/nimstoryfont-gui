@@ -8,6 +8,7 @@ import { NodeLinkTypeRaw } from 'src/app/_models/graph';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import { ConfigAdministrationPageStore } from 'src/app/administration/pages/config-administration-page/config-administration-page.store';
+import { AuthStore } from 'src/app/auth.store';
 import { ConfigTablesComponent } from 'src/app/design//templates/config-tables/config-tables.component';
 import {
   ConfigTableData,
@@ -25,6 +26,7 @@ import { GlobalStore } from 'src/app/global.store';
 export class CampaignConfigAdministrationPageComponent {
   store = inject(ConfigAdministrationPageStore);
   globalStore = inject(GlobalStore);
+  authStore = inject(AuthStore);
 
   tableData = computed<ConfigTableData>(() => {
     return {

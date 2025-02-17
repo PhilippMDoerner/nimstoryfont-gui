@@ -1,42 +1,53 @@
 import { inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, CanActivateFn } from '@angular/router';
+import { map } from 'rxjs';
 import { CampaignRole } from 'src/app/_models/token';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { log } from 'src/utils/logging';
+import { filterNil } from 'src/utils/rxjs-operators';
+import { AuthStore } from '../auth.store';
 import { GlobalStore } from '../global.store';
 
 export const campaignGuard: CanActivateFn = (next: ActivatedRouteSnapshot) => {
   const routingService = inject(RoutingService);
   const globalStore = inject(GlobalStore);
+  const authStore = inject(AuthStore);
 
-  const isLoggedIn: boolean = globalStore.hasValidJWTToken();
-  if (!isLoggedIn) {
-    log(campaignGuard.name, 'User is not logged in');
-    routingService.routeToPath('login');
-    return false;
-  }
+  return toObservable(authStore.isLoggedIn).pipe(
+    filterNil(),
+    map((isLoggedIn) => {
+      if (!isLoggedIn) {
+        log(campaignGuard.name, 'User is not logged in');
+        return routingService.getRouteUrlTree('login');
+      }
 
-  const nextCampaignName = next.params['campaign'];
-  const isAdmin = globalStore.isGlobalAdmin();
-  const role = globalStore.getCampaignRole(nextCampaignName);
-  if (isAdmin) return true;
+      const nextCampaignName = next.params['campaign'];
+      const isAdmin = authStore.isGlobalAdmin();
+      const role = authStore.getCampaignRole(nextCampaignName);
+      if (isAdmin) return true;
 
-  if (nextCampaignName == null) {
-    throw "Invalid Route Exception. The campaign-route you're trying to access has no campaign name parameter";
-  }
+      if (nextCampaignName == null) {
+        throw new Error(
+          "Invalid Route Exception. The campaign-route you're trying to access has no campaign name parameter",
+        );
+      }
 
-  const hasRoleInCampaign = role != null;
-  if (!hasRoleInCampaign) {
-    routingService.routeToPath('campaign-overview');
-    return false;
-  }
+      const hasRoleInCampaign = role != null;
+      if (!hasRoleInCampaign) {
+        return routingService.getRouteUrlTree('campaign-overview');
+      }
 
-  const requiredMiniumRole: CampaignRole = next.data['requiredMinimumRole'];
-  if (requiredMiniumRole == null) {
-    throw "Invalid Route Exception. The campaign-route you're trying to access has no defined minimum role needed to access it";
-  }
+      const requiredMiniumRole: CampaignRole = next.data['requiredMinimumRole'];
+      if (requiredMiniumRole == null) {
+        throw new Error(
+          "Invalid Route Exception. The campaign-route you're trying to access has no defined minimum role needed to access it",
+        );
+      }
 
-  return hasRoleOrBetter(role, requiredMiniumRole);
+      return hasRoleOrBetter(role, requiredMiniumRole);
+    }),
+  );
 };
 
 function hasRoleOrBetter(

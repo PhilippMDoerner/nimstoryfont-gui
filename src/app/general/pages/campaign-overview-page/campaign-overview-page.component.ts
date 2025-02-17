@@ -1,5 +1,6 @@
 import { AnimationEvent } from '@angular/animations';
 import { Component, HostListener, inject } from '@angular/core';
+import { AuthStore } from 'src/app/auth.store';
 import { CampaignOverviewComponent } from 'src/app/design//templates/campaign-overview/campaign-overview.component';
 import { slideInOut } from 'src/app/design/animations/slideInOut';
 import { showSidebarSignal } from 'src/app/design/organisms/page/page.component';
@@ -17,6 +18,7 @@ import { environment } from 'src/environments/environment';
   imports: [CampaignOverviewComponent],
 })
 export class CampaignOverviewPageComponent {
+  public readonly authStore = inject(AuthStore);
   public readonly globalStore = inject(GlobalStore);
   serverUrl = environment.backendDomain;
 
@@ -36,6 +38,6 @@ export class CampaignOverviewPageComponent {
   }
 
   logout(): void {
-    this.globalStore.logout();
+    this.authStore.logout();
   }
 }

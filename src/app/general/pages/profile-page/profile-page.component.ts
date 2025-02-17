@@ -1,7 +1,8 @@
 import { Component, computed, inject } from '@angular/core';
-import { CampaignRole, UserData } from 'src/app/_models/token';
+import { AuthData, CampaignRole } from 'src/app/_models/token';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { TokenService } from 'src/app/_services/utils/token.service';
+import { AuthStore } from 'src/app/auth.store';
 import { ProfileComponent } from 'src/app/design//templates/profile/profile.component';
 import { GlobalStore } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
@@ -15,6 +16,7 @@ import { ProfilePageStore } from './profile-page.store';
   imports: [ProfileComponent],
 })
 export class ProfilePageComponent {
+  authStore = inject(AuthStore);
   globalStore = inject(GlobalStore);
   profilePageStore = inject(ProfilePageStore);
   navStore = inject(NavigationStore);
@@ -22,11 +24,11 @@ export class ProfilePageComponent {
 
   user$ = this.profilePageStore.user;
   isCurrentUser$ = computed(
-    () => this.user$()?.pk === this.globalStore.currentUserPk(),
+    () => this.user$()?.pk === this.authStore.currentUserPk(),
   );
   campaignName$ = this.globalStore.campaignName;
   memberships$ = computed(() => {
-    return this.mapMemberships(this.globalStore.userData());
+    return this.mapMemberships(this.authStore.authData());
   });
   backUrl = computed(
     () =>
@@ -39,7 +41,7 @@ export class ProfilePageComponent {
   }
 
   private mapMemberships(
-    data: UserData | undefined,
+    data: AuthData | undefined,
   ):
     | { campaignName: string; role: CampaignRole; isLeaving: boolean }[]
     | undefined {

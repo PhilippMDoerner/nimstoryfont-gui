@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute, Route, Router, Routes } from '@angular/router';
+import {
+  ActivatedRoute,
+  Route,
+  Router,
+  Routes,
+  UrlTree,
+} from '@angular/router';
 import { log } from 'src/utils/logging';
 import { getCorrectKey } from 'src/utils/object';
 
@@ -28,6 +34,11 @@ export class RoutingService {
     const cleanedObjectUrl: string =
       this.replaceSpecialUnicodeCharacters(routePath);
     this.router.navigateByUrl(cleanedObjectUrl);
+  }
+
+  public getRouteUrlTree(routeName: string, params: any = {}): UrlTree {
+    const routePath = this.getRoutePath(routeName, params);
+    return this.router.parseUrl(routePath);
   }
 
   public getRoutePath(routeName: string, params: any = {}): string {

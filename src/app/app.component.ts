@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
+import { AuthStore } from './auth.store';
 import { HotkeyModalComponent } from './design/organisms/hotkey-modal/hotkey-modal.component';
 import { PageComponent } from './design/organisms/page/page.component';
 import { ToastOverlayComponent } from './design/organisms/toast-overlay/toast-overlay.component';
@@ -29,6 +30,7 @@ import { ServiceWorkerService } from './service-worker.service';
 })
 export class AppComponent {
   readonly globalStore = inject(GlobalStore);
+  readonly authStore = inject(AuthStore);
   readonly tokenService = inject(TokenService);
   readonly paramsService = inject(GlobalUrlParamsService);
   readonly campaignService = inject(CampaignService);
@@ -49,7 +51,7 @@ export class AppComponent {
   }
 
   logout(): void {
-    this.globalStore.logout();
+    this.authStore.logout();
   }
 
   private trackAnimationSetting() {

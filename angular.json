@@ -11,6 +11,18 @@
           "changeDetection": "OnPush",
           "standalone": true,
           "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
         }
       },
       "root": "",

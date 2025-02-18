@@ -81,19 +81,21 @@ export function errorInterceptor(
   if (isRefresRequest) {
     return next(req).pipe(
       retry(2),
-      tap((err) => {
-        if (err instanceof HttpErrorResponse) {
-          toastService.addToast(logoutInfoToast);
-          authStore.logout();
-          routingService.routeToPath('login');
-        }
+      tap({
+        error: (err) => {
+          if (err instanceof HttpErrorResponse) {
+            toastService.addToast(logoutInfoToast);
+            authStore.logout();
+            routingService.routeToPath('login');
+          }
+        },
       }),
     );
   }
 
   return next(req).pipe(
     retry({
-      count: 3,
+      count: 1,
       resetOnSuccess: true,
       delay: (err: HttpErrorResponse, count) => {
         log(retry.name, err, count);

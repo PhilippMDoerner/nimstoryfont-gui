@@ -30,12 +30,12 @@ import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-list.component';
 
-const FILTER_MODES = ['NONE', '1DAY', '1WEEK'] as const;
+const FILTER_MODES = ['NONE', '1WEEK', '1DAY'] as const;
 type FilterMode = (typeof FILTER_MODES)[number];
 const FILTER_LABEL: { [key in FilterMode]: string } = {
   NONE: 'All time',
-  '1DAY': 'Last 24 hours',
-  '1WEEK': 'Last 7 days',
+  '1DAY': 'The last 24 hours',
+  '1WEEK': 'The last 7 days',
 };
 
 @Component({

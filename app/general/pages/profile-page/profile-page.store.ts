@@ -5,9 +5,9 @@ import { EMPTY, switchMap, take } from 'rxjs';
 import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/article/user.service';
 import { CampaignService } from 'src/app/_services/utils/campaign.service';
+import { AuthStore } from 'src/app/auth.store';
 import { CampaignMembership } from 'src/app/design/templates/_models/campaign-membership';
 import { PasswordModel } from 'src/app/design/templates/profile/profile.component';
-import { GlobalStore } from 'src/app/global.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 
 export type ProfilePageState = {
@@ -21,10 +21,10 @@ const iniitalState: ProfilePageState = {
 export const ProfilePageStore = signalStore(
   withState(iniitalState),
   withMethods((state) => {
-    const globalStore = inject(GlobalStore);
+    const authStore = inject(AuthStore);
     const userService = inject(UserService);
 
-    const currentUserPk$ = toObservable(globalStore.currentUserPk).pipe(
+    const currentUserPk$ = toObservable(authStore.currentUserPk).pipe(
       filterNil(),
       take(1),
     );
@@ -60,7 +60,7 @@ export const ProfilePageStore = signalStore(
             switchMap((userPk) => userService.delete(userPk)),
             take(1),
           )
-          .subscribe(() => globalStore.logout());
+          .subscribe(() => authStore.logout());
       },
     };
   }),

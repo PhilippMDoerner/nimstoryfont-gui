@@ -1,13 +1,14 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyModule } from '@ngx-formly/core';
-import { map, Observable, take } from 'rxjs';
+import { filter, map, Observable, pairwise, take } from 'rxjs';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { MailService } from 'src/app/_services/utils/mail.service';
+import { AuthStore } from 'src/app/auth.store';
 import { LoginComponent } from 'src/app/design//templates/login/login.component';
-import { GlobalStore } from 'src/app/global.store';
 import { LoginPageStore } from './login-page.store';
 
 @Component({
@@ -18,12 +19,23 @@ import { LoginPageStore } from './login-page.store';
   providers: [LoginPageStore],
 })
 export class LoginPageComponent {
-  public readonly globalStore = inject(GlobalStore);
+  public readonly authStore = inject(AuthStore);
   public readonly store = inject(LoginPageStore);
   specialLoginState$: Observable<SpecialLoginState> = this.route.paramMap.pipe(
     map((params) => {
       return (params.get('state') as SpecialLoginState) ?? undefined;
     }),
+  );
+
+  private destroyRef = inject(DestroyRef);
+  private loginSucceededEvent$ = toObservable(
+    this.authStore.authDataQueryState,
+  ).pipe(
+    pairwise(),
+    filter(
+      ([priorState, nextState]) =>
+        priorState === 'loading' && nextState === 'success',
+    ),
   );
 
   constructor(
@@ -33,9 +45,10 @@ export class LoginPageComponent {
   ) {}
 
   onLogin(loginData: Login) {
-    this.globalStore
-      .login(loginData)
-      .pipe(take(1))
+    this.authStore.login(loginData);
+
+    this.loginSucceededEvent$
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
       .subscribe(() => this.routingService.routeToPath('campaign-overview'));
   }
 

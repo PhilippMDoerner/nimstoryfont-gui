@@ -2,7 +2,7 @@
   [tableData]="tableData()"
   [currentCampaignId]="globalStore.currentCampaign()?.pk"
   [hasCampaignWritePermission]="store.hasCampaignWritePermission()"
-  [canDeleteGlobalEntries]="!!globalStore.isGlobalAdmin()"
+  [canDeleteGlobalEntries]="!!authStore.isGlobalAdmin()"
   (loadTableEntries)="loadTableEntries($event)"
   (deleteTableEntry)="deleteTableEntry($event)"
   (createTableEntry)="createTableEntry($event)"

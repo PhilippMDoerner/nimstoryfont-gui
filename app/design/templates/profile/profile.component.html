@@ -113,6 +113,9 @@
     <div class="col-3 d-flex justify-content-end">
       <button
         btn
+        [attr.aria-label]="
+          'Leave campaign of ' + context.membership.campaignName
+        "
         [kind]="'SECONDARY'"
         [icon]="'sign-out-alt'"
         [size]="'SMALL'"

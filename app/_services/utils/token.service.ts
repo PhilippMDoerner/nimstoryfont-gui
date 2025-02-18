@@ -1,12 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Login } from 'src/app/_models/login';
 import {
+  AuthData,
   CampaignMemberships,
   CampaignRole,
   CampaignRoles,
-  TokenData,
-  UserData,
 } from 'src/app/_models/token';
 import { environment } from 'src/environments/environment';
 import { log } from 'src/utils/logging';
@@ -20,13 +19,13 @@ export class TokenService {
   apiUrl = environment.apiUrl;
 
   private jwtTokenUrl: string = `${this.apiUrl}/token`;
-  private refreshTokenUrl: string = `${this.apiUrl}/token/refresh`;
+  public refreshTokenUrl: string = `${this.jwtTokenUrl}/refresh`;
   private ID_IDENTIFIER_PREFIX: string = 'id_';
 
   constructor(private http: HttpClient) {}
 
   public login(loginData: Login) {
-    return this.http.post<UserData>(this.jwtTokenUrl, loginData);
+    return this.http.post<AuthData>(this.jwtTokenUrl, loginData);
   }
 
   public logout() {
@@ -34,50 +33,18 @@ export class TokenService {
   }
 
   public refreshUserData() {
-    log(this.refreshUserData.name);
-    const refreshToken = TokenService.getRefreshToken()?.token;
-    if (!refreshToken) return;
-
-    const httpHeaders = new HttpHeaders().set(
-      'Authorization',
-      `Bearer ${refreshToken}`,
-    );
-    //TODO Figure out why this was necessary
-    return this.http.post<UserData>(
-      this.refreshTokenUrl,
-      { refresh: refreshToken },
-      { headers: httpHeaders },
-    );
+    log(this.refreshUserData.name, this.refreshTokenUrl);
+    return this.http.post<void>(this.refreshTokenUrl, {});
   }
 
-  public invalidateJWTToken(): void {
-    //   const jwtToken: EncodedJWTToken = {access: this.getAccessToken(), refresh: this.getRefreshToken()};
-    //   return this.http.post(`${this.jwtTokenUrl}/logout`, jwtToken); //This feature is not implemented in the backend
-  }
+  public fetchAuthData() {
+    log(this.fetchAuthData.name);
 
-  //static for permissionDecorator.ts
-  public static getUserData(): UserData | undefined {
-    const rawUserData = localStorage.getItem(TokenService.USER_DATA_KEY);
-    const hasUserData = rawUserData != null && rawUserData !== 'undefined';
-    return hasUserData ? JSON.parse(rawUserData) : undefined;
-  }
-
-  //static for permissionDecorator.ts
-  public static getAccessToken(): TokenData | undefined {
-    return this.getUserData()?.accessToken;
-  }
-
-  //static for permissionDecorator.ts
-  public static getRefreshToken(): TokenData | undefined {
-    return this.getUserData()?.refreshToken;
-  }
-
-  public setUserData(data: UserData | undefined): void {
-    localStorage.setItem(TokenService.USER_DATA_KEY, JSON.stringify(data));
+    return this.http.get<AuthData>(`${this.apiUrl}/authdata`);
   }
 
   public getCampaignRole(
-    data: UserData,
+    data: AuthData,
     campaignName: string | undefined,
   ): CampaignRole | undefined {
     if (campaignName == null) return undefined;
@@ -92,7 +59,7 @@ export class TokenService {
 
   /**Retrieves campaign memberships of a user from their token */
   public getCampaignMemberships(
-    data: UserData | undefined,
+    data: AuthData | undefined,
   ): CampaignMemberships | undefined {
     if (data == null) return undefined;
 
@@ -107,33 +74,5 @@ export class TokenService {
       }
     }
     return campaignMemberships;
-  }
-
-  public isAccessTokenExpired(): boolean {
-    return this.isTokenExpired(TokenService.getAccessToken());
-  }
-
-  public isRefreshTokenExpired(): boolean {
-    return this.isTokenExpired(TokenService.getRefreshToken());
-  }
-
-  public isTokenExpired(token: TokenData | undefined): boolean {
-    if (token == null) return true;
-
-    const expiryTimestamp = token.exp;
-    const currentTimestamp = Math.floor(new Date().getTime() / 1000);
-
-    const isExpired = currentTimestamp >= expiryTimestamp;
-    if (isExpired) {
-      const currentDate = new Date(currentTimestamp * 1000).toString();
-      const expiryDate = new Date(expiryTimestamp * 1000).toString();
-      const tokenName = token.type.toLocaleUpperCase();
-      console.log(`
-        ${tokenName} Token is expired. 
-        Request timestamp: ${currentDate}. 
-        Token expiry timestamp: ${expiryDate}
-      `);
-    }
-    return isExpired;
   }
 }

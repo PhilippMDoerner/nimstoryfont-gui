@@ -1,7 +1,5 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { computed, effect, ElementRef, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
-import { tapResponse } from '@ngrx/operators';
 import {
   patchState,
   signalStore,
@@ -10,17 +8,15 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Observable, of, shareReplay, take } from 'rxjs';
+import { Observable, of, take } from 'rxjs';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { CampaignOverview } from './_models/campaign';
-import { Login } from './_models/login';
-import { httpErrorToast } from './_models/toast';
-import { CampaignRole, TokenData, UserData } from './_models/token';
+import { CampaignRole } from './_models/token';
 import { OnlineService } from './_services/online.service';
-import { RoutingService } from './_services/routing.service';
 import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
+import { AuthStore } from './auth.store';
 
 export type ContentScrollEvent = CustomEvent<
   Event & { pageElement: ElementRef<HTMLDivElement> }
@@ -29,38 +25,6 @@ export type ScreenSize = {
   width: number;
   height: number;
 };
-
-export type GlobalState = {
-  userData: UserData | undefined;
-  currentCampaign: CampaignOverview | undefined;
-  campaigns: CampaignOverview[] | undefined;
-  contentScrollEvents: ContentScrollEvent | undefined;
-};
-
-const SSRDefaultScreenSize$: Observable<ScreenSize> = of({
-  height: 600,
-  width: 600,
-});
-
-function isTokenExpired(token: TokenData | undefined): boolean {
-  if (token == null) return true;
-
-  const expiryTimestamp = token.exp;
-  const currentTimestamp = Math.floor(new Date().getTime() / 1000);
-
-  const isExpired = currentTimestamp >= expiryTimestamp;
-  if (isExpired) {
-    const currentDate = new Date(currentTimestamp * 1000).toString();
-    const expiryDate = new Date(expiryTimestamp * 1000).toString();
-    const tokenName = token.type.toLocaleUpperCase();
-    console.log(`
-      ${tokenName} Token is expired. 
-      Request timestamp: ${currentDate}. 
-      Token expiry timestamp: ${expiryDate}
-    `);
-  }
-  return isExpired;
-}
 
 export function hasRoleOrBetter(
   role: CampaignRole,
@@ -78,9 +42,19 @@ export function hasRoleOrBetter(
   }
 }
 
+export type GlobalState = {
+  currentCampaign: CampaignOverview | undefined;
+  campaigns: CampaignOverview[] | undefined;
+  contentScrollEvents: ContentScrollEvent | undefined;
+};
+
+const SSRDefaultScreenSize$: Observable<ScreenSize> = of({
+  height: 600,
+  width: 600,
+});
+
 const initialAuthState: GlobalState = {
   contentScrollEvents: undefined,
-  userData: undefined,
   currentCampaign: undefined,
   campaigns: undefined,
 };
@@ -88,7 +62,7 @@ const initialAuthState: GlobalState = {
 export const GlobalStore = signalStore(
   withState(initialAuthState),
   withComputed((state) => {
-    const tokenService = inject(TokenService);
+    const authStore = inject(AuthStore);
 
     const isInBrowser = !!document;
 
@@ -114,28 +88,8 @@ export const GlobalStore = signalStore(
       campaignName: computed(() => state.currentCampaign()?.name),
       currentCampaignRole: computed(() => {
         const currentCampaign = state.currentCampaign();
-        const userData = state.userData();
-        if (currentCampaign == null || userData == null) return undefined;
-        return tokenService.getCampaignRole(userData, currentCampaign.name);
-      }),
-      isGlobalAdmin: computed(
-        () => state.userData()?.isAdmin || state.userData()?.isSuperUser,
-      ),
-      currentUserName: computed(() => state.userData()?.userName),
-      currentUserPk: computed(() => state.userData()?.userId),
-      refreshToken: computed(() => state.userData()?.refreshToken),
-      accessToken: computed(() => state.userData()?.accessToken),
-      hasTokens: computed(
-        () =>
-          !!state.userData()?.accessToken && !!state.userData()?.refreshToken,
-      ),
-      hasValidJWTToken: computed(() => {
-        const accessToken = state.userData()?.accessToken;
-        const refreshToken = state.userData()?.refreshToken;
-        const hasTokens = !!accessToken && !!refreshToken;
-        if (!hasTokens) return false;
-
-        return !isTokenExpired(refreshToken);
+        if (currentCampaign == null) return undefined;
+        return authStore.getCampaignRole(currentCampaign.name);
       }),
     };
   }),
@@ -144,81 +98,29 @@ export const GlobalStore = signalStore(
     const campaignService = inject(CampaignService);
     const toastService = inject(ToastService);
     const isOnline = toSignal(inject(OnlineService).online$);
+    const authStore = inject(AuthStore);
 
     return {
-      getCampaignRole: (campaignName: string) => {
-        const userData = state.userData();
-        if (userData == null) return undefined;
-        return tokenService.getCampaignRole(userData, campaignName);
-      },
-      login: (loginData: Login) => {
-        return tokenService.login(loginData).pipe(
-          take(1),
-          tapResponse({
-            next: (userData) => patchState(state, { userData }),
-            error: (err: HttpErrorResponse) => console.error(err),
-          }),
-        );
-      },
-      refreshUserData: () => {
-        const refresh$ = (
-          tokenService.refreshUserData() as Observable<UserData>
-        ).pipe(take(1), shareReplay(1));
-
-        refresh$.subscribe((userData) =>
-          patchState(state, { userData: userData }),
-        );
-
-        return refresh$;
-      },
-      logout: () => {
-        tokenService
-          .logout()
-          .pipe(
-            tapResponse({
-              next: () => {
-                patchState(state, {
-                  userData: undefined,
-                  campaigns: undefined,
-                  currentCampaign: undefined,
-                  contentScrollEvents: undefined,
-                });
-              },
-              error: (err: HttpErrorResponse) =>
-                toastService.addToast(httpErrorToast(err)),
-            }),
-            take(1),
-          )
-          .subscribe();
-      },
       isCampaignMember: (campaignName?: string): boolean => {
         campaignName = campaignName ?? state.campaignName();
-        const userData = state.userData();
+        const userData = authStore.authData();
         if (userData == null) return false;
         const role = tokenService.getCampaignRole(userData, campaignName);
-        return state.isGlobalAdmin() || role === 'guest';
+        return authStore.isGlobalAdmin() || role === 'guest';
       },
       isCampaignAdmin: (campaignName?: string): boolean => {
         campaignName = campaignName ?? state.campaignName();
-        const userData = state.userData();
+        const userData = authStore.authData();
         if (userData == null) return false;
         const role = tokenService.getCampaignRole(userData, campaignName);
-        return state.isGlobalAdmin() || role === 'admin';
+        return authStore.isGlobalAdmin() || role === 'admin';
       },
       isCampaignGuest: (campaignName?: string): boolean => {
         campaignName = campaignName ?? state.campaignName();
-        const userData = state.userData();
+        const userData = authStore.authData();
         if (userData == null) return false;
         const role = tokenService.getCampaignRole(userData, campaignName);
-        return state.isGlobalAdmin() || role === 'guest';
-      },
-      loadCampaignOverview: () => {
-        campaignService
-          .campaignOverview()
-          .pipe(take(1))
-          .subscribe((campaigns) =>
-            patchState(state, { campaigns: campaigns }),
-          );
+        return authStore.isGlobalAdmin() || role === 'guest';
       },
       canPerformActionsOfRole: (minimumRole: CampaignRole) => {
         const hasRolePermissions = computed<boolean>(() => {
@@ -228,36 +130,28 @@ export const GlobalStore = signalStore(
         });
         return computed<boolean>(() => hasRolePermissions() && !!isOnline());
       },
+      loadCampaignOverview: () => {
+        campaignService
+          .campaignOverview()
+          .pipe(take(1))
+          .subscribe((campaigns) =>
+            patchState(state, { campaigns: campaigns }),
+          );
+      },
+
       fireScrollEvent: (event: ContentScrollEvent) => {
         patchState(state, { contentScrollEvents: event });
       },
     };
   }),
   withHooks((store) => {
-    const tokenService = inject(TokenService);
-    const routingService = inject(RoutingService);
     const paramsService = inject(GlobalUrlParamsService);
     return {
       onInit: () => {
-        const localUserData = TokenService.getUserData();
-        patchState(store, { userData: localUserData });
-        effect(() => tokenService.setUserData(store.userData()));
-        effect(() => {
-          if (store.userData() != null) return;
-          routingService.routeToPath('login');
-        });
-
-        effect(() => {
-          const { accessToken, refreshToken } = store.userData() ?? {};
-          console.groupCollapsed('token expiration check');
-          tokenService.isTokenExpired(accessToken);
-          tokenService.isTokenExpired(refreshToken);
-          console.groupEnd();
-        });
-
         const campaignParam$ =
           paramsService.campaignNameParam$.pipe(takeUntilDestroyed());
         const campaignParam = toSignal(campaignParam$);
+
         effect(() => {
           const campaigns = store.campaigns();
           const currentCampaignName = campaignParam();

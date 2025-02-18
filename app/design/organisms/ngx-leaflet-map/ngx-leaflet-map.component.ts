@@ -246,7 +246,7 @@ export class NgxLeafletMapComponent {
     const markerIcon = divIcon({
       className: 'custom-div-icon',
       html: `
-        <button class="w-100 h-100 d-flex justify-content-center">
+        <button class="w-100 h-100 d-flex justify-content-center" aria-label="${mapMarker.location_details?.name}">
           <div style="background-color:${color};" class="marker-pin"></div>
           <i class='${iconKind} fa-${typeIcon}'></i>
         </button>

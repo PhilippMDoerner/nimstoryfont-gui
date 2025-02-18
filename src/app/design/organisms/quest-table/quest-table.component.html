@@ -4,16 +4,19 @@
     <h5 class="col-sm-9 heading__text">{{ questTaker() }}'s Quests</h5>
 
     <!-- Filterselect -->
-    <select
-      class="col-sm-3 heading__select"
-      (change)="updateDisplayState($event)"
-    >
-      @for (state of DISPLAY_STATES; track state) {
-        <option [value]="state">
-          {{ state }}
-        </option>
-      }
-    </select>
+    <label class="col-sm-3 d-flex align-items-center justify-content-end">
+      <span hidden> Filter by QuestState </span>
+      <select
+        class="heading__select flex-1"
+        (change)="updateDisplayState($event)"
+      >
+        @for (state of DISPLAY_STATES; track state) {
+          <option [value]="state">
+            {{ state }}
+          </option>
+        }
+      </select>
+    </label>
   </div>
 
   <div class="row">

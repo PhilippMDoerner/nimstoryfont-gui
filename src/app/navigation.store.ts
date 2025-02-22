@@ -1,5 +1,5 @@
 import { isPlatformServer } from '@angular/common';
-import { computed, inject, PLATFORM_ID } from '@angular/core';
+import { computed, inject, PLATFORM_ID, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
 import { signalStore, withComputed, withProps } from '@ngrx/signals';
@@ -7,10 +7,9 @@ import { EMPTY, filter, map, pairwise } from 'rxjs';
 
 export const NavigationStore = signalStore(
   withProps(() => {
-    const router = inject(Router);
     const isInServer = isPlatformServer(inject(PLATFORM_ID));
-
     if (isInServer) return { _currentRoute$: EMPTY, _history$: EMPTY };
+    const router = inject(Router);
 
     return {
       _currentRoute$: router.events.pipe(
@@ -35,6 +34,14 @@ export const NavigationStore = signalStore(
     };
   }),
   withComputed((state) => {
+    const isInServer = isPlatformServer(inject(PLATFORM_ID));
+    if (isInServer)
+      return {
+        currentRoute: signal(undefined),
+        priorUrl: signal(undefined),
+        currentUrl: signal(undefined),
+      };
+
     const history = toSignal(state._history$);
     return {
       currentRoute: toSignal(state._currentRoute$),

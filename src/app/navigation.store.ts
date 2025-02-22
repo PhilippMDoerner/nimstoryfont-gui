@@ -1,12 +1,17 @@
-import { computed, inject } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { computed, inject, PLATFORM_ID } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
 import { signalStore, withComputed, withProps } from '@ngrx/signals';
-import { filter, map, pairwise } from 'rxjs';
+import { EMPTY, filter, map, pairwise } from 'rxjs';
 
 export const NavigationStore = signalStore(
   withProps(() => {
     const router = inject(Router);
+    const isInServer = isPlatformServer(inject(PLATFORM_ID));
+
+    if (isInServer) return { _currentRoute$: EMPTY, _history$: EMPTY };
+
     return {
       _currentRoute$: router.events.pipe(
         filter((event) => event instanceof NavigationEnd),

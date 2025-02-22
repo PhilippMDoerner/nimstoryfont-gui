@@ -60,8 +60,43 @@ export class HotkeyModalComponent {
       ],
     },
     {
+      icon: 'list',
+      title: 'List Pages',
+      subtitle:
+        'Apply on pages with lists of items in them, i.e. spells, rules, sessions',
+      keys: [
+        {
+          key: '⭣',
+          description:
+            'Focus and scroll into center the next entry of the list',
+        },
+        {
+          key: '⭡',
+          description:
+            'Focus and scroll into center the previous entry of the list',
+        },
+        {
+          key: 'e',
+          description:
+            'Toggle edit mode for the currently focused entry of the list',
+        },
+        {
+          key: 'd',
+          description:
+            'Toggle delete confirmation button if given page has one. This still requires confirming the delete.',
+        },
+        {
+          key: 'q',
+          description:
+            'Cancel editing/deleting the currently focused entry of the list',
+        },
+      ],
+    },
+    {
       icon: 'book-open',
       title: 'Diaryentry Page',
+      subtitle:
+        'Apply on the Diaryentry page in addition to those from list pages',
       keys: [
         {
           key: 'f',
@@ -69,30 +104,14 @@ export class HotkeyModalComponent {
             'Focus and scroll into center the currently focused Encounter',
         },
         {
-          key: '⭣',
-          description: 'Focus and scroll into center the next Encounter',
-        },
-        {
-          key: '⭡',
-          description: 'Focus and scroll into center the previous Encounter',
-        },
-        {
           key: 'x',
           description: 'Start cutting out the currently focused encounter',
         },
-        {
-          key: 'e',
-          description: 'Toggle edit mode for the currently focused encounter',
-        },
+
         {
           key: 'c',
           description:
             'Start adding a character to the currently focused encounter',
-        },
-        {
-          key: 'q',
-          description:
-            'Cancel adding a character to the currently focused encounter',
         },
         {
           key: 'r',

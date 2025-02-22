@@ -58,15 +58,15 @@
       [isLoading]="isLoading()"
       [articles]="articleEntries()"
     ></app-icon-card-list>
+
+    @if (isHotkeyModifierPressed()) {
+      <button
+        btn
+        class="hotkey-help"
+        [kind]="'LIGHT-OUTLINE'"
+        [disabled]="true"
+        [text]="'Hotkey Help: Alt + H'"
+      ></button>
+    }
   </article>
 </app-page-container>
-
-@if (isHotkeyModifierPressed()) {
-  <button
-    btn
-    class="hotkey-help"
-    [kind]="'LIGHT-OUTLINE'"
-    [disabled]="true"
-    [text]="'Hotkey Help: Alt + H'"
-  ></button>
-}

@@ -4,11 +4,9 @@ import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { of } from 'rxjs';
+import { CustomTypeaheadProps } from 'src/app/_models/formly';
 import { requiredMessage } from 'src/app/_services/formly/validators';
-import {
-  CustomTypeaheadProps,
-  FormlyTypeaheadFieldComponent,
-} from './formly-typeahead-field.component';
+import { FormlyTypeaheadFieldComponent } from './formly-typeahead-field.component';
 
 const dummyData: { label: string; value: number }[] = [
   { label: 'Something with a nice label', value: 1 },
@@ -36,6 +34,7 @@ export default {
             getOptions: () => of(dummyData),
             optionLabelProp: 'label',
             optionValueProp: 'value',
+            initialValue: 'Some value',
           } satisfies CustomTypeaheadProps<{ label: string; value: number }>,
         },
       } satisfies FormlyFieldConfig,

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { log } from 'src/utils/logging';
 import { loginGuard } from './_guards/login.guard';
 import {
   campaignSetResolver,
@@ -53,44 +54,54 @@ const errorRoutes: Routes = [
 ];
 
 export const ROUTES: Routes = [
-  ...redirectRoutes,
   {
-    path: environment.frontendPrefix,
+    path: '',
+    resolve: {
+      loadAuthData: () => {
+        log('Load Auth Data?');
+      },
+    },
     children: [
-      ...generalRoutes,
+      ...redirectRoutes,
       {
-        path: '',
-        resolve: { campaignSetResolver },
+        path: environment.frontendPrefix,
         children: [
+          ...generalRoutes,
           {
             path: '',
+            resolve: { campaignSetResolver },
             children: [
               {
-                path: 'admin',
-                children: adminRoutes,
+                path: '',
+                children: [
+                  {
+                    path: 'admin',
+                    children: adminRoutes,
+                  },
+                  {
+                    path: `campaigns`,
+                    loadComponent: () =>
+                      import(
+                        './general/pages/campaign-overview-page/campaign-overview-page.component'
+                      ).then((m) => m.CampaignOverviewPageComponent),
+                    data: { name: 'campaign-overview' },
+                    canActivate: [loginGuard],
+                  },
+                ],
+                resolve: { resetTracking },
               },
               {
-                path: `campaigns`,
-                loadComponent: () =>
-                  import(
-                    './general/pages/campaign-overview-page/campaign-overview-page.component'
-                  ).then((m) => m.CampaignOverviewPageComponent),
-                data: { name: 'campaign-overview' },
-                canActivate: [loginGuard],
+                path: ':campaign',
+                children: campaignRoutes,
+                resolve: { trackCampaignName },
               },
             ],
-            resolve: { resetTracking },
-          },
-          {
-            path: ':campaign',
-            children: campaignRoutes,
-            resolve: { trackCampaignName },
           },
         ],
       },
+      ...errorRoutes,
     ],
   },
-  ...errorRoutes,
 ];
 
 @NgModule({

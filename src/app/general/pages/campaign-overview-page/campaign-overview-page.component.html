@@ -1,7 +1,7 @@
 <app-campaign-overview
   [serverUrl]="serverUrl"
-  [userName]="globalStore.currentUserName() ?? ''"
+  [userName]="authStore.currentUserName() ?? ''"
   [campaigns]="globalStore.campaigns()"
-  [isGlobalAdmin]="globalStore.isGlobalAdmin() === true"
-  (logout)="globalStore.logout()"
+  [isGlobalAdmin]="authStore.isGlobalAdmin() === true"
+  (logout)="authStore.logout()"
 ></app-campaign-overview>

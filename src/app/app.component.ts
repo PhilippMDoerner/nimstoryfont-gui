@@ -3,7 +3,6 @@ import {
   Component,
   computed,
   inject,
-  NgZone,
   signal,
 } from '@angular/core';
 import { fadeOut } from 'src/app/design/animations/fadeIn';
@@ -12,11 +11,13 @@ import { environment } from 'src/environments/environment';
 import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
+import { AuthStore } from './auth.store';
 import { HotkeyModalComponent } from './design/organisms/hotkey-modal/hotkey-modal.component';
 import { PageComponent } from './design/organisms/page/page.component';
 import { ToastOverlayComponent } from './design/organisms/toast-overlay/toast-overlay.component';
 import { GlobalStore } from './global.store';
 import { ServiceWorkerService } from './service-worker.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -29,12 +30,12 @@ import { ServiceWorkerService } from './service-worker.service';
 })
 export class AppComponent {
   readonly globalStore = inject(GlobalStore);
+  readonly authStore = inject(AuthStore);
   readonly tokenService = inject(TokenService);
   readonly paramsService = inject(GlobalUrlParamsService);
   readonly campaignService = inject(CampaignService);
   readonly toastService = inject(ToastService);
   readonly serviceWorkerService = inject(ServiceWorkerService);
-  readonly zone = inject(NgZone);
 
   serverUrl: string = environment.backendDomain;
   campaign$ = this.globalStore.currentCampaign;
@@ -51,7 +52,7 @@ export class AppComponent {
   }
 
   logout(): void {
-    this.globalStore.logout();
+    this.authStore.logout();
   }
 
   private trackAnimationSetting() {

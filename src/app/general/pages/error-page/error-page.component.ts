@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { AuthStore } from 'src/app/auth.store';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { ErrorType } from 'src/app/general/_models/error';
 import { GlobalStore } from 'src/app/global.store';
@@ -71,6 +72,7 @@ const ERROR_CONTENT: { [key: number]: ErrorType } = {
 export class ErrorPageComponent {
   routingService = inject(RoutingService);
   route = inject(ActivatedRoute);
+  authStore = inject(AuthStore);
   globalStore = inject(GlobalStore);
 
   errorStatus$ = this.route.params.pipe(
@@ -91,7 +93,7 @@ export class ErrorPageComponent {
   });
 
   onReLogin() {
-    this.globalStore.logout();
+    this.authStore.logout();
     this.routingService.routeToPath('login');
   }
 }

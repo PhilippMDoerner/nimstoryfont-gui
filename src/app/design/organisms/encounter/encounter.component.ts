@@ -12,7 +12,7 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { map } from 'rxjs';
+import { catchError, of } from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import {
@@ -23,6 +23,7 @@ import {
 } from 'src/app/_models/encounter';
 import { FormState } from 'src/app/_models/form';
 import { OverviewItem } from 'src/app/_models/overview';
+import { ArticleService } from 'src/app/_services/article/article.service';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
@@ -35,7 +36,6 @@ import {
   EditToggleComponent,
   FormComponent,
 } from 'src/app/design/molecules';
-import { sortByProp } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 
 @Component({
@@ -91,16 +91,19 @@ export class EncounterComponent implements OnInit {
       key: 'title',
       inputKind: 'STRING',
     }),
-    this.formlyService.buildOverviewSelectConfig({
+    this.formlyService.buildTypeaheadConfig<EncounterRaw, OverviewItem>({
       key: 'location',
       label: 'Encounter Location',
-      sortProp: 'name_full',
-      campaign: this.campaignName(),
-      options$: this.locations$.pipe(
-        map((locs) => sortByProp(locs, 'name_full')),
-      ),
-      labelProp: 'name_full',
-      required: false,
+      getOptions: (searchTerm: string) => {
+        const name = this.campaignName();
+        if (!name || !searchTerm) return of([]);
+        return this.articleService
+          .searchArticlesKind(name, searchTerm, 'location')
+          .pipe(catchError(() => of([] as OverviewItem[])));
+      },
+      initialValue: this.encounter()?.location_details?.name_full,
+      optionLabelProp: 'name_full',
+      optionValueProp: 'pk',
     }),
     this.formlyService.buildEditorConfig({
       key: 'description',
@@ -111,6 +114,7 @@ export class EncounterComponent implements OnInit {
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
+    private articleService: ArticleService,
   ) {}
 
   ngOnInit(): void {

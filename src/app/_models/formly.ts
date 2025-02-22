@@ -107,3 +107,13 @@ export type CustomAutocompleteProps<T> = {
 };
 export type FormlyAutocompleteConfig<Model, Option> = FormlyInterface<Model> &
   CustomAutocompleteProps<Option>;
+
+export interface CustomTypeaheadProps<T> {
+  getOptions: (searchTerm: string) => Observable<T[]>;
+  optionLabelProp: keyof T;
+  optionValueProp: keyof T;
+  initialValue: string | undefined;
+}
+
+export type FormlyTypeaheadConfig<Model, Option> = FormlyInterface<Model> &
+  CustomTypeaheadProps<Option>;

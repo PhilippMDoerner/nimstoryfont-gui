@@ -7,7 +7,7 @@ import {
 import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SSRRequestContext } from './app/_models/ssr-request-context';
+import { Cookie, SSRRequestContext } from './app/_models/ssr-request-context';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -43,13 +43,21 @@ app.use(
  */
 app.use('/**', (req, res, next) => {
   const { headers } = req;
-  const [cookieName, cookieValue] = headers.cookie?.split('=') ?? [];
+  console.log('Starting: ', req.url);
+  const cookies: Cookie[] | undefined = headers.cookie
+    ?.split(';')
+    .map((cookie) => {
+      const [name, value] = cookie.split('=') as [string, string];
+      return {
+        name,
+        value,
+      } satisfies Cookie;
+    })
+    .filter((cookie) => cookie.name && cookie.value);
+
   angularApp
     .handle(req, {
-      cookie: {
-        name: cookieName,
-        value: cookieValue,
-      },
+      cookies: cookies ?? [],
     } satisfies SSRRequestContext)
     .then((response) =>
       response ? writeResponseToNodeResponse(response, res) : next(),

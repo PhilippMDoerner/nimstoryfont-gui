@@ -63,10 +63,11 @@ export class SessionsComponent {
   isCreatingSession = signal(false);
   createSessionData = linkedSignal(() => {
     const lastSession = this.sessions()[0];
+    const currentDate = new Date().toISOString().split('T')[0];
     return {
       name: this.DEFAULT_TITLE,
       campaign: this.campaignId(),
-      session_date: new Date().toISOString(),
+      session_date: currentDate,
       is_main_session: true,
       session_number: lastSession.session_number + 1,
       start_day: lastSession.end_day,

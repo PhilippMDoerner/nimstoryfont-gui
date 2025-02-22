@@ -6,7 +6,10 @@ import {
 import {
   ApplicationConfig,
   importProvidersFrom,
+  inject,
   isDevMode,
+  NgZone,
+  provideAppInitializer,
 } from '@angular/core';
 import {
   provideClientHydration,
@@ -19,11 +22,12 @@ import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { errorInterceptor } from './_interceptors/errorInterceptor';
 import { offlineInterceptor } from './_interceptors/offlineInterceptor';
 import { addTokenInServerInterceptor } from './_interceptors/serverCookieInterceptor';
-import { addTokenInClientInterceptor } from './_interceptors/tokenInterceptor';
 import { FORMLY_MODULE } from './_modules/formly_constants';
 import { ROUTES } from './app-routing.module';
+import { AuthStore } from './auth.store';
 import { GlobalStore } from './global.store';
 import { NavigationStore } from './navigation.store';
+import { debugNgzoneState } from './stability.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,7 +37,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withFetch(),
       withInterceptors([
-        addTokenInClientInterceptor,
         addTokenInServerInterceptor,
         offlineInterceptor,
         errorInterceptor,
@@ -47,5 +50,9 @@ export const appConfig: ApplicationConfig = {
       registrationStrategy: 'registerWhenStable:30000',
     }),
     provideClientHydration(withEventReplay()),
+    provideAppInitializer(() => {
+      debugNgzoneState(inject(NgZone), 5);
+      inject(AuthStore).loadAuthData();
+    }),
   ],
 };

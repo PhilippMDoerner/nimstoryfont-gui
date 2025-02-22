@@ -27,15 +27,15 @@ import {
   ReplaySubject,
   startWith,
   switchMap,
+  take,
+  tap,
 } from 'rxjs';
+import { CustomTypeaheadProps } from 'src/app/_models/formly';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
 
-export interface CustomTypeaheadProps<T> {
-  getOptions: (searchTerm: string) => Observable<T[]>;
-  optionLabelProp: keyof T;
-  optionValueProp: keyof T;
-}
+const NON_NORMAL_CHARACTER_REGEXP: RegExp = /[^a-zA-Z0-9]/g;
+const TWO_OR_MORE_WHITESPACE_REGEXP: RegExp = /\s\s+/g;
 
 @Component({
   selector: 'app-formly-typeahead-field',
@@ -81,8 +81,22 @@ export class FormlyTypeaheadFieldComponent<T>
   );
 
   ngOnInit(): void {
+    const customProps = this.getCustomProps();
+    const valueProp: keyof T = customProps.optionValueProp;
+    this.inputElement$
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef), filterNil())
+      .subscribe((inputElement) => {
+        if (customProps.initialValue) {
+          inputElement.value = customProps.initialValue;
+        }
+      });
+
     this.selectedItem$
-      .pipe(takeUntilDestroyed(this.destroyRef))
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        map((item) => item?.[valueProp]),
+        tap((val) => console.log('SelectedItem: ', val)),
+      )
       .subscribe((item) => this.formControl.setValue(item));
   }
 
@@ -91,6 +105,7 @@ export class FormlyTypeaheadFieldComponent<T>
   ) => {
     const searchTerm$ = merge(searchTrigger$, this.focus$, this.click$).pipe(
       startWith(''),
+      map((searchTerm) => this.cleanSearchTerm(searchTerm)),
     );
     const customProps = this.getCustomProps();
     const options$ = searchTerm$.pipe(
@@ -161,5 +176,13 @@ export class FormlyTypeaheadFieldComponent<T>
 
   private getCustomProps(): CustomTypeaheadProps<T> {
     return this.props['additionalProperties'];
+  }
+
+  private cleanSearchTerm(searchTerm: string | undefined): string | undefined {
+    return searchTerm
+      ?.replaceAll(NON_NORMAL_CHARACTER_REGEXP, ' ')
+      .trim()
+      .replace(TWO_OR_MORE_WHITESPACE_REGEXP, ' ')
+      .trim();
   }
 }

@@ -36,17 +36,21 @@
 
     <!-- News -->
     <div class="row filter">
-      <select
-        class="col-sm-3 col-md-4 col-lg-2 filter__select"
-        (change)="updateFilter($event.target)"
-        [value]="timeFilter()"
-      >
-        @for (option of timeFilterOptions; track option.value) {
-          <option [value]="option.value">
-            {{ option.label }}
-          </option>
-        }
-      </select>
+      <div class="col-sm-4 col-md-5 col-lg-4 col-xl-2 flex-column d-flex p-0">
+        <label for="time-filter"> Show updates from: </label>
+        <select
+          id="time-filter"
+          class="filter__select"
+          (change)="updateFilter($event.target)"
+          [value]="timeFilter()"
+        >
+          @for (option of timeFilterOptions; track option.value) {
+            <option [value]="option.value">
+              {{ option.label }}
+            </option>
+          }
+        </select>
+      </div>
     </div>
 
     <app-icon-card-list
@@ -54,15 +58,15 @@
       [isLoading]="isLoading()"
       [articles]="articleEntries()"
     ></app-icon-card-list>
+
+    @if (isHotkeyModifierPressed()) {
+      <button
+        btn
+        class="hotkey-help"
+        [kind]="'LIGHT-OUTLINE'"
+        [disabled]="true"
+        [text]="'Hotkey Help: Alt + H'"
+      ></button>
+    }
   </article>
 </app-page-container>
-
-@if (isHotkeyModifierPressed()) {
-  <button
-    btn
-    class="hotkey-help"
-    [kind]="'LIGHT-OUTLINE'"
-    [disabled]="true"
-    [text]="'Hotkey Help: Alt + H'"
-  ></button>
-}

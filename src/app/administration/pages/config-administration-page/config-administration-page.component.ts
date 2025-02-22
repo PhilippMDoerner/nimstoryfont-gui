@@ -2,6 +2,7 @@ import { Component, computed, inject } from '@angular/core';
 import { NodeLinkTypeRaw } from 'src/app/_models/graph';
 import { MapMarkerType } from 'src/app/_models/mapMarkerType';
 import { PlayerClass } from 'src/app/_models/playerclass';
+import { AuthStore } from 'src/app/auth.store';
 import {
   ConfigTableData,
   ConfigTableKind,
@@ -18,8 +19,9 @@ import { ConfigAdministrationPageStore } from './config-administration-page.stor
   imports: [ConfigTablesComponent],
 })
 export class ConfigAdministrationPageComponent {
-  store = inject(ConfigAdministrationPageStore);
-  globalStore = inject(GlobalStore);
+  readonly store = inject(ConfigAdministrationPageStore);
+  readonly globalStore = inject(GlobalStore);
+  readonly authStore = inject(AuthStore);
 
   tableData = computed<ConfigTableData>(() => {
     return {

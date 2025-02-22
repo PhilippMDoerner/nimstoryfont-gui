@@ -1,6 +1,8 @@
+export interface Cookie {
+  name: string;
+  value: string;
+}
+
 export interface SSRRequestContext {
-  cookie: {
-    name: string | undefined;
-    value: string | undefined;
-  };
+  cookies: Cookie[];
 }

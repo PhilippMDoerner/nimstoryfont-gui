@@ -3,6 +3,8 @@
   flex-direction: row;
   align-items: center;
   gap: var(--spacer-2);
+  --bs-body-bg: var(--bs-secondary);
+  border-color: var(--bs-white);
 
   &__input {
     width: 100%;

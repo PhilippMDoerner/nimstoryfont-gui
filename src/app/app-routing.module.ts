@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { log } from 'src/utils/logging';
 import { loginGuard } from './_guards/login.guard';
 import {
-  campaignSetResolver,
   resetTracking,
   trackCampaignName,
 } from './_resolvers/campaign.resolver';
@@ -56,11 +54,6 @@ const errorRoutes: Routes = [
 export const ROUTES: Routes = [
   {
     path: '',
-    resolve: {
-      loadAuthData: () => {
-        log('Load Auth Data?');
-      },
-    },
     children: [
       ...redirectRoutes,
       {
@@ -69,7 +62,7 @@ export const ROUTES: Routes = [
           ...generalRoutes,
           {
             path: '',
-            resolve: { campaignSetResolver },
+            // resolve: { campaignSetResolver },
             children: [
               {
                 path: '',

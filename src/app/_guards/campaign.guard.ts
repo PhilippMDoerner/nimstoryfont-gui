@@ -10,6 +10,7 @@ import { AuthStore } from '../auth.store';
 import { GlobalStore } from '../global.store';
 
 export const campaignGuard: CanActivateFn = (next: ActivatedRouteSnapshot) => {
+  return true;
   const routingService = inject(RoutingService);
   const globalStore = inject(GlobalStore);
   const authStore = inject(AuthStore);

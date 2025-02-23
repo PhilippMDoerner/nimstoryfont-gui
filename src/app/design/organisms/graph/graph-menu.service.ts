@@ -1,4 +1,4 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { afterNextRender, inject, Injectable, OnDestroy } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { select, selectAll, Selection } from 'd3';
 import { filter, Subject, take } from 'rxjs';
@@ -56,15 +56,17 @@ export class GraphMenuService implements OnDestroy {
     }),
   );
   constructor() {
-    this.initListeningToMenuClicks();
-    this.initCloseBtnClickBehavior();
-    this.directGraphClickEvents$.pipe(takeUntilDestroyed()).subscribe(() => {
-      this.closeLinkMenu();
-      this.closeNodeMenu();
+    afterNextRender(() => {
+      this.initListeningToMenuClicks();
+      this.initCloseBtnClickBehavior();
+      this.directGraphClickEvents$.pipe(takeUntilDestroyed()).subscribe(() => {
+        this.closeLinkMenu();
+        this.closeNodeMenu();
+      });
+      this.linkDeleteEvents$
+        .pipe(takeUntilDestroyed())
+        .subscribe(() => this.closeLinkMenu());
     });
-    this.linkDeleteEvents$
-      .pipe(takeUntilDestroyed())
-      .subscribe(() => this.closeLinkMenu());
   }
 
   private initCloseBtnClickBehavior() {

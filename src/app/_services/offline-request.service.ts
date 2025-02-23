@@ -5,7 +5,7 @@ import {
   HttpProgressEvent,
   HttpResponse,
 } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { afterNextRender, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import {
   combineLatest,
@@ -62,7 +62,9 @@ export class OfflineRequestService {
   );
 
   constructor() {
-    this.startRefreshCampaignDataEffect();
+    afterNextRender(() => {
+      this.startRefreshCampaignDataEffect();
+    });
   }
 
   getRequestData<T>(url: string): Observable<T | null | undefined> {

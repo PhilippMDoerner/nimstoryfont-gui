@@ -1,7 +1,12 @@
 import { isPlatformServer } from '@angular/common';
-import { HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import {
+  HttpEvent,
+  HttpEventType,
+  HttpHandlerFn,
+  HttpRequest,
+} from '@angular/common/http';
 import { inject, PLATFORM_ID, REQUEST_CONTEXT } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { EMPTY, filter, Observable, tap } from 'rxjs';
 import { SSRRequestContext } from '../_models/ssr-request-context';
 
 export function addTokenInServerInterceptor(
@@ -12,15 +17,30 @@ export function addTokenInServerInterceptor(
   console.log('addTokenInServerInterceptor: ', isInServer, req.url);
   if (!isInServer) return next(req);
 
-  const { cookies } = inject<SSRRequestContext>(REQUEST_CONTEXT);
+  let cookies: any[];
+  const context = inject<SSRRequestContext>(REQUEST_CONTEXT);
+  try {
+    cookies = context?.cookies ?? [];
+  } catch (error) {
+    cookies = [];
+    console.log('ERROR: ', error);
+  }
   cookies.forEach((cookie) => {
     req.headers.append(cookie.name, cookie.value);
   });
 
-  return next(req).pipe(
-    tap({
-      next: (resp) => console.log('Response for ', req.url, ' : ', resp),
-      error: (err) => console.log('Error for ', req.url, ' : ', err),
-    }),
-  );
+  try {
+    return next(req).pipe(
+      filter((event) => event.type === HttpEventType.Response),
+      tap({
+        next: (resp) => console.log('Response for ', req.url, ' : ', resp),
+        error: (err) => console.log('Error for ', req.url, ' : ', err),
+        complete: () => console.log('Complete for ', req.url),
+        finalize: () => console.log('Finalize for ', req.url),
+      }),
+    );
+  } catch (error) {
+    console.log('ERROR2: ', error);
+    return EMPTY;
+  }
 }

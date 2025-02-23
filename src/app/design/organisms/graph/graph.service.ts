@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { afterNextRender, inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   create,
@@ -86,21 +86,23 @@ export class GraphService {
   public zoomLevelChangedEvent$ = new ReplaySubject<number>(1);
 
   constructor() {
-    this.zoomLevelChangedEvent$.next(1);
+    afterNextRender(() => {
+      this.zoomLevelChangedEvent$.next(1);
 
-    this.initCreateGraphOnDataChange();
-    this.initCenterNodeOnTrigger();
-    this.initNodeRightClickBehavior();
-    this.initNodeClickBehavior();
-    this.initGraphClickBehavior();
-    this.initSyncingActivatedNodesToSVG();
-    this.initLinkRightClickBehavior();
+      this.initCreateGraphOnDataChange();
+      this.initCenterNodeOnTrigger();
+      this.initNodeRightClickBehavior();
+      this.initNodeClickBehavior();
+      this.initGraphClickBehavior();
+      this.initSyncingActivatedNodesToSVG();
+      this.initLinkRightClickBehavior();
 
-    this.graphClickEvent$
-      .pipe(takeUntilDestroyed())
-      .subscribe((event) =>
-        this.graphMenuService.allGraphClickEvents$.next(event),
-      );
+      this.graphClickEvent$
+        .pipe(takeUntilDestroyed())
+        .subscribe((event) =>
+          this.graphMenuService.allGraphClickEvents$.next(event),
+        );
+    });
   }
 
   // BEHAVIOR

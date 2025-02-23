@@ -7,6 +7,7 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { AuthStore } from '../auth.store';
 
 export const loginGuard = () => {
+  return true;
   const authStore = inject(AuthStore);
   const routingService = inject(RoutingService);
 

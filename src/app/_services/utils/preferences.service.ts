@@ -5,7 +5,6 @@ import { SidebarOption } from 'src/app/design/molecules';
   providedIn: 'root',
 })
 export class PreferencesService {
-  constructor() {}
   searchPreferenceKey: string = 'AldruneSearchPreferences';
 
   getStoredSearchPreferences(): SidebarOption | null {

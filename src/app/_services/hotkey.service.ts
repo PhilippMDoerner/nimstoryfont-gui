@@ -1,5 +1,11 @@
 import { DOCUMENT, isPlatformServer } from '@angular/common';
-import { DestroyRef, inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {
+  afterNextRender,
+  DestroyRef,
+  inject,
+  Injectable,
+  PLATFORM_ID,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   debounceTime,
@@ -66,27 +72,28 @@ export class HotkeyService {
     const document = inject(DOCUMENT);
     const window = inject(DOCUMENT).defaultView;
     const destroyRef = inject(DestroyRef);
+    afterNextRender(() => {
+      if (window) {
+        const keydownEvents$ = fromEvent<KeyboardEvent>(window, 'keydown');
+        const keyupEvents$ = fromEvent<KeyboardEvent>(window, 'keyup');
+        const visibilityChangeEvents$ = merge(
+          fromEvent<Event>(document, 'blur'),
+          fromEvent<Event>(window, 'blur'),
+          fromEvent<Event>(document, 'visibilitychange'),
+          fromEvent<Event>(window, 'visibilitychange'),
+        ).pipe(debounceTime(10));
 
-    if (window) {
-      const keydownEvents$ = fromEvent<KeyboardEvent>(window, 'keydown');
-      const keyupEvents$ = fromEvent<KeyboardEvent>(window, 'keyup');
-      const visibilityChangeEvents$ = merge(
-        fromEvent<Event>(document, 'blur'),
-        fromEvent<Event>(window, 'blur'),
-        fromEvent<Event>(document, 'visibilitychange'),
-        fromEvent<Event>(window, 'visibilitychange'),
-      ).pipe(debounceTime(10));
-
-      this.hotkeyDown$ = this.toHotkeydownEvents(keydownEvents$).pipe(
-        takeUntilDestroyed(destroyRef),
-        share(),
-      );
-      this.isHotkeyModifierPressed$ = this.toIsHotkeyActive(
-        keydownEvents$,
-        keyupEvents$,
-        visibilityChangeEvents$,
-      ).pipe(takeUntilDestroyed(destroyRef));
-    }
+        this.hotkeyDown$ = this.toHotkeydownEvents(keydownEvents$).pipe(
+          takeUntilDestroyed(destroyRef),
+          share(),
+        );
+        this.isHotkeyModifierPressed$ = this.toIsHotkeyActive(
+          keydownEvents$,
+          keyupEvents$,
+          visibilityChangeEvents$,
+        ).pipe(takeUntilDestroyed(destroyRef));
+      }
+    });
   }
 
   /**

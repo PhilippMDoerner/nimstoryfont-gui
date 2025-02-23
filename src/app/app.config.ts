@@ -8,7 +8,6 @@ import {
   importProvidersFrom,
   inject,
   isDevMode,
-  NgZone,
   provideAppInitializer,
 } from '@angular/core';
 import {
@@ -27,7 +26,6 @@ import { ROUTES } from './app-routing.module';
 import { AuthStore } from './auth.store';
 import { GlobalStore } from './global.store';
 import { NavigationStore } from './navigation.store';
-import { debugNgzoneState } from './stability.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -51,7 +49,7 @@ export const appConfig: ApplicationConfig = {
     }),
     provideClientHydration(withEventReplay()),
     provideAppInitializer(() => {
-      debugNgzoneState(inject(NgZone), 5);
+      // debugNgzoneState(inject(NgZone), 5);
       inject(AuthStore).loadAuthData();
     }),
   ],

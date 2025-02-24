@@ -12,7 +12,6 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { catchError, of } from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import {
@@ -94,13 +93,7 @@ export class EncounterComponent implements OnInit {
     this.formlyService.buildTypeaheadConfig<EncounterRaw, OverviewItem>({
       key: 'location',
       label: 'Encounter Location',
-      getOptions: (searchTerm: string) => {
-        const name = this.campaignName();
-        if (!name || !searchTerm) return of([]);
-        return this.articleService
-          .searchArticlesKind(name, searchTerm, 'location')
-          .pipe(catchError(() => of([] as OverviewItem[])));
-      },
+      getOptions: (searchTerm: string) => this.locations$,
       initialValue: this.encounter()?.location_details?.name_full,
       optionLabelProp: 'name_full',
       optionValueProp: 'pk',

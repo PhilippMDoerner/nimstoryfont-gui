@@ -28,7 +28,6 @@ import {
   startWith,
   switchMap,
   take,
-  tap,
 } from 'rxjs';
 import { CustomTypeaheadProps } from 'src/app/_models/formly';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -95,7 +94,6 @@ export class FormlyTypeaheadFieldComponent<T>
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         map((item) => item?.[valueProp]),
-        tap((val) => console.log('SelectedItem: ', val)),
       )
       .subscribe((item) => this.formControl.setValue(item));
   }
@@ -104,7 +102,7 @@ export class FormlyTypeaheadFieldComponent<T>
     searchTrigger$: Observable<string>,
   ) => {
     const searchTerm$ = merge(searchTrigger$, this.focus$, this.click$).pipe(
-      startWith(''),
+      startWith(this.getCustomProps().initialValue),
       map((searchTerm) => this.cleanSearchTerm(searchTerm)),
     );
     const customProps = this.getCustomProps();

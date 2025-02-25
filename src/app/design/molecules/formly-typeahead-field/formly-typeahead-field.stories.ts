@@ -34,7 +34,7 @@ export default {
             getOptions: () => of(dummyData),
             optionLabelProp: 'label',
             optionValueProp: 'value',
-            initialValue: 'Some value',
+            initialOption$: 'Some value',
           } satisfies CustomTypeaheadProps<{ label: string; value: number }>,
         },
       } satisfies FormlyFieldConfig,

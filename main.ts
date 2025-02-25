@@ -8,7 +8,7 @@ import {
   provideAppInitializer,
 } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideServiceWorker } from '@angular/service-worker';
 import { TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
@@ -29,7 +29,7 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(withInterceptors([offlineInterceptor, errorInterceptor])),
     GlobalStore,
     NavigationStore,
-    provideAnimations(),
+    provideAnimationsAsync(),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000',

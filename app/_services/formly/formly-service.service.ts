@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Observable, map, of } from 'rxjs';
 import {
-  CustomAutocompleteProps,
   CustomTypeaheadProps,
-  FormlyAutocompleteConfig,
   FormlyCheckboxConfig,
   FormlyDatepickerConfig,
   FormlyFileConfig,
@@ -336,34 +334,6 @@ export class FormlyService {
     };
   }
 
-  buildAutocompleteConfig<Model, Option>(
-    config: FormlyAutocompleteConfig<Model, Option>,
-  ): FormlyFieldConfig {
-    const validators = this.getValidators(config);
-
-    return {
-      key: config.key,
-      type: 'autocomplete',
-      className: config.className,
-      wrappers: [...(config.wrappers ?? []), 'form-field'],
-      props: {
-        label: config.label ?? capitalize(`${config.key}`),
-        required: config.required ?? true,
-        disabled: config.disabled,
-        additionalProperties: {
-          optionLabelProp: config.optionLabelProp,
-          optionValueProp: config.optionValueProp,
-          optionKeyProp: config.optionKeyProp,
-          loadOptions: config.loadOptions,
-          initialValue$: config.initialValue$,
-        } satisfies CustomAutocompleteProps<Option>,
-      },
-      validators: {
-        validation: validators,
-      },
-    };
-  }
-
   buildTypeaheadConfig<Model, Option>(
     config: FormlyTypeaheadConfig<Model, Option>,
   ): FormlyFieldConfig {
@@ -383,7 +353,8 @@ export class FormlyService {
           getOptions: config.getOptions,
           optionLabelProp: config.optionLabelProp,
           optionValueProp: config.optionValueProp,
-          initialValue: config.initialValue,
+          initialOption$: config.initialOption$,
+          formatSearchTerm: config.formatSearchTerm,
         } satisfies CustomTypeaheadProps<Option>,
       },
       validators: {

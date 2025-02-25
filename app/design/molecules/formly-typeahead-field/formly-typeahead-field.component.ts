@@ -19,16 +19,16 @@ import { FieldType } from '@ngx-formly/bootstrap/form-field';
 import { FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import {
   combineLatest,
+  debounceTime,
   fromEvent,
   map,
   merge,
   Observable,
   OperatorFunction,
   ReplaySubject,
-  startWith,
   switchMap,
   take,
-  tap,
+  withLatestFrom,
 } from 'rxjs';
 import { CustomTypeaheadProps } from 'src/app/_models/formly';
 import { filterNil } from 'src/utils/rxjs-operators';
@@ -73,7 +73,7 @@ export class FormlyTypeaheadFieldComponent<T>
     map((event) => (event.target as HTMLInputElement | null)?.value),
   );
 
-  selectedItem$ = new ReplaySubject<T | null>(1);
+  selectedItem$ = new ReplaySubject<Partial<T> | null>(1);
   selectedItemLabel$ = this.selectedItem$.pipe(
     map((item) =>
       item ? `${item?.[this.getCustomProps().optionLabelProp]}` : null,
@@ -82,12 +82,24 @@ export class FormlyTypeaheadFieldComponent<T>
 
   ngOnInit(): void {
     const customProps = this.getCustomProps();
+    customProps.initialOption$
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe((initialOption) => this.selectedItem$.next(initialOption));
+
     const valueProp: keyof T = customProps.optionValueProp;
     this.inputElement$
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef), filterNil())
-      .subscribe((inputElement) => {
-        if (customProps.initialValue) {
-          inputElement.value = customProps.initialValue;
+      .pipe(
+        take(1),
+        takeUntilDestroyed(this.destroyRef),
+        filterNil(),
+        withLatestFrom(customProps.initialOption$),
+      )
+      .subscribe(([inputElement, initialOption]) => {
+        const initialLabel = initialOption?.[
+          customProps.optionLabelProp
+        ] as string;
+        if (initialLabel) {
+          inputElement.value = initialLabel;
         }
       });
 
@@ -95,7 +107,6 @@ export class FormlyTypeaheadFieldComponent<T>
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         map((item) => item?.[valueProp]),
-        tap((val) => console.log('SelectedItem: ', val)),
       )
       .subscribe((item) => this.formControl.setValue(item));
   }
@@ -104,7 +115,7 @@ export class FormlyTypeaheadFieldComponent<T>
     searchTrigger$: Observable<string>,
   ) => {
     const searchTerm$ = merge(searchTrigger$, this.focus$, this.click$).pipe(
-      startWith(''),
+      debounceTime(200),
       map((searchTerm) => this.cleanSearchTerm(searchTerm)),
     );
     const customProps = this.getCustomProps();
@@ -118,8 +129,14 @@ export class FormlyTypeaheadFieldComponent<T>
     }).pipe(
       map(({ searchTerm, options }) => {
         if (!searchTerm) return options;
+
+        const { formatSearchTerm } = this.getCustomProps();
+
         return options.filter((opt) =>
-          this.matchesSearchterm(searchTerm, opt[customProps.optionLabelProp]),
+          this.matchesSearchterm(
+            formatSearchTerm(searchTerm.toLowerCase()) ?? '',
+            opt[customProps.optionLabelProp],
+          ),
         );
       }),
     );
@@ -127,6 +144,9 @@ export class FormlyTypeaheadFieldComponent<T>
 
   resetSelectedValue() {
     this.selectedItem$.next(null);
+    this.inputElement$
+      .pipe(filterNil(), take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe((input) => (input.value = ''));
   }
 
   resetValueAndText() {
@@ -154,18 +174,18 @@ export class FormlyTypeaheadFieldComponent<T>
   }
 
   private matchesSearchterm(searchTerm: string, optionLabel: T[keyof T]) {
+    const formatter = this.getCustomProps().formatSearchTerm;
+
     switch (typeof optionLabel) {
       case 'string':
       case 'number':
       case 'bigint':
       case 'boolean':
-        return `${optionLabel}`
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+        const opt1 = formatter(`${optionLabel}`.toLowerCase()) ?? '';
+        return opt1.includes(searchTerm);
       case 'symbol':
-        return optionLabel.description
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase());
+        const opt2 = formatter(optionLabel.description?.toLowerCase()) ?? '';
+        return opt2.includes(searchTerm);
       case 'undefined':
       case 'object':
       case 'function':

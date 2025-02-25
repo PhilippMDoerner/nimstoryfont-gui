@@ -14,7 +14,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 
-import { take } from 'rxjs';
+import { catchError, of, take } from 'rxjs';
 import { CharacterDetails } from 'src/app/_models/character';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { ArticleService } from 'src/app/_services/article/article.service';
@@ -104,27 +104,23 @@ export class QuoteFieldComponent {
         labelProp: 'name_full',
         valueProp: 'pk',
       }),
-      this.formlyService.buildAutocompleteConfig<
-        Quote | QuoteRaw,
-        OverviewItem
-      >({
+      this.formlyService.buildTypeaheadConfig<Quote | QuoteRaw, OverviewItem>({
         key: 'encounter',
         required: false,
-        loadOptions: (searchTerm) =>
-          this.articleService.searchArticlesKind(
-            this.campaignName(),
-            searchTerm,
-            'encounter',
-          ),
-        optionKeyProp: 'pk',
+
+        getOptions: (searchTerm) =>
+          this.articleService
+            .searchArticlesKind(this.campaignName(), searchTerm, 'encounter')
+            .pipe(catchError(() => of([]))),
         optionLabelProp: 'name',
         optionValueProp: 'pk',
-        initialValue$: this.quote()?.encounter
+        initialOption$: this.quote()?.encounter
           ? this.articleService.readArticle(
               this.quote()?.encounter as number,
               'encounter',
             )
-          : undefined,
+          : of(null),
+        formatSearchTerm: (searchTerm) => searchTerm,
       }),
       this.formlyService.buildEditorConfig({ key: 'quote', required: true }),
     ];

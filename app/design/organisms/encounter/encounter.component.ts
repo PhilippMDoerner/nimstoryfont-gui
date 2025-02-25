@@ -12,7 +12,7 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { catchError, of } from 'rxjs';
+import { of } from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import {
@@ -23,7 +23,6 @@ import {
 } from 'src/app/_models/encounter';
 import { FormState } from 'src/app/_models/form';
 import { OverviewItem } from 'src/app/_models/overview';
-import { ArticleService } from 'src/app/_services/article/article.service';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
@@ -94,14 +93,12 @@ export class EncounterComponent implements OnInit {
     this.formlyService.buildTypeaheadConfig<EncounterRaw, OverviewItem>({
       key: 'location',
       label: 'Encounter Location',
-      getOptions: (searchTerm: string) => {
-        const name = this.campaignName();
-        if (!name || !searchTerm) return of([]);
-        return this.articleService
-          .searchArticlesKind(name, searchTerm, 'location')
-          .pipe(catchError(() => of([] as OverviewItem[])));
-      },
-      initialValue: this.encounter()?.location_details?.name_full,
+      getOptions: () => this.locations$,
+      initialOption$: of({
+        name_full: this.encounter()?.location_details?.name_full,
+        pk: this.encounter()?.location,
+      }),
+      formatSearchTerm: (searchTerm) => this.formatEntry(searchTerm),
       optionLabelProp: 'name_full',
       optionValueProp: 'pk',
     }),
@@ -114,7 +111,6 @@ export class EncounterComponent implements OnInit {
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
-    private articleService: ArticleService,
   ) {}
 
   ngOnInit(): void {
@@ -201,5 +197,9 @@ export class EncounterComponent implements OnInit {
         link,
       };
     });
+  }
+
+  private formatEntry(str: string | undefined) {
+    return str?.replaceAll(/[\-\s']/g, '') ?? '';
   }
 }

@@ -8,7 +8,7 @@ import { inject } from '@angular/core';
 import { interval, Observable, retry, tap } from 'rxjs';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { log } from 'src/utils/logging';
-import { httpErrorToast, ToastButtons, ToastConfig } from '../_models/toast';
+import { httpErrorToast, ToastConfig } from '../_models/toast';
 import { RoutingService } from '../_services/routing.service';
 import { TokenService } from '../_services/utils/token.service';
 import { AuthStore } from '../auth.store';
@@ -24,47 +24,6 @@ const logoutInfoToast: ToastConfig = {
     text: 'You have been logged out',
   },
   onToastClick: (dismiss) => dismiss(),
-};
-
-const notFoundToast = (
-  routingService: RoutingService,
-  campaignName: string | undefined,
-): ToastConfig => {
-  const buttons: ToastButtons = [
-    {
-      label: 'Go back',
-      icon: 'arrow-left',
-      onClick: (dismiss) => {
-        history.back();
-        dismiss();
-      },
-    },
-  ];
-  if (campaignName) {
-    buttons.push({
-      label: 'Home',
-      icon: 'home',
-      onClick: (dismiss) => {
-        const isInCampaign = campaignName != null;
-        if (isInCampaign) {
-          routingService.routeToPath('home', { campaign: campaignName });
-        } else {
-          routingService.routeToPath('campaign-overview');
-        }
-        dismiss();
-      },
-    });
-  }
-
-  return {
-    type: 'WARNING',
-    header: {
-      text: "We couldn't find the page you're looking for",
-    },
-    body: {
-      buttons: buttons,
-    },
-  };
 };
 
 export function errorInterceptor(
@@ -112,14 +71,6 @@ export function errorInterceptor(
     tap({
       error: (err: HttpErrorResponse) => {
         switch (err.status) {
-          case 404:
-            const isFileUrl = req.url.endsWith('.json');
-            if (!isFileUrl) {
-              toastService.addToast(
-                notFoundToast(routingService, globalStore.campaignName()),
-              );
-            }
-            break;
           case 500:
           case 502:
             toastService.addToast(httpErrorToast(err));

@@ -52,10 +52,6 @@ button {
   cursor: pointer;
   outline: inherit;
 
-  &:hover {
-    color: var(--bs-link-hover-color);
-  }
-
   &:focus,
   &:focus-within,
   &:hover,

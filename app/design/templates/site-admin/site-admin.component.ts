@@ -18,6 +18,7 @@ import {
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
@@ -32,23 +33,24 @@ type UserState = 'CREATE' | 'DISPLAY';
 type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
 
 @Component({
-    selector: 'app-site-admin',
-    templateUrl: './site-admin.component.html',
-    styleUrls: ['./site-admin.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        IconComponent,
-        SeparatorComponent,
-        CardComponent,
-        FormComponent,
-        CollapsiblePanelComponent,
-        UserRowComponent,
-        SpinnerComponent,
-        TitleCasePipe,
-        KeyValuePipe,
-    ]
+  selector: 'app-site-admin',
+  templateUrl: './site-admin.component.html',
+  styleUrls: ['./site-admin.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonComponent,
+    IconComponent,
+    SeparatorComponent,
+    CardComponent,
+    ButtonLinkComponent,
+    FormComponent,
+    CollapsiblePanelComponent,
+    UserRowComponent,
+    SpinnerComponent,
+    TitleCasePipe,
+    KeyValuePipe,
+  ],
 })
 export class SiteAdminComponent implements OnInit, OnChanges {
   @Input() users?: User[];

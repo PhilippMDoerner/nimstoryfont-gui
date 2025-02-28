@@ -2,15 +2,15 @@
   <article class="container map">
     @if (canUpdate()) {
       <div class="map__edit-container">
-        <a [routerLink]="updateUrl()" tabindex="-1" #editLink>
-          <button
-            btn
-            aria-label="Edit Map button"
-            [icon]="'pencil'"
-            [kind]="'SECONDARY'"
-            [hotkey]="'e'"
-            (hotkeyPressed)="editLink.click()"
-          ></button>
+        <a
+          btn
+          aria-label="Edit Map button"
+          [routerLink]="updateUrl()"
+          [icon]="'pencil'"
+          [kind]="'SECONDARY'"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
+        >
         </a>
       </div>
     }
@@ -28,15 +28,16 @@
       </h3>
     }
 
-    <a [routerLink]="createUrl()" class="map__create" tabindex="-1" #createLink>
-      <button
-        btn
-        [kind]="'PRIMARY'"
-        [icon]="'plus'"
-        [text]="'Add Map'"
-        [hotkey]="'c'"
-        (hotkeyPressed)="createLink.click()"
-      ></button>
+    <a
+      btn
+      [routerLink]="createUrl()"
+      class="map__create"
+      [kind]="'PRIMARY'"
+      [icon]="'plus'"
+      [text]="'Add Map'"
+      [hotkey]="'c'"
+      (hotkeyPressed)="$event.host.click()"
+    >
     </a>
 
     <!-- Leaflet Map -->
@@ -72,13 +73,14 @@
   @if (canCreate()) {
     <div class="map__no-map">
       <h4>There's no map yet! Want to add one?</h4>
-      <a [routerLink]="createUrl()" class="map__create">
-        <button
-          btn
-          [kind]="'PRIMARY'"
-          [icon]="'plus'"
-          [text]="'Add Map'"
-        ></button>
+      <a
+        btn
+        class="map__create"
+        [routerLink]="createUrl()"
+        [kind]="'PRIMARY'"
+        [icon]="'plus'"
+        [text]="'Add Map'"
+      >
       </a>
     </div>
   } @else {
@@ -89,8 +91,13 @@
 <ng-template #noMapMessageGuest>
   <div class="map__no-map">
     <h4>There's no map yet, but maybe there may be in the future!</h4>
-    <a [routerLink]="homeUrl()" class="map__create" tabindex="-1">
-      <button btn [kind]="'SECONDARY'" [text]="'Back to home page'"></button>
+    <a
+      btn
+      class="map__create"
+      [routerLink]="homeUrl()"
+      [kind]="'SECONDARY'"
+      [text]="'Back to home page'"
+    >
     </a>
   </div>
 </ng-template>

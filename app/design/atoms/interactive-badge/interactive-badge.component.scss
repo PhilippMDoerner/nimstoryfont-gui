@@ -14,10 +14,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 
-  &:focus,
-  &:focus-within,
+  &:focus-visible,
   &:hover {
-    outline: solid 3px var(--bs-link-hover-color);
+    outline: var(--focus-outline);
   }
 
   &--part1 {

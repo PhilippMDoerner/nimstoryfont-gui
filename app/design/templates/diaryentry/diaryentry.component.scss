@@ -49,14 +49,6 @@
     width: 100%;
     display: flex;
     text-decoration: none;
-
-    &--left {
-      justify-content: flex-start;
-    }
-
-    &--right {
-      justify-content: flex-end;
-    }
   }
 
   &__inner-button {

@@ -31,6 +31,7 @@ import {
   FormComponent,
 } from 'src/app/design/molecules';
 import { PageContainerComponent } from 'src/app/design/organisms/page-container/page-container.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 
 @Component({
   selector: 'app-campaign-admin',
@@ -48,6 +49,7 @@ import { PageContainerComponent } from 'src/app/design/organisms/page-container/
     ConfirmationToggleButtonComponent,
     FormComponent,
     ArticleFooterComponent,
+    ButtonLinkComponent,
     NgTemplateOutlet,
   ],
 })

@@ -69,3 +69,6 @@ export function toElementKind(kind: ButtonKind): ElementKind | undefined {
 
 export const ELEMENT_SIZES = ['SMALL', 'MEDIUM', 'LARGE'] as const;
 export type ElementSize = (typeof ELEMENT_SIZES)[number];
+
+export const INTERACTION_MODE = ['BUTTON', 'LINK', 'NONE'] as const;
+export type InteractionMode = (typeof INTERACTION_MODE)[number];

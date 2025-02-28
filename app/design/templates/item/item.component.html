@@ -2,13 +2,13 @@
   <article class="container">
     @if (canUpdate()) {
       <div class="item__edit-container">
-        <a [routerLink]="updateUrl()" tabindex="-1">
-          <button
-            btn
-            [title]="'Edit ' + item().name"
-            [icon]="'pencil'"
-            [kind]="'SECONDARY'"
-          ></button>
+        <a
+          btn
+          [title]="'Edit ' + item().name"
+          [icon]="'pencil'"
+          [kind]="'SECONDARY'"
+          [routerLink]="updateUrl()"
+        >
         </a>
       </div>
     }

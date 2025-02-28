@@ -59,16 +59,16 @@
             ></button>
           }
           @case ("LINK") {
-            <a [routerLink]="control.config.link" tabindex="-1">
-              <button
-                btn
-                class="field__control"
-                [attr.aria-label]="control.title"
-                [title]="control.title"
-                [kind]="control.type"
-                [text]="control.label"
-                [icon]="control.icon"
-              ></button>
+            <a
+              btn
+              class="field__control"
+              [attr.aria-label]="control.title"
+              [title]="control.title"
+              [kind]="control.type"
+              [text]="control.label"
+              [icon]="control.icon"
+              [routerLink]="control.config.link"
+            >
             </a>
           }
         }

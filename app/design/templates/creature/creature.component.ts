@@ -10,11 +10,11 @@ import { RouterLink } from '@angular/router';
 import { Creature } from 'src/app/_models/creature';
 import { Image } from 'src/app/_models/image';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { ArticleFooterComponent } from 'src/app/design/molecules';
 import { EditableTextComponent } from 'src/app/design/organisms/editable-text/editable-text.component';
 import { ImageCarouselCardComponent } from 'src/app/design/organisms/image-carousel-card/image-carousel-card.component';
 import { PageContainerComponent } from 'src/app/design/organisms/page-container/page-container.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 
 @Component({
   selector: 'app-creature',
@@ -23,7 +23,7 @@ import { PageContainerComponent } from 'src/app/design/organisms/page-container/
   imports: [
     EditableTextComponent,
     PageContainerComponent,
-    ButtonComponent,
+    ButtonLinkComponent,
     RouterLink,
     ImageCarouselCardComponent,
     ArticleFooterComponent,

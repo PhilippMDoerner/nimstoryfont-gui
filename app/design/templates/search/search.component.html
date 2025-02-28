@@ -35,8 +35,13 @@
 
     <!-- Footer -->
     <div class="row">
-      <a [routerLink]="homeUrl()" class="search__home" tabindex="-1">
-        <button btn [kind]="'SECONDARY'" [text]="'Back To Frontpage'"></button>
+      <a
+        btn
+        class="search__home"
+        [routerLink]="homeUrl()"
+        [kind]="'SECONDARY'"
+        [text]="'Back To Frontpage'"
+      >
       </a>
     </div>
   </article>

@@ -1,14 +1,17 @@
+import { AsyncPipe } from '@angular/common';
 import {
   afterNextRender,
   Component,
   computed,
   inject,
-  NgZone,
   signal,
 } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter, map } from 'rxjs';
 import { fadeOut } from 'src/app/design/animations/fadeIn';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
+import { filterNil } from 'src/utils/rxjs-operators';
 import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
@@ -22,7 +25,12 @@ import { ServiceWorkerService } from './service-worker.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  imports: [PageComponent, ToastOverlayComponent, HotkeyModalComponent],
+  imports: [
+    PageComponent,
+    ToastOverlayComponent,
+    AsyncPipe,
+    HotkeyModalComponent,
+  ],
   host: {
     '[@.disabled]': 'disableAnimation()',
   },
@@ -36,7 +44,11 @@ export class AppComponent {
   readonly campaignService = inject(CampaignService);
   readonly toastService = inject(ToastService);
   readonly serviceWorkerService = inject(ServiceWorkerService);
-  readonly zone = inject(NgZone);
+  readonly currentUrl$ = inject(Router).events.pipe(
+    filter((event) => event instanceof NavigationEnd),
+    map((event) => event.url.split('#')[0]), //Remove any fragment it might have
+    filterNil(),
+  );
 
   serverUrl: string = environment.backendDomain;
   campaign$ = this.globalStore.currentCampaign;

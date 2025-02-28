@@ -6,23 +6,23 @@ import {
   input,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Rule, RuleRaw } from 'src/app/_models/rule';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { RulesComponent } from '../../organisms/rules/rules.component';
-import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../../atoms/button/button.component';
 
 @Component({
-    selector: 'app-rules-template',
-    templateUrl: './rules-template.component.html',
-    styleUrls: ['./rules-template.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RulesComponent,
-        RouterLink,
-        ButtonComponent,
-    ]
+  selector: 'app-rules-template',
+  templateUrl: './rules-template.component.html',
+  styleUrls: ['./rules-template.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RulesComponent,
+    RouterLink,
+    ButtonLinkComponent,
+  ],
 })
 export class RulesTemplateComponent {
   campaignName = input.required<string>();

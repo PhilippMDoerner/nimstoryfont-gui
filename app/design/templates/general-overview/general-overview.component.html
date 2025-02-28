@@ -51,15 +51,16 @@
     <!-- Adding Item button -->
     @if (canCreate()) {
       <div class="overview__create">
-        <a [routerLink]="'create'" tabindex="-1" #createLink>
-          <button
-            btn
-            [icon]="'plus'"
-            [kind]="'PRIMARY'"
-            [text]="'Add ' + (overviewTypeName() | titlecase)"
-            [hotkey]="'c'"
-            (hotkeyPressed)="createLink.click()"
-          ></button>
+        <a
+          btn
+          [routerLink]="'create'"
+          #createLink
+          [icon]="'plus'"
+          [kind]="'PRIMARY'"
+          [text]="'Add ' + (overviewTypeName() | titlecase)"
+          [hotkey]="'c'"
+          (hotkeyPressed)="$event.host.click()"
+        >
         </a>
       </div>
     }
@@ -80,8 +81,13 @@
 
     <!-- Footer -->
     <div class="mt-4">
-      <a [routerLink]="homeUrl()" class="overview__home">
-        <button btn [kind]="'SECONDARY'" [text]="'Back To Frontpage'"></button>
+      <a
+        btn
+        class="overview__home"
+        [kind]="'SECONDARY'"
+        [text]="'Back To Frontpage'"
+        [routerLink]="homeUrl()"
+      >
       </a>
     </div>
   </article>

@@ -10,24 +10,13 @@ import { CharacterDetails } from 'src/app/_models/character';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { GroupByPipe } from 'src/app/design/atoms/_pipes/groupObjects.pipe';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import { QuoteFieldComponent } from '../quote-field/quote-field.component';
 import { QuoteControlKind } from '../quote/quote.component';
 
-interface QuoteCard {
-  quote: Quote;
-  isOpen: boolean;
-}
-
 @Component({
   selector: 'app-quotes',
-  imports: [
-    ButtonComponent,
-    SpinnerComponent,
-    GroupByPipe,
-    QuoteFieldComponent,
-  ],
+  imports: [SpinnerComponent, GroupByPipe, QuoteFieldComponent],
   templateUrl: './quotes.component.html',
   styleUrl: './quotes.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -6,26 +6,25 @@
 
   <!-- Card Body -->
   <div class="card-body">
-    <a [routerLink]="sessionAudioUrl()" class="card-link">
-      <button
-        btn
-        [icon]="'desktop'"
-        [text]="'Stream'"
-        [kind]="'PRIMARY'"
-      ></button>
+    <a
+      btn
+      class="card-link"
+      [routerLink]="sessionAudioUrl()"
+      [icon]="'desktop'"
+      [text]="'Stream'"
+      [kind]="'PRIMARY'"
+    >
     </a>
 
     <a
+      btn
+      [icon]="'download'"
+      [text]="'Download'"
+      [kind]="'DARK'"
       [href]="serverUrl() + '/' + sessionAudio().download_url"
       target="_blank"
       class="card-link"
     >
-      <button
-        btn
-        [icon]="'download'"
-        [text]="'Download'"
-        [kind]="'DARK'"
-      ></button>
     </a>
   </div>
 </div>

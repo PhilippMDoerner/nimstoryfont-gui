@@ -25,11 +25,12 @@ export type TooltipBehavior = 'OnHotkey' | 'Always' | 'Never';
 export class HotkeyDirective {
   private tooltip = inject(NgbTooltip);
   private hotkeyService = inject(HotkeyService);
+  public element = inject(ElementRef<HTMLElement>);
 
   hotkey = input.required<string | undefined>();
   disabledHotkey = input<boolean>(false);
 
-  hotkeyPressed = output<KeyboardEvent>();
+  hotkeyPressed = output<{ event: KeyboardEvent; host: HTMLElement }>();
 
   private tooltipText = computed(() =>
     this.hotkey() ? `Alt + ${this.hotkey()?.toUpperCase()}` : undefined,
@@ -38,8 +39,7 @@ export class HotkeyDirective {
   constructor() {
     if (inject(ScreenService).isMobile()) return;
 
-    const element = inject(ElementRef<HTMLElement>);
-    this.configureTooltip(element);
+    this.configureTooltip(this.element);
 
     toObservable(this.disabledHotkey)
       .pipe(
@@ -58,7 +58,12 @@ export class HotkeyDirective {
         switchMap((key: BindableHotkey<any> | undefined) =>
           this.hotkeyService.watch(key).pipe(
             filter(() => !this.disabledHotkey()),
-            tap((event) => this.hotkeyPressed.emit(event)),
+            tap((event) =>
+              this.hotkeyPressed.emit({
+                event,
+                host: this.element.nativeElement,
+              }),
+            ),
           ),
         ),
         takeUntilDestroyed(),

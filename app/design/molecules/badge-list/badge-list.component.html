@@ -51,19 +51,14 @@
 <ng-template #linkCreate>
   @let badgeLabel = createBadgeLabel();
   @if (badgeLabel) {
-    <a
-      [routerLink]="createLink()"
-      class="badge-list__create-link"
-      tabindex="-1"
+    <app-badge
+      class="badge-list__create-badge"
+      [kind]="'PRIMARY'"
+      [icon]="'plus'"
+      [text]="badgeLabel"
+      [interactionMode]="'LINK'"
+      [link]="createLink()"
     >
-      <app-badge
-        class="badge-list__create-badge"
-        [kind]="'PRIMARY'"
-        [icon]="'plus'"
-        [text]="badgeLabel"
-        [clickable]="true"
-      >
-      </app-badge>
-    </a>
+    </app-badge>
   }
 </ng-template>

@@ -1,12 +1,13 @@
 <app-page-container>
   <article class="site-admin">
-    <a class="site-admin__return-button" [routerLink]="campaignOverviewUrl">
-      <button
-        btn
-        [kind]="'SECONDARY'"
-        [icon]="'globe-americas'"
-        [text]="'Back to campaign overview'"
-      ></button>
+    <a
+      class="site-admin__return-button"
+      [routerLink]="campaignOverviewUrl"
+      btn
+      [kind]="'SECONDARY'"
+      [icon]="'globe-americas'"
+      [text]="'Back to campaign overview'"
+    >
     </a>
 
     <!-- Users Section -->
@@ -207,13 +208,14 @@
       }
     </div>
 
-    <a class="site-admin__return-button" [routerLink]="campaignOverviewUrl">
-      <button
-        btn
-        [kind]="'SECONDARY'"
-        [icon]="'globe-americas'"
-        [text]="'Back to campaign overview'"
-      ></button>
+    <a
+      btn
+      class="site-admin__return-button"
+      [routerLink]="campaignOverviewUrl"
+      [kind]="'SECONDARY'"
+      [icon]="'globe-americas'"
+      [text]="'Back to campaign overview'"
+    >
     </a>
   </article>
 </app-page-container>

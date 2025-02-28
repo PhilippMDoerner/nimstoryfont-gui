@@ -7,6 +7,13 @@
   align-items: center;
   justify-content: space-between;
 
+  &:focus,
+  &:focus-within,
+  &:hover,
+  &:focus-visible {
+    outline: var(--focus-outline);
+  }
+
   .encounter-title,
   .icon {
     transition: color 0.2s;

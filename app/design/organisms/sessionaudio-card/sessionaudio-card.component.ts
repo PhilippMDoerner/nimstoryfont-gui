@@ -7,14 +7,14 @@ import {
 import { RouterLink } from '@angular/router';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 
 @Component({
   selector: 'app-sessionaudio-card',
   templateUrl: './sessionaudio-card.component.html',
   styleUrls: ['./sessionaudio-card.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, RouterLink],
+  imports: [ButtonLinkComponent, RouterLink],
 })
 export class SessionaudioCardComponent {
   serverUrl = input.required<string>();

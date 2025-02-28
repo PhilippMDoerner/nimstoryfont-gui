@@ -5,6 +5,7 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { AlertComponent } from '../../atoms/alert/alert.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
@@ -20,22 +21,23 @@ export interface PasswordModel {
 }
 
 @Component({
-    selector: 'app-profile',
-    templateUrl: './profile.component.html',
-    styleUrls: ['./profile.component.scss'],
-    imports: [
-        PageContainerComponent,
-        IconComponent,
-        ButtonComponent,
-        SeparatorComponent,
-        NgTemplateOutlet,
-        CardComponent,
-        FormComponent,
-        RouterLink,
-        ConfirmationToggleButtonComponent,
-        AlertComponent,
-        TitleCasePipe,
-    ]
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'],
+  imports: [
+    PageContainerComponent,
+    IconComponent,
+    ButtonComponent,
+    SeparatorComponent,
+    NgTemplateOutlet,
+    ButtonLinkComponent,
+    CardComponent,
+    FormComponent,
+    RouterLink,
+    ConfirmationToggleButtonComponent,
+    AlertComponent,
+    TitleCasePipe,
+  ],
 })
 export class ProfileComponent {
   @Input() user!: User;

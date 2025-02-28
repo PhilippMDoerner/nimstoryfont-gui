@@ -6,28 +6,28 @@ import {
   output,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Image } from 'src/app/_models/image';
 import { Item } from 'src/app/_models/item';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../../atoms/button/button.component';
-import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
-import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
+import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
+import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 @Component({
-    selector: 'app-item',
-    templateUrl: './item.component.html',
-    styleUrls: ['./item.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        ImageCarouselCardComponent,
-        EditableTextComponent,
-        ArticleFooterComponent,
-    ]
+  selector: 'app-item',
+  templateUrl: './item.component.html',
+  styleUrls: ['./item.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonLinkComponent,
+    ImageCarouselCardComponent,
+    EditableTextComponent,
+    ArticleFooterComponent,
+  ],
 })
 export class ItemComponent {
   item = input.required<Item>();

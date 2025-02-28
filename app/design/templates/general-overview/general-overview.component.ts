@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent } from '../../atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ImageCardComponent } from '../../molecules/image-card/image-card.component';
 import { FilterListEntry } from '../../organisms/_model/filterListEntry';
 import { FilterListComponent } from '../../organisms/filter-list/filter-list.component';
@@ -24,7 +24,7 @@ import { GeneralOverviewType } from '../_models/generalOverviewType';
     PageContainerComponent,
     NgTemplateOutlet,
     RouterLink,
-    ButtonComponent,
+    ButtonLinkComponent,
     ImageCardComponent,
     FilterListComponent,
     TitleCasePipe,

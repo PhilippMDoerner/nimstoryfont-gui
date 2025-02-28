@@ -6,9 +6,9 @@
           <a
             class="image-grid__entry entry"
             [style.background-image]="
-              'url(' + serverUrl() + entry[imageProp()] + ')'
+              'url(' + serverUrl() + entry.imageUrl + ')'
             "
-            (click)="entryClick.emit(entry)"
+            [routerLink]="entry.link"
             [ngClass]="{
               'col-lg-12': columnCount() === 1,
               'col-sm-6': columnCount() === 2,
@@ -17,14 +17,10 @@
           >
             <div class="entry__overlay">
               <h4 class="entry__heading heading">
-                @let iconPropVal = iconProp();
-                @if (iconPropVal && entry[iconPropVal]) {
-                  <img
-                    class="heading__icon"
-                    [src]="serverUrl() + entry[iconPropVal]"
-                  />
+                @if (entry.icon) {
+                  <img class="heading__icon" [src]="serverUrl() + entry.icon" />
                 }
-                {{ entry[labelProp()] }}
+                {{ entry.label }}
               </h4>
             </div>
           </a>

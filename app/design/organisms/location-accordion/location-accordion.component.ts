@@ -9,7 +9,7 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from 'src/app/_models/location';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { LocationComponent } from '../location/location.component';
 
 interface AccordionEntry {
@@ -22,7 +22,12 @@ interface AccordionEntry {
   templateUrl: './location-accordion.component.html',
   styleUrls: ['./location-accordion.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, RouterLink, NgbAccordionModule, LocationComponent],
+  imports: [
+    ButtonLinkComponent,
+    RouterLink,
+    NgbAccordionModule,
+    LocationComponent,
+  ],
 })
 export class LocationAccordionComponent {
   locations = input.required<Location[]>();
@@ -30,22 +35,6 @@ export class LocationAccordionComponent {
   canCreate = input(false);
   campaignName = input.required<string>();
 
-  accordionEntries = computed<AccordionEntry[]>(() => {
-    return this.locations().map((loc) => {
-      const parentLocationName = loc.parent_location_details?.name;
-      const campaignName = loc.campaign_details?.name;
-      const link = this.routingService.getRoutePath('location', {
-        parent_name: parentLocationName,
-        name: loc.name,
-        campaign: campaignName,
-      });
-
-      return {
-        value: loc,
-        link,
-      };
-    });
-  });
   createUrl = computed(() =>
     this.routingService.getRoutePath('location-create', {
       campaign: this.campaignName(),

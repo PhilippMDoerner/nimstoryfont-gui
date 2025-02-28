@@ -8,7 +8,7 @@ import { RouterLink } from '@angular/router';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { PageContainerComponent } from 'src/app/design//organisms/page-container/page-container.component';
 import { QuotesComponent } from 'src/app/design//organisms/quotes/quotes.component';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { ButtonLinkComponent } from 'src/app/design/atoms/button-link/button-link.component';
 import { GlobalStore } from 'src/app/global.store';
 import { QuoteOverviewPageStore } from './quote-overview-page.store';
 
@@ -18,7 +18,7 @@ import { QuoteOverviewPageStore } from './quote-overview-page.store';
     QuotesComponent,
     PageContainerComponent,
     RouterLink,
-    ButtonComponent,
+    ButtonLinkComponent,
   ],
   templateUrl: './quote-overview-page.component.html',
   styleUrl: './quote-overview-page.component.scss',

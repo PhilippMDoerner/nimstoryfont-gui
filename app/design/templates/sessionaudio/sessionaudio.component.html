@@ -2,8 +2,12 @@
   <article class="sessionaudio">
     @if (canUpdate()) {
       <div class="sessionaudio__edit-container">
-        <a [routerLink]="updateUrl()">
-          <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
+        <a
+          btn
+          [icon]="'pencil'"
+          [kind]="'SECONDARY'"
+          [routerLink]="updateUrl()"
+        >
         </a>
       </div>
     }
@@ -33,37 +37,37 @@
     <!-- Next Buttons -->
     <div class="row sessionaudio__buttons buttons">
       <!-- Next Session -->
-      <div class="col-6 col-lg-3">
+      <div class="col-6 col-lg-3 d-flex justify-content-start">
         @if (nextSessionAudioUrl()) {
-          <a [routerLink]="nextSessionAudioUrl()">
-            <button
-              btn
-              [kind]="'SECONDARY'"
-              [icon]="'arrow-left'"
-              [text]="
-                'Session' +
-                sessionaudio().sessionAudioNeighbours?.nextSessionAudio
-                  ?.sessionNumber
-              "
-            ></button>
+          <a
+            [routerLink]="nextSessionAudioUrl()"
+            btn
+            [kind]="'SECONDARY'"
+            [icon]="'arrow-left'"
+            [text]="
+              'Session' +
+              sessionaudio().sessionAudioNeighbours?.nextSessionAudio
+                ?.sessionNumber
+            "
+          >
           </a>
         }
       </div>
 
       <!-- Prior Session -->
-      <div class="col-6 col-lg-3">
+      <div class="col-6 col-lg-3 d-flex justify-content-end">
         @if (priorSessionAudioUrl()) {
-          <a [routerLink]="priorSessionAudioUrl()">
-            <button
-              btn
-              [kind]="'SECONDARY'"
-              [icon]="'arrow-right'"
-              [text]="
-                'Session' +
-                sessionaudio().sessionAudioNeighbours?.priorSessionAudio
-                  ?.sessionNumber
-              "
-            ></button>
+          <a
+            btn
+            [routerLink]="priorSessionAudioUrl()"
+            [kind]="'SECONDARY'"
+            [icon]="'arrow-right'"
+            [text]="
+              'Session' +
+              sessionaudio().sessionAudioNeighbours?.priorSessionAudio
+                ?.sessionNumber
+            "
+          >
           </a>
         }
       </div>

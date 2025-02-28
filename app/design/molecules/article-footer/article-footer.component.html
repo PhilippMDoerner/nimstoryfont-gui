@@ -14,8 +14,13 @@
 </footer>
 
 <ng-template #linkButton>
-  <a [routerLink]="buttonLink()" (click)="buttonClick.emit()" [tabIndex]="-1">
-    <button btn [kind]="'SECONDARY'" [text]="buttonLabel()"></button>
+  <a
+    btn
+    [routerLink]="buttonLink()"
+    [kind]="'SECONDARY'"
+    [text]="buttonLabel()"
+    (click)="buttonClick.emit()"
+  >
   </a>
 </ng-template>
 

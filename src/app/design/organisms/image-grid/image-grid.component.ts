@@ -6,23 +6,28 @@ import {
   input,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 type ColumnCount = 1 | 2 | 3;
+
+export type ImageGridEntry = {
+  icon: string | undefined;
+  link: string;
+  imageUrl: string | undefined;
+  label: string;
+};
 
 @Component({
   selector: 'app-image-grid',
   templateUrl: './image-grid.component.html',
   styleUrls: ['./image-grid.component.scss'],
-  imports: [NgClass, NgOptimizedImage],
+  imports: [NgClass, NgOptimizedImage, RouterLink],
 })
-export class ImageGridComponent<T> {
+export class ImageGridComponent {
   EMPTY_IMAGE_URL: string = '';
 
-  entries = input.required<T[]>();
+  entries = input.required<ImageGridEntry[]>();
   serverUrl = input.required<string>();
-  imageProp = input.required<keyof T>();
-  labelProp = input.required<keyof T>();
-  iconProp = input<keyof T>();
 
   @Output() entryClick: EventEmitter<any> = new EventEmitter();
 

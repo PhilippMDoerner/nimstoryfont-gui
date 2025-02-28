@@ -37,27 +37,25 @@
         Choose Your Campaign
       } @else if (campaignsVal && campaignsVal.length == 0) {
         <ng-container *ngTemplateOutlet="noCampaignHeading" />
-      } @else {
-        <app-spinner></app-spinner>
       }
     </h3>
   </div>
 
   <div class="body">
-    @if (campaignsVal != null) {
-      @if (campaignsVal.length > 0) {
+    @let imageGridEntries = gridEntries();
+    @if (imageGridEntries != null) {
+      @if (imageGridEntries.length > 0) {
         <app-image-grid
           class="body__images"
-          [entries]="campaignsVal"
-          [imageProp]="'background_image'"
+          [entries]="imageGridEntries"
           [serverUrl]="serverUrl()"
-          [labelProp]="'name'"
-          [iconProp]="'icon'"
           (entryClick)="onCampaignClick($event)"
         ></app-image-grid>
       } @else {
         <ng-container *ngTemplateOutlet="noCampaign" />
       }
+    } @else {
+      <app-spinner></app-spinner>
     }
   </div>
 </div>

@@ -26,6 +26,24 @@ export class LocationService extends BaseService<LocationRaw, Location> {
     return this.http.get<any>(url).pipe(map((data) => this.parseEntity(data)));
   }
 
+  override campaignList(campaign: string): Observable<OverviewItem[]> {
+    return super
+      .campaignList(campaign)
+      .pipe(map((entries) => this.sortList(entries, 'name_full')));
+  }
+
+  override list(): Observable<Location[]> {
+    return super
+      .list()
+      .pipe(map((entries) => this.sortList(entries, 'name_full')));
+  }
+
+  override campaignDetailList(campaign: string): Observable<Location[]> {
+    return super
+      .campaignDetailList(campaign)
+      .pipe(map((entries) => this.sortList(entries, 'name_full')));
+  }
+
   override parseEntity(data: any): Location {
     return {
       ...data,

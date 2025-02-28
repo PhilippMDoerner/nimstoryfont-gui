@@ -21,6 +21,7 @@ import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.com
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import { BadgeListComponent, BadgeListEntry } from 'src/app/design/molecules';
 import { copyToClipboard } from 'src/utils/clipboard';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ToastService } from '../toast-overlay/toast-overlay.component';
 
 type QuoteState =
@@ -64,6 +65,7 @@ type QuoteControl = {
     BadgeListComponent,
     SeparatorComponent,
     ButtonComponent,
+    ButtonLinkComponent,
     RouterLink,
     SpinnerComponent,
   ],

@@ -7,7 +7,8 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
+import { ButtonComponent } from '../../atoms/button/button.component';
 import { ConfirmationToggleButtonComponent } from '../confirmation-toggle-button/confirmation-toggle-button.component';
 
 @Component({
@@ -16,6 +17,7 @@ import { ConfirmationToggleButtonComponent } from '../confirmation-toggle-button
   styleUrls: ['./article-footer.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
+    ButtonLinkComponent,
     ButtonComponent,
     RouterLink,
     NgTemplateOutlet,

@@ -1,12 +1,13 @@
 <app-page-container>
   <article class="config-tables">
-    <a class="config-tables__return-button" [routerLink]="campaignOverviewUrl">
-      <button
-        btn
-        [kind]="'SECONDARY'"
-        [icon]="'globe-americas'"
-        [text]="'Back to campaign overview'"
-      ></button>
+    <a
+      btn
+      class="config-tables__return-button"
+      [routerLink]="campaignOverviewUrl"
+      [kind]="'SECONDARY'"
+      [icon]="'globe-americas'"
+      [text]="'Back to campaign overview'"
+    >
     </a>
 
     <!-- Sections -->
@@ -24,13 +25,14 @@
       ></app-config-table>
     }
 
-    <a class="config-tables__return-button" [routerLink]="campaignOverviewUrl">
-      <button
-        btn
-        [kind]="'SECONDARY'"
-        [icon]="'globe-americas'"
-        [text]="'Back to campaign overview'"
-      ></button>
+    <a
+      btn
+      class="config-tables__return-button"
+      [kind]="'SECONDARY'"
+      [icon]="'globe-americas'"
+      [text]="'Back to campaign overview'"
+      [routerLink]="campaignOverviewUrl"
+    >
     </a>
   </article>
 </app-page-container>

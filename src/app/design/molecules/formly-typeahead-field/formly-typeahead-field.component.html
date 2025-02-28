@@ -7,7 +7,7 @@
       [text]="selectedItemLabel"
       [title]="'Clear this option'"
       [icon]="'times'"
-      [clickable]="true"
+      [interactionMode]="'BUTTON'"
       [maxLength]="20"
       (badgeClick)="resetSelectedValue()"
       (click)="$event.stopPropagation()"

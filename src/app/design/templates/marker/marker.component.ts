@@ -11,21 +11,21 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../../atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 
 @Component({
-    selector: 'app-marker',
-    templateUrl: './marker.component.html',
-    styleUrls: ['./marker.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        IconComponent,
-        ArticleFooterComponent,
-    ]
+  selector: 'app-marker',
+  templateUrl: './marker.component.html',
+  styleUrls: ['./marker.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonLinkComponent,
+    IconComponent,
+    ArticleFooterComponent,
+  ],
 })
 export class MarkerComponent implements OnInit, OnChanges {
   @Input() marker!: MapMarker;

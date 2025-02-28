@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
@@ -6,33 +7,32 @@ import {
   output,
   Output,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Image } from 'src/app/_models/image';
 import { Organization } from 'src/app/_models/organization';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ListEntry } from '../../molecules';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
-import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../../atoms/button/button.component';
-import { NgTemplateOutlet } from '@angular/common';
-import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
-import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
-import { ListComponent } from '../../molecules/list/list.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
+import { ListComponent } from '../../molecules/list/list.component';
+import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
+import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 @Component({
-    selector: 'app-organization',
-    templateUrl: './organization.component.html',
-    styleUrls: ['./organization.component.scss'],
-    imports: [
-        PageContainerComponent,
-        RouterLink,
-        ButtonComponent,
-        NgTemplateOutlet,
-        ImageCarouselCardComponent,
-        EditableTextComponent,
-        ListComponent,
-        ArticleFooterComponent,
-    ]
+  selector: 'app-organization',
+  templateUrl: './organization.component.html',
+  styleUrls: ['./organization.component.scss'],
+  imports: [
+    PageContainerComponent,
+    RouterLink,
+    ButtonLinkComponent,
+    NgTemplateOutlet,
+    ImageCarouselCardComponent,
+    EditableTextComponent,
+    ListComponent,
+    ArticleFooterComponent,
+  ],
 })
 export class OrganizationComponent {
   organization = input.required<Organization>();

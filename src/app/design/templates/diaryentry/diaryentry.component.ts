@@ -20,6 +20,7 @@ import {
 import { OverviewItem } from 'src/app/_models/overview';
 import { Session } from 'src/app/_models/session';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { DiaryentryEncountersComponent } from '../../organisms/diaryentry-encounters/diaryentry-encounters.component';
@@ -40,6 +41,7 @@ type DiaryEntryState = 'DISPLAY' | 'EDIT';
     ArticleFooterComponent,
     DatePipe,
     HotkeyDirective,
+    ButtonLinkComponent,
   ],
 })
 export class DiaryentryComponent {
@@ -98,7 +100,7 @@ export class DiaryentryComponent {
     return this.createDiaryentryURL(priorDiaryentryStub);
   });
 
-  constructor(private routingService: RoutingService) {}
+  constructor(public routingService: RoutingService) {}
 
   toggleState(): void {
     const isDisplayState = this.state() === 'DISPLAY';

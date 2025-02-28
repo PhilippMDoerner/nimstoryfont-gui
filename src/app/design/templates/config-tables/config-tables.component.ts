@@ -16,7 +16,7 @@ import {
   ConfigTableData,
   ConfigTableKind,
 } from 'src/app/design/organisms/_model/config-table';
-import { ButtonComponent } from '../../atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ConfigTableComponent } from '../../organisms/config-table/config-table.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
@@ -27,7 +27,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
   imports: [
     PageContainerComponent,
     RouterLink,
-    ButtonComponent,
+    ButtonLinkComponent,
     ConfigTableComponent,
   ],
 })

@@ -4,20 +4,17 @@
       <div class="diaryentry__edit-row edit-row">
         <div class="edit-row__edit-container edit-container">
           <a
-            class="edit-container__button"
-            [routerLink]="updateUrl()"
-            tabindex="-1"
+            btn
             #editDiaryentryLink
+            class="edit-container__button"
+            aria-label="Edit Diaryentry"
+            [routerLink]="updateUrl()"
+            [icon]="'pencil'"
+            [kind]="'SECONDARY'"
+            [hotkey]="'e'"
+            [disabledHotkey]="state() !== 'DISPLAY'"
+            (hotkeyPressed)="$event.host.click()"
           >
-            <button
-              aria-label="Edit Diaryentry"
-              btn
-              [icon]="'pencil'"
-              [kind]="'SECONDARY'"
-              [hotkey]="'e'"
-              [disabledHotkey]="state() !== 'DISPLAY'"
-              (hotkeyPressed)="editDiaryentryLink.click()"
-            ></button>
           </a>
           <button
             btn
@@ -84,17 +81,13 @@
     <div class="col-xl-2 col-lg-3 col-md-4 col-5 nav-buttons__button-container">
       @if (diaryentry().adjacent_diaryentries.next_diaryentry) {
         <a
+          btn
           class="nav-buttons__button nav-buttons__button--left"
           [routerLink]="nextDiaryentryUrl()"
-          tabindex="-1"
+          [text]="'Next'"
+          [icon]="'arrow-left'"
+          [kind]="'SECONDARY'"
         >
-          <button
-            btn
-            class="nav-buttons__inner-button"
-            [text]="'Next'"
-            [icon]="'arrow-left'"
-            [kind]="'SECONDARY'"
-          ></button>
         </a>
       }
     </div>
@@ -103,17 +96,13 @@
     <div class="col-xl-2 col-lg-3 col-md-4 col-5 nav-buttons__button-container">
       @if (diaryentry().adjacent_diaryentries.prior_diaryentry) {
         <a
+          btn
           class="nav-buttons__button nav-buttons__button--right"
           [routerLink]="priorDiaryentryUrl()"
-          tabindex="-1"
+          [text]="'Back'"
+          [icon]="'arrow-right'"
+          [kind]="'SECONDARY'"
         >
-          <button
-            btn
-            class="nav-buttons__inner-button"
-            [text]="'Back'"
-            [icon]="'arrow-right'"
-            [kind]="'SECONDARY'"
-          ></button>
         </a>
       }
     </div>

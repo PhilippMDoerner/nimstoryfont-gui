@@ -16,6 +16,7 @@ import {
   ImageGridComponent,
   ImageGridEntry,
 } from 'src/app/design/organisms/image-grid/image-grid.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 
 @Component({
   selector: 'app-campaign-overview',
@@ -27,6 +28,7 @@ import {
     RouterLink,
     ImageGridComponent,
     SpinnerComponent,
+    ButtonLinkComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

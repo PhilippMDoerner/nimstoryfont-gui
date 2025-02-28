@@ -1,16 +1,4 @@
 <div class="list">
-  @if (canCreate()) {
-    <div class="list__button-row">
-      <button
-        btn
-        class="button-row__button"
-        [kind]="'PRIMARY'"
-        [text]="'Add quote'"
-        [icon]="'plus'"
-      ></button>
-    </div>
-  }
-
   <div class="list__row">
     @if (isCreatingQuote()) {
       <app-quote-field

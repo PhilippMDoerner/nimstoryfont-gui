@@ -1,0 +1,16 @@
+@import "/src/screens.scss";
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacer-1);
+}
+
+.btn {
+  &__text {
+    &--large {
+      font-weight: bold;
+    }
+  }
+}

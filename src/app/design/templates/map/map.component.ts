@@ -11,7 +11,7 @@ import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent } from '../../atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { ChoiceSelectComponent } from '../../molecules/choice-select/choice-select.component';
@@ -25,7 +25,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
   imports: [
     PageContainerComponent,
     RouterLink,
-    ButtonComponent,
+    ButtonLinkComponent,
     ChoiceSelectComponent,
     NgxLeafletMapComponent,
     NgTemplateOutlet,

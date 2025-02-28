@@ -7,7 +7,6 @@ import {
   input,
   Output,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
 
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { BadgeComponent } from 'src/app/design/atoms/badge/badge.component';
@@ -44,7 +43,6 @@ type CreateOptions<T> =
     InteractiveBadgeComponent,
     NgTemplateOutlet,
     BadgeComponent,
-    RouterLink,
   ],
 })
 export class BadgeListComponent<T, O> {

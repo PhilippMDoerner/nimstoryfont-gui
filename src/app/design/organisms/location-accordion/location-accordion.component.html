@@ -2,27 +2,26 @@
   Locations of Interest
 
   @if (canCreate()) {
-    <a class="create-button" [routerLink]="createUrl()" tabindex="-1">
-      <button
-        btn
-        title="Create Location"
-        [kind]="'PRIMARY'"
-        [size]="'SMALL'"
-        [icon]="'plus'"
-      ></button>
+    <a
+      btn
+      title="Create Location"
+      [kind]="'PRIMARY'"
+      [size]="'SMALL'"
+      [icon]="'plus'"
+      class="create-button"
+      [routerLink]="createUrl()"
+    >
     </a>
   }
 </h4>
 
 <div ngbAccordion [closeOthers]="true">
-  @for (entry of accordionEntries(); track entry.value.pk) {
+  @for (entry of locations(); track entry.pk) {
     <div ngbAccordionItem [id]="'static-' + $index">
       <!-- Header -->
       <div ngbAccordionHeader class="button-container">
-        <button ngbAccordionButton>
-          <a class="location-title" [routerLink]="entry.link">
-            {{ entry.value.name }}
-          </a>
+        <button class="button-container__button fw-bold" ngbAccordionButton>
+          {{ entry.name }}
         </button>
       </div>
 
@@ -30,7 +29,7 @@
       <div ngbAccordionCollapse>
         <div ngbAccordionBody>
           <app-location
-            [location]="entry.value"
+            [location]="entry"
             [campaignCharacters]="campaignCharacters()"
           />
         </div>

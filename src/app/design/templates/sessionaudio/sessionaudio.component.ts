@@ -9,11 +9,11 @@ import {
 import { RouterLink } from '@angular/router';
 import { SessionAudio, Timestamp } from 'src/app/_models/sessionAudio';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { ArticleFooterComponent } from 'src/app/design/molecules';
 import { PageContainerComponent } from 'src/app/design/organisms/page-container/page-container.component';
 import { SessionaudioPlayerComponent } from 'src/app/design/organisms/sessionaudio-player/sessionaudio-player.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 
 @Component({
   selector: 'app-sessionaudio',
@@ -23,7 +23,7 @@ import { SessionaudioPlayerComponent } from 'src/app/design/organisms/sessionaud
   imports: [
     PageContainerComponent,
     IconComponent,
-    ButtonComponent,
+    ButtonLinkComponent,
     RouterLink,
     SessionaudioPlayerComponent,
     ArticleFooterComponent,

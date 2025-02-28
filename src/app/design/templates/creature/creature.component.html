@@ -2,8 +2,12 @@
   <article class="container creature">
     @if (canUpdate()) {
       <div class="creature__edit-container">
-        <a [routerLink]="updateUrl()" tabindex="-1">
-          <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
+        <a
+          btn
+          [routerLink]="updateUrl()"
+          [icon]="'pencil'"
+          [kind]="'SECONDARY'"
+        >
         </a>
       </div>
     }

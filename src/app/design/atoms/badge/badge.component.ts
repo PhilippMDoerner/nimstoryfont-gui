@@ -7,7 +7,8 @@ import {
   input,
   Output,
 } from '@angular/core';
-import { ElementKind } from '../_models/button';
+import { RouterLink } from '@angular/router';
+import { ElementKind, InteractionMode } from '../_models/button';
 import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
 
@@ -15,14 +16,15 @@ import { IconComponent } from '../icon/icon.component';
   selector: 'app-badge',
   templateUrl: './badge.component.html',
   styleUrls: ['./badge.component.scss'],
-  imports: [NgTemplateOutlet, NgClass, IconComponent],
+  imports: [NgTemplateOutlet, NgClass, IconComponent, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BadgeComponent {
   kind = input.required<ElementKind>();
   text = input.required<string>();
   icon = input<Icon>();
-  clickable = input(false);
+  interactionMode = input<InteractionMode>('NONE');
+  link = input<string>();
   maxLength = input<number | undefined>();
 
   displayedText = computed(() => {

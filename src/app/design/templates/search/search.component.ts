@@ -8,23 +8,23 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
 import { AsyncPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { OnlineService } from 'src/app/_services/online.service';
-import { ButtonComponent } from '../../atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { SearchHitComponent } from '../../organisms/search-hit/search-hit.component';
 
 @Component({
-    selector: 'app-search',
-    templateUrl: './search.component.html',
-    styleUrls: ['./search.component.scss'],
-    imports: [
-        PageContainerComponent,
-        SidebarLegendComponent,
-        SearchHitComponent,
-        RouterLink,
-        ButtonComponent,
-        SearchFieldComponent,
-        AsyncPipe,
-    ]
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.scss'],
+  imports: [
+    PageContainerComponent,
+    SidebarLegendComponent,
+    SearchHitComponent,
+    RouterLink,
+    ButtonLinkComponent,
+    SearchFieldComponent,
+    AsyncPipe,
+  ],
 })
 export class SearchComponent {
   isOnline$ = inject(OnlineService).online$;

@@ -9,6 +9,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { AuthStore } from 'src/app/auth.store';
+import { ButtonLinkComponent } from 'src/app/design/atoms/button-link/button-link.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { ErrorType } from 'src/app/general/_models/error';
 import { GlobalStore } from 'src/app/global.store';
@@ -64,7 +65,13 @@ const ERROR_CONTENT: { [key: number]: ErrorType } = {
 
 @Component({
   selector: 'app-error-page',
-  imports: [AsyncPipe, RouterLink, NgTemplateOutlet, ButtonComponent],
+  imports: [
+    AsyncPipe,
+    RouterLink,
+    NgTemplateOutlet,
+    ButtonComponent,
+    ButtonLinkComponent,
+  ],
   templateUrl: './error-page.component.html',
   styleUrl: './error-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

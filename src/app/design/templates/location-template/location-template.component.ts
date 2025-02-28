@@ -16,7 +16,7 @@ import { BadgeListEntry, ListEntry } from '../../molecules';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../../atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
 import { BreadcrumbListComponent } from '../../molecules/breadcrumb-list/breadcrumb-list.component';
@@ -33,7 +33,7 @@ import { BreadcrumbEntry } from '../_models/breadcrumb-entry';
   imports: [
     PageContainerComponent,
     RouterLink,
-    ButtonComponent,
+    ButtonLinkComponent,
     ImageCarouselCardComponent,
     BadgeListComponent,
     EditableTextComponent,

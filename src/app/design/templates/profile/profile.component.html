@@ -82,14 +82,15 @@
 
     <div class="mt-5 row justify-content-between">
       <div class="col-md-3">
-        <a [routerLink]="backUrl()" class="w-100">
-          <button
-            btn
-            [kind]="'SECONDARY'"
-            [text]="
-              campaignName ? 'Back To ' + campaignName : 'Back to Campaigns'
-            "
-          ></button>
+        <a
+          btn
+          class="w-100"
+          [routerLink]="backUrl()"
+          [kind]="'SECONDARY'"
+          [text]="
+            campaignName ? 'Back To ' + campaignName : 'Back to Campaigns'
+          "
+        >
         </a>
       </div>
 

@@ -2,8 +2,12 @@
   <article class="container quest">
     @if (canUpdate()) {
       <div class="quest__edit-container">
-        <a [routerLink]="updateUrl()" tabindex="-1">
-          <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
+        <a
+          btn
+          [icon]="'pencil'"
+          [kind]="'SECONDARY'"
+          [routerLink]="updateUrl()"
+        >
         </a>
       </div>
     }

@@ -10,7 +10,7 @@
         [text]="selectedLabel"
         [title]="'Clear this option'"
         [icon]="'times'"
-        [clickable]="true"
+        [interactionMode]="'BUTTON'"
         (badgeClick)="htmlBadgeClickEvents$.next()"
         (click)="$event.stopPropagation()"
       />

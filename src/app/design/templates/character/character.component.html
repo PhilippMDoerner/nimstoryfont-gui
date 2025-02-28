@@ -2,13 +2,13 @@
   <article class="container character">
     @if (canUpdate()) {
       <div class="character__edit-container">
-        <a [routerLink]="updateUrl()" tabindex="-1">
-          <button
-            btn
-            [title]="'Edit ' + character().name"
-            [icon]="'pencil'"
-            [kind]="'SECONDARY'"
-          ></button>
+        <a
+          btn
+          [title]="'Edit ' + character().name"
+          [icon]="'pencil'"
+          [kind]="'SECONDARY'"
+          [routerLink]="updateUrl()"
+        >
         </a>
       </div>
     }

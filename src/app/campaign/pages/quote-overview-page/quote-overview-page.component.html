@@ -25,13 +25,12 @@
         (connectionDelete)="store.deleteQuoteConnection($event)"
       />
       <div class="mt-3">
-        <a class="back-link" [routerLink]="characterUrl()">
-          <button
-            btn
-            class="back-link__button"
-            [kind]="'SECONDARY'"
-            [text]="'Back to ' + store.character()?.name"
-          ></button>
+        <a
+          btn
+          [kind]="'SECONDARY'"
+          [text]="'Back to ' + store.character()?.name"
+          [routerLink]="characterUrl()"
+        >
         </a>
       </div>
     </article>

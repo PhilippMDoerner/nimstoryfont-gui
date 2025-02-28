@@ -2,8 +2,7 @@
   <article class="container marker">
     @if (canUpdate) {
       <div class="marker__edit-container">
-        <a [routerLink]="updateUrl">
-          <button btn [icon]="'pencil'" [kind]="'SECONDARY'"></button>
+        <a [routerLink]="updateUrl" btn [icon]="'pencil'" [kind]="'SECONDARY'">
         </a>
       </div>
     }

@@ -7,28 +7,22 @@ import {
 import { ButtonKind, ElementSize } from '../_models/button';
 import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
-import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
-  selector: 'button[btn]',
-  templateUrl: './button.component.html',
-  styleUrls: ['./button.component.scss'],
+  selector: 'a[btn]',
+  imports: [IconComponent],
+  templateUrl: './button-link.component.html',
+  styleUrl: './button-link.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [IconComponent, SpinnerComponent],
   host: {
     '[class]': 'classes()',
-    '[type]': 'type()',
-    '[disabled]': 'isLoading() || disabled()',
   },
 })
-export class ButtonComponent {
+export class ButtonLinkComponent {
   kind = input.required<ButtonKind>();
   text = input<string>();
   icon = input<Icon>();
   size = input<ElementSize>('MEDIUM');
-  type = input<'button' | 'reset' | 'submit'>('button');
-  isLoading = input<boolean>(false);
-  disabled = input<boolean>(false);
 
   sizeClass = computed(() => {
     switch (this.size()) {

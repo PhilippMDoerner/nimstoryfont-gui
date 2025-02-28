@@ -6,6 +6,7 @@ import {
   Output,
   signal,
 } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import {
   Spell,
@@ -13,23 +14,22 @@ import {
   SpellRaw,
 } from 'src/app/_models/spell';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
+import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { SpellsComponent } from '../../organisms/spells/spells.component';
-import { RouterLink } from '@angular/router';
-import { ButtonComponent } from '../../atoms/button/button.component';
 
 @Component({
-    selector: 'app-spells-template',
-    templateUrl: './spells-template.component.html',
-    styleUrls: ['./spells-template.component.scss'],
-    imports: [
-        PageContainerComponent,
-        BadgeComponent,
-        SpellsComponent,
-        RouterLink,
-        ButtonComponent,
-    ]
+  selector: 'app-spells-template',
+  templateUrl: './spells-template.component.html',
+  styleUrls: ['./spells-template.component.scss'],
+  imports: [
+    PageContainerComponent,
+    BadgeComponent,
+    SpellsComponent,
+    RouterLink,
+    ButtonLinkComponent,
+  ],
 })
 export class SpellsTemplateComponent {
   campaignName = input.required<string>();

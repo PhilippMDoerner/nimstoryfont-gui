@@ -3,16 +3,17 @@
     <h1 class="heading">Recordings</h1>
 
     @if (store.hasWritePermission()) {
-      <a class="create-button" [routerLink]="createUrl()" #createLink>
-        <button
-          btn
-          [kind]="'PRIMARY'"
-          [icon]="'plus'"
-          [text]="'Add Recording'"
-          [hotkey]="'c'"
-          (hotkeyPressed)="createLink.click()"
-        ></button>
-      </a>
+      <a
+        class="create-button"
+        btn
+        #createLink
+        [kind]="'PRIMARY'"
+        [icon]="'plus'"
+        [text]="'Add Recording'"
+        [routerLink]="createUrl()"
+        [hotkey]="'c'"
+        (hotkeyPressed)="routingService.routeToPath(createUrl())"
+      ></a>
     }
 
     <div class="row">
@@ -25,13 +26,13 @@
       }
     </div>
     <div class="mt-3">
-      <a class="back-link" [routerLink]="homeUrl()">
-        <button
-          btn
-          class="back-link__button"
-          [kind]="'SECONDARY'"
-          [text]="'Back to frontpage'"
-        ></button>
+      <a
+        btn
+        class="back-link"
+        [kind]="'SECONDARY'"
+        [text]="'Back to frontpage'"
+        [routerLink]="homeUrl()"
+      >
       </a>
     </div>
   </article>

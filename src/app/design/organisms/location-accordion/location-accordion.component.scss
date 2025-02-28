@@ -3,3 +3,16 @@
   width: fit-content;
   margin-left: var(--spacer-3);
 }
+
+.button-container {
+  &__button {
+    color: unset;
+
+    &:focus,
+    &:focus-within,
+    &:hover,
+    &:focus-visible {
+      outline: var(--focus-outline);
+    }
+  }
+}

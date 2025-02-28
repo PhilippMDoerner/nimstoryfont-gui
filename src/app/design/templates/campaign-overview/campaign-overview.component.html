@@ -1,32 +1,34 @@
 <div class="container">
   <div class="campaign__heading heading">
     <div class="heading__buttons">
-      <a (click)="logout.emit()" class="heading__button">
-        <button
-          btn
-          [kind]="'SECONDARY'"
-          [icon]="'sign-out-alt'"
-          [text]="'Logout'"
-        ></button>
-      </a>
+      <button
+        btn
+        class="heading__button"
+        [kind]="'SECONDARY'"
+        [icon]="'sign-out-alt'"
+        [text]="'Logout'"
+        (click)="logout.emit()"
+      ></button>
 
       @if (isGlobalAdmin()) {
-        <a [routerLink]="generalAdminUrl()" class="heading__button">
-          <button
-            btn
-            [kind]="'INFO'"
-            [icon]="'user-cog'"
-            [text]="'General Administration'"
-          ></button>
+        <a
+          btn
+          class="heading__button"
+          [kind]="'INFO'"
+          [icon]="'user-cog'"
+          [text]="'General Administration'"
+          [routerLink]="generalAdminUrl()"
+        >
         </a>
 
-        <a [routerLink]="configTableUrl()" class="heading__button">
-          <button
-            btn
-            [kind]="'INFO'"
-            [icon]="'table'"
-            [text]="'Config Tables'"
-          ></button>
+        <a
+          btn
+          class="heading__button"
+          [kind]="'INFO'"
+          [icon]="'table'"
+          [text]="'Config Tables'"
+          [routerLink]="configTableUrl()"
+        >
         </a>
       }
     </div>

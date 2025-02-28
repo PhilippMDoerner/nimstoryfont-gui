@@ -23,7 +23,7 @@ import {
 } from 'src/app/_models/playerclass';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { RoutingService } from 'src/app/_services/routing.service';
-import { ButtonComponent } from '../../atoms/button/button.component';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { InfoCircleTooltipComponent } from '../../atoms/info-circle-tooltip/info-circle-tooltip.component';
 import { BadgeListEntry, ListEntry } from '../../molecules';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
@@ -42,7 +42,7 @@ import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.com
   imports: [
     PageContainerComponent,
     RouterLink,
-    ButtonComponent,
+    ButtonLinkComponent,
     ImageCarouselCardComponent,
     QuoteFieldComponent,
     BadgeListComponent,

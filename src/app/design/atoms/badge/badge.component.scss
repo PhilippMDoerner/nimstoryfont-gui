@@ -5,15 +5,12 @@
 .badge-button {
   border-radius: var(--bs-border-radius);
   display: flex;
+  text-decoration: none;
 
   &:focus,
-  &:focus-within,
   &:hover {
     outline: var(--focus-outline);
-
-    .badge {
-      color: inherit;
-    }
+    color: inherit;
   }
 }
 

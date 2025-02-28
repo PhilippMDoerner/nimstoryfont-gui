@@ -56,6 +56,7 @@ export class PageComponent {
   host = inject(ElementRef);
 
   serverUrl = input.required<string>();
+  contentId = input.required<string>();
 
   @Output() logout: EventEmitter<void> = new EventEmitter();
 

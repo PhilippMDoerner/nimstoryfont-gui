@@ -1,4 +1,22 @@
-<app-page [serverUrl]="serverUrl" (logout)="logout()"></app-page>
+@let contentId = "main-content";
+@let currentUrl = currentUrl$ | async;
+
+<a
+  class="skip-to-content fw-bold fs-4"
+  [href]="currentUrl ? currentUrl + '#' + contentId : undefined"
+>
+  @if (!currentUrl) {
+    Failed to build skip-url. Please reload the page
+  } @else {
+    Skip to content
+  }
+</a>
+
+<app-page
+  [serverUrl]="serverUrl"
+  [contentId]="contentId"
+  (logout)="logout()"
+></app-page>
 <app-toast-overlay></app-toast-overlay>
 
 <app-hotkey-modal class="d-none" />

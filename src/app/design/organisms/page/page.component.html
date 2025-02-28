@@ -31,7 +31,9 @@
     >
       <app-icon [icon]="'arrow-up-long'" />
     </button>
-    <router-outlet #routerOutlet></router-outlet>
+    <main [id]="contentId()" tabindex="0">
+      <router-outlet #routerOutlet></router-outlet>
+    </main>
   </div>
 
   <app-page-background

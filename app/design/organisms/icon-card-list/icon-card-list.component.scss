@@ -10,5 +10,7 @@
   &__link {
     font-weight: unset;
     text-decoration: unset;
+    display: block;
+    border-radius: var(--bs-border-radius);
   }
 }

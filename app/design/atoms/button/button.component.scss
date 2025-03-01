@@ -6,6 +6,10 @@
   justify-content: center;
   gap: var(--spacer-1);
 
+  &:focus-visible {
+    outline: var(--focus-outline);
+  }
+
   :disabled {
     cursor: not-allowed;
   }

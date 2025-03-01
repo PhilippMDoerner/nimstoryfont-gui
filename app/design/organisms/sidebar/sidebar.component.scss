@@ -105,6 +105,7 @@ a {
       color: var(--entry-hover-color);
       background-color: var(--entry-hover-bg-color);
       height: var(--brand-height);
+      border-bottom-right-radius: var(--bs-border-radius);
     }
   }
 
@@ -135,6 +136,7 @@ a {
     :focus-visible {
       color: var(--entry-hover-color) !important;
       background-color: var(--entry-hover-bg-color);
+      border-bottom-left-radius: var(--bs-border-radius);
     }
   }
 

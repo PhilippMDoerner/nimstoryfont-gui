@@ -24095,7 +24095,11 @@ a,
   text-decoration-style: dashed;
 }
 
-.a:focus, .a:focus-within, .a:hover, .a:focus-visible {
+.a:focus, .a:focus-within, .a:hover, .a:focus-visible,
+a:focus,
+a:focus-within,
+a:hover,
+a:focus-visible {
   outline: var(--focus-outline);
 }
 

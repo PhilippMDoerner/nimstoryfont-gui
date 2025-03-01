@@ -19,8 +19,10 @@
 }
 
 button {
-  outline: unset;
-  &:hover {
+  &:hover,
+  &:focus-visible {
     color: var(--bs-white);
+    outline: 3px solid var(--bs-link-hover-color);
+    outline-offset: -3px;
   }
 }

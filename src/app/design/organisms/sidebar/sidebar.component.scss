@@ -68,9 +68,8 @@ a {
     font-weight: bold;
     font-size: large;
     width: 100%;
+    outline: none;
 
-    &:focus,
-    &:focus-within,
     &:focus-visible {
       outline: var(--focus-outline);
     }
@@ -98,6 +97,7 @@ a {
   &__back {
     :focus-visible {
       outline: var(--focus-outline);
+      border-bottom-right-radius: var(--bs-border-radius);
     }
 
     :hover,
@@ -105,7 +105,6 @@ a {
       color: var(--entry-hover-color);
       background-color: var(--entry-hover-bg-color);
       height: var(--brand-height);
-      border-bottom-right-radius: var(--bs-border-radius);
     }
   }
 
@@ -117,6 +116,11 @@ a {
     padding-right: var(--spacer-3);
     padding-left: var(--spacer-3);
     border-right: solid 2px var(--bs-white);
+    outline: none;
+
+    &:focus-visible {
+      outline: var(--focus-outline);
+    }
   }
 
   &__back-icon {
@@ -147,6 +151,11 @@ a {
     display: flex;
     align-items: center;
     height: 100%;
+    outline: none;
+
+    &:focus-visible {
+      outline: var(--focus-outline);
+    }
   }
 
   &__home-link-text {

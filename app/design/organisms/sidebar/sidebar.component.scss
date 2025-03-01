@@ -35,7 +35,7 @@ a {
 
   &__entries {
     list-style-type: none;
-    margin: 0;
+    margin: var(--spacer-1) 0 0 0;
     padding: 0;
     flex: 1;
   }
@@ -53,7 +53,8 @@ a {
 
 .entry {
   &--active,
-  :hover {
+  :hover,
+  :focus-visible {
     color: var(--entry-hover-color);
     background-color: var(--entry-hover-bg-color);
   }
@@ -66,19 +67,17 @@ a {
     height: 2.75rem;
     font-weight: bold;
     font-size: large;
+    width: 100%;
+
+    &:focus,
+    &:focus-within,
+    &:focus-visible {
+      outline: var(--focus-outline);
+    }
 
     &--disabled {
       color: var(--bs-gray-600);
       pointer-events: none;
-    }
-
-    &--button {
-      width: 100%;
-      &:focus,
-      &:focus-within,
-      &:focus-visible {
-        outline: var(--focus-outline);
-      }
     }
   }
 
@@ -97,7 +96,12 @@ a {
   flex: 1;
 
   &__back {
-    :hover {
+    :focus-visible {
+      outline: var(--focus-outline);
+    }
+
+    :hover,
+    :focus-visible {
       color: var(--entry-hover-color);
       background-color: var(--entry-hover-bg-color);
       height: var(--brand-height);
@@ -123,7 +127,12 @@ a {
     height: var(--brand-height);
     flex: 1;
 
-    :hover {
+    :focus-visible {
+      outline: var(--focus-outline);
+    }
+
+    :hover,
+    :focus-visible {
       color: var(--entry-hover-color) !important;
       background-color: var(--entry-hover-bg-color);
     }

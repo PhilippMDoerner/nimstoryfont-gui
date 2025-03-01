@@ -69,6 +69,7 @@ a {
     font-size: large;
     width: 100%;
     outline: none;
+    border-radius: 0;
 
     &:focus-visible {
       outline: var(--focus-outline);

@@ -27,7 +27,8 @@ a,
   text-decoration-style: dashed;
 }
 
-.a {
+.a,
+a {
   &:focus,
   &:focus-within,
   &:hover,

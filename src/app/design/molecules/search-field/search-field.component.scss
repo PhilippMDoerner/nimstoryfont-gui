@@ -24,6 +24,11 @@ input[type="search"]::-webkit-search-results-decoration {
     border: solid 2px var(--bs-white);
     border-radius: var(--bs-border-radius);
 
+    &:focus,
+    &:focus-within {
+      border-color: var(--bs-link-hover-color);
+    }
+
     &--disabled {
       cursor: not-allowed;
     }

@@ -70,6 +70,9 @@
     background-color: var(--bs-secondary);
     border-radius: var(--bs-border-radius);
     color: var(--bs-white);
+    &:focus-visible {
+      outline: var(--focus-outline);
+    }
   }
 }
 

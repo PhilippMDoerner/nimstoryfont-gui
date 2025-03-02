@@ -56,7 +56,11 @@
                 "input": "node_modules/leaflet/dist/images",
                 "output": "assets/"
               },
-              "src/public/manifest.webmanifest"
+              {
+                "glob": "**/*",
+                "input": "public",
+                "output": ""
+              }
             ],
             "styles": [
               "src/styles.scss",

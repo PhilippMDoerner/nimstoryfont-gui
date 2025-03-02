@@ -1,11 +1,17 @@
 {
   "name": "nimstoryfont-gui",
   "short_name": "nimstoryfont-gui",
+  "id": "/v2",
   "theme_color": "#1b1f22",
   "background_color": "#fff",
   "display": "standalone",
   "scope": "./",
   "start_url": "./wiki2",
+  "categories": [
+    "entertainment"
+  ],
+  "description": "Write easily searchable notes for your Pen&Paper stories",
+  "orientation": "portrait-primary",
   "icons": [
     {
       "src": "icons/icon-72x72.png",

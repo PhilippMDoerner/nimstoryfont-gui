@@ -118,7 +118,7 @@ a {
     padding-left: var(--spacer-3);
     border-right: solid 2px var(--bs-white);
     outline: none;
-    border-radius: var(--bs-border-radius);
+    border-radius: 0;
 
     &:focus-visible {
       outline: var(--focus-outline);
@@ -154,6 +154,7 @@ a {
     align-items: center;
     height: 100%;
     outline: none;
+    border-radius: 0;
 
     &:focus-visible {
       outline: var(--focus-outline);

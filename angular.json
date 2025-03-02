@@ -56,7 +56,7 @@
                 "input": "node_modules/leaflet/dist/images",
                 "output": "assets/"
               },
-              "src/manifest.webmanifest"
+              "src/public/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.scss",

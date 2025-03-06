@@ -37,7 +37,7 @@
   <div class="offcanvas-body">
     <ul class="sidebar__entries">
       <!-- Campaign Overview Entries -->
-      @for (entry of sidebarEntries(); track $index) {
+      @for (entry of sidebarEntries(); track entry.title) {
         @let isEntryDisabled =
           (online$ | async) === false && !entry.availableOffline;
         <li
@@ -59,6 +59,18 @@
           </a>
         </li>
       }
+
+      @if ((pwaService.canInstall$ | async) === true) {
+        <li class="sidebar__entry entry">
+          <button
+            class="entry__link entry__link--install-button"
+            (click)="pwaService.showInstallPrompt()"
+          >
+            <app-icon class="entry__icon" [icon]="'file-arrow-down'"></app-icon>
+            Install App
+          </button>
+        </li>
+      }
     </ul>
 
     <!-- Logout -->
@@ -71,7 +83,6 @@
       </li>
       <li class="sidebar__entry entry">
         <button
-          btn
           class="entry__link entry__link--button btn-none"
           (click)="logout.emit()"
         >

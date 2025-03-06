@@ -4,11 +4,9 @@ import {
   Component,
   computed,
   ElementRef,
-  EventEmitter,
   inject,
   input,
   output,
-  Output,
   Signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -21,6 +19,7 @@ import { filter } from 'rxjs';
 import { Campaign } from 'src/app/_models/campaign';
 import { NamedRouteData } from 'src/app/_models/route';
 import { OnlineService } from 'src/app/_services/online.service';
+import { PwaService } from 'src/app/_services/pwa.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
 import { TitleService } from 'src/app/_services/utils/title.service';
@@ -47,28 +46,29 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent {
-  authStore = inject(AuthStore);
-  routingService = inject(RoutingService);
-  swipeService = inject(SwipeService);
-  titleService = inject(TitleService);
-  host = inject(ElementRef);
-  activeOffcanvas = inject(NgbActiveOffcanvas);
-  online$ = inject(OnlineService).online$;
-  sidebarSwipesLeft$ = this.swipeService
+  readonly pwaService = inject(PwaService);
+  readonly authStore = inject(AuthStore);
+  readonly routingService = inject(RoutingService);
+  readonly swipeService = inject(SwipeService);
+  readonly titleService = inject(TitleService);
+  readonly host = inject(ElementRef);
+  readonly activeOffcanvas = inject(NgbActiveOffcanvas);
+  readonly online$ = inject(OnlineService).online$;
+  readonly sidebarSwipesLeft$ = this.swipeService
     .getSwipeEvents(this.host)
     .pipe(filter((swipeDistance) => swipeDistance < SWIPE_X_THRESHOLD * -1));
-  currentRoute = inject(NavigationStore).currentRoute;
-  activeRouteName = computed(
+  readonly currentRoute = inject(NavigationStore).currentRoute;
+  readonly activeRouteName = computed(
     () => (this.currentRoute()?.data as NamedRouteData | undefined)?.name,
   );
-  campaign = input<Campaign | undefined>(undefined);
-  hasCampaignAdminPrivileges = input<boolean>(false);
+  readonly campaign = input<Campaign | undefined>(undefined);
+  readonly hasCampaignAdminPrivileges = input<boolean>(false);
 
-  @Output() logout: EventEmitter<null> = new EventEmitter();
-  closeSidebar = output<void>();
+  readonly logout = output<void>();
+  readonly closeSidebar = output<void>();
 
-  serverUrl = environment.backendDomain;
-  sidebarEntries: Signal<ArticleMetaData[]> = computed(() => {
+  readonly serverUrl = environment.backendDomain;
+  readonly sidebarEntries: Signal<ArticleMetaData[]> = computed(() => {
     const campaignName = this.campaign()?.name;
     if (!campaignName) return [];
     const currentRole = this.authStore.getCampaignRole(campaignName);
@@ -94,20 +94,20 @@ export class SidebarComponent {
     });
   });
 
-  campaignOverviewUrl: string =
+  readonly campaignOverviewUrl: string =
     this.routingService.getRoutePath('campaign-overview');
 
-  campaignAdminUrl = computed(() => {
+  readonly campaignAdminUrl = computed(() => {
     return this.routingService.getRoutePath('campaign-admin', {
       campaign: this.campaign()?.name,
     });
   });
-  homeUrl = computed(() => {
+  readonly homeUrl = computed(() => {
     return this.routingService.getRoutePath('home', {
       campaign: this.campaign()?.name,
     });
   });
-  profileUrl = this.routingService.getRoutePath('direct-profile');
+  readonly profileUrl = this.routingService.getRoutePath('direct-profile');
 
   constructor() {
     this.sidebarSwipesLeft$

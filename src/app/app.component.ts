@@ -12,6 +12,7 @@ import { fadeOut } from 'src/app/design/animations/fadeIn';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
 import { filterNil } from 'src/utils/rxjs-operators';
+import { BeforeInstallPromptEvent, PwaService } from './_services/pwa.service';
 import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
@@ -33,10 +34,12 @@ import { ServiceWorkerService } from './service-worker.service';
   ],
   host: {
     '[@.disabled]': 'disableAnimation()',
+    '(window:beforeinstallprompt)': 'fireEvent($event)',
   },
   animations: [fadeOut],
 })
 export class AppComponent {
+  readonly pwaService = inject(PwaService);
   readonly globalStore = inject(GlobalStore);
   readonly authStore = inject(AuthStore);
   readonly tokenService = inject(TokenService);
@@ -64,6 +67,10 @@ export class AppComponent {
 
   logout(): void {
     this.authStore.logout();
+  }
+
+  fireEvent(event: BeforeInstallPromptEvent) {
+    this.pwaService.storeInstallEvent(event);
   }
 
   private trackAnimationSetting() {

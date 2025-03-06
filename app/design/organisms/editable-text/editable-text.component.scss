@@ -19,6 +19,7 @@
     &:hover {
       border-radius: var(--bs-border-radius);
       outline: var(--focus-outline);
+      outline-offset: 4px;
     }
   }
 }
@@ -33,6 +34,7 @@
 
     &:focus,
     &:hover {
+      outline-offset: 4px;
       color: unset;
       background-color: var(--bs-secondary);
     }

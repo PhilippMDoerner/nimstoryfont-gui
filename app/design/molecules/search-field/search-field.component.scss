@@ -46,4 +46,10 @@ input[type="search"]::-webkit-search-results-decoration {
       cursor: not-allowed;
     }
   }
+
+  &__button {
+    &--disabled {
+      cursor: not-allowed;
+    }
+  }
 }

@@ -24101,6 +24101,7 @@ a:focus-within,
 a:hover,
 a:focus-visible {
   outline: var(--focus-outline);
+  border-radius: var(--bs-border-radius);
 }
 
 .btn {

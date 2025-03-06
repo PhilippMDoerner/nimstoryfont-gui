@@ -20,12 +20,14 @@
         (hotkeyPressed)="searchInput.focus()"
       />
 
+      @let canTriggerSearch = canSearch() && !!searchInput.value;
       <button
         btn
         class="search__button"
-        [attr.aria-label]="btnAriaLabel()"
-        [disabled]="!canSearch()"
-        [kind]="'PRIMARY'"
+        [ariaLabel]="btnAriaLabel()"
+        [ariaDisabled]="!canTriggerSearch"
+        [disabled]="!canTriggerSearch"
+        [kind]="canTriggerSearch ? 'PRIMARY' : 'PRIMARY-OUTLINE'"
         [icon]="'search'"
       ></button>
     </div>

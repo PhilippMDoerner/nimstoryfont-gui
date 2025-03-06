@@ -2,8 +2,11 @@ export function convertSingleFileModelToFormData(
   model: any,
   fileAttributeName: string = 'file',
 ): FormData {
-  if (!model.hasOwnProperty(fileAttributeName))
-    throw `Can't convert object to FormData! Your model does not have a ${fileAttributeName} property!`;
+  if (!model.hasOwnProperty(fileAttributeName)) {
+    throw new Error(
+      `Can't convert object to FormData! Your model does not have a ${fileAttributeName} property!`,
+    );
+  }
 
   const formData = new FormData();
   for (var key in model) {

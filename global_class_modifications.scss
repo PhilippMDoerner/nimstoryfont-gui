@@ -34,6 +34,7 @@ a {
   &:hover,
   &:focus-visible {
     outline: var(--focus-outline);
+    border-radius: var(--bs-border-radius);
   }
 }
 

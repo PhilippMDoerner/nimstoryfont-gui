@@ -34,6 +34,14 @@
     .card__img-link {
       flex: 1;
       display: flex;
+      outline: none;
+
+      &:focus-visible,
+      &:hover {
+        outline: var(--focus-outline);
+        outline-offset: -3px;
+        border-radius: 0;
+      }
     }
 
     .card-img-top {

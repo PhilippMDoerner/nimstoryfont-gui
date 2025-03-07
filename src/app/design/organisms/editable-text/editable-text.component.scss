@@ -14,8 +14,7 @@
   }
 
   &__edit-button {
-    &:focus,
-    &:focus-within,
+    &:focus-visible,
     &:hover {
       border-radius: var(--bs-border-radius);
       outline: var(--focus-outline);

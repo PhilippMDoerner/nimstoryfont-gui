@@ -29,9 +29,6 @@ a,
 
 .a,
 a {
-  &:focus,
-  &:focus-within,
-  &:hover,
   &:focus-visible {
     outline: var(--focus-outline);
     border-radius: var(--bs-border-radius);
@@ -54,9 +51,6 @@ button {
   cursor: pointer;
   outline: inherit;
 
-  &:focus,
-  &:focus-within,
-  &:hover,
   &:focus-visible {
     outline: var(--focus-outline);
   }

@@ -109,7 +109,9 @@ export class EditableTextComponent {
       .pipe(
         map(() => this.textModel),
         distinctUntilChanged(),
-        filter((newText) => this.text() !== newText),
+        filter(
+          (newText) => this.state() === 'UPDATE' && this.text() !== newText,
+        ),
         takeUntilDestroyed(),
       )
       .subscribe((newText) => this.update.emit(newText));

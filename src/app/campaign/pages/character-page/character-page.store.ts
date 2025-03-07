@@ -18,7 +18,6 @@ import {
   CharacterOrganizationMembership,
 } from 'src/app/_models/character';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
-import { Image } from 'src/app/_models/image';
 import { CharacterPlayerClassConnectionRaw } from 'src/app/_models/playerclass';
 import { Quote, QuoteConnection, QuoteRaw } from 'src/app/_models/quote';
 import { errorToast, httpErrorToast } from 'src/app/_models/toast';
@@ -42,15 +41,11 @@ import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 export interface CharacterPageState {
   encounterServerModel: Encounter | undefined;
-  characterQuote: Quote | undefined;
-  imageServerModel: Image | undefined;
   quoteServerModel: Quote | undefined;
 }
 
 const initialState: CharacterPageState = {
-  characterQuote: undefined,
   encounterServerModel: undefined,
-  imageServerModel: undefined,
   quoteServerModel: undefined,
 };
 

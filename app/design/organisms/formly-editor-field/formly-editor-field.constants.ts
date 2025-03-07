@@ -2,6 +2,7 @@ export const TINYMCE_SETTINGS = {
   plugins: [
     'advlist',
     'autolink',
+    'autosave',
     'lists',
     'link',
     'image',
@@ -15,7 +16,7 @@ export const TINYMCE_SETTINGS = {
     'wordcount',
   ],
   toolbar: [
-    'undo redo | formatselect | bold italic underline strikethrough subscript superscript link unlink blockquote | backcolor forecolor hilitecolor fontsizeselect |',
+    'restoredraft undo redo | formatselect | bold italic underline strikethrough subscript superscript link unlink blockquote | backcolor forecolor hilitecolor fontsizeselect |',
     'alignleft aligncenter alignright | bullist numlist outdent indent | removeformat | table help',
   ],
   skin: 'oxide-dark',

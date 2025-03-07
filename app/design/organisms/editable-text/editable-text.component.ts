@@ -3,8 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
-  ElementRef,
+  inject,
   input,
   output,
   signal,
@@ -13,11 +14,14 @@ import {
 import { FormsModule } from '@angular/forms';
 import { EditorComponent } from '@tinymce/tinymce-angular';
 
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { distinctUntilChanged, filter, interval, map, take } from 'rxjs';
 import { AlertComponent } from 'src/app/design/atoms/alert/alert.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
+import { componentId } from 'src/utils/DOM';
 import { TINYMCE_SETTINGS } from '../formly-editor-field/formly-editor-field.constants';
 
 type State = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
@@ -39,6 +43,8 @@ type State = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditableTextComponent {
+  destroyRef = inject(DestroyRef);
+
   text = input.required<string>();
   placeholder = input.required<string>();
   canUpdate = input.required<boolean>();
@@ -46,6 +52,7 @@ export class EditableTextComponent {
   heading = input<string>();
   update = output<string>();
 
+  editorId = componentId();
   settings = TINYMCE_SETTINGS;
   state = signal<State>('DISPLAY');
   textModel = '';
@@ -59,7 +66,7 @@ export class EditableTextComponent {
     }
   });
 
-  editorField = viewChild<ElementRef>('editor');
+  editorField = viewChild.required<EditorComponent>('editor');
 
   constructor() {
     effect(() => {
@@ -69,6 +76,8 @@ export class EditableTextComponent {
         this.state.set('OUTDATED_UPDATE');
       }
     });
+
+    this.startAutosaveBehavior();
   }
 
   toggleEdit() {
@@ -95,7 +104,24 @@ export class EditableTextComponent {
     this.state.set('DISPLAY');
   }
 
+  private startAutosaveBehavior() {
+    interval(10_000)
+      .pipe(
+        map(() => this.textModel),
+        distinctUntilChanged(),
+        filter(
+          (newText) => this.state() === 'UPDATE' && this.text() !== newText,
+        ),
+        takeUntilDestroyed(),
+      )
+      .subscribe((newText) => this.update.emit(newText));
+  }
+
   private focusField() {
-    setTimeout(() => (this.editorField() as any)._editor.focus(), 100);
+    interval(100)
+      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.editorField().editor.iframeElement?.focus();
+      });
   }
 }

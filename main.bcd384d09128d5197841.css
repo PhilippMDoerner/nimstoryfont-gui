@@ -24095,10 +24095,7 @@ a,
   text-decoration-style: dashed;
 }
 
-.a:focus, .a:focus-within, .a:hover, .a:focus-visible,
-a:focus,
-a:focus-within,
-a:hover,
+.a:focus-visible,
 a:focus-visible {
   outline: var(--focus-outline);
   border-radius: var(--bs-border-radius);
@@ -24120,10 +24117,7 @@ button {
   cursor: pointer;
   outline: inherit;
 }
-.btn-none:focus, .btn-none:focus-within, .btn-none:hover, .btn-none:focus-visible,
-button:focus,
-button:focus-within,
-button:hover,
+.btn-none:focus-visible,
 button:focus-visible {
   outline: var(--focus-outline);
 }

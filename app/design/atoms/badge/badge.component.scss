@@ -7,8 +7,7 @@
   display: flex;
   text-decoration: none;
 
-  &:focus,
-  &:hover {
+  &:focus-visible {
     outline: var(--focus-outline);
     color: inherit;
   }

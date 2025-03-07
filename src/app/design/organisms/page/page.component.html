@@ -18,7 +18,7 @@
 }
 
 <div class="page" #content>
-  <div class="page__content" #innerContent>
+  <div class="page__content">
     <button
       class="page__scrollup-indicator"
       [class.page__scrollup-indicator--visible]="
@@ -31,7 +31,7 @@
     >
       <app-icon [icon]="'arrow-up-long'" />
     </button>
-    <main class="page__main" [id]="contentId()">
+    <main #innerContent class="page__main" [id]="contentId()">
       <router-outlet #routerOutlet></router-outlet>
     </main>
   </div>

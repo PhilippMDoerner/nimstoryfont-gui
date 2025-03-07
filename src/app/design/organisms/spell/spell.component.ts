@@ -165,7 +165,7 @@ export class SpellComponent implements OnInit {
   ngOnInit(): void {
     const isInCreateScenario = this.spell()?.pk == null && this.canCreate();
     if (isInCreateScenario) {
-      this.changeState('CREATE', {} as Spell);
+      this.changeState('CREATE', this.spell());
     }
   }
 

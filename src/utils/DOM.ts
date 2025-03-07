@@ -11,3 +11,8 @@ export function getFirstFocusableChild(
     (child) => !child.hasAttribute('disabled'),
   )[0];
 }
+
+let nextId = 0;
+export function componentId(): string {
+  return `app-${nextId++}`;
+}

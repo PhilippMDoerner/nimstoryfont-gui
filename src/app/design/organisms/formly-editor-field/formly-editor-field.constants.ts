@@ -30,3 +30,5 @@ export const TINYMCE_SETTINGS = {
   base_url: '/tinymce',
   suffix: '.min',
 };
+
+export type EditorSettings = typeof TINYMCE_SETTINGS;

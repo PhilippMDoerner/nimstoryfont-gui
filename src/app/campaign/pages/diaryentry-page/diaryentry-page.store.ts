@@ -5,7 +5,6 @@ import {
   patchState,
   signalStore,
   withComputed,
-  withHooks,
   withMethods,
   withState,
 } from '@ngrx/signals';
@@ -26,7 +25,6 @@ import { LocationService } from 'src/app/_services/article/location.service';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { GlobalStore } from 'src/app/global.store';
 import { replaceItem, sortByProp } from 'src/utils/array';
-import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
@@ -353,13 +351,6 @@ export const DiaryentryPageStore = signalStore(
             error: (err: HttpErrorResponse) =>
               toastService.addToast(httpErrorToast(err)),
           });
-      },
-    };
-  }),
-  withHooks((store) => {
-    return {
-      onInit: () => {
-        log('DiaryEntryPageStore', store);
       },
     };
   }),

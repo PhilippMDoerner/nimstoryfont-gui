@@ -29,7 +29,7 @@
         [canDelete]="canDelete()"
         [canCreate]="canCreate()"
         [isInFocus]="isInFocus()"
-        [initialState]="encounter().pk == null ? 'CREATE' : 'DISPLAY'"
+        [initialCardState]="encounter().pk == null ? 'CREATE' : 'DISPLAY'"
         (connectionDelete)="connectionDelete.emit($event)"
         (connectionCreate)="connectionCreate.emit($event)"
         (encounterDelete)="encounterDelete.emit($event)"

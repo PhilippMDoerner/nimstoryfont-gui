@@ -29,12 +29,20 @@ export class HotkeyDirective {
 
   hotkey = input.required<string | undefined>();
   disabledHotkey = input<boolean>(false);
+  hotkeyDescription = input<string>();
 
   hotkeyPressed = output<{ event: KeyboardEvent; host: HTMLElement }>();
 
-  private tooltipText = computed(() =>
-    this.hotkey() ? `Alt + ${this.hotkey()?.toUpperCase()}` : undefined,
-  );
+  private tooltipText = computed(() => {
+    const hotkey = this.hotkey();
+    if (!hotkey) return undefined;
+
+    const hotkeyCombo = `Alt + ${hotkey.toUpperCase()}`;
+    const hotkeyDescription = this.hotkeyDescription();
+    if (!hotkeyDescription) return hotkeyCombo;
+
+    return `${hotkeyCombo}: ${hotkeyDescription}`;
+  });
 
   constructor() {
     if (inject(ScreenService).isMobile()) return;

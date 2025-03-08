@@ -8,22 +8,27 @@ import { MOBILE_WIDTH } from '../app.constants';
 })
 export class ScreenService {
   private document = inject(DOCUMENT);
-  public windowSize$ = this.document.defaultView
+  private resizeEvents$ = this.document.defaultView
     ? fromEvent<Event>(this.document.defaultView, 'resize', {
         passive: true,
       }).pipe(
         debounceTime(500),
-        map(() => this.document.defaultView?.innerWidth),
-        startWith(this.document.defaultView?.innerWidth),
+        map(() => this.document.defaultView),
+        startWith(this.document.defaultView),
       )
     : EMPTY;
+
+  public windowWidth$ = this.resizeEvents$.pipe(map((doc) => doc?.innerWidth));
+  public windowHeight$ = this.resizeEvents$.pipe(
+    map((doc) => doc?.innerHeight),
+  );
 
   public isMobile() {
     const windowWidth = this.document.defaultView?.innerWidth;
     return windowWidth ? windowWidth <= MOBILE_WIDTH : false;
   }
 
-  public isMobile$ = this.windowSize$.pipe(
+  public isMobile$ = this.windowWidth$.pipe(
     map((width) => width && width <= MOBILE_WIDTH),
   );
 }

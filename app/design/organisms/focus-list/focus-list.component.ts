@@ -136,7 +136,7 @@ export class FocusListComponent<T> {
         takeUntilDestroyed(),
       )
       .subscribe((itemWithFocus) => {
-        itemWithFocus.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        itemWithFocus.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
         const elementToFocus =
           getFirstFocusableChild(itemWithFocus) ?? itemWithFocus;

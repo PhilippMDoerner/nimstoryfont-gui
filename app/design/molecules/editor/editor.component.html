@@ -1,0 +1,98 @@
+<!-- Text Body -->
+@if (canUpdate()) {
+  <!-- Display Mode -->
+  <button
+    class="field field--display"
+    [class.field--hidden]="state() !== 'DISPLAY'"
+    (click)="startEdit()"
+  >
+    <ng-container *ngTemplateOutlet="textBody" />
+  </button>
+  <!-- Update Mode -->
+  <form
+    class="field field--update"
+    [class.field--hidden]="state() !== 'UPDATE'"
+    (submit)="finishEdit()"
+  >
+    @if (_settings().skin === "oxide-dark") {
+      <editor
+        #editor
+        [id]="editorId"
+        [init]="_settings()"
+        [name]="editorId"
+        [(ngModel)]="textModel"
+        class="mb-2"
+        (onKeyDown)="change$.next(textModel)"
+      ></editor>
+    }
+
+    <ng-container [ngTemplateOutlet]="formButtons" />
+  </form>
+
+  <!-- Outdated Update Mode -->
+  <div
+    class="field field--update"
+    [class.field--hidden]="state() !== 'OUTDATED_UPDATE'"
+  >
+    <!-- Informating heading -->
+    <app-alert [kind]="'INFO'">
+      <app-icon [icon]="'info-circle'"></app-icon>
+      While you were updating this article, somebody else went ahead and updated
+      it as well. Please include their changes in your update before submitting.
+    </app-alert>
+
+    <!-- Textfield-Form -->
+    <div class="flex-column card p-4">
+      <!-- Comparison text -->
+      <div>
+        <h3>Server Version</h3>
+        <app-html-text [text]="serverModel()!" />
+      </div>
+
+      <app-separator />
+
+      <!-- Actual edit form -->
+      <form (submit)="finishEdit()">
+        <h3>Your Version</h3>
+
+        <editor
+          [init]="_settings()"
+          [name]="editorId"
+          [id]="editorId"
+          [(ngModel)]="textModel"
+          class="mb-2"
+        ></editor>
+
+        <ng-container [ngTemplateOutlet]="formButtons" />
+      </form>
+    </div>
+  </div>
+} @else {
+  <ng-container *ngTemplateOutlet="textBody" />
+}
+
+<ng-template #formButtons>
+  <div class="field__buttons">
+    <button
+      btn
+      [icon]="'check'"
+      [text]="'Submit'"
+      [kind]="submitButtonKind()"
+      [type]="'submit'"
+    ></button>
+    <button
+      btn
+      [icon]="'times'"
+      [text]="'Cancel'"
+      [kind]="cancelButtonKind()"
+      [hotkey]="'q'"
+      [disabledHotkey]="disabledHotkeys()"
+      (hotkeyPressed)="cancelEdit()"
+      (click)="cancelEdit()"
+    ></button>
+  </div>
+</ng-template>
+
+<ng-template #textBody>
+  <app-html-text [text]="text() || placeholder()" />
+</ng-template>

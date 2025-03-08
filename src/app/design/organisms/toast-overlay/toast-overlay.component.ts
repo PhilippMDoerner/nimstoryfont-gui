@@ -1,3 +1,4 @@
+import { CdkTrapFocus } from '@angular/cdk/a11y';
 import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -38,16 +39,29 @@ export class ToastService {
 
 @Component({
   selector: 'app-toast-overlay',
-  imports: [NgbToastModule, ButtonComponent, IconComponent, NgTemplateOutlet],
+  imports: [
+    NgbToastModule,
+    ButtonComponent,
+    IconComponent,
+    NgTemplateOutlet,
+    CdkTrapFocus,
+  ],
   animations: [slideRight],
   templateUrl: './toast-overlay.component.html',
   styleUrl: './toast-overlay.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[ariaLive]': 'isCurrentlyImportant() ? "assertive" : "polite"',
+    '[role]': 'isCurrentlyImportant() ? "alert" : "status"',
+  },
 })
 export class ToastOverlayComponent {
   toastService = inject(ToastService);
 
   currentToast = this.toastService.currentToast;
+  isCurrentlyImportant = computed(
+    () => this.currentToast()?.important ?? false,
+  );
   icon = computed<Icon | undefined>(() => {
     const currentToast = this.currentToast();
     if (!currentToast) return undefined;

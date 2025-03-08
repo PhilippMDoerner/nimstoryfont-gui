@@ -1,3 +1,5 @@
+@let isOffline = (online$ | async) === false;
+@let offlineTooltip = "Not available offline";
 @if (campaign()) {
   <div class="offcanvas-header">
     <div class="sidebar__brand brand">
@@ -38,61 +40,46 @@
     <ul class="sidebar__entries">
       <!-- Campaign Overview Entries -->
       @for (entry of sidebarEntries(); track entry.title) {
-        @let isEntryDisabled =
-          (online$ | async) === false && !entry.availableOffline;
+        @let isDisabledEntry = isOffline && !entry.availableOffline;
         <li
-          class="sidebar__entry entry"
-          [class.entry--active]="entry.isActiveTab"
-          [ngbTooltip]="isEntryDisabled ? 'Not available offline' : undefined"
-        >
-          <a
-            [routerLink]="isEntryDisabled ? '' : entry.route"
-            class="entry__link"
-            [ariaDisabled]="isEntryDisabled"
-            [class.entry__link--disabled]="isEntryDisabled"
-          >
-            <app-icon class="entry__icon" [icon]="entry.iconClass"></app-icon>
-            {{ entry.title }}
-            @if (isEntryDisabled) {
-              <app-icon class="entry__icon" [icon]="'ban'"></app-icon>
-            }
-          </a>
-        </li>
+          class="sidebar__entry"
+          [class.sidebar__entry--active]="entry.isActiveTab"
+          sidebar-link-entry
+          [entry]="entry"
+          [ngbTooltip]="isDisabledEntry ? offlineTooltip : undefined"
+        ></li>
       }
 
       @if ((pwaService.canInstall$ | async) === true) {
-        <li class="sidebar__entry entry">
-          <button
-            class="entry__link entry__link--install-button"
-            (click)="pwaService.showInstallPrompt()"
-          >
-            <app-icon class="entry__icon" [icon]="'file-arrow-down'"></app-icon>
-            Install App
-          </button>
-        </li>
+        <li
+          class="sidebar__entry sidebar__entry--install-button"
+          sidebar-button-entry
+          [icon]="'file-arrow-down'"
+          [label]="'Install App'"
+          (entryClicked)="pwaService.showInstallPrompt()"
+        ></li>
       }
     </ul>
 
     <!-- Logout -->
     <ul class="sidebar__footer footer">
-      <li class="sidebar__entry entry">
-        <a class="entry__link" [routerLink]="profileUrl">
-          <app-icon class="entry__icon" [icon]="'circle-user'"></app-icon>
-          <span class="entry__text">Profile</span>
-        </a>
-      </li>
-      <li class="sidebar__entry entry">
-        <button
-          class="entry__link entry__link--button btn-none"
-          (click)="logout.emit()"
-        >
-          <app-icon
-            class="entry__icon"
-            [icon]="'right-from-bracket'"
-          ></app-icon>
-          <span class="entry__text">Logout</span>
-        </button>
-      </li>
+      <li
+        class="sidebar__entry"
+        sidebar-link-entry
+        [entry]="{
+          title: 'Profile',
+          iconClass: 'circle-user',
+          route: profileUrl,
+          availableOffline: true,
+        }"
+      ></li>
+      <li
+        class="sidebar__entry"
+        sidebar-button-entry
+        [label]="'Logout'"
+        [icon]="'right-from-bracket'"
+        (entryClicked)="logout.emit()"
+      ></li>
     </ul>
   </div>
 }

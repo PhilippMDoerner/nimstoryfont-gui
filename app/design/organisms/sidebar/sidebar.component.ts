@@ -29,6 +29,8 @@ import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { hasRoleOrBetter } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
 import { environment } from 'src/environments/environment';
+import { SidebarButtonEntryComponent } from '../../molecules/sidebar-button-entry/sidebar-button-entry.component';
+import { SidebarLinkEntryComponent } from '../../molecules/sidebar-link-entry/sidebar-link-entry.component';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
 
 @Component({
@@ -41,6 +43,8 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
     IconComponent,
     AsyncPipe,
     NgbTooltipModule,
+    SidebarButtonEntryComponent,
+    SidebarLinkEntryComponent,
   ],
   providers: [NgbActiveOffcanvas],
   changeDetection: ChangeDetectionStrategy.OnPush,

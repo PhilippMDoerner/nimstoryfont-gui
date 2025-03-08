@@ -5,9 +5,6 @@
 }
 
 .toast {
-  &:focus,
-  &:focus-within,
-  &:hover,
   &:focus-visible {
     outline: var(--focus-outline);
   }

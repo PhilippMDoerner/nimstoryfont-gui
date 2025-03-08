@@ -225,17 +225,13 @@ export class DiaryentryEncountersComponent {
         injector: this.injectorRef,
       }),
       index: this.encounterIndexInFocus$.pipe(filterNil()),
-    }).pipe(
-      map(({ encounters, index }) => {
-        return encounters[index].nativeElement;
-      }),
-    );
+    }).pipe(map(({ encounters, index }) => encounters[index].nativeElement));
 
     this.hotkeyService
       .watch('f')
       .pipe(withLatestFrom(focusedEncounter$), takeUntilDestroyed())
       .subscribe(([_, element]) => {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         element.focus();
       });
   }
@@ -295,7 +291,7 @@ export class DiaryentryEncountersComponent {
         nextFocusElement.focus();
         nextFocusElement.scrollIntoView({
           behavior: 'smooth',
-          block: 'center',
+          block: 'start',
         });
       });
   }

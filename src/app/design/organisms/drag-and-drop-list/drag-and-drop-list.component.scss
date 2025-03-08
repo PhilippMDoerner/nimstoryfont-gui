@@ -38,6 +38,7 @@
   }
 
   &__handler {
+    padding-left: var(--spacer-2);
     padding-right: var(--spacer-3);
     cursor: grab;
   }

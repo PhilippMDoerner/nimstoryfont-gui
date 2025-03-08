@@ -105,6 +105,7 @@ export const ALL_SOLID_ICONS = [
   'umbrella-beach',
   'university',
   'up-long',
+  'up-down-left-right',
   'upload',
   'user-cog',
   'user-plus',

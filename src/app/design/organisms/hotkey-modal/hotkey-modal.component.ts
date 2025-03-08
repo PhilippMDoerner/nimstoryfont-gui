@@ -17,6 +17,7 @@ type Section = {
 
 type Hotkey = {
   key: string;
+  actionName: string;
   description: string;
 };
 
@@ -36,26 +37,36 @@ export class HotkeyModalComponent {
       keys: [
         {
           key: 't',
+          actionName: 'Top of page',
           description: 'Scroll back to top instantly',
         },
         {
           key: 'd',
+          actionName: 'Delete',
           description:
-            'General delete action. Toggle delete confirmation button if given page has one. This still requires confirming the delete.',
+            'Toggle delete confirmation button if given page has one. This still requires confirming the delete.',
         },
         {
           key: 'q',
-          description: 'General quit action. Cancels currently active actions',
+          actionName: 'Quit',
+          description: 'Cancels currently active actions',
         },
         {
           key: 'e',
-          description:
-            'General edit action. Activates edit mode if given page has one',
+          actionName: 'Edit',
+          description: 'Activates edit mode if given page has one',
         },
         {
           key: 'c',
+          actionName: 'Create',
           description:
-            'General create action. Moves to creating a specific item if given page has a way to create one',
+            'Moves to creating a specific item if given page has a way to create one',
+        },
+        {
+          key: 'w',
+          actionName: 'Write',
+          description:
+            'Activates write mode of text-editors for a description if one is present on the page',
         },
       ],
     },
@@ -67,26 +78,31 @@ export class HotkeyModalComponent {
       keys: [
         {
           key: '⭣',
+          actionName: 'Next',
           description:
             'Focus and scroll into center the next entry of the list',
         },
         {
           key: '⭡',
+          actionName: 'Previous',
           description:
             'Focus and scroll into center the previous entry of the list',
         },
         {
           key: 'e',
+          actionName: 'Edit',
           description:
             'Toggle edit mode for the currently focused entry of the list',
         },
         {
           key: 'd',
+          actionName: 'Delete',
           description:
             'Toggle delete confirmation button if given page has one. This still requires confirming the delete.',
         },
         {
           key: 'q',
+          actionName: 'Quit',
           description:
             'Cancel editing/deleting the currently focused entry of the list',
         },
@@ -100,22 +116,32 @@ export class HotkeyModalComponent {
       keys: [
         {
           key: 'f',
+          actionName: 'Focus',
           description:
             'Focus and scroll into center the currently focused Encounter',
         },
         {
           key: 'x',
+          actionName: 'Cut',
           description: 'Start cutting out the currently focused encounter',
         },
 
         {
           key: 'c',
+          actionName: 'Create',
           description:
             'Start adding a character to the currently focused encounter',
         },
         {
           key: 'r',
+          actionName: 'Read/Edit toggle',
           description: 'Toggle view of diaryentry to read or edit mode',
+        },
+        {
+          key: 'w',
+          actionName: 'Write',
+          description:
+            'Toggle write mode for text-editor for encounter description of the currently focused encounter',
         },
       ],
     },

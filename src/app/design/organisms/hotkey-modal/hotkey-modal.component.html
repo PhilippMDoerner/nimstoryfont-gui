@@ -28,14 +28,18 @@
 
       <h4 class="row h6 fw-bold">
         <div class="col-md-2">Hotkey</div>
-        <div class="col-md-10">Description</div>
+        <div class="col-md-2">Action</div>
+        <div class="col-md-8">Description</div>
       </h4>
       @for (hotkey of section.keys; track hotkey.key) {
         <div class="row mb-3">
           <div class="col-md-2 h6 mb-0 fw-bold">
             Alt + {{ hotkey.key | titlecase }}
           </div>
-          <span class="col-md-10">
+          <div class="col-md-2">
+            {{ hotkey.actionName }}
+          </div>
+          <span class="col-md-8">
             {{ hotkey.description }}
           </span>
         </div>

@@ -4,7 +4,12 @@
   <h4 class="heading">
     <app-html-text [text]="headingVal" />
     @if (canUpdate()) {
-      <button class="heading__edit-button" (click)="toggleEdit()">
+      <button
+        class="heading__edit-button"
+        [hotkey]="'w'"
+        (hotkeyPressed)="toggleEdit()"
+        (click)="toggleEdit()"
+      >
         <h6 class="heading__edit-text">
           (
           {{ editButtonText() }}
@@ -28,6 +33,6 @@
   [serverModel]="serverModel()"
   (update)="finishEdit($event)"
   (autosave)="this.update.emit($event)"
-  (cancel)="toggleEdit()"
-  (toggleField)="toggleEdit()"
+  (cancel)="cancelEdit()"
+  (editStarted)="startEdit()"
 ></app-editor>

@@ -10,12 +10,14 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { ElementKind } from '../../atoms/_models/button';
-import { EditorComponent } from '../../molecules/editor/editor.component';
-
-export type TextFieldState = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
+import {
+  EditorComponent,
+  TextFieldState,
+} from '../../molecules/editor/editor.component';
 
 @Component({
   selector: 'app-editable-text',
@@ -25,6 +27,7 @@ export type TextFieldState = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
     EditorComponent,
     FormsModule,
     EditorComponent,
+    HotkeyDirective,
   ],
   templateUrl: './editable-text.component.html',
   styleUrl: './editable-text.component.scss',

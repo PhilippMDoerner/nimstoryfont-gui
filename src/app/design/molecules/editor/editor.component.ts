@@ -2,6 +2,7 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   DestroyRef,
   effect,
   inject,
@@ -12,8 +13,17 @@ import {
 import { FormsModule } from '@angular/forms';
 import { EditorComponent as TinyMCEEditorComponent } from '@tinymce/tinymce-angular';
 
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { distinctUntilChanged, filter, interval, map, take } from 'rxjs';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  interval,
+  Subject,
+  take,
+} from 'rxjs';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
+import { ScreenService } from 'src/app/_services/screen.service';
 import { AlertComponent } from 'src/app/design/atoms/alert/alert.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
@@ -21,13 +31,12 @@ import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
 import { componentId } from 'src/utils/DOM';
 import { ElementKind } from '../../atoms/_models/button';
-import { TINYMCE_SETTINGS } from '../../organisms/formly-editor-field/formly-editor-field.constants';
+import {
+  EditorSettings,
+  TINYMCE_SETTINGS,
+} from '../../organisms/formly-editor-field/formly-editor-field.constants';
 
 export type TextFieldState = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
-
-/**
- * Possible scenarios
- */
 
 @Component({
   selector: 'app-editor',
@@ -40,6 +49,7 @@ export type TextFieldState = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
     AlertComponent,
     SeparatorComponent,
     ButtonComponent,
+    HotkeyDirective,
   ],
   templateUrl: './editor.component.html',
   styleUrl: './editor.component.scss',
@@ -52,17 +62,42 @@ export class EditorComponent {
   placeholder = input.required<string>();
   canUpdate = input.required<boolean>();
   serverModel = input<string>();
-  state = input<TextFieldState>('DISPLAY');
+  state = input.required<TextFieldState>();
   submitButtonKind = input<ElementKind>('PRIMARY');
   cancelButtonKind = input<ElementKind>('SECONDARY');
   enableAutosave = input<boolean>(true);
-  toggleField = output<void>();
+  maxHeightPercentage = input<number>(0.75); // Range 0-1
+  settings = input<Partial<EditorSettings>>();
+  disabledHotkeys = input<boolean>(false);
+
+  editStarted = output<void>();
   update = output<string>();
   autosave = output<string>();
   cancel = output<void>();
 
+  change$ = new Subject<string>();
+
   editorId = componentId();
-  settings = TINYMCE_SETTINGS;
+  set = TINYMCE_SETTINGS;
+  windowHeight = toSignal(inject(ScreenService).windowHeight$);
+  maxEditorHeight = computed(() => {
+    const windowHeight = this.windowHeight();
+    if (!windowHeight) return undefined;
+    return windowHeight * this.maxHeightPercentage();
+  });
+  editorHeight = computed(() => {
+    const maxHeight = this.maxEditorHeight();
+    const defaultHeight = TINYMCE_SETTINGS.height;
+    const configuredHeight = this.settings()?.height;
+    if (!configuredHeight || !maxHeight) return defaultHeight;
+    console.log('Too large: ', maxHeight < configuredHeight);
+    return Math.min(maxHeight, configuredHeight);
+  });
+  _settings = computed(() => ({
+    ...TINYMCE_SETTINGS,
+    ...this.settings(),
+    height: this.editorHeight(),
+  }));
   textModel = '';
 
   editorField = viewChild.required<TinyMCEEditorComponent>('editor');
@@ -82,7 +117,7 @@ export class EditorComponent {
   }
 
   startEdit() {
-    this.toggleField.emit();
+    this.editStarted.emit();
   }
 
   finishEdit() {
@@ -103,14 +138,16 @@ export class EditorComponent {
   }
 
   private startAutosaveBehavior() {
-    interval(5_000)
+    this.change$
       .pipe(
+        debounceTime(3_000),
         filter(() => this.enableAutosave()),
-        map(() => this.textModel),
         distinctUntilChanged(),
-        filter(
-          (newText) => this.state() === 'UPDATE' && this.text() !== newText,
-        ),
+        filter((newText) => {
+          const canFireUpdate = this.state() === 'UPDATE';
+          const oldText = this.text();
+          return canFireUpdate && oldText !== newText;
+        }),
         takeUntilDestroyed(),
       )
       .subscribe((newText) => this.autosave.emit(newText));

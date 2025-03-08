@@ -1,6 +1,6 @@
-@if (encounter() || state() === "CREATE") {
+@if (encounter() || cardState() === "CREATE") {
   <h4 class="card__heading">
-    @switch (state()) {
+    @switch (cardState()) {
       @case ("DISPLAY") {
         <ng-container [ngTemplateOutlet]="displayHeading" />
       }
@@ -19,17 +19,17 @@
       <app-edit-toggle
         #toggleButton
         class="card__edit-button"
-        aria-label="Edit Encounter"
+        aria-label="Edit Encounter Metadata"
+        title="Edit Encounter Metadata"
         [buttonKind]="'DARK'"
-        [toggled]="state() !== 'DISPLAY'"
-        [hotkey]="'e'"
+        [toggled]="cardState() !== 'DISPLAY'"
         [disabledHotkey]="!isInFocus()"
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }
   </h4>
 
-  @switch (state()) {
+  @switch (cardState()) {
     @case ("DISPLAY") {
       <ng-container [ngTemplateOutlet]="displayBody" />
     }
@@ -46,16 +46,46 @@
 }
 
 <ng-template #displayHeading>
-  {{ encounter()?.title }}
+  <span class="card__text-container">
+    {{ encounter()?.title }}
+
+    @if (canUpdate()) {
+      <button
+        class="card__text-edit-button fs-6"
+        [hotkey]="'w'"
+        [disabledHotkey]="!isInFocus()"
+        (hotkeyPressed)="toggleTextField()"
+        (click)="toggleTextField()"
+      >
+        @if (textFieldState() === "DISPLAY") {
+          (Edit text)
+        } @else {
+          (Cancel)
+        }
+      </button>
+    }
+  </span>
 </ng-template>
 
 <ng-template #displayBody>
   <!-- Encounter -->
   @let encounterVal = encounter();
   @if (encounterVal) {
-    <div class="card__text">
-      <app-html-text [text]="encounterVal.description"></app-html-text>
-    </div>
+    <app-editor
+      #editor
+      class="card__text"
+      [state]="textFieldState()"
+      [canUpdate]="canUpdate()"
+      [text]="encounterVal.description"
+      [serverModel]="serverModel()?.description"
+      [placeholder]="'What happened during ' + encounterVal.title + ' ?'"
+      [cancelButtonKind]="'DARK'"
+      [settings]="{ height: 800 }"
+      (update)="onDescriptionUpdate($event)"
+      (autosave)="onDescriptionUpdate($event)"
+      (cancel)="toDisplayState()"
+      (editStarted)="toUpdateState()"
+    ></app-editor>
   }
 
   <app-separator></app-separator>
@@ -101,7 +131,7 @@
 
 <!-- Form to Update Encounters -->
 <ng-template #updateBody>
-  @if (canUpdate() && state() === "UPDATE") {
+  @if (canUpdate() && cardState() === "UPDATE") {
     <app-form
       [model]="userModel()"
       [fields]="formlyFields()"
@@ -109,7 +139,7 @@
       (formlySubmit)="onEncounterUpdate(userModel())"
       (formlyCancel)="changeState('DISPLAY', undefined)"
     ></app-form>
-  } @else if (canUpdate() && state() === "OUTDATEDUPDATE") {
+  } @else if (canUpdate() && cardState() === "OUTDATEDUPDATE") {
     <app-compare-form
       [fields]="formlyFields()"
       [modelFromUser]="userModel()"
@@ -125,7 +155,7 @@
 
 <!-- Form to Update Encounters -->
 <ng-template #createBody>
-  @if (canCreate() && state() === "CREATE") {
+  @if (canCreate() && cardState() === "CREATE") {
     <app-form
       [model]="userModel()"
       [fields]="formlyFields()"

@@ -1,3 +1,8 @@
+::ng-deep .entry.drag-and-drop-list-entry {
+  background-color: var(--bs-secondary);
+  color: var(--bs-white);
+}
+
 .diaryentry {
   padding: 0;
 

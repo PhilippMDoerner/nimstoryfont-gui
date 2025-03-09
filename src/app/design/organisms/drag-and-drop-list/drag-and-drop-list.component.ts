@@ -42,8 +42,6 @@ export class DragAndDropListComponent<T> {
   labelProp = input.required<keyof T>();
   idProp = input.required<keyof T>();
   isUpdating = input.required<boolean>();
-  backgroundColor = input<string>('var(--bs-white)');
-  color = input<string>('var(--bs-black)');
 
   changed = output<CdkDragDrop<T[]>>();
   swapEntries = output<MoveEvent<T>>();

@@ -93,9 +93,6 @@
     width: var(--spacer-5);
     height: var(--spacer-5);
     background-color: var(--bs-dark);
-    --btn-pad: var(--spacer-2);
-    padding: var(--btn-pad) var(--btn-pad) var(--btn-pad)
-      calc(var(--btn-pad) + 0.25rem);
     border-radius: 50%;
     z-index: 2;
 

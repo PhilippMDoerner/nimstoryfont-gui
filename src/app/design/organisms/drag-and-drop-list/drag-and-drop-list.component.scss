@@ -25,6 +25,9 @@
   padding: var(--spacer-2);
   color: var(--bs-black);
   font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 
   &__placeholder {
     background: var(--bs-gray-300);
@@ -41,6 +44,12 @@
     padding-left: var(--spacer-2);
     padding-right: var(--spacer-3);
     cursor: grab;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacer-2);
   }
 }
 

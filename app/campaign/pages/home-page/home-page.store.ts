@@ -1,17 +1,10 @@
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import {
-  patchState,
-  signalStore,
-  withHooks,
-  withMethods,
-  withState,
-} from '@ngrx/signals';
+import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
 import { switchMap, take, tap } from 'rxjs';
 import { OverviewItem } from 'src/app/_models/overview';
 import { ArticleService } from 'src/app/_services/article/article.service';
 import { GlobalStore } from 'src/app/global.store';
-import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
 
 export type HomePageState = {
@@ -62,13 +55,6 @@ export const HomePageStore = signalStore(
           });
       },
       reset: () => patchState(state, initialState),
-    };
-  }),
-  withHooks((store) => {
-    return {
-      onInit: () => {
-        log('HomePageStore', store);
-      },
     };
   }),
 );

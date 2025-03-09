@@ -90,7 +90,6 @@ export class EditorComponent {
     const defaultHeight = TINYMCE_SETTINGS.height;
     const configuredHeight = this.settings()?.height;
     if (!configuredHeight || !maxHeight) return defaultHeight;
-    console.log('Too large: ', maxHeight < configuredHeight);
     return Math.min(maxHeight, configuredHeight);
   });
   _settings = computed(() => ({

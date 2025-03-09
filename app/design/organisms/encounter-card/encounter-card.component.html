@@ -37,54 +37,10 @@
         (encounterCreate)="encounterCreate.emit($event)"
         (encounterCreateCancel)="encounterCreateCancel.emit()"
       ></app-encounter>
-      @if (canUpdate() && encounter().pk != null) {
-        <div class="encounter-card__side-buttons side-buttons side-buttons">
-          <button
-            btn
-            class="side-buttons__button side-buttons__button--edit"
-            aria-label="Cut Encounter to insert it elsewhere in the list"
-            [hotkey]="'x'"
-            [disabledHotkey]="!isInFocus()"
-            [disabled]="isCutInProgress() && !isBeingCut()"
-            [kind]="isCutInProgress() && isBeingCut() ? 'PRIMARY' : 'DARK'"
-            [icon]="isCutInProgress() && isBeingCut() ? 'times' : 'cut'"
-            (hotkeyPressed)="
-              isCutInProgress()
-                ? cutEncounterCancel.emit()
-                : startCutEncounter.emit()
-            "
-            (click)="
-              isCutInProgress()
-                ? cutEncounterCancel.emit()
-                : startCutEncounter.emit()
-            "
-          ></button>
-          <ng-container *ngTemplateOutlet="orderArrows" />
-        </div>
-      }
     } @else {
       <ng-container *ngTemplateOutlet="loading" />
     }
   </app-card>
-</ng-template>
-
-<ng-template #orderArrows>
-  <app-arrow-button
-    class="side-buttons__button side-buttons__button--arrow"
-    aria-label="Move Encounter Up"
-    [kind]="'DARK'"
-    [icon]="'up'"
-    [disabled]="disabled()"
-    (click)="moveEncounter.emit('up')"
-  ></app-arrow-button>
-  <app-arrow-button
-    class="side-buttons__button side-buttons__button--arrow"
-    aria-label="Move Encounter Down"
-    [kind]="'DARK'"
-    [icon]="'down'"
-    [disabled]="disabled()"
-    (click)="moveEncounter.emit('down')"
-  ></app-arrow-button>
 </ng-template>
 
 <!-- Loading Spinner -->

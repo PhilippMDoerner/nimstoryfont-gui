@@ -95,8 +95,6 @@ export class DiaryentryEncountersComponent {
     encounter: Encounter;
     newOrderIndex: number;
   }> = new EventEmitter();
-  @Output() encounterSwap: EventEmitter<{ enc1: Encounter; enc2: Encounter }> =
-    new EventEmitter();
   addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
   encounterIndexInFocus = signal<number | undefined>(undefined);
@@ -165,26 +163,6 @@ export class DiaryentryEncountersComponent {
       cutEncounterIndex
     ].encounter as Encounter;
     this.store.cutInsertEncounter(encounterToInsert, newOrderIndex);
-  }
-
-  onExcisionClick(encounterIndex: number) {
-    const isAlreadyCuttingEncounter = this.cutEncounterIndex() != null;
-    const isCuttingThisEncounter = this.cutEncounterIndex() === encounterIndex;
-
-    if (isAlreadyCuttingEncounter && isCuttingThisEncounter) {
-      this.cutEncounterIndex.set(undefined);
-    } else if (!isAlreadyCuttingEncounter) {
-      this.cutEncounterIndex.set(encounterIndex);
-    }
-  }
-
-  moveEncounter(event: 'up' | 'down', encounterIndex: number) {
-    switch (event) {
-      case 'up':
-        return this.onEncounterOrderDecrease(encounterIndex);
-      case 'down':
-        return this.onEncounterOrderIncrease(encounterIndex);
-    }
   }
 
   onEncounterCreateCancel(encounterIndex: number) {
@@ -303,31 +281,6 @@ export class DiaryentryEncountersComponent {
       case 'down':
         return index + 1;
     }
-  }
-
-  private onEncounterOrderIncrease(encounterIndex: number): void {
-    const isLastEncounter =
-      encounterIndex === this.diaryEntryEncounters().length - 1;
-    if (isLastEncounter) return; //encounter is already last, can't increase more
-
-    const encounter = this.diaryEntryEncounters()[encounterIndex]
-      .encounter as Encounter;
-    const nextEncounter = this.nextRealEncounter(encounterIndex + 1);
-    if (!nextEncounter) return;
-
-    this.store.swapEncounters(encounter.pk, nextEncounter.pk);
-  }
-
-  private onEncounterOrderDecrease(encounterIndex: number): void {
-    const isFirstEncounter = encounterIndex === 0;
-    if (isFirstEncounter) return; //encounter is already first, can't decrease more
-
-    const encounter = this.diaryEntryEncounters()[encounterIndex]
-      .encounter as Encounter;
-    const priorEncounter = this.priorRealEncounter(encounterIndex - 1);
-    if (!priorEncounter) return;
-
-    this.store.swapEncounters(encounter.pk, priorEncounter.pk);
   }
 
   private scrollToEncounter(encounterTitle: string): void {

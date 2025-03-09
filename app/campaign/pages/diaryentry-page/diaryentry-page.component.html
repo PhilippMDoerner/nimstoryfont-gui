@@ -2,12 +2,14 @@
 @if (diaryentryVal) {
   <app-diaryentry
     [diaryentry]="diaryentryVal"
+    [sortedEncounters]="store.sortedEncounters()"
     [encounterServerModel]="store.encounterServerModel()"
     [campaignCharacters]="store.campaignCharacters() ?? []"
     [campaignLocations]="store.campaignLocations() ?? []"
     [canCreate]="store.hasWritePermission()"
     [canUpdate]="store.hasWritePermission()"
     [canDelete]="store.hasWritePermission()"
+    [isUpdatingEncounters]="store.isUpdatingGlobally()"
     (diaryentryDelete)="onDelete()"
     (encounterConnectionCreate)="store.addEncounterConnection($event)"
     (encounterConnectionDelete)="store.removeEncounterConnection($event)"

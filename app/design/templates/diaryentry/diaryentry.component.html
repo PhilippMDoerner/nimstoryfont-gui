@@ -38,14 +38,35 @@
         Diary Entry # {{ diaryentry().session_details?.session_number }} <br />
         {{ diaryentry().title }}
       </h1>
-      <h6 class="col-12 diaryentry__subheading">
+      <h2 class="col-12 fs-6 fw-normal diaryentry__subheading">
         Written by: {{ diaryentry().author_details?.name }} <br />
         on {{ diaryentry().session_details?.session_date | date: "longDate" }}
-      </h6>
+      </h2>
     </div>
 
-    <!-- Next/Prior Diaryentry Buttons -->
-    <ng-container *ngTemplateOutlet="navButtons" />
+    @if (canUpdate() && state() === "EDIT") {
+      <h3 class="fs-2">Contents</h3>
+      <app-drag-and-drop-list
+        class="diaryentry__contents"
+        [entries]="sortedEncounters()"
+        [labelProp]="'title'"
+        [idProp]="'pk'"
+        [backgroundColor]="'var(--bs-secondary)'"
+        [color]="'var(--bs-white)'"
+        [isUpdating]="isUpdatingEncounters()"
+        (changed)="rearrangeEncounters($event)"
+        (swapEntries)="swapEncounters($event)"
+      />
+    }
+
+    @if (state() === "DISPLAY") {
+      <!-- Next/Prior Diaryentry Buttons -->
+      <ng-container *ngTemplateOutlet="navButtons" />
+    }
+
+    @if (state() === "EDIT") {
+      <h3 class="fs-2">Encounters</h3>
+    }
 
     <!-- DiaryEntry Text In Encounters -->
     <app-diaryentry-encounters
@@ -55,13 +76,14 @@
       (encounterDelete)="encounterDelete.emit($event)"
       (encounterUpdate)="encounterUpdate.emit($event)"
       (encounterCreate)="encounterCreate.emit($event)"
-      (encounterSwap)="encounterSwap.emit($event)"
       (encounterCutInsert)="encounterCutInsert.emit($event)"
       (addUnfinishedEncounter)="addUnfinishedEncounter.emit($event)"
     ></app-diaryentry-encounters>
 
-    <!-- Next/Prior Diaryentry Buttons -->
-    <ng-container *ngTemplateOutlet="navButtons" />
+    @if (state() === "DISPLAY") {
+      <!-- Next/Prior Diaryentry Buttons -->
+      <ng-container *ngTemplateOutlet="navButtons" />
+    }
 
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer

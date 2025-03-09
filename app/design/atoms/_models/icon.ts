@@ -14,11 +14,13 @@ type RegularIcon = (typeof ALL_REGULAR_ICONS)[number]; // this compiles to 'comm
 
 export const ALL_SOLID_ICONS = [
   'anchor',
+  'arrow-down',
   'arrow-down-long',
   'arrow-left-long',
   'arrow-left',
   'arrow-right-long',
   'arrow-right',
+  'arrow-up',
   'arrow-up-long',
   'bars',
   'ban',
@@ -105,6 +107,7 @@ export const ALL_SOLID_ICONS = [
   'umbrella-beach',
   'university',
   'up-long',
+  'up-down-left-right',
   'upload',
   'user-cog',
   'user-plus',

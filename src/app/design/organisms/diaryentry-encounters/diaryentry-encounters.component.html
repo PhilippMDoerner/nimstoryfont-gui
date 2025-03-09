@@ -3,11 +3,11 @@
     <!-- Diaryentry - Encounters -->
     <div class="row list__inner">
       @if (state() === "EDIT" && (canCreate() || canUpdate())) {
-        <div class="list__buttons list__buttons--first buttons">
-          @if (canCreate()) {
+        @if (canCreate()) {
+          <div class="list__button-container">
             <button
               btn
-              class="col-12 col-md-6 col-lg-4 buttons__button buttons__button--left"
+              class="list__button list__button--first"
               title="Add Encounter to Diaryentry"
               [kind]="'PRIMARY'"
               [size]="'LARGE'"
@@ -16,8 +16,8 @@
               [disabled]="isUpdatingAnything()"
               (click)="addEmptyEncounterAtIndex(-1)"
             ></button>
-          }
-        </div>
+          </div>
+        }
       }
 
       @for (
@@ -55,11 +55,11 @@
 
         <!-- Insert new Encounter -->
         @if (state() === "EDIT" && (canCreate() || canUpdate())) {
-          <div class="list__buttons buttons">
+          <div class="list__button-container">
             @if (canCreate()) {
               <button
                 btn
-                class="col-12 col-md-6 col-lg-4 buttons__button buttons__button--left"
+                class="list__button"
                 title="Add Encounter to DiaryEntry"
                 [kind]="'PRIMARY'"
                 [size]="'LARGE'"

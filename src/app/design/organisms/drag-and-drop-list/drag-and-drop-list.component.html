@@ -26,7 +26,7 @@
         [size]="'SMALL'"
         [icon]="'arrow-up'"
         aria-label="'Move entry up'"
-        [disabled]="$first"
+        [disabled]="$first || isUpdating()"
         (click)="moveEncounterUp($index)"
       ></button>
 
@@ -36,7 +36,7 @@
         [size]="'SMALL'"
         [icon]="'arrow-down'"
         aria-label="'Move entry down'"
-        [disabled]="$last"
+        [disabled]="$last || isUpdating()"
         (click)="moveEncounterDown($index)"
       ></button>
     </div>

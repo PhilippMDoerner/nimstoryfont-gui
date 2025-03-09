@@ -41,6 +41,7 @@ export class DragAndDropListComponent<T> {
   entries = input.required<T[]>();
   labelProp = input.required<keyof T>();
   idProp = input.required<keyof T>();
+  isUpdating = input.required<boolean>();
   backgroundColor = input<string>('var(--bs-white)');
   color = input<string>('var(--bs-black)');
 

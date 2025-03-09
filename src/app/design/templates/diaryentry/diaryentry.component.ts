@@ -1,3 +1,4 @@
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
@@ -16,6 +17,7 @@ import {
   EncounterConnection,
   EncounterConnectionRaw,
   EncounterRaw,
+  getShiftedOrderIndex,
 } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Session } from 'src/app/_models/session';
@@ -24,6 +26,10 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { DiaryentryEncountersComponent } from '../../organisms/diaryentry-encounters/diaryentry-encounters.component';
+import {
+  DragAndDropListComponent,
+  MoveEvent,
+} from '../../organisms/drag-and-drop-list/drag-and-drop-list.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 type DiaryEntryState = 'DISPLAY' | 'EDIT';
@@ -42,16 +48,19 @@ type DiaryEntryState = 'DISPLAY' | 'EDIT';
     DatePipe,
     HotkeyDirective,
     ButtonLinkComponent,
+    DragAndDropListComponent,
   ],
 })
 export class DiaryentryComponent {
   diaryentry = input.required<DiaryEntry>();
+  sortedEncounters = input.required<Encounter[]>();
   campaignCharacters = input.required<OverviewItem[]>();
   campaignLocations = input.required<OverviewItem[]>();
   encounterServerModel = input.required<Encounter | undefined>();
   canUpdate = input.required<boolean>();
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
+  isUpdatingEncounters = input.required<boolean>();
 
   @Output() diaryentryDelete: EventEmitter<DiaryEntry> = new EventEmitter();
   @Output() encounterConnectionDelete: EventEmitter<EncounterConnection> =
@@ -69,8 +78,8 @@ export class DiaryentryComponent {
     new EventEmitter();
   addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
-  campaignName = computed(() => this.diaryentry().campaign_details.name);
   state = signal<DiaryEntryState>('DISPLAY');
+  campaignName = computed(() => this.diaryentry().campaign_details.name);
   overviewUrl = computed(() =>
     this.routingService.getRoutePath('diaryentry-overview', {
       campaign: this.campaignName(),
@@ -105,6 +114,17 @@ export class DiaryentryComponent {
   toggleState(): void {
     const isDisplayState = this.state() === 'DISPLAY';
     this.state.set(isDisplayState ? 'EDIT' : 'DISPLAY');
+  }
+
+  rearrangeEncounters(event: CdkDragDrop<Encounter[]>) {
+    const encounters = this.diaryentry().encounters;
+    const encounter = encounters[event.previousIndex];
+    const newOrderIndex = getShiftedOrderIndex(encounters[event.currentIndex]);
+    this.encounterCutInsert.emit({ encounter, newOrderIndex });
+  }
+
+  swapEncounters(event: MoveEvent<Encounter>) {
+    this.encounterSwap.emit({ enc1: event.encounter1, enc2: event.encounter2 });
   }
 
   private createDiaryentryURL(stub: DiaryEntryStump): string | undefined {

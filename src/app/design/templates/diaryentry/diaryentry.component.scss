@@ -11,8 +11,9 @@
   }
 
   &__subheading {
-    margin-bottom: var(--spacer-3);
+    margin-bottom: var(--spacer-4);
     text-align: center;
+    text-transform: unset;
   }
 
   &__images {
@@ -33,6 +34,10 @@
 
   &__nav-buttons {
     margin-bottom: var(--spacer-3);
+  }
+
+  &__contents {
+    margin-bottom: var(--spacer-4);
   }
 }
 

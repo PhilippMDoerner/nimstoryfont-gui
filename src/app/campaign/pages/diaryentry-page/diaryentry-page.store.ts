@@ -92,6 +92,13 @@ export const DiaryentryPageStore = signalStore(
     };
   }),
   withComputed((store) => {
+    return {
+      sortedEncounters: computed<Encounter[]>(() =>
+        sortByProp(store.diaryentry()?.encounters ?? [], 'order_index'),
+      ),
+    };
+  }),
+  withComputed((store) => {
     const globalStore = inject(GlobalStore);
     return {
       hasWritePermission: globalStore.canPerformActionsOfRole('member'),

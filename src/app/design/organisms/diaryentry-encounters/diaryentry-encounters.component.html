@@ -17,23 +17,6 @@
               (click)="addEmptyEncounterAtIndex(-1)"
             ></button>
           }
-          @if (canUpdate()) {
-            <button
-              btn
-              class="col-6 col-md-6 col-lg-4 buttons__button buttons__button--right"
-              title="Insert Cut Encounter"
-              [size]="'LARGE'"
-              [icon]="'file-import'"
-              [text]="'Insert Cut Encounter'"
-              [kind]="'SECONDARY'"
-              [disabled]="
-                isUpdatingAnything() ||
-                !isCutInProgress() ||
-                cutEncounterIndex() === 0
-              "
-              (click)="onInsertExcisedEncounter(-1 + 1)"
-            ></button>
-          }
         </div>
       }
 
@@ -41,11 +24,7 @@
         entryEncounter of diaryEntryEncounters();
         track entryEncounter.encounter.title
       ) {
-        @let isBeingCut = $index === cutEncounterIndex();
-        @let isPriorBeingCut = $index === (cutEncounterIndex() ?? 0) - 1;
         @let disabled = isUpdatingAnything() || entryEncounter.isUpdating;
-        @let isValidCutTarget =
-          isCutInProgress() && (!isBeingCut || !isPriorBeingCut);
 
         <app-encounter-card
           #encounter
@@ -59,12 +38,8 @@
           [canUpdate]="canUpdate()"
           [canDelete]="canDelete()"
           [canCreate]="canCreate()"
-          [canActivateCut]="!isCutInProgress()"
-          [isCutInProgress]="isCutInProgress()"
           [disabled]="disabled"
           [isUpdating]="entryEncounter.isUpdating"
-          [isValidCutTarget]="isValidCutTarget"
-          [isBeingCut]="cutEncounterIndex() === $index"
           [state]="state()"
           [isInFocus]="encounterIndexInFocus() === $index"
           (connectionDelete)="connectionDelete.emit($event)"
@@ -73,9 +48,6 @@
           (encounterUpdate)="encounterUpdate.emit($event)"
           (encounterCreate)="onEncounterCreate($event)"
           (encounterCreateCancel)="onEncounterCreateCancel($index)"
-          (startCutEncounter)="onExcisionClick($index)"
-          (cutEncounterCancel)="cutEncounterIndex.set(undefined)"
-          (moveEncounter)="moveEncounter($event, $index)"
           (focusin)="setEncounterFocusIndex($index)"
           (focus)="setEncounterFocusIndex($index)"
           (blur)="setEncounterFocusIndex(undefined)"
@@ -95,19 +67,6 @@
                 [text]="'Add Encounter'"
                 [disabled]="disabled"
                 (click)="addEmptyEncounterAtIndex($index)"
-              ></button>
-            }
-            @if (canUpdate()) {
-              <button
-                btn
-                class="col-6 col-md-6 col-lg-4 buttons__button buttons__button--right"
-                title="Insert Cut Encounter"
-                [size]="'LARGE'"
-                [icon]="'file-import'"
-                [text]="'Insert Cut Encounter'"
-                [kind]="'SECONDARY'"
-                [disabled]="disabled || !isCutInProgress() || !isValidCutTarget"
-                (click)="onInsertExcisedEncounter($index + 1)"
               ></button>
             }
           </div>

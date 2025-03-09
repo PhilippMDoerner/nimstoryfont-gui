@@ -51,8 +51,6 @@
         [entries]="sortedEncounters()"
         [labelProp]="'title'"
         [idProp]="'pk'"
-        [backgroundColor]="'var(--bs-secondary)'"
-        [color]="'var(--bs-white)'"
         [isUpdating]="isUpdatingEncounters()"
         (changed)="rearrangeEncounters($event)"
         (swapEntries)="swapEncounters($event)"

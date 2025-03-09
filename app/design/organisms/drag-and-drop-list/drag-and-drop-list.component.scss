@@ -1,3 +1,10 @@
+/*
+ * To customize styling of entries, i.e. for background-color and color, use: 
+ * ::ng-deep .entry.dragn-and-drop-list-entry {
+ *    ... your rules ...
+ *  }
+ */
+
 :host {
   display: flex;
   flex-direction: column;

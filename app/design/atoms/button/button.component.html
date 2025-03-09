@@ -2,9 +2,12 @@
 @if (iconVal) {
   <app-icon [class.btn__icon]="text()" [icon]="iconVal"></app-icon>
 }
-<span class="btn__text" [class.btn__text--large]="size() === 'LARGE'">
-  {{ text() }}
-</span>
+
+@if (text()) {
+  <span class="btn__text" [class.btn__text--large]="size() === 'LARGE'">
+    {{ text() }}
+  </span>
+}
 
 @if (isLoading()) {
   <app-spinner class="btn__spinner"></app-spinner>

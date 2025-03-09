@@ -24,6 +24,8 @@
   &__text-edit-button {
     font-weight: normal;
     border-radius: var(--bs-border-radius);
+    width: 90px;
+    margin-right: var(--spacer-3);
 
     &:hover,
     &:focus-visible {
@@ -45,7 +47,7 @@
   }
 
   &__edit-button {
-    align-self: flex-start;
+    align-self: center;
   }
 }
 

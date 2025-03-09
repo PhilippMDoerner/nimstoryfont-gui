@@ -1,6 +1,6 @@
 @let selectedItemLabel = selectedItemLabel$ | async;
 <div class="form-control">
-  @if (selectedItemLabel) {
+  @if (selectedItemLabel && selectedItemLabel !== "undefined") {
     <app-badge
       class="form-control__selected-value-badge"
       [kind]="'DARK'"

@@ -29,3 +29,10 @@
     gap: var(--spacer-3);
   }
 }
+
+.editor {
+  &--focus {
+    outline: var(--focus-outline);
+    border-radius: var(--bs-border-radius);
+  }
+}

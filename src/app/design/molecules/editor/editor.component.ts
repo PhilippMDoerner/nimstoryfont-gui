@@ -8,6 +8,7 @@ import {
   inject,
   input,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -73,6 +74,7 @@ export class EditorComponent {
   cancel = output<void>();
 
   change$ = new Subject<string>();
+  inFocus = signal(false);
 
   editorId = componentId();
   set = TINYMCE_SETTINGS;

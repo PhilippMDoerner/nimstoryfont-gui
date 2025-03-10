@@ -36,6 +36,7 @@ export const TINYMCE_SETTINGS = {
   branding: false,
   base_url: '/tinymce',
   suffix: '.min',
+  highlight_on_focus: false,
 };
 
 export type EditorSettings = typeof TINYMCE_SETTINGS;

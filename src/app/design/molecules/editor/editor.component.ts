@@ -4,7 +4,6 @@ import {
   Component,
   computed,
   DestroyRef,
-  effect,
   inject,
   input,
   output,
@@ -14,7 +13,11 @@ import {
 import { FormsModule } from '@angular/forms';
 import { EditorComponent as TinyMCEEditorComponent } from '@tinymce/tinymce-angular';
 
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -103,15 +106,17 @@ export class EditorComponent {
   constructor() {
     this.startAutosaveBehavior();
 
-    effect(() => {
-      switch (this.state()) {
-        case 'DISPLAY':
-          return this.resetTextfield();
-        case 'UPDATE':
-        case 'OUTDATED_UPDATE':
-          return this.toUpdateState();
-      }
-    });
+    toObservable(this.state)
+      .pipe(takeUntilDestroyed())
+      .subscribe((state) => {
+        switch (state) {
+          case 'DISPLAY':
+            return this.resetTextfield();
+          case 'UPDATE':
+          case 'OUTDATED_UPDATE':
+            return this.toUpdateState();
+        }
+      });
   }
 
   startEdit() {

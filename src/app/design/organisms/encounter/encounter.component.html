@@ -19,8 +19,7 @@
       <app-edit-toggle
         #toggleButton
         class="card__edit-button"
-        aria-label="Edit Encounter Metadata"
-        title="Edit Encounter Metadata"
+        [title]="'Edit Encounter Metadata'"
         [buttonKind]="'DARK'"
         [toggled]="cardState() !== 'DISPLAY'"
         [disabledHotkey]="!isInFocus()"

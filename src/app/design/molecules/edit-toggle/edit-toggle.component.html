@@ -6,5 +6,7 @@
   (click)="onClick()"
   [hotkey]="'e'"
   [disabledHotkey]="disabledHotkey()"
+  [attr.aria-label]="title()"
+  [title]="title()"
   (hotkeyPressed)="onClick()"
 ></button>

@@ -21,6 +21,7 @@ export class EditToggleComponent {
   buttonKind = input<ElementKind>('SECONDARY');
   toggled = input<boolean>(false);
   disabledHotkey = input(false);
+  title = input.required<string>();
   _toggled = signal(false);
 
   toggle = output<boolean>();

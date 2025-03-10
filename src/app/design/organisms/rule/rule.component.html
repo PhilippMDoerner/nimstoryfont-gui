@@ -22,6 +22,7 @@
         [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
         [disabledHotkey]="disabledHotkeys()"
+        [title]="'Edit ' + rule()?.name"
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }

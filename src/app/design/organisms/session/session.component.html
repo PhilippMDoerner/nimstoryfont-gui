@@ -23,6 +23,7 @@
       [buttonKind]="'DARK'"
       [toggled]="state() !== 'DISPLAY'"
       [disabledHotkey]="disabledHotkeys()"
+      [title]="'Edit ' + session().name"
       (toggle)="onToggle($event)"
     ></app-edit-toggle>
   }

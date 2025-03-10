@@ -122,9 +122,7 @@ export class EncounterComponent implements OnInit {
       }),
     ];
 
-    return this.cardState() === 'CREATE'
-      ? [...defaultFields, editorField]
-      : defaultFields;
+    return defaultFields;
   });
 
   constructor(
@@ -162,12 +160,17 @@ export class EncounterComponent implements OnInit {
     this.changeState('DISPLAY', undefined);
   }
 
-  onDescriptionUpdate(newDescription: string) {
+  saveDescription(newDescription: string) {
     const updatedEncounter: Encounter = {
       ...(this.encounter() as Encounter),
       description: newDescription,
     };
     this.encounterUpdate.emit(updatedEncounter);
+  }
+
+  onDescriptionUpdateFinished(newDescription: string) {
+    this.saveDescription(newDescription);
+    this.textFieldState.set('DISPLAY');
   }
 
   onEncounterCreateCancel() {

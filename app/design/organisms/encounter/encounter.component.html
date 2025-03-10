@@ -81,8 +81,8 @@
       [placeholder]="'What happened during ' + encounterVal.title + ' ?'"
       [cancelButtonKind]="'DARK'"
       [settings]="{ height: 800 }"
-      (update)="onDescriptionUpdate($event)"
-      (autosave)="onDescriptionUpdate($event)"
+      (update)="onDescriptionUpdateFinished($event)"
+      (autosave)="saveDescription($event)"
       (cancel)="toDisplayState()"
       (editStarted)="toUpdateState()"
     ></app-editor>

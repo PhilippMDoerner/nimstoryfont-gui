@@ -42,7 +42,7 @@ export class ImageCardComponent {
   });
   link = input<string>();
   text = input.required<string>();
-  alt = input<string>();
+  alt = input.required<string>();
 
   currentImageIndex = signal(0);
   currentImage = computed(

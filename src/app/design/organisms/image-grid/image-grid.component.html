@@ -16,12 +16,16 @@
             }"
           >
             <div class="entry__overlay">
-              <header class="fs-4 entry__heading heading">
+              <div class="fs-4 entry__heading heading">
                 @if (entry.icon) {
-                  <img class="heading__icon" [src]="serverUrl() + entry.icon" />
+                  <img
+                    class="heading__icon"
+                    [src]="serverUrl() + entry.icon"
+                    [alt]="''"
+                  />
                 }
                 {{ entry.label }}
-              </header>
+              </div>
             </div>
           </a>
         }

@@ -1,8 +1,12 @@
+@use "@angular/cdk";
+
 @import "./custom_bootstrap.scss";
 //Must be imported after custom_bootstrap so that values from custom_bootstrap are available for overriding
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "./variables.scss";
 @import "./fonts.scss";
+
+@include cdk.a11y-visually-hidden();
 
 html {
   font-size: 18px;

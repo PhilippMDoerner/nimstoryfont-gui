@@ -70,6 +70,7 @@ export class EditorComponent {
   maxHeightPercentage = input<number>(0.75); // Range 0-1
   settings = input<Partial<EditorSettings>>();
   disabledHotkeys = input<boolean>(false);
+  id = input<string>(componentId());
 
   editStarted = output<void>();
   update = output<string>();
@@ -79,7 +80,6 @@ export class EditorComponent {
   change$ = new Subject<string>();
   inFocus = signal(false);
 
-  editorId = componentId();
   set = TINYMCE_SETTINGS;
   windowHeight = toSignal(inject(ScreenService).windowHeight$);
   maxEditorHeight = computed(() => {

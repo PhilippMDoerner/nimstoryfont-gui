@@ -69,6 +69,7 @@
     <app-editable-text
       class="organization__description"
       [heading]="'Description'"
+      [ariaLevel]="2"
       [placeholder]="'Add a description for ' + organization().name"
       [text]="organization().description"
       [canUpdate]="canUpdate()"

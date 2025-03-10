@@ -6,10 +6,14 @@
     [hotkey]="'f'"
     (hotkeyPressed)="filterInputElement.focus()"
   >
+    <label class="cdk-visually-hidden" for="search-input">
+      {{ heading() }} name
+    </label>
     <input
+      id="search-input"
       class="filter__input"
       type="text"
-      placeholder="Search for {{ heading() }}..."
+      placeholder="Search for {{ heading() }} ..."
       #filterInputElement
       (keyDown)="filterValue.set(filterInputElement.value)"
       (input)="filterValue.set(filterInputElement.value)"
@@ -28,7 +32,7 @@
     itemLetterEntries of displayEntries() | groupByFirstLetter: labelProp();
     track $index
   ) {
-    <div
+    <section
       class="letter-list"
       [ngClass]="{
         'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine(),
@@ -37,9 +41,9 @@
     >
       <!-- Letter Heading -->
       @if (filterInputElement.value.length === 0) {
-        <h5 class="letter-list__heading">
+        <div class="fs-5 letter-list__heading">
           {{ itemLetterEntries.key }}
-        </h5>
+        </div>
       }
 
       <!-- Article List -->
@@ -52,7 +56,7 @@
           </li>
         }
       </ul>
-    </div>
+    </section>
   }
 </ng-template>
 

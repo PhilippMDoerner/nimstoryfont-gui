@@ -63,6 +63,7 @@
     <app-editable-text
       class="location__description"
       [heading]="'Description'"
+      [ariaLevel]="2"
       [placeholder]="'Add a description for ' + location().name"
       [text]="location().description"
       [canUpdate]="canUpdate()"

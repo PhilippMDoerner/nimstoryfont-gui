@@ -51,6 +51,7 @@
     <app-editable-text
       class="item__description"
       [heading]="'Description'"
+      [ariaLevel]="2"
       [placeholder]="'Add a description for ' + item().name"
       [text]="item().description"
       [canUpdate]="canUpdate()"

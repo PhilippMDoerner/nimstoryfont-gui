@@ -1,24 +1,22 @@
 <!-- Heading -->
 @let headingVal = heading();
 @if (headingVal) {
-  <h4 class="heading">
-    <app-html-text [text]="headingVal" />
+  <div role="heading" [attr.aria-level]="ariaLevel()" class="heading h4">
+    <label [for]="editorId" [innerHTML]="headingVal"> </label>
     @if (canUpdate()) {
       <button
-        class="heading__edit-button"
+        class="heading__edit-button fs-6 fw-normal"
         [hotkey]="'w'"
         (hotkeyPressed)="toggleEdit()"
         (click)="toggleEdit()"
       >
-        <h6 class="heading__edit-text">
-          (
-          {{ editButtonText() }}
-          <app-icon [icon]="'pen'"></app-icon>
-          )
-        </h6>
+        (
+        {{ editButtonText() }}
+        <app-icon [icon]="'pen'"></app-icon>
+        )
       </button>
     }
-  </h4>
+  </div>
 }
 
 <!-- Text Body -->
@@ -31,6 +29,7 @@
   [placeholder]="placeholder()"
   [canUpdate]="canUpdate()"
   [serverModel]="serverModel()"
+  [id]="editorId"
   (update)="finishEdit($event)"
   (autosave)="this.update.emit($event)"
   (cancel)="cancelEdit()"

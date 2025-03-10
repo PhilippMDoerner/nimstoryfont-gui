@@ -16,7 +16,7 @@ import {
   EncounterConnectionRaw,
   EncounterRaw,
 } from 'src/app/_models/encounter';
-import { httpErrorToast } from 'src/app/_models/toast';
+import { httpErrorToast, successToast } from 'src/app/_models/toast';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { DiaryentryService } from 'src/app/_services/article/diaryentry.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
@@ -49,6 +49,8 @@ const initialState: DiaryentryPageState = {
   _encountersBeingCreated: [],
   isUpdatingGlobally: false,
 };
+
+const encounterUpdateToast = successToast('Updated Encounter successfully!');
 
 export const DiaryentryPageStore = signalStore(
   { providedIn: 'root' },
@@ -183,6 +185,7 @@ export const DiaryentryPageStore = signalStore(
           .subscribe({
             next: (newEncounterList) => {
               updateEncounterList(newEncounterList);
+              toastService.addToast(successToast('Encounter created!'));
               patchState(store, {
                 _encountersBeingCreated: store
                   ._encountersBeingCreated()
@@ -220,6 +223,7 @@ export const DiaryentryPageStore = signalStore(
           .pipe(take(1))
           .subscribe({
             next: (newEncounter) => {
+              toastService.addToast(encounterUpdateToast);
               unmarkAsBeingUpdated(encounter.pk);
               const diaryentry = store.diaryentry() as DiaryEntry;
               const newEncounterList = replaceItem(
@@ -250,6 +254,7 @@ export const DiaryentryPageStore = signalStore(
           )
           .subscribe({
             next: ([updatedEnc1, updatedEnc2]) => {
+              toastService.addToast(encounterUpdateToast);
               unmarkAsBeingUpdated(encounter1Pk);
               unmarkAsBeingUpdated(encounter2Pk);
               const newEncounterList1 = replaceItem(
@@ -285,6 +290,7 @@ export const DiaryentryPageStore = signalStore(
           )
           .subscribe({
             next: (newEncounterList) => {
+              toastService.addToast(encounterUpdateToast);
               unmarkAsBeingUpdated(encounter.pk);
               updateEncounterList(newEncounterList);
               patchState(store, { isUpdatingGlobally: false });

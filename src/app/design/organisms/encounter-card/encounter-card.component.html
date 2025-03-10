@@ -10,9 +10,9 @@
 </div>
 
 <ng-template #displayEncounter>
-  <h4>
+  <div class="h4" role="heading" [attr.aria-level]="ariaLevel()">
     {{ encounter().title }}
-  </h4>
+  </div>
   <app-html-text [text]="encounter().description"></app-html-text>
 </ng-template>
 

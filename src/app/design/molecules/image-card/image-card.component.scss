@@ -34,6 +34,7 @@
     .card__img-link {
       flex: 1;
       display: flex;
+      flex-direction: column;
       outline: none;
 
       &:focus-visible,
@@ -61,12 +62,11 @@
     padding: var(--spacer-3);
   }
 
-  &-title {
-    margin-bottom: var(--spacer-0);
-    text-align: center;
-  }
-
   &__title-link {
+    text-align: center;
+    font-weight: bold;
+    width: 100%;
+    display: block;
     @include media-breakpoint-up(md) {
       text-decoration: none;
     }

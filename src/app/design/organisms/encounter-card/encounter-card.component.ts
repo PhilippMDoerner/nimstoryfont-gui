@@ -13,6 +13,7 @@ import {
   EncounterRaw,
 } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
+import { HeadingLevel } from '../../atoms/_models/heading';
 import { CardComponent } from '../../atoms/card/card.component';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
 import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
@@ -45,6 +46,7 @@ export class EncounterCardComponent {
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
   isInFocus = input.required<boolean>();
+  ariaLevel = input.required<HeadingLevel>();
 
   connectionDelete = output<EncounterConnection>();
   connectionCreate = output<EncounterConnectionRaw>();

@@ -27,11 +27,15 @@ export class BadgeComponent {
   link = input<string>();
   maxLength = input<number | undefined>();
 
+  shouldCutText = computed(() => {
+    const maxLength = this.maxLength();
+    return maxLength != null && this.text().length > maxLength;
+  });
+
   displayedText = computed(() => {
     const maxLength = this.maxLength();
-    const shouldCutText = maxLength != null && this.text().length > maxLength;
 
-    if (shouldCutText) {
+    if (this.shouldCutText()) {
       const cutText = this.text().slice(0, maxLength);
       return `${cutText}...`;
     }

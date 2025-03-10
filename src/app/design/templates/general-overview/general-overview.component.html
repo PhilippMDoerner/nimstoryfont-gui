@@ -103,7 +103,7 @@
 </ng-template>
 
 <ng-template #characterHeading>
-  <h3>Player Characters</h3>
+  <h2 class="h3">Player Characters</h2>
 
   <div class="row">
     @for (playerCharacter of playerCharacters(); track playerCharacter.name) {
@@ -132,7 +132,7 @@
 </ng-template>
 
 <ng-template #characterBody>
-  <h3>Non-Player Characters</h3>
+  <h2 class="h3">Non-Player Characters</h2>
 
   <app-filter-list
     [entries]="displayEntries()"

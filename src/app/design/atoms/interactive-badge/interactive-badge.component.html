@@ -1,4 +1,4 @@
-<div class="badge-container" [title]="text()">
+<div class="badge-container">
   @if (textLink()) {
     <a
       [routerLink]="textLink()"
@@ -40,7 +40,6 @@
   @if (showDeleteButton()) {
     <button
       (click)="iconClick.emit()"
-      tabindex=""
       class="badge badge--part2"
       [ngClass]="{
         'bg-primary': iconKindVal() === 'PRIMARY',
@@ -51,7 +50,7 @@
         'bg-info': iconKindVal() === 'INFO',
         'bg-light': iconKindVal() === 'LIGHT',
       }"
-      [attr.aria-label]="'Remove ' + text()"
+      [attr.aria-label]="'Remove item'"
     >
       <app-icon [icon]="'trash'" />
     </button>

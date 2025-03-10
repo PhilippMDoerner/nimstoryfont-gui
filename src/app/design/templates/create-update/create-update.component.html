@@ -11,6 +11,7 @@
           (click)="cancel.emit()"
           [icon]="'times'"
           [kind]="'SECONDARY'"
+          [attr.aria-label]="'Cancel ' + heading()"
           [hotkey]="'q'"
           (hotkeyPressed)="cancel.emit()"
         ></button>

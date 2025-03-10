@@ -37,6 +37,7 @@ import {
   EditToggleComponent,
   FormComponent,
 } from 'src/app/design/molecules';
+import { componentId } from 'src/utils/DOM';
 import { filterNil } from 'src/utils/rxjs-operators';
 import {
   EditorComponent,
@@ -96,34 +97,25 @@ export class EncounterComponent implements OnInit {
   campaignName = computed(() => this.encounter()?.campaign_details?.name);
 
   locations$ = toObservable(this.locations).pipe(filterNil());
-  formlyFields = computed<FormlyFieldConfig[]>(() => {
-    const editorField: FormlyFieldConfig = this.formlyService.buildEditorConfig(
-      {
-        key: 'description',
-        required: true,
-      },
-    );
-    const defaultFields = [
-      this.formlyService.buildInputConfig({
-        key: 'title',
-        inputKind: 'STRING',
+  formlyFields = computed<FormlyFieldConfig[]>(() => [
+    this.formlyService.buildInputConfig({
+      key: 'title',
+      inputKind: 'STRING',
+    }),
+    this.formlyService.buildTypeaheadConfig<EncounterRaw, OverviewItem>({
+      key: 'location',
+      label: 'Encounter Location',
+      getOptions: () => this.locations$,
+      initialOption$: of({
+        name_full: this.encounter()?.location_details?.name_full,
+        pk: this.encounter()?.location,
       }),
-      this.formlyService.buildTypeaheadConfig<EncounterRaw, OverviewItem>({
-        key: 'location',
-        label: 'Encounter Location',
-        getOptions: () => this.locations$,
-        initialOption$: of({
-          name_full: this.encounter()?.location_details?.name_full,
-          pk: this.encounter()?.location,
-        }),
-        formatSearchTerm: (searchTerm) => this.formatEntry(searchTerm),
-        optionLabelProp: 'name_full',
-        optionValueProp: 'pk',
-      }),
-    ];
-
-    return defaultFields;
-  });
+      formatSearchTerm: (searchTerm) => this.formatEntry(searchTerm),
+      optionLabelProp: 'name_full',
+      optionValueProp: 'pk',
+    }),
+  ]);
+  editorId = componentId();
 
   constructor(
     private routingService: RoutingService,

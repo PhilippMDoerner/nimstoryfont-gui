@@ -41,7 +41,7 @@ export type QuoteControlKind =
 type QuoteControl = {
   controlKind: QuoteControlKind;
   isVisible: boolean;
-  title: string;
+  title?: string;
   type: ElementKind;
   label?: string;
   icon: Icon;
@@ -103,11 +103,11 @@ export class QuoteComponent implements OnChanges {
       campaign: this.campaignName,
     }),
   );
-
+  hasQuote = computed(() => !!this.quote());
   private _quoteControlls = computed<QuoteControl[]>(() => [
     {
       controlKind: 'REFRESH',
-      isVisible: !!this.quote(),
+      isVisible: this.hasQuote(),
       title: 'Load new quote',
       type: 'INFO',
       icon: 'refresh',
@@ -118,7 +118,7 @@ export class QuoteComponent implements OnChanges {
     },
     {
       controlKind: 'UPDATE',
-      isVisible: !!this.quote() && this.canUpdate(),
+      isVisible: this.hasQuote() && this.canUpdate(),
       title: 'Edit Quote',
       type: 'SECONDARY',
       icon: 'pencil',
@@ -130,8 +130,8 @@ export class QuoteComponent implements OnChanges {
     {
       controlKind: 'CREATE',
       isVisible: this.canCreate(),
-      title: 'Create Quote',
-      label: this.quote() ? undefined : 'Create Quote',
+      title: this.hasQuote() ? 'Create Quote' : undefined,
+      label: this.hasQuote() ? undefined : 'Create Quote',
       type: 'PRIMARY',
       icon: 'plus',
       config: {

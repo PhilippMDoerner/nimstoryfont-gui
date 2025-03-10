@@ -34,7 +34,6 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
-import { componentId } from 'src/utils/DOM';
 import { ElementKind } from '../../atoms/_models/button';
 
 export type TextFieldState = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
@@ -70,7 +69,7 @@ export class EditorComponent {
   maxHeightPercentage = input<number>(0.75); // Range 0-1
   settings = input<Partial<EditorSettings>>();
   disabledHotkeys = input<boolean>(false);
-  id = input<string>(componentId());
+  id = input.required<string>();
 
   editStarted = output<void>();
   update = output<string>();

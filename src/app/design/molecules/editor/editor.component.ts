@@ -146,14 +146,15 @@ export class EditorComponent {
         debounceTime(3_000),
         filter(() => this.enableAutosave()),
         distinctUntilChanged(),
-        filter((newText) => {
+        filter(() => {
+          const newText = this.textModel;
           const canFireUpdate = this.state() === 'UPDATE';
           const oldText = this.text();
           return canFireUpdate && oldText !== newText;
         }),
         takeUntilDestroyed(),
       )
-      .subscribe((newText) => this.autosave.emit(newText));
+      .subscribe(() => this.autosave.emit(this.textModel));
   }
 
   private focusField() {

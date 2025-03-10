@@ -203,7 +203,10 @@ export class DiaryentryEncountersComponent {
         injector: this.injectorRef,
       }),
       index: this.encounterIndexInFocus$.pipe(filterNil()),
-    }).pipe(map(({ encounters, index }) => encounters[index].nativeElement));
+    }).pipe(
+      map(({ encounters, index }) => encounters[index]?.nativeElement),
+      filterNil(),
+    );
 
     this.hotkeyService
       .watch('f')

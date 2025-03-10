@@ -4,7 +4,7 @@
       [routerLink]="textLink()"
       class="badge"
       [ngClass]="{
-        'badge--part1': icon(),
+        'badge--part1': showDeleteButton(),
         'bg-primary': kind() === 'PRIMARY',
         'bg-secondary': kind() === 'SECONDARY',
         'bg-dark': kind() === 'DARK',
@@ -22,7 +22,7 @@
       class="badge"
       tabindex="0"
       [ngClass]="{
-        'badge--part1': icon(),
+        'badge--part1': showDeleteButton(),
         'bg-primary': kind() === 'PRIMARY',
         'bg-secondary': kind() === 'SECONDARY',
         'bg-dark': kind() === 'DARK',
@@ -37,8 +37,7 @@
     </button>
   }
 
-  @let iconVal = icon();
-  @if (iconVal) {
+  @if (showDeleteButton()) {
     <button
       (click)="iconClick.emit()"
       tabindex=""
@@ -52,8 +51,9 @@
         'bg-info': iconKindVal() === 'INFO',
         'bg-light': iconKindVal() === 'LIGHT',
       }"
+      [attr.aria-label]="'Remove ' + text()"
     >
-      <app-icon [icon]="iconVal" />
+      <app-icon [icon]="'trash'" />
     </button>
   }
 </div>

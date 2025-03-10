@@ -8,7 +8,7 @@
         [iconKind]="'DANGER'"
         [text]="entry.text"
         [textLink]="entry.link"
-        [icon]="canDelete() ? 'trash' : undefined"
+        [showDeleteButton]="canDelete()"
         (iconClick)="onEntryDelete(entry)"
       ></app-interactive-badge>
     }

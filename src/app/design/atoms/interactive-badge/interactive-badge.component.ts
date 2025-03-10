@@ -9,21 +9,20 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ElementKind } from '../_models/button';
-import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
-    selector: 'app-interactive-badge',
-    templateUrl: './interactive-badge.component.html',
-    styleUrls: ['./interactive-badge.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [RouterLink, NgClass, IconComponent]
+  selector: 'app-interactive-badge',
+  templateUrl: './interactive-badge.component.html',
+  styleUrls: ['./interactive-badge.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterLink, NgClass, IconComponent],
 })
 export class InteractiveBadgeComponent {
   kind = input.required<ElementKind>();
   text = input.required<string>();
   textLink = input<string>();
-  icon = input<Icon>();
+  showDeleteButton = input<boolean>();
   iconKind = input<ElementKind>();
 
   iconKindVal = computed(() => this.iconKind() ?? this.kind());

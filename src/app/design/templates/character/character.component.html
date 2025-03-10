@@ -31,12 +31,12 @@
 
       <div class="col-12 character__subheading">
         <!-- Organization -->
-        <h5>
+        <span class="fs-5">
           @if (character().gender !== "Other") {
             {{ character().gender }}
           }
           {{ character().race }}
-        </h5>
+        </span>
 
         <!-- Current Location -->
         @let currentLocationDetails = character().current_location_details;
@@ -148,7 +148,7 @@
     <!-- PCs don't have encounters -->
     @if (!character().player_character) {
       <div class="row">
-        <h4 class="col mb-0">
+        <h2 class="col mb-0 fs-4">
           <app-info-circle-tooltip
             [text]="(character().encounters?.length ?? 0) + ' Encounters'"
             [tooltip]="
@@ -157,7 +157,7 @@
               '. Starts with the most recent encounter and ends with the latest.'
             "
           ></app-info-circle-tooltip>
-        </h4>
+        </h2>
         <app-encounter-accordion
           [encounters]="character().encounters ?? []"
           [campaignLocations]="campaignLocations()"

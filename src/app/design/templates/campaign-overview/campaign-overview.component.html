@@ -34,13 +34,13 @@
     </div>
 
     @let campaignsVal = campaigns();
-    <h3 class="heading__text">
+    <h1 class="fs-3 heading__text">
       @if (campaignsVal && campaignsVal.length > 0) {
         Choose Your Campaign
       } @else if (campaignsVal && campaignsVal.length == 0) {
         <ng-container *ngTemplateOutlet="noCampaignHeading" />
       }
-    </h3>
+    </h1>
   </div>
 
   <div class="body">

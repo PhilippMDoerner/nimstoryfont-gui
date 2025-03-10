@@ -4,16 +4,20 @@ import {
   Component,
   computed,
   DestroyRef,
-  effect,
   inject,
   input,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { EditorComponent as TinyMCEEditorComponent } from '@tinymce/tinymce-angular';
 
-import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import {
+  takeUntilDestroyed,
+  toObservable,
+  toSignal,
+} from '@angular/core/rxjs-interop';
 import {
   debounceTime,
   distinctUntilChanged,
@@ -24,6 +28,7 @@ import {
 } from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ScreenService } from 'src/app/_services/screen.service';
+import { EditorSettings, TINYMCE_SETTINGS } from 'src/app/app.constants';
 import { AlertComponent } from 'src/app/design/atoms/alert/alert.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
@@ -31,10 +36,6 @@ import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
 import { componentId } from 'src/utils/DOM';
 import { ElementKind } from '../../atoms/_models/button';
-import {
-  EditorSettings,
-  TINYMCE_SETTINGS,
-} from '../../organisms/formly-editor-field/formly-editor-field.constants';
 
 export type TextFieldState = 'DISPLAY' | 'UPDATE' | 'OUTDATED_UPDATE';
 
@@ -76,6 +77,7 @@ export class EditorComponent {
   cancel = output<void>();
 
   change$ = new Subject<string>();
+  inFocus = signal(false);
 
   editorId = componentId();
   set = TINYMCE_SETTINGS;
@@ -104,15 +106,17 @@ export class EditorComponent {
   constructor() {
     this.startAutosaveBehavior();
 
-    effect(() => {
-      switch (this.state()) {
-        case 'DISPLAY':
-          return this.resetTextfield();
-        case 'UPDATE':
-        case 'OUTDATED_UPDATE':
-          return this.toUpdateState();
-      }
-    });
+    toObservable(this.state)
+      .pipe(takeUntilDestroyed())
+      .subscribe((state) => {
+        switch (state) {
+          case 'DISPLAY':
+            return this.resetTextfield();
+          case 'UPDATE':
+          case 'OUTDATED_UPDATE':
+            return this.toUpdateState();
+        }
+      });
   }
 
   startEdit() {
@@ -142,14 +146,15 @@ export class EditorComponent {
         debounceTime(3_000),
         filter(() => this.enableAutosave()),
         distinctUntilChanged(),
-        filter((newText) => {
+        filter(() => {
+          const newText = this.textModel;
           const canFireUpdate = this.state() === 'UPDATE';
           const oldText = this.text();
           return canFireUpdate && oldText !== newText;
         }),
         takeUntilDestroyed(),
       )
-      .subscribe((newText) => this.autosave.emit(newText));
+      .subscribe(() => this.autosave.emit(this.textModel));
   }
 
   private focusField() {

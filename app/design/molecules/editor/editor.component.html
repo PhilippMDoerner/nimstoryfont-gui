@@ -22,7 +22,10 @@
         [name]="editorId"
         [(ngModel)]="textModel"
         class="mb-2"
+        [class.editor--focus]="inFocus()"
         (onKeyDown)="change$.next(textModel)"
+        (onFocus)="inFocus.set(true)"
+        (onBlur)="inFocus.set(false)"
       ></editor>
     }
 

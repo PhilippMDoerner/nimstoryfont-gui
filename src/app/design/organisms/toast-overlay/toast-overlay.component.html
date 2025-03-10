@@ -40,7 +40,7 @@
             ></span>
           </span>
         </ng-template>
-
+        <ng-container *ngTemplateOutlet="timer"></ng-container>
         <ng-container *ngTemplateOutlet="body" />
       </ngb-toast>
     } @else {
@@ -54,7 +54,10 @@
         (hidden)="dismissCurrentToast()"
         (shown)="toast.onShow ? toast.onShow() : undefined"
       >
-        <ng-container *ngTemplateOutlet="body" />
+        <div class="d-flex flex-column w-100">
+          <ng-container *ngTemplateOutlet="timer"></ng-container>
+          <ng-container *ngTemplateOutlet="body" />
+        </div>
       </ngb-toast>
     }
   }
@@ -100,4 +103,15 @@
       }
     </div>
   </div>
+</ng-template>
+
+<ng-template #timer>
+  <span
+    class="toast__timer-bar"
+    [ngClass]="{
+      'toast__timer-bar--short-animation': toast?.dismissMs === 1500,
+      'toast__timer-bar--medium-animation': toast?.dismissMs === 3000,
+      'toast__timer-bar--long-animation': toast?.dismissMs === 5000,
+    }"
+  ></span>
 </ng-template>

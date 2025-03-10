@@ -1,5 +1,5 @@
 import { CdkTrapFocus } from '@angular/cdk/a11y';
-import { NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -45,6 +45,7 @@ export class ToastService {
     IconComponent,
     NgTemplateOutlet,
     CdkTrapFocus,
+    NgClass,
   ],
   animations: [slideRight],
   templateUrl: './toast-overlay.component.html',
@@ -68,6 +69,19 @@ export class ToastOverlayComponent {
 
     return this.toHeaderIcon(currentToast.type, currentToast.header?.icon);
   });
+
+  constructor() {
+    this.toastService.addToast({
+      header: {
+        text: 'Holy damn',
+      },
+      body: {
+        text: 'Yo00000000000000000000000000000',
+      },
+      type: 'SUCCESS',
+      dismissMs: 1500,
+    });
+  }
 
   dismissCurrentToast() {
     const currentToast = this.currentToast();

@@ -1,5 +1,14 @@
 @import "/src/screens.scss";
 
+@keyframes shrink-bar {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
 :host {
   position: absolute;
 }
@@ -22,6 +31,12 @@
   --toast-padding-x: var(--bs-toast-padding-x);
   --toast-padding-y: calc(var(--bs-toast-padding-y) / 2);
   --bs-toast-border-width: 3px;
+
+  @include media-breakpoint-up(sm) {
+    width: fit-content;
+    max-width: 50%;
+    bottom: 5%;
+  }
 
   &--primary {
     --bs-border-color-translucent: var(--bs-primary);
@@ -48,10 +63,28 @@
     --bs-border-color-translucent: var(--bs-dark);
   }
 
-  @include media-breakpoint-up(sm) {
-    width: fit-content;
-    max-width: 50%;
-    bottom: 5%;
+  &__timer-bar {
+    top: 0px;
+    left: 0px;
+    border-radius: var(--bs-border-radius);
+    position: absolute;
+    height: 6px;
+    width: 100%;
+    background-color: var(--bs-border-color-translucent);
+    animation-name: shrink-bar;
+    animation-fill-mode: forwards;
+
+    &--short-animation {
+      animation-duration: 1500ms;
+    }
+
+    &--normal-animation {
+      animation-duration: 3000ms;
+    }
+
+    &--long-animation {
+      animation-duration: 5000ms;
+    }
   }
 }
 

@@ -122,9 +122,7 @@ export class EncounterComponent implements OnInit {
       }),
     ];
 
-    return this.cardState() === 'CREATE'
-      ? [...defaultFields, editorField]
-      : defaultFields;
+    return defaultFields;
   });
 
   constructor(

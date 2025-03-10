@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Creature } from 'src/app/_models/creature';
 import { Image } from 'src/app/_models/image';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -27,6 +28,7 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
     RouterLink,
     ImageCarouselCardComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
   ],
 })
 export class CreatureComponent {

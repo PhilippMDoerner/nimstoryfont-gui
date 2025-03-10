@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { SessionAudio, Timestamp } from 'src/app/_models/sessionAudio';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
@@ -27,6 +28,7 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
     RouterLink,
     SessionaudioPlayerComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
   ],
 })
 export class SessionaudioComponent {

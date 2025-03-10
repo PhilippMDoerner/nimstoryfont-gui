@@ -7,6 +7,10 @@
           [routerLink]="updateUrl()"
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
+          [attr.aria-label]="'Edit ' + creature().name"
+          [title]="'Edit ' + creature().name"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
         >
         </a>
       </div>

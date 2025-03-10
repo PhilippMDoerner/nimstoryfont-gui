@@ -5,9 +5,12 @@
         <a
           btn
           [routerLink]="updateUrl()"
-          [title]="'Edit ' + organization().name"
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
+          [title]="'Edit ' + organization().name"
+          [attr.aria-label]="'Edit ' + organization().name"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
         >
         </a>
       </div>

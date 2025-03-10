@@ -16,6 +16,7 @@ import { BadgeListEntry, ListEntry } from '../../molecules';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
@@ -41,6 +42,7 @@ import { BreadcrumbEntry } from '../_models/breadcrumb-entry';
     LocationAccordionComponent,
     ArticleFooterComponent,
     BreadcrumbListComponent,
+    HotkeyDirective,
   ],
 })
 export class LocationTemplateComponent implements OnInit, OnChanges {

@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Image } from 'src/app/_models/image';
 import { Organization } from 'src/app/_models/organization';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -32,6 +33,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     EditableTextComponent,
     ListComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
   ],
 })
 export class OrganizationComponent {

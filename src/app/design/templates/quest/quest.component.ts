@@ -8,6 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Quest } from 'src/app/_models/quest';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
@@ -26,6 +27,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     NgTemplateOutlet,
     EditableTextComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
   ],
 })
 export class QuestComponent {

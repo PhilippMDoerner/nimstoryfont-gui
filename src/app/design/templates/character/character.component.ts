@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import {
   CharacterDetails,
   CharacterEncounter,
@@ -51,6 +52,7 @@ import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.com
     InfoCircleTooltipComponent,
     EncounterAccordionComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
   ],
 })
 export class CharacterComponent {

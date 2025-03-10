@@ -7,6 +7,10 @@
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
           [routerLink]="updateUrl()"
+          [title]="'Edit ' + quest().name"
+          [attr.aria-label]="'Edit ' + quest().name"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
         >
         </a>
       </div>

@@ -70,19 +70,6 @@ export class ToastOverlayComponent {
     return this.toHeaderIcon(currentToast.type, currentToast.header?.icon);
   });
 
-  constructor() {
-    this.toastService.addToast({
-      header: {
-        text: 'Holy damn',
-      },
-      body: {
-        text: 'Yo00000000000000000000000000000',
-      },
-      type: 'SUCCESS',
-      dismissMs: 1500,
-    });
-  }
-
   dismissCurrentToast() {
     const currentToast = this.currentToast();
     if (!currentToast) return undefined;

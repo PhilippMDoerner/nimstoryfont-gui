@@ -117,10 +117,13 @@ export class DiaryentryComponent {
   }
 
   rearrangeEncounters(event: CdkDragDrop<Encounter[]>) {
-    const encounters = this.diaryentry().encounters;
+    const encounters = this.sortedEncounters();
     const encounter = encounters[event.previousIndex];
     const newOrderIndex = getShiftedOrderIndex(encounters[event.currentIndex]);
-    this.encounterCutInsert.emit({ encounter, newOrderIndex });
+    this.encounterCutInsert.emit({
+      encounter,
+      newOrderIndex: newOrderIndex,
+    });
   }
 
   swapEncounters(event: MoveEvent<Encounter>) {

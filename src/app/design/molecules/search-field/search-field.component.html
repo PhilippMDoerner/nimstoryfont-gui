@@ -1,5 +1,5 @@
 <div class="search" id="search-area">
-  <form class="search__form" (submit)="startSearch()">
+  <form class="search__form" role="search" (submit)="startSearch()">
     <div
       class="d-flex search__bar"
       [class.search__bar--disabled]="!canSearch()"

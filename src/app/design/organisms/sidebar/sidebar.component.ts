@@ -48,6 +48,9 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   ],
   providers: [NgbActiveOffcanvas],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    role: 'navigation',
+  },
 })
 export class SidebarComponent {
   readonly pwaService = inject(PwaService);

@@ -9,6 +9,8 @@
           [kind]="'SECONDARY'"
           [routerLink]="updateUrl()"
           [attr.aria-label]="'Edit ' + item().name"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
         >
         </a>
       </div>

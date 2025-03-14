@@ -1,4 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
+import { DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   delay,
   filter,
@@ -76,4 +78,13 @@ export function delayFalsy<T>(
   delayByMs: number = 1000,
 ): OperatorFunction<T | undefined, T | undefined> {
   return pipe(switchMap((x) => of(x).pipe(delay(x ? 0 : delayByMs))));
+}
+
+export function takeOnceOrUntilDestroyed<T>(
+  destroyRef?: DestroyRef,
+): OperatorFunction<T, T> {
+  return pipe(
+    take(1),
+    destroyRef ? takeUntilDestroyed(destroyRef) : takeUntilDestroyed(),
+  );
 }

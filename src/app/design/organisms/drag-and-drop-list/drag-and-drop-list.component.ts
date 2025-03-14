@@ -46,7 +46,7 @@ export class DragAndDropListComponent<T> {
   changed = output<CdkDragDrop<T[]>>();
   swapEntries = output<MoveEvent<T>>();
 
-  constructor(directive: CdkDropList) {
+  constructor(directive: CdkDropList<T[]>) {
     directive.dropped
       .pipe(
         filter((event) => event.previousIndex !== event.currentIndex),

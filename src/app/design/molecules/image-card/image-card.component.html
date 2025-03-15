@@ -1,7 +1,11 @@
 <div class="card" [class.card--active]="inFocus()" data-register-focus>
   @if (currentImage()) {
     <div class="card__img-container">
-      <a class="card__img-link" [routerLink]="link()">
+      <a
+        class="card__img-link"
+        [routerLink]="link()"
+        [attr.aria-label]="text()"
+      >
         <img
           class="card-img-top"
           [ngSrc]="serverUrl() + currentImage()"

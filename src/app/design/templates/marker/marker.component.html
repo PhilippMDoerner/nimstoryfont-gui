@@ -2,7 +2,13 @@
   <article class="container marker">
     @if (canUpdate) {
       <div class="marker__edit-container">
-        <a [routerLink]="updateUrl" btn [icon]="'pencil'" [kind]="'SECONDARY'">
+        <a
+          [routerLink]="updateUrl"
+          btn
+          [icon]="'pencil'"
+          [kind]="'SECONDARY'"
+          aria-label="Edit Marker"
+        >
         </a>
       </div>
     }

@@ -14,6 +14,7 @@
               'col-sm-6': columnCount() === 2,
               'col-md-6 col-lg-4': columnCount() === 3,
             }"
+            [attr.aria-label]="entry.label"
           >
             <div class="entry__overlay">
               <div class="fs-4 entry__heading heading">

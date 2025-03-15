@@ -18,7 +18,11 @@
         [title]="campaign()?.name + '-Home'"
         [class.disabled-entry]="campaign() == null"
       >
-        <a class="brand__home-link" [routerLink]="homeUrl()">
+        <a
+          class="brand__home-link"
+          [routerLink]="homeUrl()"
+          aria-label="To Home Page"
+        >
           <h4 class="brand__home-link-text">
             <img
               class="brand__icon"

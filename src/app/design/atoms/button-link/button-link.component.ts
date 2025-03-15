@@ -18,7 +18,6 @@ import { IconComponent } from '../icon/icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'classes()',
-    '(keydown.Space)': 'host.nativeElement.click()',
   },
 })
 export class ButtonLinkComponent {

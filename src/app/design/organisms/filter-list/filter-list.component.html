@@ -60,7 +60,7 @@
           "
         >
           @for (item of itemLetterEntries.value; track $index) {
-            <li>
+            <li class="letter-list__item">
               <a [routerLink]="item.link">
                 {{ item[labelProp()] }}
               </a>
@@ -98,7 +98,7 @@
           <!-- Article List -->
           <ul class="letter-list__list">
             @for (item of itemLetterEntries.value; track $index) {
-              <li>
+              <li class="letter-list__item">
                 <a [routerLink]="item.link">
                   {{ item[labelProp()] }}
                 </a>

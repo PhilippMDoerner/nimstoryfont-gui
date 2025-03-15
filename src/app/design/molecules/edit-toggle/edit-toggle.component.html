@@ -1,6 +1,7 @@
 <button
   btn
   class="edit-toggle"
+  [attr.aria-pressed]="_toggled()"
   [kind]="buttonKind()"
   [icon]="_toggled() ? 'times' : 'pencil'"
   (click)="onClick()"

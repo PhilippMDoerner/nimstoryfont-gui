@@ -67,6 +67,37 @@ export function toElementKind(kind: ButtonKind): ElementKind | undefined {
   }
 }
 
+const BS_SIZE_CLASS_MAP: { [key in ElementSize]: string } = {
+  SMALL: 'btn-sm',
+  MEDIUM: '',
+  LARGE: 'btn-lg',
+};
+
+const BS_KIND_CLASS_MAP: { [key in ButtonKind]: string } = {
+  PRIMARY: 'btn-primary',
+  SECONDARY: 'btn-secondary',
+  DARK: 'btn-dark',
+  DANGER: 'btn-danger',
+  WARNING: 'btn-warning',
+  LIGHT: 'btn-light',
+  INFO: 'btn-info',
+  'PRIMARY-OUTLINE': 'btn-outline-primary',
+  'SECONDARY-OUTLINE': 'btn-outline-secondary',
+  'DARK-OUTLINE': 'btn-outline-dark',
+  'DANGER-OUTLINE': 'btn-outline-danger',
+  'WARNING-OUTLINE': 'btn-outline-warning',
+  'LIGHT-OUTLINE': 'btn-outline-light',
+  'INFO-OUTLINE': 'btn-outline-info',
+  NONE: 'btn-none',
+};
+
+export function toButtonClasses(kind: ButtonKind, size: ElementSize): string {
+  const btnClass = kind !== 'NONE' ? 'btn' : '';
+  const sizeClass = BS_SIZE_CLASS_MAP[size];
+  const kindClass = BS_KIND_CLASS_MAP[kind];
+  return `${btnClass} ${sizeClass} ${kindClass}`;
+}
+
 export const ELEMENT_SIZES = ['SMALL', 'MEDIUM', 'LARGE'] as const;
 export type ElementSize = (typeof ELEMENT_SIZES)[number];
 

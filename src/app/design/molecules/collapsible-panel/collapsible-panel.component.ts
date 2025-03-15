@@ -35,6 +35,7 @@ export class CollapsiblePanelComponent implements OnInit {
   }
 
   togglePanel() {
+    console.log('Yo');
     this._isOpen.set(!this._isOpen());
   }
 }

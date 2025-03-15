@@ -141,8 +141,8 @@ export function toIconKind(icon: Icon): IconKind | undefined {
   } else if (REGULAR_ICON_SET.has(ico)) {
     return 'fa-regular';
   } else {
-    const e = new Error('Invalid icon: ' + icon);
-    console.error(e);
+    // const e = new Error('Invalid icon: ' + icon);
+    // console.error(e);
     return 'fa-solid';
   }
 }

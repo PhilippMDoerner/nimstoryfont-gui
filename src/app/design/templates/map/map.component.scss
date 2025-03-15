@@ -22,15 +22,17 @@
     width: fit-content;
     display: inline-block;
   }
+
+  &__heading-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--spacer-5);
+  }
 }
 
 .heading {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: var(--spacer-5);
-
   &__select {
     margin-left: var(--spacer-3);
     font-weight: bold;

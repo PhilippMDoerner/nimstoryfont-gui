@@ -4,7 +4,7 @@
 }
 
 .card {
-  &__heading {
+  &__heading-container {
     display: flex;
     justify-content: space-between;
     margin-bottom: var(--spacer-3);

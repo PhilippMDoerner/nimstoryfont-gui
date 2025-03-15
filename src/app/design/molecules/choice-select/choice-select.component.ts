@@ -5,7 +5,6 @@ import {
   input,
   Output,
 } from '@angular/core';
-import { componentId } from 'src/utils/DOM';
 
 @Component({
   selector: 'app-choice-select',
@@ -18,7 +17,7 @@ export class ChoiceSelectComponent {
   choices = input.required<any[]>();
   labelProp = input.required<string>();
   selectedLabelValue = input.required<string | undefined>();
-  id = input<string>(componentId());
+  id = input.required<string>();
 
   @Output() choiceSelect: EventEmitter<any> = new EventEmitter();
 

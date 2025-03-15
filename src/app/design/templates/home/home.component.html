@@ -26,10 +26,8 @@
     <!-- Search Bar -->
     <app-search-field
       class="home__search-bar"
-      [placeholder]="'Search for Articles...'"
-      [btnAriaLabel]="
-        'Triggers a search for any articles matching the query in this campaign'
-      "
+      [placeholder]="'Search for Articles in this campaign!'"
+      [btnAriaLabel]="'Start search!'"
       [canSearch]="(isOnline$ | async) === true"
       (appSearch)="appSearch.emit($event)"
     ></app-search-field>

@@ -1,11 +1,28 @@
-<div class="row">
+<section
+  role="feed"
+  class="row"
+  [attr.aria-busy]="isLoading()"
+  (keydown.ArrowDown)="focusNextArticle($event)"
+  (keydown.ArrowUp)="focusPriorArticle($event)"
+  (keydown.control.End)="focusArticle(articleCount() - 1)"
+  (keydown.control.Home)="focusArticle(0)"
+>
   @for (article of articles(); track $index) {
-    <div class="entry col-6 col-lg-4 col-xl-3">
+    @let articleId = id + "-article-" + $index;
+    <article
+      (focusin)="focusedIndex.set($index)"
+      class="entry col-6 col-lg-4 col-xl-3"
+      [attr.aria-posinset]="$index"
+      [attr.aria-setsize]="-1"
+      [attr.aria-labelledby]="articleId"
+    >
       <a
+        [id]="articleId"
+        #articleLink
         class="entry__link"
         [routerLink]="article.link"
         [title]="article.title"
-        [attr.aria-label]="article.title"
+        [attr.aria-label]="article.entryType + ' article ' + article.title"
       >
         <app-icon-card
           [icon]="article.icon"
@@ -15,13 +32,17 @@
           [decoration]="article.decoration"
         ></app-icon-card>
       </a>
-    </div>
+    </article>
   }
   @if (isLoading()) {
     @for (item of dummyArticles; track $index) {
-      <app-placeholder
-        class="entry entry--placeholder col-6 col-lg-4 col-xl-3"
-      />
+      <article>
+        <app-placeholder
+          [attr.aria-setsize]="articles().length"
+          [attr.aria-posinset]="$index"
+          class="entry entry--placeholder col-6 col-lg-4 col-xl-3"
+        />
+      </article>
     }
   }
-</div>
+</section>

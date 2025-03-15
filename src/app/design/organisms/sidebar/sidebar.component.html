@@ -7,7 +7,7 @@
         <a
           [routerLink]="campaignOverviewUrl"
           class="brand__back-link"
-          aria-label="'Back to campaign overview'"
+          aria-label="'To campaign overview'"
         >
           <app-icon class="brand__back-icon" [icon]="'chevron-left'"></app-icon>
         </a>
@@ -23,7 +23,7 @@
           [routerLink]="homeUrl()"
           aria-label="To Home Page"
         >
-          <h4 class="brand__home-link-text">
+          <div class="h4 brand__home-link-text">
             <img
               class="brand__icon"
               [ngSrc]="serverUrl + campaign()?.icon"
@@ -35,7 +35,7 @@
             <div class="brand__home-link-text-text">
               {{ campaign()?.name }}
             </div>
-          </h4>
+          </div>
         </a>
       </div>
     </div>

@@ -9,6 +9,7 @@ import {
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
+import { componentId } from 'src/utils/DOM';
 
 @Component({
   selector: 'app-collapsible-panel',
@@ -20,6 +21,10 @@ import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.com
 export class CollapsiblePanelComponent implements OnInit {
   isOpen = input(false);
   _isOpen = signal(false);
+
+  id = componentId();
+  triggerId = `trigger-${this.id}`;
+  contentId = `content-${this.id}`;
 
   constructor() {
     effect(() => this._isOpen.set(this.isOpen()));

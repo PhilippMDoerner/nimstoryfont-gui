@@ -20,70 +20,45 @@
     />
   </form>
 
-  <div class="row">
+  <section>
     <ng-container
       *ngTemplateOutlet="mode() === 'LETTER' ? letterList : propertyList"
     ></ng-container>
-  </div>
+  </section>
 </div>
 
 <ng-template #letterList>
-  @for (
-    itemLetterEntries of displayEntries() | groupByFirstLetter: labelProp();
-    track $index
-  ) {
-    <section
-      class="letter-list"
-      [ngClass]="{
-        'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine(),
-        'col-12': filterInputElement.value || forceSingleLine,
-      }"
-    >
-      <!-- Letter Heading -->
-      @if (filterInputElement.value.length === 0) {
-        <div class="fs-5 letter-list__heading">
-          {{ itemLetterEntries.key }}
-        </div>
-      }
-
-      <!-- Article List -->
-      <ul class="letter-list__list">
-        @for (item of itemLetterEntries.value; track $index) {
-          <li>
-            <a [routerLink]="item.link">
-              {{ item[labelProp()] }}
-            </a>
-          </li>
-        }
-      </ul>
-    </section>
-  }
-</ng-template>
-
-<ng-template #propertyList>
-  @let groupPropVal = groupProp();
-  @if (groupPropVal) {
+  <ul
+    class="row"
+    [attr.aria-label]="
+      'All ' + heading() + ' in this campaign, split into lists by first letter'
+    "
+  >
     @for (
-      itemLetterEntries of displayEntries()
-        | groupBy: groupPropVal : "session_details.session_number";
+      itemLetterEntries of displayEntries() | groupByFirstLetter: labelProp();
       track $index
     ) {
-      <div
+      <li
         class="letter-list"
         [ngClass]="{
-          'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine,
+          'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine(),
           'col-12': filterInputElement.value || forceSingleLine,
         }"
       >
         <!-- Letter Heading -->
         @if (filterInputElement.value.length === 0) {
-          <h5 class="letter-list__heading">
+          <div class="fs-5 letter-list__heading" aria-hidden="true">
             {{ itemLetterEntries.key }}
-          </h5>
+          </div>
         }
 
         <!-- Article List -->
-        <ul class="letter-list__list">
+        <ul
+          class="letter-list__list"
+          [attr.aria-label]="
+            heading() + ' names starting with \'' + itemLetterEntries.key + '\''
+          "
+        >
           @for (item of itemLetterEntries.value; track $index) {
             <li>
               <a [routerLink]="item.link">
@@ -92,7 +67,46 @@
             </li>
           }
         </ul>
-      </div>
+      </li>
     }
-  }
+  </ul>
+</ng-template>
+
+<ng-template #propertyList>
+  <ul class="row">
+    @let groupPropVal = groupProp();
+    @if (groupPropVal) {
+      @for (
+        itemLetterEntries of displayEntries()
+          | groupBy: groupPropVal : "session_details.session_number";
+        track $index
+      ) {
+        <li
+          class="letter-list"
+          [ngClass]="{
+            'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine,
+            'col-12': filterInputElement.value || forceSingleLine,
+          }"
+        >
+          <!-- Letter Heading -->
+          @if (filterInputElement.value.length === 0) {
+            <h5 class="letter-list__heading">
+              {{ itemLetterEntries.key }}
+            </h5>
+          }
+
+          <!-- Article List -->
+          <ul class="letter-list__list">
+            @for (item of itemLetterEntries.value; track $index) {
+              <li>
+                <a [routerLink]="item.link">
+                  {{ item[labelProp()] }}
+                </a>
+              </li>
+            }
+          </ul>
+        </li>
+      }
+    }
+  </ul>
 </ng-template>

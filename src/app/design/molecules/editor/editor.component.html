@@ -1,13 +1,13 @@
 <!-- Text Body -->
 @if (canUpdate()) {
   <!-- Display Mode -->
-  <button
+  <div
     class="field field--display"
     [class.field--hidden]="state() !== 'DISPLAY'"
     (click)="startEdit()"
   >
     <ng-container *ngTemplateOutlet="textBody" />
-  </button>
+  </div>
   <!-- Update Mode -->
   <form
     class="field field--update"

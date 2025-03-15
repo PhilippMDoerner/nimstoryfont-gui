@@ -1,11 +1,18 @@
 <!-- Heading -->
 @let headingVal = heading();
-@if (headingVal) {
-  <div role="heading" [attr.aria-level]="ariaLevel()" class="heading h4">
-    <label [for]="editorId" [innerHTML]="headingVal"> </label>
+<div class="heading__container">
+  @if (headingVal) {
+    <div role="heading" [attr.aria-level]="ariaLevel()" class="heading h4">
+      @if (state() === "DISPLAY") {
+        <div [innerHTML]="headingVal"></div>
+      } @else {
+        <label [for]="editorId" [innerHTML]="headingVal"> </label>
+      }
+    </div>
     @if (canUpdate()) {
       <button
         class="heading__edit-button fs-6 fw-normal"
+        aria-label="Edit text"
         [hotkey]="'w'"
         (hotkeyPressed)="toggleEdit()"
         (click)="toggleEdit()"
@@ -16,8 +23,8 @@
         )
       </button>
     }
-  </div>
-}
+  }
+</div>
 
 <!-- Text Body -->
 <app-editor

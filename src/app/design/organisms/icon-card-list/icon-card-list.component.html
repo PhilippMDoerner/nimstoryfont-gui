@@ -36,11 +36,11 @@
   }
   @if (isLoading()) {
     @for (item of dummyArticles; track $index) {
-      <article>
+      <article class="entry col-6 col-lg-4 col-xl-3">
         <app-placeholder
           [attr.aria-setsize]="articles().length"
           [attr.aria-posinset]="$index"
-          class="entry entry--placeholder col-6 col-lg-4 col-xl-3"
+          class="entry__placeholder"
         />
       </article>
     }

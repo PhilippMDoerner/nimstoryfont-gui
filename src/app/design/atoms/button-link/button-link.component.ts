@@ -2,6 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
+  inject,
   input,
 } from '@angular/core';
 import { ButtonKind, ElementSize, toButtonClasses } from '../_models/button';
@@ -16,6 +18,7 @@ import { IconComponent } from '../icon/icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'classes()',
+    '(keydown.Space)': 'host.nativeElement.click()',
   },
 })
 export class ButtonLinkComponent {
@@ -23,6 +26,8 @@ export class ButtonLinkComponent {
   text = input<string>();
   icon = input<Icon>();
   size = input<ElementSize>('MEDIUM');
+
+  readonly host = inject(ElementRef<HTMLAnchorElement>);
 
   classes = computed(() => toButtonClasses(this.kind(), this.size()));
 }

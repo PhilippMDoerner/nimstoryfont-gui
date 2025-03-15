@@ -1,22 +1,23 @@
 @if (spell() || state() === "CREATE") {
-  <h4 class="card__heading heading">
-    <span>
-      @switch (state()) {
-        @case ("DISPLAY") {
-          <ng-container [ngTemplateOutlet]="displayHeading" />
+  <div class="card__heading-container">
+    <h4 class="card__heading heading">
+      <span>
+        @switch (state()) {
+          @case ("DISPLAY") {
+            <ng-container [ngTemplateOutlet]="displayHeading" />
+          }
+          @case ("UPDATE") {
+            <ng-container [ngTemplateOutlet]="updateHeading" />
+          }
+          @case ("CREATE") {
+            <ng-container [ngTemplateOutlet]="createHeading" />
+          }
+          @case ("OUTDATED_UPDATE") {
+            <ng-container [ngTemplateOutlet]="updateHeading" />
+          }
         }
-        @case ("UPDATE") {
-          <ng-container [ngTemplateOutlet]="updateHeading" />
-        }
-        @case ("CREATE") {
-          <ng-container [ngTemplateOutlet]="createHeading" />
-        }
-        @case ("OUTDATED_UPDATE") {
-          <ng-container [ngTemplateOutlet]="updateHeading" />
-        }
-      }
-    </span>
-
+      </span>
+    </h4>
     @if (canUpdate() || canCreate()) {
       <app-edit-toggle
         [buttonKind]="'DARK'"
@@ -26,7 +27,7 @@
         (toggle)="onToggle($event)"
       ></app-edit-toggle>
     }
-  </h4>
+  </div>
 
   @switch (state()) {
     @case ("DISPLAY") {

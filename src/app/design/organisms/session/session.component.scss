@@ -1,15 +1,15 @@
-.card{
-  &__heading{
+.card {
+  &__heading {
     display: flex;
     justify-content: space-between;
     margin-bottom: var(--spacer-3);
   }
-  
-  &__body{
+
+  &__body {
     margin-bottom: var(--spacer-3);
   }
-  
-  &__delete-confirmer{
+
+  &__delete-confirmer {
     padding-left: var(--spacer-0);
     padding-right: var(--spacer-0);
     display: flex;
@@ -19,35 +19,40 @@
   }
 }
 
-.heading{
-  &__subtext{
+.heading {
+  &__subtext {
     --bs-text-opacity: 1;
     color: #9b9a9a;
   }
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
-.body{
+.body {
   margin-bottom: var(--spacer-4);
-  
-  &__entry{
+
+  &__entry {
     margin-bottom: var(--spacer-4);
   }
-  
-  &__subheading{
+
+  &__subheading {
     margin-bottom: var(--spacer-1);
   }
-  
-  &__subbody{
+
+  &__subbody {
     display: flex;
     flex-direction: column;
     margin-left: var(--spacer-4);
-    
-    &--list{
+
+    &--list {
       margin-left: var(--spacer-2);
     }
   }
-  
-  &__link{
+
+  &__link {
     width: fit-content;
   }
 }

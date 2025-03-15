@@ -1,22 +1,23 @@
 <!-- Heading -->
-<h4 class="card__heading heading">
-  <span>
-    @switch (state()) {
-      @case ("DISPLAY") {
-        <ng-container [ngTemplateOutlet]="displayHeading" />
+<div class="heading__container">
+  <h4 class="card__heading heading">
+    <span>
+      @switch (state()) {
+        @case ("DISPLAY") {
+          <ng-container [ngTemplateOutlet]="displayHeading" />
+        }
+        @case ("UPDATE") {
+          <ng-container [ngTemplateOutlet]="updateHeading" />
+        }
+        @case ("CREATE") {
+          <ng-container [ngTemplateOutlet]="createHeading" />
+        }
+        @case ("OUTDATED_UPDATE") {
+          <ng-container [ngTemplateOutlet]="updateHeading" />
+        }
       }
-      @case ("UPDATE") {
-        <ng-container [ngTemplateOutlet]="updateHeading" />
-      }
-      @case ("CREATE") {
-        <ng-container [ngTemplateOutlet]="createHeading" />
-      }
-      @case ("OUTDATED_UPDATE") {
-        <ng-container [ngTemplateOutlet]="updateHeading" />
-      }
-    }
-  </span>
-
+    </span>
+  </h4>
   <!-- Edit Toggler -->
   @if (canUpdate()) {
     <app-edit-toggle
@@ -27,7 +28,7 @@
       (toggle)="onToggle($event)"
     ></app-edit-toggle>
   }
-</h4>
+</div>
 
 @switch (state()) {
   @case ("DISPLAY") {
@@ -59,10 +60,10 @@
   <div class="card__body body">
     @if (diaryEntries().length > 0) {
       <div class="body__entry">
-        <h5 class="body__subheading">
+        <div class="h5 body__subheading">
           <app-icon [icon]="'book-open'"></app-icon>
           Diaryentries
-        </h5>
+        </div>
 
         <ul class="body__subbody body__subbody--list">
           @for (diaryEntry of diaryEntries(); track diaryEntry.link) {

@@ -21,7 +21,7 @@
       <h3 class="map__heading heading">
         <label for="map-select">Select Map: </label>
         <app-choice-select
-          id="map-select"
+          [id]="'map-select'"
           class="heading__select"
           [choices]="mapChoices()"
           [labelProp]="'name'"

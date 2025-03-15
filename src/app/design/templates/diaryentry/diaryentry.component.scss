@@ -6,9 +6,9 @@
 .diaryentry {
   padding: 0;
 
-  &__edit-row {
-    width: 100%;
-    margin-bottom: var(--spacer-3);
+  &__menu-container {
+    display: flex;
+    justify-content: flex-end;
   }
 
   &__heading {

@@ -10,7 +10,6 @@ import {
   signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { DiaryEntry, DiaryEntryStump } from 'src/app/_models/diaryentry';
 import {
   Encounter,
@@ -22,8 +21,8 @@ import {
 import { OverviewItem } from 'src/app/_models/overview';
 import { Session } from 'src/app/_models/session';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ContextMenuComponent } from 'src/app/molecules/context-menu/context-menu.component';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
-import { ButtonComponent } from '../../atoms/button/button.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { DiaryentryEncountersComponent } from '../../organisms/diaryentry-encounters/diaryentry-encounters.component';
 import {
@@ -41,14 +40,13 @@ type DiaryEntryState = 'DISPLAY' | 'EDIT';
   imports: [
     PageContainerComponent,
     RouterLink,
-    ButtonComponent,
     NgTemplateOutlet,
     DiaryentryEncountersComponent,
     ArticleFooterComponent,
     DatePipe,
-    HotkeyDirective,
     ButtonLinkComponent,
     DragAndDropListComponent,
+    ContextMenuComponent,
   ],
 })
 export class DiaryentryComponent {

@@ -1,35 +1,30 @@
 <app-page-container>
   <article class="container diarentry">
     @if (canUpdate()) {
-      <div class="diaryentry__edit-row edit-row">
-        <div class="edit-row__edit-container edit-container">
-          <a
-            btn
-            #editDiaryentryLink
-            class="edit-container__button"
-            aria-label="Edit Diaryentry"
-            title="Edit Diaryentry"
-            [routerLink]="updateUrl()"
-            [icon]="'pencil'"
-            [kind]="'SECONDARY'"
-            [hotkey]="'e'"
-            [disabledHotkey]="state() !== 'DISPLAY'"
-            (hotkeyPressed)="$event.host.click()"
-          >
-          </a>
-          <button
-            btn
-            class="edit-container__button"
-            [kind]="'SECONDARY'"
-            [icon]="state() === 'DISPLAY' ? 'pencil' : 'times'"
-            [text]="
-              state() === 'DISPLAY' ? 'Edit Encounters' : 'Read Diaryentry'
-            "
-            [hotkey]="'r'"
-            (hotkeyPressed)="toggleState()"
-            (click)="toggleState()"
-          ></button>
-        </div>
+      <div class="diaryentry__menu-container">
+        <app-context-menu
+          [menuButtonKind]="'SECONDARY'"
+          [menuButtonIcon]="'pencil'"
+          [menuButtonHotkey]="'e'"
+          [menuButtonAriaLabel]="'Edit actions for diaryentry'"
+          [placement]="['bottom-end', 'top-end']"
+          [menuItems]="[
+            {
+              kind: 'LINK',
+              label: 'Edit Diaryentry',
+              icon: 'book-open',
+              url: updateUrl(),
+            },
+            {
+              kind: 'BUTTON',
+              label: 'Edit Encounters',
+              icon: 'rectangle-list',
+              actionName: 'toggleState',
+              hotkey: 'r',
+            },
+          ]"
+          (actionTriggered)="toggleState()"
+        ></app-context-menu>
       </div>
     }
 

@@ -1,7 +1,12 @@
-.create-button {
-  display: inline-block;
-  width: fit-content;
-  margin-left: var(--spacer-3);
+.heading {
+  display: flex;
+  margin-bottom: var(--spacer-3);
+  gap: var(--spacer-3);
+  align-items: center;
+
+  &__text {
+    margin: 0;
+  }
 }
 
 .button-container {

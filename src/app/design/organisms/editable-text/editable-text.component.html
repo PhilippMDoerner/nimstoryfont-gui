@@ -2,7 +2,7 @@
 @let headingVal = heading();
 <div class="heading__container">
   @if (headingVal) {
-    <div role="heading" [attr.aria-level]="ariaLevel()" class="heading h4">
+    <div role="heading" [attr.aria-level]="ariaLevel()" class="heading h4 m-0">
       @if (state() === "DISPLAY") {
         <div [innerHTML]="headingVal"></div>
       } @else {

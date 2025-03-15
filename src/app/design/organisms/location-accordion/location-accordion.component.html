@@ -1,6 +1,5 @@
-<h4>
-  Locations of Interest
-
+<div class="heading">
+  <h4 class="heading__text">Locations of Interest</h4>
   @if (canCreate()) {
     <a
       btn
@@ -9,12 +8,12 @@
       [kind]="'PRIMARY'"
       [size]="'SMALL'"
       [icon]="'plus'"
-      class="create-button"
+      class="heading__create-button"
       [routerLink]="createUrl()"
     >
     </a>
   }
-</h4>
+</div>
 
 <div ngbAccordion [closeOthers]="true">
   @for (entry of locations(); track entry.pk) {

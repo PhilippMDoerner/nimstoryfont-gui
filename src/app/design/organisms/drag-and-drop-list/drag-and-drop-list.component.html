@@ -1,6 +1,6 @@
 @for (entry of entries(); track entry[idProp()]) {
   <!-- NOTE: drag-and-drop-list-entry is dedicated to external styling -->
-  <div class="list__entry entry drag-and-drop-list-entry" cdkDrag>
+  <li class="list__entry entry drag-and-drop-list-entry" cdkDrag>
     <div class="entry__placeholder placeholder" *cdkDragPlaceholder>
       <app-icon class="placeholder__icon" [icon]="'cut'"></app-icon>
     </div>
@@ -23,7 +23,7 @@
         [icon]="'arrow-up'"
         aria-label="'Move entry up'"
         [disabled]="$first || isUpdating()"
-        (click)="moveEncounterUp($index)"
+        (clicked)="moveEncounterUp($index)"
       ></button>
 
       <button
@@ -33,8 +33,8 @@
         [icon]="'arrow-down'"
         aria-label="'Move entry down'"
         [disabled]="$last || isUpdating()"
-        (click)="moveEncounterDown($index)"
+        (clicked)="moveEncounterDown($index)"
       ></button>
     </div>
-  </div>
+  </li>
 }

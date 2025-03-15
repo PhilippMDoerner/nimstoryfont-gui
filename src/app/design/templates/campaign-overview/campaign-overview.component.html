@@ -7,7 +7,7 @@
         [kind]="'SECONDARY'"
         [icon]="'sign-out-alt'"
         [text]="'Logout'"
-        (click)="logout.emit()"
+        (clicked)="logout.emit()"
       ></button>
 
       @if (isGlobalAdmin()) {

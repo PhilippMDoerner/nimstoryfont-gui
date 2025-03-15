@@ -36,6 +36,9 @@ export type MoveEvent<T> = {
   styleUrl: './drag-and-drop-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [CdkDropList],
+  host: {
+    role: 'list',
+  },
 })
 export class DragAndDropListComponent<T> {
   entries = input.required<T[]>();

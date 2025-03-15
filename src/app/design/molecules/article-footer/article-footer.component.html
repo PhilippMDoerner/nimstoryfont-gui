@@ -19,7 +19,7 @@
     [routerLink]="buttonLink()"
     [kind]="'SECONDARY'"
     [text]="buttonLabel()"
-    (click)="buttonClick.emit()"
+    (clicked)="buttonClick.emit()"
   >
   </a>
 </ng-template>
@@ -29,6 +29,6 @@
     btn
     [kind]="'SECONDARY'"
     [text]="buttonLabel()"
-    (click)="buttonClick.emit()"
+    (clicked)="buttonClick.emit()"
   ></button>
 </ng-template>

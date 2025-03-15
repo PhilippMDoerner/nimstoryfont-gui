@@ -4,7 +4,7 @@
   [attr.aria-pressed]="_toggled()"
   [kind]="buttonKind()"
   [icon]="_toggled() ? 'times' : 'pencil'"
-  (click)="onClick()"
+  (clicked)="onClick()"
   [hotkey]="'e'"
   [disabledHotkey]="disabledHotkey()"
   [attr.aria-label]="title()"

@@ -48,6 +48,7 @@
         [labelProp]="'title'"
         [idProp]="'pk'"
         [isUpdating]="isUpdatingEncounters()"
+        aria-label="Rearrangeable encounters in this diaryentry"
         (changed)="rearrangeEncounters($event)"
         (swapEntries)="swapEncounters($event)"
       />

@@ -19,7 +19,7 @@
     [hotkey]="'d'"
     [disabledHotkey]="!enableHotkey()"
     (hotkeyPressed)="toggle()"
-    (click)="toggle()"
+    (clicked)="toggle()"
   ></button>
 </ng-template>
 
@@ -33,7 +33,7 @@
         btn
         [kind]="confirmButtonType()"
         [text]="'Yes'"
-        (click)="emitConfirmation()"
+        (clicked)="emitConfirmation()"
       ></button>
       <button
         btn
@@ -42,7 +42,7 @@
         [hotkey]="'q'"
         [disabledHotkey]="!enableHotkey()"
         (hotkeyPressed)="toggle()"
-        (click)="toggle()"
+        (clicked)="toggle()"
       ></button>
     </div>
   </div>

@@ -15,7 +15,7 @@
           [kind]="'SECONDARY'"
           [icon]="showProfileEditForm ? 'times' : 'pencil'"
           [text]="showProfileEditForm ? 'Cancel Profile Edit' : 'Edit Profile'"
-          (click)="toggleProfileEditState()"
+          (clicked)="toggleProfileEditState()"
         ></button>
 
         <button
@@ -26,7 +26,7 @@
           [text]="
             showPasswordEditForm ? 'Cancel Password Edit' : 'Edit Password'
           "
-          (click)="togglePasswordEditState()"
+          (clicked)="togglePasswordEditState()"
         ></button>
       </div>
     </div>
@@ -120,7 +120,7 @@
         [kind]="'SECONDARY'"
         [icon]="'sign-out-alt'"
         [size]="'SMALL'"
-        (click)="toggleLeaveCampaignState(context.membership)"
+        (clicked)="toggleLeaveCampaignState(context.membership)"
       ></button>
     </div>
   </div>
@@ -140,14 +140,14 @@
       class="col-md-2"
       [kind]="'DANGER'"
       [text]="'Yes'"
-      (click)="campaignLeave.emit(context.membership)"
+      (clicked)="campaignLeave.emit(context.membership)"
     ></button>
     <button
       btn
       class="col-md-2"
       [kind]="'DARK'"
       [text]="'No'"
-      (click)="toggleLeaveCampaignState(context.membership)"
+      (clicked)="toggleLeaveCampaignState(context.membership)"
     ></button>
   </app-alert>
 </ng-template>

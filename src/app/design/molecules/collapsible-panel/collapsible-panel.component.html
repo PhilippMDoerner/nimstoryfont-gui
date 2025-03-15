@@ -3,7 +3,7 @@
     btn
     class="card__button"
     [id]="triggerId"
-    (click)="togglePanel()"
+    (clicked)="togglePanel()"
     [attr.aria-controls]="contentId"
     [attr.aria-expanded]="_isOpen()"
   >

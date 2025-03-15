@@ -29,7 +29,7 @@
             [text]="
               userState === 'CREATE' ? 'Cancel User Creation' : 'Add User'
             "
-            (click)="
+            (clicked)="
               userState === 'CREATE'
                 ? setUserState('DISPLAY')
                 : setUserState('CREATE')
@@ -103,7 +103,7 @@
             [kind]="'PRIMARY'"
             [icon]="'database'"
             [text]="'Download Database'"
-            (click)="downloadDatabase.emit()"
+            (clicked)="downloadDatabase.emit()"
           ></button>
 
           <!-- Clear Tokens -->
@@ -154,7 +154,7 @@
                 ? 'Cancel Campaign Creation'
                 : 'Add Campaign'
             "
-            (click)="
+            (clicked)="
               campaignState === 'CREATE'
                 ? setCampaignState('DISPLAY')
                 : setCampaignState('CREATE')

@@ -8,12 +8,12 @@
       <div class="heading__edit-cancel">
         <button
           btn
-          (click)="cancel.emit()"
           [icon]="'times'"
           [kind]="'SECONDARY'"
           [attr.aria-label]="'Cancel ' + heading()"
           [hotkey]="'q'"
           (hotkeyPressed)="cancel.emit()"
+          (clicked)="cancel.emit()"
         ></button>
       </div>
     </h1>

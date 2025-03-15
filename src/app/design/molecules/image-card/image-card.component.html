@@ -25,7 +25,7 @@
         [kind]="'NONE'"
         [icon]="inFocus() ? 'xmark' : 'expand'"
         [attr.aria-label]="'Expand image view of ' + text()"
-        (click)="
+        (clicked)="
           inFocus()
             ? closeBtnClicked$.next($event)
             : openBtnClicked$.next($event)

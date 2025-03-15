@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   input,
+  output,
 } from '@angular/core';
 import { ButtonKind, ElementSize, toButtonClasses } from '../_models/button';
 import { Icon } from '../_models/icon';
@@ -18,7 +19,8 @@ import { SpinnerComponent } from '../spinner/spinner.component';
   host: {
     '[class]': 'classes()',
     '[type]': 'type()',
-    '[disabled]': 'isLoading() || disabled()',
+    '[attr.aria-disabled]': 'isLoading() || disabled()',
+    '(click)': 'onClick($event)',
   },
 })
 export class ButtonComponent {
@@ -30,5 +32,17 @@ export class ButtonComponent {
   isLoading = input<boolean>(false);
   disabled = input<boolean>(false);
 
-  classes = computed(() => toButtonClasses(this.kind(), this.size()));
+  clicked = output<MouseEvent>();
+
+  onClick(event: MouseEvent) {
+    if (!this.isLoading() && !this.disabled()) {
+      this.clicked.emit(event);
+    }
+  }
+
+  disabledClass = computed(() => (this.disabled() ? 'disabled' : ''));
+  classes = computed(
+    () =>
+      toButtonClasses(this.kind(), this.size()) + ` ${this.disabledClass()}`,
+  );
 }

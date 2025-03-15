@@ -20,7 +20,7 @@
           [kind]="cancelButtonType()"
           [icon]="'times'"
           [text]="cancelButtonLabel()"
-          (click)="onCancel(modal)"
+          (clicked)="onCancel(modal)"
         ></button>
         <button
           btn
@@ -28,7 +28,7 @@
           [kind]="modalType()"
           [icon]="submitIcon()"
           [text]="submitButtonLabel()"
-          (click)="onSubmit(modal)"
+          (clicked)="onSubmit(modal)"
         ></button>
       </div>
     </div>

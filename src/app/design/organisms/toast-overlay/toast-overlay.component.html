@@ -86,7 +86,7 @@
           [icon]="firstButton.icon"
           [size]="'SMALL'"
           [kind]="'PRIMARY'"
-          (click)="firstButton.onClick(dismissCurrentToast.bind(this))"
+          (clicked)="firstButton.onClick(dismissCurrentToast.bind(this))"
         ></button>
       }
       @let secondButton = toast?.body?.buttons?.[1];
@@ -98,7 +98,7 @@
           [icon]="secondButton.icon"
           [size]="'SMALL'"
           [kind]="'SECONDARY'"
-          (click)="secondButton.onClick(dismissCurrentToast.bind(this))"
+          (clicked)="secondButton.onClick(dismissCurrentToast.bind(this))"
         ></button>
       }
     </div>

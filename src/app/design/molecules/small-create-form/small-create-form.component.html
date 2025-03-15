@@ -57,7 +57,7 @@
       [size]="'SMALL'"
       [icon]="'check'"
       [type]="'submit'"
-      (click)="onSubmit()"
+      (clicked)="onSubmit()"
     ></button>
 
     <!-- Cancel Button -->
@@ -70,7 +70,7 @@
       [hotkey]="'q'"
       [disabledHotkey]="disableHotkeys()"
       (hotkeyPressed)="toggleForm()"
-      (click)="toggleForm()"
+      (clicked)="toggleForm()"
     ></button>
   </form>
 </ng-template>

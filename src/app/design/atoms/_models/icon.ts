@@ -87,6 +87,7 @@ export const ALL_SOLID_ICONS = [
   'place-of-worship',
   'plus',
   'question-circle',
+  'rectangle-list',
   'redo-alt',
   'refresh',
   'right-from-bracket',

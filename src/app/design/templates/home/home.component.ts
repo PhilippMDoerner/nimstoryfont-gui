@@ -25,8 +25,11 @@ import { Icon } from 'src/app/design/atoms/_models/icon';
 import { PlaceholderComponent } from 'src/app/design/atoms/placeholder/placeholder.component';
 import { IconCardEntry } from 'src/app/design/organisms/_model/icon-card-list';
 import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
+import { componentId } from 'src/utils/DOM';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
+import { SwitchComponent } from '../../atoms/switch/switch.component';
+import { ChoiceSelectComponent } from '../../molecules';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-list.component';
 
@@ -51,6 +54,8 @@ const FILTER_LABEL: { [key in FilterMode]: string } = {
     AsyncPipe,
     NgOptimizedImage,
     ButtonComponent,
+    ChoiceSelectComponent,
+    SwitchComponent,
   ],
 })
 export class HomeComponent {
@@ -78,6 +83,9 @@ export class HomeComponent {
   articles = input.required<OverviewItem[] | undefined>();
   isLoading = input.required<boolean>();
   hasMoreArticles = input.required<boolean>();
+
+  @Output() appSearch: EventEmitter<string> = new EventEmitter();
+  @Output() loadArticlePage: EventEmitter<number> = new EventEmitter();
 
   isOnline$ = inject(OnlineService).online$;
 
@@ -121,9 +129,8 @@ export class HomeComponent {
 
     return hasMoreArticlesInFilter;
   });
-
-  @Output() appSearch: EventEmitter<string> = new EventEmitter();
-  @Output() loadArticlePage: EventEmitter<number> = new EventEmitter();
+  feedMode = signal<'INFINITY_SCROLL' | 'BUTTON_LOAD'>('INFINITY_SCROLL');
+  isSwitchInFocus = signal(false);
 
   articleEntries = computed<IconCardEntry[]>(() => {
     const filterDate = this.filterDate();
@@ -140,9 +147,11 @@ export class HomeComponent {
       .map((art) => this.toIconCardEntry(art));
   });
   pageNumber: number = 0;
+  id = componentId();
 
   constructor() {
     effect(() => {
+      if (this.feedMode() !== 'INFINITY_SCROLL') return;
       const articles = this.articles();
       const isScrollDueToPageUnload =
         articles === undefined || articles.length === 0;
@@ -155,13 +164,22 @@ export class HomeComponent {
     });
   }
 
-  updateFilter(target: EventTarget | null) {
-    if (!target) {
-      this.timeFilter.set('NONE');
+  triggerNextPageLoad(): void {
+    const canLoadNextPage = this.canLoadMore();
+    if (!canLoadNextPage) {
       return;
     }
-    const newFilterMode = (target as HTMLSelectElement).value as FilterMode;
-    this.timeFilter.set(newFilterMode);
+
+    this.pageNumber += 1;
+    this.loadArticlePage.emit(this.pageNumber);
+  }
+
+  toggleFeedMode(isSwitchedOn: boolean) {
+    if (isSwitchedOn) {
+      this.feedMode.set('INFINITY_SCROLL');
+    } else {
+      this.feedMode.set('BUTTON_LOAD');
+    }
   }
 
   private toIconCardEntry(article: OverviewItem): IconCardEntry {
@@ -193,16 +211,6 @@ export class HomeComponent {
     if (this.isNearPageEnd(event)) {
       this.triggerNextPageLoad();
     }
-  }
-
-  private triggerNextPageLoad(): void {
-    const canLoadNextPage = this.canLoadMore();
-    if (!canLoadNextPage) {
-      return;
-    }
-
-    this.pageNumber += 1;
-    this.loadArticlePage.emit(this.pageNumber);
   }
 
   private isNearPageEnd(pageScrollEvent: ContentScrollEvent): boolean {

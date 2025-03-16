@@ -13,16 +13,18 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
 })
-export class ChoiceSelectComponent {
-  choices = input.required<any[]>();
-  labelProp = input.required<string>();
+export class ChoiceSelectComponent<T> {
+  choices = input.required<T[]>();
+  labelProp = input.required<keyof T>();
   selectedLabelValue = input.required<string | undefined>();
   id = input.required<string>();
 
-  @Output() choiceSelect: EventEmitter<any> = new EventEmitter();
+  @Output() choiceSelect: EventEmitter<T> = new EventEmitter();
 
-  onChange(event: any) {
-    const selectedChoiceIndex: number = parseInt(event.target?.value);
+  onChange(event: Event) {
+    const selectedChoiceIndex: number = parseInt(
+      (event.target as HTMLInputElement)?.value,
+    );
     this.choiceSelect.emit(this.choices()[selectedChoiceIndex]);
   }
 }

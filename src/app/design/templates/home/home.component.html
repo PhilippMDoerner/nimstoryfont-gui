@@ -33,29 +33,59 @@
     ></app-search-field>
 
     <!-- News -->
-    <div class="row filter">
-      <div class="col-sm-4 col-md-5 col-lg-4 col-xl-2 flex-column d-flex p-0">
-        <label for="time-filter"> Show updates from: </label>
-        <select
-          id="time-filter"
-          class="filter__select"
-          (change)="updateFilter($event.target)"
-          [value]="timeFilter()"
-        >
-          @for (option of timeFilterOptions; track option.value) {
-            <option [value]="option.value">
-              {{ option.label }}
-            </option>
-          }
-        </select>
-      </div>
-    </div>
+    <div class="home__feed feed">
+      <div class="row feed__controls">
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+          <app-switch
+            class="feed__mode-switch"
+            [checked]="feedMode() === 'INFINITY_SCROLL'"
+            [label]="
+              feedMode() === 'INFINITY_SCROLL'
+                ? 'Infinity Scroll'
+                : 'Pagination'
+            "
+            (changed)="toggleFeedMode($event)"
+            (focusin)="isSwitchInFocus.set(true)"
+            (focusout)="isSwitchInFocus.set(false)"
+          ></app-switch>
+        </div>
 
-    <app-icon-card-list
-      class="home__recently-updated-articles"
-      [isLoading]="isLoading()"
-      [articles]="articleEntries()"
-    ></app-icon-card-list>
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 px-2">
+          <label for="time-filter"> Show updates from: </label>
+          <app-choice-select
+            [id]="id + '-time-filter'"
+            class="feed__select"
+            [choices]="timeFilterOptions"
+            [labelProp]="'label'"
+            [selectedLabelValue]="timeFilter()"
+            (choiceSelect)="timeFilter.set($event.value)"
+          ></app-choice-select>
+        </div>
+      </div>
+
+      <app-icon-card-list
+        class="feed__articles col-sm-6 col-md-6 col-lg-5 col-xl-3"
+        [isLoading]="isLoading()"
+        [articles]="articleEntries()"
+      ></app-icon-card-list>
+
+      @if (feedMode() === "BUTTON_LOAD") {
+        <div class="row justify-content-center">
+          <button
+            btn
+            class="col-sm-6 col-md-6 col-lg-4 col-xl-3"
+            [kind]="'PRIMARY'"
+            [text]="
+              canLoadMore() ? 'Load more articles' : 'You\'ve reached the end!'
+            "
+            [icon]="'download'"
+            [disabled]="!canLoadMore()"
+            [isLoading]="isLoading()"
+            (clicked)="triggerNextPageLoad()"
+          ></button>
+        </div>
+      }
+    </div>
 
     @if (isHotkeyModifierPressed()) {
       <button

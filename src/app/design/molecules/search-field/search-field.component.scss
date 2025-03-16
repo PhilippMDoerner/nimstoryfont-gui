@@ -50,6 +50,7 @@ input[type="search"]::-webkit-search-results-decoration {
   &__button {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+
     &--disabled {
       cursor: not-allowed;
     }

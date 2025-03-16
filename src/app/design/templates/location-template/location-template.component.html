@@ -96,7 +96,7 @@
       [buttonLink]="overviewUrl"
       [buttonLabel]="'Back to Creatures'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + location().name + '?'"
+      [deleteMessage]="'Location ' + location().name"
       (delete)="locationDelete.emit(location())"
     ></app-article-footer>
   </article>

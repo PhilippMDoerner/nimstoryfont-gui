@@ -85,7 +85,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Diaryentries'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete this Diaryentry?'"
+      [deleteMessage]="'DiaryEntry ' + diaryentry().title"
       (delete)="diaryentryDelete.emit(diaryentry())"
     ></app-article-footer>
   </article>

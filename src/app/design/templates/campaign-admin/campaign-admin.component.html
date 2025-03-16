@@ -83,7 +83,7 @@
               [icon]="'trash'"
               [toggleSize]="'SMALL'"
               [enableHotkey]="false"
-              [confirmationQuestion]="'Remove ' + user.username + ' as admin?'"
+              [itemToDelete]="'admin access of ' + user.username"
               (confirm)="removeAdmin.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
@@ -122,7 +122,7 @@
               [icon]="'trash'"
               [toggleSize]="'SMALL'"
               [enableHotkey]="false"
-              [confirmationQuestion]="'Remove ' + user.username + ' as member?'"
+              [itemToDelete]="'member access of ' + user.username + ' ?'"
               (confirm)="removeMember.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
@@ -161,7 +161,7 @@
               [icon]="'trash'"
               [toggleSize]="'SMALL'"
               [enableHotkey]="false"
-              [confirmationQuestion]="'Remove ' + user.username + ' as guest?'"
+              [itemToDelete]="'guest access of ' + user.username + ' ?'"
               (confirm)="removeGuest.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
@@ -225,7 +225,7 @@
                 [icon]="'trash'"
                 [toggleSize]="'SMALL'"
                 [enableHotkey]="false"
-                [confirmationQuestion]="'Remove response?'"
+                [itemToDelete]="'response'"
                 (confirm)="removeEmptySearchResponse.emit(emptyResponse)"
               ></app-confirmation-toggle-button>
             </div>
@@ -255,7 +255,7 @@
       [showDelete]="!campaign.is_deactivated"
       [buttonLink]="homeUrl"
       [buttonLabel]="'Back to ' + campaign.name"
-      [deleteMessage]="'Deactivate Campaign ?'"
+      [deleteMessage]="'Campaign'"
       (delete)="deactivateCampaign.emit(campaign)"
     ></app-article-footer>
   </article>

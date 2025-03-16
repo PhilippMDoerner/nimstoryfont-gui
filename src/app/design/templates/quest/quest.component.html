@@ -68,7 +68,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Quest Overview'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete Quest?'"
+      [deleteMessage]="'Quest ' + quest().name"
       (delete)="questDelete.emit(quest())"
     ></app-article-footer>
   </article>

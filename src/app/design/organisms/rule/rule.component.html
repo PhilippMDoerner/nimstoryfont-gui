@@ -57,7 +57,7 @@
   @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
-      [confirmationQuestion]="'Delete this rule?'"
+      [itemToDelete]="'Rule ' + rule()?.name"
       [icon]="'trash'"
       [enableHotkey]="!disabledHotkeys()"
       (confirm)="onRuleDelete()"

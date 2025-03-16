@@ -65,7 +65,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Items'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + item().name + '?'"
+      [deleteMessage]="'Item ' + item().name"
       (delete)="itemDelete.emit(item())"
     ></app-article-footer>
   </article>

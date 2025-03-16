@@ -40,7 +40,7 @@
   @if (user().is_active) {
     <app-confirmation-toggle-button
       class="col-12 user-card__row user-card__row--delete"
-      [confirmationQuestion]="'Delete user ?'"
+      [itemToDelete]="'user ' + user().username"
       [icon]="'trash'"
       [cancelButtonType]="'DARK'"
       (confirm)="deleteUser.emit(user())"

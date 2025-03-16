@@ -92,7 +92,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Organizations'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + organization().name + '?'"
+      [deleteMessage]="'Organization ' + organization().name"
       (delete)="organizationDelete.emit(organization())"
     ></app-article-footer>
   </article>

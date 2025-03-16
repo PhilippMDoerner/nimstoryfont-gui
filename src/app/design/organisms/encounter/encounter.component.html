@@ -122,7 +122,7 @@
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
       aria-label="Delete Encounter"
-      [confirmationQuestion]="'Delete this encounter?'"
+      [itemToDelete]="'Rule ' + encounter()?.title"
       [icon]="'trash'"
       [enableHotkey]="isInFocus()"
       (confirm)="onEncounterDelete()"

@@ -12,7 +12,7 @@ export default {
     }),
   ],
   args: {
-    confirmationQuestion: 'Are you sure?',
+    modalHeading: 'Are you sure?',
     toggleType: 'DANGER',
     cancelButtonType: 'SECONDARY',
   },

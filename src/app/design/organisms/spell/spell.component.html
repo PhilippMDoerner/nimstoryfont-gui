@@ -150,7 +150,7 @@
   @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
-      [confirmationQuestion]="'Delete this spell?'"
+      [itemToDelete]="'Spell ' + spell()?.name"
       [icon]="'trash'"
       [enableHotkey]="!disabledHotkeys()"
       (confirm)="onSpellDelete()"

@@ -179,7 +179,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Characters'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + character().name + '?'"
+      [deleteMessage]="'Character ' + character().name"
       (delete)="characterDelete.emit(character())"
     ></app-article-footer>
   </article>

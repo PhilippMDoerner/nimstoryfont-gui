@@ -1,6 +1,6 @@
 <app-confirmation-modal
   [modalType]="'DANGER'"
-  [heading]="confirmationQuestion()"
+  [heading]="modalHeading()"
   [confirmValue]="null"
   [submitIcon]="icon()"
   [submitButtonLabel]="'Yes'"
@@ -13,10 +13,7 @@
     opener
     #toggleButton
     class="confirmation-toggle"
-    [attr.aria-label]="
-      'Toggle delete confirmation button as per this question: ' +
-      confirmationQuestion()
-    "
+    [attr.aria-label]="'Open dialog to delete ' + itemToDelete()"
     [kind]="toggleType()"
     [icon]="icon()"
     [size]="toggleSize()"
@@ -25,4 +22,10 @@
     [disabledHotkey]="!enableHotkey()"
     (hotkeyPressed)="$event.host.click()"
   ></button>
+
+  <ng-container body>
+    <p>
+      {{ modalBody() }}
+    </p>
+  </ng-container>
 </app-confirmation-modal>

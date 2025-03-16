@@ -177,7 +177,7 @@
                   class="user-group__remove-button"
                   [icon]="'trash'"
                   [toggleSize]="'SMALL'"
-                  [confirmationQuestion]="'Delete link?'"
+                  [itemToDelete]="'Link ' + item.label"
                   [cancelButtonType]="'DARK'"
                   [enableHotkey]="false"
                   (confirm)="onDeleteLink(item.link.id!)"

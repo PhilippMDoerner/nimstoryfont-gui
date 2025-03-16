@@ -82,7 +82,9 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to SessionAudio Overview'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete recording?'"
+      [deleteMessage]="
+        'Recording of session' + sessionaudio().session_details?.name
+      "
       (delete)="sessionaudioDelete.emit(sessionaudio())"
     ></app-article-footer>
   </article>

@@ -28,7 +28,7 @@ import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-m
   imports: [ButtonComponent, HotkeyDirective, ConfirmationModalComponent],
 })
 export class ConfirmationToggleButtonComponent {
-  confirmationQuestion = input.required<string>();
+  itemToDelete = input.required<string>();
   icon = input<Icon>();
   text = input<string>();
   enableHotkey = input<boolean>(true);
@@ -38,6 +38,11 @@ export class ConfirmationToggleButtonComponent {
 
   confirmButtonType = computed<ElementKind>(
     () => toElementKind(this.toggleType()) ?? 'DANGER',
+  );
+
+  modalHeading = computed(() => `Delete ${this.itemToDelete()}?`);
+  modalBody = computed(
+    () => `Are you sure you want to delete ${this.itemToDelete()}?`,
   );
 
   modalService = inject(NgbModal);

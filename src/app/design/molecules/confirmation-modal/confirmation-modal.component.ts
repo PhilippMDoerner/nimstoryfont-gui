@@ -42,7 +42,7 @@ export class ConfirmationModalComponent<T> {
   open(content: any) {
     this.modalService
       .open(content, {
-        ariaLabelledBy: 'modal-basic-title',
+        ariaLabelledBy: this.id,
         modalDialogClass: this.modalClass(),
       })
       .result.then(

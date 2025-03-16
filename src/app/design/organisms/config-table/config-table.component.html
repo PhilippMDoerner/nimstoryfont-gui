@@ -71,7 +71,7 @@
                   <td>
                     <app-confirmation-toggle-button
                       [toggleSize]="'SMALL'"
-                      [confirmationQuestion]="'Delete this Entry?'"
+                      [itemToDelete]="'this entry'"
                       [icon]="'trash'"
                       (confirm)="deleteEntry(entry.id)"
                     ></app-confirmation-toggle-button>

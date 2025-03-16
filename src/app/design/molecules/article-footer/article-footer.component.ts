@@ -27,7 +27,7 @@ import { ConfirmationToggleButtonComponent } from '../confirmation-toggle-button
 export class ArticleFooterComponent {
   buttonLabel = input.required<string>();
   buttonLink = input<string | undefined>(undefined);
-  deleteMessage = input<string>('Delete this entry?');
+  deleteMessage = input<string>('Delete this article?');
   showDelete = input<boolean>(true);
 
   @Output() buttonClick: EventEmitter<null> = new EventEmitter();

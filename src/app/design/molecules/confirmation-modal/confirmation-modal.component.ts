@@ -36,6 +36,7 @@ export class ConfirmationModalComponent<T> {
   @Output() cancel: EventEmitter<T> = new EventEmitter();
 
   id = componentId();
+  bodyId = `${this.id}-body`;
 
   constructor(private modalService: NgbModal) {}
 
@@ -43,6 +44,7 @@ export class ConfirmationModalComponent<T> {
     this.modalService
       .open(content, {
         ariaLabelledBy: this.id,
+        ariaDescribedBy: this.bodyId,
         modalDialogClass: this.modalClass(),
       })
       .result.then(

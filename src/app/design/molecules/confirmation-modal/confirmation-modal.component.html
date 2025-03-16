@@ -13,7 +13,9 @@
     </div>
 
     <div class="modal-body body">
-      <ng-content select="[body]"></ng-content>
+      <div [id]="bodyId" class="body__content">
+        <ng-content select="[body]"></ng-content>
+      </div>
       <div class="body__buttons">
         <button
           btn

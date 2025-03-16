@@ -1,14 +1,15 @@
 <ng-template #content let-modal>
   <div class="modal-border {{ modalClass() }}">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{ heading() }}</h4>
-      <div
-        class="btn-close pointer"
+    <div class="modal-header justify-content-between">
+      <div class="h4 modal-title" [id]="id">{{ heading() }}</div>
+      <button
+        btn
+        class="rounded"
+        [kind]="'NONE'"
+        [icon]="'xmark'"
         aria-label="Close"
         (click)="modal.dismiss()"
-      >
-        <span aria-hidden="true"></span>
-      </div>
+      ></button>
     </div>
 
     <div class="modal-body body">

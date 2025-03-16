@@ -1,12 +1,17 @@
-<div [@flipInY]="isActive() ? 'sideA' : 'sideB'">
-  <ng-container
-    *ngTemplateOutlet="isActive() ? activeToggle : inactiveToggle"
-  />
-</div>
-
-<ng-template #inactiveToggle>
+<app-confirmation-modal
+  [modalType]="'DANGER'"
+  [heading]="confirmationQuestion()"
+  [confirmValue]="null"
+  [submitIcon]="icon()"
+  [submitButtonLabel]="'Yes'"
+  [cancelButtonLabel]="'No'"
+  [cancelButtonType]="cancelButtonType()"
+  (confirm)="emitConfirmation()"
+>
   <button
     btn
+    opener
+    #toggleButton
     class="confirmation-toggle"
     [attr.aria-label]="
       'Toggle delete confirmation button as per this question: ' +
@@ -18,32 +23,6 @@
     [text]="text()"
     [hotkey]="'d'"
     [disabledHotkey]="!enableHotkey()"
-    (hotkeyPressed)="toggle()"
-    (clicked)="toggle()"
+    (hotkeyPressed)="$event.host.click()"
   ></button>
-</ng-template>
-
-<ng-template #activeToggle>
-  <div class="confirmation confirmation--{{ confirmButtonType() }}">
-    <div class="confirmation__question">
-      <strong>{{ confirmationQuestion() }}</strong>
-    </div>
-    <div class="confirmation__buttons">
-      <button
-        btn
-        [kind]="confirmButtonType()"
-        [text]="'Yes'"
-        (clicked)="emitConfirmation()"
-      ></button>
-      <button
-        btn
-        [kind]="cancelButtonType()"
-        [text]="'No'"
-        [hotkey]="'q'"
-        [disabledHotkey]="!enableHotkey()"
-        (hotkeyPressed)="toggle()"
-        (clicked)="toggle()"
-      ></button>
-    </div>
-  </div>
-</ng-template>
+</app-confirmation-modal>

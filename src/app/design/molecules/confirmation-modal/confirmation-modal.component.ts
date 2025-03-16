@@ -10,6 +10,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { componentId } from 'src/utils/DOM';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -21,7 +22,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 export class ConfirmationModalComponent<T> {
   heading = input.required<string>();
   confirmValue = input.required<T>();
-  submitIcon = input.required<Icon>();
+  submitIcon = input<Icon>();
   modalType = input<ElementKind>('PRIMARY');
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitButtonLabel = input<string>('Yes');
@@ -33,6 +34,8 @@ export class ConfirmationModalComponent<T> {
   @Output() modalClose: EventEmitter<null> = new EventEmitter();
   @Output() confirm: EventEmitter<T> = new EventEmitter();
   @Output() cancel: EventEmitter<T> = new EventEmitter();
+
+  id = componentId();
 
   constructor(private modalService: NgbModal) {}
 

@@ -10,6 +10,7 @@
     [icon]="menuButtonIcon()"
     [size]="menuButtonSize()"
     [hotkey]="menuButtonHotkey()"
+    [title]="menuButtonTitle()"
     aria-haspopup="menu"
     [attr.aria-controls]="menuId"
     [attr.aria-label]="menuButtonAriaLabel()"
@@ -39,6 +40,7 @@
             [id]="id + '-' + $index"
             class="dropdown-item"
             role="menuitem"
+            [class.active]="item.active"
             [class.disabled]="item.disabled"
             [routerLink]="item.url"
             [hotkey]="item.hotkey"
@@ -54,6 +56,7 @@
           <button
             [id]="id + '-' + $index"
             class="dropdown-item"
+            [class.active]="item.active"
             [class.disabled]="item.disabled"
             [hotkey]="item.hotkey"
             role="menuitem"

@@ -9,7 +9,6 @@ import {
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { IconCardComponent } from 'src/app/design/molecules';
-import { componentId } from 'src/utils/DOM';
 import { PlaceholderComponent } from '../../atoms/placeholder/placeholder.component';
 import { IconCardEntry } from '../_model/icon-card-list';
 
@@ -23,13 +22,14 @@ import { IconCardEntry } from '../_model/icon-card-list';
 export class IconCardListComponent {
   isLoading = input.required<boolean>();
   articles = input.required<IconCardEntry[]>();
+  ariaLabelId = input.required<string>();
+  id = input.required<string>();
 
   articleLinkElements = viewChildren<ElementRef<HTMLElement>>('articleLink');
   articleCount = computed(() => this.articleLinkElements().length);
 
   dummyArticles = Array.from({ length: 12 }, (_, idx) => idx);
   focusedIndex = signal<number | undefined>(undefined);
-  id = componentId();
 
   focusNextArticle(event: Event) {
     event.preventDefault();

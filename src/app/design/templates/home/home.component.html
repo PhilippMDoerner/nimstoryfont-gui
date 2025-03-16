@@ -33,40 +33,43 @@
     ></app-search-field>
 
     <!-- News -->
+    @let feedId = id + "-feed";
+    @let feedLabelId = id + "-feed-heading";
+    <h2 [id]="feedLabelId">
+      <app-icon [icon]="'newspaper'"></app-icon>
+      New Updates
+    </h2>
     <div class="home__feed feed">
-      <div class="row feed__controls">
-        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
-          <app-switch
-            class="feed__mode-switch"
-            [checked]="feedMode() === 'INFINITY_SCROLL'"
-            [label]="
-              feedMode() === 'INFINITY_SCROLL'
-                ? 'Infinity Scroll'
-                : 'Pagination'
-            "
-            (changed)="toggleFeedMode($event)"
-            (focusin)="isSwitchInFocus.set(true)"
-            (focusout)="isSwitchInFocus.set(false)"
-          ></app-switch>
-        </div>
+      <div class="feed__controls">
+        <app-toggle-button
+          class="feed__mode-switch"
+          [kind]="'PRIMARY'"
+          [active]="feedMode() === 'INFINITY_SCROLL'"
+          [icon]="'infinity'"
+          [ariaLabel]="'Infinity Scroll for new updates feed'"
+          [title]="'Infinity scroll for new updates feed'"
+          [ariaControls]="feedId"
+          (changed)="toggleFeedMode($event)"
+          (focusin)="isSwitchInFocus.set(true)"
+          (focusout)="isSwitchInFocus.set(false)"
+        ></app-toggle-button>
 
-        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3 px-2">
-          <label for="time-filter"> Show updates from: </label>
-          <app-choice-select
-            [id]="id + '-time-filter'"
-            class="feed__select"
-            [choices]="timeFilterOptions"
-            [labelProp]="'label'"
-            [selectedLabelValue]="timeFilter()"
-            (choiceSelect)="timeFilter.set($event.value)"
-          ></app-choice-select>
-        </div>
+        <app-context-menu
+          [menuButtonIcon]="'filter'"
+          [menuButtonKind]="'DARK'"
+          [menuItems]="timeFilterOptions()"
+          [menuButtonAriaLabel]="'Time filter options for update feed'"
+          [menuButtonTitle]="'Time filter options for update feed'"
+          (actionTriggered)="timeFilter.set($any($event))"
+        ></app-context-menu>
       </div>
 
       <app-icon-card-list
+        [id]="feedId"
         class="feed__articles col-sm-6 col-md-6 col-lg-5 col-xl-3"
         [isLoading]="isLoading()"
         [articles]="articleEntries()"
+        [ariaLabelId]="feedLabelId"
       ></app-icon-card-list>
 
       @if (feedMode() === "BUTTON_LOAD") {

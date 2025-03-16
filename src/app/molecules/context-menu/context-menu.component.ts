@@ -34,6 +34,7 @@ export type MenuItem =
       disabled?: boolean;
       icon?: Icon;
       hotkey?: string;
+      active?: boolean;
     }
   | {
       kind: 'LINK';
@@ -42,6 +43,7 @@ export type MenuItem =
       disabled?: boolean;
       icon?: Icon;
       hotkey?: string;
+      active?: boolean;
     };
 
 @Component({
@@ -71,6 +73,7 @@ export class ContextMenuComponent {
   menuButtonSize = input<ElementSize>('MEDIUM');
   menuButtonHotkey = input<string>();
   menuButtonAriaLabel = input<string>();
+  menuButtonTitle = input<string>();
   placement = input<PlacementArray>([
     'bottom-start',
     'bottom-end',

@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   inject,
+  Signal,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, take } from 'rxjs';
+import { filter, Observable, take } from 'rxjs';
 import { Item } from 'src/app/_models/item';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { ItemComponent } from 'src/app/design/templates/item/item.component';
@@ -29,7 +31,11 @@ export class ItemPageComponent {
   itemDeleteState$ = toObservable(this.store.itemDeleteState);
   item$ = toObservable(this.store.item);
 
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.store.item() == null);
+
   constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
     this.routeToOverviewOnMissingArticle();
   }
 

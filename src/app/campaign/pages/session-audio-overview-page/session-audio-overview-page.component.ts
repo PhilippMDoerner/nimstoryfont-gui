@@ -44,4 +44,8 @@ export class SessionAudioOverviewPageComponent {
       campaign: this.globalStore.campaignName(),
     }),
   );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(false);
+  }
 }

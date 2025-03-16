@@ -24,6 +24,10 @@ export class HomePageComponent {
   recentlyUpdatedArticles = this.store.recentlyUpdatedArticles;
   hasMoreArticles = this.store.canLoadMore;
 
+  constructor() {
+    this.globalStore.trackIsPageLoading(false);
+  }
+
   search(searchTerm: string): void {
     if (searchTerm == null || searchTerm === '') {
       return;

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  Signal,
+} from '@angular/core';
+import { Observable } from 'rxjs';
 import { OrganizationComponent } from 'src/app/design/templates/organization/organization.component';
 import { GlobalStore } from 'src/app/global.store';
 import { environment } from 'src/environments/environment';
@@ -15,4 +22,11 @@ export class OrganizationPageComponent {
   serverUrl = environment.backendDomain;
   store = inject(OrganizationStore);
   globalStore = inject(GlobalStore);
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.store.organization() == null);
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 }

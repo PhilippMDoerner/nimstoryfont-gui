@@ -3,11 +3,12 @@ import {
   Component,
   computed,
   inject,
+  Signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { filter, mergeMap, skip, take } from 'rxjs';
+import { filter, mergeMap, Observable, skip, take } from 'rxjs';
 import { Item, ItemRaw } from 'src/app/_models/item';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -90,6 +91,15 @@ export class ItemCreateUpdatePageComponent {
       sortProp: 'name',
     }),
   ]);
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(
+      () => this.userModel() == null || this.globalStore.campaignName() == null,
+    );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 
   cancel() {
     const campaign = this.globalStore.campaignName();

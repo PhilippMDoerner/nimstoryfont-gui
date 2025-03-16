@@ -85,6 +85,7 @@
     width: 100%;
     height: 100%;
     overflow: auto;
+    position: relative;
   }
 
   &__background {
@@ -99,6 +100,20 @@
     &--shift-right {
       margin-left: var(--sb-margin);
     }
+  }
+
+  &__loading-container {
+    position: absolute;
+    width: calc(2 * var(--spacer-5));
+    height: calc(2 * var(--spacer-5));
+    top: 25%;
+    left: calc(50% - var(--spacer-5));
+    background-color: var(--bs-secondary);
+    border-radius: var(--bs-border-radius-xl);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.75;
   }
 }
 

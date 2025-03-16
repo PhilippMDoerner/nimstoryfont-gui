@@ -3,10 +3,11 @@ import {
   Component,
   computed,
   inject,
+  Signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { filter, skip, take } from 'rxjs';
+import { filter, Observable, skip, take } from 'rxjs';
 import { CharacterDetails, CharacterRaw } from 'src/app/_models/character';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { CreateUpdateState } from 'src/app/design/templates/_models/create-update-states';
@@ -58,7 +59,16 @@ export class CharacterUpdatePageComponent {
     }
   });
 
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(
+      () => this.userModel() == null || this.globalStore.campaignName() == null,
+    );
+
   private characterQueryState$ = toObservable(this.store.characterQueryState);
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 
   onCancel() {
     switch (this.state()) {

@@ -5,6 +5,7 @@ import {
   computed,
   DestroyRef,
   inject,
+  Signal,
   signal,
 } from '@angular/core';
 import {
@@ -161,6 +162,9 @@ export class GraphPageComponent {
     }),
   );
 
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.graphData() == null);
+
   private activeNodeCategories = signal(
     new Set<string>(NODE_TYPE_OPTIONS.map((option) => option.value)),
   );
@@ -204,6 +208,8 @@ export class GraphPageComponent {
   private destructor = inject(DestroyRef);
 
   constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+
     this.searchedNode$
       .pipe(takeUntilDestroyed())
       .subscribe((node) => this.graphService.centerNodeEvents$.next(node));

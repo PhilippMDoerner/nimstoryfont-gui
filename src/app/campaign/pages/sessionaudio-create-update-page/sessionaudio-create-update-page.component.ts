@@ -131,7 +131,12 @@ export class SessionaudioCreateUpdatePageComponent {
     }),
   ]);
 
+  private readonly isPageLoading = computed(
+    () => this.userModel() == null || this.globalStore.campaignName() == null,
+  );
+
   constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
     effect(() => (this.isUploading = this.store.fileUploadState() !== 'init'));
   }
 

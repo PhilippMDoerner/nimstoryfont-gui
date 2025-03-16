@@ -31,7 +31,17 @@
     >
       <app-icon [icon]="'arrow-up-long'" />
     </button>
-    <main #innerContent class="page__main" [id]="contentId()">
+    <main
+      #innerContent
+      class="page__main"
+      [id]="contentId()"
+      [attr.aria-busy]="isLoading()"
+    >
+      @if (isLoading()) {
+        <div class="page__loading-container" aria-hidden="true">
+          <app-spinner class="page__loading-spinner"></app-spinner>
+        </div>
+      }
       <router-outlet #routerOutlet></router-outlet>
     </main>
   </div>

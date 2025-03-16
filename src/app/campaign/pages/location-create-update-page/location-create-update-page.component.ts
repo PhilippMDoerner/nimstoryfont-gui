@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   inject,
+  Signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
@@ -121,6 +122,15 @@ export class LocationCreateUpdatePageComponent {
         "The location you selected can't have the same name as the location that is trying to contain it! That would mean that this location contained itself!",
     }),
   ]);
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(
+      () => this.userModel() == null || this.globalStore.campaignName() == null,
+    );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 
   cancel() {
     const campaign = this.globalStore.campaignName();

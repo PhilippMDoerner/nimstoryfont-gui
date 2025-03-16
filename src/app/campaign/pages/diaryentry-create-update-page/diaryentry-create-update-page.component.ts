@@ -4,6 +4,7 @@ import {
   computed,
   DestroyRef,
   inject,
+  Signal,
 } from '@angular/core';
 import {
   takeUntilDestroyed,
@@ -174,6 +175,15 @@ export class DiaryentryCreateUpdatePageComponent {
       ],
     },
   ]);
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(
+      () => this.userModel() == null || this.globalStore.campaignName() == null,
+    );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 
   disableSessionOption(
     sessionOption: OverviewItem,

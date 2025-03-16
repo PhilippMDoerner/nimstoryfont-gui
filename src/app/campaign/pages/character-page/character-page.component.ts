@@ -1,4 +1,5 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject, Signal } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
   CharacterDetails,
   CharacterEncounter,
@@ -25,7 +26,11 @@ export class CharacterPageComponent {
 
   serverUrl = environment.backendDomain;
 
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.store.character() == null);
+
   constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
     this.routeToOverviewOnMissingCharacter();
   }
 

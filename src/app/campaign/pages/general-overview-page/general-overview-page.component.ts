@@ -1,8 +1,16 @@
 import { AsyncPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { combineLatest, map, switchMap } from 'rxjs';
+import {
+  combineLatest,
+  delay,
+  map,
+  Observable,
+  ReplaySubject,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { CreatureService } from 'src/app/_services/article/creature.service';
 import { DiaryentryService } from 'src/app/_services/article/diaryentry.service';
@@ -39,20 +47,33 @@ export class GeneralOverviewPageComponent {
 
   campaignName$ = toObservable(this.globalStore.campaignName).pipe(filterNil());
   canCreate = this.globalStore.canPerformActionsOfRole('member');
-  overviewType$ = this.route.data.pipe(
+  overviewType$ = inject(ActivatedRoute).data.pipe(
     map((data) => data['overviewType'] as GeneralOverviewType),
   );
   overviewService$ = this.overviewType$.pipe(
     map((typ) => this.OVERVIEW_ENTRIES_MAP[typ]),
   );
+
+  queryState$ = new ReplaySubject<'loading' | 'success' | 'error'>(1);
   entries$ = combineLatest({
     service: this.overviewService$,
     campaignName: this.campaignName$,
   }).pipe(
-    switchMap(({ service, campaignName }) => {
-      return service.campaignList(campaignName);
+    tap(() => this.queryState$.next('loading')),
+    delay(3000),
+
+    switchMap(({ service, campaignName }) =>
+      service.campaignList(campaignName),
+    ),
+    tap({
+      next: () => this.queryState$.next('success'),
+      error: () => this.queryState$.next('error'),
     }),
   );
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    this.queryState$.pipe(map((state) => state === 'loading'));
 
-  constructor(private route: ActivatedRoute) {}
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 }

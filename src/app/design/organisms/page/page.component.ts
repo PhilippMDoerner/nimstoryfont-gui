@@ -1,7 +1,9 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
+  effect,
   ElementRef,
   EventEmitter,
   inject,
@@ -25,6 +27,7 @@ import { PageBackgroundComponent } from 'src/app/design/molecules';
 import { GlobalStore } from 'src/app/global.store';
 import { delayFalsy, filterNil } from 'src/utils/rxjs-operators';
 import { IconComponent } from '../../atoms/icon/icon.component';
+import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 import { MobileHeaderComponent } from '../mobile-header/mobile-header.component';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 
@@ -43,6 +46,7 @@ export const showSidebarSignal = signal(true);
     MobileHeaderComponent,
     IconComponent,
     HotkeyDirective,
+    SpinnerComponent,
   ],
   providers: [NgbOffcanvas],
 })
@@ -57,6 +61,7 @@ export class PageComponent {
 
   serverUrl = input.required<string>();
   contentId = input.required<string>();
+  isLoading = this.globalStore.isLoadingPage;
 
   @Output() logout: EventEmitter<void> = new EventEmitter();
 
@@ -109,6 +114,14 @@ export class PageComponent {
   );
 
   constructor() {
+    const liveAnouncer = inject(LiveAnnouncer);
+    effect(() => {
+      const loadingMessage = this.isLoading()
+        ? 'Loading Page'
+        : 'Finished Loading Page';
+      liveAnouncer.announce(loadingMessage);
+    });
+
     this.pageSwipesRight$
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.openSidebar());

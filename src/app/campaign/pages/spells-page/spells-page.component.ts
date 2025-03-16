@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  Signal,
+} from '@angular/core';
+import { Observable } from 'rxjs';
 import { SpellsTemplateComponent } from 'src/app/design/templates/spells-template/spells-template.component';
 import { GlobalStore } from 'src/app/global.store';
 import { SpellsPageStore } from './spells-page.store';
@@ -13,4 +20,15 @@ import { SpellsPageStore } from './spells-page.store';
 export class SpellsPageComponent {
   store = inject(SpellsPageStore);
   globalStore = inject(GlobalStore);
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(
+      () =>
+        this.store.spells() == null ||
+        this.globalStore.currentCampaign() == null,
+    );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 }

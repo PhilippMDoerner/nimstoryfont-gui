@@ -36,6 +36,10 @@ export class CampaignConfigAdministrationPageComponent {
     };
   });
 
+  constructor() {
+    this.globalStore.trackIsPageLoading(false);
+  }
+
   loadTableEntries(table: ConfigTableKind): void {
     switch (table) {
       case 'MARKER_TYPE':

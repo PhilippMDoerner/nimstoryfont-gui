@@ -1,5 +1,6 @@
 import { computed, effect, ElementRef, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { tapResponse } from '@ngrx/operators';
 import {
   patchState,
   signalStore,
@@ -8,8 +9,10 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Observable, of, take } from 'rxjs';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { Observable, of, pipe, take } from 'rxjs';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
+import { log } from 'src/utils/logging';
 import { CampaignOverview } from './_models/campaign';
 import { CampaignRole } from './_models/token';
 import { OnlineService } from './_services/online.service';
@@ -46,6 +49,7 @@ export type GlobalState = {
   currentCampaign: CampaignOverview | undefined;
   campaigns: CampaignOverview[] | undefined;
   contentScrollEvents: ContentScrollEvent | undefined;
+  isLoadingPage: boolean;
 };
 
 const SSRDefaultScreenSize$: Observable<ScreenSize> = of({
@@ -57,6 +61,7 @@ const initialAuthState: GlobalState = {
   contentScrollEvents: undefined,
   currentCampaign: undefined,
   campaigns: undefined,
+  isLoadingPage: false,
 };
 
 export const GlobalStore = signalStore(
@@ -138,10 +143,25 @@ export const GlobalStore = signalStore(
             patchState(state, { campaigns: campaigns }),
           );
       },
-
       fireScrollEvent: (event: ContentScrollEvent) => {
         patchState(state, { contentScrollEvents: event });
       },
+      trackIsPageLoading: rxMethod<boolean>(
+        pipe(
+          tapResponse({
+            next: (isLoading) =>
+              patchState(state, { isLoadingPage: isLoading }),
+            error: (err) => {
+              log(
+                GlobalStore.name,
+                'Error tracking loading state of page',
+                err,
+              );
+              patchState(state, { isLoadingPage: false });
+            },
+          }),
+        ),
+      ),
     };
   }),
   withHooks((store) => {

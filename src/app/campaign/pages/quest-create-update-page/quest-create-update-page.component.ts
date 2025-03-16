@@ -139,6 +139,14 @@ export class QuestCreateUpdatePageComponent {
     }
   });
 
+  private readonly isPageLoading = computed(
+    () => this.userModel() == null || this.globalStore.campaignName() == null,
+  );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
+
   cancel() {
     const campaign = this.globalStore.campaignName();
     switch (this.state()) {

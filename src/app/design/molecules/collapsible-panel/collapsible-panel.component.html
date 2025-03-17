@@ -8,7 +8,7 @@
       [attr.aria-controls]="contentId"
       [attr.aria-expanded]="_isOpen()"
     >
-      <h5 class="card__heading">
+      <div class="h5 card__heading">
         <span class="card__heading-text">
           <ng-content select="[heading]"></ng-content>
         </span>
@@ -18,7 +18,7 @@
           [class.card__heading-icon--open]="_isOpen()"
           [icon]="'chevron-down'"
         ></app-icon>
-      </h5>
+      </div>
     </button>
   </header>
 

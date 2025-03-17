@@ -16,6 +16,11 @@
 
   min-width: 40px;
   min-height: 40px;
+
+  &.btn-sm {
+    min-width: unset;
+    min-height: unset;
+  }
 }
 
 .btn {

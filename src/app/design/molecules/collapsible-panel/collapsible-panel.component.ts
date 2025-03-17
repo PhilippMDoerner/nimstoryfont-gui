@@ -8,6 +8,7 @@ import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
 import { componentId } from 'src/utils/DOM';
+import { HeadingLevel } from '../../atoms/_models/heading';
 
 @Component({
   selector: 'app-collapsible-panel',
@@ -17,6 +18,7 @@ import { componentId } from 'src/utils/DOM';
   imports: [SeparatorComponent, IconComponent, NgbCollapse],
 })
 export class CollapsiblePanelComponent {
+  ariaLevel = input.required<HeadingLevel>();
   isOpen = input(false);
   _isOpen = linkedSignal(() => this.isOpen());
 

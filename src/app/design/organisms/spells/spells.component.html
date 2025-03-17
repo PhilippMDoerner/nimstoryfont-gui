@@ -17,7 +17,7 @@
   <div class="row">
     @if (isCreatingSpell()) {
       <div class="list__spell-card spell-card" [@slideUpFromBottom]>
-        <app-collapsible-panel [isOpen]="true">
+        <app-collapsible-panel [isOpen]="true" [ariaLevel]="2">
           <div heading class="spell-card__heading">
             <span>
               {{ createSpellData().name ?? "" }}
@@ -51,7 +51,10 @@
           [id]="focusEntry.data.spell.name"
           #spell
         >
-          <app-collapsible-panel [isOpen]="focusEntry.data.isOpen">
+          <app-collapsible-panel
+            [isOpen]="focusEntry.data.isOpen"
+            [ariaLevel]="2"
+          >
             <div heading class="spell-card__heading">
               <span class="spell-card__heading-text">
                 {{ focusEntry.data.spell.name ?? "" }}

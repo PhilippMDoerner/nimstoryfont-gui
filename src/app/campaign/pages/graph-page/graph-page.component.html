@@ -159,7 +159,11 @@
     ></button>
   </span>
 
-  <app-collapsible-panel class="d-block mt-5" [isOpen]="isPanelOpen()">
+  <app-collapsible-panel
+    class="d-block mt-5"
+    [isOpen]="isPanelOpen()"
+    [ariaLevel]="2"
+  >
     <ng-container heading> Custom Links </ng-container>
     <ng-container body>
       <div class="w-100 d-flex flex-column row-gap-3">

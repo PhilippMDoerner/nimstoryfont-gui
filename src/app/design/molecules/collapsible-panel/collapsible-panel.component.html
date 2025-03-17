@@ -1,24 +1,26 @@
-<div class="card" #panel>
-  <button
-    btn
-    class="card__button"
-    [id]="triggerId"
-    (click)="togglePanel()"
-    [attr.aria-controls]="contentId"
-    [attr.aria-expanded]="_isOpen()"
-  >
-    <h5 class="card__heading">
-      <span class="card__heading-text">
-        <ng-content select="[heading]"></ng-content>
-      </span>
+<section class="card" #panel>
+  <header class="card__title-container" [attr.aria-level]="ariaLevel()">
+    <button
+      btn
+      class="card__button"
+      [id]="triggerId"
+      (click)="togglePanel()"
+      [attr.aria-controls]="contentId"
+      [attr.aria-expanded]="_isOpen()"
+    >
+      <h5 class="card__heading">
+        <span class="card__heading-text">
+          <ng-content select="[heading]"></ng-content>
+        </span>
 
-      <app-icon
-        class="card__heading-icon"
-        [class.card__heading-icon--open]="_isOpen()"
-        [icon]="'chevron-down'"
-      ></app-icon>
-    </h5>
-  </button>
+        <app-icon
+          class="card__heading-icon"
+          [class.card__heading-icon--open]="_isOpen()"
+          [icon]="'chevron-down'"
+        ></app-icon>
+      </h5>
+    </button>
+  </header>
 
   <div
     class="card__body"
@@ -29,4 +31,4 @@
     <app-separator></app-separator>
     <ng-content select="[body]"></ng-content>
   </div>
-</div>
+</section>

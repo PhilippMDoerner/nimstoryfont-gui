@@ -20,7 +20,7 @@
         class="list__session-card session-card"
         [@slideUpFromBottom]
       >
-        <app-collapsible-panel [isOpen]="true">
+        <app-collapsible-panel [isOpen]="true" [ariaLevel]="2">
           <span heading>
             {{ createSessionData().name }}
           </span>
@@ -47,7 +47,10 @@
         [inferContextTypeFrom]="focusListComponent"
       >
         <div class="list__session-card session-card" [@slideOutFromBottom]>
-          <app-collapsible-panel [isOpen]="focusEntry.data.isOpen">
+          <app-collapsible-panel
+            [isOpen]="focusEntry.data.isOpen"
+            [ariaLevel]="2"
+          >
             <span heading>
               {{ focusEntry.data.session.name }}
             </span>

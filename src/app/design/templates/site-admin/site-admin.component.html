@@ -1,5 +1,6 @@
 <app-page-container>
   <article class="site-admin">
+    <h1>Site Administration</h1>
     <a
       class="site-admin__return-button"
       [routerLink]="campaignOverviewUrl"
@@ -14,10 +15,10 @@
     <div class="site-admin__user-section user-section">
       <!-- Section Heading -->
       <div class="d-flex justify-content-between">
-        <h3 class="mb-0">
+        <h2 class="h3 mb-0">
           <app-icon [icon]="'user'"></app-icon>
           Users
-        </h3>
+        </h2>
 
         <!-- Heading Buttons -->
         <div class="align-self-end position-relative top1">
@@ -43,7 +44,7 @@
       <!-- New Table Entry -->
       @if (userState === "CREATE") {
         <app-card class="my-2">
-          <h4>Adding new User</h4>
+          <h3 class="h4">Adding new User</h3>
           <!-- Form -->
           <app-form
             [model]="userModel"
@@ -60,6 +61,7 @@
         @for (card of userCards; track card.user.pk) {
           <app-collapsible-panel
             [isOpen]="card.isOpen"
+            [ariaLevel]="3"
             class="user-section__user"
           >
             <ng-container heading>

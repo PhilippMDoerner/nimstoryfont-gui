@@ -1,3 +1,7 @@
+@use "src/utils" as utils;
+
+@include utils.reset-list-styles();
+
 .filter {
   &__input {
     background-color: transparent;

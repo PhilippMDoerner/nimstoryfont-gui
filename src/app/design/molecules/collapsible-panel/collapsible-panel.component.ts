@@ -1,10 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   input,
-  OnInit,
-  signal,
+  linkedSignal,
 } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
@@ -18,24 +16,15 @@ import { componentId } from 'src/utils/DOM';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SeparatorComponent, IconComponent, NgbCollapse],
 })
-export class CollapsiblePanelComponent implements OnInit {
+export class CollapsiblePanelComponent {
   isOpen = input(false);
-  _isOpen = signal(false);
+  _isOpen = linkedSignal(() => this.isOpen());
 
   id = componentId();
   triggerId = `trigger-${this.id}`;
   contentId = `content-${this.id}`;
 
-  constructor() {
-    effect(() => this._isOpen.set(this.isOpen()));
-  }
-
-  ngOnInit(): void {
-    this._isOpen.set(this.isOpen());
-  }
-
   togglePanel() {
-    console.log('Yo');
     this._isOpen.set(!this._isOpen());
   }
 }

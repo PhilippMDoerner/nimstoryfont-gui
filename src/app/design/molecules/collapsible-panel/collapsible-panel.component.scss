@@ -2,7 +2,7 @@
   padding: var(--spacer-3);
 
   &:focus-within {
-    outline: 1px white solid;
+    outline: var(--focus-outline);
   }
 
   &__heading {
@@ -21,5 +21,13 @@
 
   &__button {
     outline: none;
+  }
+
+  &__heading-icon {
+    transition: transform 0.2s ease-in-out;
+
+    &--open {
+      transform: rotateX(180deg);
+    }
   }
 }

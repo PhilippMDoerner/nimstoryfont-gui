@@ -14,7 +14,8 @@
 
       <app-icon
         class="card__heading-icon"
-        [icon]="_isOpen() ? 'chevron-up' : 'chevron-down'"
+        [class.card__heading-icon--open]="_isOpen()"
+        [icon]="'chevron-down'"
       ></app-icon>
     </h5>
   </button>

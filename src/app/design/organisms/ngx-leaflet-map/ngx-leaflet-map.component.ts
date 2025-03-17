@@ -72,7 +72,6 @@ export class NgxLeafletMapComponent {
   constructor(private routingService: RoutingService) {}
 
   onMapReady(map: Map) {
-    console.log('Init map');
     this.leafletMap = map;
     this.leafletMap.fitBounds(this.MAP_BOUNDS);
 

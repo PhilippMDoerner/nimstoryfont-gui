@@ -4,7 +4,6 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import {
   combineLatest,
-  delay,
   map,
   Observable,
   ReplaySubject,
@@ -60,8 +59,6 @@ export class GeneralOverviewPageComponent {
     campaignName: this.campaignName$,
   }).pipe(
     tap(() => this.queryState$.next('loading')),
-    delay(3000),
-
     switchMap(({ service, campaignName }) =>
       service.campaignList(campaignName),
     ),

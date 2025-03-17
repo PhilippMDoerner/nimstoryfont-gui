@@ -41,12 +41,14 @@
     </h2>
     <div class="home__feed feed">
       <div class="feed__controls">
+        @let infiniteScrollId = id + "-infinite-scroll";
+        <label [for]="infiniteScrollId"> Infinity scroll </label>
         <app-toggle-button
           class="feed__mode-switch"
+          [id]="infiniteScrollId"
           [kind]="'PRIMARY'"
           [active]="feedMode() === 'INFINITY_SCROLL'"
           [icon]="'infinity'"
-          [ariaLabel]="'Infinity Scroll for new updates feed'"
           [title]="'Infinity scroll for new updates feed'"
           [ariaControls]="feedId"
           (changed)="toggleFeedMode($event)"

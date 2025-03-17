@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
   input,
   output,
 } from '@angular/core';
@@ -18,7 +17,9 @@ import { ButtonComponent } from '../button/button.component';
 })
 export class ToggleButtonComponent {
   kind = input.required<ElementKind>();
+  inactiveElementKind = input<ButtonKind>('LIGHT-OUTLINE');
   active = input.required<boolean>();
+  id = input.required<string>();
   ariaLabel = input<string>();
   ariaControls = input<string>();
   title = input<string>();
@@ -28,6 +29,4 @@ export class ToggleButtonComponent {
   size = input<ElementSize>('MEDIUM');
 
   changed = output<boolean>();
-
-  inactiveElementKind = computed(() => `${this.kind()}-OUTLINE` as ButtonKind);
 }

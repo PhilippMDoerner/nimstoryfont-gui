@@ -1,5 +1,6 @@
 <button
   btn
+  [id]="id()"
   [class.active]="active()"
   [kind]="active() ? kind() : inactiveElementKind()"
   [icon]="icon()"
@@ -11,6 +12,6 @@
   [attr.aria-pressed]="active()"
   [attr.aria-label]="ariaLabel()"
   [attr.aria-controls]="ariaControls()"
-  [title]="title()"
+  [attr.title]="title()"
   (clicked)="changed.emit(!active())"
 ></button>

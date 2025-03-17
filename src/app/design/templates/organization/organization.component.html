@@ -82,6 +82,7 @@
         [heading]="'Members'"
         [entries]="organizationMembers()"
         [enableCreate]="canCreate()"
+        [ariaLevel]="2"
         [emptyListText]="'You know no member of ' + organization().name"
         (create)="routeToCharacterCreation()"
       ></app-list>

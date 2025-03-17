@@ -1,6 +1,7 @@
 import { Component, EventEmitter, input, Output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { HeadingLevel } from '../../atoms/_models/heading';
 import { ListEntry } from '../_models/list';
 
 @Component({
@@ -12,6 +13,7 @@ import { ListEntry } from '../_models/list';
 export class ListComponent {
   heading = input.required<string>();
   entries = input.required<ListEntry[]>();
+  ariaLevel = input.required<HeadingLevel>();
   enableCreate = input(false);
   emptyListText = input('No entries yet');
 

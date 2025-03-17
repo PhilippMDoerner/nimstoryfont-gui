@@ -1,7 +1,7 @@
-<div class="list">
+<section class="list">
   <!-- Heading -->
   <div class="list__heading">
-    <h4>{{ heading() }}</h4>
+    <header [attr.aria-level]="ariaLevel()">{{ heading() }}</header>
     @if (enableCreate()) {
       <button
         btn
@@ -31,4 +31,4 @@
       {{ emptyListText() }}
     </div>
   }
-</div>
+</section>

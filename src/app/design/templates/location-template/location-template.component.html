@@ -73,6 +73,7 @@
     <!-- Characters of Interest -->
     <div class="location__characters">
       <app-list
+        [ariaLevel]="2"
         [heading]="'Characters of interest'"
         [entries]="locationCharacters"
         [enableCreate]="canCreate()"

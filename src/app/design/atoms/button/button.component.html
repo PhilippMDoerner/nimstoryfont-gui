@@ -4,8 +4,11 @@
 }
 
 @if (text()) {
-  <span class="btn__text" [class.btn__text--large]="size() === 'LARGE'">
-    {{ text() }}
+  <span
+    class="btn__text"
+    [class.btn__text--large]="size() === 'LARGE'"
+    [innerHTML]="text()"
+  >
   </span>
 }
 

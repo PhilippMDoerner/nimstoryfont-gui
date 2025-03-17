@@ -19,15 +19,14 @@
 
     @if (mapChoices().length > 0) {
       <h3 class="map__heading heading">
-        <label for="map-select">Select Map: </label>
-        <app-choice-select
+        <app-context-menu
           [id]="'map-select'"
           class="heading__select"
-          [choices]="mapChoices()"
-          [labelProp]="'name'"
-          [selectedLabelValue]="map().name"
-          (choiceSelect)="onMapChange($event)"
-        ></app-choice-select>
+          [menuButtonText]="'<strong>Current map: </strong> ' + map().name"
+          [menuButtonKind]="'SECONDARY'"
+          [menuItems]="menuItems()"
+          (actionTriggered)="onMapChange($event)"
+        />
       </h3>
     }
 

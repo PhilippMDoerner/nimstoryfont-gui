@@ -11,10 +11,14 @@ import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import {
+  ContextMenuComponent,
+  MenuItem,
+} from '../../../molecules/context-menu/context-menu.component';
+import { Icon } from '../../atoms/_models/icon';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
-import { ChoiceSelectComponent } from '../../molecules/choice-select/choice-select.component';
 import { NgxLeafletMapComponent } from '../../organisms/ngx-leaflet-map/ngx-leaflet-map.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
@@ -26,12 +30,12 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     PageContainerComponent,
     RouterLink,
     ButtonLinkComponent,
-    ChoiceSelectComponent,
     NgxLeafletMapComponent,
     NgTemplateOutlet,
     ArticleFooterComponent,
     SpinnerComponent,
     HotkeyDirective,
+    ContextMenuComponent,
   ],
 })
 export class MapComponent {
@@ -45,6 +49,18 @@ export class MapComponent {
   @Output() mapDelete: EventEmitter<ExtendedMap> = new EventEmitter();
   @Output() mapChange: EventEmitter<OverviewItem> = new EventEmitter();
 
+  menuItems = computed<MenuItem[]>(() =>
+    this.mapChoices().map(
+      (choice) =>
+        ({
+          kind: 'BUTTON',
+          actionName: choice.name,
+          label: choice.name,
+          icon: choice.icon?.replace('/media/fa-', '') as Icon,
+          active: this.map().pk === choice.pk,
+        }) satisfies MenuItem,
+    ),
+  );
   campaignName = computed(() => this.map().campaign_details?.name);
   createUrl = computed(() =>
     this.routingService.getRoutePath('map-create', {
@@ -70,7 +86,12 @@ export class MapComponent {
     this.mapDelete.emit(this.map());
   }
 
-  onMapChange(event: OverviewItem): void {
-    this.mapChange.emit(event);
+  onMapChange(mapName: string): void {
+    const overviewItem = this.mapChoices().find(
+      (item) => item.name === mapName,
+    );
+    if (overviewItem) {
+      this.mapChange.emit(overviewItem);
+    }
   }
 }

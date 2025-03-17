@@ -1,7 +1,7 @@
 <div class="container list" [class.list--loading]="isUpdatingGlobally()">
   @if (!isUpdatingGlobally()) {
     <!-- Diaryentry - Encounters -->
-    <div class="row list__inner">
+    <ul class="row list__inner">
       @if (state() === "EDIT" && (canCreate() || canUpdate())) {
         @if (canCreate()) {
           <div class="list__button-container">
@@ -31,6 +31,7 @@
           class="list__encounter"
           [id]="entryEncounter.encounter.title"
           [attr.tabindex]="state() === 'EDIT' ? 0 : null"
+          role="listitem"
           [encounter]="entryEncounter.encounter"
           [characters]="campaignCharacters() ?? []"
           [locations]="campaignLocations() ?? []"
@@ -73,7 +74,7 @@
           </div>
         }
       }
-    </div>
+    </ul>
   } @else {
     <ng-container *ngTemplateOutlet="loading" />
   }

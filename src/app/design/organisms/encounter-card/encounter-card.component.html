@@ -18,28 +18,25 @@
 
 <ng-template #editEncounter>
   <app-card class="encounter-card">
-    @if (!isUpdating()) {
-      <app-encounter
-        class="encounter-card__encounter"
-        [encounter]="encounter()"
-        [characters]="characters()"
-        [locations]="locations()"
-        [serverModel]="serverModel()"
-        [canUpdate]="canUpdate()"
-        [canDelete]="canDelete()"
-        [canCreate]="canCreate()"
-        [isInFocus]="isInFocus()"
-        [initialCardState]="encounter().pk == null ? 'CREATE' : 'DISPLAY'"
-        (connectionDelete)="connectionDelete.emit($event)"
-        (connectionCreate)="connectionCreate.emit($event)"
-        (encounterDelete)="encounterDelete.emit($event)"
-        (encounterUpdate)="encounterUpdate.emit($event)"
-        (encounterCreate)="encounterCreate.emit($event)"
-        (encounterCreateCancel)="encounterCreateCancel.emit()"
-      ></app-encounter>
-    } @else {
-      <ng-container *ngTemplateOutlet="loading" />
-    }
+    <app-encounter
+      class="encounter-card__encounter"
+      [encounter]="encounter()"
+      [characters]="characters()"
+      [updateState]="updateState()"
+      [locations]="locations()"
+      [serverModel]="serverModel()"
+      [canUpdate]="canUpdate()"
+      [canDelete]="canDelete()"
+      [canCreate]="canCreate()"
+      [isInFocus]="isInFocus()"
+      [initialCardState]="encounter().pk == null ? 'CREATE' : 'DISPLAY'"
+      (connectionDelete)="connectionDelete.emit($event)"
+      (connectionCreate)="connectionCreate.emit($event)"
+      (encounterDelete)="encounterDelete.emit($event)"
+      (encounterUpdate)="encounterUpdate.emit($event)"
+      (encounterCreate)="encounterCreate.emit($event)"
+      (encounterCreateCancel)="encounterCreateCancel.emit()"
+    />
   </app-card>
 </ng-template>
 

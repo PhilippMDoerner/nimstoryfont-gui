@@ -60,6 +60,21 @@ import {
   animations: [slideUpFromBottom],
 })
 export class DiaryentryEncountersComponent {
+  state = input<EncounterCardState>('READ');
+
+  @Output() connectionDelete: EventEmitter<EncounterConnection> =
+    new EventEmitter();
+  @Output() connectionCreate: EventEmitter<EncounterConnectionRaw> =
+    new EventEmitter();
+  @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
+  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
+  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
+  @Output() encounterCutInsert: EventEmitter<{
+    encounter: Encounter;
+    newOrderIndex: number;
+  }> = new EventEmitter();
+  addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
+
   store = inject(DiaryentryPageStore);
   route = inject(ActivatedRoute);
   hotkeyService = inject(HotkeyService);
@@ -74,7 +89,6 @@ export class DiaryentryEncountersComponent {
   canUpdate = this.store.hasWritePermission;
   canDelete = this.store.hasWritePermission;
   canCreate = this.store.hasWritePermission;
-  state = input<EncounterCardState>('READ');
   state$ = toObservable(this.state);
   encounterElements = viewChildren<
     ElementRef<HTMLElement>,
@@ -83,19 +97,6 @@ export class DiaryentryEncountersComponent {
     read: ElementRef<HTMLElement>,
   });
   encounterElements$ = toObservable(this.encounterElements);
-
-  @Output() connectionDelete: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<EncounterConnectionRaw> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
-  @Output() encounterCutInsert: EventEmitter<{
-    encounter: Encounter;
-    newOrderIndex: number;
-  }> = new EventEmitter();
-  addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
   encounterIndexInFocus = signal<number | undefined>(undefined);
   encounterIndexInFocus$ = toObservable(this.encounterIndexInFocus).pipe(

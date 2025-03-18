@@ -1,32 +1,42 @@
 @if (encounter() || cardState() === "CREATE") {
-  <h4 class="card__heading">
-    @switch (cardState()) {
-      @case ("DISPLAY") {
-        <ng-container [ngTemplateOutlet]="displayHeading" />
+  <header aria-level="4" class="card__heading">
+    <h4>
+      @switch (cardState()) {
+        @case ("DISPLAY") {
+          <ng-container [ngTemplateOutlet]="displayHeading" />
+        }
+        @case ("UPDATE") {
+          <ng-container [ngTemplateOutlet]="updateHeading" />
+        }
+        @case ("OUTDATEDUPDATE") {
+          <ng-container [ngTemplateOutlet]="updateHeading" />
+        }
+        @case ("CREATE") {
+          <ng-container [ngTemplateOutlet]="createHeading" />
+        }
       }
-      @case ("UPDATE") {
-        <ng-container [ngTemplateOutlet]="updateHeading" />
-      }
-      @case ("OUTDATEDUPDATE") {
-        <ng-container [ngTemplateOutlet]="updateHeading" />
-      }
-      @case ("CREATE") {
-        <ng-container [ngTemplateOutlet]="createHeading" />
-      }
-    }
+    </h4>
 
-    @if (canUpdate()) {
-      <app-edit-toggle
-        #toggleButton
-        class="card__edit-button"
-        [title]="'Edit Encounter Metadata'"
-        [buttonKind]="'DARK'"
-        [toggled]="cardState() !== 'DISPLAY'"
-        [disabledHotkey]="!isInFocus()"
-        (toggle)="onToggle($event)"
-      ></app-edit-toggle>
-    }
-  </h4>
+    <span class="card__right-container">
+      @if (showUpdateSuccessMarker$ | async) {
+        <span class="card__success-animation">
+          Updated encounter
+          <app-success-animation />
+        </span>
+      }
+      @if (canUpdate()) {
+        <app-edit-toggle
+          #toggleButton
+          class="card__edit-button"
+          [title]="'Edit Encounter Metadata'"
+          [buttonKind]="'DARK'"
+          [toggled]="cardState() !== 'DISPLAY'"
+          [disabledHotkey]="!isInFocus()"
+          (toggle)="onToggle($event)"
+        ></app-edit-toggle>
+      }
+    </span>
+  </header>
 
   @switch (cardState()) {
     @case ("DISPLAY") {

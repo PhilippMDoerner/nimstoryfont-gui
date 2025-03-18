@@ -49,6 +49,18 @@
   &__edit-button {
     align-self: center;
   }
+
+  &__right-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-3);
+  }
+
+  &__success-animation {
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-2);
+  }
 }
 
 .connections {

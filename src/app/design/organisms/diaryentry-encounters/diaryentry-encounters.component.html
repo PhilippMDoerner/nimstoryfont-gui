@@ -24,7 +24,8 @@
         entryEncounter of diaryEntryEncounters();
         track entryEncounter.encounter.title
       ) {
-        @let disabled = isUpdatingAnything() || entryEncounter.isUpdating;
+        @let disabled =
+          isUpdatingAnything() || entryEncounter.requestState === "loading";
 
         <app-encounter-card
           #encounter
@@ -40,7 +41,7 @@
           [canDelete]="canDelete()"
           [canCreate]="canCreate()"
           [disabled]="disabled"
-          [isUpdating]="entryEncounter.isUpdating"
+          [updateState]="entryEncounter.requestState"
           [state]="state()"
           [isInFocus]="encounterIndexInFocus() === $index"
           [ariaLevel]="3"

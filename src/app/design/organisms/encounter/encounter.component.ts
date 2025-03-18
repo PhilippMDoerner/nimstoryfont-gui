@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,7 +15,16 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { interval, of, take } from 'rxjs';
+import {
+  EMPTY,
+  interval,
+  map,
+  of,
+  startWith,
+  switchMap,
+  take,
+  timer,
+} from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import {
@@ -39,10 +48,14 @@ import {
 } from 'src/app/design/molecules';
 import { componentId } from 'src/utils/DOM';
 import { filterNil } from 'src/utils/rxjs-operators';
+import { RequestState } from 'src/utils/store/factory-types';
+import { SuccessAnimationComponent } from '../../atoms/success-animation/success-animation.component';
 import {
   EditorComponent,
   TextFieldState,
 } from '../../molecules/editor/editor.component';
+
+const UPDATE_MARKER_TIMEOUT_MS = 3000;
 
 @Component({
   selector: 'app-encounter',
@@ -60,6 +73,8 @@ import {
     NgbTooltipModule,
     EditorComponent,
     HotkeyDirective,
+    AsyncPipe,
+    SuccessAnimationComponent,
   ],
 })
 export class EncounterComponent implements OnInit {
@@ -67,6 +82,7 @@ export class EncounterComponent implements OnInit {
 
   characters = input.required<OverviewItem[]>();
   locations = input.required<OverviewItem[]>();
+  updateState = input<RequestState>();
   encounter = input<Encounter | CharacterEncounter>();
   serverModel = input<Encounter>();
   canUpdate = input(false);
@@ -96,6 +112,19 @@ export class EncounterComponent implements OnInit {
   });
   campaignName = computed(() => this.encounter()?.campaign_details?.name);
 
+  showUpdateSuccessMarker$ = toObservable(this.updateState).pipe(
+    switchMap((state) => {
+      const hasUpdatedSuccessfully = state === 'success';
+      if (hasUpdatedSuccessfully) {
+        return timer(UPDATE_MARKER_TIMEOUT_MS).pipe(
+          map(() => false),
+          startWith(state === 'success'),
+        );
+      } else {
+        return EMPTY;
+      }
+    }),
+  );
   locations$ = toObservable(this.locations).pipe(filterNil());
   formlyFields = computed<FormlyFieldConfig[]>(() => [
     this.formlyService.buildInputConfig({

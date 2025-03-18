@@ -30,3 +30,13 @@
     border: var(--bs-border-style) 2px var(--bs-border-color);
   }
 }
+
+.navbar-toggler {
+  &:focus {
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: var(--focus-outline);
+  }
+}

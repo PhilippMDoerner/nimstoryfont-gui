@@ -11,3 +11,7 @@
 .dropdown-item {
   font-size: var(--menu-option-text-size);
 }
+
+.dropdown-menu {
+  --bs-dropdown-item-padding-y: var(--spacer-2);
+}

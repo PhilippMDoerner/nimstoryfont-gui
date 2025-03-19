@@ -5,6 +5,7 @@
   <a
     class="skip-to-content fw-bold fs-4"
     [href]="currentUrl ? currentUrl + '#' + contentId : undefined"
+    (click)="focusMain()"
   >
     @if (!currentUrl) {
       Failed to build skip-url. Please reload the page

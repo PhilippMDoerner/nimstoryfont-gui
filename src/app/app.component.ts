@@ -73,6 +73,10 @@ export class AppComponent {
     this.pwaService.storeInstallEvent(event);
   }
 
+  focusMain() {
+    document.querySelector<HTMLElement>('main')?.focus();
+  }
+
   private trackAnimationSetting() {
     afterNextRender(() => {
       const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');

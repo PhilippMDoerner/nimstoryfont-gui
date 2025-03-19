@@ -1,7 +1,7 @@
 <div class="container list" [class.list--loading]="isUpdatingGlobally()">
   @if (!isUpdatingGlobally()) {
     <!-- Diaryentry - Encounters -->
-    <ul class="row list__inner">
+    <ul class="list__inner p-0">
       @if (state() === "EDIT" && (canCreate() || canUpdate())) {
         @if (canCreate()) {
           <div class="list__button-container">

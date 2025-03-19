@@ -17,8 +17,9 @@
             },
             {
               kind: 'BUTTON',
-              label: 'Edit Encounters',
-              icon: 'rectangle-list',
+              label:
+                state() === 'DISPLAY' ? 'Edit Encounters' : 'Read Encounters',
+              icon: state() === 'DISPLAY' ? 'rectangle-list' : 'times',
               actionName: 'toggleState',
               hotkey: 'r',
             },

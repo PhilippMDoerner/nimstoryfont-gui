@@ -39,8 +39,8 @@
     @for (item of dummyArticles; track $index) {
       <article class="entry col-6 col-lg-4 col-xl-3">
         <app-placeholder
-          [attr.aria-setsize]="articles().length"
-          [attr.aria-posinset]="$index"
+          [attr.aria-setsize]="-1"
+          [attr.aria-posinset]="articles().length + $index"
           class="entry__placeholder"
         />
       </article>

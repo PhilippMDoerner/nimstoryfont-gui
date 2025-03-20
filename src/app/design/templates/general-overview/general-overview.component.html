@@ -118,10 +118,7 @@
               [fallbackUrl]="'/' + defaultPlayerCharacterImage"
               [imageUrls]="playerCharacter.images"
               [link]="playerCharacter.getAbsoluteRouterUrl()"
-              [alt]="
-                'An image displaying the player character ' +
-                playerCharacter.name
-              "
+              [alt]="'Player character' + playerCharacter.name"
               [text]="playerCharacter.name_full"
             ></app-image-card>
           }

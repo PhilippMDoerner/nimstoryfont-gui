@@ -8,6 +8,7 @@
       >
         <img
           class="card-img-top"
+          [id]="imageId"
           [ngSrc]="serverUrl() + currentImage()"
           [alt]="alt()"
           [height]="300"
@@ -42,7 +43,8 @@
           <button
             class="card__img-selector"
             [class.card__img-selector--active]="$index === currentImageIndex()"
-            [attr.aria-label]="'Show image ' + imageIndex"
+            [attr.aria-label]="'Show image ' + imageIndex + ' of ' + text()"
+            [attr.aria-controls]="imageId"
             (click)="selectorClicked$.next({ index: $index, event: $event })"
           >
             {{ imageIndex }}

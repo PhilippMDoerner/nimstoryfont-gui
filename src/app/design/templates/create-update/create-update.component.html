@@ -12,8 +12,8 @@
           [kind]="'SECONDARY'"
           [attr.aria-label]="'Cancel ' + heading()"
           [hotkey]="'q'"
-          (hotkeyPressed)="cancel.emit()"
-          (clicked)="cancel.emit()"
+          (hotkeyPressed)="onCancel()"
+          (clicked)="onCancel()"
         ></button>
       </div>
     </h1>
@@ -42,7 +42,7 @@
     [model]="userModel()"
     [fields]="formlyFields()"
     (formlySubmit)="onSubmit($event)"
-    (formlyCancel)="cancel.emit()"
+    (formlyCancel)="onCancel()"
   ></app-form>
 </ng-template>
 
@@ -52,6 +52,6 @@
     [modelFromUser]="userModel()"
     [modelFromServer]="serverModel()"
     (formlySubmit)="onSubmit($event)"
-    (formlyCancel)="cancel.emit()"
+    (formlyCancel)="onCancel()"
   ></app-compare-form>
 </ng-template>

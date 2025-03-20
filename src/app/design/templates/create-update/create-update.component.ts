@@ -44,4 +44,8 @@ export class CreateUpdateComponent<Full, Raw> {
         break;
     }
   }
+
+  onCancel() {
+    this.cancel.emit();
+  }
 }

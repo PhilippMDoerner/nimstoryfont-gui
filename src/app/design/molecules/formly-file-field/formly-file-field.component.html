@@ -1,5 +1,10 @@
 <div class="mb-3 {{ field.className }}" [class.d-none]="to.hidden">
   <div class="d-flex flex-row align-items-center">
+    @let descriptionLabelId = field.id + "-description";
+    <div [id]="descriptionLabelId" class="cdk-visually-hidden">
+      Opens a filepicker to select a file. You can also paste a file into the
+      window.
+    </div>
     <button
       btn
       class="file-field"
@@ -8,7 +13,13 @@
       [kind]="buttonType"
       [icon]="'upload'"
       [text]="'Click here or paste a file into the window'"
+      [type]="'button'"
+      aria-label="Filepicker"
+      [id]="field.id ?? ''"
+      [attr.aria-controls]="field.id"
+      [attr.aria-describedby]="descriptionLabelId"
       (focus)="formControl.markAsTouched()"
+      (click)="$event.preventDefault()"
       (clicked)="onButtonClick($event)"
     ></button>
   </div>
@@ -28,7 +39,6 @@
   class="d-none"
   (change)="onFileSelect($event)"
   [formlyAttributes]="field"
-  [id]="props['name']"
   [name]="props['name']"
   data-formly-field-type="file"
 />

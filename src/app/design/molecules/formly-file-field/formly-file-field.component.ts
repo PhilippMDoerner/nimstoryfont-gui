@@ -55,6 +55,7 @@ export class FormlyFileFieldComponent
   }
 
   onFileSelect(event: any) {
+    console.log('FILE SELECT?!');
     const files = event.target.files;
     const hasSelectedFile = files.length > 0;
     if (!hasSelectedFile) return;
@@ -74,6 +75,7 @@ export class FormlyFileFieldComponent
   // in a way that won't cause that event to bubble upwards.
   onButtonClick(event: Event) {
     event.stopPropagation();
+    event.preventDefault();
     const element: HTMLElement = this.fileInputElement.nativeElement;
     const newClick = new MouseEvent('click', { bubbles: false });
     element.dispatchEvent(newClick);

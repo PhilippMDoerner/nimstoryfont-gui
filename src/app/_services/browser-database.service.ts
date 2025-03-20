@@ -31,6 +31,7 @@ const openDbErrorToast: ToastConfig = {
   body: {
     text: 'Unable to open browser database. Offline features are disabled.',
   },
+  onToastClick: (dismiss) => dismiss(),
 };
 
 @Injectable({

@@ -1,5 +1,5 @@
 .card {
-  padding: var(--spacer-3);
+  padding: 0;
 
   &:focus-within {
     outline: var(--focus-outline);
@@ -20,8 +20,17 @@
   }
 
   &__button {
+    padding: var(--spacer-3);
     width: 100%;
     outline: none;
+  }
+
+  &__body {
+    padding: 0px var(--spacer-3) var(--spacer-3) var(--spacer-3);
+  }
+
+  &__separator {
+    --separator-margin-top: 0;
   }
 
   &__heading-icon {

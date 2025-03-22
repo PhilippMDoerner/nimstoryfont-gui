@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  input,
+  Output,
+  signal,
+} from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
@@ -25,10 +32,11 @@ type LoginMessageMap = { [key in SpecialLoginState]: string };
     ButtonComponent,
   ],
   animations: [backInUp, flipInY],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  @Input() loginState?: SpecialLoginState;
-  @Input() resetErrorMessage?: string;
+  loginState = input<SpecialLoginState>();
+  resetErrorMessage = input<string>();
 
   @Output() login: EventEmitter<Login> = new EventEmitter();
   @Output() resetPassword: EventEmitter<string> = new EventEmitter();
@@ -59,20 +67,20 @@ export class LoginComponent {
   recoveryModel: Partial<{ username: string }> = {};
   recoveryForm = new FormGroup({});
   recoveryFields: FormlyFieldConfig[] = [
-    this.formlyService.buildInputConfig({
+    this.formlyService.buildInputConfig<typeof this.recoveryModel>({
       key: 'username',
       placeholder: 'Username',
       inputKind: 'STRING',
     }),
   ];
 
-  state: LoginViewState = 'LOGIN';
+  state = signal<LoginViewState>('LOGIN');
   isWaitingForPasswordReset: boolean = false;
 
   constructor(private formlyService: FormlyService) {}
 
   setState(newState: LoginViewState): void {
-    this.state = newState;
+    this.state.set(newState);
     this.recoveryModel = {};
     this.model = {};
   }
@@ -82,6 +90,10 @@ export class LoginComponent {
   }
 
   onPasswordReset(): void {
-    this.resetPassword.emit(this.recoveryModel.username);
+    this.setState('LOGIN');
+    //For some reason this.recoveryModel does not get its value changed. Fix this.
+    const username = (this.recoveryForm.value as typeof this.recoveryModel)
+      .username;
+    this.resetPassword.emit(username);
   }
 }

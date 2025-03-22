@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet, TitleCasePipe } from '@angular/common';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -16,7 +16,7 @@ import { componentId } from 'src/utils/DOM';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { FilterListEntry } from '../_model/filterListEntry';
 
-type GroupMode = 'PROPERTY' | 'LETTER';
+type GroupMode = 'PROPERTY' | 'LETTER' | 'SEARCH';
 
 @Component({
   selector: 'app-filter-list',
@@ -30,7 +30,6 @@ type GroupMode = 'PROPERTY' | 'LETTER';
     RouterLink,
     NgTemplateOutlet,
     HotkeyDirective,
-    TitleCasePipe,
     ButtonComponent,
   ],
 })
@@ -56,7 +55,11 @@ export class FilterListComponent<T> {
       return entryLabel.toLowerCase().includes(filterValue);
     });
   });
-  mode = computed<GroupMode>(() => (this.groupProp() ? 'PROPERTY' : 'LETTER'));
+  mode = computed<GroupMode>(() => {
+    const isSearching = (this.filterValue()?.length ?? 0) > 0;
+    if (isSearching) return 'SEARCH';
+    return this.groupProp() ? 'PROPERTY' : 'LETTER';
+  });
 
   constructor(private routing: Router) {}
 

@@ -35,14 +35,14 @@
         Diary Entry # {{ diaryentry().session_details?.session_number }} <br />
         {{ diaryentry().title }}
       </h1>
-      <h2 class="col-12 fs-6 fw-normal diaryentry__subheading">
+      <p class="col-12 fs-6 fw-normal diaryentry__subheading">
         Written by: {{ diaryentry().author_details?.name }} <br />
         on {{ diaryentry().session_details?.session_date | date: "longDate" }}
-      </h2>
+      </p>
     </div>
 
     @if (canUpdate() && state() === "EDIT") {
-      <h3 class="fs-2">Contents</h3>
+      <h2 class="fs-2">Contents</h2>
       <app-drag-and-drop-list
         class="diaryentry__contents"
         [entries]="sortedEncounters()"

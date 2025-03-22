@@ -5,9 +5,10 @@
     (submit)="openFirstArticle($event)"
     [hotkey]="'f'"
     (hotkeyPressed)="filterInputElement.focus()"
+    role="search"
   >
     <label class="fs-5 fw-bold p-0" [for]="searchId">
-      {{ heading() | titlecase }} name search
+      Search for article
     </label>
     <div class="filter__input-container">
       <input
@@ -25,14 +26,23 @@
         [kind]="'SECONDARY'"
         [icon]="'search'"
         [type]="'submit'"
+        aria-label="Start search"
       ></button>
     </div>
   </form>
 
   <section>
-    <ng-container
-      *ngTemplateOutlet="mode() === 'LETTER' ? letterList : propertyList"
-    ></ng-container>
+    @switch (mode()) {
+      @case ("LETTER") {
+        <ng-container *ngTemplateOutlet="letterList" />
+      }
+      @case ("PROPERTY") {
+        <ng-container *ngTemplateOutlet="propertyList" />
+      }
+      @case ("SEARCH") {
+        <ng-container *ngTemplateOutlet="searchList" />
+      }
+    }
   </section>
 </div>
 
@@ -52,7 +62,7 @@
         class="letter-list"
         [ngClass]="{
           'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine(),
-          'col-12': filterInputElement.value || forceSingleLine,
+          'col-12': filterInputElement.value || forceSingleLine(),
         }"
       >
         <!-- Letter Heading -->
@@ -83,14 +93,18 @@
 </ng-template>
 
 <ng-template #propertyList>
+  @let groupPropVal = groupProp();
+
   <ul
     class="row"
     [id]="listId"
     [attr.aria-label]="
-      'All ' + heading() + 'entries matching ' + filterInputElement.value
+      'All recorded ' +
+      heading() +
+      ', split into lists based on ' +
+      groupPropVal
     "
   >
-    @let groupPropVal = groupProp();
     @if (groupPropVal) {
       @for (
         itemLetterEntries of displayEntries()
@@ -123,6 +137,24 @@
           </ul>
         </li>
       }
+    }
+  </ul>
+</ng-template>
+
+<ng-template #searchList>
+  <ul
+    class="row"
+    [id]="listId"
+    [attr.aria-label]="
+      'All entries matching search query \'' + filterInputElement.value + '\''
+    "
+  >
+    @for (entry of displayEntries(); track entry[labelProp()]) {
+      <li class="letter-list__item col-12">
+        <a [routerLink]="entry.link">
+          {{ entry[labelProp()] }}
+        </a>
+      </li>
     }
   </ul>
 </ng-template>

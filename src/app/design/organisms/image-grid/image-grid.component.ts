@@ -15,6 +15,7 @@ export type ImageGridEntry = {
   link: string;
   imageUrl: string | undefined;
   label: string;
+  ariaLabel: string;
 };
 
 @Component({

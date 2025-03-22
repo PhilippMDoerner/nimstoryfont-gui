@@ -3,22 +3,41 @@
 @include utils.reset-list-styles();
 
 .filter {
-  &__input {
-    background-color: transparent;
+  &__input-container {
+    display: flex;
+    flex-direction: row;
     border: 1px var(--bs-white) solid;
     border-radius: var(--bs-border-radius);
-    padding: var(--spacer-0) var(--spacer-3);
-    margin-top: var(--spacer-2);
-    margin-bottom: var(--spacer-4);
     width: 100%;
     height: var(--spacer-5);
+    margin-top: var(--spacer-2);
+    margin-bottom: var(--spacer-4);
+    padding: 0;
+  }
+
+  &__input {
+    background-color: transparent;
+    padding: var(--spacer-0) var(--spacer-3);
+    border: none;
     color: var(--bs-white);
 
-    &:focus {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: var(--bs-white);
+    &:focus,
+    &:focus-visible {
       box-shadow: 0 0 0 2px var(--bs-white);
+      background: rgba(255, 255, 255, 0.1);
+      outline: var(--focus-outline);
+      border-top-left-radius: var(--bs-border-radius);
+      border-bottom-left-radius: var(--bs-border-radius);
     }
+
+    width: 100%;
+  }
+
+  &__button {
+    height: 100%;
+    padding: var(--spacer-3);
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 }
 

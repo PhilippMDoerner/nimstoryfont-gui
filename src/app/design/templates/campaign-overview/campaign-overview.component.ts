@@ -57,6 +57,7 @@ export class CampaignOverviewComponent {
       link: this.routingService.getRoutePath('home', {
         campaign: campaign.name,
       }),
+      ariaLabel: `Look at campaign ${campaign.name}`,
     })),
   );
   dragonFrameUrl = '/assets/dragon-frame.jpg';

@@ -1,4 +1,4 @@
-import { NgClass, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -12,6 +12,8 @@ import {
   GroupByFirstLetterPipe,
   GroupByPipe,
 } from 'src/app/design/atoms/_pipes/groupObjects.pipe';
+import { componentId } from 'src/utils/DOM';
+import { ButtonComponent } from '../../atoms/button/button.component';
 import { FilterListEntry } from '../_model/filterListEntry';
 
 type GroupMode = 'PROPERTY' | 'LETTER';
@@ -28,6 +30,8 @@ type GroupMode = 'PROPERTY' | 'LETTER';
     RouterLink,
     NgTemplateOutlet,
     HotkeyDirective,
+    TitleCasePipe,
+    ButtonComponent,
   ],
 })
 export class FilterListComponent<T> {
@@ -38,6 +42,8 @@ export class FilterListComponent<T> {
   forceSingleLine = input(false);
 
   filterValue = signal<string | undefined>(undefined);
+  listId = componentId();
+  searchId = `${this.listId}-search`;
 
   displayEntries = computed<FilterListEntry<T>[]>(() => {
     const filterValue = this.filterValue()?.toLowerCase();

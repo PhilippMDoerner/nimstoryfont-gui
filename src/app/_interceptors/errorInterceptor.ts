@@ -44,7 +44,7 @@ export function errorInterceptor(
         error: (err) => {
           if (err instanceof HttpErrorResponse) {
             toastService.addToast(logoutInfoToast);
-            authStore.logout();
+            globalStore.logout();
             routingService.routeToPath('login');
           }
         },

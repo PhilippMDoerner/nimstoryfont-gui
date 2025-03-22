@@ -66,7 +66,7 @@ export class AppComponent {
   }
 
   logout(): void {
-    this.authStore.logout();
+    this.globalStore.logout();
   }
 
   fireEvent(event: BeforeInstallPromptEvent) {

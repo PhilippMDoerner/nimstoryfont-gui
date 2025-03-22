@@ -8,6 +8,7 @@ import { CampaignService } from 'src/app/_services/utils/campaign.service';
 import { AuthStore } from 'src/app/auth.store';
 import { CampaignMembership } from 'src/app/design/templates/_models/campaign-membership';
 import { PasswordModel } from 'src/app/design/templates/profile/profile.component';
+import { GlobalStore } from 'src/app/global.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 
 export type ProfilePageState = {
@@ -23,6 +24,7 @@ export const ProfilePageStore = signalStore(
   withMethods((state) => {
     const authStore = inject(AuthStore);
     const userService = inject(UserService);
+    const globalStore = inject(GlobalStore);
 
     const currentUserPk$ = toObservable(authStore.currentUserPk).pipe(
       filterNil(),
@@ -60,7 +62,7 @@ export const ProfilePageStore = signalStore(
             switchMap((userPk) => userService.delete(userPk)),
             take(1),
           )
-          .subscribe(() => authStore.logout());
+          .subscribe(() => globalStore.logout());
       },
     };
   }),

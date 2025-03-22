@@ -38,6 +38,6 @@ export class CampaignOverviewPageComponent {
   }
 
   logout(): void {
-    this.authStore.logout();
+    this.globalStore.logout();
   }
 }

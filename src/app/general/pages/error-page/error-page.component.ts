@@ -100,7 +100,7 @@ export class ErrorPageComponent {
   });
 
   onReLogin() {
-    this.authStore.logout();
+    this.globalStore.logout();
     this.routingService.routeToPath('login');
   }
 }

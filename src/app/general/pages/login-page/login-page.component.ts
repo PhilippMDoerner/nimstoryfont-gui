@@ -9,7 +9,6 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { MailService } from 'src/app/_services/utils/mail.service';
 import { AuthStore } from 'src/app/auth.store';
 import { LoginComponent } from 'src/app/design//templates/login/login.component';
-import { GlobalStore } from 'src/app/global.store';
 import { LoginPageStore } from './login-page.store';
 
 @Component({
@@ -39,15 +38,11 @@ export class LoginPageComponent {
     ),
   );
 
-  globalStore = inject(GlobalStore);
-
   constructor(
     private routingService: RoutingService,
     private mailService: MailService,
     private route: ActivatedRoute,
-  ) {
-    this.globalStore.trackIsPageLoading(false);
-  }
+  ) {}
 
   onLogin(loginData: Login) {
     this.authStore.login(loginData);

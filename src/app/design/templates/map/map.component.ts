@@ -11,14 +11,14 @@ import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
-import {
-  ContextMenuComponent,
-  MenuItem,
-} from '../../../molecules/context-menu/context-menu.component';
 import { Icon } from '../../atoms/_models/icon';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
+import {
+  ContextMenuComponent,
+  MenuItem,
+} from '../../molecules/context-menu/context-menu.component';
 import { NgxLeafletMapComponent } from '../../organisms/ngx-leaflet-map/ngx-leaflet-map.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 

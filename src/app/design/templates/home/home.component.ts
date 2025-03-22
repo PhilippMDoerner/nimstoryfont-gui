@@ -26,14 +26,14 @@ import { PlaceholderComponent } from 'src/app/design/atoms/placeholder/placehold
 import { IconCardEntry } from 'src/app/design/organisms/_model/icon-card-list';
 import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
 import { componentId } from 'src/utils/DOM';
-import {
-  ContextMenuComponent,
-  MenuItem,
-} from '../../../molecules/context-menu/context-menu.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { ToggleButtonComponent } from '../../atoms/toggle-button/toggle-button.component';
+import {
+  ContextMenuComponent,
+  MenuItem,
+} from '../../molecules/context-menu/context-menu.component';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-list.component';
 

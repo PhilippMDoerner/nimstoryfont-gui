@@ -9,6 +9,7 @@
   position: fixed;
   text-decoration: none;
   transform: translateY(-1000%);
+  border-radius: 0;
 
   &:focus-visible {
     position: relative;

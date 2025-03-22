@@ -1,4 +1,8 @@
-<div class="repeated-unit" [id]="encounter().title">
+<div
+  class="repeated-unit"
+  [id]="encounter().title"
+  [attr.aria-label]="'Encounter \'' + encounter().title + '\''"
+>
   @switch (state()) {
     @case ("READ") {
       <ng-container *ngTemplateOutlet="displayEncounter" />

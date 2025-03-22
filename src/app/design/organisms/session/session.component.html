@@ -65,7 +65,10 @@
           Diaryentries
         </div>
 
-        <ul class="body__subbody body__subbody--list">
+        <ul
+          class="body__subbody body__subbody--list"
+          [attr.aria-label]="'Diaryentries of session ' + session().name"
+        >
           @for (diaryEntry of diaryEntries(); track diaryEntry.link) {
             <li>
               <a [routerLink]="diaryEntry.link" class="body__link">

@@ -59,18 +59,16 @@
     {{ encounter()?.title }}
 
     @if (canUpdate()) {
+      @let buttonText = textFieldState() === "DISPLAY" ? "Edit text" : "Cancel";
       <button
         class="card__text-edit-button fs-6"
         [hotkey]="'w'"
         [disabledHotkey]="!isInFocus()"
         (hotkeyPressed)="toggleTextField()"
         (click)="toggleTextField()"
+        [attr.aria-label]="buttonText"
       >
-        @if (textFieldState() === "DISPLAY") {
-          (Edit text)
-        } @else {
-          (Cancel)
-        }
+        ({{ buttonText }})
       </button>
     }
   </span>

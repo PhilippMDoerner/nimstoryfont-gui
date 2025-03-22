@@ -9,6 +9,7 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { filter, map, of, switchMap, tap } from 'rxjs';
+import { capitalize } from 'src/utils/string';
 import {
   BindableHotkey,
   HotkeyService,
@@ -21,6 +22,9 @@ export type TooltipBehavior = 'OnHotkey' | 'Always' | 'Never';
 @Directive({
   selector: '[hotkey]',
   providers: [NgbTooltip],
+  host: {
+    '[attr.aria-keyshortcuts]': 'shortcutText()',
+  },
 })
 export class HotkeyDirective {
   private tooltip = inject(NgbTooltip);
@@ -33,6 +37,11 @@ export class HotkeyDirective {
 
   hotkeyPressed = output<{ event: KeyboardEvent; host: HTMLElement }>();
 
+  private shortcutText = computed(() => {
+    const hotkey = this.hotkey();
+    if (!hotkey) return undefined;
+    return `Alt+${capitalize(hotkey)}`;
+  });
   private tooltipText = computed(() => {
     const hotkey = this.hotkey();
     if (!hotkey) return undefined;

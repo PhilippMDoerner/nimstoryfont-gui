@@ -1,0 +1,29 @@
+<app-stepper
+  [orientation]="'horizontal'"
+  (selectionChange)="selectionChange.emit($event.selectedStep)"
+>
+  <cdk-step #firstStep [label]="'Welcome to Aldrune!'">
+    <p>
+      This is a small guide to explain the intent and functionality of the
+      various features of Aldrune.
+    </p>
+    <p>
+      You can close this window at any time. You can look at this help again by
+      pressing the hotkey "Alt + O"
+    </p>
+  </cdk-step>
+  <cdk-step [label]="'Articles'"> GENERAL ARTICLES </cdk-step>
+  <cdk-step [label]="'Sessions'"> SESSIONS </cdk-step>
+  <cdk-step [label]="'Diaryentries & Encounters'"> DIARYENTRY </cdk-step>
+  <cdk-step [label]="'Recordings'"> RECORDING </cdk-step>
+  <cdk-step [label]="'Maps'"> MAP </cdk-step>
+  <cdk-step [label]="'Campaign Configuration'"> WIKI-CONFIGURATION </cdk-step>
+  @if (isCampaignAdmin()) {
+    <cdk-step [label]="'Administering your Campaign'">
+      CAMPAIGN-ADMIN
+    </cdk-step>
+  }
+  <cdk-step [label]="'Hotkeys'"> HOTKEYS </cdk-step>
+  <cdk-step [label]="'Error handling'"> ERRORS </cdk-step>
+  <cdk-step [label]="'Have Fun'"> DONE - HAVE FUN </cdk-step>
+</app-stepper>

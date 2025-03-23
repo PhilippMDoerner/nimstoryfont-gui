@@ -1,0 +1,19 @@
+<div class="modal-header">
+  <span> <!-- Spacer for display flex --> </span>
+
+  <div class="h3">{{ activeStepElement()?.label }}</div>
+
+  <button
+    btn
+    class="rounded"
+    [kind]="'NONE'"
+    [icon]="'xmark'"
+    aria-label="Close"
+    (clicked)="dismiss()"
+  ></button>
+</div>
+<app-onboarding-stepper
+  class="modal-body"
+  [isCampaignAdmin]="isCampaignAdmin() ?? false"
+  (selectionChange)="activeStepElement.set($event)"
+></app-onboarding-stepper>

@@ -288,6 +288,14 @@
         world!
       </p>
       <p>Explore, create, and collaborate with your group. Have fun!</p>
+      <div class="d-flex justify-content-center">
+        <button
+          btn
+          [kind]="'PRIMARY'"
+          [text]="'Get Started!'"
+          (clicked)="finished.emit()"
+        ></button>
+      </div>
     </div>
   </cdk-step>
 </app-stepper>

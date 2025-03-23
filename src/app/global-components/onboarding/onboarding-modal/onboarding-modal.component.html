@@ -16,4 +16,5 @@
   class="modal-body"
   [isCampaignAdmin]="isCampaignAdmin() ?? false"
   (selectionChange)="activeStepElement.set($event)"
+  (finished)="dismiss()"
 ></app-onboarding-stepper>

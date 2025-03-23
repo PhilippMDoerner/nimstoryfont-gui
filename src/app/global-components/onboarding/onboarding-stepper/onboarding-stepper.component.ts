@@ -7,6 +7,7 @@ import {
   output,
   viewChild,
 } from '@angular/core';
+import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { SuccessAnimationComponent } from 'src/app/design/atoms/success-animation/success-animation.component';
 import { StepperComponent } from 'src/app/design/organisms/stepper/stepper.component';
@@ -18,6 +19,7 @@ import { StepperComponent } from 'src/app/design/organisms/stepper/stepper.compo
     CdkStepperModule,
     IconComponent,
     SuccessAnimationComponent,
+    ButtonComponent,
   ],
   templateUrl: './onboarding-stepper.component.html',
   styleUrl: './onboarding-stepper.component.scss',
@@ -27,6 +29,7 @@ export class OnboardingStepperComponent {
   isCampaignAdmin = input<boolean>();
 
   selectionChange = output<CdkStep>();
+  finished = output<void>();
   firstStep = viewChild.required<CdkStep>('firstStep');
 
   constructor() {

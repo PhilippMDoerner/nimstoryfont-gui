@@ -50,6 +50,10 @@ blockquote {
   padding: var(--spacer-2) var(--spacer-0) var(--spacer-1) var(--spacer-4);
 }
 
+figcaption {
+  font-style: italic;
+}
+
 .highlight {
   background-color: var(--highlight-gray);
 }

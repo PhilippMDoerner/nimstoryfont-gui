@@ -22,4 +22,8 @@
 ></app-page>
 <app-toast-overlay></app-toast-overlay>
 
+<app-onboarding-modal
+  class="d-none"
+  [isCampaignAdmin]="hasCampaignAdminRights()"
+/>
 <app-hotkey-modal class="d-none" />

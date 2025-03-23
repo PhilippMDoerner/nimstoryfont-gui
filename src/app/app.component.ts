@@ -20,6 +20,7 @@ import { AuthStore } from './auth.store';
 import { HotkeyModalComponent } from './design/organisms/hotkey-modal/hotkey-modal.component';
 import { PageComponent } from './design/organisms/page/page.component';
 import { ToastOverlayComponent } from './design/organisms/toast-overlay/toast-overlay.component';
+import { OnboardingModalComponent } from './global-components/onboarding/onboarding-modal/onboarding-modal.component';
 import { GlobalStore } from './global.store';
 import { ServiceWorkerService } from './service-worker.service';
 @Component({
@@ -31,6 +32,7 @@ import { ServiceWorkerService } from './service-worker.service';
     ToastOverlayComponent,
     AsyncPipe,
     HotkeyModalComponent,
+    OnboardingModalComponent,
   ],
   host: {
     '[@.disabled]': 'disableAnimation()',
@@ -55,7 +57,7 @@ export class AppComponent {
 
   serverUrl: string = environment.backendDomain;
   campaign$ = this.globalStore.currentCampaign;
-  hasCampaignAdminRights$ = computed(() =>
+  hasCampaignAdminRights = computed(() =>
     this.globalStore.isCampaignAdmin(this.globalStore.campaignName()),
   );
   disableAnimation = signal(false);

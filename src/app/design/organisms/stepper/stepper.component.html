@@ -29,7 +29,6 @@
     class="stepper__nav-button"
     cdkStepperPrevious
     #priorButton
-    (window:keydown.ArrowUp)="selectPriorStep()"
     (window:keydown.ArrowLeft)="selectPriorStep()"
     (click)="selectPriorStep()"
   ></button>
@@ -53,7 +52,6 @@
     class="stepper__nav-button"
     cdkStepperNext
     #nextButton
-    (window:keydown.ArrowDown)="selectNextStep()"
     (window:keydown.ArrowRight)="selectNextStep()"
     (click)="selectNextStep()"
   ></button>

@@ -38,6 +38,7 @@ export class OnboardingModalComponent {
 
     this.modalService.open(OnboardingModalComponent, {
       modalDialogClass: 'onboarding-modal',
+      centered: true,
     });
   }
 

@@ -1,8 +1,7 @@
 :host {
   display: flex;
   flex-direction: column;
-  min-height: 300px;
-  overflow: hidden;
+  min-height: 400px;
 }
 
 @keyframes slideInRight {
@@ -10,6 +9,11 @@
     transform: translateX(100%);
     opacity: 0;
   }
+
+  33% {
+    opacity: 1;
+  }
+
   100% {
     transform: translateX(0%);
     opacity: 1;
@@ -21,6 +25,11 @@
     transform: translateX(0%);
     opacity: 1;
   }
+
+  66% {
+    opacity: 0;
+  }
+
   100% {
     transform: translateX(-100%);
     opacity: 0;
@@ -40,29 +49,45 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: var(--spacer-2);
-    margin-bottom: var(--spacer-1);
+    gap: var(--spacer-1);
   }
 
   &__marker {
     transition: transform 0.2s ease-in-out;
+    line-height: 20px;
+    display: inline;
+    vertical-align: middle;
+    transform: scale(0.6);
 
     &--active {
-      transform: scale(2);
+      transform: scale(1.3);
     }
   }
 
   &__nav-button {
     border-radius: var(--bs-border-radius);
+    outline-offset: -2px;
+    transform: scale(2);
+    padding: var(--spacer-2);
+    margin-left: var(--spacer-3);
+    margin-right: var(--spacer-3);
+  }
+
+  &__content-container {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    gap: var(--spacer-2);
   }
 
   &__body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: start;
-    animation-duration: 500ms;
+    margin-bottom: var(--spacer-2);
+    animation-duration: 200ms;
 
     &--animate-slide-in {
       opacity: 0;

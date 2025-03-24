@@ -11,7 +11,6 @@ import {
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { Observable, of, pipe, take } from 'rxjs';
-import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { log } from 'src/utils/logging';
 import { CampaignOverview } from './_models/campaign';
 import { CampaignRole } from './_models/token';
@@ -57,7 +56,7 @@ const SSRDefaultScreenSize$: Observable<ScreenSize> = of({
   width: 600,
 });
 
-const initialAuthState: GlobalState = {
+const initialGlobalState: GlobalState = {
   contentScrollEvents: undefined,
   currentCampaign: undefined,
   campaigns: undefined,
@@ -65,7 +64,7 @@ const initialAuthState: GlobalState = {
 };
 
 export const GlobalStore = signalStore(
-  withState(initialAuthState),
+  withState(initialGlobalState),
   withComputed((state) => {
     const authStore = inject(AuthStore);
 
@@ -101,7 +100,6 @@ export const GlobalStore = signalStore(
   withMethods((store) => {
     const tokenService = inject(TokenService);
     const campaignService = inject(CampaignService);
-    const toastService = inject(ToastService);
     const isOnline = toSignal(inject(OnlineService).online$);
     const authStore = inject(AuthStore);
 

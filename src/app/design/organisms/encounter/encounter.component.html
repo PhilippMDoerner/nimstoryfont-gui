@@ -1,6 +1,6 @@
 @if (encounter() || cardState() === "CREATE") {
   <header aria-level="4" class="card__heading">
-    <h4>
+    <h4 class="mb-0">
       @switch (cardState()) {
         @case ("DISPLAY") {
           <ng-container [ngTemplateOutlet]="displayHeading" />

@@ -103,7 +103,11 @@
 </ng-template>
 
 <ng-template #characterHeading>
-  <h2 class="h3">Player Characters</h2>
+  <h2 class="h3">
+    Player Characters
+
+    <a bypass [id]="filterId">Skip to Search </a>
+  </h2>
 
   <ul class="row" aria-label="All player characters">
     @for (playerCharacter of playerCharacters(); track playerCharacter.name) {
@@ -132,6 +136,7 @@
   <h2 class="h3">Non-Player Characters</h2>
 
   <app-filter-list
+    [id]="filterId"
     [entries]="displayEntries()"
     [labelProp]="'name'"
     [heading]="overviewTypeName()"
@@ -140,6 +145,7 @@
 
 <ng-template #diaryentryBody>
   <app-filter-list
+    [id]="filterId"
     [entries]="displayEntries()"
     [labelProp]="'name_full'"
     [groupProp]="'author_details.name'"
@@ -150,6 +156,7 @@
 
 <ng-template #defaultBody>
   <app-filter-list
+    [id]="filterId"
     [entries]="displayEntries()"
     [labelProp]="'name_full'"
     [heading]="overviewTypeName()"

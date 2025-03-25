@@ -9,6 +9,8 @@ import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { componentId } from 'src/utils/DOM';
+import { BypassBlockDirective } from '../../../_directives/bypass-block.directive';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ImageCardComponent } from '../../molecules/image-card/image-card.component';
 import { FilterListEntry } from '../../organisms/_model/filterListEntry';
@@ -29,6 +31,7 @@ import { GeneralOverviewType } from '../_models/generalOverviewType';
     FilterListComponent,
     TitleCasePipe,
     HotkeyDirective,
+    BypassBlockDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -77,6 +80,8 @@ export class GeneralOverviewComponent {
     }),
   );
   overviewTypeName = computed(() => this.overviewType().toLocaleLowerCase());
+
+  filterId = componentId();
 
   constructor(private routingService: RoutingService) {}
 

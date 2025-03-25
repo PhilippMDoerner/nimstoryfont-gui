@@ -12,12 +12,12 @@ import { fadeOut } from 'src/app/design/animations/fadeIn';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { environment } from 'src/environments/environment';
 import { filterNil } from 'src/utils/rxjs-operators';
+import { BypassBlockDirective } from './_directives/bypass-block.directive';
 import { BeforeInstallPromptEvent, PwaService } from './_services/pwa.service';
 import { CampaignService } from './_services/utils/campaign.service';
 import { GlobalUrlParamsService } from './_services/utils/global-url-params.service';
 import { TokenService } from './_services/utils/token.service';
 import { AuthStore } from './auth.store';
-import { BypassBlockComponent } from './design/atoms/bypass-block/bypass-block.component';
 import { HotkeyModalComponent } from './design/organisms/hotkey-modal/hotkey-modal.component';
 import { PageComponent } from './design/organisms/page/page.component';
 import { ToastOverlayComponent } from './design/organisms/toast-overlay/toast-overlay.component';
@@ -34,7 +34,7 @@ import { ServiceWorkerService } from './service-worker.service';
     AsyncPipe,
     HotkeyModalComponent,
     OnboardingModalComponent,
-    BypassBlockComponent,
+    BypassBlockDirective,
   ],
   host: {
     '[@.disabled]': 'disableAnimation()',

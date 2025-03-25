@@ -2,7 +2,7 @@ import { computed, Directive, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
-import { debugLog, filterNil } from 'src/utils/rxjs-operators';
+import { filterNil } from 'src/utils/rxjs-operators';
 
 @Directive({
   selector: 'a[bypass]',
@@ -11,9 +11,10 @@ import { debugLog, filterNil } from 'src/utils/rxjs-operators';
     '(focus)': 'isInFocus.set(true)',
     '(blur)': 'isInFocus.set(false)',
     '[class.cdk-visually-hidden]': '!isInFocus()',
+    class: 'fs-4 fw-bold text-decoration-none',
   },
 })
-export class BypassBlockComponent {
+export class BypassBlockDirective {
   id = input.required<string>();
 
   isInFocus = signal(false);
@@ -21,10 +22,10 @@ export class BypassBlockComponent {
 
   private readonly currentUrl$ = this.router.events.pipe(
     filter((event) => event instanceof NavigationEnd),
-    debugLog('currentUrl$'),
-    map((event) => event.url.split('#')[0]), //Remove any fragment it might have
-    filterNil(),
+    map((event) => event.url),
     startWith(this.router.url),
+    map((url) => url.split('#')[0]), //Remove any fragment it might have
+    filterNil(),
   );
   private readonly currentUrl = toSignal(this.currentUrl$);
 

@@ -21,7 +21,6 @@ export class ToggleButtonComponent {
   active = input.required<boolean>();
   id = input.required<string>();
   ariaLabel = input<string>();
-  ariaControls = input<string>();
   title = input<string>();
   disabled = input<boolean>(false);
   icon = input<Icon>();

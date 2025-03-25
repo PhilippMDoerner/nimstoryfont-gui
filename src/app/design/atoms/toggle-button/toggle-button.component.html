@@ -7,12 +7,9 @@
   [text]="text()"
   [size]="size()"
   [disabled]="disabled()"
-  role="switch"
-  [attr.aria-checked]="active()"
   [attr.aria-disabled]="disabled()"
   [attr.aria-pressed]="active()"
   [attr.aria-label]="ariaLabel()"
-  [attr.aria-controls]="ariaControls()"
   [attr.title]="title()"
   (clicked)="changed.emit(!active())"
 ></button>

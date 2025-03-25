@@ -50,7 +50,6 @@
           [active]="feedMode() === 'INFINITY_SCROLL'"
           [icon]="'infinity'"
           [title]="'Infinity scroll for new updates feed'"
-          [ariaControls]="feedId"
           (changed)="toggleFeedMode($event)"
           (focusin)="isSwitchInFocus.set(true)"
           (focusout)="isSwitchInFocus.set(false)"

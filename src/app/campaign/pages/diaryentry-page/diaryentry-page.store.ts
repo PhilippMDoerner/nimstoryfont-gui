@@ -117,9 +117,13 @@ export const DiaryentryPageStore = signalStore(
           };
         });
       }),
-      isUpdatingAnyEncounters: computed(
-        () => Object.keys(store._encountersUpdateState()).length > 0,
-      ),
+      isUpdatingAnyEncounters: computed(() => {
+        const encounterUpdateStates = store._encountersUpdateState();
+        const encounterIds = Object.keys(encounterUpdateStates).map(Number);
+        return encounterIds.some(
+          (id) => encounterUpdateStates[id] === 'loading',
+        );
+      }),
       realEncounters: computed<Encounter[]>(
         () => store.diaryentry()?.encounters ?? [],
       ),

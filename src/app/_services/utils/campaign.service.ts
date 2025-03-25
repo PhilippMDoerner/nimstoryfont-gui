@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, shareReplay } from 'rxjs';
@@ -91,14 +92,14 @@ export class CampaignService extends BaseService<CampaignRaw, Campaign> {
     );
   }
 
-  override delete(pk: number): Observable<any> {
+  override delete(): Observable<any> {
     throw "You can not delete a campaign, please use 'deactivate' instead";
   }
 
   /** Under the hood this may call "delete" but "delete" does not actually delete a campaign in the backend, it just deactivates it
    * The functions were renamed to make that fact clear
    */
-  deactivate(pk: number): Observable<any> {
+  deactivate(pk: number): Observable<Campaign> {
     return super.delete(pk);
   }
 

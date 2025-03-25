@@ -12,13 +12,13 @@ import { ToastConfig } from '../_models/toast';
 import { OfflineRequestService } from '../_services/offline-request.service';
 import { OnlineService } from '../_services/online.service';
 
-const offlineActionToast: ToastConfig = {
-  type: 'WARNING',
-  dismissMs: 3000,
-  body: {
-    text: 'This action can not be performed while offline',
-  },
-};
+// const offlineActionToast: ToastConfig = {
+//   type: 'WARNING',
+//   dismissMs: 3000,
+//   body: {
+//     text: 'This action can not be performed while offline',
+//   },
+// };
 
 const offlineReadToast: ToastConfig = {
   type: 'WARNING',

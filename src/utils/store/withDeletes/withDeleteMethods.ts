@@ -62,7 +62,7 @@ export function withDeleteMethods<Requests extends RequestMap>(
         .map((requestName) => getKeys(requestName))
         .map((keys) => {
           return {
-            [keys.createMethod]: (params: any) => {
+            [keys.createMethod]: (params: unknown) => {
               patchState(store, {
                 [keys.requestStateField]: 'loading' satisfies RequestState,
                 [keys.errorField]: undefined,

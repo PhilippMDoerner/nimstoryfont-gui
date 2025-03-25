@@ -36,7 +36,7 @@ function addArticleId(
   }
 }
 
-export type ImageFeatureResult = {
+export interface ImageFeatureResult {
   props: {};
   methods: {
     createImage: (img: Image, articleId: number) => void;
@@ -46,7 +46,7 @@ export type ImageFeatureResult = {
   state: {
     imageServerModel: Image | undefined;
   };
-};
+}
 
 const initialState: { imageServerModel: Image | undefined } = {
   imageServerModel: undefined,

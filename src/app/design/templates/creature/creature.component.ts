@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Creature } from 'src/app/_models/creature';
@@ -41,10 +34,10 @@ export class CreatureComponent {
   imageServerModel = input<Image>();
 
   creatureUpdate = output<Creature>();
-  @Output() creatureDelete: EventEmitter<Creature> = new EventEmitter();
-  @Output() createImage: EventEmitter<Image> = new EventEmitter();
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
+  readonly creatureDelete = output<Creature>();
+  readonly createImage = output<Image>();
+  readonly deleteImage = output<Image>();
+  readonly updateImage = output<Image>();
 
   campaignName = computed(() => this.creature().campaign_details?.name);
   overviewUrl = computed(() =>

@@ -1,12 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Image } from 'src/app/_models/image';
@@ -45,10 +38,10 @@ export class OrganizationComponent {
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
 
-  @Output() createImage: EventEmitter<Image> = new EventEmitter();
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
-  @Output() organizationDelete: EventEmitter<Organization> = new EventEmitter();
+  readonly createImage = output<Image>();
+  readonly deleteImage = output<Image>();
+  readonly updateImage = output<Image>();
+  readonly organizationDelete = output<Organization>();
   organizationUpdate = output<Organization>();
 
   overviewUrl = computed(() => {

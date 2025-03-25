@@ -54,10 +54,10 @@ export class FormlyFileFieldComponent
     this.fieldKind = this.props['fileFieldKind'];
   }
 
-  onFileSelect(event: any) {
+  onFileSelect(event: Event) {
     console.log('FILE SELECT?!');
-    const files = event.target.files;
-    const hasSelectedFile = files.length > 0;
+    const files = (event?.target as HTMLInputElement).files;
+    const hasSelectedFile = files && files.length > 0;
     if (!hasSelectedFile) return;
     const file: File = files[0];
     this.setModelValue(file);

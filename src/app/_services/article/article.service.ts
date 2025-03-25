@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -13,8 +14,8 @@ import { RoutingService } from '../routing.service';
 export class ArticleService {
   apiUrl: string = environment.apiUrl;
 
-  recentlyUpdatedUrl: string = `${this.apiUrl}/recentupdates`;
-  searchUrl: string = `${this.apiUrl}/search`;
+  recentlyUpdatedUrl = `${this.apiUrl}/recentupdates`;
+  searchUrl = `${this.apiUrl}/search`;
 
   constructor(
     private routingService: RoutingService,
@@ -109,72 +110,72 @@ export class ArticleService {
   generateUrlCallback(data: any) {
     const articleType = data.article_type;
     const campaignName = data.campaign_details.name;
-    const params: any = { campaign: campaignName };
-    let routeName: string = '';
+    const params: { [key: string]: unknown } = { campaign: campaignName };
+    let routeName = '';
     switch (articleType) {
       case 'character':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'character';
         break;
       case 'creature':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'creature';
         break;
       case 'diaryentry':
-        params.session_number = data.session_details.session_number;
-        params.isMainSession = data.session_details.is_main_session_int;
-        params.authorName = data.author_details.name;
+        params['session_number'] = data.session_details.session_number;
+        params['isMainSession'] = data.session_details.is_main_session_int;
+        params['authorName'] = data.author_details.name;
         routeName = 'diaryentry';
         break;
       case 'encounter':
-        params.session_number = data.diaryentry_details.session_number;
-        params.isMainSession = data.diaryentry_details.is_main_session;
-        params.authorName = data.diaryentry_details.author_name;
-        params.encounterTitle = data.title;
+        params['session_number'] = data.diaryentry_details.session_number;
+        params['isMainSession'] = data.diaryentry_details.is_main_session;
+        params['authorName'] = data.diaryentry_details.author_name;
+        params['encounterTitle'] = data.title;
         routeName = 'diaryentry-encounter';
         break;
       case 'item':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'item';
         break;
       case 'location':
-        params.name = data.name;
-        params.parent_name = data.parent_location_details.name;
+        params['name'] = data.name;
+        params['parent_name'] = data.parent_location_details.name;
         routeName = 'location';
         break;
       case 'organization':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'organization';
         break;
       case 'quest':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'quest';
         break;
       case 'sessionaudio':
-        params.isMainSession = data.session_details.is_main_session_int;
-        params.sessionNumber = data.session_details.session_number;
+        params['isMainSession'] = data.session_details.is_main_session_int;
+        params['sessionNumber'] = data.session_details.session_number;
         routeName = 'sessionaudio';
         break;
       case 'session':
         routeName = 'sessions';
         break;
       case 'map':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'map';
         break;
       case 'timestamp':
         routeName = 'default-map';
         break;
       case 'mapmarker':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'map';
         break;
       case 'spell':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'spell';
         break;
       case 'rules':
-        params.name = data.name;
+        params['name'] = data.name;
         routeName = 'rule';
         break;
     }

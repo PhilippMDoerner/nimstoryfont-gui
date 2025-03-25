@@ -3,9 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
@@ -43,9 +42,9 @@ export class ImageCarouselCardComponent {
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
 
-  @Output() createImage: EventEmitter<Image> = new EventEmitter();
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
+  readonly createImage = output<Image>();
+  readonly deleteImage = output<Image>();
+  readonly updateImage = output<Image>();
 
   currentImageIndex = signal(0);
   currentImage = computed(() => this.images()[this.currentImageIndex()]);
@@ -116,7 +115,7 @@ export class ImageCarouselCardComponent {
 
   constructor(private formlyService: FormlyService) {}
 
-  changeState(event: any, newState: State) {
+  changeState(event: null | Image | Partial<Image>, newState: State) {
     this.userModel.set(event ? { ...event } : null);
     this.state.set(newState);
   }
@@ -129,7 +128,7 @@ export class ImageCarouselCardComponent {
     this.changeState(null, 'DISPLAY');
   }
 
-  onSubmit(event: any): void {
+  onSubmit(): void {
     switch (this.state()) {
       case 'DELETE':
         this.deleteImage.emit(this.currentImage());

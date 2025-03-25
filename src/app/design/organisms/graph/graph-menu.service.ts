@@ -13,12 +13,13 @@ export type NodeMenuData = {
   description: string | undefined;
   link: string | undefined;
   kind: ArticleNodeKind | undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } & Record<string, any>;
 
-export type NodeMenuClickEvent = {
+export interface NodeMenuClickEvent {
   event: MouseEvent;
   nodeMenuData: NodeMenuData | undefined;
-};
+}
 
 export type GraphElement = Selection<SVGSVGElement, undefined, null, undefined>;
 const INTERACTABLE_ELEMENT_SELECTORS = [

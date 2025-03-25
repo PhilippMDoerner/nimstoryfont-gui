@@ -1,11 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ExtendedMap } from 'src/app/_models/map';
@@ -46,8 +40,8 @@ export class MapComponent {
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
 
-  @Output() mapDelete: EventEmitter<ExtendedMap> = new EventEmitter();
-  @Output() mapChange: EventEmitter<OverviewItem> = new EventEmitter();
+  readonly mapDelete = output<ExtendedMap>();
+  readonly mapChange = output<OverviewItem>();
 
   menuItems = computed<MenuItem[]>(() =>
     this.mapChoices().map(

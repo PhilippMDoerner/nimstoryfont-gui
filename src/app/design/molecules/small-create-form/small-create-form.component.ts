@@ -2,11 +2,10 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
-  EventEmitter,
   inject,
   Injector,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -17,7 +16,11 @@ import { BadgeComponent } from 'src/app/design/atoms/badge/badge.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 
 type State = 'DISPLAY' | 'CREATE';
-export type DisableableOption<T> = { value: T; disabled: boolean };
+export interface DisableableOption<T> {
+  value: T;
+  disabled: boolean;
+}
+
 @Component({
   selector: 'app-small-create-form',
   templateUrl: './small-create-form.component.html',
@@ -40,7 +43,7 @@ export class SmallCreateFormComponent<T> {
   createHotkey = input<string | undefined>();
   disableHotkeys = input<boolean>(false);
 
-  @Output() create: EventEmitter<T> = new EventEmitter();
+  readonly create = output<T>();
 
   injector = inject(Injector);
   selectFieldName = computed(() => `select-' + ${String(this.labelProp())}`);
@@ -52,8 +55,10 @@ export class SmallCreateFormComponent<T> {
     this.state.set(newState);
   }
 
-  onChange(event: any) {
-    const selectedIndex = event.srcElement.value;
+  onChange(event: Event) {
+    const selectedIndex = parseInt(
+      (event.srcElement as HTMLSelectElement).value,
+    );
     this.userModel = this.options()[selectedIndex];
   }
 

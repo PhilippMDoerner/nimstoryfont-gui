@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AsyncPipe } from '@angular/common';
 import { Component, OnChanges, OnInit } from '@angular/core';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
@@ -18,8 +19,6 @@ interface CanDisableOption {
 
 // The "solution": Make "disabledExpression" so that it returns an observable and then use switchMap within ngOnInit.
 // That way the disabledExpression callback can reactively insert its own data into everything
-
-let counter = 0;
 
 @Component({
   selector: 'app-formly-select-disable',

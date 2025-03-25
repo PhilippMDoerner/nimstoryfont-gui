@@ -7,7 +7,7 @@ import { GlobalStore } from 'src/app/global.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type SearchState = {};
+interface SearchState {}
 
 const initialState: SearchState = {};
 

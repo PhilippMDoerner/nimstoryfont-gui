@@ -5,11 +5,10 @@ import {
   computed,
   DestroyRef,
   ElementRef,
-  EventEmitter,
   inject,
   input,
   OnInit,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -93,15 +92,12 @@ export class EncounterComponent implements OnInit {
 
   component = inject(ElementRef);
 
-  @Output() connectionDelete: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<EncounterConnectionRaw> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter | CharacterEncounter> =
-    new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
-  @Output() encounterCreateCancel: EventEmitter<null> = new EventEmitter();
+  readonly connectionDelete = output<EncounterConnection>();
+  readonly connectionCreate = output<EncounterConnectionRaw>();
+  readonly encounterDelete = output<Encounter>();
+  readonly encounterUpdate = output<Encounter>();
+  readonly encounterCreate = output<EncounterRaw>();
+  readonly encounterCreateCancel = output<void>();
 
   userModel = signal<Encounter | Partial<EncounterRaw>>({});
   cardState = signal<FormState>('DISPLAY');
@@ -172,7 +168,7 @@ export class EncounterComponent implements OnInit {
   }
 
   onEncounterDelete() {
-    this.encounterDelete.emit(this.encounter());
+    this.encounterDelete.emit(this.encounter() as Encounter);
     this.changeState('DISPLAY', undefined);
   }
 
@@ -274,7 +270,7 @@ export class EncounterComponent implements OnInit {
   }
 
   private formatEntry(str: string | undefined) {
-    const undesiredCharRegex = /[\-\s']/g;
+    const undesiredCharRegex = /[-\s']/g;
     return str?.replaceAll(undesiredCharRegex, '') ?? '';
   }
 

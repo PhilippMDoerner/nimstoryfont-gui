@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Observable } from 'rxjs';
 
 /** Transforms a type-union (A | B | C) into a type-intersection (A & B & C) */

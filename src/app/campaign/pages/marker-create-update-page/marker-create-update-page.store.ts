@@ -16,10 +16,10 @@ import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-type MarkerCreateUpdateState = {
+interface MarkerCreateUpdateState {
   createMarkerState: RequestState;
   updateMarkerState: RequestState;
-};
+}
 
 const initialState: MarkerCreateUpdateState = {
   createMarkerState: 'init',

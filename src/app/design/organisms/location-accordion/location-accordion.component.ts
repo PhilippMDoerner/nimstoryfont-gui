@@ -12,11 +12,6 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { LocationComponent } from '../location/location.component';
 
-interface AccordionEntry {
-  value: Location;
-  link: string;
-}
-
 @Component({
   selector: 'app-location-accordion',
   templateUrl: './location-accordion.component.html',

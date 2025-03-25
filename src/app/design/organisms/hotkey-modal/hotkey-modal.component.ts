@@ -8,18 +8,18 @@ import { Icon } from '../../atoms/_models/icon';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
 
-type Section = {
+interface Section {
   title: string;
   subtitle?: string;
   icon: Icon;
   keys: Hotkey[];
-};
+}
 
-type Hotkey = {
+interface Hotkey {
   key: string;
   actionName: string;
   description: string;
-};
+}
 
 @Component({
   selector: 'app-hotkey-modal',

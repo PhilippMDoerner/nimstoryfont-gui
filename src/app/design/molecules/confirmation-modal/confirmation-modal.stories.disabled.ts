@@ -24,7 +24,7 @@ export default {
         [submitIcon]="submitIcon"
         (modalClose)="modalClose($event)" 
         (confirm)="confirm($event)"
-        (cancel)="cancel($event)"
+        (cancelled)="cancel($event)"
       >
       
         <ng-container body>
@@ -52,9 +52,9 @@ export default {
     confirmValue: 'Confirm value to emit',
     submitIcon: 'plus',
   },
-} as Meta<ConfirmationModalComponent<any>>;
+} as Meta<ConfirmationModalComponent<unknown>>;
 
-const Template: StoryFn<ConfirmationModalComponent<any>> = (args) => ({
+const Template: StoryFn<ConfirmationModalComponent<unknown>> = (args) => ({
   props: {
     ...args,
     modalClose: action('modalClose'),

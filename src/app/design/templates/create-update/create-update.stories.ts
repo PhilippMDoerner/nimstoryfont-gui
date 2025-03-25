@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { action } from '@storybook/addon-actions';

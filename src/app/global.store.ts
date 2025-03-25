@@ -23,10 +23,10 @@ import { AuthStore } from './auth.store';
 export type ContentScrollEvent = CustomEvent<
   Event & { pageElement: ElementRef<HTMLDivElement> }
 >;
-export type ScreenSize = {
+export interface ScreenSize {
   width: number;
   height: number;
-};
+}
 
 export function hasRoleOrBetter(
   role: CampaignRole,
@@ -44,12 +44,12 @@ export function hasRoleOrBetter(
   }
 }
 
-export type GlobalState = {
+export interface GlobalState {
   currentCampaign: CampaignOverview | undefined;
   campaigns: CampaignOverview[] | undefined;
   contentScrollEvents: ContentScrollEvent | undefined;
   isLoadingPage: boolean;
-};
+}
 
 const SSRDefaultScreenSize$: Observable<ScreenSize> = of({
   height: 600,

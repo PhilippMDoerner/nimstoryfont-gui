@@ -21,9 +21,9 @@ import { withImages } from 'src/utils/store/withImages';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-type LocationPageState = {
+interface LocationPageState {
   locationDeleteState: RequestState;
-};
+}
 
 const initialState: LocationPageState = {
   locationDeleteState: 'init',

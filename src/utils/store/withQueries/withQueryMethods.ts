@@ -62,7 +62,7 @@ export function withQueryMethods<Queries extends RequestMap>(queries: Queries) {
                     [keys.errorField]: undefined,
                   }),
                 ),
-                switchMap((params: any) => queries[keys.name](params)),
+                switchMap((params) => queries[keys.name](params)),
                 tapResponse({
                   next: (val) =>
                     patchState(store, {

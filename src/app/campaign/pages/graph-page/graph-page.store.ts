@@ -27,9 +27,9 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 
-export type GraphPageState = {
+export interface GraphPageState {
   createLinkState: RequestState;
-};
+}
 
 const initialState: GraphPageState = {
   createLinkState: 'init',

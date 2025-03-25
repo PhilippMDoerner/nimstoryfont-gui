@@ -14,7 +14,7 @@
     padding: unset;
     border-radius: var(--bs-border-radius);
 
-    &:focus-within {
+    &:focus-within, &:focus-visible {
       outline: var(--focus-outline);
     }
   }

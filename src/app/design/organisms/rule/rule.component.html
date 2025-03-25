@@ -23,7 +23,7 @@
         [toggled]="state() !== 'DISPLAY'"
         [disabledHotkey]="disabledHotkeys()"
         [title]="'Edit ' + rule()?.name"
-        (toggle)="onToggle($event)"
+        (toggleEdit)="onToggle($event)"
       ></app-edit-toggle>
     }
   </div>
@@ -50,7 +50,7 @@
 <ng-template #displayBody>
   @let ruleVal = rule();
   @if (ruleVal) {
-    <app-html-text [text]="ruleVal.description"></app-html-text>
+    <app-html-text [text]="ruleVal.description ?? ''"></app-html-text>
   }
 
   <!-- Delete Toggler -->
@@ -95,12 +95,15 @@
 </ng-template>
 
 <ng-template #outdatedUpdateBody>
-  <app-compare-form
-    [fields]="formlyFields"
-    [modelFromUser]="userModel()"
-    [modelFromServer]="serverModel()"
-    [displayVertically]="true"
-    (formlySubmit)="onRuleUpdate($event)"
-    (formlyCancel)="changeState('DISPLAY', undefined)"
-  ></app-compare-form>
+  @let userModelVal = userModel();
+  @if (userModelVal) {
+    <app-compare-form
+      [fields]="formlyFields"
+      [modelFromUser]="userModelVal"
+      [modelFromServer]="serverModel()"
+      [displayVertically]="true"
+      (formlySubmit)="onRuleUpdate($event)"
+      (formlyCancel)="changeState('DISPLAY', undefined)"
+    ></app-compare-form>
+  }
 </ng-template>

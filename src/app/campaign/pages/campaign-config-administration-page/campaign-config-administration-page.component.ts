@@ -54,6 +54,7 @@ export class CampaignConfigAdministrationPageComponent {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deleteTableEntry(event: { table: ConfigTableKind; entry: any }): void {
     const entryId: number = event.entry.id ?? event.entry.pk;
     if (entryId == null) return;

@@ -7,6 +7,7 @@ import { MapMarker } from 'src/app/_models/mapMarker';
 import { dummyMarkers } from 'src/app/_services/article/marker.service.mock';
 import { MarkerComponent } from './marker.component';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const y = x;
 
 const dummyMarker: MapMarker = dummyMarkers[0];

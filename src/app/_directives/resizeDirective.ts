@@ -26,10 +26,11 @@ export class ResizeDirective<T extends HTMLElement>
       case 'FIRST':
         this.resized.emit(entries[0]);
         break;
-      case 'LAST':
+      case 'LAST': {
         const lastIndex = entries.length - 1;
         this.resized.emit(entries[lastIndex]);
         break;
+      }
       case 'ALL':
         entries.forEach((entry) => this.resized.emit(entry));
         break;

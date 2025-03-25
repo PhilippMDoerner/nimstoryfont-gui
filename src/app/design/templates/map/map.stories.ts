@@ -8,6 +8,8 @@ import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
 import { dummyMarkers } from 'src/app/_services/article/marker.service.mock';
 import { MapComponent } from './map.component';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const y = x;
 
 const dummyMap: ExtendedMap = {

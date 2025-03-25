@@ -72,6 +72,7 @@ export class HotkeyDirective {
     toObservable(this.hotkey)
       .pipe(
         map((key) => this.checkKey(key)),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         switchMap((key: BindableHotkey<any> | undefined) =>
           this.hotkeyService.watch(key).pipe(
             filter(() => !this.disabledHotkey()),
@@ -106,6 +107,7 @@ export class HotkeyDirective {
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private checkKey(key: string | undefined): BindableHotkey<any> | undefined {
     if (!key) return undefined;
 
@@ -113,6 +115,7 @@ export class HotkeyDirective {
     if (!canBindHotkey) {
       throw new Error(`Tried to bind unbindable hotkey ${key}`);
     }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return key as BindableHotkey<any>;
   }
 }

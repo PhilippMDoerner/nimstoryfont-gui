@@ -3,10 +3,9 @@ import {
   Component,
   computed,
   ElementRef,
-  EventEmitter,
   inject,
   input,
-  Output,
+  output,
   signal,
   viewChildren,
 } from '@angular/core';
@@ -62,9 +61,9 @@ export class RulesComponent {
   canCreate = input.required<boolean>();
   serverModel = input.required<Rule | undefined>();
 
-  @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleUpdate: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleCreate: EventEmitter<RuleRaw> = new EventEmitter();
+  readonly ruleDelete = output<Rule>();
+  readonly ruleUpdate = output<Rule>();
+  readonly ruleCreate = output<RuleRaw>();
 
   ruleElements = viewChildren<ElementRef<HTMLDivElement>>('rule');
   isCreatingRule = signal(false);
@@ -118,7 +117,7 @@ export class RulesComponent {
         take(1),
       )
       .subscribe((ruleElement) => {
-        const element = (ruleElement.nativeElement = ruleElement.nativeElement);
+        const element = ruleElement.nativeElement;
         element.scrollIntoView({ behavior: 'instant' });
       });
   }

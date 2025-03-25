@@ -10,7 +10,8 @@
     "test": "ng test",
     "storybook": "ng run nimstoryfont-gui:storybook",
     "build-storybook": "ng run nimstoryfont-gui:build-storybook",
-    "source-map-explorer": "npm run build && source-map-explorer dist/nimstoryfont-gui/*.js"
+    "source-map-explorer": "npm run build && source-map-explorer dist/nimstoryfont-gui/*.js",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -58,6 +59,8 @@
     "@types/d3": "^7.4.3",
     "@types/jasmine": "~4.3.0",
     "@types/leaflet": "^1.9.3",
+    "angular-eslint": "19.3.0",
+    "eslint": "^9.23.0",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
@@ -68,6 +71,7 @@
     "source-map-explorer": "^2.5.3",
     "storybook": "^8.4.5",
     "storybook-preset-inline-svg": "^1.0.1",
-    "typescript": "~5.5.4"
+    "typescript": "~5.5.4",
+    "typescript-eslint": "8.27.0"
   }
 }

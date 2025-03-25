@@ -1,15 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Pipe, PipeTransform } from '@angular/core';
 import { getNestedProperty } from 'src/utils/object';
 
 @Pipe({ name: 'groupByFirstLetter', standalone: true })
 export class GroupByFirstLetterPipe<T> implements PipeTransform {
-  transform(
-    itemArray: Array<T>,
-    field: keyof T,
-  ): { key: string; value: T[] }[] {
-    const callback = (accumulator: any, item: any) => {
-      const groupedFieldValue: string = item[field];
+  transform(itemArray: T[], field: keyof T): { key: string; value: T[] }[] {
+    const callback = (accumulator: { [key: string]: T[] }, item: T) => {
+      const groupedFieldValue = item[field] as string;
       const firstLetter: string = groupedFieldValue[0];
+      // eslint-disable-next-line no-prototype-builtins
       if (accumulator.hasOwnProperty(firstLetter))
         accumulator[firstLetter].push(item);
       else accumulator[firstLetter] = [item];
@@ -26,10 +25,10 @@ export class GroupByFirstLetterPipe<T> implements PipeTransform {
 @Pipe({ name: 'groupBy', standalone: true })
 export class GroupByPipe<T> implements PipeTransform {
   transform(
-    itemArray: Array<T>,
+    itemArray: T[],
     groupProp: Exclude<keyof T, number | symbol>,
     subSortProp: Exclude<keyof T, number | symbol>,
-    reverse: boolean = false,
+    reverse = false,
   ): any {
     const callback = (accumulator: any, item: any) => {
       //grouped Field Value = The content of the field by which you're grouping.
@@ -37,6 +36,7 @@ export class GroupByPipe<T> implements PipeTransform {
       //Accumulator = Object with groupedFieldValue as key and an array of items associated with that Field as value
       const groupedFieldValue = getNestedProperty(item, groupProp);
 
+      // eslint-disable-next-line no-prototype-builtins
       const hasGroupAlready = accumulator.hasOwnProperty(groupedFieldValue);
       if (hasGroupAlready) {
         accumulator[groupedFieldValue].push(item);

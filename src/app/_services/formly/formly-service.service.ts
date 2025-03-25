@@ -120,7 +120,7 @@ export class FormlyService {
   ): FormlyFieldConfig {
     const optionStrings: string[] = partialConfig.options;
 
-    let options: StaticOption[] = optionStrings.map((str) => {
+    const options: StaticOption[] = optionStrings.map((str) => {
       return { label: str, value: str };
     });
 
@@ -388,8 +388,10 @@ export class FormlyService {
   }
 
   private addEmptyOption<Model, Option>(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     list: Observable<any[]> | any[],
     config: FormlyOverviewSelectConfig<Model, Option>,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Observable<any[]> {
     if (Array.isArray(list)) {
       return of([this.createEmptyOption(config), ...list]);
@@ -403,6 +405,7 @@ export class FormlyService {
   private createEmptyOption<Model, Option>(
     config: FormlyOverviewSelectConfig<Model, Option>,
   ) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const emptyOption: any = {};
     emptyOption[config.labelProp] =
       FormlySelectDisableFieldComponent.EMPTY_OPTION_LABEL;

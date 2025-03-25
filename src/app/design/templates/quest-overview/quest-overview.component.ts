@@ -51,11 +51,12 @@ export class QuestOverviewComponent {
      * an array of all quests associated with a given quest Taker
      * */
     const callback = (
-      accumulator: { [key: string]: any },
+      accumulator: { [key: string]: OverviewItem[] },
       quest: OverviewItem,
     ) => {
       const questTaker: string = quest.taker_details?.name as string;
 
+      // eslint-disable-next-line no-prototype-builtins
       const hasQuestTaker = accumulator.hasOwnProperty(questTaker);
       if (hasQuestTaker) {
         accumulator[questTaker].push(quest);
@@ -81,7 +82,7 @@ export class QuestOverviewComponent {
     });
 
     // Sort individual quests by quest-status, In-progress > On Hold > Completed > Failed
-    const statusValues: any = {
+    const statusValues: { [key: string]: number } = {
       'In progress': 1,
       'On Hold': 2,
       Completed: 3,

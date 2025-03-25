@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
@@ -38,8 +37,8 @@ export class LoginComponent {
   loginState = input<SpecialLoginState>();
   resetErrorMessage = input<string>();
 
-  @Output() login: EventEmitter<Login> = new EventEmitter();
-  @Output() resetPassword: EventEmitter<string> = new EventEmitter();
+  readonly login = output<Login>();
+  readonly resetPassword = output<string>();
 
   loginMessages: LoginMessageMap = {
     'token-expired': 'Your Session expired, please log in again',
@@ -75,7 +74,7 @@ export class LoginComponent {
   ];
 
   state = signal<LoginViewState>('LOGIN');
-  isWaitingForPasswordReset: boolean = false;
+  isWaitingForPasswordReset = false;
 
   constructor(private formlyService: FormlyService) {}
 
@@ -94,6 +93,8 @@ export class LoginComponent {
     //For some reason this.recoveryModel does not get its value changed. Fix this.
     const username = (this.recoveryForm.value as typeof this.recoveryModel)
       .username;
-    this.resetPassword.emit(username);
+    if (username) {
+      this.resetPassword.emit(username);
+    }
   }
 }

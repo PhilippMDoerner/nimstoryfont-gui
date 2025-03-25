@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -20,7 +21,7 @@ export class QuoteConnectionService
     return data;
   }
 
-  parseOverviewEntity(data: any): OverviewItem {
+  parseOverviewEntity(): OverviewItem {
     throw 'CharacterPlayerClassConnection does not have an overview endpoint';
   }
 }

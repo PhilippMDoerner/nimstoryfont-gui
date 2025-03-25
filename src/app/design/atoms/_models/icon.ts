@@ -9,7 +9,7 @@ export const ALL_REGULAR_ICONS = [
   'plus-square',
   'user',
 ] as const;
-export const REGULAR_ICON_SET = new Set(ALL_REGULAR_ICONS);
+export const REGULAR_ICON_SET = new Set<string>(ALL_REGULAR_ICONS);
 type RegularIcon = (typeof ALL_REGULAR_ICONS)[number]; // this compiles to 'comments' | 'magic'...
 
 export const ALL_SOLID_ICONS = [
@@ -124,11 +124,11 @@ export const ALL_SOLID_ICONS = [
   'water',
   'xmark',
 ] as const;
-export const SOLID_ICONS_SET = new Set(ALL_SOLID_ICONS);
+export const SOLID_ICONS_SET = new Set<string>(ALL_SOLID_ICONS);
 type SolidIcon = (typeof ALL_SOLID_ICONS)[number]; // this compiles to 'male' | 'book-open'...
 
 export const ALL_BRAND_ICONS = ['fort-awesome'] as const;
-export const BRAND_ICON_SET = new Set(ALL_BRAND_ICONS);
+export const BRAND_ICON_SET = new Set<string>(ALL_BRAND_ICONS);
 export type BrandIcon = (typeof ALL_BRAND_ICONS)[number];
 
 export type Icon = SolidIcon | RegularIcon | BrandIcon;
@@ -140,7 +140,7 @@ export const ALL_ICONS = [
 
 export type IconKind = 'fa-brands' | 'fa-solid' | 'fa-regular';
 export function toIconKind(icon: Icon): IconKind | undefined {
-  const ico = icon as any;
+  const ico = icon;
   if (SOLID_ICONS_SET.has(ico)) {
     return 'fa-solid';
   } else if (BRAND_ICON_SET.has(ico)) {

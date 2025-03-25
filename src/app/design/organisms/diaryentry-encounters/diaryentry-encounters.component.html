@@ -14,6 +14,7 @@
               [icon]="'plus'"
               [text]="'Add First Encounter'"
               [disabled]="isUpdatingAnything()"
+              [isLoading]="isUpdatingAnything()"
               (clicked)="addEmptyEncounterAtIndex(-1)"
             ></button>
           </div>
@@ -69,6 +70,7 @@
                 [icon]="'plus'"
                 [text]="'Add Encounter'"
                 [disabled]="disabled"
+                [isLoading]="disabled"
                 (clicked)="addEmptyEncounterAtIndex($index)"
               ></button>
             }

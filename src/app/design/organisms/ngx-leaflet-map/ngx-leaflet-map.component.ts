@@ -67,7 +67,7 @@ export class NgxLeafletMapComponent {
   ); //Needed so I can add these layers to both leafletMap and layersControls
   mouseLatitude!: number;
   mouseLongitude!: number;
-  hideCoordinatesState: boolean = true;
+  hideCoordinatesState = true;
 
   constructor(private routingService: RoutingService) {}
 
@@ -98,7 +98,9 @@ export class NgxLeafletMapComponent {
     // Groups markers into their respective layers
     for (const mapMarker of map.markers ?? []) {
       const layerName: string | undefined = mapMarker.type_details?.name;
+      // eslint-disable-next-line no-prototype-builtins
       const hasLayer = layerName && layers.hasOwnProperty(layerName);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const layer: LayerGroup<any> = hasLayer
         ? layers[layerName]
         : layerGroup();
@@ -180,7 +182,7 @@ export class NgxLeafletMapComponent {
       parent_name: marker.location_details?.parent_location_name,
       name: marker.location_details?.name,
     });
-    const heading: string = `<a href="${location_url}"> <b>${marker.location_details?.name}</b> </a>`;
+    const heading = `<a href="${location_url}"> <b>${marker.location_details?.name}</b> </a>`;
     return heading;
   }
 
@@ -191,11 +193,11 @@ export class NgxLeafletMapComponent {
     }
     description = stripTags(description);
 
-    let maxDescriptionWordCount = 20;
-    let descriptionTooLong: boolean =
+    const maxDescriptionWordCount = 20;
+    const descriptionTooLong =
       description.split(' ').length >= maxDescriptionWordCount;
     if (descriptionTooLong) {
-      let shortenedDescription = description
+      const shortenedDescription = description
         .split(' ')
         .slice(0, maxDescriptionWordCount)
         .join(' ');
@@ -216,8 +218,8 @@ export class NgxLeafletMapComponent {
     const sublocationsHeading =
       '<h5 class="popup-heading"> Locations of Interest: </h5>';
 
-    let sublocationList: string = ' <ul>';
-    for (let sublocationName of location.sublocations) {
+    let sublocationList = ' <ul>';
+    for (const sublocationName of location.sublocations) {
       const sublocationUrl = this.routingService.getRoutePath('location', {
         parent_name: location.name,
         name: sublocationName,

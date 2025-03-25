@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { patchState } from '@ngrx/signals';
+import { patchState, WritableStateSource } from '@ngrx/signals';
 import { httpErrorToast } from 'src/app/_models/toast';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 
-export function handleError(
-  store: any,
+export function handleError<T extends WritableStateSource<object>>(
+  store: T,
   err: HttpErrorResponse,
   toastService: ToastService,
 ) {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
@@ -38,7 +39,7 @@ export class QuoteService extends BaseService<QuoteRaw, Quote> {
     return data;
   }
 
-  override parseOverviewEntity(data: any): OverviewItem {
+  override parseOverviewEntity(): OverviewItem {
     throw 'Overview types are not implemented for Quotes';
   }
 }

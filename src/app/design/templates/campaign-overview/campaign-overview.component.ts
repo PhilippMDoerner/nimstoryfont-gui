@@ -3,9 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CampaignOverview } from 'src/app/_models/campaign';
@@ -38,7 +37,7 @@ export class CampaignOverviewComponent {
   campaigns = input.required<CampaignOverview[] | undefined>();
   isGlobalAdmin = input(false);
 
-  @Output() logout: EventEmitter<void> = new EventEmitter();
+  readonly logout = output<void>();
 
   profileUrl = computed(() =>
     this.routingService.getRoutePath('direct-profile', {
@@ -63,8 +62,4 @@ export class CampaignOverviewComponent {
   dragonFrameUrl = '/assets/dragon-frame.jpg';
 
   constructor(private routingService: RoutingService) {}
-
-  onCampaignClick(event: CampaignOverview): void {
-    this.routingService.routeToPath('home', { campaign: event.name });
-  }
 }

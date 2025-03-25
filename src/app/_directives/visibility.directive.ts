@@ -55,7 +55,7 @@ export class VisibilityDirective {
 }
 
 function observeElements(
-  elements: ReadonlyArray<HTMLElement>,
+  elements: readonly HTMLElement[],
   initOptions: IntersectionObserverInit,
 ) {
   return new Observable<IntersectionObserverEntry>((subscriber) => {
@@ -67,6 +67,5 @@ function observeElements(
     elements.forEach((el) => observer.observe(el));
 
     subscriber.add(() => observer.disconnect());
-    return () => {};
   });
 }

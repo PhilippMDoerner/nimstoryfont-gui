@@ -18,7 +18,7 @@
     </a>
   } @else {
     <button
-      (click)="labelClick.emit()"
+      (click)="labelClick.emit($event)"
       class="badge"
       tabindex="0"
       [ngClass]="{
@@ -39,7 +39,7 @@
 
   @if (showDeleteButton()) {
     <button
-      (click)="iconClick.emit()"
+      (click)="iconClick.emit($event)"
       class="badge badge--part2"
       [ngClass]="{
         'bg-primary': iconKindVal() === 'PRIMARY',

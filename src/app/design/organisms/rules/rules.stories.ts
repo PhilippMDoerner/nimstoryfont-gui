@@ -8,6 +8,7 @@ import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import * as all from 'tinymce/tinymce';
 import { RulesComponent } from './rules.component';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const x = all;
 
 const dummyRule: Rule = {

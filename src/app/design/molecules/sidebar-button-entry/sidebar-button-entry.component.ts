@@ -8,6 +8,7 @@ import { Icon } from '../../atoms/_models/icon';
 import { IconComponent } from '../../atoms/icon/icon.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'li[sidebar-button-entry]',
   imports: [IconComponent],
   templateUrl: './sidebar-button-entry.component.html',

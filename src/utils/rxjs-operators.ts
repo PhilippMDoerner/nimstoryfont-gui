@@ -75,7 +75,7 @@ export function mapServerModel<T>(): OperatorFunction<
  * @returns
  */
 export function delayFalsy<T>(
-  delayByMs: number = 1000,
+  delayByMs = 1000,
 ): OperatorFunction<T | undefined, T | undefined> {
   return pipe(switchMap((x) => of(x).pipe(delay(x ? 0 : delayByMs))));
 }

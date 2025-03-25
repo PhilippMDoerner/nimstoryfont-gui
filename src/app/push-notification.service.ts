@@ -14,10 +14,10 @@ export type PushNotificationOptions = Omit<
   | 'lang'
 > & { campaignName: string };
 
-export type PushNotification = {
+export interface PushNotification {
   title: string;
   options: PushNotificationOptions;
-};
+}
 
 @Injectable({
   providedIn: 'root',
@@ -37,17 +37,18 @@ export class PushNotificationService {
         return;
       case 'denied':
         return;
-      case 'granted':
-        const { campaignName, ...rest } = notificationConfig.options;
-        const config: NotificationOptions = {
-          ...rest,
-          tag: campaignName,
-          icon: this.APP_ICON_URL,
-          badge: this.BADGE_IMG_URL,
-          silent: true,
-          lang: 'en',
-        };
-        const notification = new Notification(notificationConfig.title, config);
+      case 'granted': {
+        // const { campaignName, ...rest } = notificationConfig.options;
+        // const config: NotificationOptions = {
+        //   ...rest,
+        //   tag: campaignName,
+        //   icon: this.APP_ICON_URL,
+        //   badge: this.BADGE_IMG_URL,
+        //   silent: true,
+        //   lang: 'en',
+        // };
+        // const notification = new Notification(notificationConfig.title, config);
+      }
     }
   }
 }

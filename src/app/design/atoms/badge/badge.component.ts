@@ -3,9 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ElementKind, InteractionMode } from '../_models/button';
@@ -27,6 +26,8 @@ export class BadgeComponent {
   link = input<string>();
   maxLength = input<number | undefined>();
 
+  readonly badgeClick = output<void>();
+
   shouldCutText = computed(() => {
     const maxLength = this.maxLength();
     return maxLength != null && this.text().length > maxLength;
@@ -42,5 +43,8 @@ export class BadgeComponent {
     return this.text();
   });
 
-  @Output() badgeClick = new EventEmitter<void>();
+  onBadgeClick(event: Event) {
+    event.stopPropagation();
+    this.badgeClick.emit();
+  }
 }

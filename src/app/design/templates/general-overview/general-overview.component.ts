@@ -48,8 +48,8 @@ export class GeneralOverviewComponent {
   campaignName = input.required<string>();
   canCreate = input.required<boolean>();
 
-  defaultPlayerCharacterImage: string =
-    'assets/default_images/icon_default.webp';
+  defaultPlayerCharacterImage = 'assets/default_images/icon_default.webp';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   displayEntries = computed<FilterListEntry<any>[]>(() => {
     switch (this.overviewType()) {
       case 'CHARACTER':
@@ -102,18 +102,18 @@ export class GeneralOverviewComponent {
   }
 
   private buildDiaryEntryNameForList(diaryEntry: OverviewItem): string {
-    const startWithSessionNumber: string = `#${diaryEntry.session_details?.session_number}`;
-    let title: string = diaryEntry.name != null ? `- ${diaryEntry.name}` : '';
+    const startWithSessionNumber = `#${diaryEntry.session_details?.session_number}`;
+    const title = diaryEntry.name != null ? `- ${diaryEntry.name}` : '';
 
     const isSmallScreen = false; // Constants.isSmallScreen
     if (isSmallScreen) return `${startWithSessionNumber} ${title}`;
 
-    let daysCoveredByEntry: string = '';
+    let daysCoveredByEntry = '';
     if (
       diaryEntry.session_details?.start_day != null &&
       diaryEntry.session_details.end_day != null
     ) {
-      const padLength: number = 3;
+      const padLength = 3;
       const startDay: string = this.padNumber(
         diaryEntry.session_details.start_day,
         padLength,
@@ -166,8 +166,8 @@ export class GeneralOverviewComponent {
   ): OverviewItem[] {
     const parents: OverviewItem[] = [location];
 
-    var currentLocation: OverviewItem = location;
-    var hasParentLocation = currentLocation.parent_location_details?.pk != null;
+    let currentLocation: OverviewItem = location;
+    let hasParentLocation = currentLocation.parent_location_details?.pk != null;
     while (hasParentLocation) {
       // aka hasParentLocation
       const parentLocationPk: number = currentLocation.parent_location_details

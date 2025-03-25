@@ -45,6 +45,7 @@ export class GraphSettingsModalComponent {
     }),
   ]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onSettingsSubmit(model: any) {
     const newSettings: typeof GRAPH_SETTINGS = {
       ...model,
@@ -57,7 +58,7 @@ export class GraphSettingsModalComponent {
     this.modalService.dismissAll();
   }
 
-  openModal(content: TemplateRef<any>) {
+  openModal(content: TemplateRef<HTMLElement>) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-title',
       modalDialogClass: 'border border-info border-3 rounded mymodal',

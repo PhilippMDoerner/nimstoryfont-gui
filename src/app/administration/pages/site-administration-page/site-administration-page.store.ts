@@ -18,12 +18,12 @@ import { CampaignService } from 'src/app/_services/utils/campaign.service';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem } from 'src/utils/array';
 
-export type SiteAdministrationPageState = {
+export interface SiteAdministrationPageState {
   allSiteUsers: User[] | undefined;
   allSiteCampaigns: Campaign[] | undefined;
   allPermissionGroups: PermissionGroup[] | undefined;
   siteStatistics: WikiStatistics | undefined;
-};
+}
 
 const initialState: SiteAdministrationPageState = {
   allSiteUsers: undefined,

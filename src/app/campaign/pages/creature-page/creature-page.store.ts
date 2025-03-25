@@ -7,6 +7,7 @@ import {
   signalStore,
   withComputed,
   withMethods,
+  withState,
 } from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { pipe, shareReplay, switchMap, tap } from 'rxjs';
@@ -26,10 +27,11 @@ interface CreatureState {
   imageServerModel?: Image;
 }
 
-const inialState: CreatureState = {};
+const initialState: CreatureState = {};
 
 export const CreaturePageStore = signalStore(
   { providedIn: 'root' },
+  withState(initialState),
   withComputed(() => {
     const globalStore = inject(GlobalStore);
     return {

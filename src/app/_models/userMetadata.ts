@@ -1,14 +1,17 @@
 export interface MetaDataEntry {
   name: string;
   value: string;
+  category: MetaDataKind;
 }
 
-export type MetaDataKind = 'general';
+const META_DATA_KINDS = ['general'] as const;
+export const metaDataKinds = new Set<string>(META_DATA_KINDS);
+export type MetaDataKind = (typeof META_DATA_KINDS)[number];
 
-export type MetaDataEntryRaw = MetaDataEntry & {
-  category: MetaDataKind;
-};
-
-export interface UserMetadata {
+export interface GeneralMetadata {
   hasSeenOnboarding: boolean;
 }
+
+export const generalMetaDataKeys: Set<string> = new Set<keyof GeneralMetadata>([
+  'hasSeenOnboarding',
+]);

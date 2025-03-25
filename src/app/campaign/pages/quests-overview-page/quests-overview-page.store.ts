@@ -7,7 +7,7 @@ import { GlobalStore } from 'src/app/global.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type QuestOverviewPageState = {};
+interface QuestOverviewPageState {}
 
 const initialState: QuestOverviewPageState = {};
 

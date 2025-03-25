@@ -16,11 +16,12 @@ export class SpellPlayerClassConnectionService
     super(http, 'spellclassconnection');
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parseEntity(data: any): SpellPlayerClassConnection {
     return data;
   }
 
-  parseOverviewEntity(data: any): OverviewItem {
+  parseOverviewEntity(): OverviewItem {
     throw 'CharacterPlayerClassConnection does not have an overview endpoint';
   }
 }

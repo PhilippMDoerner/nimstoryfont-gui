@@ -4,10 +4,10 @@ import Plyr from 'plyr';
 type HotKey = 'Space' | 'Enter' | 'KeyM' | 'ArrowRight' | 'ArrowLeft';
 
 @Component({
-    selector: 'app-player',
-    templateUrl: './player.component.html',
-    styleUrls: ['./player.component.scss'],
-    imports: []
+  selector: 'app-player',
+  templateUrl: './player.component.html',
+  styleUrls: ['./player.component.scss'],
+  imports: [],
 })
 export class PlayerComponent {
   private SEEK_TIME = 5;
@@ -43,6 +43,7 @@ export class PlayerComponent {
       });
     });
     effect(() => {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (this.plyr as any).download = this.downloadSource();
     });
 

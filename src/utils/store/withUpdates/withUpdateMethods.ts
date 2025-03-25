@@ -71,7 +71,7 @@ export function withUpdateMethods<Requests extends RequestMap>(
                     [keys.errorField]: undefined,
                   }),
                 ),
-                switchMap((params: any) => requests[keys.name](params)),
+                switchMap((params) => requests[keys.name](params)),
                 tapResponse({
                   next: (val) => {
                     toastService.addToast(

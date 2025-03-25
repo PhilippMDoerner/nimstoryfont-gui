@@ -11,7 +11,6 @@ import { log } from 'src/utils/logging';
 import { httpErrorToast, ToastConfig } from '../_models/toast';
 import { RoutingService } from '../_services/routing.service';
 import { TokenService } from '../_services/utils/token.service';
-import { AuthStore } from '../auth.store';
 import { GlobalStore } from '../global.store';
 
 const logoutInfoToast: ToastConfig = {
@@ -34,7 +33,6 @@ export function errorInterceptor(
   const toastService = inject(ToastService);
   const routingService = inject(RoutingService);
   const globalStore = inject(GlobalStore);
-  const authStore = inject(AuthStore);
 
   const isRefresRequest = req.url.includes(tokenService.refreshTokenUrl);
   if (isRefresRequest) {

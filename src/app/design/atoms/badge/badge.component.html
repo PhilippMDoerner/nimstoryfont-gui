@@ -5,7 +5,7 @@
     </a>
   }
   @case ("BUTTON") {
-    <button type="button" class="badge-button" (click)="badgeClick.emit()">
+    <button type="button" class="badge-button" (click)="onBadgeClick($event)">
       <ng-container [ngTemplateOutlet]="content" />
     </button>
   }

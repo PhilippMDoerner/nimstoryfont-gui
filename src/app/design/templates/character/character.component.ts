@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import {
@@ -74,33 +67,25 @@ export class CharacterComponent {
   canCreate = input(false);
   canDelete = input(false);
 
-  @Output() createImage: EventEmitter<Image> = new EventEmitter();
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
-  @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
-  @Output() quoteCreate: EventEmitter<QuoteRaw> = new EventEmitter();
-  @Output() quoteUpdate: EventEmitter<Quote> = new EventEmitter();
-  @Output() quoteConnectionDelete: EventEmitter<QuoteConnection> =
-    new EventEmitter();
-  @Output() quoteConnectionCreate: EventEmitter<QuoteConnection> =
-    new EventEmitter();
-  @Output()
-  encounterConnectionDelete: EventEmitter<CharacterEncounterConnections> =
-    new EventEmitter();
-  @Output()
-  encounterConnectionCreate: EventEmitter<CharacterEncounterConnections> =
-    new EventEmitter();
-  @Output() refreshQuote = new EventEmitter<void>();
-  @Output() characterDelete = new EventEmitter<CharacterDetails>();
+  readonly createImage = output<Image>();
+  readonly deleteImage = output<Image>();
+  readonly updateImage = output<Image>();
+  readonly quoteDelete = output<Quote>();
+  readonly quoteCreate = output<QuoteRaw>();
+  readonly quoteUpdate = output<Quote>();
+  readonly quoteConnectionDelete = output<QuoteConnection>();
+  readonly quoteConnectionCreate = output<QuoteConnection>();
+  readonly encounterConnectionDelete = output<CharacterEncounterConnections>();
+  readonly encounterConnectionCreate = output<CharacterEncounterConnections>();
+  readonly refreshQuote = output<void>();
+  readonly characterDelete = output<CharacterDetails>();
   characterUpdate = output<CharacterDetails>();
-  @Output() encounterDelete = new EventEmitter<CharacterEncounter>();
-  @Output() encounterUpdate = new EventEmitter<CharacterEncounter>();
-  @Output()
-  organizationMembershipCreate =
-    new EventEmitter<CharacterOrganizationMembership>();
-  @Output()
-  organizationMembershipDelete =
-    new EventEmitter<CharacterOrganizationMembership>();
+  readonly encounterDelete = output<CharacterEncounter>();
+  readonly encounterUpdate = output<CharacterEncounter>();
+  readonly organizationMembershipCreate =
+    output<CharacterOrganizationMembership>();
+  readonly organizationMembershipDelete =
+    output<CharacterOrganizationMembership>();
   addClass = output<PlayerClass>();
   removeClass = output<PlayerClass>();
 

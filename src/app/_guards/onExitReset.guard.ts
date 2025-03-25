@@ -5,12 +5,12 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 
-type Resettable = {
+interface Resettable {
   reset: (
     currentState: RouterStateSnapshot,
     nextState: RouterStateSnapshot,
   ) => void;
-};
+}
 type TypableInjectionToken<T> = InjectionToken<T> | Type<T>;
 
 /**

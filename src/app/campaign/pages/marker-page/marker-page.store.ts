@@ -19,7 +19,7 @@ import { NavigationStore } from 'src/app/navigation.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type MarkerState = {};
+interface MarkerState {}
 
 const initialState: MarkerState = {};
 

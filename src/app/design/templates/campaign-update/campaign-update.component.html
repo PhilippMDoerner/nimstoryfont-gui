@@ -5,7 +5,7 @@
     [formlyFields]="formlyFields()"
     [userModel]="_userModel()"
     [serverModel]="_serverModel()"
-    (cancel)="cancel.emit()"
+    (cancelled)="cancelled.emit()"
     (update)="update.emit($event)"
   ></app-create-update>
 }

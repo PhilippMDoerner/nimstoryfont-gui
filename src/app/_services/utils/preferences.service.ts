@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import {
+  GeneralMetadata,
   MetaDataEntry,
-  MetaDataEntryRaw,
   MetaDataKind,
-  UserMetadata,
 } from 'src/app/_models/userMetadata';
 import { SidebarOption } from 'src/app/design/molecules';
+import { toBoolean } from 'src/utils/bool';
 
 @Injectable({
   providedIn: 'root',
@@ -15,13 +15,13 @@ import { SidebarOption } from 'src/app/design/molecules';
 export class PreferencesService {
   private readonly http = inject(HttpClient);
 
-  searchPreferenceKey: string = 'AldruneSearchPreferences';
+  searchPreferenceKey = 'AldruneSearchPreferences';
   settingsApiUrl = '/user/me/settings/';
 
-  getGeneralUserMetadata(): Observable<UserMetadata> {
+  getGeneralUserMetadata(): Observable<GeneralMetadata> {
     return this.getUserMetadata('general').pipe(
       map((entryMap) => {
-        const getEntry = (name: keyof UserMetadata) => entryMap.get(name);
+        const getEntry = (name: keyof GeneralMetadata) => entryMap.get(name);
 
         return {
           hasSeenOnboarding: toBoolean(getEntry('hasSeenOnboarding')),
@@ -31,7 +31,7 @@ export class PreferencesService {
   }
 
   createGeneralUserMetadataEntry(
-    entry: MetaDataEntryRaw,
+    entry: MetaDataEntry,
   ): Observable<MetaDataEntry> {
     return this.http.post<MetaDataEntry>(`${this.settingsApiUrl}/`, entry);
   }

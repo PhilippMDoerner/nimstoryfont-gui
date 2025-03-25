@@ -22,19 +22,18 @@ import {
   tap,
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ToastConfig } from '../_models/toast';
 import { GlobalStore } from '../global.store';
 import {
   BrowserDatabaseService,
   OfflineCampaignData,
 } from './browser-database.service';
 
-const openDbErrorToast: ToastConfig = {
-  type: 'DANGER',
-  body: {
-    text: 'Unable to open browser database. Offline features are disabled.',
-  },
-};
+// const openDbErrorToast: ToastConfig = {
+//   type: 'DANGER',
+//   body: {
+//     text: 'Unable to open browser database. Offline features are disabled.',
+//   },
+// };
 
 export interface Download<T> {
   state: 'PENDING' | 'IN_PROGRESS' | 'DONE';

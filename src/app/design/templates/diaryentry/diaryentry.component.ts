@@ -1,14 +1,6 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { DiaryEntry, DiaryEntryStump } from 'src/app/_models/diaryentry';
 import {
@@ -60,20 +52,17 @@ export class DiaryentryComponent {
   canDelete = input.required<boolean>();
   isUpdatingEncounters = input.required<boolean>();
 
-  @Output() diaryentryDelete: EventEmitter<DiaryEntry> = new EventEmitter();
-  @Output() encounterConnectionDelete: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() encounterConnectionCreate: EventEmitter<EncounterConnectionRaw> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
-  @Output() encounterCutInsert: EventEmitter<{
+  readonly diaryentryDelete = output<DiaryEntry>();
+  readonly encounterConnectionDelete = output<EncounterConnection>();
+  readonly encounterConnectionCreate = output<EncounterConnectionRaw>();
+  readonly encounterDelete = output<Encounter>();
+  readonly encounterUpdate = output<Encounter>();
+  readonly encounterCreate = output<EncounterRaw>();
+  readonly encounterCutInsert = output<{
     encounter: Encounter;
     newOrderIndex: number;
-  }> = new EventEmitter();
-  @Output() encounterSwap: EventEmitter<{ enc1: Encounter; enc2: Encounter }> =
-    new EventEmitter();
+  }>();
+  readonly encounterSwap = output<{ enc1: Encounter; enc2: Encounter }>();
   addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
   state = signal<DiaryEntryState>('DISPLAY');

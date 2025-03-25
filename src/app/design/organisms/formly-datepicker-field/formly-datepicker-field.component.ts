@@ -20,7 +20,7 @@ export class CustomAdapter extends NgbDateAdapter<string> {
 
   fromModel(value: string | null): NgbDateStruct | null {
     if (value) {
-      let date = value.split(this.DELIMITER);
+      const date = value.split(this.DELIMITER);
       return {
         day: parseInt(date[2], 10),
         month: parseInt(date[1], 10),
@@ -50,7 +50,7 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   parse(value: string): NgbDateStruct | null {
     if (value == null) return null;
 
-    let date = value.split(this.DELIMITER);
+    const date = value.split(this.DELIMITER);
     return {
       day: parseInt(date[2], 10),
       month: parseInt(date[1], 10),

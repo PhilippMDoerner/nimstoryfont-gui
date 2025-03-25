@@ -19,12 +19,12 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type RulesPageState = {
+interface RulesPageState {
   updateRuleState: RequestState;
   ruleServerModel: undefined | Rule;
   deleteRuleState: RequestState;
   createRuleState: RequestState;
-};
+}
 
 const initialState: RulesPageState = {
   updateRuleState: 'init' as RequestState,

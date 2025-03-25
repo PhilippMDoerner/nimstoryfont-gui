@@ -32,7 +32,7 @@ export class ToastService {
   }
 
   public dismissToast() {
-    const [_, ...newToastList] = this.toasts();
+    const [, ...newToastList] = this.toasts();
     this.toasts.set(newToastList);
   }
 }

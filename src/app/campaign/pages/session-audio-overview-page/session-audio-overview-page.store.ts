@@ -13,7 +13,7 @@ import { GlobalStore } from 'src/app/global.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type SessionAuddioOverviewPageState = {};
+interface SessionAuddioOverviewPageState {}
 
 const initialState: SessionAuddioOverviewPageState = {};
 

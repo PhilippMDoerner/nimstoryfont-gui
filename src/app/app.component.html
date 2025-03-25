@@ -1,11 +1,15 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 @let contentId = "main-content";
 @let currentUrl = currentUrl$ | async;
 
 @if (currentUrl != null) {
   <a
+    bypass
+    [id]="contentId"
     class="skip-to-content fw-bold fs-4"
-    [href]="currentUrl ? currentUrl + '#' + contentId : undefined"
     (click)="focusMain()"
+    (keydown.enter)="focusMain()"
+    (keydown.space)="focusMain()"
   >
     @if (!currentUrl) {
       Failed to build skip-url. Please reload the page

@@ -23,7 +23,7 @@
       <button
         btn
         class="search__button"
-        [ariaLabel]="'Start searching for ' + searchInput.value"
+        [attr.aria-label]="'Start searching for ' + searchInput.value"
         [disabled]="!canTriggerSearch"
         [kind]="canTriggerSearch ? 'PRIMARY' : 'LIGHT-OUTLINE'"
         [icon]="'search'"

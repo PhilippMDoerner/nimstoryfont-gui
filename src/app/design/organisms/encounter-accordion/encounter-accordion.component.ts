@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterEncounter } from 'src/app/_models/character';
@@ -27,12 +26,8 @@ export class EncounterAccordionComponent {
   canCreate = input(false);
   canDelete = input(false);
 
-  @Output() connectionDelete: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter | CharacterEncounter> =
-    new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter | CharacterEncounter> =
-    new EventEmitter();
+  readonly connectionDelete = output<EncounterConnection>();
+  readonly connectionCreate = output<EncounterConnection>();
+  readonly encounterDelete = output<Encounter | CharacterEncounter>();
+  readonly encounterUpdate = output<Encounter | CharacterEncounter>();
 }

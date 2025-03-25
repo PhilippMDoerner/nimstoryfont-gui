@@ -3,9 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ElementKind } from '../_models/button';
@@ -27,6 +26,6 @@ export class InteractiveBadgeComponent {
 
   iconKindVal = computed(() => this.iconKind() ?? this.kind());
 
-  @Output() iconClick: EventEmitter<null> = new EventEmitter();
-  @Output() labelClick: EventEmitter<null> = new EventEmitter();
+  readonly iconClick = output<MouseEvent>();
+  readonly labelClick = output<MouseEvent>();
 }

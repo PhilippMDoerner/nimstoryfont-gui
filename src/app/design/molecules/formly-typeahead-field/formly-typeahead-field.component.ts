@@ -34,8 +34,8 @@ import { CustomTypeaheadProps } from 'src/app/_models/formly';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
 
-const NON_NORMAL_CHARACTER_REGEXP: RegExp = /[^a-zA-Z0-9]/g;
-const TWO_OR_MORE_WHITESPACE_REGEXP: RegExp = /\s\s+/g;
+const NON_NORMAL_CHARACTER_REGEXP = /[^a-zA-Z0-9]/g;
+const TWO_OR_MORE_WHITESPACE_REGEXP = /\s\s+/g;
 
 @Component({
   selector: 'app-formly-typeahead-field',
@@ -180,12 +180,14 @@ export class FormlyTypeaheadFieldComponent<T>
       case 'string':
       case 'number':
       case 'bigint':
-      case 'boolean':
+      case 'boolean': {
         const opt1 = formatter(`${optionLabel}`.toLowerCase()) ?? '';
         return opt1.includes(searchTerm);
-      case 'symbol':
+      }
+      case 'symbol': {
         const opt2 = formatter(optionLabel.description?.toLowerCase()) ?? '';
         return opt2.includes(searchTerm);
+      }
       case 'undefined':
       case 'object':
       case 'function':

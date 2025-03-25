@@ -9,6 +9,7 @@ export const ELEMENT_TYPES = [
 ] as const;
 export type ElementKind = (typeof ELEMENT_TYPES)[number];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const BUTTON_OUTLINE_KINDS = [
   'PRIMARY-OUTLINE',
   'SECONDARY-OUTLINE',

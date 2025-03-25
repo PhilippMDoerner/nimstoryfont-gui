@@ -3,10 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
   output,
-  Output,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -48,8 +46,8 @@ export class FormComponent<T> {
   isLoading = input<boolean>(false);
   disabledHotkeys = input<boolean>(false);
 
-  @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
-  @Output() formlyCancel: EventEmitter<null> = new EventEmitter();
+  readonly formlySubmit = output<NonNullable<T>>();
+  readonly formlyCancel = output<void>();
   formChange = output<Partial<T>>();
 
   formErrors = toSignal(

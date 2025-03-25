@@ -11,6 +11,7 @@ import { Icon } from '../_models/icon';
 import { IconComponent } from '../icon/icon.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'a[btn]',
   imports: [IconComponent],
   templateUrl: './button-link.component.html',

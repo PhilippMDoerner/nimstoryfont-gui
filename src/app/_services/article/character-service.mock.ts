@@ -250,7 +250,7 @@ export const dummyCharacter: CharacterDetails = {
 };
 
 export class CharacterServiceMock implements Partial<CharacterService> {
-  campaignList(campaign: string): Observable<OverviewItem[]> {
+  campaignList(): Observable<OverviewItem[]> {
     return of(dummyOverviewCharacters);
   }
 }

@@ -1,19 +1,10 @@
 .skip-to-content {
   background-color: var(--bs-primary);
   text-align: center;
-  width: 100vw;
   padding: var(--spacer-2);
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
   text-decoration: none;
-  transform: translateY(-1000%);
   border-radius: 0;
-
-  &:focus-visible {
-    position: relative;
-    transform: unset;
-    z-index: 1;
-  }
 }

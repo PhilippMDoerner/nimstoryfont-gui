@@ -74,7 +74,7 @@ export class EditorComponent {
   editStarted = output<void>();
   update = output<string>();
   autosave = output<string>();
-  cancel = output<void>();
+  cancelled = output<void>();
 
   change$ = new Subject<string>();
   inFocus = signal(false);
@@ -127,7 +127,7 @@ export class EditorComponent {
   }
 
   cancelEdit() {
-    this.cancel.emit();
+    this.cancelled.emit();
   }
 
   private toUpdateState() {

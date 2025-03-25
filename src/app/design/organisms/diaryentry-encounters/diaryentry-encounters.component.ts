@@ -4,12 +4,10 @@ import {
   computed,
   DestroyRef,
   ElementRef,
-  EventEmitter,
   inject,
   Injector,
   input,
   output,
-  Output,
   signal,
   viewChildren,
 } from '@angular/core';
@@ -62,17 +60,15 @@ import {
 export class DiaryentryEncountersComponent {
   state = input<EncounterCardState>('READ');
 
-  @Output() connectionDelete: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<EncounterConnectionRaw> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
-  @Output() encounterCutInsert: EventEmitter<{
+  readonly connectionDelete = output<EncounterConnection>();
+  readonly connectionCreate = output<EncounterConnectionRaw>();
+  readonly encounterDelete = output<Encounter>();
+  readonly encounterUpdate = output<Encounter>();
+  readonly encounterCreate = output<EncounterRaw>();
+  readonly encounterCutInsert = output<{
     encounter: Encounter;
     newOrderIndex: number;
-  }> = new EventEmitter();
+  }>();
   addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
   store = inject(DiaryentryPageStore);
@@ -212,7 +208,7 @@ export class DiaryentryEncountersComponent {
     this.hotkeyService
       .watch('f')
       .pipe(withLatestFrom(focusedEncounter$), takeUntilDestroyed())
-      .subscribe(([_, element]) => {
+      .subscribe(([, element]) => {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         element.focus();
       });
@@ -234,8 +230,8 @@ export class DiaryentryEncountersComponent {
       .pipe(
         filter((arrowPress) => !!arrowPress),
         withLatestFrom(htmlElements$, this.encounterIndexInFocus$, this.state$),
-        filter(([_, __, ___, state]) => state === 'EDIT'),
-        map(([arrowPress, elements, focusedElementIndex, _]) => {
+        filter(([, , , state]) => state === 'EDIT'),
+        map(([arrowPress, elements, focusedElementIndex]) => {
           const alreadyHasFocus =
             focusedElementIndex != null && focusedElementIndex >= 0;
           if (alreadyHasFocus) {
@@ -250,18 +246,20 @@ export class DiaryentryEncountersComponent {
           }
 
           switch (arrowPress) {
-            case 'down':
+            case 'down': {
               const firstElementIndex = 0;
               return {
                 nextFocusElement: elements[firstElementIndex],
                 nextFocusIndex: firstElementIndex,
               };
-            case 'up':
+            }
+            case 'up': {
               const lastElementIndex = elements.length - 1;
               return {
                 nextFocusElement: elements[lastElementIndex],
                 nextFocusIndex: lastElementIndex,
               };
+            }
           }
         }),
         distinctUntilChanged(),

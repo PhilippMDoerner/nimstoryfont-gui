@@ -13,11 +13,11 @@ import { ConfirmationToggleButtonComponent } from '../../molecules/confirmation-
 import { FormComponent } from '../../molecules/form/form.component';
 import { ConfigTable } from '../_model/config-table';
 
-type TableEntry = {
+interface TableEntry<T extends object> {
   id: number;
   campaignId: number;
-  properties: { key: string; value: any }[];
-};
+  properties: { key: string; value: T[keyof T] }[];
+}
 
 @Component({
   selector: 'app-config-table',
@@ -42,12 +42,12 @@ export class ConfigTableComponent<
   canDeleteCampaignEntries = input.required<boolean>();
   canCreate = input.required<boolean>();
 
-  tableEntries = computed<TableEntry[]>(() => {
+  tableEntries = computed<TableEntry<FullObj>[]>(() => {
     const entries = this.table().entries ?? [];
     const entryIdProp = this.table().idProp;
     const campaignIdProp = this.table().campaignIdProp;
     return entries.map(
-      (entry): TableEntry =>
+      (entry): TableEntry<FullObj> =>
         this.toTableEntry(entry, entryIdProp, campaignIdProp),
     );
   });
@@ -79,12 +79,12 @@ export class ConfigTableComponent<
     entry: FullObj,
     entryIdProp: keyof FullObj,
     campaignIdProp: keyof FullObj,
-  ): TableEntry {
+  ): TableEntry<FullObj> {
     const properties = Object.keys(entry)
       .filter((key) => key !== entryIdProp)
       .map((key) => ({
         key,
-        value: (entry as any)[key],
+        value: (entry as FullObj)[key as keyof FullObj],
       }));
 
     return {

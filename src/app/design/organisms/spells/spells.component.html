@@ -87,7 +87,7 @@
               [canDelete]="canDelete()"
               [canCreate]="canCreate()"
               [cancelButtonType]="'DARK'"
-              (spellDelete)="onSpellDelete($event, focusEntry.index)"
+              (spellDelete)="onSpellDelete($event)"
               (spellUpdate)="spellUpdate.emit($event)"
               (spellCreateCancel)="cancelSpellCreation()"
               (connectionDelete)="connectionDelete.emit($event)"

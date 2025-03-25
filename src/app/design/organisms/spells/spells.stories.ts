@@ -8,6 +8,7 @@ import { dummyClasses } from 'src/app/_services/article/player-class.service.moc
 import * as all from 'tinymce/tinymce';
 import { SpellsComponent } from './spells.component';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const x = all;
 
 const dummySpell: Spell = {

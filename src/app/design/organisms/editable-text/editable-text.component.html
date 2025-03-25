@@ -39,6 +39,6 @@
   [id]="editorId"
   (update)="finishEdit($event)"
   (autosave)="this.update.emit($event)"
-  (cancel)="cancelEdit()"
+  (cancelled)="cancelEdit()"
   (editStarted)="startEdit()"
 ></app-editor>

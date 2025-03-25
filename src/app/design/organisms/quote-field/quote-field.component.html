@@ -51,7 +51,7 @@
     @if (state() === "UPDATE_OUTDATED") {
       <app-compare-form
         [fields]="formlyFields()"
-        [modelFromUser]="userModel()"
+        [modelFromUser]="$any(userModel())"
         [modelFromServer]="serverModel()"
         [displayVertically]="true"
         (formlySubmit)="onSubmit($event)"

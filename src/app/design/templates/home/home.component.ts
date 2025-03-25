@@ -2,10 +2,9 @@ import {
   Component,
   computed,
   effect,
-  EventEmitter,
   inject,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { CampaignOverview } from 'src/app/_models/campaign';
@@ -94,8 +93,8 @@ export class HomeComponent {
   isLoading = input.required<boolean>();
   hasMoreArticles = input.required<boolean>();
 
-  @Output() appSearch: EventEmitter<string> = new EventEmitter();
-  @Output() loadArticlePage: EventEmitter<number> = new EventEmitter();
+  readonly appSearch = output<string>();
+  readonly loadArticlePage = output<number>();
 
   isOnline$ = inject(OnlineService).online$;
 
@@ -118,12 +117,14 @@ export class HomeComponent {
     switch (this.timeFilter()) {
       case 'NONE':
         return undefined;
-      case '1DAY':
+      case '1DAY': {
         const oneDayMs = 1000 * 60 * 60 * 24;
         return new Date(now - oneDayMs);
-      case '1WEEK':
+      }
+      case '1WEEK': {
         const oneWeekMs = 1000 * 60 * 60 * 24 * 7;
         return new Date(now - oneWeekMs);
+      }
     }
   });
   canLoadMore = computed(() => {
@@ -161,7 +162,7 @@ export class HomeComponent {
       .slice(0, firstArticleOutOfTimeframeIndex)
       .map((art) => this.toIconCardEntry(art));
   });
-  pageNumber: number = 0;
+  pageNumber = 0;
   id = componentId();
 
   constructor() {

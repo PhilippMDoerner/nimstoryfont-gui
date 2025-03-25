@@ -14,9 +14,9 @@ import { handleError } from 'src/utils/store/toServerModel';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-type DiaryEntryCreateUpdateState = {
+interface DiaryEntryCreateUpdateState {
   serverModel: DiaryEntryRaw | undefined;
-};
+}
 
 const initialState: DiaryEntryCreateUpdateState = {
   serverModel: undefined,

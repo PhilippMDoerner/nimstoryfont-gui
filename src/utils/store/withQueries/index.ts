@@ -10,11 +10,11 @@ import { AllNewMethods, withQueryMethods } from './withQueryMethods';
 import { AllNewProperties, withQueriesState } from './withQueryState';
 
 // The types below are useless as `AllNewMethods` and `AllNewProperties` inside them get evaluated to unknown
-export type QueriesFeatureResult<Queries extends RequestMap> = {
+export interface QueriesFeatureResult<Queries extends RequestMap> {
   props: {};
   methods: MethodsDictionary & AllNewMethods<Queries>;
   state: {} & AllNewProperties<Queries>;
-};
+}
 
 export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
   Input['state']

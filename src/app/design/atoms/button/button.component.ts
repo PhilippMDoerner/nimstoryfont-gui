@@ -11,6 +11,7 @@ import { IconComponent } from '../icon/icon.component';
 import { SpinnerComponent } from '../spinner/spinner.component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'button[btn]',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss'],

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { HeadingLevel } from '../../atoms/_models/heading';
@@ -17,7 +17,7 @@ export class ListComponent {
   enableCreate = input(false);
   emptyListText = input('No entries yet');
 
-  @Output() create: EventEmitter<null> = new EventEmitter();
+  readonly create = output<void>();
 
   onCreateButtonClick() {
     if (!this.enableCreate()) {

@@ -1,12 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Quest } from 'src/app/_models/quest';
@@ -36,7 +29,7 @@ export class QuestComponent {
   canUpdate = input.required<boolean>();
   canDelete = input.required<boolean>();
 
-  @Output() questDelete: EventEmitter<Quest> = new EventEmitter();
+  readonly questDelete = output<Quest>();
   questUpdate = output<Quest>();
 
   campaignName = computed(() => this.quest().campaign_details?.name);

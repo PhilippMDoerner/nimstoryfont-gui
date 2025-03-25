@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
 @let selectedOption = selectedOption$ | async;
 @let selectedLabel = selectedLabel$ | async;
 @let isLoading = (isLoading$ | async) === true;
@@ -12,7 +14,6 @@
         [icon]="'times'"
         [interactionMode]="'BUTTON'"
         (badgeClick)="htmlBadgeClickEvents$.next()"
-        (click)="$event.stopPropagation()"
       />
     }
     <input

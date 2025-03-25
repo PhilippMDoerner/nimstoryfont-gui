@@ -108,7 +108,7 @@ export class MarkerCreateUpdatePageComponent {
 
   userModel = computed(() => {
     switch (this.state()) {
-      case 'CREATE':
+      case 'CREATE': {
         const location = this.getPreselectedLocation();
         const map = this.getPreselectedMap();
         const longitudeParam = this.params()?.['longitude'] as
@@ -127,6 +127,7 @@ export class MarkerCreateUpdatePageComponent {
           latitude,
           longitude,
         } as Partial<MapMarkerRaw>;
+      }
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
         return { ...this.store.marker() };
@@ -154,7 +155,7 @@ export class MarkerCreateUpdatePageComponent {
   cancel() {
     const campaign = this.globalStore.campaignName();
     switch (this.state()) {
-      case 'CREATE':
+      case 'CREATE': {
         const fallbackUrl = this.routingService.getRoutePath(
           'location-overview',
           { campaign },
@@ -163,6 +164,7 @@ export class MarkerCreateUpdatePageComponent {
           this.navigationStore.priorUrl() ?? fallbackUrl,
         );
         break;
+      }
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
         this.routeToItem(this.store.marker());

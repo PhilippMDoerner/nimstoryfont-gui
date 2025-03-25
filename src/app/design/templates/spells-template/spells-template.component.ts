@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PlayerClass } from 'src/app/_models/playerclass';
 import {
@@ -41,13 +34,11 @@ export class SpellsTemplateComponent {
   canCreate = input.required<boolean>();
   serverModel = input.required<Spell | undefined>();
 
-  @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellUpdate: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellCreate: EventEmitter<SpellRaw> = new EventEmitter();
-  @Output() connectionDelete: EventEmitter<SpellPlayerClassConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> =
-    new EventEmitter();
+  readonly spellDelete = output<Spell>();
+  readonly spellUpdate = output<Spell>();
+  readonly spellCreate = output<SpellRaw>();
+  readonly connectionDelete = output<SpellPlayerClassConnection>();
+  readonly connectionCreate = output<SpellPlayerClassConnection>();
 
   homeUrl = computed(() =>
     this.routingService.getRoutePath('home', {

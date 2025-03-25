@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   inject,
   input,
-  Output,
+  output,
   TemplateRef,
 } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -47,13 +46,13 @@ export class ConfirmationToggleButtonComponent {
 
   modalService = inject(NgbModal);
 
-  @Output() confirm: EventEmitter<null> = new EventEmitter();
+  readonly confirm = output<void>();
 
   emitConfirmation() {
     this.confirm.emit();
   }
 
-  openModal(content: TemplateRef<any>) {
+  openModal(content: TemplateRef<HTMLElement>) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-title',
       modalDialogClass: 'border border-info border-3 rounded mymodal',

@@ -3,9 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { PermissionGroup } from 'src/app/_models/auth';
 import { User } from 'src/app/_models/user';
@@ -34,9 +33,9 @@ export class UserRowComponent {
   canCreate = input<boolean>(false);
   canDelete = input<boolean>(false);
 
-  @Output() addGroup: EventEmitter<PermissionGroup> = new EventEmitter();
-  @Output() removeGroup: EventEmitter<number> = new EventEmitter();
-  @Output() deleteUser: EventEmitter<User> = new EventEmitter();
+  readonly addGroup = output<PermissionGroup>();
+  readonly removeGroup = output<number>();
+  readonly deleteUser = output<User>();
 
   userGroupEntries = computed<BadgeListEntry<number>[]>(() => {
     return (

@@ -31,7 +31,7 @@ export default {
   },
 } as Meta<HtmlTextComponent>;
 
-const Template: StoryFn<HtmlTextComponent> = (args: any) => ({
+const Template: StoryFn<HtmlTextComponent> = (args) => ({
   props: {
     ...args,
   },

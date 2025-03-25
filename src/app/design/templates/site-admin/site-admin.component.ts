@@ -1,12 +1,5 @@
 import { KeyValuePipe, TitleCasePipe } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PermissionGroup } from 'src/app/_models/auth';
@@ -59,14 +52,12 @@ export class SiteAdminComponent implements OnInit, OnChanges {
   @Input() statistics?: WikiStatistics;
   @Input() serverUrl!: string;
 
-  @Output() createCampaign: EventEmitter<BaseCampaignData> = new EventEmitter();
-  @Output() createUser: EventEmitter<User> = new EventEmitter();
-  @Output() addUserGroup: EventEmitter<{ user: User; groupId: number }> =
-    new EventEmitter();
-  @Output() removeUserGroup: EventEmitter<{ user: User; groupId: number }> =
-    new EventEmitter();
-  @Output() downloadDatabase: EventEmitter<void> = new EventEmitter();
-  @Output() deleteUser: EventEmitter<User> = new EventEmitter();
+  readonly createCampaign = output<BaseCampaignData>();
+  readonly createUser = output<User>();
+  readonly addUserGroup = output<{ user: User; groupId: number }>();
+  readonly removeUserGroup = output<{ user: User; groupId: number }>();
+  readonly downloadDatabase = output<void>();
+  readonly deleteUser = output<User>();
 
   campaignOverviewUrl!: string;
 

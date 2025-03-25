@@ -9,12 +9,12 @@ import { mapVoid } from 'src/utils/rxjs-operators';
 })
 export class MailService {
   apiUrl: string = environment.apiUrl;
-  mailUrl: string = `${this.apiUrl}/mail`;
+  mailUrl = `${this.apiUrl}/mail`;
 
   constructor(private http: HttpClient) {}
 
-  send_error_notification(error: object): Observable<any> {
-    return this.http.post<any>(`${this.mailUrl}/error`, error);
+  send_error_notification(error: object): Observable<unknown> {
+    return this.http.post<unknown>(`${this.mailUrl}/error`, error);
   }
 
   requestPasswordReset(username: string): Observable<void> {

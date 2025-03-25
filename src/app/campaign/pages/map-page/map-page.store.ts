@@ -14,9 +14,9 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type MapPageState = {
+interface MapPageState {
   mapDeleteState: RequestState;
-};
+}
 
 const initialState: MapPageState = {
   mapDeleteState: 'init',

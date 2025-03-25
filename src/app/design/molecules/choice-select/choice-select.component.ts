@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 
 @Component({
@@ -19,7 +18,7 @@ export class ChoiceSelectComponent<T> {
   selectedLabelValue = input.required<string | undefined>();
   id = input.required<string>();
 
-  @Output() choiceSelect: EventEmitter<T> = new EventEmitter();
+  readonly choiceSelect = output<T>();
 
   onChange(event: Event) {
     const selectedChoiceIndex: number = parseInt(

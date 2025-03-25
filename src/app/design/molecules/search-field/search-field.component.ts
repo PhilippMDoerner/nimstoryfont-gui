@@ -2,9 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
@@ -18,8 +17,8 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
   imports: [ButtonComponent, FormsModule, HotkeyDirective],
 })
 export class SearchFieldComponent {
-  NON_NORMAL_CHARACTER_REGEXP: RegExp = /[^a-zA-Z0-9']/g;
-  TWO_OR_MORE_WHITESPACE_REGEXP: RegExp = /\s\s+/g;
+  NON_NORMAL_CHARACTER_REGEXP = /[^a-zA-Z0-9']/g;
+  TWO_OR_MORE_WHITESPACE_REGEXP = /\s\s+/g;
 
   placeholder = input('Enter Search Query');
   btnAriaLabel = input('Trigger a search');
@@ -28,9 +27,9 @@ export class SearchFieldComponent {
     this.canSearch() ? this.placeholder() : 'Search is currently disabled',
   );
 
-  @Output() appSearch: EventEmitter<string> = new EventEmitter();
+  readonly appSearch = output<string>();
 
-  searchString: string = '';
+  searchString = '';
 
   startSearch(): void {
     if (this.searchString == null) {

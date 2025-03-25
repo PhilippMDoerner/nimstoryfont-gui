@@ -1,12 +1,10 @@
 import {
   Component,
   computed,
-  EventEmitter,
   input,
   OnChanges,
   OnInit,
   output,
-  Output,
 } from '@angular/core';
 import { Image } from 'src/app/_models/image';
 import { Location } from 'src/app/_models/location';
@@ -55,10 +53,10 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
 
-  @Output() createImage: EventEmitter<Image> = new EventEmitter();
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
-  @Output() locationDelete: EventEmitter<Location> = new EventEmitter();
+  readonly createImage = output<Image>();
+  readonly deleteImage = output<Image>();
+  readonly updateImage = output<Image>();
+  readonly locationDelete = output<Location>();
   locationUpdate = output<Location>();
 
   overviewUrl!: string;

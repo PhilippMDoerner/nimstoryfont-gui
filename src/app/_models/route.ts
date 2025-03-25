@@ -6,6 +6,7 @@ import { onlyOnlineGuard } from '../_guards/only-online.guard';
 import { CampaignRole } from './token';
 
 //Route Data Models
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ROUTE_NAMES = [
   'login',
   'login-state',

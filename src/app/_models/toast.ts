@@ -3,17 +3,17 @@ import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { copyToClipboard } from 'src/utils/clipboard';
 
-export type ToastButton = {
+export interface ToastButton {
   label: string;
   icon?: Icon;
   onClick: (dismiss: () => void) => void;
-};
+}
 
 export type ToastButtons = [] | [ToastButton] | [ToastButton, ToastButton];
 
 export type ToastType = ElementKind | 'SUCCESS';
 
-export type ToastConfig = {
+export interface ToastConfig {
   type: ToastType;
   important?: boolean;
   header?: {
@@ -30,7 +30,7 @@ export type ToastConfig = {
   onShow?: () => void;
   onToastClick?: (dismiss: () => void) => void;
   styles?: { [key: string]: string };
-};
+}
 
 export function errorToast(errorMsg: string): ToastConfig {
   return {

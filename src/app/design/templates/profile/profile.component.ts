@@ -1,5 +1,5 @@
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
+import { Component, input, Input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { User } from 'src/app/_models/user';
@@ -42,17 +42,16 @@ export interface PasswordModel {
 export class ProfileComponent {
   @Input() user!: User;
   @Input() memberships!: CampaignMembership[];
-  @Input() canDeleteProfile: boolean = false;
-  @Input() showProfileEditForm: boolean = false;
-  @Input() showPasswordEditForm: boolean = false;
+  @Input() canDeleteProfile = false;
+  @Input() showProfileEditForm = false;
+  @Input() showPasswordEditForm = false;
   @Input() campaignName?: string;
   backUrl = input.required<string>();
 
-  @Output() profileUpdate: EventEmitter<Partial<User>> = new EventEmitter();
-  @Output() passwordUpdate: EventEmitter<PasswordModel> = new EventEmitter();
-  @Output() campaignLeave: EventEmitter<CampaignMembership> =
-    new EventEmitter();
-  @Output() profileDelete: EventEmitter<User> = new EventEmitter();
+  readonly profileUpdate = output<Partial<User>>();
+  readonly passwordUpdate = output<PasswordModel>();
+  readonly campaignLeave = output<CampaignMembership>();
+  readonly profileDelete = output<User>();
 
   passwordModel: Partial<PasswordModel> = {};
   passwordFields: FormlyFieldConfig[] = [

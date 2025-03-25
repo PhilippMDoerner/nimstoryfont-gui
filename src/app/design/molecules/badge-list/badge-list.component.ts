@@ -3,9 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 
 import { ElementKind } from 'src/app/design/atoms/_models/button';
@@ -16,18 +15,18 @@ import { SmallCreateFormComponent } from '../small-create-form/small-create-form
 
 type CreateBadgeKind = 'LINK' | 'SELECT' | 'NONE';
 
-type LinkCreateOptions = {
+interface LinkCreateOptions {
   kind: 'LINK';
   link: string;
   createBadgeLabel?: string;
   hotkey?: string | undefined;
-};
-type BadgeCreateOptions<T> = {
+}
+interface BadgeCreateOptions<T> {
   kind: 'SELECT';
   config: BadgeListSelectOptions<T>;
   createBadgeLabel?: string;
   hotkey?: string | undefined;
-};
+}
 type CreateOptions<T> =
   | BadgeCreateOptions<T>
   | LinkCreateOptions
@@ -55,8 +54,8 @@ export class BadgeListComponent<T, O> {
   submitButtonType = input<ElementKind>('PRIMARY');
   cancelButtonType = input<ElementKind>('SECONDARY');
 
-  @Output() entryDelete: EventEmitter<T> = new EventEmitter();
-  @Output() entryCreate: EventEmitter<O> = new EventEmitter();
+  readonly entryDelete = output<T>();
+  readonly entryCreate = output<O>();
 
   createKind = computed<CreateBadgeKind | undefined>(
     () => this.createOptions()?.kind,
@@ -89,9 +88,17 @@ export class BadgeListComponent<T, O> {
       ? (this.createOptions() as BadgeCreateOptions<O>).config.valueProp
       : undefined,
   );
-  hotkey = computed<string | undefined>(
-    () => (this.createOptions() as any)?.hotkey,
-  );
+  hotkey = computed<string | undefined>(() => {
+    const createOptions = this.createOptions();
+    switch (createOptions?.kind) {
+      case 'NONE':
+        return undefined;
+      case 'LINK':
+      case 'SELECT':
+        return createOptions?.hotkey;
+    }
+    return undefined;
+  });
 
   onEntryDelete(entry: BadgeListEntry<T>) {
     if (!this.canDelete()) {

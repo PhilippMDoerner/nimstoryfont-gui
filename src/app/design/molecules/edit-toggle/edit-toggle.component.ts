@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  effect,
   input,
+  linkedSignal,
   output,
-  signal,
 } from '@angular/core';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
@@ -22,18 +21,12 @@ export class EditToggleComponent {
   toggled = input<boolean>(false);
   disabledHotkey = input(false);
   title = input.required<string>();
-  _toggled = signal(false);
+  _toggled = linkedSignal(() => this.toggled());
 
-  toggle = output<boolean>();
-
-  constructor() {
-    effect(() => {
-      this._toggled.set(this.toggled());
-    });
-  }
+  toggleEdit = output<boolean>();
 
   onClick() {
     this._toggled.set(!this._toggled());
-    this.toggle.emit(this._toggled());
+    this.toggleEdit.emit(this._toggled());
   }
 }

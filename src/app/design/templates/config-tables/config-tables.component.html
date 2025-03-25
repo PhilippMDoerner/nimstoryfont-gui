@@ -13,7 +13,7 @@
     <!-- Sections -->
     @for (table of tables(); track table.kind) {
       <app-config-table
-        [table]="table"
+        [table]="$any(table)"
         [canDeleteGlobalEntries]="canDeleteGlobalEntries()"
         [canDeleteCampaignEntries]="hasCampaignWritePermission()"
         [canCreate]="canCreate()"

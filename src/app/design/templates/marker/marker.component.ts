@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, output } from '@angular/core';
 import { MapMarker } from 'src/app/_models/mapMarker';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
@@ -29,10 +22,10 @@ import { ArticleFooterComponent } from '../../molecules/article-footer/article-f
 })
 export class MarkerComponent implements OnInit, OnChanges {
   @Input() marker!: MapMarker;
-  @Input() canDelete: boolean = false;
-  @Input() canUpdate: boolean = false;
+  @Input() canDelete = false;
+  @Input() canUpdate = false;
 
-  @Output() markerDelete: EventEmitter<MapMarker> = new EventEmitter();
+  readonly markerDelete = output<MapMarker>();
 
   locationUrl!: string;
   updateUrl!: string;

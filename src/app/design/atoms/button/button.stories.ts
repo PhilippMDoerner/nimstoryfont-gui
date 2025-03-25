@@ -13,7 +13,7 @@ export default {
   },
 } as Meta<ButtonComponent>;
 
-const Template: StoryFn<ButtonComponent> = (args: any) => ({
+const Template: StoryFn<ButtonComponent> = (args) => ({
   props: args,
   template: `
     <div class="d-flex flex-column">

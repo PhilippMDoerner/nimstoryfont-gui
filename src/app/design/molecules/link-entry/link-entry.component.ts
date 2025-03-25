@@ -2,9 +2,8 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
@@ -23,8 +22,8 @@ export class LinkEntryComponent<T> {
   canDelete = input(false);
   deleteMessage = input('Delete entry?');
 
-  @Output() delete: EventEmitter<any> = new EventEmitter();
-  @Output() linkClick: EventEmitter<any> = new EventEmitter();
+  readonly delete = output<T>();
+  readonly linkClick = output<T>();
 
   state = signal<State>('DISPLAY');
 

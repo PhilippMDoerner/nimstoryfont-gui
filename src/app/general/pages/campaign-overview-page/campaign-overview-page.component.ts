@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./campaign-overview-page.component.scss'],
   host: {
     '[@slideInOut]': '',
+    tabindex: '-1',
   },
   animations: [slideInOut],
   imports: [CampaignOverviewComponent],

@@ -41,7 +41,7 @@ export class CampaignUpdatePageComponent {
       return;
     }
 
-    let rawCampaign: CampaignRaw &
+    const rawCampaign: CampaignRaw &
       Record<'pk', number> &
       Record<'update_datetime', string> &
       Record<'subtitle', string> = {

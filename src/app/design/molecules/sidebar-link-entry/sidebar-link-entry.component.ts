@@ -12,14 +12,15 @@ import { OnlineService } from 'src/app/_services/online.service';
 import { Icon } from '../../atoms/_models/icon';
 import { IconComponent } from '../../atoms/icon/icon.component';
 
-export type LinkEntry = {
+export interface LinkEntry {
   availableOffline: boolean;
   route: string;
   title: string;
   iconClass: Icon;
-};
+}
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'li[sidebar-link-entry]',
   imports: [IconComponent, AsyncPipe, RouterLink],
   templateUrl: './sidebar-link-entry.component.html',

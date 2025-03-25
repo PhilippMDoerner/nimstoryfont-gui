@@ -35,13 +35,13 @@ export interface DiaryEntryEncounter {
   requestState: RequestState;
 }
 
-type DiaryentryPageState = {
+interface DiaryentryPageState {
   diaryEntryDeleteState: RequestState;
   encounterServerModel: Encounter | undefined;
   _encountersUpdateState: Record<number, RequestState>;
   _encountersBeingCreated: EncounterRaw[];
   isUpdatingGlobally: boolean;
-};
+}
 
 const initialState: DiaryentryPageState = {
   diaryEntryDeleteState: 'init',
@@ -109,7 +109,7 @@ export const DiaryentryPageStore = signalStore(
           ...store._encountersBeingCreated(),
         ];
         const sortedEncounters = sortByProp(allEncounters, 'order_index');
-        return sortedEncounters.map((encounter, index) => {
+        return sortedEncounters.map((encounter) => {
           const updateStates = store._encountersUpdateState();
           return {
             encounter,

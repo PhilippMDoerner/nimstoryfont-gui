@@ -144,7 +144,7 @@ export class GraphPageComponent {
     this.formlyService.buildOverviewSelectConfig<NodeLinkRaw, NodeLinkType>({
       label: 'Link Type',
       key: 'link_type_id',
-      options$: this.customLinkTypes$ as any as Observable<NodeLinkType[]>,
+      options$: this.customLinkTypes$ as unknown as Observable<NodeLinkType[]>,
       labelProp: 'name',
       valueProp: 'id',
     }),

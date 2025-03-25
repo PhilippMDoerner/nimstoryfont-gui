@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
@@ -25,7 +26,7 @@ export class MarkerService extends BaseService<MapMarkerRaw, MapMarker> {
       name: string;
     },
   ): Observable<MapMarker> {
-    const url: string = `${this.baseUrl}/${campaign}/${param.parentLocationName}/${param.locationName}/${param.name}`;
+    const url = `${this.baseUrl}/${campaign}/${param.parentLocationName}/${param.locationName}/${param.name}`;
     return this.http.get<any>(url).pipe(map((data) => this.parseEntity(data)));
   }
 

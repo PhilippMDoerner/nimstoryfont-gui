@@ -1,10 +1,4 @@
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { NodeLinkType, NodeLinkTypeRaw } from 'src/app/_models/graph';
 import { MapMarkerType, MapMarkerTypeRaw } from 'src/app/_models/mapMarkerType';
@@ -37,23 +31,22 @@ export class ConfigTablesComponent {
   canDeleteGlobalEntries = input.required<boolean>();
   hasCampaignWritePermission = input.required<boolean>();
 
-  @Output() loadTableEntries: EventEmitter<ConfigTableKind> =
-    new EventEmitter();
-  @Output() deleteTableEntry: EventEmitter<{
+  readonly loadTableEntries = output<ConfigTableKind>();
+  readonly deleteTableEntry = output<{
     table: ConfigTableKind;
     entry: unknown;
-  }> = new EventEmitter();
-  @Output() createTableEntry: EventEmitter<{
+  }>();
+  readonly createTableEntry = output<{
     table: ConfigTableKind;
     entry: unknown;
-  }> = new EventEmitter();
+  }>();
 
   canCreate = computed<boolean>(() => {
     if (this.canDeleteGlobalEntries()) return true;
     const isCampaignView = this.currentCampaignId() != null;
     return isCampaignView ? this.hasCampaignWritePermission() : false;
   });
-  tables = computed<ConfigTable<any, any>[]>(() => [
+  tables = computed(() => [
     {
       name: 'Marker Type',
       kind: 'MARKER_TYPE',
@@ -150,15 +143,13 @@ export class ConfigTablesComponent {
 
   createEntry(kind: ConfigTableKind, entry: unknown): void {
     this.createTableEntry.emit({ table: kind, entry: entry });
-    this.getTable(kind).showForm = false;
+    const table = this.getTable(kind);
+    if (table) {
+      table.showForm = false;
+    }
   }
 
-  private getTable<FullObj extends object, RawObj extends object>(
-    kind: ConfigTableKind,
-  ): ConfigTable<FullObj, RawObj> {
-    return this.tables().find((table) => table.kind === kind) as ConfigTable<
-      FullObj,
-      RawObj
-    >;
+  private getTable(kind: ConfigTableKind) {
+    return this.tables().find((table) => table.kind === kind);
   }
 }

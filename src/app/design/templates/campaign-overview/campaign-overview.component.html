@@ -37,7 +37,7 @@
     <h1 class="fs-3 heading__text">
       @if (campaignsVal && campaignsVal.length > 0) {
         Choose Your Campaign
-      } @else if (campaignsVal && campaignsVal.length == 0) {
+      } @else if (campaignsVal && campaignsVal.length === 0) {
         <ng-container *ngTemplateOutlet="noCampaignHeading" />
       }
     </h1>
@@ -51,13 +51,12 @@
           class="body__images"
           [entries]="imageGridEntries"
           [serverUrl]="serverUrl()"
-          (entryClick)="onCampaignClick($event)"
-        ></app-image-grid>
+        />
       } @else {
         <ng-container *ngTemplateOutlet="noCampaign" />
       }
     } @else {
-      <app-spinner></app-spinner>
+      <app-spinner />
     }
   </div>
 </div>

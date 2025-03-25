@@ -16,12 +16,12 @@ import { filter } from 'rxjs';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 
-export type MoveEvent<T> = {
+export interface MoveEvent<T> {
   encounter1: T;
   encounter1Index: number;
   encounter2: T;
   encounter2Index: number;
-};
+}
 
 @Component({
   selector: 'app-drag-and-drop-list',

@@ -1,12 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  input,
-  OnInit,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, input, OnInit, output, signal } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Rule, RuleRaw } from 'src/app/_models/rule';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
@@ -44,10 +37,10 @@ export class RuleComponent implements OnInit {
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitButtonType = input<ElementKind>('PRIMARY');
 
-  @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleCreate: EventEmitter<RuleRaw> = new EventEmitter();
-  @Output() ruleUpdate: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleCreateCancel: EventEmitter<null> = new EventEmitter();
+  readonly ruleDelete = output<Rule>();
+  readonly ruleCreate = output<RuleRaw>();
+  readonly ruleUpdate = output<Rule>();
+  readonly ruleCreateCancel = output<void>();
 
   userModel = signal<Rule | undefined>(undefined);
   state = signal<RuleState>('DISPLAY');
@@ -100,7 +93,7 @@ export class RuleComponent implements OnInit {
   }
 
   onRuleDelete() {
-    this.ruleDelete.emit(this.rule());
+    this.ruleDelete.emit(this.rule() as Rule);
   }
 
   onRuleUpdate(rule?: Partial<Rule>) {

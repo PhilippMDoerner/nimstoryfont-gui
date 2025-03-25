@@ -5,10 +5,9 @@ import {
   computed,
   effect,
   ElementRef,
-  EventEmitter,
   inject,
   input,
-  Output,
+  output,
   signal,
   TemplateRef,
   viewChild,
@@ -63,7 +62,7 @@ export class PageComponent {
   contentId = input.required<string>();
   isLoading = this.globalStore.isLoadingPage;
 
-  @Output() logout: EventEmitter<void> = new EventEmitter();
+  readonly logout = output<void>();
 
   contentElement = viewChild.required<ElementRef<HTMLDivElement>>('content');
   innerContentElement =
@@ -84,7 +83,8 @@ export class PageComponent {
     }),
   );
 
-  sidebarTemplate = viewChild.required<TemplateRef<any>>('sidebar');
+  sidebarTemplate =
+    viewChild.required<TemplateRef<SidebarComponent>>('sidebar');
   sidebarElement = viewChild<ElementRef<HTMLElement>>('sidebarElement');
   showScrollUpIndicator = signal(true);
 

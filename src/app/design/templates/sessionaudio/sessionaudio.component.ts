@@ -2,9 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
@@ -39,9 +38,9 @@ export class SessionaudioComponent {
   canCreate = input<boolean>(false);
   canDelete = input<boolean>(false);
 
-  @Output() sessionaudioDelete: EventEmitter<SessionAudio> = new EventEmitter();
-  @Output() deleteTimestamp: EventEmitter<Timestamp> = new EventEmitter();
-  @Output() createTimestamp: EventEmitter<Timestamp> = new EventEmitter();
+  readonly sessionaudioDelete = output<SessionAudio>();
+  readonly deleteTimestamp = output<Timestamp>();
+  readonly createTimestamp = output<Timestamp>();
 
   campaignName = computed(
     () => this.sessionaudio().session_details?.campaign_details?.name,

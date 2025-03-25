@@ -11,9 +11,9 @@ import { PasswordModel } from 'src/app/design/templates/profile/profile.componen
 import { GlobalStore } from 'src/app/global.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 
-export type ProfilePageState = {
+export interface ProfilePageState {
   user: User | undefined;
-};
+}
 
 const iniitalState: ProfilePageState = {
   user: undefined,

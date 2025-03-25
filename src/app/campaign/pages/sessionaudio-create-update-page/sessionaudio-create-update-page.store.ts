@@ -31,13 +31,13 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type SessionaudioCreateUpdateState = {
+interface SessionaudioCreateUpdateState {
   sessionaudioServerModel: SessionAudio | undefined;
   latestProgressEvent: HttpProgressEvent | undefined;
   fileUploadState: RequestState;
   createSessionaudioState: RequestState;
   updateSessionaudioState: RequestState;
-};
+}
 
 const initialState: SessionaudioCreateUpdateState = {
   sessionaudioServerModel: undefined,

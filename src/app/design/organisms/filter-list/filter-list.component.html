@@ -20,12 +20,15 @@
         (keyDown)="filterValue.set(filterInputElement.value)"
         (input)="filterValue.set(filterInputElement.value)"
       />
+
+      @let isFilterActive = !!filterInputElement.value;
       <button
         btn
         class="filter__button"
-        [kind]="'SECONDARY'"
+        [kind]="isFilterActive ? 'PRIMARY' : 'LIGHT-OUTLINE'"
         [icon]="'search'"
         [type]="'submit'"
+        [disabled]="!isFilterActive"
         aria-label="Start search"
       ></button>
     </div>
@@ -143,7 +146,7 @@
 
 <ng-template #searchList>
   <ul
-    class="row"
+    class="row search-list"
     [id]="listId"
     [attr.aria-label]="
       'All entries matching search query \'' + filterInputElement.value + '\''

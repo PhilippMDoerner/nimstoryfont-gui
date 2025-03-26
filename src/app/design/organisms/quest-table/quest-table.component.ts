@@ -50,6 +50,7 @@ export class QuestTableComponent {
         actionName: state,
         label: state,
         icon: this.STATE_ICON_MAPPING[state],
+        active: state === this.state(),
       }),
     ),
   );

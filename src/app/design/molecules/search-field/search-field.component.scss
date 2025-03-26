@@ -23,14 +23,28 @@ input[type="search"]::-webkit-search-results-decoration {
     border-color: var(--bs-white);
     border: solid 2px var(--bs-white);
     border-radius: var(--bs-border-radius);
+    position: relative;
 
+    &--active,
     &:focus,
     &:focus-within {
       border-color: var(--bs-link-hover-color);
+
+      .search__label {
+        font-size: 13px;
+        top: 0px;
+      }
     }
 
     &--disabled {
       cursor: not-allowed;
+    }
+
+    .search__label {
+      transition: top 0.2s ease-in-out;
+      transition: font-size 0.2s ease-in-out;
+      position: absolute;
+      left: var(--spacer-2);
     }
   }
 
@@ -39,7 +53,7 @@ input[type="search"]::-webkit-search-results-decoration {
     border: none;
     outline: none;
     width: 100%;
-    padding: var(--spacer-2);
+    padding: var(--spacer-3) var(--spacer-2) var(--spacer-2) var(--spacer-1);
     color: var(--bs-white);
 
     &--disabled {
@@ -50,6 +64,7 @@ input[type="search"]::-webkit-search-results-decoration {
   &__button {
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
+    padding: var(--spacer-3);
 
     &--disabled {
       cursor: not-allowed;

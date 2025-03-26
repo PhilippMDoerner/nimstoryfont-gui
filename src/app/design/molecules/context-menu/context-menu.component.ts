@@ -73,7 +73,6 @@ export class ContextMenuComponent {
   menuButtonSize = input<ElementSize>('MEDIUM');
   menuButtonHotkey = input<string>();
   menuButtonAriaLabel = input<string>();
-  menuButtonTitle = input<string>();
   placement = input<PlacementArray>([
     'bottom-start',
     'bottom-end',

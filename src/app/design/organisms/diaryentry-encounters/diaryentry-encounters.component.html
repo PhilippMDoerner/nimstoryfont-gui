@@ -7,6 +7,20 @@
         track entryEncounter.encounter.title
       ) {
         <li>
+          @let nextEncounter = diaryEntryEncounters()[$index + 1];
+          @let currentEncounterId = entryEncounter.encounter.title;
+          @if (nextEncounter && !$last) {
+            @let nextEncounterId = nextEncounter.encounter.title;
+            <a
+              class="list__skip"
+              [id]="entryEncounter.encounter.title"
+              bypass
+              [skipToId]="nextEncounterId"
+            >
+              Skip encounter "{{ currentEncounterId }}"
+            </a>
+          }
+
           @if ($first && state() === "EDIT" && (canCreate() || canUpdate())) {
             @if (canCreate()) {
               <div class="list__button-container">
@@ -31,7 +45,7 @@
           <app-encounter-card
             #encounter
             class="list__encounter"
-            [id]="entryEncounter.encounter.title"
+            [id]="currentEncounterId"
             [attr.tabindex]="state() === 'EDIT' ? 0 : null"
             [encounter]="entryEncounter.encounter"
             [characters]="campaignCharacters() ?? []"

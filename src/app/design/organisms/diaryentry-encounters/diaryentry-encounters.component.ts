@@ -34,11 +34,13 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs';
+import { BypassBlockDirective } from 'src/app/_directives/bypass-block.directive';
 import { HotkeyService } from 'src/app/_services/hotkey.service';
 import { ScreenService } from 'src/app/_services/screen.service';
 import { slideUpFromBottom } from 'src/app/design/animations/slideDown';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
+import { componentId } from 'src/utils/DOM';
 import { filterNil } from 'src/utils/rxjs-operators';
 import {
   EncounterCardComponent,
@@ -53,6 +55,7 @@ import {
     ButtonComponent,
     SpinnerComponent,
     NgTemplateOutlet,
+    BypassBlockDirective,
     EncounterCardComponent,
   ],
   animations: [slideUpFromBottom],
@@ -104,6 +107,8 @@ export class DiaryentryEncountersComponent {
   cutEncounterIndex = signal<number | undefined>(undefined);
   isCutInProgress = computed(() => this.cutEncounterIndex() != null);
   diaryEntryEncounters = this.store.diaryEntryEncounters;
+
+  id = componentId();
 
   constructor() {
     const encounterTitle = this.route.snapshot.params['encounterTitle'];

@@ -5,7 +5,7 @@
 @if (currentUrl != null) {
   <a
     bypass
-    [id]="contentId"
+    [skipToId]="contentId"
     class="skip-to-content fw-bold fs-4"
     (click)="focusMain()"
     (keydown.enter)="focusMain()"

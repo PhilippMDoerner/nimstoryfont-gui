@@ -42,7 +42,12 @@
     </div>
 
     @if (canUpdate() && state() === "EDIT") {
-      <h2 class="fs-2">Contents</h2>
+      <h2 class="diaryentry__contents-heading">
+        Contents
+        <a class="fs-5" bypass [skipToId]="encountersListId">
+          Skip to encounters
+        </a>
+      </h2>
       <app-drag-and-drop-list
         class="diaryentry__contents"
         [entries]="sortedEncounters()"
@@ -61,7 +66,7 @@
     }
 
     @if (state() === "EDIT") {
-      <h3 class="fs-2">Encounters</h3>
+      <h3 [id]="encountersListId" class="fs-2">Encounters</h3>
     }
 
     <!-- DiaryEntry Text In Encounters -->

@@ -2,6 +2,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { BypassBlockDirective } from 'src/app/_directives/bypass-block.directive';
 import { DiaryEntry, DiaryEntryStump } from 'src/app/_models/diaryentry';
 import {
   Encounter,
@@ -14,6 +15,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { Session } from 'src/app/_models/session';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { ContextMenuComponent } from 'src/app/design/molecules/context-menu/context-menu.component';
+import { componentId } from 'src/utils/DOM';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { DiaryentryEncountersComponent } from '../../organisms/diaryentry-encounters/diaryentry-encounters.component';
@@ -39,6 +41,7 @@ type DiaryEntryState = 'DISPLAY' | 'EDIT';
     ButtonLinkComponent,
     DragAndDropListComponent,
     ContextMenuComponent,
+    BypassBlockDirective,
   ],
 })
 export class DiaryentryComponent {
@@ -95,6 +98,9 @@ export class DiaryentryComponent {
       this.diaryentry().adjacent_diaryentries.prior_diaryentry;
     return this.createDiaryentryURL(priorDiaryentryStub);
   });
+
+  id = componentId();
+  encountersListId = `${this.id}-encounters`;
 
   constructor(public routingService: RoutingService) {}
 

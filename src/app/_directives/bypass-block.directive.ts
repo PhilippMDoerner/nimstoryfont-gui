@@ -11,11 +11,11 @@ import { filterNil } from 'src/utils/rxjs-operators';
     '(focus)': 'isInFocus.set(true)',
     '(blur)': 'isInFocus.set(false)',
     '[class.cdk-visually-hidden]': '!isInFocus()',
-    class: 'fs-4 fw-bold text-decoration-none',
+    class: 'text-decoration-none',
   },
 })
 export class BypassBlockDirective {
-  id = input.required<string>();
+  skipToId = input.required<string>();
 
   isInFocus = signal(false);
   private readonly router = inject(Router);
@@ -29,5 +29,5 @@ export class BypassBlockDirective {
   );
   private readonly currentUrl = toSignal(this.currentUrl$);
 
-  link = computed(() => `${this.currentUrl()}#${this.id()}`);
+  link = computed(() => `${this.currentUrl()}#${this.skipToId()}`);
 }

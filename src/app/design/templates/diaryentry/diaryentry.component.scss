@@ -21,6 +21,12 @@
     text-transform: unset;
   }
 
+  &__contents-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-4);
+  }
+
   &__images {
     margin-bottom: var(--spacer-3);
   }

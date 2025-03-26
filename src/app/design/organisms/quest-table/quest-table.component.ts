@@ -49,6 +49,7 @@ export class QuestTableComponent {
         kind: 'BUTTON',
         actionName: state,
         label: state,
+        icon: this.STATE_ICON_MAPPING[state],
       }),
     ),
   );

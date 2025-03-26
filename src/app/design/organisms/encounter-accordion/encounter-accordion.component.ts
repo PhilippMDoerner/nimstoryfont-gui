@@ -5,6 +5,7 @@ import {
   output,
 } from '@angular/core';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeadingDirective } from 'src/app/_directives/heading.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import { Encounter, EncounterConnection } from 'src/app/_models/encounter';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -15,7 +16,7 @@ import { EncounterComponent } from '../encounter/encounter.component';
   templateUrl: './encounter-accordion.component.html',
   styleUrls: ['./encounter-accordion.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgbAccordionModule, EncounterComponent],
+  imports: [NgbAccordionModule, EncounterComponent, HeadingDirective],
 })
 export class EncounterAccordionComponent {
   encounters = input.required<(Encounter | CharacterEncounter)[]>();

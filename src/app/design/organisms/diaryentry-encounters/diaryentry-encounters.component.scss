@@ -10,11 +10,17 @@
     align-items: center;
   }
 
+  &__inner {
+    list-style-type: none;
+    padding: 0;
+  }
+
   &__encounter {
     padding: unset;
     border-radius: var(--bs-border-radius);
 
-    &:focus-within, &:focus-visible {
+    &:focus-within,
+    &:focus-visible {
       outline: var(--focus-outline);
     }
   }

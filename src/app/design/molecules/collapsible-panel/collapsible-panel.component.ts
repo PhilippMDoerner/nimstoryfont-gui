@@ -5,6 +5,7 @@ import {
   linkedSignal,
 } from '@angular/core';
 import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
+import { HeadingDirective } from 'src/app/_directives/heading.directive';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
 import { componentId } from 'src/utils/DOM';
@@ -15,7 +16,7 @@ import { HeadingLevel } from '../../atoms/_models/heading';
   templateUrl: './collapsible-panel.component.html',
   styleUrls: ['./collapsible-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [SeparatorComponent, IconComponent, NgbCollapse],
+  imports: [SeparatorComponent, IconComponent, NgbCollapse, HeadingDirective],
 })
 export class CollapsiblePanelComponent {
   ariaLevel = input.required<HeadingLevel>();

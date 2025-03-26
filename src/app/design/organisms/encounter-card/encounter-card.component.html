@@ -14,7 +14,7 @@
 </div>
 
 <ng-template #displayEncounter>
-  <div class="h4" role="heading" [attr.aria-level]="ariaLevel()">
+  <div class="h4" [heading]="ariaLevel()">
     {{ encounter().title }}
   </div>
   <app-html-text [text]="encounter().description"></app-html-text>

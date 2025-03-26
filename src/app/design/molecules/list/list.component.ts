@@ -1,5 +1,6 @@
 import { Component, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { HeadingDirective } from 'src/app/_directives/heading.directive';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { HeadingLevel } from '../../atoms/_models/heading';
 import { ListEntry } from '../_models/list';
@@ -8,7 +9,7 @@ import { ListEntry } from '../_models/list';
   selector: 'app-list',
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.scss'],
-  imports: [ButtonComponent, RouterLink],
+  imports: [ButtonComponent, HeadingDirective, RouterLink],
 })
 export class ListComponent {
   heading = input.required<string>();

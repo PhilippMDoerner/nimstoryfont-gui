@@ -6,6 +6,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { HeadingDirective } from 'src/app/_directives/heading.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import {
   Encounter,
@@ -31,6 +32,7 @@ export type EncounterCardState = 'READ' | 'EDIT';
     HtmlTextComponent,
     SpinnerComponent,
     NgTemplateOutlet,
+    HeadingDirective,
   ],
   templateUrl: './encounter-card.component.html',
   styleUrl: './encounter-card.component.scss',

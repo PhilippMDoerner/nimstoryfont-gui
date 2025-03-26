@@ -1,5 +1,5 @@
 <section class="card" #panel>
-  <header class="card__title-container" [attr.aria-level]="ariaLevel()">
+  <div class="card__title-container" [heading]="ariaLevel()">
     <button
       btn
       class="card__button"
@@ -20,7 +20,7 @@
         ></app-icon>
       </div>
     </button>
-  </header>
+  </div>
 
   <div
     class="card__body"

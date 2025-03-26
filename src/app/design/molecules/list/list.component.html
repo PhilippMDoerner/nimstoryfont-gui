@@ -1,7 +1,7 @@
 <section class="list">
   <!-- Heading -->
   <div class="list__heading">
-    <header [attr.aria-level]="ariaLevel()">{{ heading() }}</header>
+    <div [heading]="ariaLevel()">{{ heading() }}</div>
     @if (enableCreate()) {
       <button
         btn

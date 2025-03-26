@@ -2,7 +2,7 @@
   <div ngbAccordion [closeOthers]="true" [animation]="true">
     @for (encounter of encounters(); track encounter.pk) {
       <div ngbAccordionItem [id]="'static-' + $index">
-        <div ngbAccordionHeader aria-level="3">
+        <div ngbAccordionHeader [heading]="3">
           <button ngbAccordionButton class="panel-title">
             <strong
               class="encounter-title"

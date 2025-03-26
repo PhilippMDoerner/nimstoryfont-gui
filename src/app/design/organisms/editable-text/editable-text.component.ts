@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { HeadingDirective } from 'src/app/_directives/heading.directive';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { componentId } from 'src/utils/DOM';
@@ -28,6 +29,7 @@ import {
     FormsModule,
     EditorComponent,
     HotkeyDirective,
+    HeadingDirective,
   ],
   templateUrl: './editable-text.component.html',
   styleUrl: './editable-text.component.scss',

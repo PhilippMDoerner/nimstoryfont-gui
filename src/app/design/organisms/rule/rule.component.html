@@ -1,6 +1,6 @@
 @if (rule() || state() === "CREATE") {
   <div class="card__heading-container">
-    <h4 class="card__heading heading">
+    <div class="h4 card__heading heading">
       @switch (state()) {
         @case ("DISPLAY") {
           <ng-container [ngTemplateOutlet]="displayHeading" />
@@ -15,7 +15,7 @@
           <ng-container [ngTemplateOutlet]="updateHeading" />
         }
       }
-    </h4>
+    </div>
 
     @if (canUpdate() || canCreate()) {
       <app-edit-toggle

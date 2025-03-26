@@ -1,23 +1,21 @@
 <!-- Heading -->
 <div class="heading__container">
-  <h4 class="card__heading heading">
-    <span>
-      @switch (state()) {
-        @case ("DISPLAY") {
-          <ng-container [ngTemplateOutlet]="displayHeading" />
-        }
-        @case ("UPDATE") {
-          <ng-container [ngTemplateOutlet]="updateHeading" />
-        }
-        @case ("CREATE") {
-          <ng-container [ngTemplateOutlet]="createHeading" />
-        }
-        @case ("OUTDATED_UPDATE") {
-          <ng-container [ngTemplateOutlet]="updateHeading" />
-        }
+  <div class="h4 card__heading heading">
+    @switch (state()) {
+      @case ("DISPLAY") {
+        <ng-container [ngTemplateOutlet]="displayHeading" />
       }
-    </span>
-  </h4>
+      @case ("UPDATE") {
+        <ng-container [ngTemplateOutlet]="updateHeading" />
+      }
+      @case ("CREATE") {
+        <ng-container [ngTemplateOutlet]="createHeading" />
+      }
+      @case ("OUTDATED_UPDATE") {
+        <ng-container [ngTemplateOutlet]="updateHeading" />
+      }
+    }
+  </div>
   <!-- Edit Toggler -->
   @if (canUpdate()) {
     <app-edit-toggle

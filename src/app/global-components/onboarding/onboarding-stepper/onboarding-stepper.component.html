@@ -266,12 +266,11 @@
       </p>
       <p>
         <a
-          href="https://github.com/PhilippMDoerner/nimstoryfont-gui/issues"
-          target="_blank"
-        >
-          GitHub Issue Tracker
-          <app-icon [icon]="'up-right-from-square'"></app-icon>
-        </a>
+          [externalHref]="
+            'https://github.com/PhilippMDoerner/nimstoryfont-gui/issues'
+          "
+          [text]="'Github Issue Tracker'"
+        ></a>
       </p>
     </div>
   </cdk-step>

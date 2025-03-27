@@ -38,7 +38,7 @@ export class OnboardingModalComponent {
   openModal() {
     if (this.modalService.hasOpenModals()) return;
     if (!this.preferencesStore.general()?.hasSeenOnboarding) {
-      this.trackOnboardingVisit();
+      // this.trackOnboardingVisit();
     }
 
     this.modalService.open(OnboardingModalComponent, {

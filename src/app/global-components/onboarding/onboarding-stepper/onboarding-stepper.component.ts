@@ -8,7 +8,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
-import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
+import { ExternalLinkComponent } from 'src/app/design/atoms/external-link/external-link.component';
 import { SuccessAnimationComponent } from 'src/app/design/atoms/success-animation/success-animation.component';
 import { StepperComponent } from 'src/app/design/organisms/stepper/stepper.component';
 
@@ -17,9 +17,9 @@ import { StepperComponent } from 'src/app/design/organisms/stepper/stepper.compo
   imports: [
     StepperComponent,
     CdkStepperModule,
-    IconComponent,
     SuccessAnimationComponent,
     ButtonComponent,
+    ExternalLinkComponent,
   ],
   templateUrl: './onboarding-stepper.component.html',
   styleUrl: './onboarding-stepper.component.scss',

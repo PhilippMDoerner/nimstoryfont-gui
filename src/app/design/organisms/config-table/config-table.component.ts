@@ -5,7 +5,9 @@ import {
   input,
   output,
 } from '@angular/core';
+import { HeadingDirective } from 'src/app/_directives/heading.directive';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { HeadingLevel } from '../../atoms/_models/heading';
 import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
@@ -28,6 +30,7 @@ interface TableEntry<T extends object> {
     FormComponent,
     CardComponent,
     ButtonComponent,
+    HeadingDirective,
   ],
   templateUrl: './config-table.component.html',
   styleUrl: './config-table.component.scss',
@@ -41,6 +44,7 @@ export class ConfigTableComponent<
   canDeleteGlobalEntries = input.required<boolean>();
   canDeleteCampaignEntries = input.required<boolean>();
   canCreate = input.required<boolean>();
+  ariaLevel = input.required<HeadingLevel>();
 
   tableEntries = computed<TableEntry<FullObj>[]>(() => {
     const entries = this.table().entries ?? [];

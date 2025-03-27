@@ -1,5 +1,7 @@
 <app-page-container>
   <article class="config-tables">
+    <h1>Config Tables</h1>
+
     <a
       btn
       class="config-tables__return-button"
@@ -14,6 +16,7 @@
     @for (table of tables(); track table.kind) {
       <app-config-table
         [table]="$any(table)"
+        [ariaLevel]="2"
         [canDeleteGlobalEntries]="canDeleteGlobalEntries()"
         [canDeleteCampaignEntries]="hasCampaignWritePermission()"
         [canCreate]="canCreate()"

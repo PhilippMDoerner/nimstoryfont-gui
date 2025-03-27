@@ -18,7 +18,7 @@
     }
 
     @if (mapChoices().length > 0) {
-      <h3 class="map__heading heading">
+      <h1 class="h3 map__heading heading">
         <app-context-menu
           [id]="'map-select'"
           class="heading__select"
@@ -27,7 +27,7 @@
           [menuItems]="menuItems()"
           (actionTriggered)="onMapChange($event)"
         />
-      </h3>
+      </h1>
     }
 
     <a

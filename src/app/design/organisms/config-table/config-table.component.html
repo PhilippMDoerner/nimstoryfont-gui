@@ -1,10 +1,10 @@
 <div class="config-tables__section section">
   <!-- Section Heading -->
   <div class="section__heading heading">
-    <h3 class="heading__text">
+    <div [heading]="ariaLevel()" class="h3 heading__text">
       <app-icon [icon]="table().icon"></app-icon>
       {{ table().name }}
-    </h3>
+    </div>
 
     <!-- Heading Buttons -->
     <div class="heading__buttons">

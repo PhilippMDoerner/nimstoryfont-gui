@@ -3,6 +3,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: var(--spacer-3);
+    gap: var(--spacer-3);
   }
 
   &__body {

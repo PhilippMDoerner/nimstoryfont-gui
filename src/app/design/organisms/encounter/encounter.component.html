@@ -1,6 +1,6 @@
 @if (encounter() || cardState() === "CREATE") {
   <header class="card__heading">
-    <h4 class="mb-0">
+    <h4 class="mb-0" [id]="headingId()">
       @switch (cardState()) {
         @case ("DISPLAY") {
           <ng-container [ngTemplateOutlet]="displayHeading" />
@@ -16,6 +16,25 @@
         }
       }
     </h4>
+
+    @if (
+      canUpdate() &&
+      (cardState() === "DISPLAY" ||
+        cardState() === "UPDATE" ||
+        cardState() === "OUTDATEDUPDATE")
+    ) {
+      @let buttonText = textFieldState() === "DISPLAY" ? "Edit text" : "Cancel";
+      <button
+        class="card__text-edit-button fs-6"
+        [hotkey]="'w'"
+        [disabledHotkey]="!isInFocus()"
+        (hotkeyPressed)="toggleTextField()"
+        (click)="toggleTextField()"
+        [attr.aria-label]="buttonText"
+      >
+        ({{ buttonText }})
+      </button>
+    }
 
     <span class="card__right-container">
       @if (showUpdateSuccessMarker$ | async) {
@@ -57,20 +76,6 @@
 <ng-template #displayHeading>
   <span class="card__text-container">
     {{ encounter()?.title }}
-
-    @if (canUpdate()) {
-      @let buttonText = textFieldState() === "DISPLAY" ? "Edit text" : "Cancel";
-      <button
-        class="card__text-edit-button fs-6"
-        [hotkey]="'w'"
-        [disabledHotkey]="!isInFocus()"
-        (hotkeyPressed)="toggleTextField()"
-        (click)="toggleTextField()"
-        [attr.aria-label]="buttonText"
-      >
-        ({{ buttonText }})
-      </button>
-    }
   </span>
 </ng-template>
 
@@ -130,7 +135,7 @@
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
       aria-label="Delete Encounter"
-      [itemToDelete]="'Rule ' + encounter()?.title"
+      [itemToDelete]="'Encounter ' + encounter()?.title"
       [icon]="'trash'"
       [enableHotkey]="isInFocus()"
       (confirm)="onEncounterDelete()"

@@ -13,7 +13,7 @@
                 <button
                   btn
                   class="encounter-item__button encounter-item__button--first"
-                  title="Add Encounter to Diaryentry"
+                  aria-label="Add First Encounter to Diaryentry"
                   [kind]="'PRIMARY'"
                   [size]="'LARGE'"
                   [icon]="'plus'"
@@ -26,28 +26,13 @@
             }
           }
 
-          @let nextEncounter = diaryEntryEncounters()[$index + 1];
-          @let currentEncounterId = entryEncounter.encounter.title;
-          @let currentEncounterSkipId = currentEncounterId + "-skip";
-          @let lastSkipId = "encounters-lastskip";
-          @let nextEncounterSkipId =
-            $last ? lastSkipId : nextEncounter.encounter.title + "-skip";
-          <a
-            class="encounter-item__skip"
-            [id]="currentEncounterSkipId"
-            bypass
-            [skipToId]="nextEncounterSkipId"
-          >
-            Skip encounter "{{ currentEncounterId }}"
-          </a>
-
           @let disabled =
             isUpdatingAnything() || entryEncounter.requestState === "loading";
 
           <app-encounter-card
             #encounter
             class="encounter-item__encounter"
-            [id]="currentEncounterId"
+            [id]="entryEncounter.encounter.title"
             [attr.tabindex]="state() === 'EDIT' ? 0 : null"
             [encounter]="entryEncounter.encounter"
             [characters]="campaignCharacters() ?? []"
@@ -79,7 +64,7 @@
                 <button
                   btn
                   class="encounter-item__button"
-                  title="Add Encounter to DiaryEntry"
+                  aria-label="Add Encounter to DiaryEntry"
                   [kind]="'PRIMARY'"
                   [size]="'LARGE'"
                   [icon]="'plus'"
@@ -90,10 +75,6 @@
                 ></button>
               }
             </div>
-          }
-
-          @if ($last) {
-            <div [id]="lastSkipId"></div>
           }
         </li>
       }

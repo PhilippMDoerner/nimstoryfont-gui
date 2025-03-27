@@ -65,7 +65,7 @@
 
         <ul
           class="body__subbody body__subbody--list"
-          [attr.aria-label]="'Diaryentries of session ' + session().name"
+          [attr.aria-label]="'Diaryentries of ' + session().name"
         >
           @for (diaryEntry of diaryEntries(); track diaryEntry.link) {
             <li>
@@ -93,7 +93,7 @@
   @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
-      [itemToDelete]="'Session ' + session().name"
+      [itemToDelete]="session().name ?? 'This Session'"
       [icon]="'trash'"
       [enableHotkey]="!disabledHotkeys()"
       (confirm)="onSessionDelete()"
@@ -102,7 +102,7 @@
 </ng-template>
 <!-- Sessions Panel Content -->
 
-<ng-template #updateHeading> Updating '{{ session().name }}'' </ng-template>
+<ng-template #updateHeading> Updating '{{ session().name }}' </ng-template>
 
 <ng-template #updateBody>
   <!-- Form -->

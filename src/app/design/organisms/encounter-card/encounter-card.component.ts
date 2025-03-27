@@ -37,6 +37,10 @@ export type EncounterCardState = 'READ' | 'EDIT';
   templateUrl: './encounter-card.component.html',
   styleUrl: './encounter-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    role: 'region',
+    '[attr.aria-labelledby]': 'headingId()',
+  },
 })
 export class EncounterCardComponent {
   state = input.required<EncounterCardState>();
@@ -53,6 +57,8 @@ export class EncounterCardComponent {
   ariaLevel = input.required<HeadingLevel>();
 
   isUpdating = computed(() => this.updateState() === 'loading');
+
+  headingId = computed(() => `encounter-heading-${this.encounter().pk}`);
 
   connectionDelete = output<EncounterConnection>();
   connectionCreate = output<EncounterConnectionRaw>();

@@ -89,6 +89,7 @@ export class EncounterComponent implements OnInit {
   canDelete = input(false);
   initialCardState = input<FormState>('DISPLAY');
   isInFocus = input.required<boolean>();
+  headingId = input.required<string>();
 
   component = inject(ElementRef);
 

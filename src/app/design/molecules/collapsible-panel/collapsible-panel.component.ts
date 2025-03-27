@@ -17,6 +17,11 @@ import { HeadingLevel } from '../../atoms/_models/heading';
   styleUrls: ['./collapsible-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SeparatorComponent, IconComponent, NgbCollapse, HeadingDirective],
+  host: {
+    role: 'region',
+    '[attr.aria-labelledby]': 'headingId',
+    class: 'card',
+  },
 })
 export class CollapsiblePanelComponent {
   ariaLevel = input.required<HeadingLevel>();
@@ -24,6 +29,7 @@ export class CollapsiblePanelComponent {
   _isOpen = linkedSignal(() => this.isOpen());
 
   id = componentId();
+  headingId = `heading-${this.id}`;
   triggerId = `trigger-${this.id}`;
   contentId = `content-${this.id}`;
 

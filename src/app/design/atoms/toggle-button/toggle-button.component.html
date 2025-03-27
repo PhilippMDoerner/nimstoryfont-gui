@@ -10,6 +10,6 @@
   [attr.aria-disabled]="disabled()"
   [attr.aria-pressed]="active()"
   [attr.aria-label]="ariaLabel()"
-  [attr.title]="title()"
+  [attr.aria-controls]="ariaControls()"
   (clicked)="changed.emit(!active())"
 ></button>

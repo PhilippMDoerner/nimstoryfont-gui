@@ -5,11 +5,8 @@
     (submit)="openFirstArticle($event)"
     [hotkey]="'f'"
     (hotkeyPressed)="filterInputElement.focus()"
-    role="search"
   >
-    <label class="fs-5 fw-bold p-0" [for]="searchId">
-      Search for {{ heading() }}
-    </label>
+    <label class="fs-5 fw-bold p-0" [for]="searchId"> Filter text </label>
     <div class="filter__input-container">
       <input
         [id]="searchId"
@@ -34,7 +31,7 @@
     </div>
   </form>
 
-  <section>
+  <div>
     @switch (mode()) {
       @case ("LETTER") {
         <ng-container *ngTemplateOutlet="letterList" />
@@ -46,7 +43,7 @@
         <ng-container *ngTemplateOutlet="searchList" />
       }
     }
-  </section>
+  </div>
 </div>
 
 <ng-template #letterList>

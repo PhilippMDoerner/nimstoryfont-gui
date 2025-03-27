@@ -29,6 +29,7 @@ import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { hasRoleOrBetter } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
 import { environment } from 'src/environments/environment';
+import { componentId } from 'src/utils/DOM';
 import { SidebarButtonEntryComponent } from '../../molecules/sidebar-button-entry/sidebar-button-entry.component';
 import { SidebarLinkEntryComponent } from '../../molecules/sidebar-link-entry/sidebar-link-entry.component';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
@@ -50,6 +51,7 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     role: 'navigation',
+    '[attr.aria-labelledby]': 'headerId',
   },
 })
 export class SidebarComponent {
@@ -100,6 +102,8 @@ export class SidebarComponent {
       };
     });
   });
+
+  readonly headerId = `${componentId()}-header`;
 
   readonly campaignOverviewUrl: string =
     this.routingService.getRoutePath('campaign-overview');

@@ -34,7 +34,6 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs';
-import { BypassBlockDirective } from 'src/app/_directives/bypass-block.directive';
 import { HotkeyService } from 'src/app/_services/hotkey.service';
 import { ScreenService } from 'src/app/_services/screen.service';
 import { slideUpFromBottom } from 'src/app/design/animations/slideDown';
@@ -55,7 +54,6 @@ import {
     ButtonComponent,
     SpinnerComponent,
     NgTemplateOutlet,
-    BypassBlockDirective,
     EncounterCardComponent,
   ],
   animations: [slideUpFromBottom],

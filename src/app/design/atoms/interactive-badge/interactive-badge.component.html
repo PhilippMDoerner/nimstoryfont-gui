@@ -50,7 +50,7 @@
         'bg-info': iconKindVal() === 'INFO',
         'bg-light': iconKindVal() === 'LIGHT',
       }"
-      [attr.aria-label]="'Remove item'"
+      [attr.aria-label]="'Remove ' + text()"
     >
       <app-icon [icon]="'trash'" />
     </button>

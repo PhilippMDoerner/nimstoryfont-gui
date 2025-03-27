@@ -2,7 +2,6 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { BypassBlockDirective } from 'src/app/_directives/bypass-block.directive';
 import { DiaryEntry, DiaryEntryStump } from 'src/app/_models/diaryentry';
 import {
   Encounter,
@@ -41,7 +40,6 @@ type DiaryEntryState = 'DISPLAY' | 'EDIT';
     ButtonLinkComponent,
     DragAndDropListComponent,
     ContextMenuComponent,
-    BypassBlockDirective,
   ],
 })
 export class DiaryentryComponent {

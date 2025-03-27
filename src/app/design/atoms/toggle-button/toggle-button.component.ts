@@ -21,11 +21,11 @@ export class ToggleButtonComponent {
   active = input.required<boolean>();
   id = input.required<string>();
   ariaLabel = input<string>();
-  title = input<string>();
   disabled = input<boolean>(false);
   icon = input<Icon>();
   text = input<string>();
   size = input<ElementSize>('MEDIUM');
+  ariaControls = input<string>();
 
   changed = output<boolean>();
 }

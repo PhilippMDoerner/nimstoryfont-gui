@@ -18,16 +18,12 @@
         [title]="campaign()?.name + '-Home'"
         [class.disabled-entry]="campaign() == null"
       >
-        <a
-          class="brand__home-link"
-          [routerLink]="homeUrl()"
-          aria-label="To Home Page"
-        >
-          <div class="h4 brand__home-link-text">
+        <a class="brand__home-link" [routerLink]="homeUrl()">
+          <div class="h4 brand__home-link-text" [id]="headerId">
             <img
               class="brand__icon"
               [ngSrc]="serverUrl + campaign()?.icon"
-              alt="To Home Page"
+              alt=""
               priority
               [width]="32"
               [height]="32"

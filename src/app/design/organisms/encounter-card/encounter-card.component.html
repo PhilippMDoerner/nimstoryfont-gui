@@ -14,7 +14,7 @@
 </div>
 
 <ng-template #displayEncounter>
-  <div class="h4" [heading]="ariaLevel()">
+  <div class="h4" [heading]="ariaLevel()" [id]="headingId()">
     {{ encounter().title }}
   </div>
   <app-html-text [text]="encounter().description"></app-html-text>
@@ -34,6 +34,7 @@
       [canCreate]="canCreate()"
       [isInFocus]="isInFocus()"
       [initialCardState]="encounter().pk == null ? 'CREATE' : 'DISPLAY'"
+      [headingId]="headingId()"
       (connectionDelete)="connectionDelete.emit($event)"
       (connectionCreate)="connectionCreate.emit($event)"
       (encounterDelete)="encounterDelete.emit($event)"

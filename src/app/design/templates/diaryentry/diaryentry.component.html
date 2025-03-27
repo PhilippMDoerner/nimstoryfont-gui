@@ -42,12 +42,7 @@
     </div>
 
     @if (canUpdate() && state() === "EDIT") {
-      <h2 class="diaryentry__contents-heading">
-        Contents
-        <a class="fs-5" bypass [skipToId]="encountersListId">
-          Skip to encounters
-        </a>
-      </h2>
+      <h2 class="diaryentry__contents-heading">Contents</h2>
       <app-drag-and-drop-list
         class="diaryentry__contents"
         [entries]="sortedEncounters()"

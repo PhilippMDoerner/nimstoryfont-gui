@@ -1,11 +1,16 @@
 <div class="search" id="search-area">
-  <form class="search__form" role="search" (submit)="startSearch()">
+  <form
+    class="search__form"
+    role="search"
+    aria-labelledby="search-label"
+    (submit)="startSearch()"
+  >
     <div
       class="search__bar"
       [class.search__bar--disabled]="!canSearch()"
       [class.search__bar--active]="searchInput.value"
     >
-      <label class="search__label" for="search">
+      <label class="search__label" for="search" id="search-label">
         {{ _placeholder() }}
       </label>
       <input
@@ -14,7 +19,6 @@
         [class.search__input--disabled]="!canSearch()"
         type="search"
         name="search"
-        title="search"
         id="search"
         [disabled]="!canSearch()"
         [(ngModel)]="searchString"
@@ -26,7 +30,7 @@
       <button
         btn
         class="search__button"
-        [attr.aria-label]="'Start searching for ' + searchInput.value"
+        [attr.aria-label]="'Search for ' + searchInput.value"
         [disabled]="!canTriggerSearch"
         [kind]="canTriggerSearch ? 'PRIMARY' : 'LIGHT-OUTLINE'"
         [icon]="'search'"

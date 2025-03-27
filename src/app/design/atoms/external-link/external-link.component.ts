@@ -10,7 +10,7 @@ import { IconComponent } from '../icon/icon.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     target: '_blank',
-    '[href]': 'link()',
+    '[href]': 'externalHref()',
   },
 })
 export class ExternalLinkComponent {

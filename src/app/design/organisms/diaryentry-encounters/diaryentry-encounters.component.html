@@ -6,27 +6,13 @@
         entryEncounter of diaryEntryEncounters();
         track entryEncounter.encounter.title
       ) {
-        <li>
-          @let nextEncounter = diaryEntryEncounters()[$index + 1];
-          @let currentEncounterId = entryEncounter.encounter.title;
-          @if (nextEncounter && !$last) {
-            @let nextEncounterId = nextEncounter.encounter.title;
-            <a
-              class="list__skip"
-              [id]="entryEncounter.encounter.title"
-              bypass
-              [skipToId]="nextEncounterId"
-            >
-              Skip encounter "{{ currentEncounterId }}"
-            </a>
-          }
-
+        <li class="list__encounter-item encounter-item">
           @if ($first && state() === "EDIT" && (canCreate() || canUpdate())) {
             @if (canCreate()) {
-              <div class="list__button-container">
+              <div class="encounter-item__button-container">
                 <button
                   btn
-                  class="list__button list__button--first"
+                  class="encounter-item__button encounter-item__button--first"
                   title="Add Encounter to Diaryentry"
                   [kind]="'PRIMARY'"
                   [size]="'LARGE'"
@@ -39,12 +25,28 @@
               </div>
             }
           }
+
+          @let nextEncounter = diaryEntryEncounters()[$index + 1];
+          @let currentEncounterId = entryEncounter.encounter.title;
+          @let currentEncounterSkipId = currentEncounterId + "-skip";
+          @let lastSkipId = "encounters-lastskip";
+          @let nextEncounterSkipId =
+            $last ? lastSkipId : nextEncounter.encounter.title + "-skip";
+          <a
+            class="encounter-item__skip"
+            [id]="currentEncounterSkipId"
+            bypass
+            [skipToId]="nextEncounterSkipId"
+          >
+            Skip encounter "{{ currentEncounterId }}"
+          </a>
+
           @let disabled =
             isUpdatingAnything() || entryEncounter.requestState === "loading";
 
           <app-encounter-card
             #encounter
-            class="list__encounter"
+            class="encounter-item__encounter"
             [id]="currentEncounterId"
             [attr.tabindex]="state() === 'EDIT' ? 0 : null"
             [encounter]="entryEncounter.encounter"
@@ -72,11 +74,11 @@
 
           <!-- Insert new Encounter -->
           @if (state() === "EDIT" && (canCreate() || canUpdate())) {
-            <div class="list__button-container">
+            <div class="encounter-item__button-container">
               @if (canCreate()) {
                 <button
                   btn
-                  class="list__button"
+                  class="encounter-item__button"
                   title="Add Encounter to DiaryEntry"
                   [kind]="'PRIMARY'"
                   [size]="'LARGE'"
@@ -89,6 +91,10 @@
               }
             </div>
           }
+
+          @if ($last) {
+            <div [id]="lastSkipId"></div>
+          }
         </li>
       }
     </ul>
@@ -98,4 +104,4 @@
 </div>
 
 <!-- Loading Spinner -->
-<ng-template #loading><app-spinner class="spinner"></app-spinner></ng-template>
+<ng-template #loading><app-spinner class="spinner" /></ng-template>

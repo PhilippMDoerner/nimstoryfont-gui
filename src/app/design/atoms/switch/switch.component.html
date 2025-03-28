@@ -6,8 +6,10 @@
   role="switch"
   [attr.disabled]="disabled()"
   [attr.checked]="checked() ? '' : null"
+  [attr.aria-controls]="ariaControls()"
   (input)="switch(switchInput.checked === true)"
 />
+
 <label class="form-check-label" [for]="id">
   {{ label() }}
 </label>

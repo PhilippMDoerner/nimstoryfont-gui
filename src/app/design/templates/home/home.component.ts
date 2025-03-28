@@ -28,7 +28,7 @@ import { componentId } from 'src/utils/DOM';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
-import { ToggleButtonComponent } from '../../atoms/toggle-button/toggle-button.component';
+import { SwitchComponent } from '../../atoms/switch/switch.component';
 import {
   ContextMenuComponent,
   MenuItem,
@@ -63,8 +63,8 @@ const FILTER_ICON: { [key in FilterMode]: Icon | undefined } = {
     NgOptimizedImage,
     ButtonComponent,
     IconComponent,
-    ToggleButtonComponent,
     ContextMenuComponent,
+    SwitchComponent,
   ],
 })
 export class HomeComponent {
@@ -146,7 +146,6 @@ export class HomeComponent {
     return hasMoreArticlesInFilter;
   });
   feedMode = signal<'INFINITY_SCROLL' | 'BUTTON_LOAD'>('INFINITY_SCROLL');
-  isSwitchInFocus = signal(false);
 
   articleEntries = computed<IconCardEntry[]>(() => {
     const filterDate = this.filterDate();

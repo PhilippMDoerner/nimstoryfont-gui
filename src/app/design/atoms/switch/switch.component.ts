@@ -19,10 +19,10 @@ import { componentId } from 'src/utils/DOM';
 export class SwitchComponent {
   label = input.required<string>();
   checked = input.required<boolean>();
+  ariaControls = input<string>();
   disabled = input<boolean>();
 
   changed = output<boolean>();
-
   id = componentId();
 
   switch(value: boolean) {

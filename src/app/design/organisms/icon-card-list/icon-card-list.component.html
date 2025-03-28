@@ -1,6 +1,7 @@
 <section
   role="feed"
   class="row"
+  [id]="id()"
   [attr.aria-labelledby]="ariaLabelId()"
   [attr.aria-busy]="isLoading()"
   (keydown.ArrowDown)="focusNextArticle($event)"

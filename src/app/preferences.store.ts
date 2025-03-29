@@ -49,8 +49,12 @@ export const PreferencesStore = signalStore(
                 }
               }
             },
-            error: (err: HttpErrorResponse) =>
-              toastService.addToast(httpErrorToast(err)),
+            error: (err: HttpErrorResponse) => {
+              const isBadRequest = err.status === 400;
+              if (!isBadRequest) {
+                toastService.addToast(httpErrorToast(err));
+              }
+            },
           }),
         ),
       ),

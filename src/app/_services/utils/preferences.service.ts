@@ -7,6 +7,7 @@ import {
   MetaDataKind,
 } from 'src/app/_models/userMetadata';
 import { SidebarOption } from 'src/app/design/molecules';
+import { environment } from 'src/environments/environment';
 import { toBoolean } from 'src/utils/bool';
 
 @Injectable({
@@ -14,9 +15,10 @@ import { toBoolean } from 'src/utils/bool';
 })
 export class PreferencesService {
   private readonly http = inject(HttpClient);
+  private readonly apiUrl = environment.apiUrl;
 
-  searchPreferenceKey = 'AldruneSearchPreferences';
-  settingsApiUrl = '/user/me/settings/';
+  private readonly searchPreferenceKey = 'AldruneSearchPreferences';
+  private readonly settingsApiUrl = `${this.apiUrl}/user/me/settings`;
 
   getGeneralUserMetadata(): Observable<GeneralMetadata> {
     return this.getUserMetadata('general').pipe(

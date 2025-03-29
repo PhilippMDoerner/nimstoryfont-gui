@@ -18,9 +18,13 @@
           [fields]="fields"
           [form]="form"
         ></formly-form>
-        <button class="login__reset-link" (click)="setState('PASSWORD_RESET')">
-          Forgot your password?
-        </button>
+        <button
+          btn
+          class="login__reset-link"
+          [kind]="'NONE'"
+          [text]="'Forgot your password?'"
+          (click)="setState('PASSWORD_RESET')"
+        ></button>
         <button
           btn
           class="login__button"

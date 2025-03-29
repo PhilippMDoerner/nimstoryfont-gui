@@ -1,32 +1,32 @@
-:host{
+:host {
   width: 100%;
   max-width: 30rem;
 }
 
-.login{
+.login {
   --animate-duration: 1000ms;
 
-  &__subtitle-warning{
+  &__subtitle-warning {
     margin-bottom: var(--spacer-3);
     color: var(--bs-warning);
   }
-  
-  &__form{
+
+  &__form {
     display: flex;
     flex-direction: column;
   }
-  
-  &__button{
+
+  &__button {
     margin-top: var(--spacer-4);
   }
-  
-  &__button-left{
+
+  &__button-left {
     margin-right: var(--spacer-2);
   }
-  
-  &__reset-link{
+
+  &__reset-link {
     cursor: pointer;
     width: fit-content;
+    border-radius: var(--bs-border-radius);
   }
 }
-

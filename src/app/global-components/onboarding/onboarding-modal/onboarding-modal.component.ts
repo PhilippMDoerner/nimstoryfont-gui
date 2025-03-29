@@ -8,8 +8,9 @@ import {
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { combineLatest, filter } from 'rxjs';
+import { combineLatest, filter, map, startWith } from 'rxjs';
 import { HotkeyService } from 'src/app/_services/hotkey.service';
+import { AuthStore } from 'src/app/auth.store';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { PreferencesStore } from 'src/app/preferences.store';
 import { componentId } from 'src/utils/DOM';
@@ -27,6 +28,7 @@ export class OnboardingModalComponent {
   isCampaignAdmin = input<boolean>();
 
   modalService = inject(NgbModal);
+  authStore = inject(AuthStore);
   preferencesStore = inject(PreferencesStore);
 
   activeStepElement = signal<CdkStep | undefined>(undefined);
@@ -39,14 +41,19 @@ export class OnboardingModalComponent {
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.openModal());
 
+    const isLoggedIn$ = toObservable(this.authStore.isLoggedIn).pipe(
+      map((isLoggedIn) => !!isLoggedIn),
+      startWith(false),
+    );
     combineLatest({
+      isLoggedIn: isLoggedIn$,
       metadata: toObservable(this.preferencesStore.general),
       queryState: toObservable(this.preferencesStore.generalQueryState),
     })
       .pipe(
         filter(
-          ({ queryState }) =>
-            queryState === 'success' || queryState === 'error',
+          ({ queryState, isLoggedIn }) =>
+            isLoggedIn && (queryState === 'success' || queryState === 'error'),
         ),
         takeOnceOrUntilDestroyed(),
         filter(({ metadata }) => !metadata?.hasSeenOnboarding),

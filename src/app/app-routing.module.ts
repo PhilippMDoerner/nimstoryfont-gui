@@ -56,9 +56,6 @@ const errorRoutes: Routes = [
 export const ROUTES: Routes = [
   {
     path: '',
-    resolve: {
-      loadGeneralPreferences: () => inject(PreferencesStore).loadGeneral(),
-    },
     children: [
       ...redirectRoutes,
       {
@@ -67,7 +64,11 @@ export const ROUTES: Routes = [
           ...generalRoutes,
           {
             path: '',
-            resolve: { campaignSetResolver },
+            resolve: {
+              campaignSetResolver,
+              loadGeneralPreferences: () =>
+                inject(PreferencesStore).loadGeneral(),
+            },
             children: [
               {
                 path: '',

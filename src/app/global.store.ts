@@ -161,13 +161,13 @@ export const GlobalStore = signalStore(
         ),
       ),
       logout: () => {
-        authStore.logout();
         patchState(store, {
           campaigns: undefined,
           currentCampaign: undefined,
           contentScrollEvents: undefined,
           isLoadingPage: false,
         });
+        authStore.logout();
       },
     };
   }),

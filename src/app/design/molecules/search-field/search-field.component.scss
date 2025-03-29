@@ -31,8 +31,11 @@ input[type="search"]::-webkit-search-results-decoration {
       border-color: var(--bs-link-hover-color);
 
       .search__label {
-        font-size: 13px;
-        top: 0px;
+        font-size: 14px;
+        top: -4px;
+        padding: var(--spacer-0) var(--spacer-1);
+        background-color: var(--bs-dark);
+        border-radius: var(--bs-border-radius);
       }
     }
 

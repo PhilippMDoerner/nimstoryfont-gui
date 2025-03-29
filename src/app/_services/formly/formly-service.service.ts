@@ -193,7 +193,7 @@ export class FormlyService {
       type: 'input',
       className: config.className,
       fieldGroupClassName: config.fieldGroupClassName,
-      templateOptions: {
+      props: {
         label: config.label ?? 'Password',
         type: 'password',
         required: true,
@@ -216,7 +216,7 @@ export class FormlyService {
       key: 'password', //Hard coded, fieldMatch validator depends on this
       type: 'input',
       className: config.className,
-      templateOptions: {
+      props: {
         label: config.label ?? 'Password',
         type: 'password',
         required: true,
@@ -232,7 +232,7 @@ export class FormlyService {
       key: 'passwordConfirm', //Hard coded, fieldMatch validator depends on this
       type: 'input',
       className: config.className,
-      templateOptions: {
+      props: {
         label: config.label
           ? 'Confirm ' + config.label
           : 'Password Confirmation',

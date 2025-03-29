@@ -64,7 +64,7 @@ export class PreferencesService {
     category: MetaDataKind,
   ): Observable<Map<string, string>> {
     return this.http
-      .get<MetaDataEntry[]>(`${this.settingsApiUrl}/${category}`)
+      .get<MetaDataEntry[]>(`${this.settingsApiUrl}/${category}/`)
       .pipe(
         map((entries) =>
           entries.reduce((map, entry) => {

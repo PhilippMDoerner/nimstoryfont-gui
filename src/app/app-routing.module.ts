@@ -1,7 +1,6 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { log } from 'src/utils/logging';
 import { loginGuard } from './_guards/login.guard';
 import {
   campaignSetResolver,
@@ -11,6 +10,7 @@ import {
 import { adminRoutes } from './administration/administration-routes';
 import { campaignRoutes } from './campaign/campaign-routes';
 import { generalRoutes } from './general/general-routes';
+import { PreferencesStore } from './preferences.store';
 
 const redirectRoutes: Routes = [
   //Redirect Routes
@@ -57,9 +57,7 @@ export const ROUTES: Routes = [
   {
     path: '',
     resolve: {
-      loadAuthData: () => {
-        log('Load Auth Data?');
-      },
+      loadGeneralPreferences: () => inject(PreferencesStore).loadGeneral(),
     },
     children: [
       ...redirectRoutes,

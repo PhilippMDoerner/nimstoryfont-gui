@@ -6,11 +6,14 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest, filter } from 'rxjs';
 import { HotkeyService } from 'src/app/_services/hotkey.service';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { PreferencesStore } from 'src/app/preferences.store';
+import { componentId } from 'src/utils/DOM';
+import { takeOnceOrUntilDestroyed } from 'src/utils/rxjs-operators';
 import { OnboardingStepperComponent } from '../onboarding-stepper/onboarding-stepper.component';
 
 @Component({
@@ -28,10 +31,26 @@ export class OnboardingModalComponent {
 
   activeStepElement = signal<CdkStep | undefined>(undefined);
 
+  modalTitle = `${componentId()}-onboarding-modal-title`;
+
   constructor(hotkeyService: HotkeyService) {
     hotkeyService
       .watch('o')
       .pipe(takeUntilDestroyed())
+      .subscribe(() => this.openModal());
+
+    combineLatest({
+      metadata: toObservable(this.preferencesStore.general),
+      queryState: toObservable(this.preferencesStore.generalQueryState),
+    })
+      .pipe(
+        filter(
+          ({ queryState }) =>
+            queryState === 'success' || queryState === 'error',
+        ),
+        takeOnceOrUntilDestroyed(),
+        filter(({ metadata }) => !metadata?.hasSeenOnboarding),
+      )
       .subscribe(() => this.openModal());
   }
 
@@ -44,6 +63,7 @@ export class OnboardingModalComponent {
     this.modalService.open(OnboardingModalComponent, {
       modalDialogClass: 'onboarding-modal',
       centered: true,
+      ariaLabelledBy: this.modalTitle,
     });
   }
 

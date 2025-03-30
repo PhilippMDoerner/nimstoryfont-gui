@@ -5,6 +5,7 @@ import { EMPTY, switchMap, take } from 'rxjs';
 import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/article/user.service';
 import { CampaignService } from 'src/app/_services/utils/campaign.service';
+import { GlobalUrlParamsService } from 'src/app/_services/utils/global-url-params.service';
 import { AuthStore } from 'src/app/auth.store';
 import { CampaignMembership } from 'src/app/design/templates/_models/campaign-membership';
 import { PasswordModel } from 'src/app/design/templates/profile/profile.component';
@@ -68,6 +69,9 @@ export const ProfilePageStore = signalStore(
   }),
   withMethods((state) => {
     const campaignService = inject(CampaignService);
+    const globalStore = inject(GlobalStore);
+    const paramsService = inject(GlobalUrlParamsService);
+
     const user$ = toObservable(state.user).pipe(filterNil(), take(1));
     return {
       leaveCampaign: (membership: CampaignMembership) => {
@@ -96,7 +100,15 @@ export const ProfilePageStore = signalStore(
             }),
             take(1),
           )
-          .subscribe(() => state.loadThisUser());
+          .subscribe(() => {
+            state.loadThisUser();
+            const isCurrentCampaign =
+              globalStore.currentCampaign()?.name.toLowerCase() ===
+              membership.campaignName.toLowerCase();
+            if (isCurrentCampaign) {
+              paramsService.nextSnapshot(null);
+            }
+          });
       },
     };
   }),

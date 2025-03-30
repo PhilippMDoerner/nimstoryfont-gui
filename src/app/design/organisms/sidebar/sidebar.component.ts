@@ -80,8 +80,9 @@ export class SidebarComponent {
   readonly sidebarEntries: Signal<ArticleMetaData[]> = computed(() => {
     const campaignName = this.campaign()?.name;
     if (!campaignName) return [];
-    const currentRole = this.authStore.getCampaignRole(campaignName);
-    if (!currentRole) return [];
+    const currentRole = this.authStore.isGlobalAdmin()
+      ? 'admin'
+      : (this.authStore.getCampaignRole(campaignName) ?? 'guest');
 
     const activeRouteName = this.activeRouteName();
 

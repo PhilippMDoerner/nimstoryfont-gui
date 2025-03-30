@@ -1,14 +1,14 @@
-import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
+import { TitleCasePipe } from '@angular/common';
 import { Component, input, Input, output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { AlertComponent } from '../../atoms/alert/alert.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
+import { ConfirmationToggleButtonComponent } from '../../molecules/confirmation-toggle-button/confirmation-toggle-button.component';
 import { FormComponent } from '../../molecules/form/form.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { CampaignMembership } from '../_models/campaign-membership';
@@ -27,12 +27,11 @@ export interface PasswordModel {
     IconComponent,
     ButtonComponent,
     SeparatorComponent,
-    NgTemplateOutlet,
     CardComponent,
     FormComponent,
-    AlertComponent,
     TitleCasePipe,
     ArticleFooterComponent,
+    ConfirmationToggleButtonComponent,
   ],
 })
 export class ProfileComponent {
@@ -110,7 +109,7 @@ export class ProfileComponent {
     this.showPasswordEditForm = false;
   }
 
-  toggleLeaveCampaignState(membership: CampaignMembership): void {
-    membership.isLeaving = !membership.isLeaving;
+  leaveCampaign(membership: CampaignMembership): void {
+    this.campaignLeave.emit(membership);
   }
 }

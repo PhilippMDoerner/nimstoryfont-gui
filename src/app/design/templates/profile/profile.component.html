@@ -42,19 +42,34 @@
         <div class="col-4">Email</div>
         <div class="col-8">{{ user.email }}</div>
       </div>
-      <div class="row profile__memberships">
-        <h2 class="h3">Campaign Memberships</h2>
+      <section
+        class="row profile__memberships"
+        aria-labelledby="campaign-membership-label"
+      >
+        <h2 id="campaign-membership-label" class="h3">Campaign Memberships</h2>
         @for (membership of memberships; track membership; let i = $index) {
-          <div>
-            <ng-container
-              *ngTemplateOutlet="
-                membership.isLeaving ? leaveCampaignForm : displayCampaignForm;
-                context: { $implicit: { membership, index: i } }
-              "
-            ></ng-container>
+          <div class="row pe-0">
+            <div class="col-5">{{ membership.campaignName | titlecase }}</div>
+            <div class="col-4">{{ membership.role | titlecase }}</div>
+            <div class="col-3 pe-0 d-flex justify-content-end">
+              <app-confirmation-toggle-button
+                [attr.aria-label]="
+                  'Leave campaign of ' + membership.campaignName
+                "
+                [itemToDelete]="
+                  'your ' +
+                  (membership.campaignName | titlecase) +
+                  ' membership'
+                "
+                [icon]="'sign-out-alt'"
+                [toggleType]="'SECONDARY'"
+                [enableHotkey]="false"
+                (confirm)="leaveCampaign(membership)"
+              />
+            </div>
           </div>
         }
-      </div>
+      </section>
     } @else {
       <app-card>
         <app-form
@@ -91,48 +106,3 @@
     ></app-article-footer>
   </article>
 </app-page-container>
-
-<ng-template #displayCampaignForm let-context>
-  <div class="row">
-    <div class="col-5">{{ context.membership.campaignName | titlecase }}</div>
-    <div class="col-4">{{ context.membership.role | titlecase }}</div>
-    <div class="col-3 d-flex justify-content-end">
-      <button
-        btn
-        [attr.aria-label]="
-          'Leave campaign of ' + context.membership.campaignName
-        "
-        [kind]="'SECONDARY'"
-        [icon]="'sign-out-alt'"
-        [size]="'SMALL'"
-        (clicked)="toggleLeaveCampaignState(context.membership)"
-      ></button>
-    </div>
-  </div>
-</ng-template>
-
-<ng-template #leaveCampaignForm let-context>
-  <app-alert [kind]="'DANGER'" class="row">
-    <div class="col-md-8">
-      <strong
-        >Permanently leave '{{
-          context.membership.campaignName | titlecase
-        }}'?</strong
-      >
-    </div>
-    <button
-      btn
-      class="col-md-2"
-      [kind]="'DANGER'"
-      [text]="'Yes'"
-      (clicked)="campaignLeave.emit(context.membership)"
-    ></button>
-    <button
-      btn
-      class="col-md-2"
-      [kind]="'DARK'"
-      [text]="'No'"
-      (clicked)="toggleLeaveCampaignState(context.membership)"
-    ></button>
-  </app-alert>
-</ng-template>

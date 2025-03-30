@@ -39,10 +39,6 @@
   </div>
 </ng-template>
 
-<div
-  (click)="open(content)"
-  (keydown.Enter)="open(content)"
-  (keydown.Space)="open(content)"
->
+<div (click)="open(content)" (keydown.Space)="open(content)">
   <ng-content select="[opener]"></ng-content>
 </div>

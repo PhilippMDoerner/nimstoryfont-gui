@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   input,
   linkedSignal,
   output,
@@ -27,12 +28,12 @@ export class InputComponent {
 
   changed = output<string>();
 
-  input = viewChild.required<HTMLInputElement>('input');
+  input = viewChild.required<ElementRef<HTMLInputElement>>('input');
   _value = linkedSignal(() => this.value());
   searchId = componentId();
 
   focus() {
-    this.input().focus();
+    this.input().nativeElement.focus();
   }
 
   emitValue(value: string) {

@@ -6,7 +6,10 @@
     [hotkey]="'f'"
     (hotkeyPressed)="input.focus()"
   >
-    <div class="filter__input-container">
+    <div
+      class="filter__input-container"
+      [class.filter__input-container--active]="input._value()"
+    >
       <app-input
         #input
         [id]="searchId"

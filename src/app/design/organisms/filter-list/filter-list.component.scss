@@ -6,29 +6,24 @@
   &__input-container {
     display: flex;
     flex-direction: row;
-    border: 1px var(--bs-white) solid;
+    border: 2px var(--bs-white) solid;
     border-radius: var(--bs-border-radius);
     width: 100%;
-    height: var(--spacer-5);
-    margin-top: var(--spacer-2);
-    margin-bottom: var(--spacer-4);
     background-color: var(--bs-dark);
     padding: 0;
+    gap: var(--spacer-2);
+    margin-bottom: var(--spacer-4);
+
+    &:focus-within,
+    &--active {
+      border-color: var(--bs-link-hover-color);
+    }
   }
 
   &__input {
     border-radius: var(--bs-border-radius);
     border: none;
     color: var(--bs-white);
-
-    &:focus,
-    &:focus-visible {
-      box-shadow: 0 0 0 2px var(--bs-white);
-      background: rgba(255, 255, 255, 0.1);
-      outline: var(--focus-outline);
-      border-top-left-radius: var(--bs-border-radius);
-      border-bottom-left-radius: var(--bs-border-radius);
-    }
 
     width: 100%;
   }

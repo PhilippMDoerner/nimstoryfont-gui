@@ -36,14 +36,14 @@
     <!-- Profile -->
     @if (!showProfileEditForm) {
       <div class="row profile__data">
-        <h3>Profile Data</h3>
+        <h2 class="h3">Profile Data</h2>
         <div class="col-4">Username</div>
         <div class="col-8">{{ user.username }}</div>
         <div class="col-4">Email</div>
         <div class="col-8">{{ user.email }}</div>
       </div>
       <div class="row profile__memberships">
-        <h3>Campaign Memberships</h3>
+        <h2 class="h3">Campaign Memberships</h2>
         @for (membership of memberships; track membership; let i = $index) {
           <div>
             <ng-container
@@ -80,30 +80,15 @@
       </app-card>
     }
 
-    <div class="mt-5 row justify-content-between">
-      <div class="col-md-3">
-        <a
-          btn
-          class="w-100"
-          [routerLink]="backUrl()"
-          [kind]="'SECONDARY'"
-          [text]="
-            campaignName ? 'Back To ' + campaignName : 'Back to Campaigns'
-          "
-        >
-        </a>
-      </div>
-
-      @if (canDeleteProfile) {
-        <div class="col-md-3">
-          <app-confirmation-toggle-button
-            [itemToDelete]="'your account'"
-            [icon]="'trash'"
-            (confirm)="profileDelete.emit(user)"
-          ></app-confirmation-toggle-button>
-        </div>
-      }
-    </div>
+    <app-article-footer
+      class="mt-5 d-block"
+      [buttonLabel]="
+        campaignName ? 'Back To ' + campaignName : 'Back to Campaigns'
+      "
+      [buttonLink]="backUrl()"
+      [deleteMessage]="'your account'"
+      (delete)="profileDelete.emit(user)"
+    ></app-article-footer>
   </article>
 </app-page-container>
 

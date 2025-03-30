@@ -1,22 +1,26 @@
 :host {
   position: relative;
   background-color: inherit;
+  --radius: var(--bs-border-radius);
+  border-radius: var(--bs-border-radius);
 
   &:focus-within,
   &.active {
     .label {
       font-size: 14px;
+      font-weight: bold;
       top: -4px;
       padding: var(--spacer-0) var(--spacer-1);
       background-color: inherit;
-      border-radius: var(--bs-border-radius);
+      border-radius: var(--radius);
     }
   }
 }
 
 .input {
+  border-radius: var(--radius);
   width: 100%;
-  padding: var(--spacer-3) var(--spacer-2) var(--spacer-2) var(--spacer-1);
+  padding: var(--spacer-3) var(--spacer-2) var(--spacer-2) var(--spacer-3);
   color: inherit;
   outline: none;
   border: none;
@@ -28,7 +32,7 @@
     font-size 0.2s ease-in-out,
     top 0.2s ease-in-out;
   position: absolute;
-  left: var(--spacer-2);
+  left: 12px;
   color: inherit;
   top: 12px;
   pointer-events: none;

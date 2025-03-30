@@ -1,5 +1,12 @@
 import { KeyValuePipe, TitleCasePipe } from '@angular/common';
-import { Component, Input, OnChanges, OnInit, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { PermissionGroup } from 'src/app/_models/auth';
@@ -44,13 +51,14 @@ type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
     TitleCasePipe,
     KeyValuePipe,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SiteAdminComponent implements OnInit, OnChanges {
-  @Input() users?: User[];
-  @Input() campaigns?: Campaign[];
-  @Input() allGroups?: PermissionGroup[];
-  @Input() statistics?: WikiStatistics;
-  @Input() serverUrl!: string;
+export class SiteAdminComponent {
+  users = input.required<User[] | undefined>();
+  campaigns = input.required<Campaign[] | undefined>();
+  allGroups = input.required<PermissionGroup[] | undefined>();
+  statistics = input.required<WikiStatistics | undefined>();
+  serverUrl = input.required<string>();
 
   readonly createCampaign = output<BaseCampaignData>();
   readonly createUser = output<User>();
@@ -59,10 +67,18 @@ export class SiteAdminComponent implements OnInit, OnChanges {
   readonly downloadDatabase = output<void>();
   readonly deleteUser = output<User>();
 
-  campaignOverviewUrl!: string;
+  campaignOverviewUrl = this.routingService.getRoutePath('campaign-overview');
 
-  userCards!: { isOpen: boolean; user: User }[];
-  userState: UserState = 'DISPLAY';
+  userCards = computed<{ isOpen: boolean; user: User }[]>(() => {
+    return (this.users() ?? [])
+      .map((user) => ({ isOpen: false, user }))
+      .sort((entry1, entry2) =>
+        entry1.user.username.toLowerCase() > entry2.user.username.toLowerCase()
+          ? 1
+          : -1,
+      );
+  });
+  userState = signal<UserState>('DISPLAY');
   userModel!: Partial<User>;
   userFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
@@ -78,7 +94,7 @@ export class SiteAdminComponent implements OnInit, OnChanges {
     }),
   ];
 
-  campaignState: CampaignState = 'DISPLAY';
+  campaignState = signal<CampaignState>('DISPLAY');
   campaignModel!: Partial<BaseCampaignData>;
   campaignFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
@@ -112,52 +128,29 @@ export class SiteAdminComponent implements OnInit, OnChanges {
     private formlyService: FormlyService,
   ) {}
 
-  ngOnInit(): void {
-    this.setCampaignOverviewUrl();
-  }
-
-  ngOnChanges(): void {
-    this.setUserCards();
-  }
-
   setUserState(newState: UserState): void {
-    this.userState = newState;
+    this.userState.set(newState);
 
-    if (this.userState === 'CREATE') {
+    if (this.userState() === 'CREATE') {
       this.userModel = {};
     }
   }
 
   createNewUser(newUser: Partial<User>): void {
+    this.setUserState('DISPLAY');
     this.createUser.emit(newUser as User);
   }
 
   setCampaignState(newState: CampaignState): void {
-    this.campaignState = newState;
+    this.campaignState.set(newState);
 
-    if (this.campaignState === 'CREATE') {
+    if (this.campaignState() === 'CREATE') {
       this.campaignModel = {};
     }
   }
 
   createNewCampaign(newCampaign: Partial<BaseCampaignData>): void {
+    this.setCampaignState('DISPLAY');
     this.createCampaign.emit(newCampaign as BaseCampaignData);
-  }
-
-  private setUserCards(): void {
-    this.userCards =
-      this.users
-        ?.map((user) => ({ isOpen: false, user }))
-        ?.sort((entry1, entry2) =>
-          entry1.user.username.toLowerCase() >
-          entry2.user.username.toLowerCase()
-            ? 1
-            : -1,
-        ) ?? [];
-  }
-
-  private setCampaignOverviewUrl(): void {
-    this.campaignOverviewUrl =
-      this.routingService.getRoutePath('campaign-overview');
   }
 }

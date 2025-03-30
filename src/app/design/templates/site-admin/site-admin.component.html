@@ -26,12 +26,12 @@
           <button
             btn
             [kind]="'DARK'"
-            [icon]="userState === 'CREATE' ? 'times' : 'user-plus'"
+            [icon]="userState() === 'CREATE' ? 'times' : 'user-plus'"
             [text]="
-              userState === 'CREATE' ? 'Cancel User Creation' : 'Add User'
+              userState() === 'CREATE' ? 'Cancel User Creation' : 'Add User'
             "
             (clicked)="
-              userState === 'CREATE'
+              userState() === 'CREATE'
                 ? setUserState('DISPLAY')
                 : setUserState('CREATE')
             "
@@ -39,10 +39,10 @@
         </div>
       </div>
 
-      <app-separator class="site-admin__separator"></app-separator>
+      <app-separator class="site-admin__separator" />
 
       <!-- New Table Entry -->
-      @if (userState === "CREATE") {
+      @if (userState() === "CREATE") {
         <app-card class="my-2">
           <h3 class="h4">Adding new User</h3>
           <!-- Form -->
@@ -57,8 +57,8 @@
       }
 
       <!-- Table -->
-      @if (userState === "DISPLAY") {
-        @for (card of userCards; track card.user.pk) {
+      @if (userState() === "DISPLAY") {
+        @for (card of userCards(); track card.user.pk) {
           <app-collapsible-panel
             [isOpen]="card.isOpen"
             [ariaLevel]="3"
@@ -71,7 +71,7 @@
             <app-user-row
               body
               [user]="card.user"
-              [groups]="allGroups"
+              [groups]="allGroups()"
               [canCreate]="true"
               [canDelete]="true"
               (addGroup)="
@@ -116,12 +116,12 @@
         </div>
       </div>
 
-      <app-separator class="site-admin__separator"></app-separator>
+      <app-separator class="site-admin__separator" />
 
       <!-- Section Body -->
       <!-- Statistics -->
       <div class="mb-5">
-        @for (statistic of statistics | keyvalue; track statistic.key) {
+        @for (statistic of statistics() | keyvalue; track statistic.key) {
           <div class="row">
             <div class="col-6 col-md-3">{{ statistic.key }}</div>
             <div class="col-6 col-md-3">{{ statistic.value }}</div>
@@ -137,7 +137,7 @@
         <h3 class="heading__text">
           <app-icon [icon]="'dragon'"></app-icon>
           Campaigns
-          @if (campaignState === "WAIT_WHILE_CREATING") {
+          @if (campaignState() === "WAIT_WHILE_CREATING") {
             <app-spinner
               class="heading__text heading__text--loading"
             ></app-spinner>
@@ -150,14 +150,14 @@
           <button
             btn
             [kind]="'PRIMARY'"
-            [icon]="campaignState === 'CREATE' ? 'times' : 'plus'"
+            [icon]="campaignState() === 'CREATE' ? 'times' : 'plus'"
             [text]="
-              campaignState === 'CREATE'
+              campaignState() === 'CREATE'
                 ? 'Cancel Campaign Creation'
                 : 'Add Campaign'
             "
             (clicked)="
-              campaignState === 'CREATE'
+              campaignState() === 'CREATE'
                 ? setCampaignState('DISPLAY')
                 : setCampaignState('CREATE')
             "
@@ -168,9 +168,9 @@
       <app-separator class="site-admin__separator"></app-separator>
 
       <!-- Section Body -->
-      @if (campaignState === "DISPLAY") {
+      @if (campaignState() === "DISPLAY") {
         <div class="campaign-section__body body">
-          @for (campaign of campaigns; track campaign.pk) {
+          @for (campaign of campaigns(); track campaign.pk) {
             <div class="row mb-4">
               <div class="col-sm-3">
                 <img
@@ -195,7 +195,7 @@
       }
 
       <!-- New Campaign Entry -->
-      @if (campaignState === "CREATE") {
+      @if (campaignState() === "CREATE") {
         <app-card class="my-2">
           <h4>Adding new Campaign</h4>
           <!-- Form -->

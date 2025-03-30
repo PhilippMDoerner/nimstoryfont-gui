@@ -16,7 +16,8 @@
   }
 
   &__input {
-    background-color: transparent;
+    background-color: var(--bs-dark);
+    border-radius: var(--bs-border-radius);
     padding: var(--spacer-0) var(--spacer-3);
     border: none;
     color: var(--bs-white);

@@ -13,6 +13,7 @@ import {
   GroupByPipe,
 } from 'src/app/design/atoms/_pipes/groupObjects.pipe';
 import { componentId } from 'src/utils/DOM';
+import { InputComponent } from '../../../atoms/input/input.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { FilterListEntry } from '../_model/filterListEntry';
 
@@ -31,6 +32,7 @@ type GroupMode = 'PROPERTY' | 'LETTER' | 'SEARCH';
     NgTemplateOutlet,
     HotkeyDirective,
     ButtonComponent,
+    InputComponent,
   ],
 })
 export class FilterListComponent<T> {

@@ -4,21 +4,19 @@
     autocomplete="off"
     (submit)="openFirstArticle($event)"
     [hotkey]="'f'"
-    (hotkeyPressed)="filterInputElement.focus()"
+    (hotkeyPressed)="input.focus()"
   >
-    <label class="fs-5 fw-bold p-0" [for]="searchId"> Filter text </label>
     <div class="filter__input-container">
-      <input
+      <app-input
+        #input
         [id]="searchId"
         class="filter__input"
-        type="text"
-        #filterInputElement
-        [attr.aria-controls]="listId"
-        (keyDown)="filterValue.set(filterInputElement.value)"
-        (input)="filterValue.set(filterInputElement.value)"
+        [label]="'Filter text'"
+        [ariaControls]="listId"
+        (changed)="filterValue.set($event)"
       />
 
-      @let isFilterActive = !!filterInputElement.value;
+      @let isFilterActive = !!input.value;
       <button
         btn
         class="filter__button"
@@ -61,12 +59,12 @@
       <li
         class="letter-list"
         [ngClass]="{
-          'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine(),
-          'col-12': filterInputElement.value || forceSingleLine(),
+          'col-sm-6 col-lg-4': !input._value() && !forceSingleLine(),
+          'col-12': input._value() || forceSingleLine(),
         }"
       >
         <!-- Letter Heading -->
-        @if (filterInputElement.value.length === 0) {
+        @if (input._value().length === 0) {
           <div class="fs-5 letter-list__heading" aria-hidden="true">
             {{ itemLetterEntries.key }}
           </div>
@@ -114,12 +112,12 @@
         <li
           class="letter-list"
           [ngClass]="{
-            'col-sm-6 col-lg-4': !filterInputElement.value && !forceSingleLine,
-            'col-12': filterInputElement.value || forceSingleLine,
+            'col-sm-6 col-lg-4': !input._value() && !forceSingleLine,
+            'col-12': input._value() || forceSingleLine,
           }"
         >
           <!-- Letter Heading -->
-          @if (filterInputElement.value.length === 0) {
+          @if (input._value().length === 0) {
             <h5 class="letter-list__heading">
               {{ itemLetterEntries.key }}
             </h5>
@@ -146,7 +144,7 @@
     class="row search-list"
     [id]="listId"
     [attr.aria-label]="
-      'All entries matching search query \'' + filterInputElement.value + '\''
+      'All entries matching search query \'' + input._value() + '\''
     "
   >
     @for (entry of displayEntries(); track entry[labelProp()]) {

@@ -1,6 +1,15 @@
 <div class="container">
   <div class="campaign__heading heading">
     <div class="heading__buttons">
+      <a
+        btn
+        class="heading__button"
+        [kind]="'SECONDARY'"
+        [icon]="'circle-user'"
+        [text]="'Profile'"
+        [routerLink]="profileUrl()"
+      ></a>
+
       <button
         btn
         class="heading__button"

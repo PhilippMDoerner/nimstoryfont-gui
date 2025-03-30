@@ -71,6 +71,7 @@ export const ProfilePageStore = signalStore(
     const campaignService = inject(CampaignService);
     const globalStore = inject(GlobalStore);
     const paramsService = inject(GlobalUrlParamsService);
+    const authStore = inject(AuthStore);
 
     const user$ = toObservable(state.user).pipe(filterNil(), take(1));
     return {
@@ -101,6 +102,7 @@ export const ProfilePageStore = signalStore(
             take(1),
           )
           .subscribe(() => {
+            authStore.loadAuthData();
             state.loadThisUser();
             const isCurrentCampaign =
               globalStore.currentCampaign()?.name.toLowerCase() ===

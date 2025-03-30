@@ -16,6 +16,7 @@ import {
   ImageGridEntry,
 } from 'src/app/design/organisms/image-grid/image-grid.component';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
 
 @Component({
   selector: 'app-campaign-overview',
@@ -28,6 +29,7 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
     ImageGridComponent,
     SpinnerComponent,
     ButtonLinkComponent,
+    IconComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -59,7 +61,7 @@ export class CampaignOverviewComponent {
       ariaLabel: `Look at campaign ${campaign.name}`,
     })),
   );
-  dragonFrameUrl = '/assets/dragon-frame.jpg';
+  dragonFrameUrl = '/assets/general_overview.webp';
 
   constructor(private routingService: RoutingService) {}
 }

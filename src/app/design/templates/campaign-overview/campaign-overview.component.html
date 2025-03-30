@@ -71,17 +71,18 @@
 </div>
 
 <ng-template #noCampaign>
-  <div class="w-100 h-100 position-relative d-flex justify-content-center">
+  <div class="campaign__empty-frame empty-frame">
     <img
-      class="w-100 h-100"
+      class="empty-frame__image"
       [src]="dragonFrameUrl"
       alt="Placeholder image for when no campaigns are available"
     />
-    <div class="position-absolute frame-text">
-      <h4 class="mb-1">You have not yet been invited into any campaign.</h4>
+    <div class="empty-frame__text">
+      <app-icon class="empty-frame__icon" [icon]="'lock'"></app-icon>
+      <h2 class="fs-4 m-0">Foiled by locks!</h2>
       <div>
-        Please inform your DM or the person within your group administrating the
-        webserver to add you to the required permission group.
+        Campaigns are invite only. <br />
+        Ask your DM to get you on board!
       </div>
     </div>
   </div>

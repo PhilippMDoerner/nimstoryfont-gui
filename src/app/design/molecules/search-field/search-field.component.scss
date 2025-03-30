@@ -24,6 +24,7 @@ input[type="search"]::-webkit-search-results-decoration {
     border: solid 2px var(--bs-white);
     border-radius: var(--bs-border-radius);
     position: relative;
+    gap: 4px;
 
     &--active,
     &:focus,
@@ -53,10 +54,7 @@ input[type="search"]::-webkit-search-results-decoration {
 
   &__input {
     background-color: var(--bs-gray-800);
-    border: none;
-    outline: none;
     width: 100%;
-    padding: var(--spacer-3) var(--spacer-2) var(--spacer-2) var(--spacer-1);
     color: var(--bs-white);
 
     &--disabled {

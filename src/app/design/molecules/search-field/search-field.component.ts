@@ -8,13 +8,14 @@ import {
 import { FormsModule } from '@angular/forms';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { InputComponent } from '../../../atoms/input/input.component';
 
 @Component({
   selector: 'app-search-field',
   templateUrl: './search-field.component.html',
   styleUrls: ['./search-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ButtonComponent, FormsModule, HotkeyDirective],
+  imports: [ButtonComponent, FormsModule, HotkeyDirective, InputComponent],
 })
 export class SearchFieldComponent {
   NON_NORMAL_CHARACTER_REGEXP = /[^a-zA-Z0-9']/g;

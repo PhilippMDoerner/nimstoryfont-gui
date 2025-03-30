@@ -5,32 +5,22 @@
     aria-labelledby="search-label"
     (submit)="startSearch()"
   >
-    <div
-      class="search__bar"
-      [class.search__bar--disabled]="!canSearch()"
-      [class.search__bar--active]="searchInput.value"
-    >
-      <label class="search__label" for="search" id="search-label">
-        {{ _placeholder() }}
-      </label>
-      <input
-        #searchInput
+    <div class="search__bar" [class.search__bar--disabled]="!canSearch()">
+      <app-input
+        #input
         class="search__input"
-        [class.search__input--disabled]="!canSearch()"
-        type="search"
-        name="search"
-        id="search"
+        [label]="_placeholder()"
         [disabled]="!canSearch()"
-        [(ngModel)]="searchString"
+        [type]="'search'"
         [hotkey]="'f'"
-        (hotkeyPressed)="searchInput.focus()"
+        (hotkeyPressed)="input.focus()"
+        (changed)="searchString = $event"
       />
-
-      @let canTriggerSearch = canSearch() && !!searchInput.value;
+      @let canTriggerSearch = canSearch() && !!input._value();
       <button
         btn
         class="search__button"
-        [attr.aria-label]="'Search for ' + searchInput.value"
+        [attr.aria-label]="'Search for ' + input._value()"
         [disabled]="!canTriggerSearch"
         [kind]="canTriggerSearch ? 'PRIMARY' : 'LIGHT-OUTLINE'"
         [icon]="'search'"

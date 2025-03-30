@@ -22,6 +22,7 @@ import { componentId } from 'src/utils/DOM';
 export class InputComponent {
   value = input<string>('');
   label = input.required<string>();
+  labelId = input<string>();
   ariaControls = input<string>();
   disabled = input<boolean>(false);
   type = input<'text' | 'number' | 'search'>('text');

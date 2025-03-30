@@ -1,8 +1,9 @@
 <div class="search" id="search-area">
+  @let searchLabelId = "search-label";
   <form
     class="search__form"
     role="search"
-    aria-labelledby="search-label"
+    [attr.aria-labelledby]="searchLabelId"
     (submit)="startSearch()"
   >
     <div class="search__bar" [class.search__bar--disabled]="!canSearch()">
@@ -10,6 +11,7 @@
         #input
         class="search__input"
         [label]="_placeholder()"
+        [labelId]="searchLabelId"
         [disabled]="!canSearch()"
         [type]="'search'"
         [hotkey]="'f'"

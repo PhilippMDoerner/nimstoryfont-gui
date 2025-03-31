@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+} from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { BaseCampaignData } from 'src/app/_models/campaign';
@@ -24,6 +30,9 @@ export class CreateCampaignComponent {
   private readonly router = inject(Router);
   private readonly DEFAULT_URL =
     this.routingService.getRoutePath('campaign-overview');
+  private readonly createRequestState$ = toObservable(
+    this.store.createCampaignRequestState,
+  );
 
   campaignModel: Partial<BaseCampaignData> = {};
   campaignFields: FormlyFieldConfig[] = [
@@ -53,8 +62,26 @@ export class CreateCampaignComponent {
     }),
   ];
 
+  constructor() {
+    effect(() => {
+      console.log('State: ', this.store.createCampaignRequestState());
+      if (
+        this.store.createCampaignRequestState() === 'success' &&
+        this.campaignModel.name
+      ) {
+        this.routingService.routeToPath('home', {
+          campaign: this.campaignModel.name,
+        });
+      }
+    });
+  }
+
   routeBack() {
     const url = this.navigationStore.priorUrl() ?? this.DEFAULT_URL;
     this.router.navigateByUrl(url);
+  }
+
+  createCampaign(campaign: BaseCampaignData) {
+    this.store.createCampaign(campaign);
   }
 }

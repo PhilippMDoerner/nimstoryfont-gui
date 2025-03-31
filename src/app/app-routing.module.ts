@@ -59,6 +59,17 @@ export const ROUTES: Routes = [
   {
     path: '',
     children: [
+      {
+        path: 'campaigns/create',
+        pathMatch: 'full',
+        loadComponent: () =>
+          import(
+            './general/pages/create-campaign/create-campaign.component'
+          ).then((m) => m.CreateCampaignComponent),
+        canActivate: [campaignCreationGuard],
+        data: { name: 'campaign-create' },
+        providers: [SiteAdministrationPageStore],
+      },
       ...redirectRoutes,
       {
         path: environment.frontendPrefix,
@@ -87,17 +98,6 @@ export const ROUTES: Routes = [
                       ).then((m) => m.CampaignOverviewPageComponent),
                     data: { name: 'campaign-overview' },
                     canActivate: [loginGuard],
-                  },
-                  {
-                    path: 'campaigns/create',
-                    pathMatch: 'full',
-                    loadComponent: () =>
-                      import(
-                        './general/pages/create-campaign/create-campaign.component'
-                      ).then((m) => m.CreateCampaignComponent),
-                    canActivate: [campaignCreationGuard],
-                    data: { name: 'campaign-create' },
-                    providers: [SiteAdministrationPageStore],
                   },
                 ],
                 resolve: { resetTracking },

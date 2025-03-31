@@ -44,7 +44,15 @@ export function convertMultiFileModelToFormData<T extends object>(
   const formData = new FormData();
   for (const key in model) {
     if (fileAttributeNames.includes(key)) {
-      formData.append(key, (model[key] as FileList)[0]);
+      const value = model[key] as FileList | File;
+      switch (value.constructor.name) {
+        case 'File':
+          formData.append(key, value as File);
+          break;
+        case 'FileList':
+          formData.append(key, (value as FileList)[0]);
+          break;
+      }
     } else if (model[key]) {
       formData.append(key, model[key] as string);
     }

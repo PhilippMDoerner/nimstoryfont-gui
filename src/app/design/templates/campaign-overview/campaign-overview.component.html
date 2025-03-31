@@ -40,6 +40,18 @@
         >
         </a>
       }
+
+      @if (enableCampaignCreation()) {
+        <a
+          btn
+          class="heading__button"
+          [kind]="'SECONDARY'"
+          [icon]="'plus'"
+          [text]="'Create Campaign'"
+          [routerLink]="campaignCreateUrl"
+        >
+        </a>
+      }
     </div>
 
     @let campaignsVal = campaigns();

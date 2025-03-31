@@ -3,12 +3,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  inject,
   input,
   output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { FeatureService } from 'src/app/_services/utils/feature.service';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import {
@@ -40,6 +42,15 @@ export class CampaignOverviewComponent {
   isGlobalAdmin = input(false);
 
   readonly logout = output<void>();
+
+  private readonly features$ = inject(FeatureService).features$;
+  readonly enableCampaignCreation = computed(
+    () =>
+      !this.features$.isLoading() &&
+      this.features$.value()?.enablePublicCampaignCreation,
+  );
+  readonly campaignCreateUrl =
+    this.routingService.getRoutePath('campaign-create');
 
   profileUrl = computed(() =>
     this.routingService.getRoutePath('direct-profile', {

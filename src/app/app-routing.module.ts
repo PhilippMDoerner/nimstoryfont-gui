@@ -8,8 +8,10 @@ import {
   trackCampaignName,
 } from './_resolvers/campaign.resolver';
 import { adminRoutes } from './administration/administration-routes';
+import { SiteAdministrationPageStore } from './administration/pages/site-administration-page/site-administration-page.store';
 import { campaignRoutes } from './campaign/campaign-routes';
 import { generalRoutes } from './general/general-routes';
+import { campaignCreationGuard } from './general/pages/create-campaign/campaign-creation.guard';
 import { PreferencesStore } from './preferences.store';
 
 const redirectRoutes: Routes = [
@@ -85,6 +87,17 @@ export const ROUTES: Routes = [
                       ).then((m) => m.CampaignOverviewPageComponent),
                     data: { name: 'campaign-overview' },
                     canActivate: [loginGuard],
+                  },
+                  {
+                    path: 'campaigns/create',
+                    pathMatch: 'full',
+                    loadComponent: () =>
+                      import(
+                        './general/pages/create-campaign/create-campaign.component'
+                      ).then((m) => m.CreateCampaignComponent),
+                    canActivate: [campaignCreationGuard],
+                    data: { name: 'campaign-create' },
+                    providers: [SiteAdministrationPageStore],
                   },
                 ],
                 resolve: { resetTracking },

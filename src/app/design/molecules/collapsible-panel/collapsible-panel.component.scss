@@ -1,9 +1,11 @@
-.card {
-  padding: 0;
-
-  &:focus-within {
+:host {
+  &:has(.card__button:focus-visible) {
     outline: var(--focus-outline);
   }
+}
+
+.card {
+  padding: 0;
 
   &__heading {
     display: flex;

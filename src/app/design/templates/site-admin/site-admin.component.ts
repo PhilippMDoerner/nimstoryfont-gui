@@ -23,14 +23,12 @@ import { ButtonComponent } from '../../atoms/button/button.component';
 import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
-import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 import { CollapsiblePanelComponent } from '../../molecules/collapsible-panel/collapsible-panel.component';
 import { FormComponent } from '../../molecules/form/form.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { UserRowComponent } from '../../organisms/user-row/user-row.component';
 
 type UserState = 'CREATE' | 'DISPLAY';
-type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
 
 @Component({
   selector: 'app-site-admin',
@@ -47,9 +45,9 @@ type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
     FormComponent,
     CollapsiblePanelComponent,
     UserRowComponent,
-    SpinnerComponent,
     TitleCasePipe,
     KeyValuePipe,
+    ButtonLinkComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -94,35 +92,7 @@ export class SiteAdminComponent {
     }),
   ];
 
-  campaignState = signal<CampaignState>('DISPLAY');
-  campaignModel!: Partial<BaseCampaignData>;
-  campaignFields: FormlyFieldConfig[] = [
-    this.formlyService.buildInputConfig({
-      key: 'name',
-      inputKind: 'NAME',
-      required: true,
-      maxLength: 40,
-      placeholder: "Your campaign's name...",
-    }),
-    this.formlyService.buildInputConfig({
-      key: 'subtitle',
-      inputKind: 'STRING',
-      required: false,
-      maxLength: 400,
-      placeholder: 'The subtitle to show on the home page',
-    }),
-    this.formlyService.buildFileFieldConfig({
-      key: 'background_image',
-      required: true,
-      fileButtonType: 'DARK',
-    }),
-    this.formlyService.buildFileFieldConfig({
-      key: 'icon',
-      required: true,
-      fileButtonType: 'DARK',
-    }),
-  ];
-
+  createCampaignUrl = this.routingService.getRoutePath('campaign-create');
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
@@ -139,18 +109,5 @@ export class SiteAdminComponent {
   createNewUser(newUser: Partial<User>): void {
     this.setUserState('DISPLAY');
     this.createUser.emit(newUser as User);
-  }
-
-  setCampaignState(newState: CampaignState): void {
-    this.campaignState.set(newState);
-
-    if (this.campaignState() === 'CREATE') {
-      this.campaignModel = {};
-    }
-  }
-
-  createNewCampaign(newCampaign: Partial<BaseCampaignData>): void {
-    this.setCampaignState('DISPLAY');
-    this.createCampaign.emit(newCampaign as BaseCampaignData);
   }
 }

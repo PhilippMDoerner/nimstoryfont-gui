@@ -137,77 +137,47 @@
         <h3 class="heading__text">
           <app-icon [icon]="'dragon'"></app-icon>
           Campaigns
-          @if (campaignState() === "WAIT_WHILE_CREATING") {
-            <app-spinner
-              class="heading__text heading__text--loading"
-            ></app-spinner>
-          }
         </h3>
 
         <!-- Heading Buttons -->
         <div class="heading__button">
           <!-- Add Campaign -->
-          <button
+          <a
             btn
             [kind]="'PRIMARY'"
-            [icon]="campaignState() === 'CREATE' ? 'times' : 'plus'"
-            [text]="
-              campaignState() === 'CREATE'
-                ? 'Cancel Campaign Creation'
-                : 'Add Campaign'
-            "
-            (clicked)="
-              campaignState() === 'CREATE'
-                ? setCampaignState('DISPLAY')
-                : setCampaignState('CREATE')
-            "
-          ></button>
+            [icon]="'plus'"
+            [text]="'Add Campaign'"
+            [routerLink]="createCampaignUrl"
+          ></a>
         </div>
       </div>
 
       <app-separator class="site-admin__separator"></app-separator>
 
       <!-- Section Body -->
-      @if (campaignState() === "DISPLAY") {
-        <div class="campaign-section__body body">
-          @for (campaign of campaigns(); track campaign.pk) {
-            <div class="row mb-4">
-              <div class="col-sm-3">
-                <img
-                  [src]="serverUrl + '/' + campaign.icon"
-                  [alt]="'Icon of campaign ' + campaign.name"
-                  class="body__icon"
-                />
-                <strong> {{ campaign.name }} </strong>
-              </div>
-              <div class="col-sm-3">
-                {{ campaign.admins?.length ?? 0 }} Admins
-              </div>
-              <div class="col-sm-3">
-                {{ campaign.members?.length ?? 0 }} Members
-              </div>
-              <div class="col-sm-3">
-                {{ campaign.guests?.length ?? 0 }} Guests
-              </div>
+      <div class="campaign-section__body body">
+        @for (campaign of campaigns(); track campaign.pk) {
+          <div class="row mb-4">
+            <div class="col-sm-3">
+              <img
+                [src]="serverUrl + '/' + campaign.icon"
+                [alt]="'Icon of campaign ' + campaign.name"
+                class="body__icon"
+              />
+              <strong> {{ campaign.name }} </strong>
             </div>
-          }
-        </div>
-      }
-
-      <!-- New Campaign Entry -->
-      @if (campaignState() === "CREATE") {
-        <app-card class="my-2">
-          <h4>Adding new Campaign</h4>
-          <!-- Form -->
-          <app-form
-            [model]="campaignModel"
-            [fields]="campaignFields"
-            [cancelButtonType]="'DARK'"
-            (formlySubmit)="createNewCampaign($event)"
-            (formlyCancel)="setCampaignState('DISPLAY')"
-          ></app-form>
-        </app-card>
-      }
+            <div class="col-sm-3">
+              {{ campaign.admins?.length ?? 0 }} Admins
+            </div>
+            <div class="col-sm-3">
+              {{ campaign.members?.length ?? 0 }} Members
+            </div>
+            <div class="col-sm-3">
+              {{ campaign.guests?.length ?? 0 }} Guests
+            </div>
+          </div>
+        }
+      </div>
     </div>
 
     <a

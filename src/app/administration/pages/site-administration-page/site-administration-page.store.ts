@@ -27,6 +27,7 @@ export interface SiteAdministrationPageState {
   allPermissionGroups: PermissionGroup[] | undefined;
   siteStatistics: WikiStatistics | undefined;
   createCampaignRequestState: RequestState;
+  createUserRequestState: RequestState;
 }
 
 const initialState: SiteAdministrationPageState = {
@@ -35,6 +36,7 @@ const initialState: SiteAdministrationPageState = {
   allPermissionGroups: undefined,
   siteStatistics: undefined,
   createCampaignRequestState: 'init',
+  createUserRequestState: 'init',
 };
 
 export const SiteAdministrationPageStore = signalStore(
@@ -164,12 +166,14 @@ export const SiteAdministrationPageStore = signalStore(
           });
       },
       createUser: (user: User): void => {
+        patchState(state, { createUserRequestState: 'loading' });
         userService
           .create(user as UserRaw)
           .pipe(take(1))
           .subscribe((createdUser) =>
             patchState(state, {
               allSiteUsers: [createdUser, ...(state.allSiteUsers() ?? [])],
+              createUserRequestState: 'success',
             }),
           );
       },

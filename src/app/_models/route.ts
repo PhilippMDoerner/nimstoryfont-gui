@@ -3,6 +3,7 @@ import { GeneralOverviewType } from 'src/app/design/templates/_models/generalOve
 import { siteAdminGuard } from '../_guards/admin.guard';
 import { loginGuard } from '../_guards/login.guard';
 import { onlyOnlineGuard } from '../_guards/only-online.guard';
+import { registrationGuard } from '../general/pages/registration/registration.guard';
 import { CampaignRole } from './token';
 
 //Route Data Models
@@ -66,6 +67,7 @@ const ROUTE_NAMES = [
   'sessionaudio-update',
   'graph',
   'campaign-config-tables',
+  'registration',
 ] as const;
 
 export type RouteName = (typeof ROUTE_NAMES)[number];
@@ -84,7 +86,10 @@ export interface BaseNamedRoute extends Route {
 
 //Route Models
 export interface GeneralRoute extends BaseNamedRoute {
-  canActivate?: [typeof loginGuard, ...(typeof onlyOnlineGuard)[]];
+  canActivate?: [
+    typeof loginGuard,
+    ...(typeof onlyOnlineGuard | typeof registrationGuard)[],
+  ];
 }
 
 export interface AdminRoute extends BaseNamedRoute {

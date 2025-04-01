@@ -28,5 +28,9 @@
     cursor: pointer;
     width: fit-content;
     border-radius: var(--bs-border-radius);
+    text-decoration: none;
+    min-height: unset;
+    margin-top: var(--spacer-2);
+    margin-bottom: var(--spacer-2);
   }
 }

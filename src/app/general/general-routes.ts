@@ -1,6 +1,8 @@
 import { loginGuard } from '../_guards/login.guard';
 import { onlyOnlineGuard } from '../_guards/only-online.guard';
 import { GeneralRoute } from '../_models/route';
+import { SiteAdministrationPageStore } from '../administration/pages/site-administration-page/site-administration-page.store';
+import { registrationGuard } from './pages/registration/registration.guard';
 
 export const generalRoutes: GeneralRoute[] = [
   //Login Routes
@@ -19,6 +21,17 @@ export const generalRoutes: GeneralRoute[] = [
         (m) => m.LoginPageComponent,
       ),
     data: { name: 'login-state' },
+  },
+  //Registration Routes
+  {
+    path: 'registration',
+    loadComponent: () =>
+      import('./pages/registration/registration.component').then(
+        (m) => m.RegistrationComponent,
+      ),
+    data: { name: 'registration' },
+    canActivate: [loginGuard, registrationGuard, onlyOnlineGuard],
+    providers: [SiteAdministrationPageStore],
   },
   //User Routes
   {

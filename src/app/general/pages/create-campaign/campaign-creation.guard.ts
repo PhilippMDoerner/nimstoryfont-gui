@@ -15,6 +15,7 @@ export const campaignCreationGuard: CanActivateFn = () => {
     isAdmin: toObservable(authStore.isGlobalAdmin).pipe(filterNil()),
     canCreatePublicly: toObservable(featureService.features$.value).pipe(
       filterNil(),
+      map((config) => config.enablePublicCampaignCreation),
     ),
   }).pipe(
     map(({ isLoggedIn, isAdmin, canCreatePublicly }) => {

@@ -22,9 +22,20 @@
           btn
           class="login__reset-link"
           [kind]="'NONE'"
+          [size]="'SMALL'"
           [text]="'Forgot your password?'"
           (click)="setState('PASSWORD_RESET')"
         ></button>
+        @if (canRegisterPublicly()) {
+          <a
+            btn
+            class="login__reset-link"
+            [kind]="'NONE'"
+            [size]="'SMALL'"
+            [text]="'Sign up'"
+            [routerLink]="registrationUrl"
+          ></a>
+        }
         <button
           btn
           class="login__button"

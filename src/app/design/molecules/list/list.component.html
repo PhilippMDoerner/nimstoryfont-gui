@@ -2,16 +2,41 @@
   <!-- Heading -->
   <div class="list__heading">
     <div class="h4" [heading]="ariaLevel()">{{ heading() }}</div>
-    @if (enableCreate()) {
-      <button
-        btn
-        class="ms-3"
-        [title]="'Create ' + heading()"
-        [kind]="'PRIMARY'"
-        [size]="'SMALL'"
-        [icon]="'plus'"
-        (clicked)="onCreateButtonClick()"
-      ></button>
+    @let option = createOption();
+    @switch (option.kind) {
+      @case ("button") {
+        <button
+          btn
+          class="ms-3"
+          [attr.aria-label]="'Create ' + heading()"
+          [kind]="'PRIMARY'"
+          [size]="'SMALL'"
+          [icon]="'plus'"
+          (clicked)="createButtonClick.emit()"
+        ></button>
+      }
+      @case ("link") {
+        <a
+          btn
+          [attr.aria-label]="'Create ' + heading()"
+          [kind]="'PRIMARY'"
+          [size]="'SMALL'"
+          [icon]="'plus'"
+          [routerLink]="option.url"
+          [queryParams]="option.queryParams"
+          [fragment]="option.fragment"
+        ></a>
+      }
+      @case ("menu") {
+        <app-context-menu
+          [menuItems]="option.menuItems"
+          [menuButtonIcon]="'plus'"
+          [menuButtonSize]="'SMALL'"
+          [menuButtonAriaLabel]="'Create ' + heading()"
+          [menuButtonKind]="'PRIMARY'"
+          (actionTriggered)="menuOptionClick.emit($event)"
+        />
+      }
     }
   </div>
 

@@ -65,6 +65,25 @@
       ></app-image-carousel-card>
     </div>
 
+    <div class="organization__members">
+      <app-badge-list
+        [canCreate]="canCreate()"
+        [canDelete]="canDelete()"
+        [label]="'Members'"
+        [entries]="organizationMembers()"
+        [createOptions]="{
+          kind: 'SELECT',
+          config: {
+            options: campaignCharacters() ?? [],
+            labelProp: 'name',
+            valueProp: 'pk',
+          },
+        }"
+        (entryCreate)="organizationMembershipCreate.emit($event)"
+        (entryDelete)="organizationMembershipDelete.emit($event)"
+      ></app-badge-list>
+    </div>
+
     <!-- Description -->
     <app-editable-text
       class="organization__description"
@@ -76,18 +95,6 @@
       (update)="onDescriptionUpdate($event)"
     ></app-editable-text>
 
-    <!-- Members -->
-    <div class="organization__members">
-      <app-list
-        [heading]="'Members'"
-        [entries]="organizationMembers()"
-        [enableCreate]="canCreate()"
-        [ariaLevel]="2"
-        [emptyListText]="'You know no member of ' + organization().name"
-        (create)="routeToCharacterCreation()"
-      ></app-list>
-    </div>
-
     <!-- Footer (Move to other Article + Delete Article) -->
     <app-article-footer
       [buttonLink]="overviewUrl()"
@@ -98,4 +105,5 @@
     ></app-article-footer>
   </article>
 </app-page-container>
+
 <ng-template #Unknown>Unknown</ng-template>

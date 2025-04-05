@@ -117,6 +117,11 @@ export class CharacterComponent {
       campaign: this.campaignName(),
     });
   });
+  itemCreateUrl = computed(() =>
+    this.routingService.getRoutePath('item-create', {
+      campaign: this.campaignName(),
+    }),
+  );
   organizationMemberships = computed<
     BadgeListEntry<CharacterOrganizationMembership>[]
   >(
@@ -145,16 +150,6 @@ export class CharacterComponent {
   });
 
   constructor(private routingService: RoutingService) {}
-
-  routeToItemCreate(): void {
-    this.routingService.routeToPath('item-create', {
-      campaign: this.campaignName(),
-    });
-    // this.routingService.routeToPath('item-character-create', {
-    //   character_name: this.character.name,
-    //   campaign: this.campaignName(),
-    // });
-  }
 
   onMembershipCreate(org: OverviewItem): void {
     const newMembership: Partial<CharacterOrganizationMembership> = {

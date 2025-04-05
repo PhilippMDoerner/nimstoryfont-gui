@@ -76,9 +76,9 @@
         [ariaLevel]="2"
         [heading]="'Characters of interest'"
         [entries]="locationCharacters"
-        [enableCreate]="canCreate()"
+        [createOption]="{ kind: 'button' }"
         [emptyListText]="'You know nobody in ' + location().name"
-        (create)="routeToCharacterCreation()"
+        (createButtonClick)="routeToCharacterCreation()"
       ></app-list>
     </div>
 

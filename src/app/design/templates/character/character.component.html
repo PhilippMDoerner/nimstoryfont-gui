@@ -141,9 +141,8 @@
         [ariaLevel]="2"
         [heading]="'Items of Note'"
         [entries]="characterItems()"
-        [enableCreate]="canCreate()"
+        [createOption]="{ kind: 'link', url: itemCreateUrl() }"
         [emptyListText]="character().name + ' has no significant items.'"
-        (create)="routeToItemCreate()"
       ></app-list>
     </div>
 

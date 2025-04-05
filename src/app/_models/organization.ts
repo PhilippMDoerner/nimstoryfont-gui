@@ -29,4 +29,5 @@ export interface OrganizationMember {
   alive: boolean;
   organization_id: number;
   role: string;
+  membership_id: number;
 }

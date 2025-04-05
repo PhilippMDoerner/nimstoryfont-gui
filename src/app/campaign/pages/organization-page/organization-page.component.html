@@ -6,6 +6,7 @@
     [organizationServerModel]="store.organizationServerModel()"
     [serverUrl]="serverUrl"
     [imageServerModel]="store.imageServerModel()"
+    [campaignCharacters]="store.campaignCharacters()"
     [canUpdate]="store.hasWritePermission()"
     [canCreate]="store.hasWritePermission()"
     [canDelete]="store.hasWritePermission()"
@@ -14,5 +15,7 @@
     (updateImage)="store.updateImage($event)"
     (organizationDelete)="store.deleteOrganization($event.pk!)"
     (organizationUpdate)="store.updateOrganization($event)"
+    (organizationMembershipCreate)="store.createMembership($event)"
+    (organizationMembershipDelete)="store.deleteMembership($event)"
   ></app-organization>
 }

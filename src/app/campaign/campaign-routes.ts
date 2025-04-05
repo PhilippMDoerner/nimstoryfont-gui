@@ -489,6 +489,7 @@ const detailRoutes: Route[] = [
         resolve: {
           organization: (route: ActivatedRouteSnapshot) =>
             inject(OrganizationStore).loadOrganization(route.params['name']),
+          characters: () => inject(OrganizationStore).loadCampaignCharacters(),
         },
         canDeactivate: [onExitReset(OrganizationStore)],
       },

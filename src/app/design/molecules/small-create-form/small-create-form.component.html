@@ -25,14 +25,15 @@
 
 <ng-template #createState>
   <form class="form">
+    <label [for]="id" class="cdk-visually-hidden">
+      {{ formFieldLabel() }}
+    </label>
     <select
       #select
       class="form-select"
-      style="width: unset"
       focusOnRender
-      [attr.aria-label]="badgeText()"
       [name]="selectFieldName()"
-      [id]="'select'"
+      [id]="id"
       (change)="onChange($event)"
     >
       <option [value]="undefined">-----</option>

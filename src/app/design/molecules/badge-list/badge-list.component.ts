@@ -25,6 +25,7 @@ interface BadgeCreateOptions<T> {
   kind: 'SELECT';
   config: BadgeListSelectOptions<T>;
   createBadgeLabel?: string;
+  formFieldLabel: string;
   hotkey?: string | undefined;
 }
 type CreateOptions<T> =
@@ -86,6 +87,11 @@ export class BadgeListComponent<T, O> {
   optionValueProp = computed(() =>
     this.createKind() === 'SELECT'
       ? (this.createOptions() as BadgeCreateOptions<O>).config.valueProp
+      : undefined,
+  );
+  formFieldLabel = computed(() =>
+    this.createKind() === 'SELECT'
+      ? (this.createOptions() as BadgeCreateOptions<O>).formFieldLabel
       : undefined,
   );
   hotkey = computed<string | undefined>(() => {

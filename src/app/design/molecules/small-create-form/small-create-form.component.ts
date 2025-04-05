@@ -14,6 +14,7 @@ import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { BadgeComponent } from 'src/app/design/atoms/badge/badge.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { componentId } from 'src/utils/DOM';
 
 type State = 'DISPLAY' | 'CREATE';
 export interface DisableableOption<T> {
@@ -36,6 +37,7 @@ export interface DisableableOption<T> {
 export class SmallCreateFormComponent<T> {
   options = input.required<T[]>();
   labelProp = input.required<keyof T>();
+  formFieldLabel = input.required<string>();
   badgeText = input<string>('Add Entry');
   valueProp = input.required<keyof T>();
   submitButtonType = input<ElementKind>('PRIMARY');
@@ -50,6 +52,7 @@ export class SmallCreateFormComponent<T> {
   form = new FormGroup({});
   userModel: Partial<T> = {};
   state = signal<State>('DISPLAY');
+  id = componentId();
 
   changeState(newState: State) {
     this.state.set(newState);

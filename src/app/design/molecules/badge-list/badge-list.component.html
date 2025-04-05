@@ -32,14 +32,22 @@
   @let optionLabelPropVal = optionLabelProp();
   @let optionValuePropVal = optionValueProp();
   @let badgeLabel = createBadgeLabel();
+  @let fieldLabel = formFieldLabel();
 
-  @if (optionsVal && optionLabelPropVal && optionValuePropVal && badgeLabel) {
+  @if (
+    optionsVal &&
+    optionLabelPropVal &&
+    optionValuePropVal &&
+    badgeLabel &&
+    fieldLabel
+  ) {
     <app-small-create-form
       class="badge-list__create-form"
       [options]="optionsVal"
       [labelProp]="optionLabelPropVal"
       [valueProp]="optionValuePropVal"
       [badgeText]="badgeLabel"
+      [formFieldLabel]="fieldLabel"
       [cancelButtonType]="'DARK'"
       [createHotkey]="hotkey()"
       [disableHotkeys]="disableHotkeys()"

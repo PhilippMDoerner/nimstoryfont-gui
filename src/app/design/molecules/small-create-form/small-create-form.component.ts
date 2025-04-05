@@ -50,7 +50,7 @@ export class SmallCreateFormComponent<T> {
   injector = inject(Injector);
   selectFieldName = computed(() => `select-' + ${String(this.labelProp())}`);
   form = new FormGroup({});
-  userModel: Partial<T> = {};
+  userModel: Partial<T> | undefined = {};
   state = signal<State>('DISPLAY');
   id = componentId();
 
@@ -73,7 +73,7 @@ export class SmallCreateFormComponent<T> {
   onSubmit() {
     this.changeState('DISPLAY');
 
-    const hasValue = this.userModel[this.valueProp()] != null;
+    const hasValue = this.userModel?.[this.valueProp()] != null;
     if (hasValue) {
       this.create.emit(this.userModel as T);
     }

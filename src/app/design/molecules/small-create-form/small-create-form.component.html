@@ -41,7 +41,7 @@
         <option
           [value]="$index"
           [attr.selected]="
-            option[valueProp()] === userModel[valueProp()] ? true : null
+            option[valueProp()] === userModel?.[valueProp()] ? true : null
           "
         >
           {{ option[labelProp()] }}
@@ -58,6 +58,7 @@
       [size]="'SMALL'"
       [icon]="'check'"
       [type]="'submit'"
+      [disabled]="select.value === 'undefined'"
       (clicked)="onSubmit()"
     ></button>
 

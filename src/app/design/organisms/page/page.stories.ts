@@ -3,7 +3,7 @@ import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { RoutingServiceMock } from 'src/app/_services/routing.mock.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { dummyCampaign } from 'src/app/_services/utils/campaign.mock.service';
-import { TitleService } from 'src/app/_services/utils/title.service';
+import { FaviconService } from 'src/app/_services/utils/favicon.service';
 import { GlobalStore } from 'src/app/global.store';
 import { PageComponent } from './page.component';
 
@@ -36,7 +36,7 @@ export default {
       imports: [RouterTestingModule],
       providers: [
         {
-          provide: TitleService,
+          provide: FaviconService,
           useValue: { currentPageTitle: () => 'Some Title' },
         },
         {

@@ -3,7 +3,7 @@
   <div class="mobile">
     <app-mobile-header
       [canShowSidebar]="canShowSidebar()"
-      [title]="titleService.currentPageTitle()"
+      [title]="mobileHeaderTitle()"
       [currentCampaignIconUrl]="campaign.icon"
       [titleUrl]="homeUrl()"
       (openSidebar)="openSidebar()"

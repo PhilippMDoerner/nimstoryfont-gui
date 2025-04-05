@@ -14,6 +14,7 @@ export const adminRoutes: AdminRoute[] = [
       ).then((m) => m.SiteAdministrationPageComponent),
     data: { name: 'admin' },
     canActivate: [siteAdminGuard, onlyOnlineGuard],
+    title: 'Site Administration',
   },
   {
     path: `configtables`,
@@ -25,5 +26,6 @@ export const adminRoutes: AdminRoute[] = [
     canActivate: [siteAdminGuard],
     providers: [ConfigAdministrationPageStore],
     canDeactivate: [onExitReset(ConfigAdministrationPageStore)],
+    title: 'Config Tables',
   },
 ];

@@ -22,7 +22,6 @@ import { OnlineService } from 'src/app/_services/online.service';
 import { PwaService } from 'src/app/_services/pwa.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
-import { TitleService } from 'src/app/_services/utils/title.service';
 import { SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { AuthStore } from 'src/app/auth.store';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
@@ -59,7 +58,6 @@ export class SidebarComponent {
   readonly authStore = inject(AuthStore);
   readonly routingService = inject(RoutingService);
   readonly swipeService = inject(SwipeService);
-  readonly titleService = inject(TitleService);
   readonly host = inject(ElementRef);
   readonly activeOffcanvas = inject(NgbActiveOffcanvas);
   readonly online$ = inject(OnlineService).online$;

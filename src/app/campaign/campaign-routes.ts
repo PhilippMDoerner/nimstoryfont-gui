@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, Route } from '@angular/router';
 import { campaignGuard } from '../_guards/campaign.guard';
-import { onExitReset } from '../_guards/onExitReset.guard';
+import { onEnterReset } from '../_guards/onEnterReset';
 import { onlyOnlineGuard } from '../_guards/only-online.guard';
 import { ConfigAdministrationPageStore } from '../administration/pages/config-administration-page/config-administration-page.store';
 import {
@@ -156,7 +156,7 @@ const detailRoutes: Route[] = [
     resolve: {
       articles: () => inject(HomePageStore).loadMoreArticles(0),
     },
-    canDeactivate: [onExitReset(HomePageStore)],
+    canActivate: [onEnterReset(HomePageStore)],
     title: campaignTitle('Home'),
   },
   // Search
@@ -168,14 +168,13 @@ const detailRoutes: Route[] = [
       ),
     data: { name: 'search', requiredMinimumRole: 'guest' },
     providers: [SearchPageStore],
-    canDeactivate: [onExitReset(SearchPageStore)],
     resolve: {
       searchResults: (route: ActivatedRouteSnapshot) =>
         inject(SearchPageStore).loadSearchArticles(
           route.params['searchString'],
         ),
     },
-    canActivate: [onlyOnlineGuard],
+    canActivate: [onlyOnlineGuard, onEnterReset(SearchPageStore)],
     title: campaignTitle('Search'),
   },
   // Character Routes
@@ -195,8 +194,10 @@ const detailRoutes: Route[] = [
           loadOrganizations: () =>
             inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
         },
-        canDeactivate: [onExitReset(CharacterCreateUpdateStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [
+          onlyOnlineGuard,
+          onEnterReset(CharacterCreateUpdateStore),
+        ],
         title: campaignTitle('Create Character'),
       },
       {
@@ -217,7 +218,7 @@ const detailRoutes: Route[] = [
           loadLocations: () => inject(CharacterStore).loadCampaignLocations(),
           loadClasses: () => inject(CharacterStore).loadCampaignPlayerClasses(),
         },
-        canDeactivate: [onExitReset(CharacterStore)],
+        canActivate: [onEnterReset(CharacterStore)],
         title: articleTitle('Character'),
       },
       {
@@ -237,8 +238,10 @@ const detailRoutes: Route[] = [
           loadOrganizations: () =>
             inject(CharacterCreateUpdateStore).loadCampaignOrganizations(),
         },
-        canDeactivate: [onExitReset(CharacterCreateUpdateStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [
+          onlyOnlineGuard,
+          onEnterReset(CharacterCreateUpdateStore),
+        ],
         title: articleTitle('Update Character'),
       },
     ],
@@ -255,8 +258,7 @@ const detailRoutes: Route[] = [
           ).then((m) => m.CreatureUpdateCreateComponent),
         data: { name: 'creature-create', requiredMinimumRole: 'member' },
         resolve: {},
-        canDeactivate: [onExitReset(CreatureUpdateCreateStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [onlyOnlineGuard, onEnterReset(CreatureUpdateCreateStore)],
         title: campaignTitle('Create Creature'),
       },
       {
@@ -270,7 +272,7 @@ const detailRoutes: Route[] = [
           loadCreature: (route: ActivatedRouteSnapshot) =>
             inject(CreaturePageStore).loadCreature(route.params['name']),
         },
-        canDeactivate: [onExitReset(CreaturePageStore)],
+        canActivate: [onEnterReset(CreaturePageStore)],
         title: articleTitle('Creature'),
       },
       {
@@ -286,8 +288,7 @@ const detailRoutes: Route[] = [
               route.params['name'],
             ),
         },
-        canDeactivate: [onExitReset(CreatureUpdateCreateStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [onlyOnlineGuard, onEnterReset(CreatureUpdateCreateStore)],
         title: articleTitle('Update Creature'),
       },
     ],
@@ -308,8 +309,7 @@ const detailRoutes: Route[] = [
           loadCharacters: () =>
             inject(ItemCreateUpdateStore).loadCampaignCharacters(),
         },
-        canDeactivate: [onExitReset(ItemCreateUpdateStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [onlyOnlineGuard, onEnterReset(ItemCreateUpdateStore)],
         title: campaignTitle('Create Item'),
       },
       {
@@ -324,7 +324,7 @@ const detailRoutes: Route[] = [
           loadItem: (route: ActivatedRouteSnapshot) =>
             inject(ItemPageStore).loadItem(route.params['name']),
         },
-        canDeactivate: [onExitReset(ItemPageStore)],
+        canActivate: [onEnterReset(ItemPageStore)],
         title: articleTitle('Item'),
       },
       {
@@ -340,8 +340,7 @@ const detailRoutes: Route[] = [
           loadCharacters: () =>
             inject(ItemCreateUpdateStore).loadCampaignCharacters(),
         },
-        canDeactivate: [onExitReset(ItemCreateUpdateStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [onlyOnlineGuard, onEnterReset(ItemCreateUpdateStore)],
         title: articleTitle('Update Item'),
       },
     ],
@@ -357,14 +356,16 @@ const detailRoutes: Route[] = [
             './pages/diaryentry-create-update-page/diaryentry-create-update-page.component'
           ).then((m) => m.DiaryentryCreateUpdatePageComponent),
         data: { name: 'diaryentry-create', requiredMinimumRole: 'member' },
-        canDeactivate: [onExitReset(DiaryEntryCreateUpdatePageStore)],
+        canActivate: [
+          onlyOnlineGuard,
+          onEnterReset(DiaryEntryCreateUpdatePageStore),
+        ],
         resolve: {
           loadSessions: () =>
             inject(DiaryEntryCreateUpdatePageStore).loadSessions(),
           loadAuthors: () =>
             inject(DiaryEntryCreateUpdatePageStore).loadAuthors(),
         },
-        canActivate: [onlyOnlineGuard],
         title: campaignTitle('Create Diary Entry'),
       },
       {
@@ -390,7 +391,7 @@ const detailRoutes: Route[] = [
             },
           },
         ],
-        canDeactivate: [onExitReset(DiaryentryPageStore)],
+        canDeactivate: [onEnterReset(DiaryentryPageStore)],
         resolve: {
           loadDiaryentry: (route: ActivatedRouteSnapshot) =>
             inject(DiaryentryPageStore).loadDiaryentry({
@@ -412,7 +413,10 @@ const detailRoutes: Route[] = [
             './pages/diaryentry-create-update-page/diaryentry-create-update-page.component'
           ).then((m) => m.DiaryentryCreateUpdatePageComponent),
         data: { name: 'diaryentry-update', requiredMinimumRole: 'member' },
-        canDeactivate: [onExitReset(DiaryEntryCreateUpdatePageStore)],
+        canActivate: [
+          onlyOnlineGuard,
+          onEnterReset(DiaryEntryCreateUpdatePageStore),
+        ],
         resolve: {
           loadDiaryentry: (route: ActivatedRouteSnapshot) =>
             inject(DiaryEntryCreateUpdatePageStore).loadDiaryentry({
@@ -425,7 +429,6 @@ const detailRoutes: Route[] = [
           loadAuthors: () =>
             inject(DiaryEntryCreateUpdatePageStore).loadAuthors(),
         },
-        canActivate: [onlyOnlineGuard],
         title: campaignTitle('Update Diaryentry'),
       },
     ],
@@ -441,12 +444,11 @@ const detailRoutes: Route[] = [
             './pages/location-create-update-page/location-create-update-page.component'
           ).then((m) => m.LocationCreateUpdatePageComponent),
         data: { name: 'location-create', requiredMinimumRole: 'member' },
-        canDeactivate: [onExitReset(LocationCreateUpdateStore)],
+        canActivate: [onlyOnlineGuard, onEnterReset(LocationCreateUpdateStore)],
         resolve: {
           loadLocations: () =>
             inject(LocationCreateUpdateStore).loadCampaignLocations(),
         },
-        canActivate: [onlyOnlineGuard],
         title: campaignTitle('Create Location'),
       },
       {
@@ -456,7 +458,7 @@ const detailRoutes: Route[] = [
             (m) => m.LocationPageComponent,
           ),
         data: { name: 'location', requiredMinimumRole: 'guest' },
-        canDeactivate: [onExitReset(LocationPageStore)],
+        canActivate: [onEnterReset(LocationPageStore)],
         resolve: {
           campaignCharacters: () =>
             inject(LocationPageStore).loadCampaignCharacters(),
@@ -475,7 +477,7 @@ const detailRoutes: Route[] = [
             './pages/location-create-update-page/location-create-update-page.component'
           ).then((m) => m.LocationCreateUpdatePageComponent),
         data: { name: 'location-update', requiredMinimumRole: 'member' },
-        canDeactivate: [onExitReset(LocationCreateUpdateStore)],
+        canActivate: [onlyOnlineGuard, onEnterReset(LocationCreateUpdateStore)],
         resolve: {
           loadLocations: () =>
             inject(LocationCreateUpdateStore).loadCampaignLocations(),
@@ -485,7 +487,6 @@ const detailRoutes: Route[] = [
               parentLocationName: route.params['parent_name'],
             }),
         },
-        canActivate: [onlyOnlineGuard],
         title: articleTitle('Update Location'),
       },
     ],
@@ -507,8 +508,10 @@ const detailRoutes: Route[] = [
           locations: () =>
             inject(OrganizationCreateUpdatePageStore).loadCampaignLocations(),
         },
-        canDeactivate: [onExitReset(OrganizationCreateUpdatePageStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [
+          onlyOnlineGuard,
+          onEnterReset(OrganizationCreateUpdatePageStore),
+        ],
         title: campaignTitle('Create Organization'),
       },
       {
@@ -523,7 +526,7 @@ const detailRoutes: Route[] = [
             inject(OrganizationStore).loadOrganization(route.params['name']),
           characters: () => inject(OrganizationStore).loadCampaignCharacters(),
         },
-        canDeactivate: [onExitReset(OrganizationStore)],
+        canActivate: [onEnterReset(OrganizationStore)],
         title: articleTitle('Organization'),
       },
       {
@@ -543,8 +546,10 @@ const detailRoutes: Route[] = [
           locations: () =>
             inject(OrganizationCreateUpdatePageStore).loadCampaignLocations(),
         },
-        canDeactivate: [onExitReset(OrganizationCreateUpdatePageStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [
+          onlyOnlineGuard,
+          onEnterReset(OrganizationCreateUpdatePageStore),
+        ],
         title: articleTitle('Update Organization'),
       },
     ],
@@ -583,8 +588,10 @@ const detailRoutes: Route[] = [
           campaignSessions: () =>
             inject(QuestCreateUpdatePageStore).loadCampaignSessions(),
         },
-        canDeactivate: [onExitReset(QuestCreateUpdatePageStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [
+          onlyOnlineGuard,
+          onEnterReset(QuestCreateUpdatePageStore),
+        ],
         title: campaignTitle('Create Quest'),
       },
       {
@@ -619,8 +626,10 @@ const detailRoutes: Route[] = [
           quest: (route: ActivatedRouteSnapshot) =>
             inject(QuestCreateUpdatePageStore).loadQuest(route.params['name']),
         },
-        canDeactivate: [onExitReset(QuestCreateUpdatePageStore)],
-        canActivate: [onlyOnlineGuard],
+        canActivate: [
+          onlyOnlineGuard,
+          onEnterReset(QuestCreateUpdatePageStore),
+        ],
         title: articleTitle('Update Quest'),
       },
     ],
@@ -632,7 +641,7 @@ const detailRoutes: Route[] = [
       playerClasses: () => inject(SpellsPageStore).loadPlayerClasses(),
       spells: () => inject(SpellsPageStore).loadSpells(),
     },
-    canDeactivate: [onExitReset(SpellsPageStore)],
+    canActivate: [onEnterReset(SpellsPageStore)],
     children: [
       {
         path: '',
@@ -659,7 +668,7 @@ const detailRoutes: Route[] = [
     resolve: {
       rules: () => inject(RulesPageStore).loadRules(),
     },
-    canDeactivate: [onExitReset(RulesPageStore)],
+    canDeactivate: [onEnterReset(RulesPageStore)],
     children: [
       {
         path: '',
@@ -691,7 +700,7 @@ const detailRoutes: Route[] = [
     resolve: {
       sessions: () => inject(SessionsPageStore).loadSessions(),
     },
-    canDeactivate: [onExitReset(SessionsPageStore)],
+    canDeactivate: [onEnterReset(SessionsPageStore)],
     title: campaignTitle('Sessions'),
   },
   // Quotes
@@ -712,7 +721,7 @@ const detailRoutes: Route[] = [
         inject(QuoteOverviewPageStore).loadCharacter(route.params['name']),
       encounters: () => inject(QuoteOverviewPageStore).loadCampaignEncounters(),
     },
-    canDeactivate: [onExitReset(QuoteOverviewPageStore)],
+    canDeactivate: [onEnterReset(QuoteOverviewPageStore)],
     title: articleTitle('Quotes'),
   },
   // Maps
@@ -726,7 +735,7 @@ const detailRoutes: Route[] = [
             './pages/map-create-update-page/map-create-update-page.component'
           ).then((m) => m.MapCreateUpdatePageComponent),
         data: { name: 'map-create', requiredMinimumRole: 'member' },
-        canDeactivate: [onExitReset(MapPageStore)],
+        canDeactivate: [onEnterReset(MapPageStore)],
         canActivate: [onlyOnlineGuard],
         title: campaignTitle('Create Map'),
       },
@@ -741,7 +750,7 @@ const detailRoutes: Route[] = [
           maps: () => inject(MapPageStore).loadCampaignMaps(),
           map: () => inject(MapPageStore).loadDefaultMap(),
         },
-        canDeactivate: [onExitReset(MapPageStore)],
+        canDeactivate: [onEnterReset(MapPageStore)],
         title: campaignTitle('Default Map'),
       },
       {
@@ -756,7 +765,7 @@ const detailRoutes: Route[] = [
           map: (route: ActivatedRouteSnapshot) =>
             inject(MapPageStore).loadMap(route.params['name']),
         },
-        canDeactivate: [onExitReset(MapPageStore)],
+        canDeactivate: [onEnterReset(MapPageStore)],
         title: articleTitle('Map'),
       },
       {
@@ -770,7 +779,7 @@ const detailRoutes: Route[] = [
           map: (route: ActivatedRouteSnapshot) =>
             inject(MapCreateUpdateStore).loadMap(route.params['name']),
         },
-        canDeactivate: [onExitReset(MapPageStore)],
+        canDeactivate: [onEnterReset(MapPageStore)],
         canActivate: [onlyOnlineGuard],
         title: articleTitle('Update Map'),
       },
@@ -823,7 +832,7 @@ const detailRoutes: Route[] = [
             (m) => m.MarkerPageComponent,
           ),
         providers: [MarkerPageStore],
-        canDeactivate: [onExitReset(MarkerPageStore)],
+        canDeactivate: [onEnterReset(MarkerPageStore)],
         resolve: {
           marker: (route: ActivatedRouteSnapshot) =>
             inject(MarkerPageStore).loadMarker({
@@ -878,7 +887,7 @@ const detailRoutes: Route[] = [
           sessionAudios: () =>
             inject(SessionAudioOverviewPageStore).loadCampaignSessionAudios(),
         },
-        canDeactivate: [onExitReset(SessionAudioOverviewPageStore)],
+        canDeactivate: [onEnterReset(SessionAudioOverviewPageStore)],
         title: campaignTitle('Session Recordings'),
       },
       {
@@ -893,7 +902,7 @@ const detailRoutes: Route[] = [
           campaignSessions: () =>
             inject(SessionaudioCreateUpdatePageStore).loadCampaignSessions(),
         },
-        canDeactivate: [onExitReset(SessionaudioCreateUpdatePageStore)],
+        canDeactivate: [onEnterReset(SessionaudioCreateUpdatePageStore)],
         canActivate: [onlyOnlineGuard],
         title: campaignTitle('Add Session Recording'),
       },
@@ -936,7 +945,7 @@ const detailRoutes: Route[] = [
               sessionNumber: route.params['sessionNumber'],
             }),
         },
-        canDeactivate: [onExitReset(SessionaudioCreateUpdatePageStore)],
+        canDeactivate: [onEnterReset(SessionaudioCreateUpdatePageStore)],
         canActivate: [onlyOnlineGuard],
         title: campaignTitle('Update Session Recording'),
       },
@@ -967,7 +976,7 @@ const detailRoutes: Route[] = [
     data: { name: 'campaign-config-tables' },
     canActivate: [campaignGuard],
     providers: [ConfigAdministrationPageStore],
-    canDeactivate: [onExitReset(ConfigAdministrationPageStore)],
+    canDeactivate: [onEnterReset(ConfigAdministrationPageStore)],
     title: campaignTitle('Config Tables'),
   },
 ];

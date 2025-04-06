@@ -10,6 +10,7 @@ import {
   output,
   signal,
   TemplateRef,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -125,9 +126,12 @@ export class PageComponent {
   constructor() {
     const liveAnouncer = inject(LiveAnnouncer);
     effect(() => {
-      const loadingMessage = this.isLoading()
-        ? 'Loading Page'
-        : 'Finished Loading Page';
+      const loading = this.isLoading();
+      const title = untracked(() => this.navStore.currentRoute()?.title);
+      if (!title || loading) return;
+
+      const loadingMessage = 'Loaded ' + title;
+
       liveAnouncer.announce(loadingMessage);
     });
 

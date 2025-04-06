@@ -1,7 +1,7 @@
 import { inject, InjectionToken, Type } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanDeactivateFn,
+  CanActivateFn,
   RouterStateSnapshot,
 } from '@angular/router';
 
@@ -14,18 +14,14 @@ interface Resettable {
 type TypableInjectionToken<T> = InjectionToken<T> | Type<T>;
 
 /**
- * Calls the reset method of the given injectable object, when the route is being exited.
+ * Calls the reset method of the given injectable object when the route is being activated.
+ * This ensures the store is reset when entering the route.
  */
-export function onExitReset<T>(
+export function onEnterReset(
   resettable: TypableInjectionToken<Resettable>,
-): CanDeactivateFn<T> {
-  return (
-    component: T,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState: RouterStateSnapshot,
-  ) => {
-    inject(resettable).reset(currentState, nextState);
+): CanActivateFn {
+  return (route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
+    inject(resettable).reset(state, state);
     return true;
   };
 }

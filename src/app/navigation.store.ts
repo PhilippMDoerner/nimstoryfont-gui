@@ -3,12 +3,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RoutesRecognized } from '@angular/router';
 import { signalStore, withComputed, withProps } from '@ngrx/signals';
 import { filter, map, pairwise } from 'rxjs';
+import { debugLog } from 'src/utils/rxjs-operators';
 
 export const NavigationStore = signalStore(
   withProps(() => {
     const router = inject(Router);
     return {
-      _currentRoute$: router.events.pipe(
+      currentRoute$: router.events.pipe(
         filter((event) => event instanceof NavigationEnd),
         map(() => router.routerState.snapshot.root),
         map((route) => {
@@ -17,8 +18,9 @@ export const NavigationStore = signalStore(
           }
           return route;
         }),
+        debugLog('trackRoute'),
       ),
-      _history$: router.events.pipe(
+      history$: router.events.pipe(
         filter((event) => event instanceof RoutesRecognized),
         map((event) => event.url),
         pairwise(),
@@ -30,9 +32,9 @@ export const NavigationStore = signalStore(
     };
   }),
   withComputed((state) => {
-    const history = toSignal(state._history$);
+    const history = toSignal(state.history$);
     return {
-      currentRoute: toSignal(state._currentRoute$),
+      currentRoute: toSignal(state.currentRoute$),
       priorUrl: computed(() => history()?.priorRoute),
       currentUrl: computed(() => history()?.currentRoute),
     };

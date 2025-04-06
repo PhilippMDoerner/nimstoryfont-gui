@@ -15,11 +15,11 @@ import { Quote, QuoteConnection } from 'src/app/_models/quote';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
-import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import { BadgeListComponent, BadgeListEntry } from 'src/app/design/molecules';
 import { copyToClipboard } from 'src/utils/clipboard';
+import { componentId } from 'src/utils/DOM';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ToastService } from '../toast-overlay/toast-overlay.component';
 
@@ -60,7 +60,6 @@ interface QuoteControl {
   templateUrl: './quote.component.html',
   styleUrls: ['./quote.component.scss'],
   imports: [
-    HtmlTextComponent,
     BadgeListComponent,
     SeparatorComponent,
     ButtonComponent,
@@ -89,6 +88,8 @@ export class QuoteComponent implements OnChanges {
   readonly refreshQuote = output<void>();
 
   state: QuoteState = 'DISPLAY';
+  quoteId = componentId();
+
   badgeEntries = computed<BadgeListEntry<QuoteConnection>[]>(() =>
     this.parseConnection(this.quote()?.connections ?? []),
   );
@@ -101,6 +102,8 @@ export class QuoteComponent implements OnChanges {
     }),
   );
   hasQuote = computed(() => !!this.quote());
+  quoteLabel = computed(() => `Quotes of ${this.character()?.name}`);
+
   private _quoteControlls = computed<QuoteControl[]>(() => [
     {
       controlKind: 'REFRESH',

@@ -62,6 +62,15 @@ export class FilterListComponent<T> {
     if (isSearching) return 'SEARCH';
     return this.groupProp() ? 'PROPERTY' : 'LETTER';
   });
+  firstArticle = computed<T>(() => this.displayEntries()[0]);
+  canOpenArticle = computed(() => !!this.firstArticle());
+  searchButtonLabel = computed(() => {
+    const targetArticle = this.firstArticle();
+    if (targetArticle) {
+      return `Open first article found: ${targetArticle[this.labelProp()]}`;
+    }
+    return 'Nothing matches your filter query';
+  });
 
   constructor(private routing: Router) {}
 

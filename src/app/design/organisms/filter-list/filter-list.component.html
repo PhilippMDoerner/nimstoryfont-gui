@@ -19,15 +19,14 @@
         (changed)="filterValue.set($event)"
       />
 
-      @let isFilterActive = !!input.value;
       <button
         btn
         class="filter__button"
-        [kind]="isFilterActive ? 'PRIMARY' : 'LIGHT-OUTLINE'"
+        [kind]="'PRIMARY'"
         [icon]="'search'"
         [type]="'submit'"
-        [disabled]="!isFilterActive"
-        aria-label="Start search"
+        [disabled]="!canOpenArticle()"
+        [attr.aria-label]="searchButtonLabel()"
       ></button>
     </div>
   </form>

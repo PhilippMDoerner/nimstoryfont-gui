@@ -70,11 +70,11 @@ export const CharacterStore = signalStore(
 
     const campaignName$ = toObservable(globalStore.campaignName).pipe(
       filterNil(),
+      take(1),
     );
     return {
       character: (name: string) =>
         campaignName$.pipe(
-          take(1),
           switchMap((campaign) =>
             characterService.readByParam(campaign, { name }),
           ),

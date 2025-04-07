@@ -859,7 +859,7 @@ const detailRoutes: Route[] = [
             inject(MarkerCreateUpdateStore).loadCampaignLocations(),
           markerTypes: () => inject(MarkerCreateUpdateStore).loadMarkerTypes(),
           marker: (route: ActivatedRouteSnapshot) =>
-            inject(MarkerPageStore).loadMarker({
+            inject(MarkerCreateUpdateStore).loadMarker({
               parentLocationName: route.params['parent_location_name'],
               locationName: route.params['location_name'],
               name: route.params['map_name'],

@@ -73,6 +73,10 @@
         @case ("DIARYENTRY") {
           <ng-container [ngTemplateOutlet]="diaryentryBody" />
         }
+        <!-- NOTE: Optional Location specific overview using tree for a body -->
+        <!-- @case ("LOCATION") {
+          <ng-container [ngTemplateOutlet]="locationBody" />
+        } -->
         @default {
           <ng-container [ngTemplateOutlet]="defaultBody" />
         }
@@ -157,6 +161,17 @@
     [heading]="overviewTypeName()"
     [forceSingleLine]="true"
   ></app-filter-list>
+</ng-template>
+
+<ng-template #locationBody>
+  <h2 class="cdk-visually-hidden" [id]="bodySectionId">Tree of Locations</h2>
+  <app-filter-list
+    [id]="filterId"
+    [entries]="displayEntries()"
+    [labelProp]="'name_full'"
+    [heading]="overviewTypeName()"
+    [groupConfig]="{ mode: 'TREE', toTreeData: toLocationTrees }"
+  />
 </ng-template>
 
 <ng-template #defaultBody>

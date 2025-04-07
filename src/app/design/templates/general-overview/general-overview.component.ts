@@ -1,3 +1,4 @@
+import { ArrayDataSource, DataSource } from '@angular/cdk/collections';
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -15,6 +16,7 @@ import { ImageCardComponent } from '../../molecules/image-card/image-card.compon
 import { FilterListEntry } from '../../organisms/_model/filterListEntry';
 import { FilterListComponent } from '../../organisms/filter-list/filter-list.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { TreeNode } from '../../organisms/tree/tree.component';
 import { GeneralOverviewType } from '../_models/generalOverviewType';
 
 @Component({
@@ -84,6 +86,13 @@ export class GeneralOverviewComponent {
   filterId = `${this.id}-filter`;
   headingSectionId = `${this.id}-heading-section`;
   bodySectionId = `${this.id}-body-section`;
+
+  toLocationTrees = (entries: OverviewItem[]): DataSource<TreeNode> => {
+    const rootNodes = entries
+      .filter((entry) => !!(entry.parent_location_details?.pk == null))
+      .map((rootItem) => recursivelyBuildLocationTree(rootItem, entries, 0));
+    return new ArrayDataSource(rootNodes);
+  };
 
   constructor(private routingService: RoutingService) {}
 
@@ -203,4 +212,24 @@ export class GeneralOverviewComponent {
     const overlengthString: string = paddingCharacter.repeat(padCount) + num;
     return overlengthString.slice(padCount * -1);
   }
+}
+
+function recursivelyBuildLocationTree(
+  root: OverviewItem,
+  entries: OverviewItem[],
+  currentLevel: number,
+): TreeNode {
+  const nextLevel = currentLevel + 1;
+  const childNodes = entries
+    .filter((entry) => entry.parent_location_details?.pk === root.pk)
+    .map((entry) => recursivelyBuildLocationTree(entry, entries, nextLevel));
+
+  return {
+    id: root.pk as number,
+    label: root.name,
+    children: childNodes,
+    link: root['getAbsoluteRouterUrl'](),
+    isRootNode: root.parent_location_details?.pk == null,
+    level: currentLevel,
+  };
 }

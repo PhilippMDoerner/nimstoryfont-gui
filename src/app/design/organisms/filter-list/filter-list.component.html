@@ -42,6 +42,9 @@
       @case ("SEARCH") {
         <ng-container *ngTemplateOutlet="searchList" />
       }
+      @case ("TREE") {
+        <ng-container *ngTemplateOutlet="treeList" />
+      }
     }
   </div>
 </div>
@@ -93,7 +96,7 @@
 </ng-template>
 
 <ng-template #propertyList>
-  @let groupPropVal = groupProp();
+  @let groupPropVal = $any(groupConfig()).groupProp;
 
   <ul
     class="row"
@@ -139,6 +142,16 @@
       }
     }
   </ul>
+</ng-template>
+
+<ng-template #treeList>
+  <div class="container">
+    <ul class="row">
+      @for (node of treeData(); track node.root.id) {
+        <app-tree class="col-sm-6 mb-5" role="listitem" [data]="node" />
+      }
+    </ul>
+  </div>
 </ng-template>
 
 <ng-template #searchList>

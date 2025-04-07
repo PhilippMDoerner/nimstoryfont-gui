@@ -1,0 +1,34 @@
+<cdk-tree
+  #tree
+  class="tree"
+  [dataSource]="data()"
+  [childrenAccessor]="childrenAccessor"
+  [trackBy]="trackByFn"
+>
+  <!-- Leaf template -->
+  <cdk-nested-tree-node
+    class="tree__node node node--leaf"
+    [class.tree__node--root]="node.isRootNode"
+    #treeNode="cdkNestedTreeNode"
+    *cdkTreeNodeDef="let node"
+  >
+    <a class="node__content" [routerLink]="node.link">
+      {{ node.label }}
+    </a>
+  </cdk-nested-tree-node>
+
+  <!-- Stem Template -->
+  <cdk-nested-tree-node
+    class="tree__node node node--stem"
+    [class.tree__node--root]="node.isRootNode"
+    #treeNode="cdkNestedTreeNode"
+    *cdkTreeNodeDef="let node; when: hasChild"
+    [cdkTreeNodeTypeaheadLabel]="node.label"
+    [isExpanded]="true"
+  >
+    <a class="node__content" [routerLink]="node.link">
+      {{ node.label }}
+    </a>
+    <ng-container cdkTreeNodeOutlet></ng-container>
+  </cdk-nested-tree-node>
+</cdk-tree>

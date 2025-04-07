@@ -16,8 +16,15 @@ import { componentId } from 'src/utils/DOM';
 import { InputComponent } from '../../../atoms/input/input.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { FilterListEntry } from '../_model/filterListEntry';
+import { SingleNodeSource } from '../_model/tree';
+import { TreeComponent } from '../tree/tree.component';
 
-type GroupMode = 'PROPERTY' | 'LETTER' | 'SEARCH';
+type GroupMode = 'PROPERTY' | 'LETTER' | 'SEARCH' | 'TREE';
+export type GroupConfig<T> =
+  | { mode: 'PROPERTY'; groupProp: string }
+  | { mode: 'LETTER' }
+  | { mode: 'SEARCH' }
+  | { mode: 'TREE'; toTreeData: (entries: T[]) => SingleNodeSource[] };
 
 @Component({
   selector: 'app-filter-list',
@@ -33,13 +40,14 @@ type GroupMode = 'PROPERTY' | 'LETTER' | 'SEARCH';
     HotkeyDirective,
     ButtonComponent,
     InputComponent,
+    TreeComponent,
   ],
 })
 export class FilterListComponent<T> {
   entries = input.required<FilterListEntry<T>[]>();
   labelProp = input.required<Exclude<keyof T, symbol | number>>();
   heading = input.required<string>();
-  groupProp = input<string>();
+  groupConfig = input<GroupConfig<T>>({ mode: 'LETTER' });
   forceSingleLine = input(false);
 
   filterValue = signal<string | undefined>(undefined);
@@ -57,11 +65,21 @@ export class FilterListComponent<T> {
       return entryLabel.toLowerCase().includes(filterValue);
     });
   });
+
   mode = computed<GroupMode>(() => {
     const isSearching = (this.filterValue()?.length ?? 0) > 0;
     if (isSearching) return 'SEARCH';
-    return this.groupProp() ? 'PROPERTY' : 'LETTER';
+    return this.groupConfig().mode;
   });
+
+  treeData = computed<SingleNodeSource[] | undefined>(() => {
+    const config = this.groupConfig();
+    const hasTreeMode = config.mode === 'TREE';
+    if (!hasTreeMode) return undefined;
+
+    return config.toTreeData(this.entries());
+  });
+
   firstArticle = computed<T>(() => this.displayEntries()[0]);
   canOpenArticle = computed(() => !!this.firstArticle());
   searchButtonLabel = computed(() => {

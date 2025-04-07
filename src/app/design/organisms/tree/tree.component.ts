@@ -1,5 +1,6 @@
 import { DataSource } from '@angular/cdk/collections';
 import { CdkTree, CdkTreeModule } from '@angular/cdk/tree';
+import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -19,16 +20,18 @@ export interface TreeNode {
 
 @Component({
   selector: 'app-tree',
-  imports: [CdkTreeModule, RouterLink],
+  imports: [CdkTreeModule, RouterLink, NgClass, NgTemplateOutlet],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    class: 'container',
+  },
 })
 export class TreeComponent {
   data = input.required<DataSource<TreeNode>>();
-  Array = Array;
 
-  tree = viewChild.required<CdkTree<TreeNode, TreeNode>>('tree');
+  tree = viewChild.required<CdkTree<TreeNode>>('tree');
 
   childrenAccessor = (dataNode: TreeNode) => dataNode.children ?? [];
 

@@ -1,3 +1,4 @@
+import { DataSource } from '@angular/cdk/collections';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -16,15 +17,14 @@ import { componentId } from 'src/utils/DOM';
 import { InputComponent } from '../../../atoms/input/input.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { FilterListEntry } from '../_model/filterListEntry';
-import { SingleNodeSource } from '../_model/tree';
-import { TreeComponent } from '../tree/tree.component';
+import { TreeComponent, TreeNode } from '../tree/tree.component';
 
 type GroupMode = 'PROPERTY' | 'LETTER' | 'SEARCH' | 'TREE';
 export type GroupConfig<T> =
   | { mode: 'PROPERTY'; groupProp: string }
   | { mode: 'LETTER' }
   | { mode: 'SEARCH' }
-  | { mode: 'TREE'; toTreeData: (entries: T[]) => SingleNodeSource[] };
+  | { mode: 'TREE'; toTreeData: (entries: T[]) => DataSource<TreeNode> };
 
 @Component({
   selector: 'app-filter-list',
@@ -72,7 +72,7 @@ export class FilterListComponent<T> {
     return this.groupConfig().mode;
   });
 
-  treeData = computed<SingleNodeSource[] | undefined>(() => {
+  treeData = computed<DataSource<TreeNode> | undefined>(() => {
     const config = this.groupConfig();
     const hasTreeMode = config.mode === 'TREE';
     if (!hasTreeMode) return undefined;

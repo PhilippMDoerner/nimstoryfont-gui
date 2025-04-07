@@ -1,34 +1,45 @@
 <cdk-tree
   #tree
-  class="tree"
+  class="tree row"
   [dataSource]="data()"
   [childrenAccessor]="childrenAccessor"
   [trackBy]="trackByFn"
 >
+  @let rootNodeClasses = "col-sm-6 mb-4 tree__node--root";
   <!-- Leaf template -->
   <cdk-nested-tree-node
     class="tree__node node node--leaf"
-    [class.tree__node--root]="node.isRootNode"
+    [ngClass]="{ 'col-sm-6 mb-4 tree__node--root': node.isRootNode }"
     #treeNode="cdkNestedTreeNode"
     *cdkTreeNodeDef="let node"
   >
-    <a class="node__content" [routerLink]="node.link">
-      {{ node.label }}
-    </a>
+    <ng-container
+      *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
+    />
   </cdk-nested-tree-node>
 
   <!-- Stem Template -->
   <cdk-nested-tree-node
     class="tree__node node node--stem"
-    [class.tree__node--root]="node.isRootNode"
+    [ngClass]="{ 'col-sm-6 mb-4 tree__node--root': node.isRootNode }"
     #treeNode="cdkNestedTreeNode"
     *cdkTreeNodeDef="let node; when: hasChild"
     [cdkTreeNodeTypeaheadLabel]="node.label"
     [isExpanded]="true"
   >
-    <a class="node__content" [routerLink]="node.link">
-      {{ node.label }}
-    </a>
-    <ng-container cdkTreeNodeOutlet></ng-container>
+    <ng-container
+      *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
+    />
+    <ng-container cdkTreeNodeOutlet />
   </cdk-nested-tree-node>
 </cdk-tree>
+
+<ng-template #nodeContent let-node>
+  <a
+    class="node__content"
+    [class.node__content--root]="node.isRootNode"
+    [routerLink]="node.link"
+  >
+    {{ node.label }}
+  </a>
+</ng-template>

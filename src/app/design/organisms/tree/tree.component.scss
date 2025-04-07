@@ -1,7 +1,9 @@
-.tree {
+:host {
   display: flex;
-  flex-direction: column;
+  width: 100%;
+}
 
+.tree {
   &__node {
     display: flex;
     flex-direction: column;
@@ -10,17 +12,20 @@
   }
 
   &__node--root {
-    font-weight: bold;
-    font-size: x-large !important;
     padding-left: var(--spacer-0);
     border: unset;
   }
 }
 
 .node {
-  font-size: medium;
-
   &__content {
     width: fit-content;
+    font-size: medium;
+
+    &--root {
+      font-weight: bold;
+      font-size: x-large !important;
+      text-decoration: underline;
+    }
   }
 }

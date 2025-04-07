@@ -80,7 +80,12 @@
       [buttonLink]="locationUrl()"
       [buttonLabel]="'Back to ' + marker().location_details?.name"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Marker'"
+      [deleteMessage]="
+        'Marker of ' +
+        marker().location_details?.name +
+        ' on the map of ' +
+        marker().map_details?.name
+      "
       (delete)="markerDelete.emit(marker())"
     ></app-article-footer>
   </article>

@@ -9,6 +9,15 @@
   }
 }
 
+@keyframes floatIn {
+  0% {
+    transform: translate(-50%, -100%);
+  }
+  100% {
+    transform: translate(-50%, 0%);
+  }
+}
+
 :host {
   position: absolute;
 }
@@ -21,9 +30,12 @@
 
 .toast {
   position: fixed;
-  bottom: 10%;
   width: 93%;
-  right: 3.5%;
+  top: 2%;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  animation: floatIn 0.5s ease-in-out;
 
   --bs-light-rgb: var(--bs-white);
   --bs-toast-header-color: var(--bs-white);
@@ -36,6 +48,11 @@
     width: fit-content;
     max-width: 50%;
     bottom: 5%;
+    right: 3.5%;
+    top: unset;
+    left: unset;
+    transform: none;
+    animation: unset;
   }
 
   &--primary {
@@ -106,12 +123,14 @@
   &__text {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--spacer-2);
     text-align: start;
+    align-items: start;
   }
 
   &__text-container {
+    width: 100%;
     max-height: calc(var(--bs-body-font-size) * 8);
     max-width: 100%;
     overflow: auto;

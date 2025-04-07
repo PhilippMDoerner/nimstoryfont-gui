@@ -64,6 +64,7 @@
 </ng-template>
 
 <ng-template #body>
+  @let hasHeader = !!toast?.header;
   <div class="toast__body body">
     <span class="body__text">
       @let bodyIcon = toast?.body?.icon;
@@ -73,6 +74,18 @@
 
       @if (toast?.body?.text) {
         <div class="body__text-container" [innerHTML]="toast?.body?.text"></div>
+      }
+
+      @if (!hasHeader) {
+        <button
+          btn
+          class="fs-3"
+          [kind]="'NONE'"
+          [size]="'SMALL'"
+          [icon]="'times'"
+          aria-label="'Close toast'"
+          (clicked)="dismissCurrentToast()"
+        ></button>
       }
     </span>
 

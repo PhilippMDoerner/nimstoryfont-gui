@@ -32,11 +32,13 @@
   &__content {
     width: fit-content;
     font-size: medium;
+    font-weight: normal;
+    text-decoration: none;
 
     &--root {
+      text-decoration: underline;
       font-weight: bold;
       font-size: x-large !important;
-      text-decoration: underline;
     }
   }
 

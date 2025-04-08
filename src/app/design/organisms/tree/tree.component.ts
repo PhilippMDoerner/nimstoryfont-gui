@@ -2,12 +2,15 @@ import { DataSource } from '@angular/cdk/collections';
 import { CdkTree, CdkTreeModule } from '@angular/cdk/tree';
 import { NgClass, NgTemplateOutlet } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
+  inject,
   input,
   viewChild,
 } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ButtonComponent } from '../../atoms/button/button.component';
 
 export interface TreeNode {
   children?: TreeNode[] | undefined;
@@ -20,7 +23,13 @@ export interface TreeNode {
 
 @Component({
   selector: 'app-tree',
-  imports: [CdkTreeModule, RouterLink, NgClass, NgTemplateOutlet],
+  imports: [
+    CdkTreeModule,
+    RouterLink,
+    NgClass,
+    NgTemplateOutlet,
+    ButtonComponent,
+  ],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,10 +37,16 @@ export interface TreeNode {
     class: 'container',
   },
 })
-export class TreeComponent {
+export class TreeComponent implements AfterViewInit {
   data = input.required<DataSource<TreeNode>>();
 
   tree = viewChild.required<CdkTree<TreeNode>>('tree');
+
+  public router = inject(Router);
+
+  ngAfterViewInit(): void {
+    this.tree().expandAll();
+  }
 
   childrenAccessor = (dataNode: TreeNode) => dataNode.children ?? [];
 

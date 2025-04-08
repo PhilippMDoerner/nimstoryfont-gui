@@ -56,6 +56,14 @@
   }
 }
 
+.tree-list {
+  &__item {
+    border-bottom: var(--bs-border-width) var(--bs-border-style)
+      var(--bs-border-color);
+    padding: var(--spacer-3) var(--spacer-5);
+  }
+}
+
 .search-list {
   padding-left: var(--spacer-4);
 }

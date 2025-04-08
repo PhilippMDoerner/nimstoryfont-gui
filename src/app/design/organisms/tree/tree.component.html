@@ -7,29 +7,62 @@
 >
   <!-- Leaf template -->
   <cdk-nested-tree-node
-    class="tree__node node node--leaf"
-    [ngClass]="{ 'col-sm-6 mb-4 tree__node--root': node.isRootNode }"
+    class="tree__node node"
+    [ngClass]="{
+      'tree__node--root': node.isRootNode,
+      'tree__node--leaf': !node.isRootNode,
+    }"
+    [isExpandable]="false"
     #treeNode="cdkNestedTreeNode"
     *cdkTreeNodeDef="let node"
+    (activation)="router.navigateByUrl(node.link)"
   >
-    <ng-container
-      *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
-    />
+    <div class="d-flex align-items-center">
+      <button
+        cdkTreeNodeToggle
+        btn
+        class="node__toggle node__toggle--disabled"
+        tabindex="-1"
+        aria-hidden="true"
+        [kind]="'NONE'"
+        [size]="'SMALL'"
+        [icon]="tree.isExpanded(node) ? 'chevron-down' : 'chevron-right'"
+        [attr.aria-label]="'Toggle ' + node.label"
+        [disabled]="true"
+      ></button>
+      <ng-container
+        *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
+      />
+    </div>
   </cdk-nested-tree-node>
 
   <!-- Stem Template -->
   <cdk-nested-tree-node
     class="tree__node node node--stem"
-    [ngClass]="{ 'col-sm-6 mb-4 tree__node--root': node.isRootNode }"
+    [ngClass]="{ 'tree__node--root': node.isRootNode }"
     #treeNode="cdkNestedTreeNode"
     *cdkTreeNodeDef="let node; when: hasChild"
+    isExpandable
     [cdkTreeNodeTypeaheadLabel]="node.label"
-    [isExpanded]="true"
+    (activation)="router.navigateByUrl(node.link)"
   >
-    <ng-container
-      *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
-    />
-    <ng-container cdkTreeNodeOutlet />
+    <div class="d-flex align-items-center">
+      <button
+        cdkTreeNodeToggle
+        btn
+        class="node__toggle"
+        [kind]="'NONE'"
+        [size]="'SMALL'"
+        [icon]="tree.isExpanded(node) ? 'chevron-down' : 'chevron-right'"
+        [attr.aria-label]="'Toggle ' + node.label"
+      ></button>
+      <ng-container
+        *ngTemplateOutlet="nodeContent; context: { $implicit: node }"
+      />
+    </div>
+    <div class="node__children" [class.d-none]="!tree.isExpanded(node)">
+      <ng-container cdkTreeNodeOutlet />
+    </div>
   </cdk-nested-tree-node>
 </cdk-tree>
 
@@ -38,6 +71,7 @@
     class="node__content"
     [class.node__content--root]="node.isRootNode"
     [routerLink]="node.link"
+    tabindex="-1"
   >
     {{ node.label }}
   </a>

@@ -87,11 +87,11 @@ export class GeneralOverviewComponent {
   headingSectionId = `${this.id}-heading-section`;
   bodySectionId = `${this.id}-body-section`;
 
-  toLocationTrees = (entries: OverviewItem[]): DataSource<TreeNode> => {
+  toLocationTrees = (entries: OverviewItem[]): DataSource<TreeNode>[] => {
     const rootNodes = entries
       .filter((entry) => !!(entry.parent_location_details?.pk == null))
       .map((rootItem) => recursivelyBuildLocationTree(rootItem, entries, 0));
-    return new ArrayDataSource(rootNodes);
+    return rootNodes.map((node) => new ArrayDataSource([node]));
   };
 
   constructor(private routingService: RoutingService) {}

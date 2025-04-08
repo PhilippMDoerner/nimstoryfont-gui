@@ -73,10 +73,9 @@
         @case ("DIARYENTRY") {
           <ng-container [ngTemplateOutlet]="diaryentryBody" />
         }
-        <!-- NOTE: Optional Location specific overview using tree for a body -->
-        <!-- @case ("LOCATION") {
+        @case ("LOCATION") {
           <ng-container [ngTemplateOutlet]="locationBody" />
-        } -->
+        }
         @default {
           <ng-container [ngTemplateOutlet]="defaultBody" />
         }

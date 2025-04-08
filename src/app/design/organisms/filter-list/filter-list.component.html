@@ -145,10 +145,15 @@
 </ng-template>
 
 <ng-template #treeList>
-  @let data = treeData();
-  @if (data) {
-    <app-tree class="col-sm-6 mb-5" role="listitem" [data]="data" />
-  }
+  <ul class="tree-list row">
+    @for (rootNode of treeData(); track rootNode) {
+      <app-tree
+        class="tree-list__item col-sm-6 px-5"
+        role="listitem"
+        [data]="rootNode"
+      />
+    }
+  </ul>
 </ng-template>
 
 <ng-template #searchList>

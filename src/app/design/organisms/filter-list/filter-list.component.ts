@@ -24,7 +24,7 @@ export type GroupConfig<T> =
   | { mode: 'PROPERTY'; groupProp: string }
   | { mode: 'LETTER' }
   | { mode: 'SEARCH' }
-  | { mode: 'TREE'; toTreeData: (entries: T[]) => DataSource<TreeNode> };
+  | { mode: 'TREE'; toTreeData: (entries: T[]) => DataSource<TreeNode>[] };
 
 @Component({
   selector: 'app-filter-list',
@@ -72,7 +72,7 @@ export class FilterListComponent<T> {
     return this.groupConfig().mode;
   });
 
-  treeData = computed<DataSource<TreeNode> | undefined>(() => {
+  treeData = computed<DataSource<TreeNode>[] | undefined>(() => {
     const config = this.groupConfig();
     const hasTreeMode = config.mode === 'TREE';
     if (!hasTreeMode) return undefined;

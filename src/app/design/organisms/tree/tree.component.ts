@@ -39,13 +39,16 @@ export interface TreeNode {
 })
 export class TreeComponent implements AfterViewInit {
   data = input.required<DataSource<TreeNode>>();
+  expandOnInit = input<boolean>(false);
 
   tree = viewChild.required<CdkTree<TreeNode>>('tree');
 
   public router = inject(Router);
 
   ngAfterViewInit(): void {
-    this.tree().expandAll();
+    if (this.expandOnInit()) {
+      this.tree().expandAll();
+    }
   }
 
   childrenAccessor = (dataNode: TreeNode) => dataNode.children ?? [];

@@ -36,13 +36,32 @@ import { GeneralOverviewType } from '../_models/generalOverviewType';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralOverviewComponent {
-  OVERVIEW_IMAGE_MAP: { [key in GeneralOverviewType]: string } = {
-    CHARACTER: '/assets/overview_images/characters.webp',
-    CREATURE: '/assets/overview_images/creatures.webp',
-    DIARYENTRY: '/assets/overview_images/diaryentries.webp',
-    ITEM: '/assets/overview_images/items.webp',
-    LOCATION: '/assets/overview_images/locations.webp',
-    ORGANIZATION: '/assets/overview_images/organizations.webp',
+  OVERVIEW_IMAGE_MAP: {
+    [key in Exclude<GeneralOverviewType, 'CHARACTER'>]: {
+      url: string;
+      alt: string;
+    };
+  } = {
+    CREATURE: {
+      url: '/assets/overview_images/creatures.webp',
+      alt: 'A fox and squirrels in an idyllic forest clearing',
+    },
+    DIARYENTRY: {
+      url: '/assets/overview_images/diaryentries.webp',
+      alt: 'An open old tome in a dusty room',
+    },
+    ITEM: {
+      url: '/assets/overview_images/items.webp',
+      alt: 'Piles of gold and magic items in a cave',
+    },
+    LOCATION: {
+      url: '/assets/overview_images/locations.webp',
+      alt: 'Snowy, mountainous landscape with a towering, ancient stone ruin and a distant, shadowy castle.',
+    },
+    ORGANIZATION: {
+      url: '/assets/overview_images/organizations.webp',
+      alt: 'A group gathering around a glowing, magical table, inside a grand, cathedral-like chamber.',
+    },
   };
 
   serverUrl = input.required<string>();

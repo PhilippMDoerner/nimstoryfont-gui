@@ -84,7 +84,7 @@
         >
           @for (item of itemLetterEntries.value; track $index) {
             <li class="letter-list__item">
-              <a [routerLink]="item.link">
+              <a class="letter-list__link" [routerLink]="item.link">
                 {{ item[labelProp()] }}
               </a>
             </li>
@@ -132,7 +132,7 @@
           <ul class="letter-list__list">
             @for (item of itemLetterEntries.value; track $index) {
               <li class="letter-list__item">
-                <a [routerLink]="item.link">
+                <a class="letter-list__link" [routerLink]="item.link">
                   {{ item[labelProp()] }}
                 </a>
               </li>
@@ -167,7 +167,7 @@
   >
     @for (entry of displayEntries(); track entry[labelProp()]) {
       <li class="letter-list__item col-12">
-        <a [routerLink]="entry.link">
+        <a [routerLink]="entry.link" class="letter-list__link">
           {{ entry[labelProp()] }}
         </a>
       </li>

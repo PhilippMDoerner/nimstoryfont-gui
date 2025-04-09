@@ -1,4 +1,5 @@
 :host {
+  display: block;
 }
 
 .tree {
@@ -29,11 +30,39 @@
 }
 
 .node {
+  &__content-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-2);
+    border-radius: var(--bs-border-radius);
+    cursor: pointer;
+
+    &--expandable {
+      &:hover {
+        background-color: var(--bs-secondary);
+
+        .node__toggle {
+          color: var(--bs-link-hover-color);
+        }
+      }
+    }
+
+    &--leaf {
+      &:hover {
+        background-color: var(--bs-secondary);
+
+        .node__content {
+          color: var(--bs-link-hover-color);
+        }
+      }
+    }
+  }
+
   &__content {
     width: fit-content;
     font-size: medium;
     font-weight: normal;
-    text-decoration: none;
+    text-decoration: underline;
 
     &--root {
       text-decoration: underline;
@@ -44,17 +73,17 @@
 
   &__children {
     border-left: 1px solid var(--bs-white);
+    margin-left: calc(1.5 * var(--spacer-2));
   }
 
   &__toggle {
-    transform: translateX(-50%);
     width: calc(var(--spacer-4));
     height: calc(var(--spacer-4));
     border-radius: var(--bs-border-radius);
 
     &:hover,
     &:focus-visible {
-      background-color: var(--bs-secondary);
+      color: var(--bs-link-hover-color);
     }
 
     &--disabled {

@@ -1,3 +1,5 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <cdk-tree
   #tree
   class="tree row"
@@ -17,7 +19,10 @@
     *cdkTreeNodeDef="let node"
     (activation)="router.navigateByUrl(node.link)"
   >
-    <div class="d-flex align-items-center">
+    <div
+      class="node__content-container node__content-container--leaf"
+      (click)="treeNode.activate()"
+    >
       <button
         cdkTreeNodeToggle
         btn
@@ -46,7 +51,10 @@
     [cdkTreeNodeTypeaheadLabel]="node.label"
     (activation)="router.navigateByUrl(node.link)"
   >
-    <div class="d-flex align-items-center">
+    <div
+      class="node__content-container node__content-container--expandable"
+      (click)="tree.isExpanded(node) ? treeNode.collapse() : treeNode.expand()"
+    >
       <button
         cdkTreeNodeToggle
         btn
@@ -72,6 +80,7 @@
     [class.node__content--root]="node.isRootNode"
     [routerLink]="node.link"
     tabindex="-1"
+    (click)="$event.stopPropagation()"
   >
     {{ node.label }}
   </a>

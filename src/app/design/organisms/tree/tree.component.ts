@@ -7,6 +7,8 @@ import {
   Component,
   inject,
   input,
+  Pipe,
+  PipeTransform,
   viewChild,
 } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
@@ -21,6 +23,34 @@ export interface TreeNode {
   level: number;
 }
 
+@Pipe({
+  name: 'treeNodeCount',
+})
+export class TreeNodeCountPipe implements PipeTransform {
+  transform(node: TreeNode): string {
+    const nodeCount = this.countDescendants(node) - 1;
+    switch (nodeCount) {
+      case 0:
+        return '';
+      case 1:
+        return '1 item';
+      default:
+        return `${nodeCount} items`;
+    }
+  }
+
+  private countDescendants(node: TreeNode): number {
+    const descendantCount =
+      node.children?.reduce(
+        (acc, child) => acc + this.countDescendants(child),
+        0,
+      ) ?? 0;
+    const thisNode = 1;
+
+    return descendantCount + thisNode;
+  }
+}
+
 @Component({
   selector: 'app-tree',
   imports: [
@@ -29,6 +59,7 @@ export interface TreeNode {
     NgClass,
     NgTemplateOutlet,
     ButtonComponent,
+    TreeNodeCountPipe,
   ],
   templateUrl: './tree.component.html',
   styleUrl: './tree.component.scss',

@@ -18,16 +18,16 @@
 
     <!-- Heading -->
     <div class="row">
+      <!-- String indicating all parent_locations -->
+      @if (location().parent_location_list?.length ?? 0 > 0) {
+        <app-breadcrumb-list
+          class="fs-5 location__subheading subheading col-12"
+          [linkEntries]="parentLocations()"
+        />
+      }
       <h1 class="col-12 location__heading">
         {{ location().name }}
       </h1>
-
-      <!-- String indicating all parent_locations -->
-      @if (location().parent_location_list?.length ?? 0 > 0) {
-        <h5 class="col-12 location__subheading subheading">
-          <app-breadcrumb-list [linkEntries]="parentLocations()" />
-        </h5>
-      }
     </div>
 
     <!-- Image Gallery -->

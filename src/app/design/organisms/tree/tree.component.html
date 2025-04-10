@@ -19,10 +19,7 @@
     *cdkTreeNodeDef="let node"
     (activation)="router.navigateByUrl(node.link)"
   >
-    <div
-      class="node__content-container node__content-container--leaf"
-      (click)="treeNode.activate()"
-    >
+    <div class="node__content-container node__content-container--leaf">
       <button
         cdkTreeNodeToggle
         btn

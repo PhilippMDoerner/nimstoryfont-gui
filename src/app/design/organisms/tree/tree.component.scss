@@ -1,3 +1,5 @@
+@import "/src/screens.scss";
+
 :host {
   display: block;
 }
@@ -37,23 +39,11 @@
     border-radius: var(--bs-border-radius);
     cursor: pointer;
 
-    &--expandable {
-      &:hover {
-        background-color: var(--bs-secondary);
+    &:hover {
+      background-color: var(--bs-secondary);
 
-        .node__toggle {
-          color: var(--bs-link-hover-color);
-        }
-      }
-    }
-
-    &--leaf {
-      &:hover {
-        background-color: var(--bs-secondary);
-
-        .node__content {
-          color: var(--bs-link-hover-color);
-        }
+      .node__toggle {
+        color: var(--bs-link-hover-color);
       }
     }
   }
@@ -80,6 +70,13 @@
     width: calc(var(--spacer-4));
     height: calc(var(--spacer-4));
     border-radius: var(--bs-border-radius);
+
+    @include media-breakpoint-up(md) {
+      width: calc(var(--spacer-3));
+      height: calc(var(--spacer-3));
+      min-width: unset;
+      min-height: unset;
+    }
 
     &:hover,
     &:focus-visible {

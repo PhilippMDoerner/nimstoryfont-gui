@@ -14,13 +14,6 @@
     padding: 0;
     gap: var(--spacer-2);
     margin-bottom: var(--spacer-4);
-    padding-left: var(--spacer-0);
-    padding-right: var(--spacer-0);
-
-    @include media-breakpoint-up(md) {
-      padding-left: calc(var(--bs-gutter-x) * 0.5);
-      padding-right: calc(var(--bs-gutter-x) * 0.5);
-    }
 
     &:focus-within,
     &--active {

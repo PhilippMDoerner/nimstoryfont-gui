@@ -10,6 +10,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterDetails } from 'src/app/_models/character';
 import { Quote, QuoteConnection } from 'src/app/_models/quote';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
@@ -66,6 +67,7 @@ interface QuoteControl {
     ButtonLinkComponent,
     RouterLink,
     SpinnerComponent,
+    NgbTooltip,
   ],
 })
 export class QuoteComponent implements OnChanges {

@@ -4,7 +4,7 @@
       <div class="item__edit-container">
         <a
           btn
-          [title]="'Edit ' + item().name"
+          [ngbTooltip]="'Edit ' + item().name"
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
           [routerLink]="updateUrl()"

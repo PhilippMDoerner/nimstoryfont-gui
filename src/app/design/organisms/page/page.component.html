@@ -25,7 +25,7 @@
         (showScrollupIndicator$ | async) === true
       "
       (click)="scrollToTop()"
-      title="Scroll to top"
+      [ngbTooltip]="'Scroll to top'"
       aria-label="Scroll to top"
       [hotkey]="'t'"
       (hotkeyPressed)="scrollToTop()"

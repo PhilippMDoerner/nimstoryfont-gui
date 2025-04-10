@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
@@ -30,6 +31,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     SpinnerComponent,
     HotkeyDirective,
     ContextMenuComponent,
+    NgbTooltip,
   ],
 })
 export class MapComponent {

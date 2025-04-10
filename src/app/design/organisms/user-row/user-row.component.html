@@ -4,7 +4,7 @@
       <app-icon [icon]="'user'"></app-icon>
       {{ user().username | titlecase }}
       @if (!user().is_active) {
-        <span title="Deleted/Deactivated"> (†) </span>
+        <span [ngbTooltip]="'Deleted/Deactivated'"> (†) </span>
       }
     </div>
   </h3>

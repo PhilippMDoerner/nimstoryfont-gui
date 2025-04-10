@@ -1,5 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Image } from 'src/app/_models/image';
 import { Item } from 'src/app/_models/item';
@@ -22,6 +23,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     EditableTextComponent,
     ArticleFooterComponent,
     HotkeyDirective,
+    NgbTooltip,
   ],
 })
 export class ItemComponent {

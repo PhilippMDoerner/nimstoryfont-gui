@@ -1,5 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import {
   CharacterDetails,
@@ -46,6 +47,7 @@ import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.com
     EncounterAccordionComponent,
     ArticleFooterComponent,
     HotkeyDirective,
+    NgbTooltip,
   ],
 })
 export class CharacterComponent {

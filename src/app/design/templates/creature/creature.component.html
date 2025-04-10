@@ -8,7 +8,7 @@
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
           [attr.aria-label]="'Edit ' + creature().name"
-          [title]="'Edit ' + creature().name"
+          [ngbTooltip]="'Edit ' + creature().name"
           [hotkey]="'e'"
           (hotkeyPressed)="$event.host.click()"
         >

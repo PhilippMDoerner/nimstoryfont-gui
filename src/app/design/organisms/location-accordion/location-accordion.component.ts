@@ -5,7 +5,7 @@ import {
   input,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { Location } from 'src/app/_models/location';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -22,6 +22,7 @@ import { LocationComponent } from '../location/location.component';
     RouterLink,
     NgbAccordionModule,
     LocationComponent,
+    NgbTooltip,
   ],
 })
 export class LocationAccordionComponent {

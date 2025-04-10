@@ -6,6 +6,7 @@ import {
   input,
   output,
 } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { PermissionGroup } from 'src/app/_models/auth';
 import { User } from 'src/app/_models/user';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
@@ -25,6 +26,7 @@ import {
     BadgeListComponent,
     TitleCasePipe,
     ConfirmationToggleButtonComponent,
+    NgbTooltip,
   ],
 })
 export class UserRowComponent {

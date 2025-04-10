@@ -5,7 +5,11 @@ import {
   input,
   output,
 } from '@angular/core';
-import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCarouselModule,
+  NgbSlideEvent,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
 import { Image } from 'src/app/_models/image';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 
@@ -14,7 +18,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
   templateUrl: './image-carousel.component.html',
   styleUrls: ['./image-carousel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgbCarouselModule, ButtonComponent, NgTemplateOutlet],
+  imports: [NgbCarouselModule, NgbTooltip, ButtonComponent, NgTemplateOutlet],
 })
 export class ImageCarouselComponent {
   images = input.required<Image[]>();

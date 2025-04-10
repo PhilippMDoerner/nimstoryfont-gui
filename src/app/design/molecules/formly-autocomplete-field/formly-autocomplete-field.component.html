@@ -10,7 +10,7 @@
       <app-badge
         [kind]="'SECONDARY'"
         [text]="selectedLabel"
-        [title]="'Clear this option'"
+        [ngbTooltip]="'Clear this option'"
         [icon]="'times'"
         [interactionMode]="'BUTTON'"
         (badgeClick)="htmlBadgeClickEvents$.next()"

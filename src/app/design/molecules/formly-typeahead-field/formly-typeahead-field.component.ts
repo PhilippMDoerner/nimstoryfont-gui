@@ -11,6 +11,7 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  NgbTooltip,
   NgbTypeahead,
   NgbTypeaheadModule,
   NgbTypeaheadSelectItemEvent,
@@ -45,6 +46,7 @@ const TWO_OR_MORE_WHITESPACE_REGEXP = /\s\s+/g;
     NgbTypeaheadModule,
     AsyncPipe,
     BadgeComponent,
+    NgbTooltip,
   ],
   templateUrl: './formly-typeahead-field.component.html',
   styleUrl: './formly-typeahead-field.component.scss',

@@ -7,7 +7,7 @@
           [routerLink]="updateUrl"
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
-          [title]="'Edit ' + location().name"
+          [ngbTooltip]="'Edit ' + location().name"
           [attr.aria-label]="'Edit ' + location().name"
           [hotkey]="'e'"
           (hotkeyPressed)="$event.host.click()"

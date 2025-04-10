@@ -9,7 +9,7 @@
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
           [attr.aria-label]="'Edit ' + map().name"
-          [title]="'Edit ' + map().name"
+          [ngbTooltip]="'Edit ' + map().name"
           [hotkey]="'e'"
           (hotkeyPressed)="$event.host.click()"
         >

@@ -7,6 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { NgbTooltipConfig } from '@ng-bootstrap/ng-bootstrap';
 import { filter, map } from 'rxjs';
 import { fadeOut } from 'src/app/design/animations/fadeIn';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
@@ -51,6 +52,7 @@ export class AppComponent {
   readonly campaignService = inject(CampaignService);
   readonly toastService = inject(ToastService);
   readonly serviceWorkerService = inject(ServiceWorkerService);
+  readonly tooltipConfigService = inject(NgbTooltipConfig);
   readonly currentUrl$ = inject(Router).events.pipe(
     filter((event) => event instanceof NavigationEnd),
     map((event) => event.url.split('#')[0]), //Remove any fragment it might have
@@ -66,6 +68,7 @@ export class AppComponent {
 
   constructor() {
     this.trackAnimationSetting();
+    this.configureTooltips();
     this.serviceWorkerService.initializeServiceWorkerInteractions();
   }
 
@@ -88,5 +91,9 @@ export class AppComponent {
         this.disableAnimation.set(event.matches);
       });
     });
+  }
+
+  private configureTooltips() {
+    this.tooltipConfigService.openDelay = 500;
   }
 }

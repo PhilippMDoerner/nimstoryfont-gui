@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from '@angular/common';
 import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Image } from 'src/app/_models/image';
 import { Organization, OrganizationMember } from 'src/app/_models/organization';
@@ -29,6 +30,7 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     ArticleFooterComponent,
     HotkeyDirective,
     BadgeListComponent,
+    NgbTooltip,
   ],
 })
 export class OrganizationComponent {

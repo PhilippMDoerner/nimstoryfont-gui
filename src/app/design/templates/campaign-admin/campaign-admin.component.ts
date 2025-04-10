@@ -24,6 +24,7 @@ import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.comp
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { InfoCircleTooltipComponent } from 'src/app/design/atoms/info-circle-tooltip/info-circle-tooltip.component';
 
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   ArticleFooterComponent,
   ConfirmationToggleButtonComponent,
@@ -50,6 +51,7 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
     ArticleFooterComponent,
     ButtonLinkComponent,
     NgTemplateOutlet,
+    NgbTooltip,
   ],
 })
 export class CampaignAdminComponent implements OnChanges {

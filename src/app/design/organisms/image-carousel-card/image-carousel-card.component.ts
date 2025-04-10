@@ -7,7 +7,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import { NgbSlideEvent, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 
@@ -31,6 +31,7 @@ type State = 'DISPLAY' | 'DELETE' | 'UPDATE' | 'UPDATE_OUTDATED' | 'CREATE';
     FormComponent,
     ButtonComponent,
     NgTemplateOutlet,
+    NgbTooltip,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

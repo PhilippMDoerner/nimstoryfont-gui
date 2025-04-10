@@ -1,5 +1,6 @@
 import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Creature } from 'src/app/_models/creature';
 import { Image } from 'src/app/_models/image';
@@ -22,6 +23,7 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
     ImageCarouselCardComponent,
     ArticleFooterComponent,
     HotkeyDirective,
+    NgbTooltip,
   ],
 })
 export class CreatureComponent {

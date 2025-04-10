@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import {
   combineLatest,
@@ -51,6 +52,7 @@ interface AutocompleteSelectEvent<T> {
     FormlyModule,
     SpinnerComponent,
     BadgeComponent,
+    NgbTooltip,
   ],
   templateUrl: './formly-autocomplete-field.component.html',
   styleUrl: './formly-autocomplete-field.component.scss',

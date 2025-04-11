@@ -2,7 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { ListEntry } from '../_models/list';
-import { ListComponent } from './list.component';
+import { LinkListComponent } from './link-list.component';
 
 const dummyEntries: ListEntry[] = [
   {
@@ -89,7 +89,7 @@ const dummyEntries: ListEntry[] = [
 
 export default {
   title: 'DesignSystem/Molecules/ListComponent',
-  component: ListComponent,
+  component: LinkListComponent,
   decorators: [
     moduleMetadata({
       imports: [RouterTestingModule],
@@ -101,9 +101,9 @@ export default {
     createLabel: 'Create Entry',
     entries: dummyEntries,
   },
-} as Meta<ListComponent>;
+} as Meta<LinkListComponent>;
 
-const Template: StoryFn<ListComponent> = (args) => ({
+const Template: StoryFn<LinkListComponent> = (args) => ({
   props: {
     ...args,
     create: action('create'),

@@ -22,9 +22,9 @@ export type CreateKind =
   | { kind: 'menu'; menuItems: MenuItem[] };
 
 @Component({
-  selector: 'app-list',
-  templateUrl: './list.component.html',
-  styleUrls: ['./list.component.scss'],
+  selector: 'app-link-list',
+  templateUrl: './link-list.component.html',
+  styleUrls: ['./link-list.component.scss'],
   imports: [
     ButtonComponent,
     HeadingDirective,
@@ -33,7 +33,7 @@ export type CreateKind =
     ContextMenuComponent,
   ],
 })
-export class ListComponent {
+export class LinkListComponent {
   heading = input.required<string>();
   entries = input.required<ListEntry[]>();
   ariaLevel = input.required<HeadingLevel>();

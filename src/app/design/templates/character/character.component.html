@@ -139,13 +139,13 @@
     ></app-editable-text>
 
     <div class="character__items">
-      <app-list
+      <app-link-list
         [ariaLevel]="2"
         [heading]="'Items of Note'"
         [entries]="characterItems()"
         [createOption]="{ kind: 'link', url: itemCreateUrl() }"
         [emptyListText]="character().name + ' has no significant items.'"
-      ></app-list>
+      ></app-link-list>
     </div>
 
     <!-- PCs don't have encounters -->

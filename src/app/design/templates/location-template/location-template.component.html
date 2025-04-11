@@ -72,14 +72,14 @@
 
     <!-- Characters of Interest -->
     <div class="location__characters">
-      <app-list
+      <app-link-list
         [ariaLevel]="2"
         [heading]="'Characters of interest'"
         [entries]="locationCharacters"
         [createOption]="{ kind: 'button' }"
         [emptyListText]="'You know nobody in ' + location().name"
         (createButtonClick)="routeToCharacterCreation()"
-      ></app-list>
+      ></app-link-list>
     </div>
 
     <!-- Locations of Interest -->

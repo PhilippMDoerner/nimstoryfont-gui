@@ -23,7 +23,7 @@ import { InfoCircleTooltipComponent } from '../../atoms/info-circle-tooltip/info
 import { BadgeListEntry, ListEntry } from '../../molecules';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
-import { ListComponent } from '../../molecules/list/list.component';
+import { LinkListComponent } from '../../molecules/link-list/link-list.component';
 import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
 import { EncounterAccordionComponent } from '../../organisms/encounter-accordion/encounter-accordion.component';
 import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
@@ -42,7 +42,7 @@ import { QuoteFieldComponent } from '../../organisms/quote-field/quote-field.com
     QuoteFieldComponent,
     BadgeListComponent,
     EditableTextComponent,
-    ListComponent,
+    LinkListComponent,
     InfoCircleTooltipComponent,
     EncounterAccordionComponent,
     ArticleFooterComponent,

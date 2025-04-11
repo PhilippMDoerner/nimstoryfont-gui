@@ -20,7 +20,7 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
 import { BreadcrumbListComponent } from '../../molecules/breadcrumb-list/breadcrumb-list.component';
-import { ListComponent } from '../../molecules/list/list.component';
+import { LinkListComponent } from '../../molecules/link-list/link-list.component';
 import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
 import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
 import { LocationAccordionComponent } from '../../organisms/location-accordion/location-accordion.component';
@@ -37,7 +37,7 @@ import { BreadcrumbEntry } from '../_models/breadcrumb-entry';
     ImageCarouselCardComponent,
     BadgeListComponent,
     EditableTextComponent,
-    ListComponent,
+    LinkListComponent,
     LocationAccordionComponent,
     ArticleFooterComponent,
     BreadcrumbListComponent,

@@ -10,7 +10,8 @@
           "style": "scss",
           "changeDetection": "OnPush",
           "standalone": true,
-          "skipTests": true
+          "skipTests": true,
+          "displayBlock": true
         },
         "@schematics/angular:directive": {
           "skipTests": true
@@ -18,11 +19,20 @@
         "@schematics/angular:service": {
           "skipTests": true
         },
-        "@schematics/angular:interceptor": {
+        "@schematics/angular:pipe": {
           "skipTests": true
         },
+        "@schematics/angular:interceptor": {
+          "skipTests": true,
+          "functional": true
+        },
         "@schematics/angular:guard": {
-          "skipTests": true
+          "skipTests": true,
+          "functional": true
+        },
+        "@schematics/angular:resolver": {
+          "skipTests": true,
+          "functional": true
         }
       },
       "root": "",

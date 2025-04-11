@@ -30,6 +30,7 @@
   }
 
   &__encounter {
+    scroll-margin-top: var(--spacer-4);
     padding: unset;
     border-radius: var(--bs-border-radius);
     width: 100%;

@@ -31,9 +31,9 @@
   ></app-quote>
 </ng-template>
 
-<!-- Quote Create/Edit Form -->
+<!-- Quote Edit Form -->
 <ng-template #update>
-  <app-card class="form-card">
+  <app-card class="form-card" (window:keydown.Escape)="onCancel()">
     <!-- Heading -->
     <h3 class="form-card__heading">Updating Quote {{ quote()?.pk }}</h3>
 
@@ -61,9 +61,9 @@
   </app-card>
 </ng-template>
 
-<!-- Quote Create/Edit Form -->
+<!-- Quote Create Form -->
 <ng-template #create>
-  <app-card class="form-card">
+  <app-card class="form-card" (window:keydown.Escape)="onCancel()">
     <!-- Heading -->
     <h5 class="form-card__heading">
       Create Quote for <b>{{ character().name }}</b>
@@ -83,7 +83,7 @@
 
 <!-- Quote Delete "Form" -->
 <ng-template #delete>
-  <app-card class="form-card">
+  <app-card class="form-card" (window:keydown.Escape)="onCancel()">
     <h5 class="form-card__heading">Delete this quote?</h5>
 
     <blockquote class="form-card__quote quote">

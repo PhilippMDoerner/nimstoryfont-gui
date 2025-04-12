@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 @switch (state()) {
   @case ("DISPLAY") {
     <ng-container *ngTemplateOutlet="displayState" />
@@ -29,7 +30,7 @@
 </ng-template>
 
 <ng-template #updateState>
-  <div class="card form-card">
+  <div class="card form-card" (window:keydown.Escape)="onCancel()">
     <h5 class="form-card__heading">
       <app-icon [icon]="'pencil'"></app-icon>
       Updating:
@@ -60,7 +61,7 @@
 </ng-template>
 
 <ng-template #createState>
-  <div class="card form-card">
+  <div class="card form-card" (window:keydown.Escape)="onCancel()">
     <h5 class="form-card__heading">
       <app-icon [icon]="'plus-square'" />
       Upload new image
@@ -82,7 +83,7 @@
 </ng-template>
 
 <ng-template #deleteState>
-  <div class="card form-card">
+  <div class="card form-card" (window:keydown.Escape)="onCancel()">
     <h5 class="form-card__heading">
       <app-icon [icon]="'trash'" />
       Deleting:

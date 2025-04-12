@@ -64,7 +64,6 @@ export class FormlyAutocompleteFieldComponent<T>
 {
   destroy$ = new Subject<void>();
   randomId = crypto.randomUUID();
-  inputId = `autocomplete-${this.randomId}`;
   inputElement = viewChild<ElementRef<HTMLInputElement>>(`input`);
   inputElement$: Observable<ElementRef<HTMLInputElement>> = toObservable(
     this.inputElement,

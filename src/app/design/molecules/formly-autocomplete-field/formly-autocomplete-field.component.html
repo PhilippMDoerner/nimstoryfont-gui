@@ -28,7 +28,7 @@
       (blur)="formControl.markAsTouched()"
       [value]="inputValue"
       [disabled]="props.disabled"
-      [id]="inputId"
+      [id]="field.id ?? ''"
       [attr.list]="'options-' + randomId"
       [formlyAttributes]="field"
       [placeholder]="'Enter a search query'"

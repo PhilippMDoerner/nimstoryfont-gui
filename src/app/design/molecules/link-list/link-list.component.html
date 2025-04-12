@@ -46,7 +46,7 @@
     <ul class="list__list">
       @for (entry of entries(); track $index) {
         <li class="list__entry">
-          <a [routerLink]="entry.link">
+          <a class="fw-normal" [routerLink]="entry.link">
             {{ entry.label }}
           </a>
         </li>

@@ -56,8 +56,8 @@ export class ImageCarouselCardComponent {
   createFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
       key: 'name',
-      label: 'Image Title',
-      required: false,
+      label: 'Image Description',
+      required: true,
       inputKind: 'STRING',
     }),
     this.formlyService.buildInputConfig({

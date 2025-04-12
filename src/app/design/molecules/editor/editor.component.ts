@@ -123,7 +123,7 @@ export class EditorComponent {
   }
 
   finishEdit() {
-    this.update.emit(this.textModel);
+    this.update.emit(this.textModel.trim());
   }
 
   cancelEdit() {

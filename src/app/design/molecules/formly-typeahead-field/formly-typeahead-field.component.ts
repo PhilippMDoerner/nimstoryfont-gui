@@ -177,6 +177,9 @@ export class FormlyTypeaheadFieldComponent<T>
 
   private matchesSearchterm(searchTerm: string, optionLabel: T[keyof T]) {
     const formatter = this.getCustomProps().formatSearchTerm;
+    const searchRegex = new RegExp(
+      searchTerm.toLowerCase().split('').join('.*'),
+    );
 
     switch (typeof optionLabel) {
       case 'string':
@@ -184,11 +187,11 @@ export class FormlyTypeaheadFieldComponent<T>
       case 'bigint':
       case 'boolean': {
         const opt1 = formatter(`${optionLabel}`.toLowerCase()) ?? '';
-        return opt1.includes(searchTerm);
+        return opt1.match(searchRegex);
       }
       case 'symbol': {
         const opt2 = formatter(optionLabel.description?.toLowerCase()) ?? '';
-        return opt2.includes(searchTerm);
+        return opt2.match(searchRegex);
       }
       case 'undefined':
       case 'object':

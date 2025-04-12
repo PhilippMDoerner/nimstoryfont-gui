@@ -14,7 +14,7 @@ import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import { filter, fromEvent, map } from 'rxjs';
 import { FileFieldKind } from 'src/app/_models/formly';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
 
 // WARNING: DO NOT USE IN FORMS THAT UPDATE
 // THIS FIELD DOES NOT TOLERATE RECEIVING EXISTING VALUES
@@ -23,7 +23,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
   templateUrl: './formly-file-field.component.html',
   styleUrls: ['./formly-file-field.component.scss'],
   imports: [
-    ButtonComponent,
+    IconComponent,
     FormlyModule,
     FormlyBootstrapModule,
     ReactiveFormsModule,
@@ -55,7 +55,6 @@ export class FormlyFileFieldComponent
   }
 
   onFileSelect(event: Event) {
-    console.log('FILE SELECT?!');
     const files = (event?.target as HTMLInputElement).files;
     const hasSelectedFile = files && files.length > 0;
     if (!hasSelectedFile) return;

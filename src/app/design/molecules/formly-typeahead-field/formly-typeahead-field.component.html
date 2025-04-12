@@ -17,7 +17,7 @@
   <input
     #inputElement
     #instance="ngbTypeahead"
-    id="typeahead-focus"
+    [id]="field.id ?? ''"
     type="text"
     class="form-control__input"
     [ngbTypeahead]="search"

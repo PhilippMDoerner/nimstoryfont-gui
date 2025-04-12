@@ -12,7 +12,7 @@ export default {
     }),
   ],
   args: {
-    modalHeading: 'Are you sure?',
+    itemToDelete: 'Potato',
     toggleType: 'DANGER',
     cancelButtonType: 'SECONDARY',
   },
@@ -29,7 +29,7 @@ const Template: StoryFn<ConfirmationToggleButtonComponent> = (args) => ({
       [toggleType]="toggleType"
       [icon]="'trash'"
       [text]="'Delete'"
-      [confirmationQuestion]="confirmationQuestion"
+      [itemToDelete]="itemToDelete"
     ></app-confirmation-toggle-button>
   `,
 });

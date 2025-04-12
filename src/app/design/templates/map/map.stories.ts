@@ -19,6 +19,7 @@ const dummyMap: ExtendedMap = {
   image: '/media/Aldrune_World_1.jpg',
   icon: '/media/globe',
   update_datetime: '2021-06-26T17:10:35.352119Z',
+  creation_datetime: '2021-06-26T17:10:35.352119Z',
   campaign: 1,
   campaign_details: {
     name: 'Aldrune',

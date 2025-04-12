@@ -8,6 +8,8 @@ import { SessionComponent } from './session.component';
 
 const dummySession: Session = {
   pk: 1,
+  creation_datetime: '2023-04-22T12:00:00.000Z',
+  update_datetime: '2023-04-23T12:00:00.000Z',
   is_main_session: true,
   is_main_session_int: 1,
   session_number: 10,

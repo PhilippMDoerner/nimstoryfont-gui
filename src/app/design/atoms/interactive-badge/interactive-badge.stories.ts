@@ -50,11 +50,6 @@ Danger.args = {
   kind: 'DANGER',
 };
 
-export const WithoutIcon = Template.bind({});
-WithoutIcon.args = {
-  icon: undefined,
-};
-
 export const WithLink = Template.bind({});
 WithLink.args = {
   textLink: '/to/other/page',

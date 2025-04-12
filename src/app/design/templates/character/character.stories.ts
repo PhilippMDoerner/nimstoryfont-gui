@@ -128,6 +128,7 @@ const dummyCharacter: CharacterDetails = {
   getAbsoluteRouterUrl: () => 'character/83',
   pk: 83,
   player_character: false,
+  campaign: 1,
   player_class_connections: [
     {
       pk: 12,

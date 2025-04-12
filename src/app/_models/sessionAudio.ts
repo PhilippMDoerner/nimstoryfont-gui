@@ -6,8 +6,7 @@ export interface SessionAudioRaw {
   session: number;
 }
 
-export interface SessionAudio
-  extends Exclude<ArticleObject, 'campaign_details' | 'campaign'> {
+export interface SessionAudio extends Omit<ArticleObject, 'description'> {
   audio_file: string;
   audio_url?: string;
   session: number;

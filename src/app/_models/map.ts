@@ -8,7 +8,7 @@ export interface MapRaw {
   image: string;
 }
 
-export interface Map extends ArticleObject {
+export interface Map extends Omit<ArticleObject, 'description'> {
   icon: string;
   image: string;
 }

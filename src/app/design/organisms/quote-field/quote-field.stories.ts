@@ -28,6 +28,15 @@ const dummyQuote: Quote = {
     end_day: 5,
     name: 'The Quest for the Sacred Amulet',
     title: 'The Quest',
+    creation_datetime: '2023-04-22T12:00:00.000Z',
+    update_datetime: '2023-04-23T12:00:00.000Z',
+    campaign: 1,
+    campaign_details: {
+      name: 'Aldrune',
+      pk: 1,
+    },
+    has_recording: false,
+    diaryentries: [],
   },
   encounter: 2,
   connections: [
@@ -56,6 +65,8 @@ const dummyQuote: Quote = {
 
 const dummyCharacter: CharacterDetails = {
   getAbsoluteRouterUrl: () => '/dummy/url',
+  creation_datetime: '2023-04-22T12:00:00.000Z',
+  update_datetime: '2023-04-23T12:00:00.000Z',
   player_character: false,
   alive: true,
   name: 'Gandalf',

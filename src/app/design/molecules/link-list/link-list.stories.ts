@@ -96,7 +96,7 @@ export default {
     }),
   ],
   args: {
-    enableCreate: true,
+    createOption: { kind: 'button' },
     heading: 'Heading text',
     createLabel: 'Create Entry',
     entries: dummyEntries,
@@ -115,7 +115,7 @@ Default.args = {};
 
 export const NoCreate = Template.bind({});
 NoCreate.args = {
-  enableCreate: false,
+  createOption: { kind: 'none' },
 };
 
 export const NoEntries = Template.bind({});

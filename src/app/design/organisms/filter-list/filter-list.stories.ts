@@ -133,5 +133,5 @@ Default.args = {};
 
 export const NonLetterGroup = Template.bind({});
 NonLetterGroup.args = {
-  groupProp: 'party',
+  groupConfig: { mode: 'PROPERTY', groupProp: 'party' },
 };

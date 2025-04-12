@@ -28,17 +28,14 @@ const dummyMemberships: CampaignMembership[] = [
   {
     campaignName: 'Campaign A',
     role: 'admin',
-    isLeaving: false,
   },
   {
     campaignName: 'Campaign B',
     role: 'member',
-    isLeaving: false,
   },
   {
     campaignName: 'Campaign C',
     role: 'guest',
-    isLeaving: false,
   },
 ];
 

@@ -2,7 +2,13 @@ import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn } from '@storybook/angular';
 import { ChoiceSelectComponent } from './choice-select.component';
 
-const dummyEntries = [
+interface Entry {
+  label: string;
+  link: string;
+  party: string;
+}
+
+const dummyEntries: Entry[] = [
   {
     label: 'Thorngrim Stonefist',
     link: 'https://example.com/Thorngrim',
@@ -113,9 +119,9 @@ export default {
     labelProp: 'label',
     selectedLabelValue: undefined,
   },
-} as Meta<ChoiceSelectComponent>;
+} as Meta<ChoiceSelectComponent<Entry>>;
 
-const Template: StoryFn<ChoiceSelectComponent> = (args) => ({
+const Template: StoryFn<Entry> = (args) => ({
   props: {
     ...args,
     choiceSelect: action('choiceSelect'),

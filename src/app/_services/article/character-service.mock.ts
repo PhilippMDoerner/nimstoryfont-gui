@@ -129,6 +129,8 @@ export const dummyCharacter: CharacterDetails = {
   race: 'Maia',
   description:
     'A wise and powerful wizard, Gandalf the Grey is a member of the Fellowship of the Ring and a key figure in the fight against the Dark Lord Sauron.',
+  creation_datetime: '2023-04-22T12:00:00.000Z',
+  update_datetime: '2023-04-23T12:00:00.000Z',
   organizations: [
     {
       pk: 1,

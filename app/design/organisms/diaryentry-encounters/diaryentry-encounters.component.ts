@@ -4,12 +4,10 @@ import {
   computed,
   DestroyRef,
   ElementRef,
-  EventEmitter,
   inject,
   Injector,
   input,
   output,
-  Output,
   signal,
   viewChildren,
 } from '@angular/core';
@@ -41,6 +39,7 @@ import { ScreenService } from 'src/app/_services/screen.service';
 import { slideUpFromBottom } from 'src/app/design/animations/slideDown';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
+import { componentId } from 'src/utils/DOM';
 import { filterNil } from 'src/utils/rxjs-operators';
 import {
   EncounterCardComponent,
@@ -60,6 +59,19 @@ import {
   animations: [slideUpFromBottom],
 })
 export class DiaryentryEncountersComponent {
+  state = input<EncounterCardState>('READ');
+
+  readonly connectionDelete = output<EncounterConnection>();
+  readonly connectionCreate = output<EncounterConnectionRaw>();
+  readonly encounterDelete = output<Encounter>();
+  readonly encounterUpdate = output<Encounter>();
+  readonly encounterCreate = output<EncounterRaw>();
+  readonly encounterCutInsert = output<{
+    encounter: Encounter;
+    newOrderIndex: number;
+  }>();
+  addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
+
   store = inject(DiaryentryPageStore);
   route = inject(ActivatedRoute);
   hotkeyService = inject(HotkeyService);
@@ -74,7 +86,6 @@ export class DiaryentryEncountersComponent {
   canUpdate = this.store.hasWritePermission;
   canDelete = this.store.hasWritePermission;
   canCreate = this.store.hasWritePermission;
-  state = input<EncounterCardState>('READ');
   state$ = toObservable(this.state);
   encounterElements = viewChildren<
     ElementRef<HTMLElement>,
@@ -83,19 +94,6 @@ export class DiaryentryEncountersComponent {
     read: ElementRef<HTMLElement>,
   });
   encounterElements$ = toObservable(this.encounterElements);
-
-  @Output() connectionDelete: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<EncounterConnectionRaw> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
-  @Output() encounterCutInsert: EventEmitter<{
-    encounter: Encounter;
-    newOrderIndex: number;
-  }> = new EventEmitter();
-  addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
   encounterIndexInFocus = signal<number | undefined>(undefined);
   encounterIndexInFocus$ = toObservable(this.encounterIndexInFocus).pipe(
@@ -107,6 +105,8 @@ export class DiaryentryEncountersComponent {
   cutEncounterIndex = signal<number | undefined>(undefined);
   isCutInProgress = computed(() => this.cutEncounterIndex() != null);
   diaryEntryEncounters = this.store.diaryEntryEncounters;
+
+  id = componentId();
 
   constructor() {
     const encounterTitle = this.route.snapshot.params['encounterTitle'];
@@ -211,7 +211,7 @@ export class DiaryentryEncountersComponent {
     this.hotkeyService
       .watch('f')
       .pipe(withLatestFrom(focusedEncounter$), takeUntilDestroyed())
-      .subscribe(([_, element]) => {
+      .subscribe(([, element]) => {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
         element.focus();
       });
@@ -233,8 +233,8 @@ export class DiaryentryEncountersComponent {
       .pipe(
         filter((arrowPress) => !!arrowPress),
         withLatestFrom(htmlElements$, this.encounterIndexInFocus$, this.state$),
-        filter(([_, __, ___, state]) => state === 'EDIT'),
-        map(([arrowPress, elements, focusedElementIndex, _]) => {
+        filter(([, , , state]) => state === 'EDIT'),
+        map(([arrowPress, elements, focusedElementIndex]) => {
           const alreadyHasFocus =
             focusedElementIndex != null && focusedElementIndex >= 0;
           if (alreadyHasFocus) {
@@ -249,18 +249,20 @@ export class DiaryentryEncountersComponent {
           }
 
           switch (arrowPress) {
-            case 'down':
+            case 'down': {
               const firstElementIndex = 0;
               return {
                 nextFocusElement: elements[firstElementIndex],
                 nextFocusIndex: firstElementIndex,
               };
-            case 'up':
+            }
+            case 'up': {
               const lastElementIndex = elements.length - 1;
               return {
                 nextFocusElement: elements[lastElementIndex],
                 nextFocusIndex: lastElementIndex,
               };
+            }
           }
         }),
         distinctUntilChanged(),

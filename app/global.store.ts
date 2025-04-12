@@ -1,5 +1,6 @@
 import { computed, effect, ElementRef, inject } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { tapResponse } from '@ngrx/operators';
 import {
   patchState,
   signalStore,
@@ -8,8 +9,9 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { Observable, of, take } from 'rxjs';
-import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { Observable, of, pipe, take } from 'rxjs';
+import { log } from 'src/utils/logging';
 import { CampaignOverview } from './_models/campaign';
 import { CampaignRole } from './_models/token';
 import { OnlineService } from './_services/online.service';
@@ -21,10 +23,10 @@ import { AuthStore } from './auth.store';
 export type ContentScrollEvent = CustomEvent<
   Event & { pageElement: ElementRef<HTMLDivElement> }
 >;
-export type ScreenSize = {
+export interface ScreenSize {
   width: number;
   height: number;
-};
+}
 
 export function hasRoleOrBetter(
   role: CampaignRole,
@@ -42,25 +44,27 @@ export function hasRoleOrBetter(
   }
 }
 
-export type GlobalState = {
+export interface GlobalState {
   currentCampaign: CampaignOverview | undefined;
   campaigns: CampaignOverview[] | undefined;
   contentScrollEvents: ContentScrollEvent | undefined;
-};
+  isLoadingPage: boolean;
+}
 
 const SSRDefaultScreenSize$: Observable<ScreenSize> = of({
   height: 600,
   width: 600,
 });
 
-const initialAuthState: GlobalState = {
+const initialGlobalState: GlobalState = {
   contentScrollEvents: undefined,
   currentCampaign: undefined,
   campaigns: undefined,
+  isLoadingPage: false,
 };
 
 export const GlobalStore = signalStore(
-  withState(initialAuthState),
+  withState(initialGlobalState),
   withComputed((state) => {
     const authStore = inject(AuthStore);
 
@@ -93,30 +97,29 @@ export const GlobalStore = signalStore(
       }),
     };
   }),
-  withMethods((state) => {
+  withMethods((store) => {
     const tokenService = inject(TokenService);
     const campaignService = inject(CampaignService);
-    const toastService = inject(ToastService);
     const isOnline = toSignal(inject(OnlineService).online$);
     const authStore = inject(AuthStore);
 
     return {
       isCampaignMember: (campaignName?: string): boolean => {
-        campaignName = campaignName ?? state.campaignName();
+        campaignName = campaignName ?? store.campaignName();
         const userData = authStore.authData();
         if (userData == null) return false;
         const role = tokenService.getCampaignRole(userData, campaignName);
         return authStore.isGlobalAdmin() || role === 'guest';
       },
       isCampaignAdmin: (campaignName?: string): boolean => {
-        campaignName = campaignName ?? state.campaignName();
+        campaignName = campaignName ?? store.campaignName();
         const userData = authStore.authData();
         if (userData == null) return false;
         const role = tokenService.getCampaignRole(userData, campaignName);
         return authStore.isGlobalAdmin() || role === 'admin';
       },
       isCampaignGuest: (campaignName?: string): boolean => {
-        campaignName = campaignName ?? state.campaignName();
+        campaignName = campaignName ?? store.campaignName();
         const userData = authStore.authData();
         if (userData == null) return false;
         const role = tokenService.getCampaignRole(userData, campaignName);
@@ -124,7 +127,7 @@ export const GlobalStore = signalStore(
       },
       canPerformActionsOfRole: (minimumRole: CampaignRole) => {
         const hasRolePermissions = computed<boolean>(() => {
-          const currentRole = state.currentCampaignRole();
+          const currentRole = store.currentCampaignRole();
           if (currentRole == null) return false;
           return hasRoleOrBetter(currentRole, minimumRole);
         });
@@ -135,12 +138,36 @@ export const GlobalStore = signalStore(
           .campaignOverview()
           .pipe(take(1))
           .subscribe((campaigns) =>
-            patchState(state, { campaigns: campaigns }),
+            patchState(store, { campaigns: campaigns }),
           );
       },
-
       fireScrollEvent: (event: ContentScrollEvent) => {
-        patchState(state, { contentScrollEvents: event });
+        patchState(store, { contentScrollEvents: event });
+      },
+      trackIsPageLoading: rxMethod<boolean>(
+        pipe(
+          tapResponse({
+            next: (isLoading) =>
+              patchState(store, { isLoadingPage: isLoading }),
+            error: (err) => {
+              log(
+                GlobalStore.name,
+                'Error tracking loading state of page',
+                err,
+              );
+              patchState(store, { isLoadingPage: false });
+            },
+          }),
+        ),
+      ),
+      logout: () => {
+        patchState(store, {
+          campaigns: undefined,
+          currentCampaign: undefined,
+          contentScrollEvents: undefined,
+          isLoadingPage: false,
+        });
+        authStore.logout();
       },
     };
   }),

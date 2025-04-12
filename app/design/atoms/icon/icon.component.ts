@@ -14,6 +14,7 @@ import { Icon, IconKind, toIconKind } from '../_models/icon';
   imports: [],
   host: {
     '[class]': 'classes()',
+    'aria-hidden': 'true',
   },
 })
 export class IconComponent {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DiaryEntryEncounterConnection } from 'src/app/_models/diaryentryEncounterConnection';
@@ -23,7 +24,7 @@ export class DiaryentryEncounterConnectionService
     return data;
   }
 
-  parseOverviewEntity(data: any): OverviewItem {
+  parseOverviewEntity(): OverviewItem {
     throw 'CharacterPlayerClassConnection does not have an overview endpoint';
   }
 }

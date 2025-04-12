@@ -11,7 +11,7 @@ export default {
   },
 } as Meta<BadgeComponent>;
 
-const Template: StoryFn<BadgeComponent> = (args: any) => ({
+const Template: StoryFn<BadgeComponent> = (args) => ({
   props: {
     ...args,
   },

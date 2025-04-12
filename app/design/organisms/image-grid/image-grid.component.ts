@@ -1,21 +1,16 @@
 import { NgClass, NgOptimizedImage } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  Output,
-} from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 type ColumnCount = 1 | 2 | 3;
 
-export type ImageGridEntry = {
+export interface ImageGridEntry {
   icon: string | undefined;
   link: string;
   imageUrl: string | undefined;
   label: string;
-};
+  ariaLabel: string;
+}
 
 @Component({
   selector: 'app-image-grid',
@@ -24,12 +19,10 @@ export type ImageGridEntry = {
   imports: [NgClass, NgOptimizedImage, RouterLink],
 })
 export class ImageGridComponent {
-  EMPTY_IMAGE_URL: string = '';
+  EMPTY_IMAGE_URL = '';
 
   entries = input.required<ImageGridEntry[]>();
   serverUrl = input.required<string>();
-
-  @Output() entryClick: EventEmitter<any> = new EventEmitter();
 
   columnCount = computed<ColumnCount>(() => {
     switch (this.entries().length) {

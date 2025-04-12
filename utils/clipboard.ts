@@ -3,7 +3,7 @@ export function copyToClipboard(text: string) {
   const documentSelection = window.getSelection() as Selection;
 
   //Store previously selected range of elements to restore it later
-  var userSelectedTextRange: Range | undefined = undefined;
+  let userSelectedTextRange: Range | undefined = undefined;
   if (userHasElementsSelected()) {
     userSelectedTextRange = documentSelection.getRangeAt(0);
     //remove the current selection
@@ -22,7 +22,7 @@ export function copyToClipboard(text: string) {
   document.body.removeChild(textContainerElement);
 
   //re-select what the user had previously selected
-  if (!!userSelectedTextRange) {
+  if (userSelectedTextRange) {
     windowSelection.addRange(userSelectedTextRange);
   }
 }

@@ -7,11 +7,11 @@ import { ArticleService } from 'src/app/_services/article/article.service';
 import { GlobalStore } from 'src/app/global.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 
-export type HomePageState = {
+export interface HomePageState {
   recentlyUpdatedArticles: OverviewItem[];
   canLoadMore: boolean;
   isLoading: boolean;
-};
+}
 
 const initialState: HomePageState = {
   recentlyUpdatedArticles: [],

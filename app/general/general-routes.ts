@@ -1,24 +1,43 @@
 import { loginGuard } from '../_guards/login.guard';
 import { onlyOnlineGuard } from '../_guards/only-online.guard';
-import { GeneralRoute } from '../_models/route';
+import { SiteAdministrationPageStore } from '../administration/pages/site-administration-page/site-administration-page.store';
+import { registrationGuard } from './pages/registration/registration.guard';
 
-export const generalRoutes: GeneralRoute[] = [
+export const generalRoutes = [
   //Login Routes
   {
     path: `login`,
-    loadComponent: () =>
-      import('./pages/login-page/login-page.component').then(
-        (m) => m.LoginPageComponent,
-      ),
-    data: { name: 'login' },
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./pages/login-page/login-page.component').then(
+            (m) => m.LoginPageComponent,
+          ),
+        data: { name: 'login' },
+      },
+      {
+        path: `:state`,
+        loadComponent: () =>
+          import('./pages/login-page/login-page.component').then(
+            (m) => m.LoginPageComponent,
+          ),
+        data: { name: 'login-state' },
+      },
+    ],
+    title: 'Login',
   },
+  //Registration Routes
   {
-    path: `login/:state`,
+    path: 'registration',
     loadComponent: () =>
-      import('./pages/login-page/login-page.component').then(
-        (m) => m.LoginPageComponent,
+      import('./pages/registration/registration.component').then(
+        (m) => m.RegistrationComponent,
       ),
-    data: { name: 'login-state' },
+    data: { name: 'registration' },
+    canActivate: [loginGuard, registrationGuard, onlyOnlineGuard],
+    providers: [SiteAdministrationPageStore],
+    title: 'Registration',
   },
   //User Routes
   {
@@ -29,5 +48,6 @@ export const generalRoutes: GeneralRoute[] = [
       ),
     data: { name: 'direct-profile' },
     canActivate: [loginGuard, onlyOnlineGuard],
+    title: 'Your Profile',
   },
 ];

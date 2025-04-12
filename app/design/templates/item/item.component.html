@@ -4,10 +4,13 @@
       <div class="item__edit-container">
         <a
           btn
-          [title]="'Edit ' + item().name"
+          [ngbTooltip]="'Edit ' + item().name"
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
           [routerLink]="updateUrl()"
+          [attr.aria-label]="'Edit ' + item().name"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
         >
         </a>
       </div>
@@ -50,6 +53,7 @@
     <app-editable-text
       class="item__description"
       [heading]="'Description'"
+      [ariaLevel]="2"
       [placeholder]="'Add a description for ' + item().name"
       [text]="item().description"
       [canUpdate]="canUpdate()"
@@ -61,7 +65,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Items'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + item().name + '?'"
+      [deleteMessage]="'Item ' + item().name"
       (delete)="itemDelete.emit(item())"
     ></app-article-footer>
   </article>

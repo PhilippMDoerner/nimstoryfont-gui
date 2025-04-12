@@ -123,7 +123,7 @@ export const integerValidator: ValidatorOption = {
 function isNumberValidation(control: AbstractControl): ValidationErrors | null {
   const isNumberType = typeof control.value === 'number';
   const isNumberString =
-    typeof control.value === 'string' && !isNaN(control.value as any);
+    typeof control.value === 'string' && !isNaN(parseInt(control.value));
   const isNumber = isNumberType || isNumberString;
   return isNumber ? null : { notNumber: !isNumber };
 }

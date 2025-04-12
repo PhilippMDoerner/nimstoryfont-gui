@@ -13,6 +13,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./campaign-overview-page.component.scss'],
   host: {
     '[@slideInOut]': '',
+    tabindex: '-1',
   },
   animations: [slideInOut],
   imports: [CampaignOverviewComponent],
@@ -38,6 +39,6 @@ export class CampaignOverviewPageComponent {
   }
 
   logout(): void {
-    this.authStore.logout();
+    this.globalStore.logout();
   }
 }

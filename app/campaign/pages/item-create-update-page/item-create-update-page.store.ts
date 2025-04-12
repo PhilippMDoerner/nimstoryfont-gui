@@ -14,9 +14,9 @@ import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-type ItemCreateUpdateState = {
+interface ItemCreateUpdateState {
   createState: RequestState;
-};
+}
 
 const initialState: ItemCreateUpdateState = {
   createState: 'init',

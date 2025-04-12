@@ -1,7 +1,7 @@
 @import "/src/screens.scss";
 
 :host {
-  --breadcrumb-divider: ">";
+  --breadcrumb-divider: "/";
   --breadcrumb-bg: unset;
 }
 
@@ -28,6 +28,7 @@
   justify-content: start;
 
   &__link {
+    font-weight: normal;
     text-decoration-style: solid;
   }
 }

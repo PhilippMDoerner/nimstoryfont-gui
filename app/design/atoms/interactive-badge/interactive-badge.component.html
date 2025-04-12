@@ -1,10 +1,10 @@
-<div class="badge-container" [title]="text()">
+<div class="badge-container">
   @if (textLink()) {
     <a
       [routerLink]="textLink()"
       class="badge"
       [ngClass]="{
-        'badge--part1': icon(),
+        'badge--part1': showDeleteButton(),
         'bg-primary': kind() === 'PRIMARY',
         'bg-secondary': kind() === 'SECONDARY',
         'bg-dark': kind() === 'DARK',
@@ -18,11 +18,11 @@
     </a>
   } @else {
     <button
-      (click)="labelClick.emit()"
+      (click)="labelClick.emit($event)"
       class="badge"
       tabindex="0"
       [ngClass]="{
-        'badge--part1': icon(),
+        'badge--part1': showDeleteButton(),
         'bg-primary': kind() === 'PRIMARY',
         'bg-secondary': kind() === 'SECONDARY',
         'bg-dark': kind() === 'DARK',
@@ -37,11 +37,9 @@
     </button>
   }
 
-  @let iconVal = icon();
-  @if (iconVal) {
+  @if (showDeleteButton()) {
     <button
-      (click)="iconClick.emit()"
-      tabindex=""
+      (click)="iconClick.emit($event)"
       class="badge badge--part2"
       [ngClass]="{
         'bg-primary': iconKindVal() === 'PRIMARY',
@@ -52,8 +50,9 @@
         'bg-info': iconKindVal() === 'INFO',
         'bg-light': iconKindVal() === 'LIGHT',
       }"
+      [attr.aria-label]="'Remove ' + text()"
     >
-      <app-icon [icon]="iconVal" />
+      <app-icon [icon]="'trash'" />
     </button>
   }
 </div>

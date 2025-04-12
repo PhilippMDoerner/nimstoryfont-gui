@@ -3,10 +3,11 @@ import {
   Component,
   computed,
   inject,
+  Signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
-import { filter, skip, take } from 'rxjs';
+import { filter, Observable, skip, take } from 'rxjs';
 import { Creature, CreatureRaw } from 'src/app/_models/creature';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -73,7 +74,16 @@ export class CreatureUpdateCreateComponent {
     this.formlyService.buildInputConfig({ key: 'name', inputKind: 'NAME' }),
   ];
 
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(
+      () => this.userModel() == null || this.globalStore.campaignName() == null,
+    );
+
   private creatureQueryState$ = toObservable(this.store.creatureQueryState);
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 
   cancel() {
     const campaign = this.globalStore.campaignName();

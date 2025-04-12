@@ -1,34 +1,31 @@
 <app-page-container>
   <article class="container diarentry">
     @if (canUpdate()) {
-      <div class="diaryentry__edit-row edit-row">
-        <div class="edit-row__edit-container edit-container">
-          <a
-            btn
-            #editDiaryentryLink
-            class="edit-container__button"
-            aria-label="Edit Diaryentry"
-            [routerLink]="updateUrl()"
-            [icon]="'pencil'"
-            [kind]="'SECONDARY'"
-            [hotkey]="'e'"
-            [disabledHotkey]="state() !== 'DISPLAY'"
-            (hotkeyPressed)="$event.host.click()"
-          >
-          </a>
-          <button
-            btn
-            class="edit-container__button"
-            [kind]="'SECONDARY'"
-            [icon]="state() === 'DISPLAY' ? 'pencil' : 'times'"
-            [text]="
-              state() === 'DISPLAY' ? 'Edit Encounters' : 'Read Diaryentry'
-            "
-            [hotkey]="'r'"
-            (hotkeyPressed)="toggleState()"
-            (click)="toggleState()"
-          ></button>
-        </div>
+      <div class="diaryentry__menu-container">
+        <app-context-menu
+          [menuButtonKind]="'SECONDARY'"
+          [menuButtonIcon]="'pencil'"
+          [menuButtonHotkey]="'e'"
+          [menuButtonAriaLabel]="'Edit actions for diaryentry'"
+          [placement]="['bottom-end', 'top-end']"
+          [menuItems]="[
+            {
+              kind: 'LINK',
+              label: 'Edit Diaryentry',
+              icon: 'book-open',
+              url: updateUrl(),
+            },
+            {
+              kind: 'BUTTON',
+              label:
+                state() === 'DISPLAY' ? 'Edit Encounters' : 'Read Encounters',
+              icon: state() === 'DISPLAY' ? 'rectangle-list' : 'times',
+              actionName: 'toggleState',
+              hotkey: 'r',
+            },
+          ]"
+          (actionTriggered)="toggleState()"
+        ></app-context-menu>
       </div>
     }
 
@@ -38,20 +35,21 @@
         Diary Entry # {{ diaryentry().session_details?.session_number }} <br />
         {{ diaryentry().title }}
       </h1>
-      <h2 class="col-12 fs-6 fw-normal diaryentry__subheading">
+      <p class="col-12 fs-6 fw-normal diaryentry__subheading">
         Written by: {{ diaryentry().author_details?.name }} <br />
         on {{ diaryentry().session_details?.session_date | date: "longDate" }}
-      </h2>
+      </p>
     </div>
 
     @if (canUpdate() && state() === "EDIT") {
-      <h3 class="fs-2">Contents</h3>
+      <h2 class="diaryentry__contents-heading">Contents</h2>
       <app-drag-and-drop-list
         class="diaryentry__contents"
         [entries]="sortedEncounters()"
         [labelProp]="'title'"
         [idProp]="'pk'"
         [isUpdating]="isUpdatingEncounters()"
+        aria-label="Rearrangeable encounters in this diaryentry"
         (changed)="rearrangeEncounters($event)"
         (swapEntries)="swapEncounters($event)"
       />
@@ -63,7 +61,7 @@
     }
 
     @if (state() === "EDIT") {
-      <h3 class="fs-2">Encounters</h3>
+      <h3 [id]="encountersListId" class="fs-2">Encounters</h3>
     }
 
     <!-- DiaryEntry Text In Encounters -->
@@ -88,7 +86,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Diaryentries'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete this Diaryentry?'"
+      [deleteMessage]="'DiaryEntry ' + diaryentry().title"
       (delete)="diaryentryDelete.emit(diaryentry())"
     ></app-article-footer>
   </article>
@@ -105,6 +103,7 @@
           class="nav-buttons__button nav-buttons__button--left"
           [routerLink]="nextDiaryentryUrl()"
           [text]="'Next'"
+          aria-label="To Next Diaryentry"
           [icon]="'arrow-left'"
           [kind]="'SECONDARY'"
         >
@@ -120,6 +119,7 @@
           class="nav-buttons__button nav-buttons__button--right"
           [routerLink]="priorDiaryentryUrl()"
           [text]="'Back'"
+          aria-label="To Prior Diaryentry"
           [icon]="'arrow-right'"
           [kind]="'SECONDARY'"
         >

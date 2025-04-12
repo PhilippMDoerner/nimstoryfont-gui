@@ -4,7 +4,7 @@
       <app-icon [icon]="'user'"></app-icon>
       {{ user().username | titlecase }}
       @if (!user().is_active) {
-        <span title="Deleted/Deactivated"> (†) </span>
+        <span [ngbTooltip]="'Deleted/Deactivated'"> (†) </span>
       }
     </div>
   </h3>
@@ -17,6 +17,7 @@
       [entries]="userGroupEntries()"
       [createOptions]="{
         kind: 'SELECT',
+        formFieldLabel: 'Permission-Groups',
         config: {
           valueProp: 'id',
           labelProp: 'name',
@@ -40,7 +41,7 @@
   @if (user().is_active) {
     <app-confirmation-toggle-button
       class="col-12 user-card__row user-card__row--delete"
-      [confirmationQuestion]="'Delete user ?'"
+      [itemToDelete]="'user ' + user().username"
       [icon]="'trash'"
       [cancelButtonType]="'DARK'"
       (confirm)="deleteUser.emit(user())"

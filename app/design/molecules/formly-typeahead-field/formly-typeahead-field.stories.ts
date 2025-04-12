@@ -68,7 +68,7 @@ const Template: StoryFn<
   return {
     props: {
       ...args,
-      onSubmit: (event: any) => console.log('submitted', event, args.form),
+      onSubmit: (event: Event) => console.log('submitted', event, args.form),
     },
     template: `
         <form [formGroup]="form" (submit)="onSubmit($event)">

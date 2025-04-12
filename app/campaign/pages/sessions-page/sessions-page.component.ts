@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  Signal,
+} from '@angular/core';
+import { Observable } from 'rxjs';
 import { SessionsTemplateComponent } from 'src/app/design//templates/sessions-template/sessions-template.component';
 import { GlobalStore } from 'src/app/global.store';
 import { SessionsPageStore } from './sessions-page.store';
@@ -13,4 +20,14 @@ import { SessionsPageStore } from './sessions-page.store';
 export class SessionsPageComponent {
   store = inject(SessionsPageStore);
   globalStore = inject(GlobalStore);
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(
+      () =>
+        this.store.sessions() == null ||
+        this.globalStore.currentCampaign() == null,
+    );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 }

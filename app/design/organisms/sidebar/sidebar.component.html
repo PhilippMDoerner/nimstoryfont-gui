@@ -3,11 +3,11 @@
 @if (campaign()) {
   <div class="offcanvas-header">
     <div class="sidebar__brand brand">
-      <div class="brand__back" title="campaign-overview">
+      <div class="brand__back" [ngbTooltip]="'campaign-overview'">
         <a
           [routerLink]="campaignOverviewUrl"
           class="brand__back-link"
-          aria-label="'Back to campaign overview'"
+          aria-label="'To campaign overview'"
         >
           <app-icon class="brand__back-icon" [icon]="'chevron-left'"></app-icon>
         </a>
@@ -15,15 +15,15 @@
 
       <div
         class="brand__home"
-        [title]="campaign()?.name + '-Home'"
+        [ngbTooltip]="campaign()?.name + '-Home'"
         [class.disabled-entry]="campaign() == null"
       >
         <a class="brand__home-link" [routerLink]="homeUrl()">
-          <h4 class="brand__home-link-text">
+          <div class="h4 brand__home-link-text" [id]="headerId">
             <img
               class="brand__icon"
               [ngSrc]="serverUrl + campaign()?.icon"
-              alt="To Home Page"
+              alt=""
               priority
               [width]="32"
               [height]="32"
@@ -31,7 +31,7 @@
             <div class="brand__home-link-text-text">
               {{ campaign()?.name }}
             </div>
-          </h4>
+          </div>
         </a>
       </div>
     </div>

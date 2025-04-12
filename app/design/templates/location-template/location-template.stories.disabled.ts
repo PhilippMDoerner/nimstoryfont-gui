@@ -11,6 +11,10 @@ const dummyLocation: Location = {
   name: 'Central Park',
   description: 'A large public park in New York City.',
   parent_location: 456,
+  creation_datetime: '2022-05-06T09:30:00.000Z',
+  update_datetime: '2022-05-06T10:15:00.000Z',
+  campaign: 1,
+  campaign_details: { id: 1, name: 'Campaign of Adventures' },
   images: [
     {
       pk: 1,
@@ -49,6 +53,8 @@ const dummyLocation: Location = {
       name_full: 'The Pond, Central Park',
       description: 'A small body of water in Central Park.',
       getAbsoluteRouterUrl: () => '/location/1',
+      campaign: 1,
+      campaign_details: { name: 'The War of the Ring', id: 1 },
     },
   ],
   marker_details: [

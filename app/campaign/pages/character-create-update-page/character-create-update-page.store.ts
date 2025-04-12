@@ -7,16 +7,15 @@ import { rxMethod } from '@ngrx/signals/rxjs-interop';
 import { map, pipe, switchMap, tap } from 'rxjs';
 import { CharacterDetails, CharacterRaw } from 'src/app/_models/character';
 import { httpErrorToast } from 'src/app/_models/toast';
-import { CharacterPlayerClassConnectionService } from 'src/app/_services/article/character-player-class-connection.service';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { LocationService } from 'src/app/_services/article/location.service';
-import { OrganizationMembershipService } from 'src/app/_services/article/organization-membership.service';
 import { OrganizationService } from 'src/app/_services/article/organization.service';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { GlobalStore } from 'src/app/global.store';
 import { sortByProp } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
+
 export interface CharacterCreateUpdateState {
   serverModel: CharacterDetails | undefined;
 }
@@ -61,10 +60,6 @@ export const CharacterCreateUpdateStore = signalStore(
   }),
   withMethods((store) => {
     const characterService = inject(CharacterService);
-    const playerClassConnectionService = inject(
-      CharacterPlayerClassConnectionService,
-    );
-    const organizationMembershipService = inject(OrganizationMembershipService);
     const toastService = inject(ToastService);
     return {
       reset: () =>

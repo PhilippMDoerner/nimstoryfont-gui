@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export function toArgs<Component>(
   args: Partial<TransformSignalInputType<TransformEventType<Component>>>,
 ): TransformEventType<Component> {

@@ -111,6 +111,7 @@ export class SessionaudioCreateUpdatePageComponent {
                 (this.userModel() as Partial<SessionAudio>)?.session_details
                   ?.pk;
               return (
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 !!(selectOption as any).has_recording &&
                 !isCurrentlySelectedOption
               );
@@ -131,12 +132,17 @@ export class SessionaudioCreateUpdatePageComponent {
     }),
   ]);
 
+  private readonly isPageLoading = computed(
+    () => this.userModel() == null || this.globalStore.campaignName() == null,
+  );
+
   constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
     effect(() => (this.isUploading = this.store.fileUploadState() !== 'init'));
   }
 
   onCreate(newRecording: Partial<SessionAudioRaw>) {
-    const file: File = newRecording.audio_file as any as File;
+    const file: File = newRecording.audio_file as unknown as File;
     const fileName = this.cleanFilename(file);
     this.store.createSessionAudio(
       newRecording.session as number,
@@ -161,7 +167,7 @@ export class SessionaudioCreateUpdatePageComponent {
     if (isUpdateWithoutFileChange) {
       this.store.updateSessionAudioWithoutFile(recording);
     } else {
-      const file: File = recording.audio_file as any as File;
+      const file: File = recording.audio_file as unknown as File;
       const fileName = this.cleanFilename(file);
       this.store.updateSessionAudioWithFile(recording, fileName, file);
     }

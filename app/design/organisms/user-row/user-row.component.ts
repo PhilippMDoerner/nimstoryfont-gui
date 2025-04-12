@@ -3,10 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { PermissionGroup } from 'src/app/_models/auth';
 import { User } from 'src/app/_models/user';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
@@ -26,6 +26,7 @@ import {
     BadgeListComponent,
     TitleCasePipe,
     ConfirmationToggleButtonComponent,
+    NgbTooltip,
   ],
 })
 export class UserRowComponent {
@@ -34,9 +35,9 @@ export class UserRowComponent {
   canCreate = input<boolean>(false);
   canDelete = input<boolean>(false);
 
-  @Output() addGroup: EventEmitter<PermissionGroup> = new EventEmitter();
-  @Output() removeGroup: EventEmitter<number> = new EventEmitter();
-  @Output() deleteUser: EventEmitter<User> = new EventEmitter();
+  readonly addGroup = output<PermissionGroup>();
+  readonly removeGroup = output<number>();
+  readonly deleteUser = output<User>();
 
   userGroupEntries = computed<BadgeListEntry<number>[]>(() => {
     return (

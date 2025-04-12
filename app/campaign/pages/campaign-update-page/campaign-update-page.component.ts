@@ -1,5 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, Signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
+import { Observable } from 'rxjs';
 import { Campaign, CampaignRaw } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { CampaignUpdateComponent } from 'src/app/design//templates/campaign-update/campaign-update.component';
@@ -24,10 +25,13 @@ export class CampaignUpdatePageComponent {
   campaign$ = toObservable(this.campaign);
   mapOptions = this.campaignUpdatePageStore.mapOptions;
   serverModel = this.campaignUpdatePageStore.serverModel;
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.campaignUpdatePageStore.campaign() == null);
 
   constructor(private routingService: RoutingService) {
     this.campaignUpdatePageStore.loadCurrentCampaignDetails();
     this.campaignUpdatePageStore.loadMapOptions();
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
   }
 
   updateCampaign(campaign: Partial<Campaign>) {
@@ -37,7 +41,7 @@ export class CampaignUpdatePageComponent {
       return;
     }
 
-    let rawCampaign: CampaignRaw &
+    const rawCampaign: CampaignRaw &
       Record<'pk', number> &
       Record<'update_datetime', string> &
       Record<'subtitle', string> = {

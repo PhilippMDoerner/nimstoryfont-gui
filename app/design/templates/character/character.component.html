@@ -4,10 +4,13 @@
       <div class="character__edit-container">
         <a
           btn
-          [title]="'Edit ' + character().name"
+          [ngbTooltip]="'Edit ' + character().name"
+          [attr.aria-label]="'Edit ' + character().name"
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
           [routerLink]="updateUrl()"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
         >
         </a>
       </div>
@@ -28,12 +31,12 @@
 
       <div class="col-12 character__subheading">
         <!-- Organization -->
-        <h5>
+        <span class="fs-5">
           @if (character().gender !== "Other") {
             {{ character().gender }}
           }
           {{ character().race }}
-        </h5>
+        </span>
 
         <!-- Current Location -->
         @let currentLocationDetails = character().current_location_details;
@@ -92,6 +95,7 @@
         [entries]="organizationMemberships()"
         [createOptions]="{
           kind: 'SELECT',
+          formFieldLabel: 'Organizations',
           config: {
             options: joinableOrganizations(),
             labelProp: 'name',
@@ -109,6 +113,7 @@
         [entries]="characterClasses()"
         [createOptions]="{
           kind: 'SELECT',
+          formFieldLabel: 'Classes',
           config: {
             options: campaignClasses(),
             valueProp: 'pk',
@@ -125,6 +130,7 @@
     <app-editable-text
       class="character__description"
       [heading]="'Description'"
+      [ariaLevel]="2"
       [placeholder]="'Add a description for ' + character().name"
       [text]="character().description"
       [serverModel]="characterServerModel()?.description"
@@ -133,19 +139,19 @@
     ></app-editable-text>
 
     <div class="character__items">
-      <app-list
+      <app-link-list
+        [ariaLevel]="2"
         [heading]="'Items of Note'"
         [entries]="characterItems()"
-        [enableCreate]="canCreate()"
+        [createOption]="{ kind: 'link', url: itemCreateUrl() }"
         [emptyListText]="character().name + ' has no significant items.'"
-        (create)="routeToItemCreate()"
-      ></app-list>
+      ></app-link-list>
     </div>
 
     <!-- PCs don't have encounters -->
     @if (!character().player_character) {
       <div class="row">
-        <h4 class="col mb-0">
+        <h2 class="col mb-0 fs-4">
           <app-info-circle-tooltip
             [text]="(character().encounters?.length ?? 0) + ' Encounters'"
             [tooltip]="
@@ -154,7 +160,7 @@
               '. Starts with the most recent encounter and ends with the latest.'
             "
           ></app-info-circle-tooltip>
-        </h4>
+        </h2>
         <app-encounter-accordion
           [encounters]="character().encounters ?? []"
           [campaignLocations]="campaignLocations()"
@@ -175,7 +181,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Characters'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + character().name + '?'"
+      [deleteMessage]="'Character ' + character().name"
       (delete)="characterDelete.emit(character())"
     ></app-article-footer>
   </article>

@@ -1,9 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   inject,
+  Signal,
 } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Creature } from 'src/app/_models/creature';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { CreatureComponent } from 'src/app/design/templates/creature/creature.component';
@@ -22,9 +25,13 @@ export class CreaturePageComponent {
   serverUrl = environment.backendDomain;
   globalStore = inject(GlobalStore);
   store = inject(CreaturePageStore);
-  private routingService = inject(RoutingService);
+  routingService = inject(RoutingService);
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.store.creature() == null);
 
   constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
     this.routeToOverviewOnMissingArticle();
   }
 

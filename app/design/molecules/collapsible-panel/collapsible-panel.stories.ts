@@ -16,7 +16,7 @@ export default {
   },
 } as Meta<CollapsiblePanelComponent>;
 
-const Template: StoryFn<CollapsiblePanelComponent> = (args: any) => ({
+const Template: StoryFn<CollapsiblePanelComponent> = (args) => ({
   props: {
     ...args,
   },

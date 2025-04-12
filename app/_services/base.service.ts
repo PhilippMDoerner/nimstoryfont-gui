@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
@@ -5,15 +6,15 @@ import { environment } from 'src/environments/environment';
 import { OverviewItem } from '../_models/overview';
 import { CampaignService } from './service.interfaces';
 
-export type ListParams<T> = {
+export interface ListParams<T> {
   campaign: string;
   sortProperty?: keyof T;
-};
+}
 
-export type ReadByNameParams = {
+export interface ReadByNameParams {
   campaign: string;
   params: { name: string; [key: string]: unknown };
-};
+}
 
 @Injectable({
   providedIn: 'root',

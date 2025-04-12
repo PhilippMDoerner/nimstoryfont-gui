@@ -8,6 +8,8 @@
           [routerLink]="updateUrl()"
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
+          [attr.aria-label]="'Edit ' + map().name"
+          [ngbTooltip]="'Edit ' + map().name"
           [hotkey]="'e'"
           (hotkeyPressed)="$event.host.click()"
         >
@@ -16,16 +18,16 @@
     }
 
     @if (mapChoices().length > 0) {
-      <h3 class="map__heading heading">
-        Map of
-        <app-choice-select
+      <h1 class="h3 map__heading heading">
+        <app-context-menu
+          [id]="'map-select'"
           class="heading__select"
-          [choices]="mapChoices()"
-          [labelProp]="'name'"
-          [selectedLabelValue]="map().name"
-          (choiceSelect)="onMapChange($event)"
-        ></app-choice-select>
-      </h3>
+          [menuButtonText]="'<strong>Current map: </strong> ' + map().name"
+          [menuButtonKind]="'SECONDARY'"
+          [menuItems]="menuItems()"
+          (actionTriggered)="onMapChange($event)"
+        />
+      </h1>
     }
 
     <a
@@ -63,7 +65,7 @@
       [showDelete]="canDelete()"
       [buttonLink]="homeUrl()"
       [buttonLabel]="'Back to Frontpage'"
-      [deleteMessage]="'Delete Map of ' + map().name + '?'"
+      [deleteMessage]="'Map of ' + map().name"
       (delete)="onMapDelete()"
     ></app-article-footer>
   </article>

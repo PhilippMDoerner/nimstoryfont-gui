@@ -5,9 +5,12 @@
         <a
           btn
           [routerLink]="updateUrl"
-          [title]="'Edit ' + location().name"
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
+          [ngbTooltip]="'Edit ' + location().name"
+          [attr.aria-label]="'Edit ' + location().name"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
         >
         </a>
       </div>
@@ -15,16 +18,16 @@
 
     <!-- Heading -->
     <div class="row">
+      <!-- String indicating all parent_locations -->
+      @if (location().parent_location_list?.length ?? 0 > 0) {
+        <app-breadcrumb-list
+          class="fs-5 location__subheading subheading col-12"
+          [linkEntries]="parentLocations()"
+        />
+      }
       <h1 class="col-12 location__heading">
         {{ location().name }}
       </h1>
-
-      <!-- String indicating all parent_locations -->
-      @if (location().parent_location_list?.length ?? 0 > 0) {
-        <h5 class="col-12 location__subheading subheading">
-          <app-breadcrumb-list [linkEntries]="parentLocations()" />
-        </h5>
-      }
     </div>
 
     <!-- Image Gallery -->
@@ -60,6 +63,7 @@
     <app-editable-text
       class="location__description"
       [heading]="'Description'"
+      [ariaLevel]="2"
       [placeholder]="'Add a description for ' + location().name"
       [text]="location().description"
       [canUpdate]="canUpdate()"
@@ -68,13 +72,14 @@
 
     <!-- Characters of Interest -->
     <div class="location__characters">
-      <app-list
+      <app-link-list
+        [ariaLevel]="2"
         [heading]="'Characters of interest'"
         [entries]="locationCharacters"
-        [enableCreate]="canCreate()"
+        [createOption]="{ kind: 'button' }"
         [emptyListText]="'You know nobody in ' + location().name"
-        (create)="routeToCharacterCreation()"
-      ></app-list>
+        (createButtonClick)="routeToCharacterCreation()"
+      ></app-link-list>
     </div>
 
     <!-- Locations of Interest -->
@@ -92,7 +97,7 @@
       [buttonLink]="overviewUrl"
       [buttonLabel]="'Back to Creatures'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete ' + location().name + '?'"
+      [deleteMessage]="'Location ' + location().name"
       (delete)="locationDelete.emit(location())"
     ></app-article-footer>
   </article>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -24,7 +25,7 @@ import { sortByProp } from 'src/utils/array';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { withQueries } from 'src/utils/store/withQueries';
 
-export type ConfigAdministrationPageState = {};
+export interface ConfigAdministrationPageState {}
 
 const initialState: ConfigAdministrationPageState = {};
 

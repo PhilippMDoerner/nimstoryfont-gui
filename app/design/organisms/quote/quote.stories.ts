@@ -24,6 +24,15 @@ const dummyQuote: Quote = {
     end_day: 5,
     name: 'The Quest for the Sacred Amulet',
     title: 'The Quest',
+    creation_datetime: '2023-04-22T12:00:00.000Z',
+    update_datetime: '2023-04-23T12:00:00.000Z',
+    campaign: 1,
+    campaign_details: {
+      name: 'Aldrune',
+      pk: 1,
+    },
+    has_recording: false,
+    diaryentries: [],
   },
   encounter: 2,
   connections: [
@@ -58,6 +67,8 @@ const dummyCharacter: CharacterDetails = {
   title: 'Gandalf the Grey',
   gender: 'Male',
   race: 'Maia',
+  creation_datetime: '2023-04-22T12:00:00.000Z',
+  update_datetime: '2023-04-23T12:00:00.000Z',
   description:
     'A wise and powerful wizard, Gandalf the Grey is a member of the Fellowship of the Ring and a key figure in the fight against the Dark Lord Sauron.',
   organizations: [

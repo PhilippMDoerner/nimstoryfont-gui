@@ -7,6 +7,10 @@
           [icon]="'pencil'"
           [kind]="'SECONDARY'"
           [routerLink]="updateUrl()"
+          [ngbTooltip]="'Edit ' + quest().name"
+          [attr.aria-label]="'Edit ' + quest().name"
+          [hotkey]="'e'"
+          (hotkeyPressed)="$event.host.click()"
         >
         </a>
       </div>
@@ -52,6 +56,7 @@
     <app-editable-text
       class="quest__description"
       [heading]="'Description'"
+      [ariaLevel]="2"
       [placeholder]="'Add a description for ' + quest().name"
       [text]="quest().description"
       [canUpdate]="canUpdate()"
@@ -63,7 +68,7 @@
       [buttonLink]="overviewUrl()"
       [buttonLabel]="'Back to Quest Overview'"
       [showDelete]="canDelete()"
-      [deleteMessage]="'Delete Quest?'"
+      [deleteMessage]="'Quest ' + quest().name"
       (delete)="questDelete.emit(quest())"
     ></app-article-footer>
   </article>

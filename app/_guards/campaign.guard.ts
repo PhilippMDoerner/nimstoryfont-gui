@@ -7,11 +7,9 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import { log } from 'src/utils/logging';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { AuthStore } from '../auth.store';
-import { GlobalStore } from '../global.store';
 
 export const campaignGuard: CanActivateFn = (next: ActivatedRouteSnapshot) => {
   const routingService = inject(RoutingService);
-  const globalStore = inject(GlobalStore);
   const authStore = inject(AuthStore);
 
   return toObservable(authStore.isLoggedIn).pipe(

@@ -1,13 +1,16 @@
+<!-- eslint-disable @angular-eslint/template/click-events-have-key-events -->
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
+
 <!-- Text Body -->
 @if (canUpdate()) {
   <!-- Display Mode -->
-  <button
+  <div
     class="field field--display"
     [class.field--hidden]="state() !== 'DISPLAY'"
     (click)="startEdit()"
   >
     <ng-container *ngTemplateOutlet="textBody" />
-  </button>
+  </div>
   <!-- Update Mode -->
   <form
     class="field field--update"
@@ -17,9 +20,9 @@
     @if (_settings().skin === "oxide-dark") {
       <editor
         #editor
-        [id]="editorId"
+        [id]="id()"
         [init]="_settings()"
-        [name]="editorId"
+        [name]="id()"
         [(ngModel)]="textModel"
         class="mb-2"
         [class.editor--focus]="inFocus()"
@@ -48,7 +51,7 @@
     <div class="flex-column card p-4">
       <!-- Comparison text -->
       <div>
-        <h3>Server Version</h3>
+        <h3>Description From Server</h3>
         <app-html-text [text]="serverModel()!" />
       </div>
 
@@ -56,12 +59,13 @@
 
       <!-- Actual edit form -->
       <form (submit)="finishEdit()">
-        <h3>Your Version</h3>
+        @let outdatedId = id() + "-outdated";
+        <label [for]="outdatedId" class="h3"> Description from You </label>
 
         <editor
           [init]="_settings()"
-          [name]="editorId"
-          [id]="editorId"
+          [name]="outdatedId"
+          [id]="outdatedId"
           [(ngModel)]="textModel"
           class="mb-2"
         ></editor>
@@ -91,7 +95,7 @@
       [hotkey]="'q'"
       [disabledHotkey]="disabledHotkeys()"
       (hotkeyPressed)="cancelEdit()"
-      (click)="cancelEdit()"
+      (clicked)="cancelEdit()"
     ></button>
   </div>
 </ng-template>

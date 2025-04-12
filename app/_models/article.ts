@@ -4,12 +4,15 @@ export interface ApiObject {
 }
 
 export interface ArticleObject extends ApiObject {
-  name?: string;
-  creation_datetime?: string;
-  update_datetime?: string;
-  description?: string;
-  campaign?: number;
-  campaign_details?: MinimumCampaignOverview;
+  name: string | undefined;
+  creation_datetime: string | undefined;
+  update_datetime: string | undefined;
+  description: string | undefined;
+  campaign: number | undefined;
+  campaign_details: MinimumCampaignOverview | undefined;
 }
 
-export type MinimumCampaignOverview = { name: string; id: number };
+export interface MinimumCampaignOverview {
+  name: string;
+  id: number;
+}

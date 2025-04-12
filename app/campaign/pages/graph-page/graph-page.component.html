@@ -155,11 +155,15 @@
       [disabled]="isButtonDisabled"
       [text]="'Connect!'"
       [icon]="'link'"
-      (click)="pageState.set('CREATE')"
+      (clicked)="pageState.set('CREATE')"
     ></button>
   </span>
 
-  <app-collapsible-panel class="d-block mt-5" [isOpen]="isPanelOpen()">
+  <app-collapsible-panel
+    class="d-block mt-5"
+    [isOpen]="isPanelOpen()"
+    [ariaLevel]="2"
+  >
     <ng-container heading> Custom Links </ng-container>
     <ng-container body>
       <div class="w-100 d-flex flex-column row-gap-3">
@@ -177,7 +181,7 @@
                   class="user-group__remove-button"
                   [icon]="'trash'"
                   [toggleSize]="'SMALL'"
-                  [confirmationQuestion]="'Delete link?'"
+                  [itemToDelete]="'Link ' + item.label"
                   [cancelButtonType]="'DARK'"
                   [enableHotkey]="false"
                   (confirm)="onDeleteLink(item.link.id!)"

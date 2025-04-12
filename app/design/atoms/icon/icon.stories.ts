@@ -12,7 +12,7 @@ export default {
   ],
 } as Meta<IconComponent>;
 
-const Template: StoryFn<IconComponent> = (args: any) => ({
+const Template: StoryFn<IconComponent> = (args) => ({
   props: {
     ...args,
     solidIcons: ALL_SOLID_ICONS,

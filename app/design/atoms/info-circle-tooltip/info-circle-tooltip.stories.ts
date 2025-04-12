@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Meta, StoryFn } from '@storybook/angular';
 import { InfoCircleTooltipComponent } from './info-circle-tooltip.component';
 

@@ -16,7 +16,7 @@ import {
   EncounterConnectionRaw,
   EncounterRaw,
 } from 'src/app/_models/encounter';
-import { httpErrorToast } from 'src/app/_models/toast';
+import { httpErrorToast, successToast } from 'src/app/_models/toast';
 import { CharacterService } from 'src/app/_services/article/character.service';
 import { DiaryentryService } from 'src/app/_services/article/diaryentry.service';
 import { EncounterConnectionService } from 'src/app/_services/article/encounter-connection.service';
@@ -31,21 +31,21 @@ import { withQueries } from 'src/utils/store/withQueries';
 
 export interface DiaryEntryEncounter {
   encounter: Encounter | EncounterRaw;
-  isUpdating: boolean;
+  requestState: RequestState;
 }
 
-type DiaryentryPageState = {
+interface DiaryentryPageState {
   diaryEntryDeleteState: RequestState;
   encounterServerModel: Encounter | undefined;
-  _encountersInUpdateStateIds: Set<number>;
+  _encountersUpdateState: Record<number, RequestState>;
   _encountersBeingCreated: EncounterRaw[];
   isUpdatingGlobally: boolean;
-};
+}
 
 const initialState: DiaryentryPageState = {
   diaryEntryDeleteState: 'init',
   encounterServerModel: undefined,
-  _encountersInUpdateStateIds: new Set(),
+  _encountersUpdateState: {},
   _encountersBeingCreated: [],
   isUpdatingGlobally: false,
 };
@@ -103,19 +103,26 @@ export const DiaryentryPageStore = signalStore(
     return {
       hasWritePermission: globalStore.canPerformActionsOfRole('member'),
       diaryEntryEncounters: computed<DiaryEntryEncounter[]>(() => {
-        const allEncounters = [
+        const allEncounters: (Encounter | EncounterRaw)[] = [
           ...(store.diaryentry()?.encounters ?? []),
           ...store._encountersBeingCreated(),
         ];
         const sortedEncounters = sortByProp(allEncounters, 'order_index');
-        return sortedEncounters.map((encounter, index) => ({
-          encounter,
-          isUpdating: store._encountersInUpdateStateIds().has(index),
-        }));
+        return sortedEncounters.map((encounter) => {
+          const updateStates = store._encountersUpdateState();
+          return {
+            encounter,
+            requestState: updateStates[(encounter as Encounter).pk] ?? 'init',
+          };
+        });
       }),
-      isUpdatingAnyEncounters: computed(
-        () => store._encountersInUpdateStateIds().size > 0,
-      ),
+      isUpdatingAnyEncounters: computed(() => {
+        const encounterUpdateStates = store._encountersUpdateState();
+        const encounterIds = Object.keys(encounterUpdateStates).map(Number);
+        return encounterIds.some(
+          (id) => encounterUpdateStates[id] === 'loading',
+        );
+      }),
       realEncounters: computed<Encounter[]>(
         () => store.diaryentry()?.encounters ?? [],
       ),
@@ -140,16 +147,10 @@ export const DiaryentryPageStore = signalStore(
       patchState(store, { diaryentry: newDiaryEntry });
     };
 
-    const markAsBeingUpdated = (encounterPk: number) => {
-      const updatedIds = new Set(store._encountersInUpdateStateIds());
-      updatedIds.add(encounterPk);
-      patchState(store, { _encountersInUpdateStateIds: updatedIds });
-    };
-
-    const unmarkAsBeingUpdated = (encounterPk: number) => {
-      const updatedIds = new Set(store._encountersInUpdateStateIds());
-      updatedIds.delete(encounterPk);
-      patchState(store, { _encountersInUpdateStateIds: updatedIds });
+    const setRequestState = (encounterPk: number, state: RequestState) => {
+      const updatedIds = { ...store._encountersUpdateState() };
+      updatedIds[encounterPk] = state;
+      patchState(store, { _encountersUpdateState: updatedIds });
     };
 
     return {
@@ -183,6 +184,7 @@ export const DiaryentryPageStore = signalStore(
           .subscribe({
             next: (newEncounterList) => {
               updateEncounterList(newEncounterList);
+              toastService.addToast(successToast('Encounter created!'));
               patchState(store, {
                 _encountersBeingCreated: store
                   ._encountersBeingCreated()
@@ -194,13 +196,13 @@ export const DiaryentryPageStore = signalStore(
           });
       },
       removeEncounter: (encounter: Encounter) => {
-        markAsBeingUpdated(encounter.pk);
+        setRequestState(encounter.pk, 'loading');
         encounterService
           .delete(encounter.pk)
           .pipe(take(1))
           .subscribe({
             next: () => {
-              unmarkAsBeingUpdated(encounter.pk);
+              setRequestState(encounter.pk, 'success');
               const newEncounterList =
                 store
                   .diaryentry()
@@ -209,18 +211,17 @@ export const DiaryentryPageStore = signalStore(
                   ) ?? [];
               updateEncounterList(newEncounterList);
             },
-            error: (err: HttpErrorResponse) =>
-              toastService.addToast(httpErrorToast(err)),
+            error: () => setRequestState(encounter.pk, 'error'),
           });
       },
       updateEncounter: (encounter: Encounter) => {
-        markAsBeingUpdated(encounter.pk);
+        setRequestState(encounter.pk, 'loading');
         encounterService
           .update(encounter.pk, encounter)
           .pipe(take(1))
           .subscribe({
             next: (newEncounter) => {
-              unmarkAsBeingUpdated(encounter.pk);
+              setRequestState(encounter.pk, 'success');
               const diaryentry = store.diaryentry() as DiaryEntry;
               const newEncounterList = replaceItem(
                 diaryentry.encounters ?? [],
@@ -229,13 +230,12 @@ export const DiaryentryPageStore = signalStore(
               );
               updateEncounterList(newEncounterList);
             },
-            error: (err: HttpErrorResponse) =>
-              toastService.addToast(httpErrorToast(err)),
+            error: () => setRequestState(encounter.pk, 'error'),
           });
       },
       swapEncounters: (encounter1Pk: number, encounter2Pk: number) => {
-        markAsBeingUpdated(encounter1Pk);
-        markAsBeingUpdated(encounter2Pk);
+        setRequestState(encounter1Pk, 'loading');
+        setRequestState(encounter2Pk, 'loading');
         patchState(store, { isUpdatingGlobally: true });
         campaignName$
           .pipe(
@@ -250,8 +250,8 @@ export const DiaryentryPageStore = signalStore(
           )
           .subscribe({
             next: ([updatedEnc1, updatedEnc2]) => {
-              unmarkAsBeingUpdated(encounter1Pk);
-              unmarkAsBeingUpdated(encounter2Pk);
+              setRequestState(encounter1Pk, 'success');
+              setRequestState(encounter2Pk, 'success');
               const newEncounterList1 = replaceItem(
                 store.realEncounters(),
                 updatedEnc1,
@@ -265,12 +265,14 @@ export const DiaryentryPageStore = signalStore(
               updateEncounterList(newEncounterList2);
               patchState(store, { isUpdatingGlobally: false });
             },
-            error: (err: HttpErrorResponse) =>
-              toastService.addToast(httpErrorToast(err)),
+            error: () => {
+              setRequestState(encounter1Pk, 'error');
+              setRequestState(encounter2Pk, 'error');
+            },
           });
       },
       cutInsertEncounter: (encounter: Encounter, newOrderIndex: number) => {
-        markAsBeingUpdated(encounter.pk);
+        setRequestState(encounter.pk, 'loading');
         patchState(store, { isUpdatingGlobally: true });
         campaignName$
           .pipe(
@@ -285,12 +287,11 @@ export const DiaryentryPageStore = signalStore(
           )
           .subscribe({
             next: (newEncounterList) => {
-              unmarkAsBeingUpdated(encounter.pk);
+              setRequestState(encounter.pk, 'success');
               updateEncounterList(newEncounterList);
               patchState(store, { isUpdatingGlobally: false });
             },
-            error: (err: HttpErrorResponse) =>
-              toastService.addToast(httpErrorToast(err)),
+            error: () => setRequestState(encounter.pk, 'error'),
           });
       },
       addEncounterConnection: (connection: EncounterConnectionRaw) =>

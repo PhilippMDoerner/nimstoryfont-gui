@@ -6,7 +6,7 @@
         [kind]="'PRIMARY'"
         [text]="'Add Rule'"
         [icon]="'plus'"
-        (click)="addRule()"
+        (clicked)="addRule()"
         [hotkey]="'c'"
         (hotkeyPressed)="addRule()"
       ></button>
@@ -16,7 +16,7 @@
   <div class="row">
     @if (isCreatingRule()) {
       <div class="list__rule-card rule-card" [@slideUpFromBottom]>
-        <app-collapsible-panel [isOpen]="true">
+        <app-collapsible-panel [isOpen]="true" [ariaLevel]="2">
           <span heading>
             {{ createRuleData().name }}
           </span>
@@ -48,7 +48,10 @@
           [id]="focusEntry.data.rule.name"
           #rule
         >
-          <app-collapsible-panel [isOpen]="focusEntry.data.isOpen">
+          <app-collapsible-panel
+            [isOpen]="focusEntry.data.isOpen"
+            [ariaLevel]="2"
+          >
             <span heading>
               {{ focusEntry.data.rule.name }}
             </span>

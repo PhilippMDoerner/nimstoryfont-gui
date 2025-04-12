@@ -24,15 +24,16 @@
 </ng-template>
 
 <ng-template #createState>
-  <form class="form">
+  <form class="form" (keydown.Escape)="onCancel()">
+    <label [for]="id" class="cdk-visually-hidden">
+      {{ formFieldLabel() }}
+    </label>
     <select
       #select
       class="form-select"
-      style="width: unset"
       focusOnRender
-      [attr.aria-label]="badgeText()"
       [name]="selectFieldName()"
-      [id]="'select'"
+      [id]="id"
       (change)="onChange($event)"
     >
       <option [value]="undefined">-----</option>
@@ -40,7 +41,7 @@
         <option
           [value]="$index"
           [attr.selected]="
-            option[valueProp()] === userModel[valueProp()] ? true : null
+            option[valueProp()] === userModel?.[valueProp()] ? true : null
           "
         >
           {{ option[labelProp()] }}
@@ -57,7 +58,8 @@
       [size]="'SMALL'"
       [icon]="'check'"
       [type]="'submit'"
-      (click)="onSubmit()"
+      [disabled]="select.value === 'undefined'"
+      (clicked)="onSubmit()"
     ></button>
 
     <!-- Cancel Button -->
@@ -70,7 +72,7 @@
       [hotkey]="'q'"
       [disabledHotkey]="disableHotkeys()"
       (hotkeyPressed)="toggleForm()"
-      (click)="toggleForm()"
+      (clicked)="toggleForm()"
     ></button>
   </form>
 </ng-template>

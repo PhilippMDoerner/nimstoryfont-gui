@@ -3,10 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
   OnInit,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -64,14 +63,12 @@ export class SpellComponent implements OnInit {
   submitButtonType = input<ElementKind>('PRIMARY');
   disabledHotkeys = input<boolean>(false);
 
-  @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellCreate: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellUpdate: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellCreateCancel: EventEmitter<null> = new EventEmitter();
-  @Output() connectionDelete: EventEmitter<SpellPlayerClassConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> =
-    new EventEmitter();
+  readonly spellDelete = output<Spell>();
+  readonly spellCreate = output<Spell>();
+  readonly spellUpdate = output<Spell>();
+  readonly spellCreateCancel = output<void>();
+  readonly connectionDelete = output<SpellPlayerClassConnection>();
+  readonly connectionCreate = output<SpellPlayerClassConnection>();
 
   userModel = signal<Spell | undefined>(undefined);
   state = signal<SpellState>('DISPLAY');
@@ -80,11 +77,12 @@ export class SpellComponent implements OnInit {
   >(() => {
     const classConnections: SpellPlayerClassConnection[] =
       this.spell()?.player_class_connections ?? [];
+
     return classConnections.map((con) => {
       return {
         badgeValue: con,
         text: con.player_class_details?.name as string,
-        link: undefined as any as string,
+        link: undefined,
       };
     });
   });
@@ -195,7 +193,7 @@ export class SpellComponent implements OnInit {
   }
 
   onSpellDelete() {
-    this.spellDelete.emit(this.spell());
+    this.spellDelete.emit(this.spell() as Spell);
   }
 
   onSpellUpdate(spell?: Spell) {

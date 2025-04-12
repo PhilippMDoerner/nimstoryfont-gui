@@ -10,7 +10,7 @@
   >
     @for (image of images(); track image.pk) {
       <ng-template ngbSlide [id]="'imageIndex-' + $index">
-        <div class="image-container" [title]="image.name">
+        <div class="image-container" [ngbTooltip]="image.name">
           <img [src]="serverUrl() + image.image" [alt]="'Image ' + $index" />
         </div>
       </ng-template>
@@ -26,13 +26,12 @@
   @if (canCreate()) {
     <button
       btn
-      title="Create Image"
+      [ngbTooltip]="'Create Image'"
       class="mx-2"
       aria-label="'Create Image'"
       [kind]="'PRIMARY'"
-      [size]="'SMALL'"
       [icon]="'plus-square'"
-      (click)="onImageCreate()"
+      (clicked)="onImageCreate()"
     ></button>
   }
 
@@ -41,12 +40,11 @@
     <button
       btn
       aria-label="'Update Image'"
-      title="Update Image"
+      [ngbTooltip]="'Update Image'"
       class="mx-2"
       [kind]="'SECONDARY'"
-      [size]="'SMALL'"
       [icon]="'pencil'"
-      (click)="onImageUpdate()"
+      (clicked)="onImageUpdate()"
     ></button>
   }
 
@@ -55,12 +53,11 @@
     <button
       btn
       aria-label="'Delete Image'"
-      title="Delete Image"
+      [ngbTooltip]="'Delete Image'"
       class="mx-2"
       [kind]="'DANGER'"
-      [size]="'SMALL'"
       [icon]="'trash'"
-      (click)="onImageDelete()"
+      (clicked)="onImageDelete()"
     ></button>
   }
 </div>

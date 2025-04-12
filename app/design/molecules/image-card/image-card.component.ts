@@ -20,6 +20,7 @@ import {
   Subject,
 } from 'rxjs';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { componentId } from 'src/utils/DOM';
 
 @Component({
   selector: 'app-image-card',
@@ -42,7 +43,7 @@ export class ImageCardComponent {
   });
   link = input<string>();
   text = input.required<string>();
-  alt = input<string>();
+  alt = input.required<string>();
 
   currentImageIndex = signal(0);
   currentImage = computed(
@@ -83,6 +84,9 @@ export class ImageCardComponent {
       this.closeBtnClicked$.pipe(map(() => false)),
     ).pipe(debounceTime(50), startWith(false)),
   );
+
+  id = componentId();
+  imageId = `image-${this.id}`;
 
   constructor() {
     this.selectorClicked$

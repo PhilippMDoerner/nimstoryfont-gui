@@ -6,7 +6,7 @@
   @if (showDelete()) {
     <app-confirmation-toggle-button
       aria-label="Delete current page"
-      [confirmationQuestion]="deleteMessage()"
+      [itemToDelete]="deleteMessage()"
       [icon]="'trash'"
       (confirm)="delete.emit()"
     ></app-confirmation-toggle-button>
@@ -19,7 +19,7 @@
     [routerLink]="buttonLink()"
     [kind]="'SECONDARY'"
     [text]="buttonLabel()"
-    (click)="buttonClick.emit()"
+    (clicked)="buttonClick.emit()"
   >
   </a>
 </ng-template>
@@ -29,6 +29,6 @@
     btn
     [kind]="'SECONDARY'"
     [text]="buttonLabel()"
-    (click)="buttonClick.emit()"
+    (clicked)="buttonClick.emit()"
   ></button>
 </ng-template>

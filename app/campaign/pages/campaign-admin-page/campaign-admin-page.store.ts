@@ -16,11 +16,11 @@ import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overl
 import { GlobalStore } from 'src/app/global.store';
 import { filterNil } from 'src/utils/rxjs-operators';
 
-export type CampaignAdminPageState = {
+export interface CampaignAdminPageState {
   campaign: Campaign | undefined;
   users: User[] | undefined;
   campaignStatistics: WikiStatistics | undefined;
-};
+}
 
 const initialState: CampaignAdminPageState = {
   campaign: undefined,

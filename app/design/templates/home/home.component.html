@@ -26,38 +26,63 @@
     <!-- Search Bar -->
     <app-search-field
       class="home__search-bar"
-      [placeholder]="'Search for Articles...'"
-      [btnAriaLabel]="
-        'Triggers a search for any articles matching the query in this campaign'
-      "
+      [placeholder]="'Search for articles in ' + (campaignData()?.name ?? '')"
+      [btnAriaLabel]="'Start search!'"
       [canSearch]="(isOnline$ | async) === true"
       (appSearch)="appSearch.emit($event)"
     ></app-search-field>
 
     <!-- News -->
-    <div class="row filter">
-      <div class="col-sm-4 col-md-5 col-lg-4 col-xl-2 flex-column d-flex p-0">
-        <label for="time-filter"> Show updates from: </label>
-        <select
-          id="time-filter"
-          class="filter__select"
-          (change)="updateFilter($event.target)"
-          [value]="timeFilter()"
-        >
-          @for (option of timeFilterOptions; track option.value) {
-            <option [value]="option.value">
-              {{ option.label }}
-            </option>
-          }
-        </select>
-      </div>
-    </div>
+    @let feedId = id + "-feed";
+    @let feedLabelId = id + "-feed-heading";
+    <h2 [id]="feedLabelId">
+      <app-icon [icon]="'newspaper'"></app-icon>
+      New Updates
+    </h2>
+    <section class="home__feed feed" aria-label="New Updates Feed">
+      <div class="feed__controls">
+        <app-switch
+          [label]="'Infinity scroll'"
+          [checked]="feedMode() === 'INFINITY_SCROLL'"
+          [ariaControls]="feedId"
+          (changed)="toggleFeedMode($event)"
+        />
 
-    <app-icon-card-list
-      class="home__recently-updated-articles"
-      [isLoading]="isLoading()"
-      [articles]="articleEntries()"
-    ></app-icon-card-list>
+        <app-context-menu
+          [menuButtonIcon]="'filter'"
+          [menuButtonKind]="'DARK'"
+          [menuItems]="timeFilterOptions()"
+          [menuButtonAriaLabel]="'Time filter options for update feed'"
+          [attr.aria-controls]="feedId"
+          (actionTriggered)="timeFilter.set($any($event))"
+        ></app-context-menu>
+      </div>
+
+      <app-icon-card-list
+        [id]="feedId"
+        class="feed__articles col-sm-6 col-md-6 col-lg-5 col-xl-3"
+        [isLoading]="isLoading()"
+        [articles]="articleEntries()"
+        [ariaLabelId]="feedLabelId"
+      ></app-icon-card-list>
+
+      @if (feedMode() === "BUTTON_LOAD") {
+        <div class="row justify-content-center">
+          <button
+            btn
+            class="col-sm-6 col-md-6 col-lg-4 col-xl-3"
+            [kind]="'PRIMARY'"
+            [text]="
+              canLoadMore() ? 'Load more articles' : 'You\'ve reached the end!'
+            "
+            [icon]="'download'"
+            [disabled]="!canLoadMore()"
+            [isLoading]="isLoading()"
+            (clicked)="triggerNextPageLoad()"
+          ></button>
+        </div>
+      }
+    </section>
 
     @if (isHotkeyModifierPressed()) {
       <button

@@ -427,7 +427,7 @@ export const dummyLocations: OverviewItem[] = [
 ].map((loc) => ({ ...loc, getAbsoluteRouterUrl: () => '/location/123' }));
 
 export class LocationServiceMock implements Partial<LocationService> {
-  campaignList(campaign: string): Observable<OverviewItem[]> {
+  campaignList(): Observable<OverviewItem[]> {
     return of(dummyLocations);
   }
 }

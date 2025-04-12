@@ -5,10 +5,10 @@ import { take } from 'rxjs';
 import { SpecialLoginState } from 'src/app/_models/login';
 import { MailService } from 'src/app/_services/utils/mail.service';
 
-export type LoginPageState = {
+export interface LoginPageState {
   specialLoginState: SpecialLoginState | undefined;
   resetErrorMessage: string | undefined;
-};
+}
 
 const initialState: LoginPageState = {
   specialLoginState: undefined,

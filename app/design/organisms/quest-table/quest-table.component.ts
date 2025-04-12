@@ -11,59 +11,74 @@ import { RouterLink } from '@angular/router';
 import { OverviewItem } from 'src/app/_models/overview';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
+import {
+  ContextMenuComponent,
+  MenuItem,
+} from '../../molecules/context-menu/context-menu.component';
 
-type DisplayState =
-  | 'Default'
-  | 'All'
-  | 'Completed'
-  | 'Failed'
-  | 'On hold'
-  | 'In progress';
+const DISPLAY_STATES = [
+  'Default',
+  'All',
+  'Completed',
+  'Failed',
+  'On hold',
+  'In progress',
+] as const;
+type DisplayState = (typeof DISPLAY_STATES)[number];
 
 @Component({
   selector: 'app-quest-table',
   templateUrl: './quest-table.component.html',
   styleUrls: ['./quest-table.component.scss'],
-  imports: [FormsModule, RouterLink, IconComponent, NgTemplateOutlet],
+  imports: [
+    FormsModule,
+    RouterLink,
+    IconComponent,
+    NgTemplateOutlet,
+    ContextMenuComponent,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QuestTableComponent {
-  DISPLAY_STATES: DisplayState[] = [
-    'Default',
-    'All',
-    'Completed',
-    'Failed',
-    'On hold',
-    'In progress',
-  ];
-  STATE_ICON_MAPPING: { [key: string]: Icon } = {
-    Completed: 'square-check',
-    'On Hold': 'hourglass-half',
-    Failed: 'times',
-    'In progress': 'spinner',
-  };
-
-  STATE_TABLE_TYPE_MAPPING = {
-    Completed: 'success',
-    'On Hold': 'warning',
-    Failed: 'danger',
-    'In progress': '',
-  };
-
   questTaker = input.required<string>();
   quests = input.required<OverviewItem[]>();
 
+  menuItems = computed<MenuItem[]>(() =>
+    DISPLAY_STATES.map(
+      (state): MenuItem => ({
+        kind: 'BUTTON',
+        actionName: state,
+        label: state,
+        icon: this.STATE_ICON_MAPPING[state],
+        active: state === this.state(),
+      }),
+    ),
+  );
   state = signal<DisplayState>('Default');
+
   displayQuests = computed<OverviewItem[]>(() =>
     this.quests().filter((quest) =>
       this.shouldDisplayQuest(quest, this.state()),
     ),
   );
 
-  updateDisplayState(event: Event) {
-    const newDisplayState = (event.target as HTMLSelectElement)
-      .value as DisplayState;
-    this.state.set(newDisplayState);
+  STATE_ICON_MAPPING: { [key: string]: Icon } = {
+    Completed: 'square-check',
+    'On hold': 'hourglass-half',
+    Failed: 'times',
+    'In progress': 'spinner',
+  };
+
+  STATE_TABLE_TYPE_MAPPING: { [key: string]: string } = {
+    Completed: 'success',
+    'On hold': 'warning',
+    Failed: 'danger',
+    'In progress': '',
+  };
+
+  updateDisplayState(filterStateStr: string) {
+    const filterState = filterStateStr as DisplayState;
+    this.state.set(filterState);
   }
 
   shouldDisplayQuest(quest: OverviewItem, displayState: DisplayState): boolean {

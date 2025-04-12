@@ -2,14 +2,19 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
+  TemplateRef,
 } from '@angular/core';
-import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbActiveModal,
+  NgbModal,
+  NgbModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { componentId } from 'src/utils/DOM';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -21,7 +26,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 export class ConfirmationModalComponent<T> {
   heading = input.required<string>();
   confirmValue = input.required<T>();
-  submitIcon = input.required<Icon>();
+  submitIcon = input<Icon>();
   modalType = input<ElementKind>('PRIMARY');
   cancelButtonType = input<ElementKind>('SECONDARY');
   submitButtonLabel = input<string>('Yes');
@@ -30,31 +35,35 @@ export class ConfirmationModalComponent<T> {
   modalClass = computed(
     () => `modal-border--${this.modalType().toLowerCase()}`,
   );
-  @Output() modalClose: EventEmitter<null> = new EventEmitter();
-  @Output() confirm: EventEmitter<T> = new EventEmitter();
-  @Output() cancel: EventEmitter<T> = new EventEmitter();
+  readonly modalClose = output<void>();
+  readonly confirm = output<T>();
+  readonly cancelled = output<T>();
+
+  id = componentId();
+  bodyId = `${this.id}-body`;
 
   constructor(private modalService: NgbModal) {}
 
-  open(content: any) {
+  open(content: TemplateRef<HTMLElement>) {
     this.modalService
       .open(content, {
-        ariaLabelledBy: 'modal-basic-title',
+        ariaLabelledBy: this.id,
+        ariaDescribedBy: this.bodyId,
         modalDialogClass: this.modalClass(),
       })
       .result.then(
-        (result) => this.modalClose.emit(),
-        (reason) => this.modalClose.emit(),
+        () => this.modalClose.emit(),
+        () => this.modalClose.emit(),
       );
   }
 
-  onSubmit(modal: any) {
+  onSubmit(modal: NgbActiveModal) {
     this.confirm.emit(this.confirmValue());
     modal.close();
   }
 
-  onCancel(modal: any) {
-    this.cancel.emit(this.confirmValue());
+  onCancel(modal: NgbActiveModal) {
+    this.cancelled.emit(this.confirmValue());
     modal.close();
   }
 }

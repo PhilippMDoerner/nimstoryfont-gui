@@ -9,11 +9,11 @@ import { RequestMap } from '../factory-types';
 import { AllNewMethods, withDeleteMethods } from './withDeleteMethods';
 import { AllNewProperties, withCreateState } from './withDeleteState';
 
-export type DeleteFeatureResult<Requests extends RequestMap> = {
+export interface DeleteFeatureResult<Requests extends RequestMap> {
   props: {};
   methods: MethodsDictionary & AllNewMethods<Requests>;
   state: {} & AllNewProperties<Requests>;
-};
+}
 
 export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
   Input['state']

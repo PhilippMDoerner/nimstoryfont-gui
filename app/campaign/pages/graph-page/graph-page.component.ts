@@ -5,6 +5,7 @@ import {
   computed,
   DestroyRef,
   inject,
+  Signal,
   signal,
 } from '@angular/core';
 import {
@@ -143,7 +144,7 @@ export class GraphPageComponent {
     this.formlyService.buildOverviewSelectConfig<NodeLinkRaw, NodeLinkType>({
       label: 'Link Type',
       key: 'link_type_id',
-      options$: this.customLinkTypes$ as any as Observable<NodeLinkType[]>,
+      options$: this.customLinkTypes$ as unknown as Observable<NodeLinkType[]>,
       labelProp: 'name',
       valueProp: 'id',
     }),
@@ -160,6 +161,9 @@ export class GraphPageComponent {
       campaign: this.globalStore.campaignName(),
     }),
   );
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.graphData() == null);
 
   private activeNodeCategories = signal(
     new Set<string>(NODE_TYPE_OPTIONS.map((option) => option.value)),
@@ -204,6 +208,8 @@ export class GraphPageComponent {
   private destructor = inject(DestroyRef);
 
   constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+
     this.searchedNode$
       .pipe(takeUntilDestroyed())
       .subscribe((node) => this.graphService.centerNodeEvents$.next(node));

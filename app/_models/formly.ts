@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AbstractControl } from '@angular/forms';
 import { FormlyFieldConfig, FormlyTemplateOptions } from '@ngx-formly/core';
 import { Observable } from 'rxjs';
@@ -72,8 +73,8 @@ export interface FormlyFileConfig<T> extends FormlyInterface<T> {
 }
 
 export interface StaticOption {
-  label: String;
-  value: String | Number;
+  label: string;
+  value: string | number;
 }
 
 export interface FormlyCustomStringSelectConfig<T> extends FormlyInterface<T> {
@@ -98,13 +99,13 @@ export type LoadAutocompleteOptions<T> = (
   formControl: AbstractControl,
 ) => Observable<T[]>;
 
-export type CustomAutocompleteProps<T> = {
+export interface CustomAutocompleteProps<T> {
   optionLabelProp: keyof T;
   optionValueProp: keyof T;
   optionKeyProp: keyof T;
   loadOptions: LoadAutocompleteOptions<T>;
   initialValue$?: Observable<T>;
-};
+}
 export type FormlyAutocompleteConfig<Model, Option> = FormlyInterface<Model> &
   CustomAutocompleteProps<Option>;
 

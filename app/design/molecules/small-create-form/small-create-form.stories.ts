@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn } from '@storybook/angular';
 import { SmallCreateFormComponent } from './small-create-form.component';

@@ -1,13 +1,25 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { FormGroup, FormsModule } from '@angular/forms';
 import { FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
+import { RouterLink } from '@angular/router';
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { RoutingService } from 'src/app/_services/routing.service';
+import { FeatureService } from 'src/app/_services/utils/feature.service';
 import { backInUp } from 'src/app/design/animations/backInUp';
 import { flipInY } from 'src/app/design/animations/flip';
+import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 
 type LoginViewState = 'LOGIN' | 'PASSWORD_RESET';
@@ -23,15 +35,25 @@ type LoginMessageMap = { [key in SpecialLoginState]: string };
     FormlyModule,
     FormlyBootstrapModule,
     ButtonComponent,
+    ButtonLinkComponent,
+    RouterLink,
   ],
   animations: [backInUp, flipInY],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
-  @Input() loginState?: SpecialLoginState;
-  @Input() resetErrorMessage?: string;
+  loginState = input<SpecialLoginState>();
+  resetErrorMessage = input<string>();
 
-  @Output() login: EventEmitter<Login> = new EventEmitter();
-  @Output() resetPassword: EventEmitter<string> = new EventEmitter();
+  readonly login = output<Login>();
+  readonly resetPassword = output<string>();
+  readonly registrationUrl =
+    inject(RoutingService).getRoutePath('registration');
+  readonly feature$ = inject(FeatureService).features$;
+  readonly canRegisterPublicly = computed(
+    () =>
+      !this.feature$.isLoading() && this.feature$.value()?.enableRegistration,
+  );
 
   loginMessages: LoginMessageMap = {
     'token-expired': 'Your Session expired, please log in again',
@@ -59,20 +81,20 @@ export class LoginComponent {
   recoveryModel: Partial<{ username: string }> = {};
   recoveryForm = new FormGroup({});
   recoveryFields: FormlyFieldConfig[] = [
-    this.formlyService.buildInputConfig({
+    this.formlyService.buildInputConfig<typeof this.recoveryModel>({
       key: 'username',
       placeholder: 'Username',
       inputKind: 'STRING',
     }),
   ];
 
-  state: LoginViewState = 'LOGIN';
-  isWaitingForPasswordReset: boolean = false;
+  state = signal<LoginViewState>('LOGIN');
+  isWaitingForPasswordReset = false;
 
   constructor(private formlyService: FormlyService) {}
 
   setState(newState: LoginViewState): void {
-    this.state = newState;
+    this.state.set(newState);
     this.recoveryModel = {};
     this.model = {};
   }
@@ -82,6 +104,12 @@ export class LoginComponent {
   }
 
   onPasswordReset(): void {
-    this.resetPassword.emit(this.recoveryModel.username);
+    this.setState('LOGIN');
+    //For some reason this.recoveryModel does not get its value changed. Fix this.
+    const username = (this.recoveryForm.value as typeof this.recoveryModel)
+      .username;
+    if (username) {
+      this.resetPassword.emit(username);
+    }
   }
 }

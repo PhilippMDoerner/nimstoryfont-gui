@@ -3,13 +3,14 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
+  inject,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CampaignOverview } from 'src/app/_models/campaign';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { FeatureService } from 'src/app/_services/utils/feature.service';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import {
@@ -17,6 +18,7 @@ import {
   ImageGridEntry,
 } from 'src/app/design/organisms/image-grid/image-grid.component';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
 
 @Component({
   selector: 'app-campaign-overview',
@@ -29,6 +31,7 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
     ImageGridComponent,
     SpinnerComponent,
     ButtonLinkComponent,
+    IconComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -38,7 +41,16 @@ export class CampaignOverviewComponent {
   campaigns = input.required<CampaignOverview[] | undefined>();
   isGlobalAdmin = input(false);
 
-  @Output() logout: EventEmitter<void> = new EventEmitter();
+  readonly logout = output<void>();
+
+  private readonly features$ = inject(FeatureService).features$;
+  readonly enableCampaignCreation = computed(
+    () =>
+      !this.features$.isLoading() &&
+      this.features$.value()?.enablePublicCampaignCreation,
+  );
+  readonly campaignCreateUrl =
+    this.routingService.getRoutePath('campaign-create');
 
   profileUrl = computed(() =>
     this.routingService.getRoutePath('direct-profile', {
@@ -57,13 +69,10 @@ export class CampaignOverviewComponent {
       link: this.routingService.getRoutePath('home', {
         campaign: campaign.name,
       }),
+      ariaLabel: `Look at campaign ${campaign.name}`,
     })),
   );
-  dragonFrameUrl = '/assets/dragon-frame.jpg';
+  dragonFrameUrl = '/assets/general_overview.webp';
 
   constructor(private routingService: RoutingService) {}
-
-  onCampaignClick(event: CampaignOverview): void {
-    this.routingService.routeToPath('home', { campaign: event.name });
-  }
 }

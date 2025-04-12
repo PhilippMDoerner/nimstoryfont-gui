@@ -15,9 +15,9 @@ import { handleError } from 'src/utils/store/toServerModel';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-type QuestCreateUpdatePageState = {
+interface QuestCreateUpdatePageState {
   createState: RequestState;
-};
+}
 
 const initialState: QuestCreateUpdatePageState = {
   createState: 'init',

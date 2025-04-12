@@ -9,6 +9,7 @@ import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import * as all from 'tinymce/tinymce';
 import { SpellsTemplateComponent } from './spells-template.component';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const x = all;
 
 const dummySpell: Spell = {

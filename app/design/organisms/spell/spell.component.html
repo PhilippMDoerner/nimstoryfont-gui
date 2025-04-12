@@ -1,6 +1,6 @@
 @if (spell() || state() === "CREATE") {
-  <h4 class="card__heading heading">
-    <span>
+  <div class="card__heading-container">
+    <div class="h4 card__heading heading">
       @switch (state()) {
         @case ("DISPLAY") {
           <ng-container [ngTemplateOutlet]="displayHeading" />
@@ -15,17 +15,17 @@
           <ng-container [ngTemplateOutlet]="updateHeading" />
         }
       }
-    </span>
-
+    </div>
     @if (canUpdate() || canCreate()) {
       <app-edit-toggle
         [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
         [disabledHotkey]="disabledHotkeys()"
-        (toggle)="onToggle($event)"
+        [title]="'Edit ' + spell()?.name"
+        (toggleEdit)="onToggle($event)"
       ></app-edit-toggle>
     }
-  </h4>
+  </div>
 
   @switch (state()) {
     @case ("DISPLAY") {
@@ -130,6 +130,7 @@
   <app-badge-list
     [createOptions]="{
       kind: 'SELECT',
+      formFieldLabel: 'Classes',
       config: {
         options: playerClassOptions(),
         labelProp: 'name',
@@ -148,7 +149,7 @@
   @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
-      [confirmationQuestion]="'Delete this spell?'"
+      [itemToDelete]="'Spell ' + spell()?.name"
       [icon]="'trash'"
       [enableHotkey]="!disabledHotkeys()"
       (confirm)="onSpellDelete()"
@@ -186,12 +187,15 @@
 </ng-template>
 
 <ng-template #outdatedUpdateBody>
-  <app-compare-form
-    [fields]="formlyFields"
-    [modelFromUser]="userModel()"
-    [modelFromServer]="serverModel()"
-    [displayVertically]="true"
-    (formlySubmit)="onSpellUpdate($event)"
-    (formlyCancel)="changeState('DISPLAY', undefined)"
-  ></app-compare-form>
+  @let userModelVal = userModel();
+  @if (userModelVal) {
+    <app-compare-form
+      [fields]="formlyFields"
+      [modelFromUser]="userModelVal"
+      [modelFromServer]="serverModel()"
+      [displayVertically]="true"
+      (formlySubmit)="onSpellUpdate($event)"
+      (formlyCancel)="changeState('DISPLAY', undefined)"
+    ></app-compare-form>
+  }
 </ng-template>

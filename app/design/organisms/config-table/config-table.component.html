@@ -1,10 +1,10 @@
 <div class="config-tables__section section">
   <!-- Section Heading -->
   <div class="section__heading heading">
-    <h3 class="heading__text">
+    <div [heading]="ariaLevel()" class="h3 heading__text">
       <app-icon [icon]="table().icon"></app-icon>
       {{ table().name }}
-    </h3>
+    </div>
 
     <!-- Heading Buttons -->
     <div class="heading__buttons">
@@ -15,7 +15,7 @@
           [kind]="'DARK'"
           [icon]="table().showForm ? 'times' : 'plus'"
           [text]="table().showForm ? 'Cancel' : 'Add Entry'"
-          (click)="table().showForm = !table().showForm"
+          (clicked)="table().showForm = !table().showForm"
         ></button>
       }
 
@@ -24,7 +24,7 @@
         [kind]="'PRIMARY'"
         [icon]="'refresh'"
         [text]="'Load'"
-        (click)="loadTableEntries.emit()"
+        (clicked)="loadTableEntries.emit()"
       ></button>
     </div>
   </div>
@@ -71,7 +71,7 @@
                   <td>
                     <app-confirmation-toggle-button
                       [toggleSize]="'SMALL'"
-                      [confirmationQuestion]="'Delete this Entry?'"
+                      [itemToDelete]="'this entry'"
                       [icon]="'trash'"
                       (confirm)="deleteEntry(entry.id)"
                     ></app-confirmation-toggle-button>

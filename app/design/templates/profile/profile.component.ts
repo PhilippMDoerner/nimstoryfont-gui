@@ -1,15 +1,13 @@
-import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { TitleCasePipe } from '@angular/common';
+import { Component, input, Input, output } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { User } from 'src/app/_models/user';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
-import { AlertComponent } from '../../atoms/alert/alert.component';
-import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
+import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { ConfirmationToggleButtonComponent } from '../../molecules/confirmation-toggle-button/confirmation-toggle-button.component';
 import { FormComponent } from '../../molecules/form/form.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
@@ -29,30 +27,26 @@ export interface PasswordModel {
     IconComponent,
     ButtonComponent,
     SeparatorComponent,
-    NgTemplateOutlet,
-    ButtonLinkComponent,
     CardComponent,
     FormComponent,
-    RouterLink,
-    ConfirmationToggleButtonComponent,
-    AlertComponent,
     TitleCasePipe,
+    ArticleFooterComponent,
+    ConfirmationToggleButtonComponent,
   ],
 })
 export class ProfileComponent {
   @Input() user!: User;
   @Input() memberships!: CampaignMembership[];
-  @Input() canDeleteProfile: boolean = false;
-  @Input() showProfileEditForm: boolean = false;
-  @Input() showPasswordEditForm: boolean = false;
+  @Input() canDeleteProfile = false;
+  @Input() showProfileEditForm = false;
+  @Input() showPasswordEditForm = false;
   @Input() campaignName?: string;
   backUrl = input.required<string>();
 
-  @Output() profileUpdate: EventEmitter<Partial<User>> = new EventEmitter();
-  @Output() passwordUpdate: EventEmitter<PasswordModel> = new EventEmitter();
-  @Output() campaignLeave: EventEmitter<CampaignMembership> =
-    new EventEmitter();
-  @Output() profileDelete: EventEmitter<User> = new EventEmitter();
+  readonly profileUpdate = output<Partial<User>>();
+  readonly passwordUpdate = output<PasswordModel>();
+  readonly campaignLeave = output<CampaignMembership>();
+  readonly profileDelete = output<User>();
 
   passwordModel: Partial<PasswordModel> = {};
   passwordFields: FormlyFieldConfig[] = [
@@ -115,7 +109,7 @@ export class ProfileComponent {
     this.showPasswordEditForm = false;
   }
 
-  toggleLeaveCampaignState(membership: CampaignMembership): void {
-    membership.isLeaving = !membership.isLeaving;
+  leaveCampaign(membership: CampaignMembership): void {
+    this.campaignLeave.emit(membership);
   }
 }

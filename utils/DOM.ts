@@ -4,6 +4,7 @@ export function getFirstFocusableChild(
   const allFocusableChildren = [
     ...(el.querySelectorAll(
       'a, button, input, textarea, select, details, [tabindex]:not([tabindex="-1"])',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ) as any),
   ] as HTMLElement[];
 

@@ -1,14 +1,15 @@
 import { AsyncPipe } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import { FormlyModule } from '@ngx-formly/core';
-import { filter, map, Observable, pairwise, take } from 'rxjs';
+import { filter, map, Observable, pairwise } from 'rxjs';
 import { Login, SpecialLoginState } from 'src/app/_models/login';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { MailService } from 'src/app/_services/utils/mail.service';
 import { AuthStore } from 'src/app/auth.store';
 import { LoginComponent } from 'src/app/design//templates/login/login.component';
+import { takeOnceOrUntilDestroyed } from 'src/utils/rxjs-operators';
 import { LoginPageStore } from './login-page.store';
 
 @Component({
@@ -48,11 +49,14 @@ export class LoginPageComponent {
     this.authStore.login(loginData);
 
     this.loginSucceededEvent$
-      .pipe(take(1), takeUntilDestroyed(this.destroyRef))
+      .pipe(takeOnceOrUntilDestroyed(this.destroyRef))
       .subscribe(() => this.routingService.routeToPath('campaign-overview'));
   }
 
   onResetPassword(username: string): void {
-    this.mailService.requestPasswordReset(username);
+    this.mailService
+      .requestPasswordReset(username)
+      .pipe(takeOnceOrUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 }

@@ -14,7 +14,7 @@ import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import { filter, fromEvent, map } from 'rxjs';
 import { FileFieldKind } from 'src/app/_models/formly';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
-import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
 
 // WARNING: DO NOT USE IN FORMS THAT UPDATE
 // THIS FIELD DOES NOT TOLERATE RECEIVING EXISTING VALUES
@@ -23,7 +23,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
   templateUrl: './formly-file-field.component.html',
   styleUrls: ['./formly-file-field.component.scss'],
   imports: [
-    ButtonComponent,
+    IconComponent,
     FormlyModule,
     FormlyBootstrapModule,
     ReactiveFormsModule,
@@ -54,9 +54,9 @@ export class FormlyFileFieldComponent
     this.fieldKind = this.props['fileFieldKind'];
   }
 
-  onFileSelect(event: any) {
-    const files = event.target.files;
-    const hasSelectedFile = files.length > 0;
+  onFileSelect(event: Event) {
+    const files = (event?.target as HTMLInputElement).files;
+    const hasSelectedFile = files && files.length > 0;
     if (!hasSelectedFile) return;
     const file: File = files[0];
     this.setModelValue(file);
@@ -74,6 +74,7 @@ export class FormlyFileFieldComponent
   // in a way that won't cause that event to bubble upwards.
   onButtonClick(event: Event) {
     event.stopPropagation();
+    event.preventDefault();
     const element: HTMLElement = this.fileInputElement.nativeElement;
     const newClick = new MouseEvent('click', { bubbles: false });
     element.dispatchEvent(newClick);

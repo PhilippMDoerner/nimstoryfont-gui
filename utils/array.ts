@@ -23,6 +23,16 @@ export const sortByProp = <T>(
   return newList;
 };
 
+export const sortBy = <T>(
+  a: T,
+  b: T,
+  prop: keyof T,
+  sortDirection: 'asc' | 'desc' = 'asc',
+): 1 | -1 => {
+  const sortValue = a[prop] > b[prop] ? 1 : -1;
+  return sortDirection === 'desc' ? ((-1 * sortValue) as 1 | -1) : sortValue;
+};
+
 export const findByProp = <T>(
   list: T[],
   prop: keyof T,

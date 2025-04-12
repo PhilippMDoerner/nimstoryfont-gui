@@ -1,6 +1,6 @@
 @if (rule() || state() === "CREATE") {
-  <h4 class="card__heading heading">
-    <span>
+  <div class="card__heading-container">
+    <div class="h4 card__heading heading">
       @switch (state()) {
         @case ("DISPLAY") {
           <ng-container [ngTemplateOutlet]="displayHeading" />
@@ -15,17 +15,18 @@
           <ng-container [ngTemplateOutlet]="updateHeading" />
         }
       }
-    </span>
+    </div>
 
     @if (canUpdate() || canCreate()) {
       <app-edit-toggle
         [buttonKind]="'DARK'"
         [toggled]="state() !== 'DISPLAY'"
         [disabledHotkey]="disabledHotkeys()"
-        (toggle)="onToggle($event)"
+        [title]="'Edit ' + rule()?.name"
+        (toggleEdit)="onToggle($event)"
       ></app-edit-toggle>
     }
-  </h4>
+  </div>
   @switch (state()) {
     @case ("DISPLAY") {
       <ng-container [ngTemplateOutlet]="displayBody" />
@@ -49,14 +50,14 @@
 <ng-template #displayBody>
   @let ruleVal = rule();
   @if (ruleVal) {
-    <app-html-text [text]="ruleVal.description"></app-html-text>
+    <app-html-text [text]="ruleVal.description ?? ''"></app-html-text>
   }
 
   <!-- Delete Toggler -->
   @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
-      [confirmationQuestion]="'Delete this rule?'"
+      [itemToDelete]="'Rule ' + rule()?.name"
       [icon]="'trash'"
       [enableHotkey]="!disabledHotkeys()"
       (confirm)="onRuleDelete()"
@@ -94,12 +95,15 @@
 </ng-template>
 
 <ng-template #outdatedUpdateBody>
-  <app-compare-form
-    [fields]="formlyFields"
-    [modelFromUser]="userModel()"
-    [modelFromServer]="serverModel()"
-    [displayVertically]="true"
-    (formlySubmit)="onRuleUpdate($event)"
-    (formlyCancel)="changeState('DISPLAY', undefined)"
-  ></app-compare-form>
+  @let userModelVal = userModel();
+  @if (userModelVal) {
+    <app-compare-form
+      [fields]="formlyFields"
+      [modelFromUser]="userModelVal"
+      [modelFromServer]="serverModel()"
+      [displayVertically]="true"
+      (formlySubmit)="onRuleUpdate($event)"
+      (formlyCancel)="changeState('DISPLAY', undefined)"
+    ></app-compare-form>
+  }
 </ng-template>

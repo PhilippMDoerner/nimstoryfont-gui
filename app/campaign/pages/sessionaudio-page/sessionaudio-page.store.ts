@@ -20,11 +20,11 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type SessionaudioPageState = {
+interface SessionaudioPageState {
   createTimestampState: RequestState;
   deleteTimestampState: RequestState;
   deleteSessionaudioState: RequestState;
-};
+}
 
 const initialState: SessionaudioPageState = {
   createTimestampState: 'init',
@@ -78,13 +78,8 @@ export const SessionaudioPageStore = signalStore(
   withMethods((state) => {
     const sessionaudioService = inject(SessionAudioService);
     const timestampService = inject(SessionAudioTimestampService);
-    const globalStore = inject(GlobalStore);
     const toastService = inject(ToastService);
 
-    const campaignName$ = toObservable(globalStore.campaignName).pipe(
-      filterNil(),
-      shareReplay(1),
-    );
     return {
       deleteSessionaudio: (audioPk: number) => {
         patchState(state, { deleteSessionaudioState: 'loading' });

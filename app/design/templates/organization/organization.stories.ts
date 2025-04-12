@@ -28,6 +28,7 @@ const dummyOrganization: Organization = {
   members: [
     {
       name: 'Sir Cedric',
+      membership_id: 1,
       pk: 789,
       alive: true,
       organization_id: 123,
@@ -35,6 +36,7 @@ const dummyOrganization: Organization = {
     },
     {
       name: 'Lady Elspeth',
+      membership_id: 2,
       pk: 790,
       alive: true,
       organization_id: 123,
@@ -42,6 +44,7 @@ const dummyOrganization: Organization = {
     },
     {
       name: 'Sir Richard',
+      membership_id: 3,
       pk: 791,
       alive: false,
       organization_id: 123,

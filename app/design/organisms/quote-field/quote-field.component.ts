@@ -3,9 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -62,14 +61,12 @@ export class QuoteFieldComponent {
   sessions = input.required<OverviewItem[]>();
   quoteControlsBlacklist = input<QuoteControlKind[]>([]);
 
-  @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
-  @Output() quoteCreate: EventEmitter<QuoteRaw> = new EventEmitter();
-  @Output() quoteUpdate: EventEmitter<Quote> = new EventEmitter();
-  @Output() connectionDelete: EventEmitter<QuoteConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<QuoteConnection> =
-    new EventEmitter();
-  @Output() refreshQuote: EventEmitter<null> = new EventEmitter();
+  readonly quoteDelete = output<Quote>();
+  readonly quoteCreate = output<QuoteRaw>();
+  readonly quoteUpdate = output<Quote>();
+  readonly connectionDelete = output<QuoteConnection>();
+  readonly connectionCreate = output<QuoteConnection>();
+  readonly refreshQuote = output<void>();
 
   sessions$ = toObservable(this.sessions).pipe(take(1));
   encounters$ = toObservable(this.encounters).pipe(take(1));
@@ -155,7 +152,7 @@ export class QuoteFieldComponent {
   }
 
   onDelete() {
-    this.quoteDelete.emit(this.quote());
+    this.quoteDelete.emit(this.quote() as Quote);
     this.changeState('DISPLAY', {} as QuoteRaw);
   }
 

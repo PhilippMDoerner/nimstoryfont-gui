@@ -23,12 +23,12 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type QuoteOverviewState = {
+interface QuoteOverviewState {
   updateQuoteState: RequestState;
   deleteQuoteState: RequestState;
   createQuoteState: RequestState;
   quoteServerModel: undefined | Quote;
-};
+}
 
 const initialState: QuoteOverviewState = {
   updateQuoteState: 'init' as RequestState,

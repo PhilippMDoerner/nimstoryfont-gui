@@ -1,3 +1,4 @@
+import { ArrayDataSource, DataSource } from '@angular/cdk/collections';
 import { NgTemplateOutlet, TitleCasePipe } from '@angular/common';
 import {
   ChangeDetectionStrategy,
@@ -9,11 +10,14 @@ import { RouterLink } from '@angular/router';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { componentId } from 'src/utils/DOM';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
+import { ArticleFooterComponent } from '../../molecules';
 import { ImageCardComponent } from '../../molecules/image-card/image-card.component';
 import { FilterListEntry } from '../../organisms/_model/filterListEntry';
 import { FilterListComponent } from '../../organisms/filter-list/filter-list.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
+import { TreeNode } from '../../organisms/tree/tree.component';
 import { GeneralOverviewType } from '../_models/generalOverviewType';
 
 @Component({
@@ -29,17 +33,37 @@ import { GeneralOverviewType } from '../_models/generalOverviewType';
     FilterListComponent,
     TitleCasePipe,
     HotkeyDirective,
+    ArticleFooterComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GeneralOverviewComponent {
-  OVERVIEW_IMAGE_MAP: { [key in GeneralOverviewType]: string } = {
-    CHARACTER: '/assets/overview_images/characters.webp',
-    CREATURE: '/assets/overview_images/creatures.webp',
-    DIARYENTRY: '/assets/overview_images/diaryentries.webp',
-    ITEM: '/assets/overview_images/items.webp',
-    LOCATION: '/assets/overview_images/locations.webp',
-    ORGANIZATION: '/assets/overview_images/organizations.webp',
+  OVERVIEW_IMAGE_MAP: {
+    [key in Exclude<GeneralOverviewType, 'CHARACTER'>]: {
+      url: string;
+      alt: string;
+    };
+  } = {
+    CREATURE: {
+      url: '/assets/overview_images/creatures.webp',
+      alt: 'A fox and squirrels in an idyllic forest clearing',
+    },
+    DIARYENTRY: {
+      url: '/assets/overview_images/diaryentries.webp',
+      alt: 'An open old tome in a dusty room',
+    },
+    ITEM: {
+      url: '/assets/overview_images/items.webp',
+      alt: 'Piles of gold and magic items in a cave',
+    },
+    LOCATION: {
+      url: '/assets/overview_images/locations.webp',
+      alt: 'Snowy, mountainous landscape with a towering, ancient stone ruin and a distant, shadowy castle.',
+    },
+    ORGANIZATION: {
+      url: '/assets/overview_images/organizations.webp',
+      alt: 'A group gathering around a glowing, magical table, inside a grand, cathedral-like chamber.',
+    },
   };
 
   serverUrl = input.required<string>();
@@ -48,8 +72,8 @@ export class GeneralOverviewComponent {
   campaignName = input.required<string>();
   canCreate = input.required<boolean>();
 
-  defaultPlayerCharacterImage: string =
-    'assets/default_images/icon_default.webp';
+  defaultPlayerCharacterImage = 'assets/default_images/icon_default.webp';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   displayEntries = computed<FilterListEntry<any>[]>(() => {
     switch (this.overviewType()) {
       case 'CHARACTER':
@@ -78,6 +102,19 @@ export class GeneralOverviewComponent {
   );
   overviewTypeName = computed(() => this.overviewType().toLocaleLowerCase());
 
+  id = componentId();
+
+  filterId = `${this.id}-filter`;
+  headingSectionId = `${this.id}-heading-section`;
+  bodySectionId = `${this.id}-body-section`;
+
+  toLocationTrees = (entries: OverviewItem[]): DataSource<TreeNode>[] => {
+    const rootNodes = entries
+      .filter((entry) => !!(entry.parent_location_details?.pk == null))
+      .map((rootItem) => recursivelyBuildLocationTree(rootItem, entries, 0));
+    return rootNodes.map((node) => new ArrayDataSource([node]));
+  };
+
   constructor(private routingService: RoutingService) {}
 
   private getCharacterEntries(
@@ -102,18 +139,18 @@ export class GeneralOverviewComponent {
   }
 
   private buildDiaryEntryNameForList(diaryEntry: OverviewItem): string {
-    const startWithSessionNumber: string = `#${diaryEntry.session_details?.session_number}`;
-    let title: string = diaryEntry.name != null ? `- ${diaryEntry.name}` : '';
+    const startWithSessionNumber = `#${diaryEntry.session_details?.session_number}`;
+    const title = diaryEntry.name != null ? `- ${diaryEntry.name}` : '';
 
     const isSmallScreen = false; // Constants.isSmallScreen
     if (isSmallScreen) return `${startWithSessionNumber} ${title}`;
 
-    let daysCoveredByEntry: string = '';
+    let daysCoveredByEntry = '';
     if (
       diaryEntry.session_details?.start_day != null &&
       diaryEntry.session_details.end_day != null
     ) {
-      const padLength: number = 3;
+      const padLength = 3;
       const startDay: string = this.padNumber(
         diaryEntry.session_details.start_day,
         padLength,
@@ -166,8 +203,8 @@ export class GeneralOverviewComponent {
   ): OverviewItem[] {
     const parents: OverviewItem[] = [location];
 
-    var currentLocation: OverviewItem = location;
-    var hasParentLocation = currentLocation.parent_location_details?.pk != null;
+    let currentLocation: OverviewItem = location;
+    let hasParentLocation = currentLocation.parent_location_details?.pk != null;
     while (hasParentLocation) {
       // aka hasParentLocation
       const parentLocationPk: number = currentLocation.parent_location_details
@@ -196,4 +233,24 @@ export class GeneralOverviewComponent {
     const overlengthString: string = paddingCharacter.repeat(padCount) + num;
     return overlengthString.slice(padCount * -1);
   }
+}
+
+function recursivelyBuildLocationTree(
+  root: OverviewItem,
+  entries: OverviewItem[],
+  currentLevel: number,
+): TreeNode {
+  const nextLevel = currentLevel + 1;
+  const childNodes = entries
+    .filter((entry) => entry.parent_location_details?.pk === root.pk)
+    .map((entry) => recursivelyBuildLocationTree(entry, entries, nextLevel));
+
+  return {
+    id: root.pk as number,
+    label: root.name,
+    children: childNodes,
+    link: root['getAbsoluteRouterUrl'](),
+    isRootNode: root.parent_location_details?.pk == null,
+    level: currentLevel,
+  };
 }

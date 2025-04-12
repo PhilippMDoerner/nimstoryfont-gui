@@ -15,9 +15,9 @@ import { handleError } from 'src/utils/store/toServerModel';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-type OrganizationCreateUpdatePageState = {
+interface OrganizationCreateUpdatePageState {
   createState: RequestState;
-};
+}
 
 const initialState: OrganizationCreateUpdatePageState = {
   createState: 'init',

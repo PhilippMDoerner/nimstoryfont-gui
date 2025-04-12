@@ -43,11 +43,11 @@ export const GRAPH_SETTINGS = {
   iconSize: 10,
 };
 
-export type NodeClickEvent = {
+export interface NodeClickEvent {
   event: MouseEvent;
   clickedNode: ArticleNode | undefined;
-};
-export type LinkClickEvent = {
+}
+export interface LinkClickEvent {
   event: MouseEvent;
   clickedLink: NodeLink | undefined;
-};
+}

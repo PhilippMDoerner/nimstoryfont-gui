@@ -9,13 +9,21 @@
   }
 
   &__control {
-    display: inline-block;
     width: fit-content;
   }
 }
-
 .quote {
+  border-left: solid 4px var(--bs-white);
+  padding: var(--spacer-2) var(--spacer-0) var(--spacer-1) var(--spacer-4);
+
   &__description {
     margin: var(--spacer-3) var(--spacer-0) var(--spacer-3) var(--spacer-3);
+  }
+
+  &__content {
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+    border: none;
   }
 }

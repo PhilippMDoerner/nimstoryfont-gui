@@ -2,9 +2,8 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
@@ -27,9 +26,9 @@ import { ConfirmationToggleButtonComponent } from '../confirmation-toggle-button
 export class ArticleFooterComponent {
   buttonLabel = input.required<string>();
   buttonLink = input<string | undefined>(undefined);
-  deleteMessage = input<string>('Delete this entry?');
+  deleteMessage = input<string>('Delete this article?');
   showDelete = input<boolean>(true);
 
-  @Output() buttonClick: EventEmitter<null> = new EventEmitter();
-  @Output() delete: EventEmitter<null> = new EventEmitter();
+  readonly buttonClick = output<void>();
+  readonly delete = output<void>();
 }

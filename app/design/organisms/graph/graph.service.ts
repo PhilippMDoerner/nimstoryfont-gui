@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { inject, Injectable } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -48,11 +49,11 @@ import { GraphElement, GraphMenuService } from './graph-menu.service';
 
 type MyZoomBehavior = ZoomBehavior<any, any>;
 type ZoomElement = Selection<SVGGElement, undefined, null, undefined>;
-type GraphElements = {
+interface GraphElements {
   graphElement: GraphElement;
   zoomContainer: ZoomElement;
   zoomBehavior: MyZoomBehavior;
-};
+}
 
 const STATIC_ICON_SIZE = 24;
 

@@ -12,6 +12,7 @@ import { getKeys } from './types';
  * Creates an object with a bunch of properties based on an input name
  */
 type NewProperties<Name extends string, Q> =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   Q extends Request<infer Params, infer Response>
     ? Record<`${Name}UpdateError`, HttpErrorResponse> &
         Record<`${Uncapitalize<Name>}UpdateState`, RequestState> &

@@ -1,4 +1,4 @@
-::ng-deep div.entry.drag-and-drop-list-entry {
+::ng-deep li.entry.drag-and-drop-list-entry {
   background-color: var(--bs-secondary);
   color: var(--bs-white);
 }
@@ -6,9 +6,9 @@
 .diaryentry {
   padding: 0;
 
-  &__edit-row {
-    width: 100%;
-    margin-bottom: var(--spacer-3);
+  &__menu-container {
+    display: flex;
+    justify-content: flex-end;
   }
 
   &__heading {
@@ -19,6 +19,12 @@
     margin-bottom: var(--spacer-4);
     text-align: center;
     text-transform: unset;
+  }
+
+  &__contents-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--spacer-4);
   }
 
   &__images {

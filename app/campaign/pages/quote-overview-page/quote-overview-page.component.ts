@@ -3,8 +3,10 @@ import {
   Component,
   computed,
   inject,
+  Signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { Observable } from 'rxjs';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { PageContainerComponent } from 'src/app/design//organisms/page-container/page-container.component';
 import { QuotesComponent } from 'src/app/design//organisms/quotes/quotes.component';
@@ -36,4 +38,15 @@ export class QuoteOverviewPageComponent {
       name: this.store.character()?.name,
     }),
   );
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(
+      () =>
+        this.store.quotes() == null ||
+        this.store.character() == null ||
+        this.globalStore.currentCampaign() == null,
+    );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 }

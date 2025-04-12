@@ -1,31 +1,32 @@
 @if (!isLoadingQuote()) {
-  <div class="field">
+  <section class="field">
     @let quoteVal = quote();
     @if (quoteVal) {
-      <blockquote class="field__content quote">
-        <!-- Quote -->
-        <app-html-text class="quote__text" [text]="quoteVal.quote" />
-
-        <!-- Quote Description -->
-        <div class="quote__description">
-          @if (quoteVal.description) {
-            <app-html-text [text]="'- ' + quoteVal.description" />
-          }
-
-          @if (!quoteVal.description) {
-            - {{ character().name }}
-          }
-        </div>
-
-        <app-separator></app-separator>
+      <div class="field__quote quote" [attr.aria-label]="quoteLabel()">
+        <figure class="m-0">
+          <!-- Quote -->
+          <blockquote class="quote__content">
+            <p [innerHTML]="quoteVal.quote"></p>
+          </blockquote>
+          <figcaption class="quote__description">
+            <!-- Quote Description -->
+            @if (quoteVal.description) {
+              <p class="m-0" [innerHTML]="'- ' + quoteVal.description"></p>
+            } @else {
+              - {{ character().name }}
+            }
+          </figcaption>
+        </figure>
+        <app-separator />
 
         <!-- Quote Connections -->
-        <div class="quote__connections d-inline icon-container">
+        <div class="quote__connections">
           <app-badge-list
             [entries]="badgeEntries()"
             [label]="'Characters'"
             [createOptions]="{
               kind: 'SELECT',
+              formFieldLabel: 'Characters',
               config: {
                 options: campaignCharacters(),
                 labelProp: 'name',
@@ -39,11 +40,11 @@
             (entryDelete)="onConnectionDelete($event)"
           ></app-badge-list>
         </div>
-      </blockquote>
+      </div>
     }
 
     <!-- Quote Refresh/Create/Edit/Delete Icons -->
-    <div class="field__controls">
+    <footer class="field__controls">
       @for (control of quoteControlls(); track $index) {
         @switch (control.config.kind) {
           @case ("CLICK") {
@@ -51,11 +52,11 @@
               btn
               class="field__control"
               [attr.aria-label]="control.title"
-              [title]="control.title"
+              [attr.title]="control.title"
               [kind]="control.type"
               [text]="control.label"
               [icon]="control.icon"
-              (click)="control.config.onClick()"
+              (clicked)="control.config.onClick()"
             ></button>
           }
           @case ("LINK") {
@@ -63,7 +64,7 @@
               btn
               class="field__control"
               [attr.aria-label]="control.title"
-              [title]="control.title"
+              [ngbTooltip]="control.title"
               [kind]="control.type"
               [text]="control.label"
               [icon]="control.icon"
@@ -73,8 +74,8 @@
           }
         }
       }
-    </div>
-  </div>
+    </footer>
+  </section>
 }
 
 <ng-template #loading>

@@ -14,11 +14,11 @@ export type CampaignUpdateModel = CampaignRaw &
   Record<'pk', number> &
   Record<'update_datetime', string>;
 
-export type CampaignUpdatePageStore = {
+export interface CampaignUpdatePageStore {
   campaign: Campaign | undefined;
   mapOptions: OverviewItem[] | undefined;
   serverModel: Campaign | undefined;
-};
+}
 
 const initialState: CampaignUpdatePageStore = {
   campaign: undefined,

@@ -1,26 +1,26 @@
 import {
   Component,
   computed,
-  EventEmitter,
   input,
   OnChanges,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { CharacterDetails } from 'src/app/_models/character';
 import { Quote, QuoteConnection } from 'src/app/_models/quote';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { Icon } from 'src/app/design/atoms/_models/icon';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
-import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
 import { SeparatorComponent } from 'src/app/design/atoms/separator/separator.component';
 import { SpinnerComponent } from 'src/app/design/atoms/spinner/spinner.component';
 import { BadgeListComponent, BadgeListEntry } from 'src/app/design/molecules';
 import { copyToClipboard } from 'src/utils/clipboard';
+import { componentId } from 'src/utils/DOM';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ToastService } from '../toast-overlay/toast-overlay.component';
 
@@ -38,10 +38,10 @@ export type QuoteControlKind =
   | 'UPDATE'
   | 'LIST'
   | 'COPY';
-type QuoteControl = {
+interface QuoteControl {
   controlKind: QuoteControlKind;
   isVisible: boolean;
-  title: string;
+  title?: string;
   type: ElementKind;
   label?: string;
   icon: Icon;
@@ -54,20 +54,20 @@ type QuoteControl = {
         kind: 'CLICK';
         onClick: () => void;
       };
-};
+}
 
 @Component({
   selector: 'app-quote',
   templateUrl: './quote.component.html',
   styleUrls: ['./quote.component.scss'],
   imports: [
-    HtmlTextComponent,
     BadgeListComponent,
     SeparatorComponent,
     ButtonComponent,
     ButtonLinkComponent,
     RouterLink,
     SpinnerComponent,
+    NgbTooltip,
   ],
 })
 export class QuoteComponent implements OnChanges {
@@ -82,16 +82,16 @@ export class QuoteComponent implements OnChanges {
   canUpdate = input(false);
   canDelete = input(false);
 
-  @Output() quoteDelete: EventEmitter<Quote> = new EventEmitter();
-  @Output() quoteCreate: EventEmitter<null> = new EventEmitter();
-  @Output() quoteUpdate: EventEmitter<Quote> = new EventEmitter();
-  @Output() connectionDelete: EventEmitter<QuoteConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<QuoteConnection> =
-    new EventEmitter();
-  @Output() refreshQuote: EventEmitter<void> = new EventEmitter();
+  readonly quoteDelete = output<Quote>();
+  readonly quoteCreate = output<void>();
+  readonly quoteUpdate = output<Quote>();
+  readonly connectionDelete = output<QuoteConnection>();
+  readonly connectionCreate = output<QuoteConnection>();
+  readonly refreshQuote = output<void>();
 
   state: QuoteState = 'DISPLAY';
+  quoteId = componentId();
+
   badgeEntries = computed<BadgeListEntry<QuoteConnection>[]>(() =>
     this.parseConnection(this.quote()?.connections ?? []),
   );
@@ -103,11 +103,13 @@ export class QuoteComponent implements OnChanges {
       campaign: this.campaignName,
     }),
   );
+  hasQuote = computed(() => !!this.quote());
+  quoteLabel = computed(() => `Quotes of ${this.character()?.name}`);
 
   private _quoteControlls = computed<QuoteControl[]>(() => [
     {
       controlKind: 'REFRESH',
-      isVisible: !!this.quote(),
+      isVisible: this.hasQuote(),
       title: 'Load new quote',
       type: 'INFO',
       icon: 'refresh',
@@ -118,20 +120,20 @@ export class QuoteComponent implements OnChanges {
     },
     {
       controlKind: 'UPDATE',
-      isVisible: !!this.quote() && this.canUpdate(),
+      isVisible: this.hasQuote() && this.canUpdate(),
       title: 'Edit Quote',
       type: 'SECONDARY',
       icon: 'pencil',
       config: {
         kind: 'CLICK',
-        onClick: () => this.quoteUpdate.emit(this.quote()),
+        onClick: () => this.quoteUpdate.emit(this.quote() as Quote),
       },
     },
     {
       controlKind: 'CREATE',
       isVisible: this.canCreate(),
-      title: 'Create Quote',
-      label: this.quote() ? undefined : 'Create Quote',
+      title: this.hasQuote() ? 'Create Quote' : undefined,
+      label: this.hasQuote() ? undefined : 'Create Quote',
       type: 'PRIMARY',
       icon: 'plus',
       config: {
@@ -147,7 +149,7 @@ export class QuoteComponent implements OnChanges {
       icon: 'trash',
       config: {
         kind: 'CLICK',
-        onClick: () => this.quoteDelete.emit(this.quote()),
+        onClick: () => this.quoteDelete.emit(this.quote() as Quote),
       },
     },
     {
@@ -241,7 +243,7 @@ export class QuoteComponent implements OnChanges {
     }
     const quoteLines = quote.quote.split('<br />');
     const modifiedQuoteLines = quoteLines.map(
-      (line: string) => `\>${line.trim().trimStart()}`,
+      (line: string) => `>${line.trim().trimStart()}`,
     );
     const modifiedQuote = modifiedQuoteLines.join('<br />');
 

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  Signal,
+} from '@angular/core';
+import { Observable } from 'rxjs';
 import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { MapComponent } from 'src/app/design/templates/map/map.component';
@@ -18,6 +25,13 @@ export class MapPageComponent {
   store = inject(MapPageStore);
   globalStore = inject(GlobalStore);
   routingService = inject(RoutingService);
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.store.map() == null);
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 
   mapChange(map: OverviewItem): void {
     const mapName = map.name;

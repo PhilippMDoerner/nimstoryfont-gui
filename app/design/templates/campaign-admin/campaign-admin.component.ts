@@ -2,11 +2,10 @@ import { KeyValuePipe, NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
-  EventEmitter,
   input,
   Input,
   OnChanges,
-  Output,
+  output,
   Signal,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
@@ -25,6 +24,7 @@ import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.comp
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { InfoCircleTooltipComponent } from 'src/app/design/atoms/info-circle-tooltip/info-circle-tooltip.component';
 
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import {
   ArticleFooterComponent,
   ConfirmationToggleButtonComponent,
@@ -51,6 +51,7 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
     ArticleFooterComponent,
     ButtonLinkComponent,
     NgTemplateOutlet,
+    NgbTooltip,
   ],
 })
 export class CampaignAdminComponent implements OnChanges {
@@ -59,24 +60,22 @@ export class CampaignAdminComponent implements OnChanges {
   @Input() campaignStatistics!: WikiStatistics;
   users = input<User[]>();
 
-  @Output() removeMember: EventEmitter<User> = new EventEmitter();
-  @Output() removeAdmin: EventEmitter<User> = new EventEmitter();
-  @Output() removeGuest: EventEmitter<User> = new EventEmitter();
-  @Output() addMember: EventEmitter<User> = new EventEmitter();
-  @Output() addAdmin: EventEmitter<User> = new EventEmitter();
-  @Output() addGuest: EventEmitter<User> = new EventEmitter();
-  @Output() removeEmptySearchResponse: EventEmitter<EmptySearchResponse> =
-    new EventEmitter();
-  @Output() addEmptySearchResponse: EventEmitter<EmptySearchResponse> =
-    new EventEmitter();
-  @Output() deactivateCampaign: EventEmitter<Campaign> = new EventEmitter();
+  readonly removeMember = output<User>();
+  readonly removeAdmin = output<User>();
+  readonly removeGuest = output<User>();
+  readonly addMember = output<User>();
+  readonly addAdmin = output<User>();
+  readonly addGuest = output<User>();
+  readonly removeEmptySearchResponse = output<EmptySearchResponse>();
+  readonly addEmptySearchResponse = output<EmptySearchResponse>();
+  readonly deactivateCampaign = output<Campaign>();
 
   updateUrl!: string;
   homeUrl!: string;
   users$ = toObservable(this.users).pipe(map((x) => x ?? []));
   memberModel!: Partial<User>;
-  showMemberAddForm: boolean = false;
-  memberTooltip: string = `Allows creating, reading, updating and deleting articles in this campaign. Also makes the person a possible "author" for diaryentries.`;
+  showMemberAddForm = false;
+  memberTooltip = `Allows creating, reading, updating and deleting articles in this campaign. Also makes the person a possible "author" for diaryentries.`;
   memberFormlyFields: Signal<FormlyFieldConfig[]> = computed(() => [
     this.formlyService.buildDisableSelectConfig({
       key: 'pk',
@@ -101,8 +100,8 @@ export class CampaignAdminComponent implements OnChanges {
   ]);
 
   adminModel!: Partial<User>;
-  showAdminAddForm: boolean = false;
-  adminTooltip: string = `Allows adding admins, members and guests to a campaign. Does not add the person to the list of possible "authors" for diaryentries.`;
+  showAdminAddForm = false;
+  adminTooltip = `Allows adding admins, members and guests to a campaign. Does not add the person to the list of possible "authors" for diaryentries.`;
   adminFormlyFields: Signal<FormlyFieldConfig[]> = computed(() => [
     this.formlyService.buildDisableSelectConfig({
       key: 'pk',
@@ -126,7 +125,7 @@ export class CampaignAdminComponent implements OnChanges {
   ]);
 
   guestModel!: Partial<User>;
-  showGuestAddForm: boolean = false;
+  showGuestAddForm = false;
   guestTooltip = `Allows only reading articles in this campaign.`;
   guestFormlyFields: Signal<FormlyFieldConfig[]> = computed(() => [
     this.formlyService.buildDisableSelectConfig({
@@ -164,7 +163,7 @@ export class CampaignAdminComponent implements OnChanges {
   ]);
 
   responseModel!: Partial<EmptySearchResponse>;
-  showResponseForm: boolean = false;
+  showResponseForm = false;
   responseFormlyFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
       key: 'text',

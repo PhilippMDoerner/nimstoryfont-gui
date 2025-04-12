@@ -73,9 +73,11 @@ export function unshiftOrderIndex(encounter: Encounter | EncounterRaw): void {
 }
 
 export function swapOrderIndexState(encounter: Encounter): void {
-  hasShiftedOrderIndex(encounter)
-    ? unshiftOrderIndex(encounter)
-    : shiftOrderIndex(encounter);
+  if (hasShiftedOrderIndex(encounter)) {
+    unshiftOrderIndex(encounter);
+  } else {
+    shiftOrderIndex(encounter);
+  }
 }
 
 export function shiftOrderIndex(encounter: Encounter): Encounter {

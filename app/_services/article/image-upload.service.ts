@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -50,6 +51,6 @@ export class ImageUploadService implements CUDService<Image> {
 
   delete(image_pk: number): Observable<any> {
     const url = `${this.baseUrl}/pk/${image_pk}`;
-    return this.http.delete<any>(url);
+    return this.http.delete<void>(url);
   }
 }

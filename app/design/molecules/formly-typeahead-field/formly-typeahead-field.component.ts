@@ -11,6 +11,7 @@ import {
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  NgbTooltip,
   NgbTypeahead,
   NgbTypeaheadModule,
   NgbTypeaheadSelectItemEvent,
@@ -34,8 +35,8 @@ import { CustomTypeaheadProps } from 'src/app/_models/formly';
 import { filterNil } from 'src/utils/rxjs-operators';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
 
-const NON_NORMAL_CHARACTER_REGEXP: RegExp = /[^a-zA-Z0-9]/g;
-const TWO_OR_MORE_WHITESPACE_REGEXP: RegExp = /\s\s+/g;
+const NON_NORMAL_CHARACTER_REGEXP = /[^a-zA-Z0-9]/g;
+const TWO_OR_MORE_WHITESPACE_REGEXP = /\s\s+/g;
 
 @Component({
   selector: 'app-formly-typeahead-field',
@@ -45,6 +46,7 @@ const TWO_OR_MORE_WHITESPACE_REGEXP: RegExp = /\s\s+/g;
     NgbTypeaheadModule,
     AsyncPipe,
     BadgeComponent,
+    NgbTooltip,
   ],
   templateUrl: './formly-typeahead-field.component.html',
   styleUrl: './formly-typeahead-field.component.scss',
@@ -175,17 +177,22 @@ export class FormlyTypeaheadFieldComponent<T>
 
   private matchesSearchterm(searchTerm: string, optionLabel: T[keyof T]) {
     const formatter = this.getCustomProps().formatSearchTerm;
+    const searchRegex = new RegExp(
+      searchTerm.toLowerCase().split('').join('.*'),
+    );
 
     switch (typeof optionLabel) {
       case 'string':
       case 'number':
       case 'bigint':
-      case 'boolean':
+      case 'boolean': {
         const opt1 = formatter(`${optionLabel}`.toLowerCase()) ?? '';
-        return opt1.includes(searchTerm);
-      case 'symbol':
+        return opt1.match(searchRegex);
+      }
+      case 'symbol': {
         const opt2 = formatter(optionLabel.description?.toLowerCase()) ?? '';
-        return opt2.includes(searchTerm);
+        return opt2.match(searchRegex);
+      }
       case 'undefined':
       case 'object':
       case 'function':

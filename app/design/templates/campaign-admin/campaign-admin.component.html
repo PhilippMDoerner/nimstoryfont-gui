@@ -1,7 +1,13 @@
 <app-page-container>
   <article class="container campaign">
     <div class="campaign__edit-container">
-      <a btn [routerLink]="updateUrl" [icon]="'pencil'" [kind]="'SECONDARY'">
+      <a
+        btn
+        [routerLink]="updateUrl"
+        [icon]="'pencil'"
+        [kind]="'SECONDARY'"
+        aria-label="Update Campaign"
+      >
       </a>
     </div>
 
@@ -22,7 +28,7 @@
           <h3 class="text-center">Background</h3>
           <img
             class="settings__image"
-            title="Campaign background image"
+            [ngbTooltip]="'Campaign background image'"
             alt="Background image of this campaign"
             [src]="serverUrl + campaign.background_image"
           />
@@ -32,7 +38,7 @@
           <h3 class="text-center">Icon</h3>
           <img
             class="settings__icon"
-            title="Campaign Icon"
+            [ngbTooltip]="'Campaign Icon'"
             alt="Icon of this campaign"
             [src]="serverUrl + '/' + campaign.icon"
           />
@@ -77,7 +83,7 @@
               [icon]="'trash'"
               [toggleSize]="'SMALL'"
               [enableHotkey]="false"
-              [confirmationQuestion]="'Remove ' + user.username + ' as admin?'"
+              [itemToDelete]="'admin access of ' + user.username"
               (confirm)="removeAdmin.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
@@ -116,7 +122,7 @@
               [icon]="'trash'"
               [toggleSize]="'SMALL'"
               [enableHotkey]="false"
-              [confirmationQuestion]="'Remove ' + user.username + ' as member?'"
+              [itemToDelete]="'member access of ' + user.username + ' ?'"
               (confirm)="removeMember.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
@@ -155,7 +161,7 @@
               [icon]="'trash'"
               [toggleSize]="'SMALL'"
               [enableHotkey]="false"
-              [confirmationQuestion]="'Remove ' + user.username + ' as guest?'"
+              [itemToDelete]="'guest access of ' + user.username + ' ?'"
               (confirm)="removeGuest.emit(user)"
             ></app-confirmation-toggle-button>
           </div>
@@ -219,7 +225,7 @@
                 [icon]="'trash'"
                 [toggleSize]="'SMALL'"
                 [enableHotkey]="false"
-                [confirmationQuestion]="'Remove response?'"
+                [itemToDelete]="'response'"
                 (confirm)="removeEmptySearchResponse.emit(emptyResponse)"
               ></app-confirmation-toggle-button>
             </div>
@@ -249,7 +255,7 @@
       [showDelete]="!campaign.is_deactivated"
       [buttonLink]="homeUrl"
       [buttonLabel]="'Back to ' + campaign.name"
-      [deleteMessage]="'Deactivate Campaign ?'"
+      [deleteMessage]="'Campaign'"
       (delete)="deactivateCampaign.emit(campaign)"
     ></app-article-footer>
   </article>
@@ -261,7 +267,7 @@
     [kind]="'PRIMARY'"
     [text]="'Add Member'"
     [icon]="'user-plus'"
-    (click)="changeState('member', true)"
+    (clicked)="changeState('member', true)"
   ></button>
 </ng-template>
 
@@ -271,7 +277,7 @@
     [kind]="'PRIMARY'"
     [text]="'Add Admin'"
     [icon]="'user-plus'"
-    (click)="changeState('admin', true)"
+    (clicked)="changeState('admin', true)"
   ></button>
 </ng-template>
 
@@ -281,7 +287,7 @@
     [kind]="'PRIMARY'"
     [text]="'Add Guest'"
     [icon]="'user-plus'"
-    (click)="changeState('guest', true)"
+    (clicked)="changeState('guest', true)"
   ></button>
 </ng-template>
 
@@ -291,6 +297,6 @@
     [kind]="'PRIMARY'"
     [text]="'Add EmptySearchResponse'"
     [icon]="'plus'"
-    (click)="toggleResponseAddForm()"
+    (clicked)="toggleResponseAddForm()"
   ></button>
 </ng-template>

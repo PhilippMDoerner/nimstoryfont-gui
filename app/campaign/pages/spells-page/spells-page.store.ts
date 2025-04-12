@@ -25,12 +25,12 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type SpellsPageState = {
+interface SpellsPageState {
   updateSpellState: RequestState;
   spellServerModel: Spell | undefined;
   deleteSpellState: RequestState;
   createSpellState: RequestState;
-};
+}
 
 const initialState: SpellsPageState = {
   spellServerModel: undefined,

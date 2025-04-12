@@ -2,6 +2,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { action } from '@storybook/addon-actions';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
+import { Session } from 'src/app/_models/session';
 import { SessionAudio, Timestamp } from 'src/app/_models/sessionAudio';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { SessionaudioComponent } from './sessionaudio.component';
@@ -43,6 +44,8 @@ const dummySessionAudio: SessionAudio = {
   name: 'Session Audio 1',
   audio_file: '/tech/piano2-CoolEdit.mp3',
   audio_url: '/tech/piano2-CoolEdit.mp3',
+  campaign: 1,
+  campaign_details: { id: 1, name: 'Campaign of Adventures' },
   session: 12,
   session_details: {
     pk: 12,
@@ -50,14 +53,12 @@ const dummySessionAudio: SessionAudio = {
     session_number: 12,
     session_date: '2022-06-01',
     name: 'Session Audio 1',
-  },
+  } as Session,
   sessionAudioNeighbours: {
     nextSessionAudio: { isMainSessionInt: 1, sessionNumber: 13 },
     priorSessionAudio: { isMainSessionInt: 1, sessionNumber: 11 },
   },
   has_recording: true,
-  campaign: 1,
-  campaign_details: { id: 1, name: 'Campaign of Adventures' },
   creation_datetime: '2022-05-01T10:00:00Z',
   update_datetime: '2022-05-03T14:30:00Z',
   getAbsoluteRouterUrl: () => 'https://example.com/session-audio/123',

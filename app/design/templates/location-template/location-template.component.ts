@@ -1,12 +1,10 @@
 import {
   Component,
   computed,
-  EventEmitter,
   input,
   OnChanges,
   OnInit,
   output,
-  Output,
 } from '@angular/core';
 import { Image } from 'src/app/_models/image';
 import { Location } from 'src/app/_models/location';
@@ -16,11 +14,13 @@ import { BadgeListEntry, ListEntry } from '../../molecules';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
 import { BreadcrumbListComponent } from '../../molecules/breadcrumb-list/breadcrumb-list.component';
-import { ListComponent } from '../../molecules/list/list.component';
+import { LinkListComponent } from '../../molecules/link-list/link-list.component';
 import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
 import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
 import { LocationAccordionComponent } from '../../organisms/location-accordion/location-accordion.component';
@@ -37,10 +37,12 @@ import { BreadcrumbEntry } from '../_models/breadcrumb-entry';
     ImageCarouselCardComponent,
     BadgeListComponent,
     EditableTextComponent,
-    ListComponent,
+    LinkListComponent,
     LocationAccordionComponent,
     ArticleFooterComponent,
     BreadcrumbListComponent,
+    HotkeyDirective,
+    NgbTooltip,
   ],
 })
 export class LocationTemplateComponent implements OnInit, OnChanges {
@@ -53,10 +55,10 @@ export class LocationTemplateComponent implements OnInit, OnChanges {
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
 
-  @Output() createImage: EventEmitter<Image> = new EventEmitter();
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
-  @Output() locationDelete: EventEmitter<Location> = new EventEmitter();
+  readonly createImage = output<Image>();
+  readonly deleteImage = output<Image>();
+  readonly updateImage = output<Image>();
+  readonly locationDelete = output<Location>();
   locationUpdate = output<Location>();
 
   overviewUrl!: string;

@@ -1,13 +1,8 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Quest } from 'src/app/_models/quest';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
@@ -26,6 +21,8 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     NgTemplateOutlet,
     EditableTextComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
+    NgbTooltip,
   ],
 })
 export class QuestComponent {
@@ -34,7 +31,7 @@ export class QuestComponent {
   canUpdate = input.required<boolean>();
   canDelete = input.required<boolean>();
 
-  @Output() questDelete: EventEmitter<Quest> = new EventEmitter();
+  readonly questDelete = output<Quest>();
   questUpdate = output<Quest>();
 
   campaignName = computed(() => this.quest().campaign_details?.name);

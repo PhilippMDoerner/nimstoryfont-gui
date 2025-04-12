@@ -8,7 +8,7 @@
     [userModel]="character"
     [serverModel]="store.serverModel()"
     [lastVisitedPlaceOptions]="store.campaignLocations() ?? []"
-    (cancel)="onCancel()"
+    (cancelled)="onCancel()"
     (update)="onUpdateSubmit($event)"
     (create)="onCreateSubmit($event)"
   />

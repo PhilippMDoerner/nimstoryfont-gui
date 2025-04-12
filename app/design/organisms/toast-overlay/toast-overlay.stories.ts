@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { applicationConfig, Meta, StoryObj } from '@storybook/angular';
 import { ToastConfig } from 'src/app/_models/toast';
 import { ELEMENT_TYPES } from 'src/app/design/atoms/_models/button';

@@ -1,20 +1,17 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Image } from 'src/app/_models/image';
-import { Organization } from 'src/app/_models/organization';
+import { Organization, OrganizationMember } from 'src/app/_models/organization';
+import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { sortByProp } from 'src/utils/array';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
-import { ListEntry } from '../../molecules';
+import { BadgeListEntry } from '../../molecules';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
-import { ListComponent } from '../../molecules/list/list.component';
+import { BadgeListComponent } from '../../molecules/badge-list/badge-list.component';
 import { EditableTextComponent } from '../../organisms/editable-text/editable-text.component';
 import { ImageCarouselCardComponent } from '../../organisms/image-carousel-card/image-carousel-card.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
@@ -30,8 +27,10 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     NgTemplateOutlet,
     ImageCarouselCardComponent,
     EditableTextComponent,
-    ListComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
+    BadgeListComponent,
+    NgbTooltip,
   ],
 })
 export class OrganizationComponent {
@@ -39,15 +38,18 @@ export class OrganizationComponent {
   organizationServerModel = input.required<Organization | undefined>();
   serverUrl = input.required<string>();
   imageServerModel = input.required<Image | undefined>();
+  campaignCharacters = input.required<OverviewItem[] | undefined>();
   canUpdate = input.required<boolean>();
   canCreate = input.required<boolean>();
   canDelete = input.required<boolean>();
 
-  @Output() createImage: EventEmitter<Image> = new EventEmitter();
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
-  @Output() organizationDelete: EventEmitter<Organization> = new EventEmitter();
-  organizationUpdate = output<Organization>();
+  readonly createImage = output<Image>();
+  readonly deleteImage = output<Image>();
+  readonly updateImage = output<Image>();
+  readonly organizationDelete = output<Organization>();
+  readonly organizationUpdate = output<Organization>();
+  readonly organizationMembershipCreate = output<OverviewItem>();
+  readonly organizationMembershipDelete = output<OrganizationMember>();
 
   overviewUrl = computed(() => {
     const campaignName = this.organization().campaign_details?.name;
@@ -63,16 +65,21 @@ export class OrganizationComponent {
     });
   });
 
-  organizationMembers = computed<ListEntry[]>(() => {
-    return (
-      this.organization().members?.map((member) => ({
-        label: member.name,
-        link: this.routingService.getRoutePath('character', {
-          campaign: this.organization().campaign_details?.name,
-          name: member.name,
-        }),
-      })) ?? []
-    );
+  organizationMembers = computed<BadgeListEntry<OrganizationMember>[]>(() => {
+    const badgeEntries =
+      this.organization().members?.map(
+        (member) =>
+          ({
+            badgeValue: member,
+            text: member.name,
+            link: this.routingService.getRoutePath('character', {
+              campaign: this.organization().campaign_details?.name,
+              name: member.name,
+            }),
+          }) satisfies BadgeListEntry<OrganizationMember>,
+      ) ?? [];
+
+    return sortByProp(badgeEntries, 'text');
   });
   headquarterUrl = computed(() => {
     const campaignName = this.organization().campaign_details?.name;
@@ -92,12 +99,6 @@ export class OrganizationComponent {
 
   constructor(private routingService: RoutingService) {}
 
-  routeToCharacterCreation() {
-    this.routingService.routeToPath('character-create', {
-      campaign: this.organization().campaign_details?.name,
-    });
-  }
-
   onDescriptionUpdate(description: string): void {
     const isUpdatedAfterBeingOutdated =
       this.organizationServerModel() !== undefined;
@@ -108,5 +109,9 @@ export class OrganizationComponent {
     if (itemToUpdate) {
       this.organizationUpdate.emit({ ...itemToUpdate, description });
     }
+  }
+
+  deleteMembership(member: OrganizationMember): void {
+    this.organizationMembershipDelete.emit(member);
   }
 }

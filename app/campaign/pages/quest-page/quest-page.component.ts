@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   inject,
+  Signal,
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, take } from 'rxjs';
+import { filter, Observable, take } from 'rxjs';
 import { Quest } from 'src/app/_models/quest';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { QuestComponent } from 'src/app/design/templates/quest/quest.component';
@@ -26,7 +28,11 @@ export class QuestPageComponent {
 
   questDeleteState$ = toObservable(this.store.questDeleteState);
 
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.store.quest() == null);
+
   constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
     this.routeToOverviewOnMissingArticle();
   }
 

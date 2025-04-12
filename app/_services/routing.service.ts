@@ -1,3 +1,4 @@
+/* eslint-disable no-prototype-builtins */
 import { Injectable } from '@angular/core';
 import {
   ActivatedRoute,
@@ -36,18 +37,20 @@ export class RoutingService {
     this.router.navigateByUrl(cleanedObjectUrl);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getRouteUrlTree(routeName: string, params: any = {}): UrlTree {
     const routePath = this.getRoutePath(routeName, params);
     return this.router.parseUrl(routePath);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public getRoutePath(routeName: string, params: any = {}): string {
     let variableRoutePath = this.getVariableRoutePathByName(routeName);
 
     if (this.hasPathVariables(variableRoutePath)) {
       const variableNames: string[] =
         this.getPathVariableNames(variableRoutePath);
-      for (let variableName of variableNames) {
+      for (const variableName of variableNames) {
         const propertyKey = getCorrectKey(params, variableName);
         if (propertyKey == null) {
           const e = new Error(
@@ -70,6 +73,7 @@ export class RoutingService {
     return `/${variableRoutePath}`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public routeToErrorPage(error: number | any): void {
     if (typeof error !== 'number' && !error.hasOwnProperty('status')) {
       // this.warning.showWarning(error);
@@ -79,7 +83,7 @@ export class RoutingService {
     if (typeof error !== 'number' && error.hasOwnProperty('status'))
       error = error.status;
 
-    const errorStatusParam: string = `${error}`;
+    const errorStatusParam = `${error}`;
     this.routeToPath('error', { errorStatus: errorStatusParam });
   }
 
@@ -125,13 +129,13 @@ export class RoutingService {
     return routesWithRouteName != null;
   }
 
-  private getEndRoutes(route: Route, parentPath: string = ''): RouteNode[] {
+  private getEndRoutes(route: Route, parentPath = ''): RouteNode[] {
     let path = '';
     if (!!parentPath && !!route.path) {
       path = `${parentPath}/${route.path}`;
-    } else if (!!parentPath) {
+    } else if (parentPath) {
       path = parentPath;
-    } else if (!!route.path) {
+    } else if (route.path) {
       path = route.path;
     }
     const isEndRoute = route.children == null;

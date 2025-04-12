@@ -22,13 +22,13 @@ import { OnlineService } from 'src/app/_services/online.service';
 import { PwaService } from 'src/app/_services/pwa.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { SwipeService } from 'src/app/_services/swipe.service';
-import { TitleService } from 'src/app/_services/utils/title.service';
 import { SWIPE_X_THRESHOLD } from 'src/app/app.constants';
 import { AuthStore } from 'src/app/auth.store';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
 import { hasRoleOrBetter } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
 import { environment } from 'src/environments/environment';
+import { componentId } from 'src/utils/DOM';
 import { SidebarButtonEntryComponent } from '../../molecules/sidebar-button-entry/sidebar-button-entry.component';
 import { SidebarLinkEntryComponent } from '../../molecules/sidebar-link-entry/sidebar-link-entry.component';
 import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
@@ -48,13 +48,16 @@ import { ArticleMetaData, SIDEBAR_ENTRIES } from '../_model/sidebar';
   ],
   providers: [NgbActiveOffcanvas],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    role: 'navigation',
+    '[attr.aria-labelledby]': 'headerId',
+  },
 })
 export class SidebarComponent {
   readonly pwaService = inject(PwaService);
   readonly authStore = inject(AuthStore);
   readonly routingService = inject(RoutingService);
   readonly swipeService = inject(SwipeService);
-  readonly titleService = inject(TitleService);
   readonly host = inject(ElementRef);
   readonly activeOffcanvas = inject(NgbActiveOffcanvas);
   readonly online$ = inject(OnlineService).online$;
@@ -75,8 +78,9 @@ export class SidebarComponent {
   readonly sidebarEntries: Signal<ArticleMetaData[]> = computed(() => {
     const campaignName = this.campaign()?.name;
     if (!campaignName) return [];
-    const currentRole = this.authStore.getCampaignRole(campaignName);
-    if (!currentRole) return [];
+    const currentRole = this.authStore.isGlobalAdmin()
+      ? 'admin'
+      : (this.authStore.getCampaignRole(campaignName) ?? 'guest');
 
     const activeRouteName = this.activeRouteName();
 
@@ -97,6 +101,8 @@ export class SidebarComponent {
       };
     });
   });
+
+  readonly headerId = `${componentId()}-header`;
 
   readonly campaignOverviewUrl: string =
     this.routingService.getRoutePath('campaign-overview');

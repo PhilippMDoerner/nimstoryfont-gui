@@ -2,11 +2,10 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
-  EventEmitter,
   inject,
   Injector,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
@@ -15,9 +14,14 @@ import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { ElementKind } from 'src/app/design/atoms/_models/button';
 import { BadgeComponent } from 'src/app/design/atoms/badge/badge.component';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
+import { componentId } from 'src/utils/DOM';
 
 type State = 'DISPLAY' | 'CREATE';
-export type DisableableOption<T> = { value: T; disabled: boolean };
+export interface DisableableOption<T> {
+  value: T;
+  disabled: boolean;
+}
+
 @Component({
   selector: 'app-small-create-form',
   templateUrl: './small-create-form.component.html',
@@ -33,6 +37,7 @@ export type DisableableOption<T> = { value: T; disabled: boolean };
 export class SmallCreateFormComponent<T> {
   options = input.required<T[]>();
   labelProp = input.required<keyof T>();
+  formFieldLabel = input.required<string>();
   badgeText = input<string>('Add Entry');
   valueProp = input.required<keyof T>();
   submitButtonType = input<ElementKind>('PRIMARY');
@@ -40,20 +45,23 @@ export class SmallCreateFormComponent<T> {
   createHotkey = input<string | undefined>();
   disableHotkeys = input<boolean>(false);
 
-  @Output() create: EventEmitter<T> = new EventEmitter();
+  readonly create = output<T>();
 
   injector = inject(Injector);
   selectFieldName = computed(() => `select-' + ${String(this.labelProp())}`);
   form = new FormGroup({});
-  userModel: Partial<T> = {};
+  userModel: Partial<T> | undefined = {};
   state = signal<State>('DISPLAY');
+  id = componentId();
 
   changeState(newState: State) {
     this.state.set(newState);
   }
 
-  onChange(event: any) {
-    const selectedIndex = event.srcElement.value;
+  onChange(event: Event) {
+    const selectedIndex = parseInt(
+      (event.srcElement as HTMLSelectElement).value,
+    );
     this.userModel = this.options()[selectedIndex];
   }
 
@@ -65,7 +73,7 @@ export class SmallCreateFormComponent<T> {
   onSubmit() {
     this.changeState('DISPLAY');
 
-    const hasValue = this.userModel[this.valueProp()] != null;
+    const hasValue = this.userModel?.[this.valueProp()] != null;
     if (hasValue) {
       this.create.emit(this.userModel as T);
     }

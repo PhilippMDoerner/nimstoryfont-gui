@@ -40,7 +40,7 @@
             ></span>
           </span>
         </ng-template>
-
+        <ng-container *ngTemplateOutlet="timer"></ng-container>
         <ng-container *ngTemplateOutlet="body" />
       </ngb-toast>
     } @else {
@@ -54,13 +54,17 @@
         (hidden)="dismissCurrentToast()"
         (shown)="toast.onShow ? toast.onShow() : undefined"
       >
-        <ng-container *ngTemplateOutlet="body" />
+        <div class="d-flex flex-column w-100">
+          <ng-container *ngTemplateOutlet="timer"></ng-container>
+          <ng-container *ngTemplateOutlet="body" />
+        </div>
       </ngb-toast>
     }
   }
 </ng-template>
 
 <ng-template #body>
+  @let hasHeader = !!toast?.header;
   <div class="toast__body body">
     <span class="body__text">
       @let bodyIcon = toast?.body?.icon;
@@ -70,6 +74,18 @@
 
       @if (toast?.body?.text) {
         <div class="body__text-container" [innerHTML]="toast?.body?.text"></div>
+      }
+
+      @if (!hasHeader) {
+        <button
+          btn
+          class="fs-3"
+          [kind]="'NONE'"
+          [size]="'SMALL'"
+          [icon]="'times'"
+          aria-label="'Close toast'"
+          (clicked)="dismissCurrentToast()"
+        ></button>
       }
     </span>
 
@@ -83,7 +99,7 @@
           [icon]="firstButton.icon"
           [size]="'SMALL'"
           [kind]="'PRIMARY'"
-          (click)="firstButton.onClick(dismissCurrentToast.bind(this))"
+          (clicked)="firstButton.onClick(dismissCurrentToast.bind(this))"
         ></button>
       }
       @let secondButton = toast?.body?.buttons?.[1];
@@ -95,9 +111,20 @@
           [icon]="secondButton.icon"
           [size]="'SMALL'"
           [kind]="'SECONDARY'"
-          (click)="secondButton.onClick(dismissCurrentToast.bind(this))"
+          (clicked)="secondButton.onClick(dismissCurrentToast.bind(this))"
         ></button>
       }
     </div>
   </div>
+</ng-template>
+
+<ng-template #timer>
+  <span
+    class="toast__timer-bar"
+    [ngClass]="{
+      'toast__timer-bar--short-animation': toast?.dismissMs === 1500,
+      'toast__timer-bar--medium-animation': toast?.dismissMs === 3000,
+      'toast__timer-bar--long-animation': toast?.dismissMs === 5000,
+    }"
+  ></span>
 </ng-template>

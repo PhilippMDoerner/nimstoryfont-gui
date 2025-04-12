@@ -1,19 +1,10 @@
 .skip-to-content {
   background-color: var(--bs-primary);
   text-align: center;
-  width: 100vw;
-  padding: var(--spacer-3);
+  padding: var(--spacer-2);
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
-  top: 0px;
   text-decoration: none;
-  transform: translateY(-1000%);
-
-  &:focus-visible {
-    position: unset;
-    transform: unset;
-    color: unset;
-  }
+  border-radius: 0;
 }

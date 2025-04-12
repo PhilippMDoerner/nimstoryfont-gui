@@ -8,7 +8,7 @@ import {
   withMethods,
   withState,
 } from '@ngrx/signals';
-import { shareReplay, switchMap, take } from 'rxjs';
+import { shareReplay, switchMap } from 'rxjs';
 import { Quest } from 'src/app/_models/quest';
 import { QuestService } from 'src/app/_services/article/quest.service';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
@@ -19,9 +19,9 @@ import { handleError } from 'src/utils/store/toServerModel';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-type QuestPageState = {
+interface QuestPageState {
   questDeleteState: RequestState;
-};
+}
 
 const initialState: QuestPageState = {
   questDeleteState: 'init',
@@ -47,7 +47,6 @@ export const QuestPageStore = signalStore(
     return {
       quest: (name: string) =>
         campaignName$.pipe(
-          take(1),
           switchMap((campaignName) =>
             questService.readByParam(campaignName, { name }),
           ),

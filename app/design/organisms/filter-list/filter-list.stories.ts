@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { RouterTestingModule } from '@angular/router/testing';
 import { Meta, StoryFn, moduleMetadata } from '@storybook/angular';
 import { FilterListComponent } from './filter-list.component';
@@ -132,5 +133,5 @@ Default.args = {};
 
 export const NonLetterGroup = Template.bind({});
 NonLetterGroup.args = {
-  groupProp: 'party',
+  groupConfig: { mode: 'PROPERTY', groupProp: 'party' },
 };

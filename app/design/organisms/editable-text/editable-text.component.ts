@@ -10,10 +10,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { HeadingDirective } from 'src/app/_directives/heading.directive';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
-import { HtmlTextComponent } from 'src/app/design/atoms/html-text/html-text.component';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
+import { componentId } from 'src/utils/DOM';
 import { ElementKind } from '../../atoms/_models/button';
+import { HeadingLevel } from '../../atoms/_models/heading';
 import {
   EditorComponent,
   TextFieldState,
@@ -22,12 +24,12 @@ import {
 @Component({
   selector: 'app-editable-text',
   imports: [
-    HtmlTextComponent,
     IconComponent,
     EditorComponent,
     FormsModule,
     EditorComponent,
     HotkeyDirective,
+    HeadingDirective,
   ],
   templateUrl: './editable-text.component.html',
   styleUrl: './editable-text.component.scss',
@@ -37,6 +39,7 @@ export class EditableTextComponent {
   text = input.required<string>();
   placeholder = input.required<string>();
   canUpdate = input.required<boolean>();
+  ariaLevel = input.required<HeadingLevel>();
   serverModel = input<string>();
   heading = input<string>();
   submitButtonKind = input<ElementKind>('PRIMARY');
@@ -55,6 +58,7 @@ export class EditableTextComponent {
   });
 
   editorField = viewChild.required<EditorComponent>('editor');
+  editorId = componentId();
 
   constructor() {
     effect(() => {

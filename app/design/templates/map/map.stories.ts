@@ -8,6 +8,8 @@ import { ExtendedMap } from 'src/app/_models/map';
 import { OverviewItem } from 'src/app/_models/overview';
 import { dummyMarkers } from 'src/app/_services/article/marker.service.mock';
 import { MapComponent } from './map.component';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const y = x;
 
 const dummyMap: ExtendedMap = {
@@ -17,6 +19,7 @@ const dummyMap: ExtendedMap = {
   image: '/media/Aldrune_World_1.jpg',
   icon: '/media/globe',
   update_datetime: '2021-06-26T17:10:35.352119Z',
+  creation_datetime: '2021-06-26T17:10:35.352119Z',
   campaign: 1,
   campaign_details: {
     name: 'Aldrune',

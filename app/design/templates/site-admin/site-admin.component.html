@@ -1,5 +1,6 @@
 <app-page-container>
   <article class="site-admin">
+    <h1>Site Administration</h1>
     <a
       class="site-admin__return-button"
       [routerLink]="campaignOverviewUrl"
@@ -14,10 +15,10 @@
     <div class="site-admin__user-section user-section">
       <!-- Section Heading -->
       <div class="d-flex justify-content-between">
-        <h3 class="mb-0">
+        <h2 class="h3 mb-0">
           <app-icon [icon]="'user'"></app-icon>
           Users
-        </h3>
+        </h2>
 
         <!-- Heading Buttons -->
         <div class="align-self-end position-relative top1">
@@ -25,12 +26,12 @@
           <button
             btn
             [kind]="'DARK'"
-            [icon]="userState === 'CREATE' ? 'times' : 'user-plus'"
+            [icon]="userState() === 'CREATE' ? 'times' : 'user-plus'"
             [text]="
-              userState === 'CREATE' ? 'Cancel User Creation' : 'Add User'
+              userState() === 'CREATE' ? 'Cancel User Creation' : 'Add User'
             "
-            (click)="
-              userState === 'CREATE'
+            (clicked)="
+              userState() === 'CREATE'
                 ? setUserState('DISPLAY')
                 : setUserState('CREATE')
             "
@@ -38,12 +39,12 @@
         </div>
       </div>
 
-      <app-separator class="site-admin__separator"></app-separator>
+      <app-separator class="site-admin__separator" />
 
       <!-- New Table Entry -->
-      @if (userState === "CREATE") {
+      @if (userState() === "CREATE") {
         <app-card class="my-2">
-          <h4>Adding new User</h4>
+          <h3 class="h4">Adding new User</h3>
           <!-- Form -->
           <app-form
             [model]="userModel"
@@ -56,10 +57,11 @@
       }
 
       <!-- Table -->
-      @if (userState === "DISPLAY") {
-        @for (card of userCards; track card.user.pk) {
+      @if (userState() === "DISPLAY") {
+        @for (card of userCards(); track card.user.pk) {
           <app-collapsible-panel
             [isOpen]="card.isOpen"
+            [ariaLevel]="3"
             class="user-section__user"
           >
             <ng-container heading>
@@ -69,7 +71,7 @@
             <app-user-row
               body
               [user]="card.user"
-              [groups]="allGroups"
+              [groups]="allGroups()"
               [canCreate]="true"
               [canDelete]="true"
               (addGroup)="
@@ -103,7 +105,7 @@
             [kind]="'PRIMARY'"
             [icon]="'database'"
             [text]="'Download Database'"
-            (click)="downloadDatabase.emit()"
+            (clicked)="downloadDatabase.emit()"
           ></button>
 
           <!-- Clear Tokens -->
@@ -114,12 +116,12 @@
         </div>
       </div>
 
-      <app-separator class="site-admin__separator"></app-separator>
+      <app-separator class="site-admin__separator" />
 
       <!-- Section Body -->
       <!-- Statistics -->
       <div class="mb-5">
-        @for (statistic of statistics | keyvalue; track statistic.key) {
+        @for (statistic of statistics() | keyvalue; track statistic.key) {
           <div class="row">
             <div class="col-6 col-md-3">{{ statistic.key }}</div>
             <div class="col-6 col-md-3">{{ statistic.value }}</div>
@@ -135,77 +137,47 @@
         <h3 class="heading__text">
           <app-icon [icon]="'dragon'"></app-icon>
           Campaigns
-          @if (campaignState === "WAIT_WHILE_CREATING") {
-            <app-spinner
-              class="heading__text heading__text--loading"
-            ></app-spinner>
-          }
         </h3>
 
         <!-- Heading Buttons -->
         <div class="heading__button">
           <!-- Add Campaign -->
-          <button
+          <a
             btn
             [kind]="'PRIMARY'"
-            [icon]="campaignState === 'CREATE' ? 'times' : 'plus'"
-            [text]="
-              campaignState === 'CREATE'
-                ? 'Cancel Campaign Creation'
-                : 'Add Campaign'
-            "
-            (click)="
-              campaignState === 'CREATE'
-                ? setCampaignState('DISPLAY')
-                : setCampaignState('CREATE')
-            "
-          ></button>
+            [icon]="'plus'"
+            [text]="'Add Campaign'"
+            [routerLink]="createCampaignUrl"
+          ></a>
         </div>
       </div>
 
       <app-separator class="site-admin__separator"></app-separator>
 
       <!-- Section Body -->
-      @if (campaignState === "DISPLAY") {
-        <div class="campaign-section__body body">
-          @for (campaign of campaigns; track campaign.pk) {
-            <div class="row mb-4">
-              <div class="col-sm-3">
-                <img
-                  [src]="serverUrl + '/' + campaign.icon"
-                  [alt]="'Icon of campaign ' + campaign.name"
-                  class="body__icon"
-                />
-                <strong> {{ campaign.name }} </strong>
-              </div>
-              <div class="col-sm-3">
-                {{ campaign.admins?.length ?? 0 }} Admins
-              </div>
-              <div class="col-sm-3">
-                {{ campaign.members?.length ?? 0 }} Members
-              </div>
-              <div class="col-sm-3">
-                {{ campaign.guests?.length ?? 0 }} Guests
-              </div>
+      <div class="campaign-section__body body">
+        @for (campaign of campaigns(); track campaign.pk) {
+          <div class="row mb-4">
+            <div class="col-sm-3">
+              <img
+                [src]="serverUrl + '/' + campaign.icon"
+                [alt]="'Icon of campaign ' + campaign.name"
+                class="body__icon"
+              />
+              <strong> {{ campaign.name }} </strong>
             </div>
-          }
-        </div>
-      }
-
-      <!-- New Campaign Entry -->
-      @if (campaignState === "CREATE") {
-        <app-card class="my-2">
-          <h4>Adding new Campaign</h4>
-          <!-- Form -->
-          <app-form
-            [model]="campaignModel"
-            [fields]="campaignFields"
-            [cancelButtonType]="'DARK'"
-            (formlySubmit)="createNewCampaign($event)"
-            (formlyCancel)="setCampaignState('DISPLAY')"
-          ></app-form>
-        </app-card>
-      }
+            <div class="col-sm-3">
+              {{ campaign.admins?.length ?? 0 }} Admins
+            </div>
+            <div class="col-sm-3">
+              {{ campaign.members?.length ?? 0 }} Members
+            </div>
+            <div class="col-sm-3">
+              {{ campaign.guests?.length ?? 0 }} Guests
+            </div>
+          </div>
+        }
+      </div>
     </div>
 
     <a

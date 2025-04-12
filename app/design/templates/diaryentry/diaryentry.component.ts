@@ -1,16 +1,7 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DatePipe, NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { DiaryEntry, DiaryEntryStump } from 'src/app/_models/diaryentry';
 import {
   Encounter,
@@ -22,8 +13,9 @@ import {
 import { OverviewItem } from 'src/app/_models/overview';
 import { Session } from 'src/app/_models/session';
 import { RoutingService } from 'src/app/_services/routing.service';
+import { ContextMenuComponent } from 'src/app/design/molecules/context-menu/context-menu.component';
+import { componentId } from 'src/utils/DOM';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
-import { ButtonComponent } from '../../atoms/button/button.component';
 import { ArticleFooterComponent } from '../../molecules/article-footer/article-footer.component';
 import { DiaryentryEncountersComponent } from '../../organisms/diaryentry-encounters/diaryentry-encounters.component';
 import {
@@ -41,14 +33,13 @@ type DiaryEntryState = 'DISPLAY' | 'EDIT';
   imports: [
     PageContainerComponent,
     RouterLink,
-    ButtonComponent,
     NgTemplateOutlet,
     DiaryentryEncountersComponent,
     ArticleFooterComponent,
     DatePipe,
-    HotkeyDirective,
     ButtonLinkComponent,
     DragAndDropListComponent,
+    ContextMenuComponent,
   ],
 })
 export class DiaryentryComponent {
@@ -62,20 +53,17 @@ export class DiaryentryComponent {
   canDelete = input.required<boolean>();
   isUpdatingEncounters = input.required<boolean>();
 
-  @Output() diaryentryDelete: EventEmitter<DiaryEntry> = new EventEmitter();
-  @Output() encounterConnectionDelete: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() encounterConnectionCreate: EventEmitter<EncounterConnectionRaw> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
-  @Output() encounterCutInsert: EventEmitter<{
+  readonly diaryentryDelete = output<DiaryEntry>();
+  readonly encounterConnectionDelete = output<EncounterConnection>();
+  readonly encounterConnectionCreate = output<EncounterConnectionRaw>();
+  readonly encounterDelete = output<Encounter>();
+  readonly encounterUpdate = output<Encounter>();
+  readonly encounterCreate = output<EncounterRaw>();
+  readonly encounterCutInsert = output<{
     encounter: Encounter;
     newOrderIndex: number;
-  }> = new EventEmitter();
-  @Output() encounterSwap: EventEmitter<{ enc1: Encounter; enc2: Encounter }> =
-    new EventEmitter();
+  }>();
+  readonly encounterSwap = output<{ enc1: Encounter; enc2: Encounter }>();
   addUnfinishedEncounter = output<{ encounter: EncounterRaw; index: number }>();
 
   state = signal<DiaryEntryState>('DISPLAY');
@@ -109,6 +97,9 @@ export class DiaryentryComponent {
     return this.createDiaryentryURL(priorDiaryentryStub);
   });
 
+  id = componentId();
+  encountersListId = `${this.id}-encounters`;
+
   constructor(public routingService: RoutingService) {}
 
   toggleState(): void {
@@ -117,10 +108,13 @@ export class DiaryentryComponent {
   }
 
   rearrangeEncounters(event: CdkDragDrop<Encounter[]>) {
-    const encounters = this.diaryentry().encounters;
+    const encounters = this.sortedEncounters();
     const encounter = encounters[event.previousIndex];
     const newOrderIndex = getShiftedOrderIndex(encounters[event.currentIndex]);
-    this.encounterCutInsert.emit({ encounter, newOrderIndex });
+    this.encounterCutInsert.emit({
+      encounter,
+      newOrderIndex: newOrderIndex,
+    });
   }
 
   swapEncounters(event: MoveEvent<Encounter>) {

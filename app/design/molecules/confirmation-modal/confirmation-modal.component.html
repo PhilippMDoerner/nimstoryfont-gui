@@ -1,18 +1,22 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 <ng-template #content let-modal>
   <div class="modal-border {{ modalClass() }}">
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">{{ heading() }}</h4>
-      <div
-        class="btn-close pointer"
+    <div class="modal-header justify-content-between">
+      <div class="h4 modal-title" [id]="id">{{ heading() }}</div>
+      <button
+        btn
+        class="rounded"
+        [kind]="'NONE'"
+        [icon]="'xmark'"
         aria-label="Close"
-        (click)="modal.dismiss()"
-      >
-        <span aria-hidden="true"></span>
-      </div>
+        (clicked)="modal.dismiss()"
+      ></button>
     </div>
 
     <div class="modal-body body">
-      <ng-content select="[body]"></ng-content>
+      <div [id]="bodyId" class="body__content">
+        <ng-content select="[body]"></ng-content>
+      </div>
       <div class="body__buttons">
         <button
           btn
@@ -20,7 +24,7 @@
           [kind]="cancelButtonType()"
           [icon]="'times'"
           [text]="cancelButtonLabel()"
-          (click)="onCancel(modal)"
+          (clicked)="onCancel(modal)"
         ></button>
         <button
           btn
@@ -28,13 +32,13 @@
           [kind]="modalType()"
           [icon]="submitIcon()"
           [text]="submitButtonLabel()"
-          (click)="onSubmit(modal)"
+          (clicked)="onSubmit(modal)"
         ></button>
       </div>
     </div>
   </div>
 </ng-template>
 
-<div (click)="open(content)">
+<div (click)="open(content)" (keydown.Space)="open(content)">
   <ng-content select="[opener]"></ng-content>
 </div>

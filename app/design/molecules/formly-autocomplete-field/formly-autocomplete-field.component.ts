@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { FieldType, FieldTypeConfig, FormlyModule } from '@ngx-formly/core';
 import {
   combineLatest,
@@ -34,14 +35,14 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { BadgeComponent } from '../../atoms/badge/badge.component';
 import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 
-const NON_NORMAL_CHARACTER_REGEXP: RegExp = /[^a-zA-Z0-9]/g;
-const TWO_OR_MORE_WHITESPACE_REGEXP: RegExp = /\s\s+/g;
+const NON_NORMAL_CHARACTER_REGEXP = /[^a-zA-Z0-9]/g;
+const TWO_OR_MORE_WHITESPACE_REGEXP = /\s\s+/g;
 
-type AutocompleteSelectEvent<T> = {
+interface AutocompleteSelectEvent<T> {
   sourceEvent: Event | null;
   inputValue: string;
   selectedOption: T | undefined;
-};
+}
 
 @Component({
   selector: 'app-formly-autocomplete-field',
@@ -51,6 +52,7 @@ type AutocompleteSelectEvent<T> = {
     FormlyModule,
     SpinnerComponent,
     BadgeComponent,
+    NgbTooltip,
   ],
   templateUrl: './formly-autocomplete-field.component.html',
   styleUrl: './formly-autocomplete-field.component.scss',
@@ -62,7 +64,6 @@ export class FormlyAutocompleteFieldComponent<T>
 {
   destroy$ = new Subject<void>();
   randomId = crypto.randomUUID();
-  inputId = `autocomplete-${this.randomId}`;
   inputElement = viewChild<ElementRef<HTMLInputElement>>(`input`);
   inputElement$: Observable<ElementRef<HTMLInputElement>> = toObservable(
     this.inputElement,
@@ -71,7 +72,7 @@ export class FormlyAutocompleteFieldComponent<T>
   customProps: CustomAutocompleteProps<T> = this.props['additionalProperties'];
 
   htmlBadgeClickEvents$ = new Subject<void>();
-  inputValue: string = '';
+  inputValue = '';
   htmlInputEvents$: Observable<{ event: Event; inputValue: string }> =
     this.inputElement$.pipe(
       switchMap((input) => fromEvent(input.nativeElement, 'input')),

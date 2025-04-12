@@ -6,6 +6,7 @@ import { RoutingServiceMock } from 'src/app/_services/routing.mock.service';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { NgxLeafletMapComponent } from './ngx-leaflet-map.component';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const y = x;
 
 export default {

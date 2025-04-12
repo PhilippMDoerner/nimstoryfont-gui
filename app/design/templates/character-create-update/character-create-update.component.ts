@@ -2,9 +2,8 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
   signal,
   Signal,
 } from '@angular/core';
@@ -44,9 +43,9 @@ export class CharacterCreateUpdateComponent {
   serverModel = input.required<CharacterDetails | undefined>();
   lastVisitedPlaceOptions = input.required<OverviewItem[]>();
 
-  @Output() create: EventEmitter<CharacterDetails> = new EventEmitter();
-  @Output() update: EventEmitter<CharacterDetails> = new EventEmitter();
-  @Output() cancel: EventEmitter<void> = new EventEmitter();
+  readonly create = output<CharacterDetails>();
+  readonly update = output<CharacterDetails>();
+  readonly cancelled = output<void>();
 
   lastVisitedPlaceOptions$ = toObservable(this.lastVisitedPlaceOptions);
   formlyFields: Signal<FormlyFieldConfig[]> = computed(() => [
@@ -95,7 +94,7 @@ export class CharacterCreateUpdateComponent {
   constructor(private formlyService: FormlyService) {}
 
   onCancel(): void {
-    this.cancel.emit();
+    this.cancelled.emit();
   }
 
   onSubmit(submittedData: Partial<CharacterDetails>): void {

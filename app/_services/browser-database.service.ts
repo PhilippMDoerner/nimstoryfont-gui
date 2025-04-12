@@ -20,17 +20,18 @@ import { log } from 'src/utils/logging';
 import { ToastConfig } from '../_models/toast';
 
 export type OfflineCampaignData = Record<string, unknown>;
-export type OfflineCampaignDataRecord = {
+export interface OfflineCampaignDataRecord {
   data: OfflineCampaignData;
   lastUpdated: Date;
   campaign: string;
-};
+}
 
 const openDbErrorToast: ToastConfig = {
   type: 'DANGER',
   body: {
     text: 'Unable to open browser database. Offline features are disabled.',
   },
+  onToastClick: (dismiss) => dismiss(),
 };
 
 @Injectable({

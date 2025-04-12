@@ -1,6 +1,6 @@
 <!-- Heading -->
-<h4 class="card__heading heading">
-  <span>
+<div class="heading__container">
+  <div class="h4 card__heading heading">
     @switch (state()) {
       @case ("DISPLAY") {
         <ng-container [ngTemplateOutlet]="displayHeading" />
@@ -15,18 +15,18 @@
         <ng-container [ngTemplateOutlet]="updateHeading" />
       }
     }
-  </span>
-
+  </div>
   <!-- Edit Toggler -->
   @if (canUpdate()) {
     <app-edit-toggle
       [buttonKind]="'DARK'"
       [toggled]="state() !== 'DISPLAY'"
       [disabledHotkey]="disabledHotkeys()"
-      (toggle)="onToggle($event)"
+      [title]="'Edit ' + session().name"
+      (toggleEdit)="onToggle($event)"
     ></app-edit-toggle>
   }
-</h4>
+</div>
 
 @switch (state()) {
   @case ("DISPLAY") {
@@ -58,12 +58,15 @@
   <div class="card__body body">
     @if (diaryEntries().length > 0) {
       <div class="body__entry">
-        <h5 class="body__subheading">
+        <div class="h5 body__subheading">
           <app-icon [icon]="'book-open'"></app-icon>
           Diaryentries
-        </h5>
+        </div>
 
-        <ul class="body__subbody body__subbody--list">
+        <ul
+          class="body__subbody body__subbody--list"
+          [attr.aria-label]="'Diaryentries of ' + session().name"
+        >
           @for (diaryEntry of diaryEntries(); track diaryEntry.link) {
             <li>
               <a [routerLink]="diaryEntry.link" class="body__link">
@@ -90,7 +93,7 @@
   @if (canDelete()) {
     <app-confirmation-toggle-button
       class="card__delete-confirmer"
-      [confirmationQuestion]="'Delete this session?'"
+      [itemToDelete]="session().name ?? 'This Session'"
       [icon]="'trash'"
       [enableHotkey]="!disabledHotkeys()"
       (confirm)="onSessionDelete()"
@@ -99,7 +102,7 @@
 </ng-template>
 <!-- Sessions Panel Content -->
 
-<ng-template #updateHeading> Updating '{{ session().name }}'' </ng-template>
+<ng-template #updateHeading> Updating '{{ session().name }}' </ng-template>
 
 <ng-template #updateBody>
   <!-- Form -->
@@ -127,12 +130,15 @@
 </ng-template>
 
 <ng-template #outdatedUpdateBody>
-  <app-compare-form
-    [fields]="formlyFields"
-    [modelFromUser]="userModel()"
-    [modelFromServer]="serverModel()"
-    [displayVertically]="true"
-    (updateSubmit)="onSubmit()"
-    (cancel)="changeState('DISPLAY', undefined)"
-  ></app-compare-form>
+  @let userModelVal = userModel();
+  @if (userModelVal) {
+    <app-compare-form
+      [fields]="formlyFields"
+      [modelFromUser]="userModelVal"
+      [modelFromServer]="serverModel()"
+      [displayVertically]="true"
+      (updateSubmit)="onSubmit()"
+      (cancel)="changeState('DISPLAY', undefined)"
+    ></app-compare-form>
+  }
 </ng-template>

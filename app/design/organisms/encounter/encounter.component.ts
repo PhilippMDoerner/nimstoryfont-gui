@@ -1,21 +1,29 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
   ElementRef,
-  EventEmitter,
   inject,
   input,
   OnInit,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { interval, of, take } from 'rxjs';
+import {
+  EMPTY,
+  interval,
+  map,
+  of,
+  startWith,
+  switchMap,
+  take,
+  timer,
+} from 'rxjs';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { CharacterEncounter } from 'src/app/_models/character';
 import {
@@ -37,11 +45,16 @@ import {
   EditToggleComponent,
   FormComponent,
 } from 'src/app/design/molecules';
+import { componentId } from 'src/utils/DOM';
 import { filterNil } from 'src/utils/rxjs-operators';
+import { RequestState } from 'src/utils/store/factory-types';
+import { SuccessAnimationComponent } from '../../atoms/success-animation/success-animation.component';
 import {
   EditorComponent,
   TextFieldState,
 } from '../../molecules/editor/editor.component';
+
+const UPDATE_MARKER_TIMEOUT_MS = 3000;
 
 @Component({
   selector: 'app-encounter',
@@ -59,6 +72,8 @@ import {
     NgbTooltipModule,
     EditorComponent,
     HotkeyDirective,
+    AsyncPipe,
+    SuccessAnimationComponent,
   ],
 })
 export class EncounterComponent implements OnInit {
@@ -66,6 +81,7 @@ export class EncounterComponent implements OnInit {
 
   characters = input.required<OverviewItem[]>();
   locations = input.required<OverviewItem[]>();
+  updateState = input<RequestState>();
   encounter = input<Encounter | CharacterEncounter>();
   serverModel = input<Encounter>();
   canUpdate = input(false);
@@ -73,18 +89,16 @@ export class EncounterComponent implements OnInit {
   canDelete = input(false);
   initialCardState = input<FormState>('DISPLAY');
   isInFocus = input.required<boolean>();
+  headingId = input.required<string>();
 
   component = inject(ElementRef);
 
-  @Output() connectionDelete: EventEmitter<EncounterConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<EncounterConnectionRaw> =
-    new EventEmitter();
-  @Output() encounterDelete: EventEmitter<Encounter | CharacterEncounter> =
-    new EventEmitter();
-  @Output() encounterUpdate: EventEmitter<Encounter> = new EventEmitter();
-  @Output() encounterCreate: EventEmitter<EncounterRaw> = new EventEmitter();
-  @Output() encounterCreateCancel: EventEmitter<null> = new EventEmitter();
+  readonly connectionDelete = output<EncounterConnection>();
+  readonly connectionCreate = output<EncounterConnectionRaw>();
+  readonly encounterDelete = output<Encounter>();
+  readonly encounterUpdate = output<Encounter>();
+  readonly encounterCreate = output<EncounterRaw>();
+  readonly encounterCreateCancel = output<void>();
 
   userModel = signal<Encounter | Partial<EncounterRaw>>({});
   cardState = signal<FormState>('DISPLAY');
@@ -95,35 +109,39 @@ export class EncounterComponent implements OnInit {
   });
   campaignName = computed(() => this.encounter()?.campaign_details?.name);
 
+  showUpdateSuccessMarker$ = toObservable(this.updateState).pipe(
+    switchMap((state) => {
+      const hasUpdatedSuccessfully = state === 'success';
+      if (hasUpdatedSuccessfully) {
+        return timer(UPDATE_MARKER_TIMEOUT_MS).pipe(
+          map(() => false),
+          startWith(state === 'success'),
+        );
+      } else {
+        return EMPTY;
+      }
+    }),
+  );
   locations$ = toObservable(this.locations).pipe(filterNil());
-  formlyFields = computed<FormlyFieldConfig[]>(() => {
-    const editorField: FormlyFieldConfig = this.formlyService.buildEditorConfig(
-      {
-        key: 'description',
-        required: true,
-      },
-    );
-    const defaultFields = [
-      this.formlyService.buildInputConfig({
-        key: 'title',
-        inputKind: 'STRING',
+  formlyFields = computed<FormlyFieldConfig[]>(() => [
+    this.formlyService.buildInputConfig({
+      key: 'title',
+      inputKind: 'STRING',
+    }),
+    this.formlyService.buildTypeaheadConfig<EncounterRaw, OverviewItem>({
+      key: 'location',
+      label: 'Encounter Location',
+      getOptions: () => this.locations$,
+      initialOption$: of({
+        name_full: this.encounter()?.location_details?.name_full,
+        pk: this.encounter()?.location,
       }),
-      this.formlyService.buildTypeaheadConfig<EncounterRaw, OverviewItem>({
-        key: 'location',
-        label: 'Encounter Location',
-        getOptions: () => this.locations$,
-        initialOption$: of({
-          name_full: this.encounter()?.location_details?.name_full,
-          pk: this.encounter()?.location,
-        }),
-        formatSearchTerm: (searchTerm) => this.formatEntry(searchTerm),
-        optionLabelProp: 'name_full',
-        optionValueProp: 'pk',
-      }),
-    ];
-
-    return defaultFields;
-  });
+      formatSearchTerm: (searchTerm) => this.formatEntry(searchTerm),
+      optionLabelProp: 'name_full',
+      optionValueProp: 'pk',
+    }),
+  ]);
+  editorId = componentId();
 
   constructor(
     private routingService: RoutingService,
@@ -151,7 +169,7 @@ export class EncounterComponent implements OnInit {
   }
 
   onEncounterDelete() {
-    this.encounterDelete.emit(this.encounter());
+    this.encounterDelete.emit(this.encounter() as Encounter);
     this.changeState('DISPLAY', undefined);
   }
 
@@ -253,7 +271,7 @@ export class EncounterComponent implements OnInit {
   }
 
   private formatEntry(str: string | undefined) {
-    const undesiredCharRegex = /[\-\s']/g;
+    const undesiredCharRegex = /[-\s']/g;
     return str?.replaceAll(undesiredCharRegex, '') ?? '';
   }
 

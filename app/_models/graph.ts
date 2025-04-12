@@ -86,11 +86,11 @@ export interface NodeMap {
   links: LinkGroup[];
 }
 
-export type ParsedNodeMap = {
+export interface ParsedNodeMap {
   nodes: ArticleNode[];
   linkGroups: LinkGroup[];
   links: NodeLink[];
-};
+}
 
 export type NodeSelection = [] | [ArticleNode] | [ArticleNode, ArticleNode];
 

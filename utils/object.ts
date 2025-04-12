@@ -64,12 +64,14 @@ export function hasProperty<T extends object>(obj: T, key: string): boolean {
 export function getNestedProperty<T extends object>(
   item: T,
   keyPath: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any {
   /**Returns the field of a given item, even if it is nested within it */
   const keys: string[] = keyPath.split('.');
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let currentValue: any = item;
-  for (let key of keys) {
+  for (const key of keys) {
     if (!(key in currentValue)) {
       const error = new Error(
         `Cannot find nested property '${keyPath}' in '${JSON.stringify(item)}'`,

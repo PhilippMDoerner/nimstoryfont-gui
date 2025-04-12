@@ -1,5 +1,23 @@
 @import "/src/screens.scss";
 
+@keyframes shrink-bar {
+  0% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes floatIn {
+  0% {
+    transform: translate(-50%, -100%);
+  }
+  100% {
+    transform: translate(-50%, 0%);
+  }
+}
+
 :host {
   position: absolute;
 }
@@ -12,9 +30,12 @@
 
 .toast {
   position: fixed;
-  bottom: 10%;
   width: 93%;
-  right: 3.5%;
+  top: 2%;
+  left: 50%;
+  z-index: 2;
+  transform: translateX(-50%);
+  animation: floatIn 0.5s ease-in-out;
 
   --bs-light-rgb: var(--bs-white);
   --bs-toast-header-color: var(--bs-white);
@@ -22,6 +43,17 @@
   --toast-padding-x: var(--bs-toast-padding-x);
   --toast-padding-y: calc(var(--bs-toast-padding-y) / 2);
   --bs-toast-border-width: 3px;
+
+  @include media-breakpoint-up(sm) {
+    width: fit-content;
+    max-width: 50%;
+    bottom: 5%;
+    right: 3.5%;
+    top: unset;
+    left: unset;
+    transform: none;
+    animation: unset;
+  }
 
   &--primary {
     --bs-border-color-translucent: var(--bs-primary);
@@ -48,10 +80,28 @@
     --bs-border-color-translucent: var(--bs-dark);
   }
 
-  @include media-breakpoint-up(sm) {
-    width: fit-content;
-    max-width: 50%;
-    bottom: 5%;
+  &__timer-bar {
+    top: 0px;
+    left: 0px;
+    border-radius: var(--bs-border-radius);
+    position: absolute;
+    height: 6px;
+    width: 100%;
+    background-color: var(--bs-border-color-translucent);
+    animation-name: shrink-bar;
+    animation-fill-mode: forwards;
+
+    &--short-animation {
+      animation-duration: 1500ms;
+    }
+
+    &--normal-animation {
+      animation-duration: 3000ms;
+    }
+
+    &--long-animation {
+      animation-duration: 5000ms;
+    }
   }
 }
 
@@ -73,12 +123,14 @@
   &__text {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: var(--spacer-2);
     text-align: start;
+    align-items: start;
   }
 
   &__text-container {
+    width: 100%;
     max-height: calc(var(--bs-body-font-size) * 8);
     max-width: 100%;
     overflow: auto;

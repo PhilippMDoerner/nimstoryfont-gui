@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -10,6 +11,7 @@ import * as all from 'tinymce/tinymce';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { CompareFormComponent } from './compare-form.component';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const x = all;
 
 const dummyData = [

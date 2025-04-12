@@ -5,7 +5,7 @@
 .form {
   &__button {
     width: fit-content;
-    display: inline-block;
+    display: inline-flex;
     margin-right: var(--spacer-2);
   }
 

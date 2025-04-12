@@ -29,7 +29,10 @@ import { HotkeyService } from 'src/app/_services/hotkey.service';
 import { getFirstFocusableChild } from 'src/utils/DOM';
 import { filterNil } from 'src/utils/rxjs-operators';
 
-export type FocusItem<T> = { id: number; data: T };
+export interface FocusItem<T> {
+  id: number;
+  data: T;
+}
 
 @Component({
   selector: 'app-focus-list',
@@ -128,9 +131,9 @@ export class FocusListComponent<T> {
     this.arrowEvents$
       .pipe(
         withLatestFrom(disableHotkeyNavigation$),
-        filter(([_, disableHotkeyNavigation]) => !disableHotkeyNavigation),
+        filter(([, disableHotkeyNavigation]) => !disableHotkeyNavigation),
         withLatestFrom(itemWithFocus),
-        map(([_, itemWithFocus]) => itemWithFocus),
+        map(([, itemWithFocus]) => itemWithFocus),
         filterNil(),
         distinctUntilChanged(),
         takeUntilDestroyed(),
@@ -165,7 +168,7 @@ export class FocusListContextTypecastDirective<T> {
 
   static ngTemplateContextGuard<T>(
     directive: FocusListContextTypecastDirective<T>,
-    ctx: any,
+    ctx: unknown,
   ): ctx is ChildTemplateContext<T> {
     return true;
   }

@@ -11,11 +11,18 @@ import { LocationAccordionComponent } from './location-accordion.component';
 
 const dummyLocations: Location[] = [
   {
+    creation_datetime: '2022-03-15T10:22:34.567Z',
+    update_datetime: '2022-05-01T14:12:45.678Z',
     name: 'The Dark Forest',
     name_full: 'The Dark Forest',
     description:
       '<p>The Dark Forest is a dense, sprawling forest shrouded in perpetual mist and darkness. It is said that those who enter the forest are never seen again, their screams echoing through the trees for eternity.</p><p>Legends speak of ancient curses and malevolent spirits haunting the forest, and travelers are warned to stay away. However, some brave or foolish souls venture into the forest in search of rare herbs and magical artifacts, risking life and limb to uncover its secrets.</p><p>Rumors also abound of a hidden village deep within the forest, where a secretive society of druids and witches practice forbidden magic and worship dark deities.</p>',
     parent_location: 1,
+    campaign: 1,
+    campaign_details: {
+      id: 1,
+      name: 'The War of the Ring',
+    },
     images: [],
     parent_location_details: {
       pk: 1,
@@ -36,6 +43,11 @@ const dummyLocations: Location[] = [
       {
         creation_datetime: '2022-03-15T10:22:34.567Z',
         update_datetime: '2022-05-01T14:12:45.678Z',
+        campaign: 1,
+        campaign_details: {
+          id: 1,
+          name: 'The War of the Ring',
+        },
         name: "The Witch's Hut",
         pk: 789,
         characters: [
@@ -80,6 +92,13 @@ const dummyLocations: Location[] = [
       parent_location: '',
       name_full: 'The Kingdom of Aloria',
     },
+    campaign: 1,
+    campaign_details: {
+      id: 1,
+      name: 'The War of the Ring',
+    },
+    creation_datetime: '2023-01-01T09:00:00.000Z',
+    update_datetime: '2023-01-01T09:00:00.000Z',
     parent_location_list: ['The Kingdom of Aloria', 'The Mountains of Doom'],
     characters: [
       { name: 'Gareth', pk: 345, name_full: 'Gareth, the Dragonslayer' },
@@ -94,6 +113,11 @@ const dummyLocations: Location[] = [
         characters: [
           { name: 'Smaug', pk: 123, name_full: 'Smaug, the Dragon' },
         ],
+        campaign: 1,
+        campaign_details: {
+          id: 1,
+          name: 'The War of the Ring',
+        },
         name_full: "The Dragon's Hoard in the Dragon's Lair",
         description:
           "<p>The Dragon's Hoard is a vast chamber filled with gold, jewels, and magical artifacts, all stolen from hapless adventurers and nearby kingdoms. The hoard is guarded by Smaug, the fearsome dragon, who sleeps atop a massive pile of treasure.</p><p>Many have attempted to steal from the hoard, but none have succeeded. The hoard is protected by magical wards and traps, and Smaug is always watching, ready to unleash his fiery wrath upon any intruders.</p>",
@@ -118,6 +142,13 @@ const dummyLocations: Location[] = [
       '<p>The Black Tower looms high above the surrounding forest, casting a long shadow over the land. It is said to be the home of an ancient sorcerer, who uses dark magic to control the minds of his enemies.</p><p>Many brave warriors have tried to storm the tower and defeat the sorcerer, but few have returned. The tower is guarded by powerful spells and fierce creatures, making it an almost impenetrable fortress.</p><p>Despite its ominous reputation, some say that the sorcerer is not evil, but merely misunderstood. Others claim that he possesses untold wealth and knowledge, making the risk of attempting to enter the tower worth the reward.</p>',
     parent_location: 4,
     images: [],
+    creation_datetime: '2023-01-01T09:00:00.000Z',
+    update_datetime: '2023-01-01T09:00:00.000Z',
+    campaign: 1,
+    campaign_details: {
+      id: 1,
+      name: 'The War of the Ring',
+    },
     parent_location_details: {
       pk: 4,
       name: 'The Kingdom of Norgard',
@@ -138,6 +169,11 @@ const dummyLocations: Location[] = [
         characters: [
           { name: 'Zoltar', pk: 123, name_full: 'Zoltar, the Sorcerer' },
         ],
+        campaign: 1,
+        campaign_details: {
+          id: 1,
+          name: 'The War of the Ring',
+        },
         name_full: "The Sorcerer's Study in the Black Tower",
         description:
           'A dark and musty room filled with dusty tomes and strange artifacts.',

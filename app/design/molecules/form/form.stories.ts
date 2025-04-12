@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -13,6 +14,7 @@ import * as all from 'tinymce/tinymce';
 import { FORMLY_MODULE } from 'src/app/_modules/formly_constants';
 import { FormComponent } from './form.component';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const x = all;
 
 const dummyData: any[] = [
@@ -244,7 +246,7 @@ const dummySelectDisableConfig: FormlyFieldConfig = {
     valueProp: 'username',
     options: of(dummyData) as unknown as Observable<any[]>,
     additionalProperties: {
-      disabledExpression: (selectOption: any) => of(false),
+      disabledExpression: () => of(false),
     },
     tooltipMessage:
       'Members typically represent the individual player characters + the GM(s)',
@@ -277,19 +279,6 @@ const dummyForm: FormlyFieldConfig[] = [
     },
   },
 ];
-
-const isInGroup = (selectOption: any, groupName: string): boolean => {
-  const groupsOfUser: any[] = selectOption.group_details;
-  const hasGroups = groupsOfUser != null;
-  if (!hasGroups) {
-    return false;
-  }
-
-  const isMember = groupsOfUser.some(
-    (group) => group.name.toLowerCase() === groupName,
-  );
-  return isMember;
-};
 
 export default {
   title: 'DesignSystem/Molecules/FormComponent',

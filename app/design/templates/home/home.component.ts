@@ -2,10 +2,9 @@ import {
   Component,
   computed,
   effect,
-  EventEmitter,
   inject,
   input,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { CampaignOverview } from 'src/app/_models/campaign';
@@ -25,8 +24,15 @@ import { Icon } from 'src/app/design/atoms/_models/icon';
 import { PlaceholderComponent } from 'src/app/design/atoms/placeholder/placeholder.component';
 import { IconCardEntry } from 'src/app/design/organisms/_model/icon-card-list';
 import { ContentScrollEvent, GlobalStore } from 'src/app/global.store';
+import { componentId } from 'src/utils/DOM';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { HtmlTextComponent } from '../../atoms/html-text/html-text.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
+import { SwitchComponent } from '../../atoms/switch/switch.component';
+import {
+  ContextMenuComponent,
+  MenuItem,
+} from '../../molecules/context-menu/context-menu.component';
 import { SearchFieldComponent } from '../../molecules/search-field/search-field.component';
 import { IconCardListComponent } from '../../organisms/icon-card-list/icon-card-list.component';
 
@@ -36,6 +42,11 @@ const FILTER_LABEL: { [key in FilterMode]: string } = {
   NONE: 'All time',
   '1DAY': 'The last 24 hours',
   '1WEEK': 'The last 7 days',
+};
+const FILTER_ICON: { [key in FilterMode]: Icon | undefined } = {
+  NONE: 'clock',
+  '1DAY': 'calendar-day',
+  '1WEEK': 'calendar-week',
 };
 
 @Component({
@@ -51,6 +62,9 @@ const FILTER_LABEL: { [key in FilterMode]: string } = {
     AsyncPipe,
     NgOptimizedImage,
     ButtonComponent,
+    IconComponent,
+    ContextMenuComponent,
+    SwitchComponent,
   ],
 })
 export class HomeComponent {
@@ -79,15 +93,23 @@ export class HomeComponent {
   isLoading = input.required<boolean>();
   hasMoreArticles = input.required<boolean>();
 
+  readonly appSearch = output<string>();
+  readonly loadArticlePage = output<number>();
+
   isOnline$ = inject(OnlineService).online$;
 
   isHotkeyModifierPressed = toSignal(
     inject(HotkeyService).isHotkeyModifierPressed$ ?? of(false),
   );
-  timeFilterOptions = FILTER_MODES.map((mode) => ({
-    value: mode,
-    label: FILTER_LABEL[mode],
-  }));
+  timeFilterOptions = computed<MenuItem[]>(() => {
+    return FILTER_MODES.map((mode) => ({
+      actionName: mode,
+      kind: 'BUTTON',
+      label: FILTER_LABEL[mode],
+      icon: FILTER_ICON[mode],
+      active: this.timeFilter() === mode,
+    }));
+  });
 
   timeFilter = signal<FilterMode>('NONE');
   filterDate = computed<Date | undefined>(() => {
@@ -95,12 +117,14 @@ export class HomeComponent {
     switch (this.timeFilter()) {
       case 'NONE':
         return undefined;
-      case '1DAY':
+      case '1DAY': {
         const oneDayMs = 1000 * 60 * 60 * 24;
         return new Date(now - oneDayMs);
-      case '1WEEK':
+      }
+      case '1WEEK': {
         const oneWeekMs = 1000 * 60 * 60 * 24 * 7;
         return new Date(now - oneWeekMs);
+      }
     }
   });
   canLoadMore = computed(() => {
@@ -121,9 +145,7 @@ export class HomeComponent {
 
     return hasMoreArticlesInFilter;
   });
-
-  @Output() appSearch: EventEmitter<string> = new EventEmitter();
-  @Output() loadArticlePage: EventEmitter<number> = new EventEmitter();
+  feedMode = signal<'INFINITY_SCROLL' | 'BUTTON_LOAD'>('INFINITY_SCROLL');
 
   articleEntries = computed<IconCardEntry[]>(() => {
     const filterDate = this.filterDate();
@@ -139,10 +161,12 @@ export class HomeComponent {
       .slice(0, firstArticleOutOfTimeframeIndex)
       .map((art) => this.toIconCardEntry(art));
   });
-  pageNumber: number = 0;
+  pageNumber = 0;
+  id = componentId();
 
   constructor() {
     effect(() => {
+      if (this.feedMode() !== 'INFINITY_SCROLL') return;
       const articles = this.articles();
       const isScrollDueToPageUnload =
         articles === undefined || articles.length === 0;
@@ -155,13 +179,22 @@ export class HomeComponent {
     });
   }
 
-  updateFilter(target: EventTarget | null) {
-    if (!target) {
-      this.timeFilter.set('NONE');
+  triggerNextPageLoad(): void {
+    const canLoadNextPage = this.canLoadMore();
+    if (!canLoadNextPage) {
       return;
     }
-    const newFilterMode = (target as HTMLSelectElement).value as FilterMode;
-    this.timeFilter.set(newFilterMode);
+
+    this.pageNumber += 1;
+    this.loadArticlePage.emit(this.pageNumber);
+  }
+
+  toggleFeedMode(isSwitchedOn: boolean) {
+    if (isSwitchedOn) {
+      this.feedMode.set('INFINITY_SCROLL');
+    } else {
+      this.feedMode.set('BUTTON_LOAD');
+    }
   }
 
   private toIconCardEntry(article: OverviewItem): IconCardEntry {
@@ -193,16 +226,6 @@ export class HomeComponent {
     if (this.isNearPageEnd(event)) {
       this.triggerNextPageLoad();
     }
-  }
-
-  private triggerNextPageLoad(): void {
-    const canLoadNextPage = this.canLoadMore();
-    if (!canLoadNextPage) {
-      return;
-    }
-
-    this.pageNumber += 1;
-    this.loadArticlePage.emit(this.pageNumber);
   }
 
   private isNearPageEnd(pageScrollEvent: ContentScrollEvent): boolean {

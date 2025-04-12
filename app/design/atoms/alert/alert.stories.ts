@@ -21,6 +21,7 @@ type Story = StoryObj<AlertComponent>;
 
 export const Default: Story = {};
 const Stories: { [key in (typeof ELEMENT_TYPES)[number]]: Story } =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ELEMENT_TYPES.reduce((acc: any, type) => {
     acc[type] = {
       args: {

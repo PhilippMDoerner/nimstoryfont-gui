@@ -1,7 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { tapResponse } from '@ngrx/operators';
 import { patchState, signalStore, withMethods, withState } from '@ngrx/signals';
-import { take } from 'rxjs';
+import { rxMethod } from '@ngrx/signals/rxjs-interop';
+import { pipe, switchMap, take, tap } from 'rxjs';
 import { PermissionGroup } from 'src/app/_models/auth';
 import {
   BaseCampaignData,
@@ -17,19 +19,24 @@ import { AdminService } from 'src/app/_services/utils/admin.service';
 import { CampaignService } from 'src/app/_services/utils/campaign.service';
 import { ToastService } from 'src/app/design/organisms/toast-overlay/toast-overlay.component';
 import { replaceItem } from 'src/utils/array';
+import { RequestState } from 'src/utils/store/factory-types';
 
-export type SiteAdministrationPageState = {
+export interface SiteAdministrationPageState {
   allSiteUsers: User[] | undefined;
   allSiteCampaigns: Campaign[] | undefined;
   allPermissionGroups: PermissionGroup[] | undefined;
   siteStatistics: WikiStatistics | undefined;
-};
+  createCampaignRequestState: RequestState;
+  createUserRequestState: RequestState;
+}
 
 const initialState: SiteAdministrationPageState = {
   allSiteUsers: undefined,
   allSiteCampaigns: undefined,
   allPermissionGroups: undefined,
   siteStatistics: undefined,
+  createCampaignRequestState: 'init',
+  createUserRequestState: 'init',
 };
 
 export const SiteAdministrationPageStore = signalStore(
@@ -76,25 +83,37 @@ export const SiteAdministrationPageStore = signalStore(
             patchState(state, { siteStatistics: statistics }),
           );
       },
-      createCampaign(campaign: BaseCampaignData): void {
-        const requestData: CampaignRaw = {
-          background_image: campaign.background_image as string,
-          has_audio_recording_permission: false,
-          is_deactivated: false,
-          name: campaign.name,
-          default_map_id: undefined,
-          icon: campaign.icon,
-          subtitle: campaign.subtitle,
-        };
-        campaignService
-          .create(requestData)
-          .pipe(take(1))
-          .subscribe((campaign) =>
-            patchState(state, {
-              allSiteCampaigns: [campaign, ...(state.allSiteCampaigns() ?? [])],
-            }),
-          );
-      },
+      createCampaign: rxMethod<BaseCampaignData>(
+        pipe(
+          tap(() =>
+            patchState(state, { createCampaignRequestState: 'loading' }),
+          ),
+          switchMap((campaign) => {
+            const requestData: CampaignRaw = {
+              background_image: campaign.background_image as string,
+              has_audio_recording_permission: false,
+              is_deactivated: false,
+              name: campaign.name,
+              default_map_id: undefined,
+              icon: campaign.icon,
+              subtitle: campaign.subtitle,
+            };
+            return campaignService.create(requestData);
+          }),
+          tapResponse({
+            next: (campaign) =>
+              patchState(state, {
+                allSiteCampaigns: [
+                  campaign,
+                  ...(state.allSiteCampaigns() ?? []),
+                ],
+                createCampaignRequestState: 'success',
+              }),
+            error: () =>
+              patchState(state, { createCampaignRequestState: 'error' }),
+          }),
+        ),
+      ),
       addUserToGroup(user: User, groupId: number): void {
         const newUserState: User = {
           ...user,
@@ -147,12 +166,14 @@ export const SiteAdministrationPageStore = signalStore(
           });
       },
       createUser: (user: User): void => {
+        patchState(state, { createUserRequestState: 'loading' });
         userService
           .create(user as UserRaw)
           .pipe(take(1))
           .subscribe((createdUser) =>
             patchState(state, {
               allSiteUsers: [createdUser, ...(state.allSiteUsers() ?? [])],
+              createUserRequestState: 'success',
             }),
           );
       },

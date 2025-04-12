@@ -3,6 +3,7 @@
     <img
       class="mw-100"
       [src]="'/assets/default_images/audio_pic_default.webp'"
+      alt="''"
     />
   </div>
   <app-player
@@ -44,7 +45,7 @@
       [kind]="'PRIMARY'"
       [text]="'Add Timestamp'"
       [icon]="'plus'"
-      (click)="changeTimestampState('CREATE')"
+      (clicked)="changeTimestampState('CREATE')"
     ></button>
   </div>
 </ng-template>

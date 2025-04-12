@@ -3,10 +3,9 @@ import {
   Component,
   computed,
   ElementRef,
-  EventEmitter,
   inject,
   input,
-  Output,
+  output,
   signal,
   viewChildren,
 } from '@angular/core';
@@ -74,14 +73,12 @@ export class SpellsComponent {
   canCreate = input.required<boolean>();
   serverModel = input.required<Spell | undefined>();
 
-  @Output() spellDelete: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellUpdate: EventEmitter<Spell> = new EventEmitter();
-  @Output() spellCreate: EventEmitter<SpellRaw> = new EventEmitter();
-  @Output() connectionDelete: EventEmitter<SpellPlayerClassConnection> =
-    new EventEmitter();
-  @Output() connectionCreate: EventEmitter<SpellPlayerClassConnection> =
-    new EventEmitter();
-  @Output() spellClassClick: EventEmitter<PlayerClass> = new EventEmitter();
+  readonly spellDelete = output<Spell>();
+  readonly spellUpdate = output<Spell>();
+  readonly spellCreate = output<SpellRaw>();
+  readonly connectionDelete = output<SpellPlayerClassConnection>();
+  readonly connectionCreate = output<SpellPlayerClassConnection>();
+  readonly spellClassClick = output<PlayerClass>();
 
   spellElements = viewChildren<ElementRef<HTMLDivElement>>('spell');
   isCreatingSpell = signal(false);
@@ -109,7 +106,7 @@ export class SpellsComponent {
     }
   }
 
-  onSpellDelete(spellToDelete: Spell, deleteIndex: number) {
+  onSpellDelete(spellToDelete: Spell) {
     this.spellDelete.emit(spellToDelete);
   }
 
@@ -123,7 +120,9 @@ export class SpellsComponent {
 
   onSpellClassClick(event: MouseEvent, connection: SpellPlayerClassConnection) {
     event.preventDefault();
-    this.spellClassClick.emit(connection.player_class_details);
+    if (connection.player_class_details) {
+      this.spellClassClick.emit(connection.player_class_details);
+    }
   }
 
   onSpellCreate(spell: Partial<SpellRaw>) {
@@ -151,8 +150,7 @@ export class SpellsComponent {
         take(1),
       )
       .subscribe((spellElement) => {
-        const element = (spellElement.nativeElement =
-          spellElement.nativeElement);
+        const element = spellElement.nativeElement;
         element.scrollIntoView({ behavior: 'instant' });
       });
   }

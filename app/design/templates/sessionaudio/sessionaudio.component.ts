@@ -2,11 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { SessionAudio, Timestamp } from 'src/app/_models/sessionAudio';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { IconComponent } from 'src/app/design/atoms/icon/icon.component';
@@ -27,6 +28,8 @@ import { ButtonLinkComponent } from '../../atoms/button-link/button-link.compone
     RouterLink,
     SessionaudioPlayerComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
+    NgbTooltip,
   ],
 })
 export class SessionaudioComponent {
@@ -37,9 +40,9 @@ export class SessionaudioComponent {
   canCreate = input<boolean>(false);
   canDelete = input<boolean>(false);
 
-  @Output() sessionaudioDelete: EventEmitter<SessionAudio> = new EventEmitter();
-  @Output() deleteTimestamp: EventEmitter<Timestamp> = new EventEmitter();
-  @Output() createTimestamp: EventEmitter<Timestamp> = new EventEmitter();
+  readonly sessionaudioDelete = output<SessionAudio>();
+  readonly deleteTimestamp = output<Timestamp>();
+  readonly createTimestamp = output<Timestamp>();
 
   campaignName = computed(
     () => this.sessionaudio().session_details?.campaign_details?.name,

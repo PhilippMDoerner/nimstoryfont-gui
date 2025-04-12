@@ -2,12 +2,13 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   inject,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { filter, mergeMap, skip, take } from 'rxjs';
+import { filter, mergeMap, take } from 'rxjs';
 import { MapMarker, MapMarkerRaw } from 'src/app/_models/mapMarker';
 import { OverviewItem } from 'src/app/_models/overview';
 import { FormlyService } from 'src/app/_services/formly/formly-service.service';
@@ -16,7 +17,7 @@ import { CreateUpdateComponent } from 'src/app/design//templates/create-update/c
 import { CreateUpdateState } from 'src/app/design/templates/_models/create-update-states';
 import { GlobalStore } from 'src/app/global.store';
 import { NavigationStore } from 'src/app/navigation.store';
-import { filterNil } from 'src/utils/rxjs-operators';
+import { filterNil, takeOnceOrUntilDestroyed } from 'src/utils/rxjs-operators';
 import { MarkerCreateUpdateStore } from './marker-create-update-page.store';
 
 @Component({
@@ -32,6 +33,7 @@ export class MarkerCreateUpdatePageComponent {
   globalStore = inject(GlobalStore);
   navigationStore = inject(NavigationStore);
   router = inject(Router);
+  destroyer = inject(DestroyRef);
   private route = inject(ActivatedRoute);
   private params = toSignal(this.route.params);
   private routingService = inject(RoutingService);
@@ -42,7 +44,7 @@ export class MarkerCreateUpdatePageComponent {
   campaignMaps$ = toObservable(this.store.campaignMaps).pipe(filterNil());
   markerTypes$ = toObservable(this.store.markerTypes).pipe(filterNil());
   createMarkerState$ = toObservable(this.store.createMarkerState);
-  updateMarkerState$ = toObservable(this.store.updateMarkerState);
+  updateMarkerState$ = toObservable(this.store.markerUpdateState);
   marker$ = toObservable(this.store.marker).pipe(filterNil());
 
   formlyFields = computed<FormlyFieldConfig[]>(() => [
@@ -108,7 +110,7 @@ export class MarkerCreateUpdatePageComponent {
 
   userModel = computed(() => {
     switch (this.state()) {
-      case 'CREATE':
+      case 'CREATE': {
         const location = this.getPreselectedLocation();
         const map = this.getPreselectedMap();
         const longitudeParam = this.params()?.['longitude'] as
@@ -127,6 +129,7 @@ export class MarkerCreateUpdatePageComponent {
           latitude,
           longitude,
         } as Partial<MapMarkerRaw>;
+      }
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
         return { ...this.store.marker() };
@@ -143,10 +146,18 @@ export class MarkerCreateUpdatePageComponent {
     }
   });
 
+  private readonly isPageLoading = computed(
+    () => this.userModel() == null || this.globalStore.campaignName() == null,
+  );
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
+
   cancel() {
     const campaign = this.globalStore.campaignName();
     switch (this.state()) {
-      case 'CREATE':
+      case 'CREATE': {
         const fallbackUrl = this.routingService.getRoutePath(
           'location-overview',
           { campaign },
@@ -155,6 +166,7 @@ export class MarkerCreateUpdatePageComponent {
           this.navigationStore.priorUrl() ?? fallbackUrl,
         );
         break;
+      }
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
         this.routeToItem(this.store.marker());
@@ -162,15 +174,13 @@ export class MarkerCreateUpdatePageComponent {
   }
 
   update(marker: MapMarker) {
-    this.store.updateMarker(marker);
-
     this.updateMarkerState$
       .pipe(
-        skip(1),
         filter((state) => state === 'success'),
-        take(1),
+        takeOnceOrUntilDestroyed(this.destroyer),
       )
       .subscribe(() => this.routeToItem(this.store.marker()));
+    this.store.updateMarker(marker);
   }
 
   create(item: Partial<MapMarkerRaw>) {

@@ -1,34 +1,32 @@
 <div class="search" id="search-area">
-  <form class="search__form" (submit)="startSearch()">
-    <div
-      class="d-flex search__bar"
-      [class.search__bar--disabled]="!canSearch()"
-    >
-      <input
-        #searchInput
+  @let searchLabelId = "search-label";
+  <form
+    class="search__form"
+    role="search"
+    [attr.aria-labelledby]="searchLabelId"
+    (submit)="startSearch()"
+  >
+    <div class="search__bar" [class.search__bar--disabled]="!canSearch()">
+      <app-input
+        #input
         class="search__input"
-        [class.search__input--disabled]="!canSearch()"
-        type="search"
-        name="search"
-        title="search"
-        id="search"
+        [label]="_placeholder()"
+        [labelId]="searchLabelId"
         [disabled]="!canSearch()"
-        [(ngModel)]="searchString"
-        [placeholder]="_placeholder()"
-        aria-label="Search"
+        [type]="'search'"
         [hotkey]="'f'"
-        (hotkeyPressed)="searchInput.focus()"
+        (hotkeyPressed)="input.focus()"
+        (changed)="searchString = $event"
       />
-
-      @let canTriggerSearch = canSearch() && !!searchInput.value;
+      @let canTriggerSearch = canSearch() && !!input._value();
       <button
         btn
         class="search__button"
-        [ariaLabel]="btnAriaLabel()"
-        [ariaDisabled]="!canTriggerSearch"
+        [attr.aria-label]="'Search for ' + input._value()"
         [disabled]="!canTriggerSearch"
-        [kind]="canTriggerSearch ? 'PRIMARY' : 'PRIMARY-OUTLINE'"
+        [kind]="canTriggerSearch ? 'PRIMARY' : 'LIGHT-OUTLINE'"
         [icon]="'search'"
+        [type]="'submit'"
       ></button>
     </div>
   </form>

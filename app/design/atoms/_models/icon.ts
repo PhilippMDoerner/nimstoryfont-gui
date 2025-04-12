@@ -9,7 +9,7 @@ export const ALL_REGULAR_ICONS = [
   'plus-square',
   'user',
 ] as const;
-export const REGULAR_ICON_SET = new Set(ALL_REGULAR_ICONS);
+export const REGULAR_ICON_SET = new Set<string>(ALL_REGULAR_ICONS);
 type RegularIcon = (typeof ALL_REGULAR_ICONS)[number]; // this compiles to 'comments' | 'magic'...
 
 export const ALL_SOLID_ICONS = [
@@ -28,12 +28,15 @@ export const ALL_SOLID_ICONS = [
   'book-open',
   'book',
   'calendar-alt',
+  'calendar-day',
+  'calendar-week',
   'check',
   'chess-rook',
   'chevron-down',
   'chevron-left',
   'chevron-right',
   'chevron-up',
+  'circle',
   'circle-exclamation',
   'clipboard',
   'cog',
@@ -45,6 +48,7 @@ export const ALL_SOLID_ICONS = [
   'home',
   'database',
   'desktop',
+  'diagram-project',
   'diamond',
   'dice',
   'down-long',
@@ -57,18 +61,19 @@ export const ALL_SOLID_ICONS = [
   'file-audio',
   'file-import',
   'file',
+  'filter',
   'gear',
   'gavel',
   'globe-americas',
   'hammer',
   'hand-sparkles',
   'hat-wizard',
-  'diagram-project',
   'hand-fist',
   'house',
   'handshake',
   'hotel',
   'hourglass-half',
+  'infinity',
   'info-circle',
   'info',
   'location-dot',
@@ -81,12 +86,14 @@ export const ALL_SOLID_ICONS = [
   'monument',
   'moon',
   'mountain',
+  'newspaper',
   'paw',
   'pen',
   'pencil',
   'place-of-worship',
   'plus',
   'question-circle',
+  'rectangle-list',
   'redo-alt',
   'refresh',
   'right-from-bracket',
@@ -108,6 +115,7 @@ export const ALL_SOLID_ICONS = [
   'university',
   'up-long',
   'up-down-left-right',
+  'up-right-from-square',
   'upload',
   'user-cog',
   'user-plus',
@@ -116,11 +124,11 @@ export const ALL_SOLID_ICONS = [
   'water',
   'xmark',
 ] as const;
-export const SOLID_ICONS_SET = new Set(ALL_SOLID_ICONS);
+export const SOLID_ICONS_SET = new Set<string>(ALL_SOLID_ICONS);
 type SolidIcon = (typeof ALL_SOLID_ICONS)[number]; // this compiles to 'male' | 'book-open'...
 
 export const ALL_BRAND_ICONS = ['fort-awesome'] as const;
-export const BRAND_ICON_SET = new Set(ALL_BRAND_ICONS);
+export const BRAND_ICON_SET = new Set<string>(ALL_BRAND_ICONS);
 export type BrandIcon = (typeof ALL_BRAND_ICONS)[number];
 
 export type Icon = SolidIcon | RegularIcon | BrandIcon;
@@ -132,7 +140,7 @@ export const ALL_ICONS = [
 
 export type IconKind = 'fa-brands' | 'fa-solid' | 'fa-regular';
 export function toIconKind(icon: Icon): IconKind | undefined {
-  const ico = icon as any;
+  const ico = icon;
   if (SOLID_ICONS_SET.has(ico)) {
     return 'fa-solid';
   } else if (BRAND_ICON_SET.has(ico)) {
@@ -140,8 +148,8 @@ export function toIconKind(icon: Icon): IconKind | undefined {
   } else if (REGULAR_ICON_SET.has(ico)) {
     return 'fa-regular';
   } else {
-    const e = new Error('Invalid icon: ' + icon);
-    console.error(e);
+    // const e = new Error('Invalid icon: ' + icon);
+    // console.error(e);
     return 'fa-solid';
   }
 }

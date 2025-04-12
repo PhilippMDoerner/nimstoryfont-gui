@@ -1,11 +1,11 @@
 import { KeyValuePipe, TitleCasePipe } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
+  computed,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -23,14 +23,12 @@ import { ButtonComponent } from '../../atoms/button/button.component';
 import { CardComponent } from '../../atoms/card/card.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 import { SeparatorComponent } from '../../atoms/separator/separator.component';
-import { SpinnerComponent } from '../../atoms/spinner/spinner.component';
 import { CollapsiblePanelComponent } from '../../molecules/collapsible-panel/collapsible-panel.component';
 import { FormComponent } from '../../molecules/form/form.component';
 import { PageContainerComponent } from '../../organisms/page-container/page-container.component';
 import { UserRowComponent } from '../../organisms/user-row/user-row.component';
 
 type UserState = 'CREATE' | 'DISPLAY';
-type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
 
 @Component({
   selector: 'app-site-admin',
@@ -47,31 +45,38 @@ type CampaignState = 'CREATE' | 'WAIT_WHILE_CREATING' | 'DISPLAY';
     FormComponent,
     CollapsiblePanelComponent,
     UserRowComponent,
-    SpinnerComponent,
     TitleCasePipe,
     KeyValuePipe,
+    ButtonLinkComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SiteAdminComponent implements OnInit, OnChanges {
-  @Input() users?: User[];
-  @Input() campaigns?: Campaign[];
-  @Input() allGroups?: PermissionGroup[];
-  @Input() statistics?: WikiStatistics;
-  @Input() serverUrl!: string;
+export class SiteAdminComponent {
+  users = input.required<User[] | undefined>();
+  campaigns = input.required<Campaign[] | undefined>();
+  allGroups = input.required<PermissionGroup[] | undefined>();
+  statistics = input.required<WikiStatistics | undefined>();
+  serverUrl = input.required<string>();
 
-  @Output() createCampaign: EventEmitter<BaseCampaignData> = new EventEmitter();
-  @Output() createUser: EventEmitter<User> = new EventEmitter();
-  @Output() addUserGroup: EventEmitter<{ user: User; groupId: number }> =
-    new EventEmitter();
-  @Output() removeUserGroup: EventEmitter<{ user: User; groupId: number }> =
-    new EventEmitter();
-  @Output() downloadDatabase: EventEmitter<void> = new EventEmitter();
-  @Output() deleteUser: EventEmitter<User> = new EventEmitter();
+  readonly createCampaign = output<BaseCampaignData>();
+  readonly createUser = output<User>();
+  readonly addUserGroup = output<{ user: User; groupId: number }>();
+  readonly removeUserGroup = output<{ user: User; groupId: number }>();
+  readonly downloadDatabase = output<void>();
+  readonly deleteUser = output<User>();
 
-  campaignOverviewUrl!: string;
+  campaignOverviewUrl = this.routingService.getRoutePath('campaign-overview');
 
-  userCards!: { isOpen: boolean; user: User }[];
-  userState: UserState = 'DISPLAY';
+  userCards = computed<{ isOpen: boolean; user: User }[]>(() => {
+    return (this.users() ?? [])
+      .map((user) => ({ isOpen: false, user }))
+      .sort((entry1, entry2) =>
+        entry1.user.username.toLowerCase() > entry2.user.username.toLowerCase()
+          ? 1
+          : -1,
+      );
+  });
+  userState = signal<UserState>('DISPLAY');
   userModel!: Partial<User>;
   userFields: FormlyFieldConfig[] = [
     this.formlyService.buildInputConfig({
@@ -87,86 +92,22 @@ export class SiteAdminComponent implements OnInit, OnChanges {
     }),
   ];
 
-  campaignState: CampaignState = 'DISPLAY';
-  campaignModel!: Partial<BaseCampaignData>;
-  campaignFields: FormlyFieldConfig[] = [
-    this.formlyService.buildInputConfig({
-      key: 'name',
-      inputKind: 'NAME',
-      required: true,
-      maxLength: 40,
-      placeholder: "Your campaign's name...",
-    }),
-    this.formlyService.buildInputConfig({
-      key: 'subtitle',
-      inputKind: 'STRING',
-      required: false,
-      maxLength: 400,
-      placeholder: 'The subtitle to show on the home page',
-    }),
-    this.formlyService.buildFileFieldConfig({
-      key: 'background_image',
-      required: true,
-      fileButtonType: 'DARK',
-    }),
-    this.formlyService.buildFileFieldConfig({
-      key: 'icon',
-      required: true,
-      fileButtonType: 'DARK',
-    }),
-  ];
-
+  createCampaignUrl = this.routingService.getRoutePath('campaign-create');
   constructor(
     private routingService: RoutingService,
     private formlyService: FormlyService,
   ) {}
 
-  ngOnInit(): void {
-    this.setCampaignOverviewUrl();
-  }
-
-  ngOnChanges(): void {
-    this.setUserCards();
-  }
-
   setUserState(newState: UserState): void {
-    this.userState = newState;
+    this.userState.set(newState);
 
-    if (this.userState === 'CREATE') {
+    if (this.userState() === 'CREATE') {
       this.userModel = {};
     }
   }
 
   createNewUser(newUser: Partial<User>): void {
+    this.setUserState('DISPLAY');
     this.createUser.emit(newUser as User);
-  }
-
-  setCampaignState(newState: CampaignState): void {
-    this.campaignState = newState;
-
-    if (this.campaignState === 'CREATE') {
-      this.campaignModel = {};
-    }
-  }
-
-  createNewCampaign(newCampaign: Partial<BaseCampaignData>): void {
-    this.createCampaign.emit(newCampaign as BaseCampaignData);
-  }
-
-  private setUserCards(): void {
-    this.userCards =
-      this.users
-        ?.map((user) => ({ isOpen: false, user }))
-        ?.sort((entry1, entry2) =>
-          entry1.user.username.toLowerCase() >
-          entry2.user.username.toLowerCase()
-            ? 1
-            : -1,
-        ) ?? [];
-  }
-
-  private setCampaignOverviewUrl(): void {
-    this.campaignOverviewUrl =
-      this.routingService.getRoutePath('campaign-overview');
   }
 }

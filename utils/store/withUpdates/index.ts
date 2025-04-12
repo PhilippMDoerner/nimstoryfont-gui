@@ -9,11 +9,11 @@ import { RequestMap } from '../factory-types';
 import { AllNewMethods, withUpdateMethods } from './withUpdateMethods';
 import { AllNewProperties, withUpdateState } from './withUpdateState';
 
-export type UpdateFeatureResult<Requests extends RequestMap> = {
+export interface UpdateFeatureResult<Requests extends RequestMap> {
   props: {};
   methods: MethodsDictionary & AllNewMethods<Requests>;
   state: {} & AllNewProperties<Requests>;
-};
+}
 
 export type InnerStore<Input extends SignalStoreFeatureResult> = StateSignals<
   Input['state']

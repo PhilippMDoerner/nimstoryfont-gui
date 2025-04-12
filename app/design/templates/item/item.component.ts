@@ -1,12 +1,7 @@
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  output,
-  Output,
-} from '@angular/core';
+import { Component, computed, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
 import { Image } from 'src/app/_models/image';
 import { Item } from 'src/app/_models/item';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -27,6 +22,8 @@ import { PageContainerComponent } from '../../organisms/page-container/page-cont
     ImageCarouselCardComponent,
     EditableTextComponent,
     ArticleFooterComponent,
+    HotkeyDirective,
+    NgbTooltip,
   ],
 })
 export class ItemComponent {
@@ -38,10 +35,10 @@ export class ItemComponent {
   canDelete = input(false);
   imageServerModel = input.required<Image | undefined>();
 
-  @Output() itemDelete: EventEmitter<Item> = new EventEmitter();
-  @Output() createImage: EventEmitter<Image> = new EventEmitter();
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
+  readonly itemDelete = output<Item>();
+  readonly createImage = output<Image>();
+  readonly deleteImage = output<Image>();
+  readonly updateImage = output<Image>();
   itemUpdate = output<Item>();
 
   campaignName = computed(() => this.item().campaign_details?.name);

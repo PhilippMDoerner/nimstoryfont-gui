@@ -10,19 +10,19 @@ export interface SessionRaw {
 export interface Session {
   pk?: number;
   is_main_session: boolean;
-  is_main_session_int?: number;
+  is_main_session_int: number | undefined;
   session_number: number;
   session_date: string;
-  start_day?: number;
-  end_day?: number;
-  name?: string;
-  title?: string;
-  has_recording?: boolean;
-  diaryentries?: SessionDiaryEntry[];
+  start_day: number | undefined;
+  end_day: number | undefined;
+  name: string | undefined;
+  title: string | undefined;
+  has_recording: boolean | undefined;
+  diaryentries: SessionDiaryEntry[] | undefined;
   campaign?: number;
-  campaign_details?: { pk: number; name: string };
-  creation_datetime?: string;
-  update_datetime?: string;
+  campaign_details: { pk: number; name: string } | undefined;
+  creation_datetime: string | undefined;
+  update_datetime: string | undefined;
 }
 
 export interface SessionDiaryEntry {

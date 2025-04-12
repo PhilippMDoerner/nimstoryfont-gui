@@ -17,7 +17,7 @@ export { FormComponent } from './form/form.component';
 export { FormlyFileFieldComponent } from './formly-file-field/formly-file-field.component';
 export { IconCardComponent } from './icon-card/icon-card.component';
 export { ImageCardComponent } from './image-card/image-card.component';
-export { ListComponent } from './list/list.component';
+export { LinkListComponent } from './link-list/link-list.component';
 export { PageBackgroundComponent } from './page-background/page-background.component';
 export { SearchFieldComponent } from './search-field/search-field.component';
 export { SidebarLegendComponent } from './sidebar-legend/sidebar-legend.component';

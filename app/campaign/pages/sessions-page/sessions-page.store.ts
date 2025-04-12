@@ -19,12 +19,12 @@ import { filterNil } from 'src/utils/rxjs-operators';
 import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 
-type SessionsPageState = {
+interface SessionsPageState {
   updateSessionState: RequestState;
   deleteSessionState: RequestState;
   createSessionState: RequestState;
   sessionServerModel: undefined | Session;
-};
+}
 
 const initialState: SessionsPageState = {
   updateSessionState: 'init' as RequestState,

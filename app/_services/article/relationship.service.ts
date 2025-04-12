@@ -21,7 +21,10 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
 
   getNodeMap(campaign: string): Observable<NodeMap> {
     return this.http
-      .get<any>(`${this.apiUrl}/nodeMap/${campaign}/`)
+      .get<{
+        nodes: ArticleNode[];
+        links: LinkGroup[];
+      }>(`${this.apiUrl}/nodeMap/${campaign}/`)
       .pipe(map((resp) => this.parseNodeMap(resp)));
   }
 
@@ -51,6 +54,7 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
     };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   parseLink(link: any, nodes: ArticleNode[]): NodeLink | undefined {
     const sourceNode = nodes.find((node) => node.guid === link.sourceGuid);
     const targetNode = nodes.find((node) => node.guid === link.targetGuid);
@@ -67,19 +71,20 @@ export class RelationshipService extends BaseService<NodeLinkRaw, NodeLink> {
     };
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   override parseEntity(data: any): NodeLink {
     return data;
   }
 
-  override parseOverviewEntity(data: any): OverviewItem {
+  override parseOverviewEntity(): OverviewItem {
     throw new Error('NodeLinks do not have an overview');
   }
 
-  override campaignList(campaign: string): Observable<OverviewItem[]> {
+  override campaignList(): Observable<OverviewItem[]> {
     throw new Error('NodeLinks do not have an overview');
   }
 
-  override campaignDetailList(campaign: string): Observable<NodeLink[]> {
+  override campaignDetailList(): Observable<NodeLink[]> {
     throw new Error('NodeLinks do not have an overview');
   }
 }

@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
   linkedSignal,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { HotkeyDirective } from 'src/app/_directives/hotkey.directive';
@@ -56,9 +55,9 @@ export class SessionsComponent {
   canCreate = input.required<boolean>();
   serverModel = input.required<Session | undefined>();
 
-  @Output() sessionDelete: EventEmitter<Session> = new EventEmitter();
-  @Output() sessionUpdate: EventEmitter<Session> = new EventEmitter();
-  @Output() sessionCreate: EventEmitter<SessionRaw> = new EventEmitter();
+  readonly sessionDelete = output<Session>();
+  readonly sessionUpdate = output<Session>();
+  readonly sessionCreate = output<SessionRaw>();
 
   isCreatingSession = signal(false);
   createSessionData = linkedSignal(() => {

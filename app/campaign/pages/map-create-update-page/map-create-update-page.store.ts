@@ -10,9 +10,9 @@ import { RequestState } from 'src/utils/store/factory-types';
 import { withQueries } from 'src/utils/store/withQueries';
 import { withUpdates } from 'src/utils/store/withUpdates';
 
-type MapCreateUpdateState = {
+interface MapCreateUpdateState {
   mapCreateState: RequestState;
-};
+}
 
 const initialState: MapCreateUpdateState = {
   mapCreateState: 'init',

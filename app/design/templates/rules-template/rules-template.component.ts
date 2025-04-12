@@ -1,11 +1,4 @@
-import {
-  Component,
-  computed,
-  EventEmitter,
-  inject,
-  input,
-  Output,
-} from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Rule, RuleRaw } from 'src/app/_models/rule';
 import { RoutingService } from 'src/app/_services/routing.service';
@@ -33,9 +26,9 @@ export class RulesTemplateComponent {
   canCreate = input.required<boolean>();
   serverModel = input.required<Rule | undefined>();
 
-  @Output() ruleDelete: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleUpdate: EventEmitter<Rule> = new EventEmitter();
-  @Output() ruleCreate: EventEmitter<RuleRaw> = new EventEmitter();
+  readonly ruleDelete = output<Rule>();
+  readonly ruleUpdate = output<Rule>();
+  readonly ruleCreate = output<RuleRaw>();
 
   routingService = inject(RoutingService);
 

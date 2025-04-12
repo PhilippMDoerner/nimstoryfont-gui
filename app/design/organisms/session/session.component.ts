@@ -3,11 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   input,
   OnInit,
   output,
-  Output,
   signal,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
@@ -54,9 +52,9 @@ export class SessionComponent implements OnInit {
   serverModel = input.required<Session | undefined>();
   disabledHotkeys = input<boolean>(false);
 
-  @Output() sessionDelete: EventEmitter<Session> = new EventEmitter();
-  @Output() sessionCreate: EventEmitter<Session> = new EventEmitter();
-  @Output() sessionUpdate: EventEmitter<Session> = new EventEmitter();
+  readonly sessionDelete = output<Session>();
+  readonly sessionCreate = output<Session>();
+  readonly sessionUpdate = output<Session>();
   sessionCreateCancel = output<void>();
 
   state = signal<SessionState>('DISPLAY');
@@ -140,11 +138,11 @@ export class SessionComponent implements OnInit {
   onSubmit() {
     switch (this.state()) {
       case 'CREATE':
-        this.sessionCreate.emit(this.userModel());
+        this.sessionCreate.emit(this.userModel() as Session);
         break;
       case 'UPDATE':
       case 'OUTDATED_UPDATE':
-        this.sessionUpdate.emit(this.userModel());
+        this.sessionUpdate.emit(this.userModel() as Session);
     }
 
     this.changeState('DISPLAY', undefined);

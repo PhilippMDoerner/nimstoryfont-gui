@@ -98,6 +98,7 @@ export class GraphHelpModalComponent {
   infoRules = GRAPH_INFO_RULES;
   infoInteractions = GRAPH_INTERACTIONS;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   openModal(content: TemplateRef<any>) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-title',

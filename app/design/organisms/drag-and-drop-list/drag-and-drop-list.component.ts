@@ -16,12 +16,12 @@ import { filter } from 'rxjs';
 import { ButtonComponent } from '../../atoms/button/button.component';
 import { IconComponent } from '../../atoms/icon/icon.component';
 
-export type MoveEvent<T> = {
+export interface MoveEvent<T> {
   encounter1: T;
   encounter1Index: number;
   encounter2: T;
   encounter2Index: number;
-};
+}
 
 @Component({
   selector: 'app-drag-and-drop-list',
@@ -36,6 +36,9 @@ export type MoveEvent<T> = {
   styleUrl: './drag-and-drop-list.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   hostDirectives: [CdkDropList],
+  host: {
+    role: 'list',
+  },
 })
 export class DragAndDropListComponent<T> {
   entries = input.required<T[]>();
@@ -46,7 +49,7 @@ export class DragAndDropListComponent<T> {
   changed = output<CdkDragDrop<T[]>>();
   swapEntries = output<MoveEvent<T>>();
 
-  constructor(directive: CdkDropList) {
+  constructor(directive: CdkDropList<T[]>) {
     directive.dropped
       .pipe(
         filter((event) => event.previousIndex !== event.currentIndex),

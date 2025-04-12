@@ -39,7 +39,7 @@ export class MobileHeaderComponent {
   online$ = inject(OnlineService).online$;
   modalService = inject(NgbModal);
 
-  openModal(content: TemplateRef<any>) {
+  openModal(content: TemplateRef<HTMLElement>) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-title',
       modalDialogClass: 'border border-info border-3 rounded mymodal',

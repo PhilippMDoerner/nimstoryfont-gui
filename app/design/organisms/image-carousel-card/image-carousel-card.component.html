@@ -1,3 +1,4 @@
+<!-- eslint-disable @angular-eslint/template/interactive-supports-focus -->
 @switch (state()) {
   @case ("DISPLAY") {
     <ng-container *ngTemplateOutlet="displayState" />
@@ -29,7 +30,7 @@
 </ng-template>
 
 <ng-template #updateState>
-  <div class="card form-card">
+  <div class="card form-card" (window:keydown.Escape)="onCancel()">
     <h5 class="form-card__heading">
       <app-icon [icon]="'pencil'"></app-icon>
       Updating:
@@ -40,7 +41,7 @@
 
     <div class="form-card__image-container">
       <img
-        title="None"
+        [ngbTooltip]="'None'"
         class="form-card__image"
         [src]="serverUrl() + currentImage().image"
         alt=""
@@ -53,14 +54,14 @@
       [fields]="updateFields"
       [enctype]="'multipart/form-data'"
       [cancelButtonType]="'DARK'"
-      (formlySubmit)="onSubmit($event)"
+      (formlySubmit)="onSubmit()"
       (formlyCancel)="onCancel()"
     ></app-form>
   </div>
 </ng-template>
 
 <ng-template #createState>
-  <div class="card form-card">
+  <div class="card form-card" (window:keydown.Escape)="onCancel()">
     <h5 class="form-card__heading">
       <app-icon [icon]="'plus-square'" />
       Upload new image
@@ -75,14 +76,14 @@
       [fields]="createFields"
       [enctype]="'multipart/form-data'"
       [cancelButtonType]="'DARK'"
-      (formlySubmit)="onSubmit($event)"
+      (formlySubmit)="onSubmit()"
       (formlyCancel)="onCancel()"
     ></app-form>
   </div>
 </ng-template>
 
 <ng-template #deleteState>
-  <div class="card form-card">
+  <div class="card form-card" (window:keydown.Escape)="onCancel()">
     <h5 class="form-card__heading">
       <app-icon [icon]="'trash'" />
       Deleting:
@@ -93,7 +94,7 @@
 
     <div class="form-card__image-container">
       <img
-        title="None"
+        [ngbTooltip]="'None'"
         class="form-card__image"
         [src]="serverUrl() + currentImage().image"
         alt="image to delete"
@@ -111,7 +112,7 @@
           [kind]="'DARK'"
           [icon]="'times'"
           [text]="'No'"
-          (click)="onCancel()"
+          (clicked)="onCancel()"
         ></button>
         <button
           btn
@@ -119,7 +120,7 @@
           [kind]="'DANGER'"
           [icon]="'trash'"
           [text]="'Yes'"
-          (click)="onSubmit(undefined)"
+          (clicked)="onSubmit()"
         ></button>
       </div>
     </div>

@@ -21,5 +21,6 @@ export const CONFIG_TABLE_KINDS = [
 export type ConfigTableKind = (typeof CONFIG_TABLE_KINDS)[number];
 
 export type ConfigTableData = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key in ConfigTableKind]?: any[] | undefined;
 };

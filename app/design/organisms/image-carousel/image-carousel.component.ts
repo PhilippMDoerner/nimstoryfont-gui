@@ -2,11 +2,14 @@ import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   input,
-  Output,
+  output,
 } from '@angular/core';
-import { NgbCarouselModule, NgbSlideEvent } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCarouselModule,
+  NgbSlideEvent,
+  NgbTooltip,
+} from '@ng-bootstrap/ng-bootstrap';
 import { Image } from 'src/app/_models/image';
 import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
 
@@ -15,7 +18,7 @@ import { ButtonComponent } from 'src/app/design/atoms/button/button.component';
   templateUrl: './image-carousel.component.html',
   styleUrls: ['./image-carousel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgbCarouselModule, ButtonComponent, NgTemplateOutlet],
+  imports: [NgbCarouselModule, NgbTooltip, ButtonComponent, NgTemplateOutlet],
 })
 export class ImageCarouselComponent {
   images = input.required<Image[]>();
@@ -25,13 +28,11 @@ export class ImageCarouselComponent {
   canUpdate = input<boolean>(false);
   currentSlideIndex = input.required<number>();
 
-  @Output() deleteImage: EventEmitter<Image> = new EventEmitter();
-  @Output() createImage: EventEmitter<null> = new EventEmitter();
-  @Output() updateImage: EventEmitter<Image> = new EventEmitter();
-  @Output() slide: EventEmitter<{ event: NgbSlideEvent; index: number }> =
-    new EventEmitter();
-  @Output() slideEnd: EventEmitter<{ event: NgbSlideEvent; index: number }> =
-    new EventEmitter();
+  readonly deleteImage = output<Image>();
+  readonly createImage = output<void>();
+  readonly updateImage = output<Image>();
+  readonly slide = output<{ event: NgbSlideEvent; index: number }>();
+  readonly slideEnd = output<{ event: NgbSlideEvent; index: number }>();
 
   onSlide(event: NgbSlideEvent) {
     const slideIndexStr: string | undefined = event.current.split('-').pop();

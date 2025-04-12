@@ -30,7 +30,7 @@ export class CreateUpdateComponent<Full, Raw> {
 
   create = output<NonNullable<Partial<Raw>>>();
   update = output<NonNullable<Full>>();
-  cancel = output<void>();
+  cancelled = output<void>();
 
   onSubmit(submittedData: Partial<Raw> | Full): void {
     if (submittedData == null) return;
@@ -43,5 +43,9 @@ export class CreateUpdateComponent<Full, Raw> {
         this.update.emit(submittedData as NonNullable<Full>);
         break;
     }
+  }
+
+  onCancel() {
+    this.cancelled.emit();
   }
 }

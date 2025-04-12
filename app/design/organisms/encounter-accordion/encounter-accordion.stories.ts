@@ -11,6 +11,7 @@ import { RoutingService } from 'src/app/_services/routing.service';
 import * as all from 'tinymce/tinymce';
 import { EncounterAccordionComponent } from './encounter-accordion.component';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const x = all;
 
 const dummyEncounters: Encounter[] = [

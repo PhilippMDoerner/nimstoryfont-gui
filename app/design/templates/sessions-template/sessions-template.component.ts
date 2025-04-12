@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
   inject,
   input,
-  Output,
+  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Session, SessionRaw } from 'src/app/_models/session';
@@ -35,9 +34,9 @@ export class SessionsTemplateComponent {
   canCreate = input.required<boolean>();
   serverModel = input.required<Session | undefined>();
 
-  @Output() sessionDelete: EventEmitter<Session> = new EventEmitter();
-  @Output() sessionUpdate: EventEmitter<Session> = new EventEmitter();
-  @Output() sessionCreate: EventEmitter<SessionRaw> = new EventEmitter();
+  readonly sessionDelete = output<Session>();
+  readonly sessionUpdate = output<Session>();
+  readonly sessionCreate = output<SessionRaw>();
 
   routingService = inject(RoutingService);
 

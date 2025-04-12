@@ -13,11 +13,11 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  clearDatabase(): Observable<any> {
-    return this.http.delete(`${this.adminUrl}/dbclear`);
+  clearDatabase(): Observable<void> {
+    return this.http.delete<void>(`${this.adminUrl}/dbclear`);
   }
 
-  downloadDatabase(): Observable<any> {
+  downloadDatabase(): Observable<Blob> {
     return this.http.get(`${this.adminUrl}/dbdownload`, {
       responseType: 'blob',
     });

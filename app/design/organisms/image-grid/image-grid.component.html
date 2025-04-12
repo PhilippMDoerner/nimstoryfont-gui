@@ -1,31 +1,40 @@
 <div class="container-fluid">
   @if (entries() != null) {
     @if (entries().length > 0) {
-      <div class="row image-grid">
+      <ul class="row image-grid">
         @for (entry of entries(); track $index) {
-          <a
-            class="image-grid__entry entry"
-            [style.background-image]="
-              'url(' + serverUrl() + entry.imageUrl + ')'
-            "
-            [routerLink]="entry.link"
+          <li
+            class="image-grid__container"
             [ngClass]="{
               'col-lg-12': columnCount() === 1,
               'col-sm-6': columnCount() === 2,
               'col-md-6 col-lg-4': columnCount() === 3,
             }"
           >
-            <div class="entry__overlay">
-              <h4 class="entry__heading heading">
-                @if (entry.icon) {
-                  <img class="heading__icon" [src]="serverUrl() + entry.icon" />
-                }
-                {{ entry.label }}
-              </h4>
-            </div>
-          </a>
+            <a
+              class="image-grid__entry entry"
+              [style.background-image]="
+                'url(' + serverUrl() + entry.imageUrl + ')'
+              "
+              [routerLink]="entry.link"
+              [attr.aria-label]="entry.ariaLabel"
+            >
+              <div class="entry__overlay">
+                <div class="fs-4 entry__heading heading">
+                  @if (entry.icon) {
+                    <img
+                      class="heading__icon"
+                      [src]="serverUrl() + entry.icon"
+                      [alt]="''"
+                    />
+                  }
+                  {{ entry.label }}
+                </div>
+              </div>
+            </a>
+          </li>
         }
-      </div>
+      </ul>
     } @else {
       <ng-container *ngTemplateOutlet="noEntries" />
     }

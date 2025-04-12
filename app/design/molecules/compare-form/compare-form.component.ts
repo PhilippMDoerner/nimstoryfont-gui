@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   input,
   OnInit,
-  Output,
+  output,
 } from '@angular/core';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AlertComponent } from 'src/app/design/atoms/alert/alert.component';
@@ -18,15 +17,18 @@ import { FormComponent } from '../form/form.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [AlertComponent, SeparatorComponent, FormComponent, IconComponent],
 })
-export class CompareFormComponent<T> implements OnInit {
+export class CompareFormComponent<
+  T extends { update_datetime: string | undefined },
+> implements OnInit
+{
   fields = input.required<FormlyFieldConfig[]>();
   modelFromUser = input.required<T>();
-  modelFromServer = input.required<T>();
+  modelFromServer = input.required<T | undefined>();
   displayVertically = input(false);
   enctype = input('application/x-www-form-urlencoded'); //Default form enctype in HTML5
 
-  @Output() formlySubmit: EventEmitter<NonNullable<T>> = new EventEmitter();
-  @Output() formlyCancel: EventEmitter<void> = new EventEmitter();
+  readonly formlySubmit = output<NonNullable<T>>();
+  readonly formlyCancel = output<void>();
 
   ngOnInit(): void {
     this.markFieldDifferences();
@@ -37,7 +39,7 @@ export class CompareFormComponent<T> implements OnInit {
    * the server side marked so they can see differences.
    */
   markFieldDifferences() {
-    for (let field of this.fields()) {
+    for (const field of this.fields()) {
       const fieldName: string | undefined = field.key?.toString();
 
       const hasFieldName = fieldName != null;
@@ -67,9 +69,10 @@ export class CompareFormComponent<T> implements OnInit {
 
   onSubmit() {
     //Update the "update_datetime" field of the user-model
-    (this.modelFromUser() as any).update_datetime = (
-      this.modelFromServer() as any
-    ).update_datetime;
+    const serverModel = this.modelFromServer();
+    if (serverModel) {
+      this.modelFromUser().update_datetime = serverModel.update_datetime;
+    }
     this.formlySubmit.emit(this.modelFromUser() as NonNullable<T>);
   }
 }

@@ -1,4 +1,4 @@
-export type BreadcrumbEntry = {
+export interface BreadcrumbEntry {
   label: string;
   url: string;
-};
+}

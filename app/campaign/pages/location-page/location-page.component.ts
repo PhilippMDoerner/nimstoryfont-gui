@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  Signal,
+} from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { filter, take } from 'rxjs';
+import { filter, Observable, take } from 'rxjs';
 import { Location } from 'src/app/_models/location';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { LocationTemplateComponent } from 'src/app/design/templates/location-template/location-template.component';
@@ -22,6 +28,13 @@ export class LocationPageComponent {
   routingService = inject(RoutingService);
 
   locationDeleteState$ = toObservable(this.store.locationDeleteState);
+
+  private readonly isPageLoading: Observable<boolean> | Signal<boolean> =
+    computed(() => this.store.location() == null);
+
+  constructor() {
+    this.globalStore.trackIsPageLoading(this.isPageLoading);
+  }
 
   onLocationDelete(location: Location) {
     this.store.deleteLocation(location.pk as number);

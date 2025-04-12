@@ -14,12 +14,19 @@ const dummyLocation: Location = {
     '<p>The Dark Forest is a dense, sprawling forest shrouded in perpetual mist and darkness. It is said that those who enter the forest are never seen again, their screams echoing through the trees for eternity.</p><p>Legends speak of ancient curses and malevolent spirits haunting the forest, and travelers are warned to stay away. However, some brave or foolish souls venture into the forest in search of rare herbs and magical artifacts, risking life and limb to uncover its secrets.</p><p>Rumors also abound of a hidden village deep within the forest, where a secretive society of druids and witches practice forbidden magic and worship dark deities.</p>',
   parent_location: 1,
   images: [],
+  campaign: 1,
+  campaign_details: {
+    id: 1,
+    name: 'The War of the Ring',
+  },
   parent_location_details: {
     pk: 1,
     name: 'The Kingdom of Eldrid',
     parent_location: '',
     name_full: 'The Kingdom of Eldrid',
   },
+  creation_datetime: '2023-01-01T09:00:00.000Z',
+  update_datetime: '2023-01-01T09:00:00.000Z',
   parent_location_list: ['The Kingdom of Eldrid', 'The Northern Territories'],
   characters: [
     {
@@ -38,6 +45,11 @@ const dummyLocation: Location = {
       characters: [
         { name: 'Morgana', pk: 234, name_full: 'Morgana, the Dark Witch' },
       ],
+      campaign: 1,
+      campaign_details: {
+        id: 1,
+        name: 'The War of the Ring',
+      },
       name_full: "The Witch's Hut in the Dark Forest",
       description: `
         <p>

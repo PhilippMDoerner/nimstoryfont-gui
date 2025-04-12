@@ -42,9 +42,7 @@ export class ProfilePageComponent {
 
   private mapMemberships(
     data: AuthData | undefined,
-  ):
-    | { campaignName: string; role: CampaignRole; isLeaving: boolean }[]
-    | undefined {
+  ): { campaignName: string; role: CampaignRole }[] | undefined {
     const memberships = this.tokenService.getCampaignMemberships(data);
     if (memberships == null) return undefined;
 
@@ -52,7 +50,6 @@ export class ProfilePageComponent {
     return campaignNames.map((name) => ({
       campaignName: name,
       role: memberships[name],
-      isLeaving: false,
     }));
   }
 }

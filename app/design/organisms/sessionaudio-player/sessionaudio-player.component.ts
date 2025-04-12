@@ -1,12 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import {
-  Component,
-  computed,
-  EventEmitter,
-  input,
-  Output,
-  signal,
-} from '@angular/core';
+import { Component, computed, input, output, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { Timestamp } from 'src/app/_models/sessionAudio';
@@ -42,8 +35,8 @@ export class SessionaudioPlayerComponent {
   canDelete = input.required<boolean>();
   canCreate = input.required<boolean>();
 
-  @Output() deleteTimestamp: EventEmitter<Timestamp> = new EventEmitter();
-  @Output() createTimestamp: EventEmitter<Timestamp> = new EventEmitter();
+  readonly deleteTimestamp = output<Timestamp>();
+  readonly createTimestamp = output<Timestamp>();
 
   timestampEntries = computed<LinkEntry<Timestamp>[] | undefined>(() => {
     return this.timestamps()?.map((timestamp) => ({

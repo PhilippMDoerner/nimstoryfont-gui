@@ -6,9 +6,9 @@
 
 <ng-template #displayRow>
   <!-- Entry Linktext -->
-  <a (click)="linkClick.emit(entry().value)" class="linkentry__link">
+  <button (click)="linkClick.emit(entry().value)" class="linkentry__link">
     {{ entry().linkText }}
-  </a>
+  </button>
 
   <!-- Entry Name -->
   <div class="linkentry__label">
@@ -21,7 +21,8 @@
       <button
         btn
         class="linkentry__delete-button"
-        (click)="changeState('DELETE')"
+        (clicked)="changeState('DELETE')"
+        [attr.aria-label]="'Delete ' + entry().label"
         [size]="'SMALL'"
         [icon]="'trash'"
         [kind]="'DANGER-OUTLINE'"
@@ -41,7 +42,7 @@
       [kind]="'DANGER'"
       [size]="'SMALL'"
       [text]="'Delete'"
-      (click)="delete.emit(entry().value)"
+      (clicked)="delete.emit(entry().value)"
     ></button>
     <button
       btn
@@ -49,7 +50,7 @@
       [kind]="'DARK'"
       [size]="'SMALL'"
       [text]="'Cancel'"
-      (click)="changeState('DISPLAY')"
+      (clicked)="changeState('DISPLAY')"
     ></button>
   </div>
 </ng-template>

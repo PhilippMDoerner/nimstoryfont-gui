@@ -27,7 +27,8 @@
       [kind]="'SECONDARY'"
       [icon]="'calendar'"
       [class.disabled]="!!props.disabled"
-      (click)="datepickerInput.toggle()"
+      (clicked)="datepickerInput.toggle()"
+      aria-label="Open calendar"
     >
       <app-icon [icon]="'calendar'"></app-icon>
     </button>

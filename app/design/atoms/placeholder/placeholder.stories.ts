@@ -14,7 +14,7 @@ export default {
 type Story = StoryObj<typeof PlaceholderComponent>;
 
 export const Default: Story = {
-  render: (args: any) => {
+  render: (args) => {
     return {
       props: args,
       template: `

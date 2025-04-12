@@ -1,8 +1,12 @@
-app-confirmation-toggle-button{
+:host {
+  display: block;
+}
+
+app-confirmation-toggle-button {
   --align: end;
 }
 
-.footer{
+.footer {
   display: flex;
   justify-content: space-between;
 }

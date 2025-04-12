@@ -83,16 +83,12 @@
     </section>
 
     <!-- Footer -->
-    <div class="mt-4">
-      <a
-        btn
-        class="overview__home"
-        [kind]="'SECONDARY'"
-        [text]="'Back To Frontpage'"
-        [routerLink]="homeUrl()"
-      >
-      </a>
-    </div>
+    <app-article-footer
+      class="mt-4"
+      [buttonLabel]="'Back To Frontpage'"
+      [buttonLink]="homeUrl()"
+      [showDelete]="false"
+    />
   </article>
 </app-page-container>
 

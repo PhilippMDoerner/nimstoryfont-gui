@@ -12,6 +12,7 @@ import { OverviewItem } from 'src/app/_models/overview';
 import { RoutingService } from 'src/app/_services/routing.service';
 import { componentId } from 'src/utils/DOM';
 import { ButtonLinkComponent } from '../../atoms/button-link/button-link.component';
+import { ArticleFooterComponent } from '../../molecules';
 import { ImageCardComponent } from '../../molecules/image-card/image-card.component';
 import { FilterListEntry } from '../../organisms/_model/filterListEntry';
 import { FilterListComponent } from '../../organisms/filter-list/filter-list.component';
@@ -32,6 +33,7 @@ import { GeneralOverviewType } from '../_models/generalOverviewType';
     FilterListComponent,
     TitleCasePipe,
     HotkeyDirective,
+    ArticleFooterComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

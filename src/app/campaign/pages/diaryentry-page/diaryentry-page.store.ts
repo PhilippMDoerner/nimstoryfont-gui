@@ -1,11 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { computed, effect, inject } from '@angular/core';
+import { computed, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import {
   patchState,
   signalStore,
   withComputed,
-  withHooks,
   withMethods,
   withState,
 } from '@ngrx/signals';
@@ -363,9 +362,4 @@ export const DiaryentryPageStore = signalStore(
       },
     };
   }),
-  withHooks((store) => ({
-    onInit: () => {
-      effect(() => console.log('STATE', store._encountersUpdateState()));
-    },
-  })),
 );

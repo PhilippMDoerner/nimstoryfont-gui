@@ -54,6 +54,10 @@ figcaption {
   font-style: italic;
 }
 
+label {
+  cursor: pointer;
+}
+
 .highlight {
   background-color: var(--highlight-gray);
 }
